@@ -1,0 +1,81 @@
+/* Importing the fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Londrina+Solid&display=swap');
+
+/* Global styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif; /* Applying Roboto font-family globally */
+}
+
+:root {
+    --primary-color: #F46A05; 
+    --secondary-color: #1706AC;
+    --font-white: #fff;
+    --font-black: #000;
+}
+
+.main-container {
+    background: var(--font-white);
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%);
+    min-height: 100vh; 
+    position: relative; 
+   
+}
+
+/* Header */
+.logoname {
+    font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
+    font-size: 47px;
+    font-weight: 400;
+    line-height: 42px;
+}
+
+.sublogoname {
+    font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
+    color: var(--primary-color);
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 0px;
+}
+
+/* Button styles using the primary color */
+.btn-login{
+    background-color: var(--secondary-color) !important;
+    border: none !important;
+    width: 180px;
+    height: 50px;
+    border-radius: 50px !important;
+    font-size: 20px !important;
+}
+.btn-get{
+    background-color: var(--primary-color) !important;
+    border: none !important;
+    width: 250px;
+    height: 70px;
+    border-radius: 50px !important;
+    font-size: 25px !important;
+    font-weight: 700;
+}
+.btn-login:hover  {
+    background-color: rgba(244, 106, 5, 0.8); /* Slightly darker on hover */
+    border-color: rgba(244, 106, 5, 0.8);
+}
+/*Hero Section*/
+
+h1{
+    font-size: 80px !important;
+    font-weight: 500 !important;
+}
+h2{
+    font-size: 50px !important;
+    font-weight: 500 !important;
+}
+.hero-content{
+    font-size: 20px !important;
+}
+.hero-container >.row {
+    min-height: 80vh; /* Ensures the row takes up at least the full viewport height */
+}
+
