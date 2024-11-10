@@ -10,7 +10,10 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    const isLogin = await login(email, password);
+    if (isLogin) {
+      window.location.href = "/maindashboard";
+    }
   };
   return (
     <div className="row main-login">
