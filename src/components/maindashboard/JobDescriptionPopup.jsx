@@ -31,10 +31,16 @@ const JobDescriptionPopup = ({ show, onClose, onSubmit }) => {
                         className="form-control"
                         value={description}
                         onChange={handleDescriptionChange}
-                        rows={8}
-                        placeholder="Enter job description..."
+                        rows={7}
+                        placeholder="Type your Job Description Here..."
                     />
                     <p className="char-count">{description.length}/{charLimit}</p>
+                </div>
+                <div className="sample-description-container">
+                    <p>SAMPLE: </p>
+                    <p>We are seeking a dynamic and results-driven Marketing Specialist to join our growing team at [Company Name]. 
+The ideal candidate will be responsible for developing and executing innovative marketing strategies that enhance brand awareness,
+ drive customer engagement, and increase sales.</p>
                 </div>
                 <div className="submit-job-description d-flex align-items-center">
                     <Button variant="primary" onClick={handleSubmit}>
