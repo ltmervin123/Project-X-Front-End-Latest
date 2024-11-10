@@ -1,14 +1,16 @@
 import { React, useState } from "react";
 import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from "react-icons/fa";
+import { useLogin } from "../../hook/useLogin";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const URL = "http://localhost:5000/api/user/auth/login";
+
+  const { login, isLoading, error } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Email: ${email}, Password: ${password}`);
+    await login(email, password);
   };
   return (
     <div className="row main-login">
@@ -66,7 +68,12 @@ const LoginForm = () => {
                   </div>
                 </div>
               </div>
-              <button type="submit" className="login-button">
+              {error && <div className="error-message">{error}</div>}
+              <button
+                type="submit"
+                className="login-button"
+                disabled={isLoading}
+              >
                 Login
               </button>
             </form>
