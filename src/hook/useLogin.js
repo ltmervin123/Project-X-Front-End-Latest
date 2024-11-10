@@ -21,7 +21,13 @@ export const useLogin = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      const user = await response.data;
+      const data = await response.data;
+      const user = {
+        name: data.user.name,
+        email: data.user.email,
+        id: data.user._id,
+        token: data.user.token,
+      };
 
       // Check if the response is successful
       if (response.status === 200) {
@@ -30,13 +36,16 @@ export const useLogin = () => {
 
         // Dispatch the user data to context or handle login state
         dispatch({ type: "LOGIN", payload: user });
+        return true;
       }
     } catch (err) {
       // Handle any error from the request
       setError(err.response ? err.response.data.error : "Signup failed");
+      return false;
     } finally {
       // Set loading to false after the request completes
       setIsLoading(false);
+      console.log(`Email: ${email}, Password: ${password}`);
     }
   };
 

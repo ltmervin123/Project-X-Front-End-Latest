@@ -1,10 +1,35 @@
-import React from 'react';
+import { React, useEffect, useState } from "react";
+import { useAuthContext } from "../../hook/useAuthContext";
+import { VscLoading } from "react-icons/vsc";
 
 const Header = () => {
+  const [currentDate, setCurrentDate] = useState("");
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    setCurrentDate(formattedDate);
+  }, []);
+
   return (
     <div className="dashboard-header">
-      <h3>Hello, Name</h3>
-      <p>Today is Monday, 15 November 2024</p>
+      {user ? (
+        <>
+          <h3>Hello, {user.name}</h3>
+          <p>Today is {currentDate}</p>
+        </>
+      ) : (
+        <>
+          <h3>Hello, Guest</h3>
+          <p>Today is {currentDate}</p>
+        </>
+      )}
     </div>
   );
 };

@@ -21,7 +21,14 @@ export const useSignup = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      const user = await response.data;
+      const data = await response.data;
+
+      const user = {
+        name: data.user.name,
+        email: data.user.email,
+        id: data.user._id,
+        token: data.user.token,
+      };
 
       // Check if the response is successful
       if (response.status === 201) {
