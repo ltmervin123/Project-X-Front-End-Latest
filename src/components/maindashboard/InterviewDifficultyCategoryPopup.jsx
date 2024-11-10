@@ -48,4 +48,4 @@ const InterviewDifficultyCategoryPopup = ({
   );
 };
 
-export default InterviewDifficultyCategoryPopup;
+    export default InterviewDifficultyCategoryPopup;
