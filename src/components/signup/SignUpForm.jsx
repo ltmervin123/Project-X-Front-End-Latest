@@ -3,6 +3,7 @@ import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import RegistrationSuccessPopUp from "./RegistrationSuccessPopUp"; // Import the success pop-up component
+import { useSignup } from "../../hook/useSignup";
 
 function SignUpForm() {
   const [showSuccessPopUp, setShowSuccessPopUp] = useState(false);
@@ -10,13 +11,18 @@ function SignUpForm() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isBoxChecked, setIsBoxChecked] = useState(false);
+  const { signup, isLoading, error } = useSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form submission logic here (e.g., sending data to the server)
-    console.log(`Name: ${name}, Email: ${email}, Password: ${password}`);
+
+    // Call the signup function from useSignup hook
+    const isSignin = await signup(name, email, password);
+
     // Show success pop-up
-    setShowSuccessPopUp(true);
+    if (isSignin) {
+      setShowSuccessPopUp(true);
+    }
   };
 
   const handleClosePopUp = () => {
@@ -129,10 +135,11 @@ function SignUpForm() {
             <button
               type="submit"
               className="singup-button"
-              disabled={!isBoxChecked}
+              disabled={!isBoxChecked || isLoading}
             >
-              Create Account
+              {isLoading ? "Creating Account..." : "Create Account"}
             </button>
+            {error && <div className="error-message">{error}</div>}
           </form>
         </div>
       </div>
