@@ -1,18 +1,21 @@
 import { React, useState } from "react";
 import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from "react-icons/fa";
 import { useLogin } from "../../hook/useLogin";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password);
+
     if (isLogin) {
       window.location.href = "/maindashboard";
+      // navigate("/maindashboard");
     }
   };
   return (

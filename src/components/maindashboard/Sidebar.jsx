@@ -1,4 +1,4 @@
-import React from "react";
+import { React } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import { FaHome, FaFileAlt, FaChartBar, FaSignOutAlt } from "react-icons/fa";
@@ -13,7 +13,6 @@ const Sidebar = () => {
   const { user } = useAuthContext();
   const handleLogout = () => {
     logout();
-    console.log("Logout");
   };
 
   return (
@@ -60,7 +59,7 @@ const Sidebar = () => {
         <Nav.Link href="/analytics" active={location.pathname === "/analytics"}>
           <FaChartBar className="me-2" /> Analytics
         </Nav.Link>
-        <Nav.Link href="/" onClick={handleLogout}>
+        <Nav.Link onClick={handleLogout}>
           <FaSignOutAlt className="me-2" /> Logout
         </Nav.Link>
       </Nav>
