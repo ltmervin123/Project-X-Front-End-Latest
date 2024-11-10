@@ -71,10 +71,33 @@
     justify-content: flex-end;
 }
 
-.carreer-search {
+.career-search {
     position: relative;
     overflow: hidden;   
     width: 80%;
+    display: flex;
+    align-items: center;  /* Align items vertically */
+}
+
+.search-container {
+    width: 80%;
+    margin-right: 10px;  /* Add margin to the right to give space between input and button */
+}
+
+.search-button {
+    background: var(--primary-color);
+    border: none;
+    color: var(--font-white);
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 0;
 }
 
 .careerSelect > select {
@@ -101,21 +124,6 @@
     color: var(--font-white);
 }
 
-.search-button {
-    background: var(--primary-color);
-    border: none;
-    color: var(--font-white);
-    border-radius: 50%;
-    cursor: pointer;
-    padding: 0; 
-    width: 40px;
-    height: 38px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 0;
-}
 
 .position-relative {
     position: relative;
@@ -454,6 +462,7 @@
     background: var(--acttivit-card-bg);
     border-radius: 50px;
     padding: 20px;
+    width: 100%;
 }
 .timer {
     color: var(--font-white) !important;
@@ -469,9 +478,7 @@
     border-radius: 10px;
     width: 100% !important;
     height: 370px !important; 
-    object-fit: cover; 
-    
-    
+    object-fit: cover;  
 }
 .video-area {
     background: var(--text-color);
@@ -493,7 +500,7 @@
     color: var(--text-color) !important;
     background: var(--acttivit-card-bg) !important;
     width: 40px;
-    height: 40px;
+    height: auto;
     border-radius: 10px;
 
 }
@@ -511,10 +518,21 @@
     left: 50%;
     transform: translateX(-50%);
 }
-.display-of-answer{
+.feedback-user-area{
     background: var(--acttivit-card-bg);
     border-radius: 50px;
     height: 100px;
     padding: 20px;
     width: 100%;
+}
+.countdown-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }

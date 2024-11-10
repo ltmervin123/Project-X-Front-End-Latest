@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import logo from '../../assets/logo.png';
-import { FaHome, FaFileAlt, FaChartBar } from 'react-icons/fa';
+import { FaHome, FaFileAlt, FaChartBar,  FaSignOutAlt } from 'react-icons/fa';
 import defaultAvatar from '../../assets/default.jpg'; 
 import { useLocation } from 'react-router-dom';
 
@@ -31,6 +31,9 @@ const Sidebar = () => {
         </Nav.Link>
         <Nav.Link href="/analytics" active={location.pathname === '/analytics'}>
           <FaChartBar className="me-2" /> Analytics
+        </Nav.Link>
+        <Nav.Link href="/logout" >
+          <FaSignOutAlt className="me-2" /> Logout
         </Nav.Link>
       </Nav>
     </Navbar>
