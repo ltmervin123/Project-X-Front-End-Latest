@@ -18,7 +18,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
+          <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/maindashboard" />}
         />

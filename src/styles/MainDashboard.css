@@ -536,3 +536,18 @@
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+/*BehavioralCategoryPopup*/
+.behavioral-card{
+    background: var(--primary-color);
+    height: 100px;
+    align-items: center;
+    border-radius: 50px;
+}
+.behavioral-card > .card-title{
+    font-size: 22px;
+    color: var(--font-white);
+    height: 2px;
+    padding: 0;
+    line-height: 0;
+}

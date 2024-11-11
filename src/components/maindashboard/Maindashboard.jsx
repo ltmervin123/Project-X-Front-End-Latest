@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import { FaSearch, FaChevronDown } from 'react-icons/fa';
-import TierCategoryPopup from '../maindashboard/TierCategoryPopup';
+import InterviewDifficultyCategoryPopup from '../maindashboard/InterviewDifficultyCategoryPopup';
 import UploadPopUp from '../maindashboard/UploadPopUp';
 import JobDescriptionPopup from '../maindashboard/JobDescriptionPopup';
 import VideoRecording from '../maindashboard/VideoRecording';
+import BehavioralCategoryPopup from '../maindashboard/BehavioralCategoryPopup'; // Import the new popup component
+import BehavioralVideoRecording from '../maindashboard/BehavioralVideoRecording'; // Import the BehavioralVideoRecording component
 
 const MainDashboard = () => {
     const careerCategories = ['Software Engineering', 'Data Science', 'Product Management'];
@@ -12,11 +14,18 @@ const MainDashboard = () => {
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showJobDescriptionModal, setShowJobDescriptionModal] = useState(false);
     const [showVideoRecording, setShowVideoRecording] = useState(false); // New state for video recording
+    const [showBehavioralModal, setShowBehavioralModal] = useState(false); // State for behavioral modal
+    const [showBehavioralVideoRecording, setShowBehavioralVideoRecording] = useState(false); // State for behavioral video recording modal
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [searchTerm, setSearchTerm] = useState(''); // New state for search functionality
 
     const handleCardClick = (category) => {
         setSelectedCategory(category);
-        setShowModal(true);
+        if (category === 'BEHAVIORAL') {
+            setShowBehavioralModal(true); // Show behavioral popup
+        } else {
+            setShowModal(true);
+        }
     };
 
     const handleClose = () => {
@@ -24,6 +33,9 @@ const MainDashboard = () => {
         setShowUploadModal(false);
         setShowJobDescriptionModal(false);
         setShowVideoRecording(false); // Close video recording
+        setShowBehavioralModal(false); // Close behavioral popup
+        setShowBehavioralVideoRecording(false); // Close behavioral video recording popup
+        setSelectedCategory(''); // Reset selected category when closing modals
     };
 
     const handleDifficultySelect = () => {
@@ -40,6 +52,13 @@ const MainDashboard = () => {
         setShowJobDescriptionModal(false);
         setShowVideoRecording(true); // Open video recording after description submission
     };
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredCategories = ['BEHAVIORAL', 'SUPPLY CHAIN', 'ENGINEERING', 'INFORMATION TECHNOLOGY', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT']
+        .filter((category) => category.toLowerCase().includes(searchTerm.toLowerCase()));
 
     return (
         <Container className='main-container1 d-flex'>
@@ -60,7 +79,12 @@ const MainDashboard = () => {
                         <span className="dropdown-icon"><FaChevronDown /></span>
                     </Form.Group>
                     <Form.Group className="me-2 search-container">
-                        <Form.Control type="text" placeholder="Search Category" />
+                        <Form.Control
+                            type="text"
+                            placeholder="Search Category"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
                     </Form.Group>
                     <button className="search-button" type="button">
                         <FaSearch />
@@ -69,9 +93,9 @@ const MainDashboard = () => {
             </div>
 
             <Row className='category-container d-flex justify-content-between g-1'>
-                {['BEHAVIORAL', 'SUPPLY CHAIN', 'ENGINEERING', 'INFORMATION TECHNOLOGY', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT', 'DEFAULT'].map((title, index) => (
+                {filteredCategories.map((title, index) => (
                     <Col md={4} className='card-col' key={index}>
-                        <div className="card" onClick={() => ['SUPPLY CHAIN', 'ENGINEERING', 'INFORMATION TECHNOLOGY'].includes(title) && handleCardClick(title)}>
+                        <div className="card" onClick={() => handleCardClick(title)}>
                             <div className="card-body">
                                 <div className="img-category"></div>
                                 <p className="card-title">{title}</p>
@@ -81,10 +105,31 @@ const MainDashboard = () => {
                 ))}
             </Row>
 
-            <TierCategoryPopup show={showModal} onClose={handleClose} category={selectedCategory} onSelectDifficulty={handleDifficultySelect} />
-            <UploadPopUp show={showUploadModal} onClose={handleClose} onUploadComplete={handleFileUploadComplete} />
-            <JobDescriptionPopup show={showJobDescriptionModal} onClose={handleClose} onSubmit={handleJobDescriptionSubmit} />
+            {/* Modals */}
+            <InterviewDifficultyCategoryPopup
+                show={showModal}
+                onClose={handleClose}
+                category={selectedCategory}
+                onSelectDifficulty={handleDifficultySelect}
+            />
+            <UploadPopUp
+                show={showUploadModal}
+                onClose={handleClose}
+                onUploadComplete={handleFileUploadComplete}
+            />
+            <JobDescriptionPopup
+                show={showJobDescriptionModal}
+                onClose={handleClose}
+                onSubmit={handleJobDescriptionSubmit}
+            />
             {showVideoRecording && <VideoRecording onClose={handleClose} />}
+            <BehavioralCategoryPopup
+                show={showBehavioralModal}
+                onClose={handleClose}
+                category={selectedCategory} // Ensure this is being passed
+                onSkillSelect={() => setShowBehavioralVideoRecording(true)} // Handle skill selection
+            />
+            {showBehavioralVideoRecording && <BehavioralVideoRecording onClose={handleClose} />}
         </Container>
     );
 };
