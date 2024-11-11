@@ -90,7 +90,7 @@
                 setQuestionIndex(prevIndex => prevIndex + 1); // Move to the next question
             }
 
-            setCountdown(10); // Reset countdown for next question
+            setCountdown(5); // Reset countdown for next question
             setIsCountdownActive(false); // Stop countdown when recording is done
         };
         // Timer Effect
@@ -131,7 +131,7 @@
         // Handle intro sequence
         const handleIntroFinish = () => {
             setIsIntroShown(true);
-            setCountdown(10); // Reset countdown when intro starts
+            setCountdown(5); // Reset countdown when intro starts
             setIsCountdownActive(true); // Activate countdown
             setQuestionIndex(0); // Ensure the question index is reset at the start of the interview
         };
