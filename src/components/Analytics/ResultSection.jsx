@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import React, { useState }, { useState } from "react";
+import { Container, Row, Col, Card, Button, Button } from "react-bootstrap";
 import "../../styles/Analytics.css";
 
 const ResultSection = () => {
@@ -93,39 +93,36 @@ const ResultSection = () => {
           </Card>
         </Col>
 
-        {/* Right Section */}
-        <Col md={8}>
-          <Card className="analytics-container p-4 position-relative">
-            <div>
-              <strong>Question {currentIndex + 1}:</strong>
-              <p>{question}</p>
-            </div>
-            <div>
-              <strong>Answer:</strong>
-              <p>{answer}</p>
-            </div>
-            <div>
-              <strong>Feedback:</strong>
-              <p>{feedback}</p>
-            </div>
+                {/* Right Section */}
+                <Col md={8}>
+                    <Card className="analytics-container p-4 position-relative">
+                        <div>
+                            <strong>Question {currentIndex + 1}:</strong>
+                            <p>{question}</p>
+                        </div>
+                        <div>
+                            <strong>Answer:</strong>
+                            <p>{answer}</p>
+                        </div>
+                        <div>
+                            <strong>Feedback:</strong>
+                            <p>{feedback}</p>
+                        </div>
 
-            {/* Prev and Next buttons */}
-            <div
-              className="d-flex justify-content-between position-absolute w-10"
-              style={{ bottom: "10px", left: "10px", right: "10px" }}
-            >
-              <Button variant="secondary" onClick={handlePrev}>
-                Prev
-              </Button>
-              <Button variant="primary" onClick={handleNext}>
-                Next
-              </Button>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  );
+                        {/* Prev and Next buttons */}
+                        <div className="d-flex justify-content-between position-absolute w-10" style={{ bottom: '10px', left: '10px', right: '10px' }}>
+                            <Button variant="secondary" onClick={handlePrev}>
+                                Prev
+                            </Button>
+                            <Button variant="primary" onClick={handleNext}>
+                                Next
+                            </Button>
+                        </div>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default ResultSection;

@@ -91,6 +91,27 @@ const MainDashboard = () => {
     category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredCategories = [
+    "BEHAVIORAL",
+    "SUPPLY CHAIN",
+    "ENGINEERING",
+    "INFORMATION TECHNOLOGY",
+    "DEFAULT",
+    "DEFAULT",
+    "DEFAULT",
+    "DEFAULT",
+    "DEFAULT",
+    "DEFAULT",
+    "DEFAULT",
+    "DEFAULT",
+  ].filter((category) =>
+    category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Container className="main-container1 d-flex">
       <div>
@@ -133,8 +154,7 @@ const MainDashboard = () => {
       <Row className="category-container d-flex justify-content-between g-1">
         {filteredCategories.map((title, index) => (
           <Col md={4} className="card-col" key={index}>
-            {/* Set title as category */}
-            <div className="card" onClick={() => handleCategory(title)}>
+            <div className="card" onClick={() => handleCardClick(title)}>
               <div className="card-body">
                 <div className="img-category"></div>
                 <p className="card-title">{title}</p>
@@ -148,31 +168,24 @@ const MainDashboard = () => {
       <InterviewDifficultyCategoryPopup
         show={showModal}
         onClose={handleClose}
-        onSelectDifficulty={handleDifficulty}
+        category={selectedCategory}
+        onSelectDifficulty={handleDifficultySelect}
       />
       <UploadPopUp
         show={showUploadModal}
         onClose={handleClose}
-        onUploadComplete={handleFileUpload}
+        onUploadComplete={handleFileUploadComplete}
       />
       <JobDescriptionPopup
         show={showJobDescriptionModal}
         onClose={handleClose}
-        onSubmit={handleJobDescription}
+        onSubmit={handleJobDescriptionSubmit}
       />
-      {showVideoRecording && (
-        <VideoRecording
-          onClose={handleClose}
-          difficulty={difficulty}
-          category={category}
-          file={file}
-          jobDescription={jobDescription}
-        />
-      )}
+      {showVideoRecording && <VideoRecording onClose={handleClose} />}
       <BehavioralCategoryPopup
         show={showBehavioralModal}
         onClose={handleClose}
-        category={category} // Ensure this is being passed
+        category={selectedCategory} // Ensure this is being passed
         onSkillSelect={() => setShowBehavioralVideoRecording(true)} // Handle skill selection
       />
       {showBehavioralVideoRecording && (
