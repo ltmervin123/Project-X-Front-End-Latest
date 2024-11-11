@@ -24,13 +24,11 @@
 }
 
 .interview-result-container {
-    align-items: center;
     justify-content: flex-start;
     width: 100%;
+    border-radius: 10px !important;
 }
-.analytics-container{
-    border-radius: 8px 8    px 8px 8px !important;
-}
+
 
 .score-section > div {
     width: 100%;
@@ -38,30 +36,8 @@
 
 .analytics-container {
     width: 100%;
-    overflow-y: scroll;
     position: relative;
-}
-.message-left, .message-right {
-    padding: 10px;
-    border-radius: 10px;
+    border-radius: 10px !important;
+    justify-content: flex-start;
 }
 
-.message-left > div, .message-right > div {
-    background: var(--bg-fade-signup);
-    border-radius: 20px;
-    padding: 10px;
-}
-
-.message-left {
-    text-align: left;
-    max-width: 90%; 
-}
-
-.message-right {
-    padding: 10px;
-    border-radius: 10px;
-    text-align: right;
-    margin-left: auto; /* This will push it to the right */
-    width: fit-content; /* Ensures the width fits the content */
-    max-width: 90%; 
-}

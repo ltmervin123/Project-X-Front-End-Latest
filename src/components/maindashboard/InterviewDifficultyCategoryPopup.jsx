@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
 
-const TierCategoryPopup = ({ show, onClose, category, onSelectDifficulty }) => {
+const InterviewDifficultyCategoryPopup = ({ show, onClose, category, onSelectDifficulty }) => {
     useEffect(() => {
         if (show) {
             console.log("Selected Category:", category); // Log the category when the modal is shown
@@ -41,4 +41,4 @@ const TierCategoryPopup = ({ show, onClose, category, onSelectDifficulty }) => {
     );
 };
 
-export default TierCategoryPopup;
+export default InterviewDifficultyCategoryPopup;
