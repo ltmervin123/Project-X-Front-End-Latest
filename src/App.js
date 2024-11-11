@@ -20,24 +20,24 @@ function App() {
       <Routes>
         <Route
           path="/login"
-          // element={!user ? <Login /> : <Navigate to="/maindashboard" />}
-          element={<Login/>}
+          element={!user ? <Login /> : <Navigate to="/maindashboard" />}
+          // element={<Login/>}
         />
         <Route path="/" element={<LandingPage />} />
         <Route
           path="/signup"
-          // element={!user ? <SignUp /> : <Navigate to="/maindashboard" />}
-          element={<SignUp/>}
+          element={!user ? <SignUp /> : <Navigate to="/maindashboard" />}
+          // element={<SignUp/>}
         />
         <Route
           path="/analytics"
-          // element={user ? <Analytics /> : <Navigate to="/login" />}
-          element={<Analytics />}
+          element={user ? <Analytics /> : <Navigate to="/login" />}
+          // element={<Analytics />}
         />
         <Route
           path="/maindashboard"
-          // element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
-          element={<MaindashboardPage />}
+          element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
+          // element={<MaindashboardPage />}
         />
       </Routes>
     </Router>
