@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import '../../styles/Analytics.css';
 
 const ResultSection = () => {
-    // Sample data for questions, answers, and feedback
     const sampleData = [
         {
             question: "Tell me about a challenging project you've worked on.",
@@ -22,54 +21,66 @@ const ResultSection = () => {
         }
     ];
 
-    // State to track the current question index
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // Handle "Next" and "Prev" button clicks
-    const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % sampleData.length);
+    // Utility function to get result color class based on score
+    const getResultClass = (score) => {
+        if (score >= 0 && score <= 1.5) return "result-red";
+        if (score > 1.5 && score <= 5.0) return "result-yellow";
+        if (score > 5.0 && score <= 7.5) return "result-orange";
+        return "result-green";
     };
 
     const handlePrev = () => {
         setCurrentIndex((prevIndex) => (prevIndex - 1 + sampleData.length) % sampleData.length);
     };
 
-    // Get current question, answer, and feedback
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % sampleData.length);
+    };
+
     const { question, answer, feedback } = sampleData[currentIndex];
 
     return (
         <Container className="result-container shadow-sm p-4">
             <Row>
-                {/* Left Section */}
                 <Col md={4}>
                     <Card className="interview-result-container d-flex">
                         <h4>Interview Results</h4>
                         <div className="score-section">
                             <div className="d-flex justify-content-between">
-                                <p>Overall Performance</p>
-                                <p>5/10</p>
-                            </div>
-                            <div className="d-flex justify-content-between">
                                 <p>Grammar</p>
-                                <p>6/10</p>
+                                <p className={getResultClass(5)}>5/10</p>
                             </div>
                             <div className="d-flex justify-content-between">
-                                <p>Pronunciation</p>
-                                <p>7/10</p>
+                                <p>Skills</p>
+                                <p className={getResultClass(9)}>9/10</p>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <p>Experience</p>
+                                <p className={getResultClass(8)}>8/10</p>
                             </div>
                             <div className="d-flex justify-content-between">
                                 <p>Relevance</p>
-                                <p>8/10</p>
+                                <p className={getResultClass(8)}>8/10</p>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <p>Filler Count</p>
+                                <p className="result-orange">20</p>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <p>Overall Performance</p>
+                                <p className={getResultClass(8.5)}>8.5/10</p>
                             </div>
                         </div>
                     </Card>
                 </Col>
 
-                {/* Right Section */}
                 <Col md={8}>
                     <Card className="analytics-container p-4 position-relative">
+                        <h4>Question {currentIndex + 1} of 3 </h4>
                         <div>
-                            <strong>Question {currentIndex + 1}:</strong>
+                            <strong>Question :</strong>
                             <p>{question}</p>
                         </div>
                         <div>
@@ -81,14 +92,11 @@ const ResultSection = () => {
                             <p>{feedback}</p>
                         </div>
 
-                        {/* Prev and Next buttons */}
-                        <div className="d-flex justify-content-between position-absolute w-10" style={{ bottom: '10px', left: '10px', right: '10px' }}>
-                            <Button variant="secondary" onClick={handlePrev}>
-                                Prev
-                            </Button>
-                            <Button variant="primary" onClick={handleNext}>
-                                Next
-                            </Button>
+                        {/* Pagination display at the bottom center */}
+                        <div className="d-flex justify-content-center  question-navination" >
+                            <span className='prev' onClick={handlePrev} style={{ cursor: 'pointer', marginRight: '10px' }}>&lt;</span>
+                            <span>{currentIndex + 1}</span>
+                            <span className='next' onClick={handleNext} style={{ cursor: 'pointer', marginLeft: '10px' }}>&gt;</span>
                         </div>
                     </Card>
                 </Col>

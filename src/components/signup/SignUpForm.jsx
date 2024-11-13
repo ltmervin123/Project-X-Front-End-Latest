@@ -39,8 +39,7 @@ function SignUpForm() {
         <img src={logo} alt="Company Logo" className="logo" />
         <h4>HR-HATCH</h4>
         <p>
-          Our company offers comprehensive recruitment and talent support for
-          both job seekers and employers...
+        Our company offers comprehensive recruitment and talent support for both job seekers and employers. It includes English mock interview platform which helps candidates build confidence and improve their interviewing skills. Our resume builder tailors resumes to specific job requirements. For employers, our job posting services attracts top flexible candidates and, full-cycle Recruitment Process Outsourcing (RPO) solutions. We are dedicated to streamlining the hiring process, ensuring the right talent connects with the right roles.
         </p>
         <p className="text-center already-have-acc">
           Already have an account? <br />

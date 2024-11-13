@@ -1,0 +1,93 @@
+:root {
+    --primary-color: #F46A05; 
+    --secondary-color: #1706AC;
+    --font-white: #fff;
+    --card-color: #686868;
+    --text-color: #000;
+    --acttivit-card-bg: #D9D9D9;
+    --card1-bg: #FA8072;
+    --card2-bg: #F4A460;
+    --card3-bg: #4068E0;
+    --card4-bg: #00CED1;
+    --card5-bg: #FFA07A;
+    --card6-bg: #9370DB;
+    --card7-bg: #00BFFF;
+}
+
+
+.custom-modal-width {
+    max-width: 1100px !important; 
+    width: 60% !important; 
+    height: 60% !important;
+    max-height: 60vh !important;
+}
+/* 
+.custom-modal-width > .modal-content {
+    background: rgba(255, 255, 255, 0.123); 
+    border-radius: 10px; 
+    backdrop-filter: blur(4px); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+} */
+
+/* Modal body styling */
+.custom-modal {
+    padding: 20px;
+}
+
+.custom-modal .difficulty-container {
+    width: 100% !important;
+    position: relative;
+    align-items: center;
+}
+
+.custom-modal .difficulty-container > .col-md-3 {
+    height: 50vh !important;
+    width: 30% !important;
+}
+
+/* Difficulty Card styles */
+.difficulty-card {
+    border-radius: 50px !important;
+    /* min-height: 330px; */
+    min-width: 230px;
+    
+    font-weight: 500;
+    font-size: 32px;
+    flex-direction: column;
+    color: var(--font-white);
+    cursor: pointer;
+}
+
+.difficulty-card:hover {
+    background-color: var(--primary-color);
+}
+
+.difficulty-card > .difficulty-img {
+    height: 30vh !important;
+}
+
+/* Difficulty Container styles */
+.difficulty-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.difficulty-container .col-md-4 {
+    display: flex;
+    justify-content: center;
+}
+
+/* Close Button styles */
+.custom-modal > .modal-header > button {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+/* Custom Modal Button hover effect */
+.custom-modal > .modal-header > button:hover {
+    color: var(--primary-color);
+}

@@ -92,10 +92,16 @@ const MainDashboard = () => {
                 </Form>
             </div>
 
-            <Row className='category-container d-flex justify-content-between g-1'>
+            <Row className="category-container d-flex align-items-center g-1">
                 {filteredCategories.map((title, index) => (
-                    <Col md={4} className='card-col' key={index}>
-                        <div className="card" onClick={() => handleCardClick(title)}>
+                    <Col md={5} className="card-col" key={index}>
+                        <div
+                            className="category-card"
+                            onClick={() => handleCardClick(title)}
+                            style={{
+                                backgroundColor: `var(--card${(index % 7) + 1}-bg)` // Loop background color after index 7
+                            }}
+                        >
                             <div className="card-body">
                                 <div className="img-category"></div>
                                 <p className="card-title">{title}</p>
@@ -104,6 +110,8 @@ const MainDashboard = () => {
                     </Col>
                 ))}
             </Row>
+
+
 
             {/* Modals */}
             <InterviewDifficultyCategoryPopup
