@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Modal, Button, Row, Col } from "react-bootstrap";
+import "../../styles/InterviewDifficultyCategoryPopup.css";
 
 const InterviewDifficultyCategoryPopup = ({
   show,
@@ -30,11 +31,14 @@ const InterviewDifficultyCategoryPopup = ({
           </Button>
         </div>
 
-        <Row className="text-center difficulty-container">
+        <Row className="text-center difficulty-container d-flex justify-content-around">
           {["Beginner", "Intermediate", "Advanced"].map((level, index) => (
-            <Col key={index} md={4}>
+            <Col key={index} md={3}>
               <div
                 className="difficulty-card p-3 mb-3 d-flex justify-content-center"
+                style={{
+                  backgroundColor: `var(--card${(index % 3) + 1}-bg)`, // Loop background color after index 2
+                }}
                 onClick={() => handleDifficultyClick(level)} // Pass level to handler
               >
                 <img src="" alt="" className="difficulty-img" />
@@ -48,4 +52,4 @@ const InterviewDifficultyCategoryPopup = ({
   );
 };
 
-    export default InterviewDifficultyCategoryPopup;
+export default InterviewDifficultyCategoryPopup;

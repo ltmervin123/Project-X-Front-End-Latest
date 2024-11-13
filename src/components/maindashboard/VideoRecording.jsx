@@ -164,13 +164,12 @@ const VideoRecording = ({
       setIsPaused(true);
     }
 
-    // Check if it's the last question
-    if (questionIndex === questions.length - 1) {
-      navigate("/analytics"); // Redirect after the last question
-      mediaRecorderRef.current.stop();
-    } else {
-      setQuestionIndex((prevIndex) => prevIndex + 1); // Move to the next question
-    }
+        if (questionIndex === questions.length - 1) {
+            setShowSuccessPopup(true); // Show the success popup after the last question
+            mediaRecorderRef.current.stop(); // Stop recording after the last question
+        } else {
+            setQuestionIndex(prevIndex => prevIndex + 1); // Move to the next question
+        }
 
     setCountdown(5); // Reset countdown for next question
     setIsCountdownActive(false); // Stop countdown when recording is done
@@ -424,14 +423,22 @@ const VideoRecording = ({
         </Modal.Body>
       </Modal>
 
-      {/* Confirmation modal for closing */}
-      <CancelInterviewAlert
-        show={showConfirm}
-        onClose={handleCancelClose}
-        onConfirm={handleConfirmClose}
-      />
-    </>
-  );
-};
+                {showConfirm && (
+                <CancelInterviewAlert
+                    show={showConfirm} // Control visibility with show prop
+                    onHide={() => setShowConfirm(false)} // Close the modal when needed
+                    onConfirm={handleConfirmClose}
+                    onCancel={handleCancelClose}
+                    message="Are you sure you want to cancel the interview?"
+                />
+)}
+
+
+                {showSuccessPopup && (
+                    <InterviewSuccessfulPopup />
+                )}
+            </>
+        );
+    };
 
 export default VideoRecording;

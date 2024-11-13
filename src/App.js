@@ -11,6 +11,7 @@ import Login from "./page/LoginPage.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MaindashboardPage from "./page/MaindashboardPage.jsx";
 import Analytics from "./page/Analytics.jsx";
+import Results from "./page/Result.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 
 function App() {
@@ -34,6 +35,11 @@ function App() {
           element={user ? <Analytics /> : <Navigate to="/login" />}
           // element={<Analytics />}
          />
+        <Route
+          path="/result"
+          // element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
+          element={<Results />}
+        />
         <Route
           path="/maindashboard"
           element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
