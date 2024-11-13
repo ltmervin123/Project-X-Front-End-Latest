@@ -1,27 +1,36 @@
-// src/components/LandingPage/Header.jsx
-import React from 'react';
-import { Navbar, Container } from 'react-bootstrap';
-import logo from '../../assets/logo.png';
+import { React, useEffect, useState } from "react";
+import { useAuthContext } from "../../hook/useAuthContext";
+import { VscLoading } from "react-icons/vsc";
 
 const Header = () => {
+  const [currentDate, setCurrentDate] = useState("");
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    setCurrentDate(formattedDate);
+  }, []);
+
   return (
-    <Navbar>
-      <Container>
-        <Navbar.Brand href="/" className="d-flex align-items-center">
-          <img
-            src={logo}
-            alt="Logo"
-            width="75"
-            height="75"
-            className=""
-          />
-          <div>
-            <div className="logoname">HR-HATCH</div>
-            <small className="sublogoname">The Tech Behind Talent.</small>
-          </div>
-        </Navbar.Brand>
-      </Container>
-    </Navbar>
+    <div className="dashboard-header">
+      {user ? (
+        <>
+          <h3>Hello, {user.name}</h3>
+          <p>Today is {currentDate}</p>
+        </>
+      ) : (
+        <>
+          <h3>Hello, Guest</h3>
+          <p>Today is {currentDate}</p>
+        </>
+      )}
+    </div>
   );
 };
 

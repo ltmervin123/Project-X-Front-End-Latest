@@ -6,7 +6,6 @@ import defaultAvatar from "../../assets/default.jpg";
 import { useLocation } from "react-router-dom";
 import { useLogout } from "../../hook/useLogout";
 import { useAuthContext } from "../../hook/useAuthContext";
-import "../../styles/Sidebar.css";
 
 const Sidebar = () => {
   const location = useLocation();

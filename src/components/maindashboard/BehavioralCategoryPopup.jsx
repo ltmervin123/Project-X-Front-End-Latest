@@ -29,7 +29,10 @@ const BehavioralCategoryPopup = ({ show, onClose, category, onSkillSelect }) => 
                         <Col key={index} md={5} className="mb-4">
                             <div
                                 className="behavioral-card d-flex justify-content-center"
-                                style={{ cursor: 'pointer' }}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: `var(--card${index + 1}-bg)` // Loop background color after index 2
+                                }}
                                 onClick={() => handleSkillClick(skill)} // Handle skill selection
                             >
                                 <p className="card-title">{skill}</p>
@@ -37,6 +40,7 @@ const BehavioralCategoryPopup = ({ show, onClose, category, onSkillSelect }) => 
                         </Col>
                     ))}
                 </Row>
+
             </Modal.Body>
         </Modal>
     );

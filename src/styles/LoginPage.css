@@ -22,13 +22,14 @@
     background-position: center;
     padding: 0 !important;
 }
+.main-login-form{
+    padding: 0 !important;
+}
 .main-login{
     width: 100%;
     margin: 0 !important;
 }
-.main-login-form{
-    padding: 0 !important;
-}
+
 .login-container {
     background: rgb(244,106,5);
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
@@ -52,7 +53,6 @@
 .account-details {
     border: 1px solid white;
     padding: 20px;
-    margin-bottom: 20px;
     border-radius: 50px;
     position: relative;
     width: 90%;
@@ -79,7 +79,7 @@
     justify-content: flex-end;
     font-size: 12px;
 }
-.login-button{
+.login-button {
     width: 150px;
     height: 50px;
     border-radius: 50px;
@@ -87,8 +87,9 @@
     color: var(--font-white);
     border: none;
     position: absolute;
-    right: 33%;
-    bottom: -24px;
+    bottom: -23px; /* Distance from the bottom */
+    left: 50%; /* Start positioning from the horizontal center */
+    transform: translateX(-50%); /* Center the button */
 }
 .account-details h3 {
     position: absolute;
@@ -147,11 +148,31 @@
 }
 
 .signup-button {
-    width: 130px;
-    height: 40px;
+    width: 150px;
+    height: 50px;
     border-radius: 50px;
     background: var(--secondary-color);
     color: var(--font-white) !important;
     border: none;
 
 }
+@media (max-width: 768px) {
+    .login-container {
+      width: 90%;
+      padding: 10px;
+    }
+  
+    .login-header > h2 {
+      font-size: 28px;
+    }
+  
+    
+    .main-login {
+      flex-direction: column;
+    }
+    
+    .image-overlay {
+      display: none;
+    }
+  }
+  

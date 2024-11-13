@@ -6,49 +6,27 @@
     --card-color: #686868;
     --text-color: #000;
     --acttivit-card-bg: #D9D9D9;
-
-
+    --card1-bg: #FA8072;
+    --card2-bg: #F4A460;
+    --card3-bg: #4068E0;
+    --card4-bg: #00CED1;
+    --card5-bg: #FFA07A;
+    --card6-bg: #9370DB;
+    --card7-bg: #00BFFF;
 }
 
 .maindashboard-container {
     background: var(--font-white);
     background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%);
     min-height: 100vh; 
+    width: 100%;
     position: relative; 
     
 }
-
-.main-container1 {
-    flex-direction: column;
-    gap: 20px;
-    padding: 0px !important;
+.maindashboard-container > .container {
+    width: 65%;
 }
 
-
-.sidebar-container {
-    justify-content: space-around;
-    gap: 50px;
-    width: 35%;
-    border: 2px solid var(--primary-color);
-    border-top: none;
-    border-left: none;
-    border-bottom: none;
-    margin: 20px 0px;
-}
-
-.avatar-img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-}
-
-.user-avatar-info > div, .user-avatar-info > small {
-    color: var(--primary-color);
-}
-
-.user-avatar-info > div {
-    font-weight: 500;
-}
 
 .nav-link.active {
     color: var(--primary-color) !important;
@@ -59,7 +37,7 @@
     color: inherit;
     transition: color 0.3s;
 }
-
+/*header*/
 .dashboard-header > h3 {
     color: var(--primary-color);
     padding: 0;
@@ -137,18 +115,23 @@
     color: var(--font-white);
     pointer-events: none;
 }
-
+.main-container1 {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0px !important;
+    height: 120vh;
+}
 .category-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: space-around;
+    gap: 20px;
     width: 100%;
     padding: 15px;
     border: 1px solid var(--font-white);
-    border-radius: 50px;
+    border-radius: 50px 0px 0px 50px;
     overflow-y: scroll;
-    height: 80vh;
+    height: 100vh;
     scrollbar-color: var(--primary-color) #f1f1f1;
 }
 
@@ -164,29 +147,28 @@
     }
 }
 
-.card {
-    background: var(--card-color) !important;
+.category-card {
     color: var(--font-white) !important;
-    border-radius: 40px !important;
+    border-radius: 50px !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 5px;
-    width: 200px;
-    height: 150px;
+    width: 170px;
+    height: 170px;
     transition: background 0.2s ease;
+    background: var(--card2-bg);
 }
 
-.card-col > .card:hover {
-    box-shadow: 0px 0px 10px var(--primary-color);
-    background: var(--primary-color) !important;
+
+/* .category-card:hover {
     animation: glow 1.5s infinite alternate;
-    animation-delay: 0.3s; /* Delay before animation starts */
-}
+    animation-delay: 0.3s;
+} */
 
 .img-category {
     width: 100%;
-    height: 85px;
+    height: 100px;
     /* background-color: rgba(255, 255, 255, 0.2); */
     border-radius: 10px;
     margin-bottom: 10px;
@@ -210,12 +192,14 @@
 
 .summary-card {
     width: 300px;
+    height: 120vh !important;
     background: var(--font-white) !important;
     color: var(--secondary-color) !important;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
     padding: 0;
+    border-radius: 50px !important;
 }
 
 .card-text {
@@ -365,46 +349,7 @@
     border-radius: 30px;
 }
 
-/*Pop up*/
-.difficulty-card{
-    border-radius: 50px !important;
-    min-height: 330px;
-    min-width: 230px;
-    font-weight: 500;
-    font-size: 32px;
-    flex-direction: column;
-    background: var(--acttivit-card-bg);
-}
-.difficulty-card:hover{
-    background: var(--primary-color);
-}
-.difficulty-card > .difficulty-img{
-    height:  30vh !important;
-}
-.difficulty-container{
-    height: 50vh !important;
-}
-.difficulty-container > .col-md-4{
-    height: 50vh !important;
-}
-.custom-modal-width {
-    max-width: 1100px !important; /* Adjust the width as needed */
-    width: 60% !important; /* Make it responsive */
-    height: 60% !important;
-    max-height: 60vh !important;
-}
-.custom-modal-width > .modal-content {
-    background: rgba(255, 255, 255, 0.123); 
-    border-radius: 10px; 
-    backdrop-filter: blur(4px); 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-}
-.custom-modal > div > button, .upload-modal > div > button, .job-description> div > button{
-    color: var(--text-color);
-}
-.custom-modal > div > button:hover,.upload-modal > div > button:hover, .job-description> div > button{
-    color: var(--text-color);
-}
+
 .upload-area{
     height: 45vh;
     flex-direction: column;
@@ -413,15 +358,15 @@
     color: var(--primary-color);
     border-color: var(--text-color);
 }
-.upload-area > i, .upload-area> p{
+.upload-area > i, .upload-area > p{
     color: var(--text-color);
 }
 
 .upload-area > button{
-    background: var(--font-white);
+    background: var(--primary-color) !important;
     border: none;
     border-radius: 50px;
-    color: var(--primary-color) !important;
+    color: var(--font-white) !important;
     font-style: italic;
     width: 100px;
     height: 40px;
@@ -463,6 +408,7 @@
     border-radius: 50px;
     padding: 20px;
     width: 100%;
+    height: 140px;
 }
 .timer {
     color: var(--font-white) !important;
@@ -479,6 +425,7 @@
     width: 100% !important;
     height: 370px !important; 
     object-fit: cover;  
+    transform: scaleX(-1);
 }
 .video-area {
     background: var(--text-color);
@@ -539,8 +486,7 @@
 
 /*BehavioralCategoryPopup*/
 .behavioral-card{
-    background: var(--primary-color);
-    height: 100px;
+    height: 150px;
     align-items: center;
     border-radius: 50px;
 }
@@ -550,4 +496,24 @@
     height: 2px;
     padding: 0;
     line-height: 0;
+}
+
+/*InterviewSuccesspopup*/
+.interviewsuccess-modal-width{
+    width: 800px !important;
+}
+.interviewsuccess-modal-width  .modal-body{
+    padding-bottom: 0 !important;
+}
+.interviewsuccess-modal-width p{
+    font-size: 18px;
+    text-align: center;
+}
+.interviewsuccess-modal-width  button{
+    background: var(--primary-color);
+    border-radius: 50px;
+    border: none;
+}
+.interviewsuccess-modal-width  img{
+    width: 200px !important;
 }

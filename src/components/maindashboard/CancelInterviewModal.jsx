@@ -8,8 +8,7 @@ const CancelInterviewModal = ({ show, onClose, onConfirm }) => {
                 <h5>Do you want to cancel the interview?</h5>
                 <div className="d-flex justify-content-center mt-4">
                     <Button variant="danger" onClick={onConfirm} className="me-3">Yes</Button>
-                    <Button variant="secondary" onClick={onClose} >No</Button>
-                    
+                    <Button variant="secondary" onClick={onClose}>No</Button>
                 </div>
             </Modal.Body>
         </Modal>
