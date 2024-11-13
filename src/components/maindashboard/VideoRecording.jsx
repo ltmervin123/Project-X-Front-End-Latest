@@ -19,6 +19,7 @@ const VideoRecording = ({
   file,
   jobDescription,
 }) => {
+  const recordedChunksRef = useRef([]);
   const { user } = useAuthContext();
   const [isRecording, setIsRecording] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -213,10 +214,10 @@ const VideoRecording = ({
   // Handle intro sequence
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
-    await fetchQuestions(); // Fetch questions when intro is finished
     setIsIntroShown(true);
     setCountdown(5); // Reset countdown when intro starts
     setIsCountdownActive(true); // Activate countdown
+    await fetchQuestions(); // Fetch questions when intro is finished
     setQuestionIndex(0); // Ensure the question index is reset at the start of the interview
   };
 
@@ -229,6 +230,35 @@ const VideoRecording = ({
     stopRecording(); // Ensure recording is stopped before closing
     onClose(); // Proceed with closing the modal
     window.location.reload(); // Reload the page
+  };
+
+  const uploadVideo = async () => {
+    try {
+      if (recordedChunksRef.current.length === 0) {
+        throw new Error("No video data to upload");
+      }
+
+      const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
+      const formData = new FormData();
+      formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
+      formData.append("question", questions[questionIndex]);
+
+      const response = await axios.post(
+        "http://localhost:5000/api/mock-interview",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Video uploaded successfully:", response.data);
+    } catch (error) {
+      console.log("Error uploading video:", error);
+    } finally {
+      recordedChunksRef.current = [];
+    }
   };
 
   const handleCancelClose = () => {
