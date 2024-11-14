@@ -5,12 +5,14 @@ import {
   FaMicrophoneSlash,
   FaPause,
   FaCircle,
+  FaBullseye,
 } from "react-icons/fa";
 import avatarImg from "../../assets/login-img.png";
 import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
+import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
 
 const VideoRecording = ({
   onClose,
@@ -20,6 +22,7 @@ const VideoRecording = ({
   jobDescription,
 }) => {
   const recordedChunksRef = useRef([]);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for the success popup
   const { user } = useAuthContext();
   const [isRecording, setIsRecording] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -37,6 +40,7 @@ const VideoRecording = ({
   const countdownRef = useRef(null); // Reference for countdown timer
   const navigate = useNavigate(); // Use useNavigate for redirection
   const [questions, setQuestions] = useState([]); // State for questions
+  const [isUploading, setIsUploading] = useState(false);
 
   const enableCameraFeed = async () => {
     try {
@@ -72,7 +76,7 @@ const VideoRecording = ({
           {
             headers: {
               "Content-Type": "application/json", // Required for file uploads
-              Authorization: `Bearer ${user.token}`, // Dummy token
+              Authorization: `Bearer ${user.token}`,
             },
           }
         );
@@ -103,18 +107,48 @@ const VideoRecording = ({
     }
   }, [questionIndex, questions, speakQuestion]);
 
+  // const startRecording = () => {
+  //   if (streamRef.current) {
+  //     // Initialize MediaRecorder with stream
+  //     mediaRecorderRef.current = new MediaRecorder(streamRef.current);
+
+  //     // Event listener to handle when data is available
+  //     mediaRecorderRef.current.ondataavailable = (event) => {
+  //       if (event.data.size > 0) {
+  //         // Process the recorded data here, such as saving or previewing
+  //         const videoData = event.data;
+  //         // Optional: Handle or upload videoData as needed
+  //       }
+  //     };
+
+  //     // Start recording
+  //     mediaRecorderRef.current.start();
+  //     setIsRecording(true);
+  //     setIsPaused(false);
+  //     setTimer({ minutes: 0, seconds: 0 }); // Reset timer
+  //   }
+  // };
+
   const startRecording = () => {
     if (streamRef.current) {
       // Initialize MediaRecorder with stream
       mediaRecorderRef.current = new MediaRecorder(streamRef.current);
 
-      // Event listener to handle when data is available
+      // Event listener to handle data as it becomes available
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
-          // Process the recorded data here, such as saving or previewing
-          const videoData = event.data;
-          // Optional: Handle or upload videoData as needed
+          // Append chunk to recordedChunksRef
+          recordedChunksRef.current.push(event.data);
+          console.log("Data chunk available:", event.data);
         }
+      };
+
+      // Event listener to handle stop recording
+      mediaRecorderRef.current.onstop = () => {
+        console.log(
+          "Recording stopped. Collected chunks:",
+          recordedChunksRef.current
+        );
       };
 
       // Start recording
@@ -122,6 +156,7 @@ const VideoRecording = ({
       setIsRecording(true);
       setIsPaused(false);
       setTimer({ minutes: 0, seconds: 0 }); // Reset timer
+      console.log("Start Recording");
     }
   };
 
@@ -132,7 +167,7 @@ const VideoRecording = ({
       formData.append("category", category);
       formData.append("file", file);
       formData.append("jobDescription", jobDescription);
-
+      console.log(" Video Recording File:", file);
       //test the file
 
       const response = await axios.post(
@@ -154,25 +189,38 @@ const VideoRecording = ({
   };
 
   // Handle stopping and moving to the next question
-  const stopRecording = () => {
+  const stopRecording = async () => {
+    // Check if MediaRecorder is active and recording
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
     ) {
+      // Stop recording if it's currently active
       mediaRecorderRef.current.stop();
+      console.log("Recording stopped"); // Debugging
+      console.log("Recorded chunks:", recordedChunksRef.current); // Debugging
+      // Upload the video data
+      await uploadVideo();
+      // Reset recording and pause states
       setIsRecording(false);
+      // Pause the recording
       setIsPaused(true);
     }
 
-        if (questionIndex === questions.length - 1) {
-            setShowSuccessPopup(true); // Show the success popup after the last question
-            mediaRecorderRef.current.stop(); // Stop recording after the last question
-        } else {
-            setQuestionIndex(prevIndex => prevIndex + 1); // Move to the next question
-        }
-
-    setCountdown(5); // Reset countdown for next question
-    setIsCountdownActive(false); // Stop countdown when recording is done
+    // Check if we're at the last question
+    if (questionIndex === questions.length - 1 && isUploading === false) {
+      // Stop recording after the last question
+      mediaRecorderRef.current.stop();
+      // Show the success popup after the last question
+      setShowSuccessPopup(true);
+    } else {
+      // Move to the next question
+      setQuestionIndex((prevIndex) => prevIndex + 1);
+    }
+    // Reset countdown for next question
+    setCountdown(5);
+    // Stop countdown when recording is done
+    setIsCountdownActive(false);
   };
 
   // Timer Effect
@@ -210,7 +258,6 @@ const VideoRecording = ({
     };
   }, []);
 
-  // Handle intro sequence
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
     setIsIntroShown(true);
@@ -233,21 +280,31 @@ const VideoRecording = ({
 
   const uploadVideo = async () => {
     try {
+      // Set uploading state to true
+      setIsUploading(true);
+      // Check if there is video data to upload
       if (recordedChunksRef.current.length === 0) {
         throw new Error("No video data to upload");
       }
-
+      // Create a Blob from the recorded chunks
       const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
+
+      // Create a FormData object to send the video data
       const formData = new FormData();
+
+      // Append the video file and question to the FormData
       formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
       formData.append("question", questions[questionIndex]);
 
+      console.log("Uploading");
+      // Make a POST request to the server to upload the video
       const response = await axios.post(
-        "http://localhost:5000/api/mock-interview",
+        "http://localhost:5000/api/interview/mock-interview",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`, // JWT token
           },
         }
       );
@@ -256,7 +313,10 @@ const VideoRecording = ({
     } catch (error) {
       console.log("Error uploading video:", error);
     } finally {
+      // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
+      // Set uploading state to false
+      setIsUploading(false);
     }
   };
 
@@ -404,7 +464,11 @@ const VideoRecording = ({
                   onClick={isRecording ? stopRecording : startRecording}
                   variant={isRecording ? "danger" : "primary"}
                 >
-                  {isRecording ? "Stop Interview" : "Start Interview"}
+                  {isUploading
+                    ? "Uploading..."
+                    : isRecording
+                    ? "Stop Interview"
+                    : "Start Interview"}
                 </Button>
                 <Button
                   onClick={toggleMute}
@@ -423,22 +487,19 @@ const VideoRecording = ({
         </Modal.Body>
       </Modal>
 
-                {showConfirm && (
-                <CancelInterviewAlert
-                    show={showConfirm} // Control visibility with show prop
-                    onHide={() => setShowConfirm(false)} // Close the modal when needed
-                    onConfirm={handleConfirmClose}
-                    onCancel={handleCancelClose}
-                    message="Are you sure you want to cancel the interview?"
-                />
-)}
+      {showConfirm && (
+        <CancelInterviewAlert
+          show={showConfirm} // Control visibility with show prop
+          onHide={() => setShowConfirm(false)} // Close the modal when needed
+          onConfirm={handleConfirmClose}
+          onCancel={handleCancelClose}
+          message="Are you sure you want to cancel the interview?"
+        />
+      )}
 
-
-                {showSuccessPopup && (
-                    <InterviewSuccessfulPopup />
-                )}
-            </>
-        );
-    };
+      {showSuccessPopup && <InterviewSuccessfulPopup />}
+    </>
+  );
+};
 
 export default VideoRecording;

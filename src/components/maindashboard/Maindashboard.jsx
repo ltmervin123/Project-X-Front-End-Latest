@@ -91,27 +91,6 @@ const MainDashboard = () => {
     category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const filteredCategories = [
-    "BEHAVIORAL",
-    "SUPPLY CHAIN",
-    "ENGINEERING",
-    "INFORMATION TECHNOLOGY",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-  ].filter((category) =>
-    category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <Container className="main-container1 d-flex">
       <div>
@@ -151,49 +130,54 @@ const MainDashboard = () => {
         </Form>
       </div>
 
-            <Row className="category-container d-flex align-items-center g-1">
-                {filteredCategories.map((title, index) => (
-                    <Col md={5} className="card-col" key={index}>
-                        <div
-                            className="category-card"
-                            onClick={() => handleCardClick(title)}
-                            style={{
-                                backgroundColor: `var(--card${(index % 7) + 1}-bg)` // Loop background color after index 7
-                            }}
-                        >
-                            <div className="card-body">
-                                <div className="img-category"></div>
-                                <p className="card-title">{title}</p>
-                            </div>
-                        </div>
-                    </Col>
-                ))}
-            </Row>
-
-
+      <Row className="category-container d-flex align-items-center g-1">
+        {filteredCategories.map((title, index) => (
+          <Col md={5} className="card-col" key={index}>
+            <div
+              className="category-card"
+              onClick={() => handleCategory(title)}
+              style={{
+                backgroundColor: `var(--card${(index % 7) + 1}-bg)`, // Loop background color after index 7
+              }}
+            >
+              <div className="card-body">
+                <div className="img-category"></div>
+                <p className="card-title">{title}</p>
+              </div>
+            </div>
+          </Col>
+        ))}
+      </Row>
 
       {/* Modals */}
       <InterviewDifficultyCategoryPopup
         show={showModal}
         onClose={handleClose}
-        category={selectedCategory}
-        onSelectDifficulty={handleDifficultySelect}
+        onSelectDifficulty={handleDifficulty}
       />
       <UploadPopUp
         show={showUploadModal}
         onClose={handleClose}
-        onUploadComplete={handleFileUploadComplete}
+        onUploadComplete={handleFileUpload}
       />
       <JobDescriptionPopup
         show={showJobDescriptionModal}
         onClose={handleClose}
-        onSubmit={handleJobDescriptionSubmit}
+        onSubmit={handleJobDescription}
       />
-      {showVideoRecording && <VideoRecording onClose={handleClose} />}
+      {showVideoRecording && (
+        <VideoRecording
+          onClose={handleClose}
+          difficulty={difficulty}
+          category={category}
+          file={file}
+          jobDescription={jobDescription}
+        />
+      )}
       <BehavioralCategoryPopup
         show={showBehavioralModal}
         onClose={handleClose}
-        category={selectedCategory} // Ensure this is being passed
+        category={category} // Ensure this is being passed
         onSkillSelect={() => setShowBehavioralVideoRecording(true)} // Handle skill selection
       />
       {showBehavioralVideoRecording && (

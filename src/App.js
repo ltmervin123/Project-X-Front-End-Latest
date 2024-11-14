@@ -34,7 +34,7 @@ function App() {
           path="/analytics"
           element={user ? <Analytics /> : <Navigate to="/login" />}
           // element={<Analytics />}
-         />
+        />
         <Route
           path="/result"
           // element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
