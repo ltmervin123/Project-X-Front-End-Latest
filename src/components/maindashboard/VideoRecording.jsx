@@ -45,7 +45,35 @@ const VideoRecording = ({
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
 
-  const enableCameraFeed = async () => {
+  // const enableCameraFeed = async () => {
+  //   try {
+  //     const stream = await navigator.mediaDevices.getUserMedia({
+  //       video: true,
+  //       audio: true,
+  //     });
+  //     streamRef.current = stream;
+  //     videoRef.current.srcObject = stream;
+  //     stream.getAudioTracks().forEach((track) => {
+  //       track.enabled = !isMuted;
+  //     });
+  //   } catch (error) {
+  //     console.error("Error accessing camera:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   enableCameraFeed();
+
+  //   return () => {
+  //     stopRecording();
+  //     if (streamRef.current) {
+  //       streamRef.current.getTracks().forEach((track) => track.stop());
+  //     }
+  //   };
+  // }, []);
+
+  // function to enable camera feed
+  const enableCameraFeed = async (retryCount = 3) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -58,9 +86,32 @@ const VideoRecording = ({
       });
     } catch (error) {
       console.error("Error accessing camera:", error);
+
+      // Retry mechanism
+      if (retryCount > 0) {
+        console.log(
+          `Retrying to access camera... (${3 - retryCount + 1} attempt)`
+        );
+        setTimeout(() => enableCameraFeed(retryCount - 1), 1000); // Retry after 1 second
+      } else {
+        console.error("Failed to access the camera after multiple attempts.");
+      }
     }
   };
 
+  // Access camera when the component mounts
+  useEffect(() => {
+    enableCameraFeed();
+
+    return () => {
+      stopRecording();
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
+  // Mute/Unmute audio
   const toggleMute = () => {
     setIsMuted((prev) => !prev);
     if (streamRef.current) {
@@ -70,6 +121,7 @@ const VideoRecording = ({
     }
   };
 
+  // Speak the question using the backend API
   const speakQuestion = useCallback(
     async (question) => {
       try {
@@ -103,7 +155,8 @@ const VideoRecording = ({
     },
     [user.token]
   );
-  
+
+  // Speak the current question when the component mounts
   useEffect(() => {
     if (
       questions.length > 0 &&
@@ -114,6 +167,7 @@ const VideoRecording = ({
     }
   }, [questions, isCountdownActive, questionIndex]);
 
+  //
   const startRecording = () => {
     if (streamRef.current) {
       console.log("Start Recording");
@@ -152,8 +206,8 @@ const VideoRecording = ({
     }
   };
 
+  // Stop recording and upload video
   const stopRecording = async () => {
-    // Check if MediaRecorder is active and recording
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
@@ -180,6 +234,7 @@ const VideoRecording = ({
     }
   };
 
+  // Fetch questions from the backend
   const fetchQuestions = async () => {
     try {
       const formData = new FormData();
@@ -232,30 +287,20 @@ const VideoRecording = ({
     return () => clearInterval(interval);
   }, [isRecording, isPaused]);
 
-  useEffect(() => {
-    enableCameraFeed();
-
-    return () => {
-      stopRecording();
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, []);
-
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
     setIsIntroShown(true);
-    setIsCountdownActive(true); // Activate countdown
-    await fetchQuestions(); // Fetch questions when intro is finished
-    // setCountdown(5); // Reset countdown when intro starts
-    setQuestionIndex(0); // Ensure the question index is reset at the start of the interview
+    setIsCountdownActive(true);
+    await fetchQuestions();
+    setQuestionIndex(0);
   };
 
+  // Close handler
   const handleClose = () => {
     setShowConfirm(true); // Show the confirmation modal when close button is clicked
   };
 
+  // Confirm close handler
   const handleConfirmClose = () => {
     setShowConfirm(false);
     stopRecording(); // Ensure recording is stopped before closing
@@ -263,6 +308,7 @@ const VideoRecording = ({
     window.location.reload(); // Reload the page
   };
 
+  // Upload video to the server
   const uploadVideo = async () => {
     try {
       // Set uploading state to true
@@ -295,8 +341,6 @@ const VideoRecording = ({
           },
         }
       );
-
-      console.log("Video uploaded successfully:", response.data);
     } catch (error) {
       console.log("Error uploading video:", error);
     } finally {
@@ -307,6 +351,7 @@ const VideoRecording = ({
     }
   };
 
+  // Cancel close handler
   const handleCancelClose = () => {
     setShowConfirm(false);
     setIsRecording(false); // Reset recording state
@@ -314,8 +359,8 @@ const VideoRecording = ({
     setTimer({ minutes: 0, seconds: 0 }); // Reset timer
   };
 
+  //Countdown effect
   useEffect(() => {
-    console.log("Countdown effect ", countdown);
     if (isCountdownActive && countdown > 0) {
       countdownRef.current = setInterval(() => {
         setCountdown(countdown - 1);
