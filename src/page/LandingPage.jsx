@@ -9,7 +9,7 @@ const LandingPage = () => {
         <div className='main-container'>
             <Header />
             <HeroSection />
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                   
         </div>
     );
 };

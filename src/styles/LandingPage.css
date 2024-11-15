@@ -15,13 +15,35 @@
     --font-white: #fff;
     --font-black: #000;
 }
-
-.main-container {
+body{
     background: var(--font-white);
     background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%);
+}
+.main-container {
+    
     min-height: 100vh; 
-    position: relative; 
+    position: absolute; 
    
+}
+.custom-shape-divider-bottom-1731674941 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1731674941 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 77px;
+}
+
+.custom-shape-divider-bottom-1731674941 .shape-fill {
+    fill: #FFFFFF;
 }
 
 /* Header */

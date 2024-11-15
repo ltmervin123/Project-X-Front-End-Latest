@@ -11,8 +11,8 @@
     background: none !important;
 }
 .main-container {
-    background: var(--font-white);
-    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%) !important;
+    /* background: var(--font-white);
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%) !important; */
     min-height: 100vh; 
 
 }
