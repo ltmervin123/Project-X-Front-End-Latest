@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for redire
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
+import { upload } from "@testing-library/user-event/dist/upload";
 
 const VideoRecording = ({
   onClose,
@@ -31,7 +32,7 @@ const VideoRecording = ({
   const [showConfirm, setShowConfirm] = useState(false); // State for the confirmation modal
   const [questionIndex, setQuestionIndex] = useState(0); // Track the current question
   const [isIntroShown, setIsIntroShown] = useState(false); // State for intro visibility
-  const [countdown, setCountdown] = useState(10); // Countdown state
+  const [countdown, setCountdown] = useState(5); // Countdown state
   const [isCountdownActive, setIsCountdownActive] = useState(false); // Track if countdown is active
   const [transcript, setTranscript] = useState("");
   const videoRef = useRef(null);
@@ -102,42 +103,34 @@ const VideoRecording = ({
   );
 
   useEffect(() => {
-    if (questions.length > 0 && questions[questionIndex]) {
+    if (
+      questions.length > 0 &&
+      questions[questionIndex] &&
+      !isCountdownActive
+    ) {
       speakQuestion(questions[questionIndex]); // Play audio of the current question
     }
-  }, [questionIndex, questions, speakQuestion]);
-
-  // const startRecording = () => {
-  //   if (streamRef.current) {
-  //     // Initialize MediaRecorder with stream
-  //     mediaRecorderRef.current = new MediaRecorder(streamRef.current);
-
-  //     // Event listener to handle when data is available
-  //     mediaRecorderRef.current.ondataavailable = (event) => {
-  //       if (event.data.size > 0) {
-  //         // Process the recorded data here, such as saving or previewing
-  //         const videoData = event.data;
-  //         // Optional: Handle or upload videoData as needed
-  //       }
-  //     };
-
-  //     // Start recording
-  //     mediaRecorderRef.current.start();
-  //     setIsRecording(true);
-  //     setIsPaused(false);
-  //     setTimer({ minutes: 0, seconds: 0 }); // Reset timer
-  //   }
-  // };
+  }, [isCountdownActive, questionIndex]);
 
   const startRecording = () => {
     if (streamRef.current) {
+      console.log("Start Recording");
+      recordedChunksRef.current = []; // Clear chunks before new recording
+
       // Initialize MediaRecorder with stream
       mediaRecorderRef.current = new MediaRecorder(streamRef.current);
+
+      // Start recording if MediaRecorder is inactive
+      if (mediaRecorderRef.current.state === "inactive") {
+        mediaRecorderRef.current.start();
+        setIsRecording(true);
+        setIsPaused(false);
+        setTimer({ minutes: 0, seconds: 0 }); // Reset timer
+      }
 
       // Event listener to handle data as it becomes available
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
-          // Append chunk to recordedChunksRef
           recordedChunksRef.current.push(event.data);
           console.log("Data chunk available:", event.data);
         }
@@ -151,12 +144,36 @@ const VideoRecording = ({
         );
       };
 
-      // Start recording
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-      setIsPaused(false);
-      setTimer({ minutes: 0, seconds: 0 }); // Reset timer
-      console.log("Start Recording");
+      mediaRecorderRef.current.onerror = (e) => {
+        console.error("Recording error:", e);
+      };
+    }
+  };
+
+  const stopRecording = async () => {
+    // Check if MediaRecorder is active and recording
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      setIsRecording(false);
+      setIsPaused(true);
+
+      // Stop recording and wait briefly for all data to be collected
+      mediaRecorderRef.current.stop();
+
+      // Small delay to ensure chunks are gathered
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Upload video
+      await uploadVideo();
+    }
+
+    // Check if we're at the last question
+    if (questionIndex === questions.length - 1 && !isUploading) {
+      setShowSuccessPopup(true);
+    } else {
+      setQuestionIndex((prevIndex) => prevIndex + 1);
     }
   };
 
@@ -167,8 +184,6 @@ const VideoRecording = ({
       formData.append("category", category);
       formData.append("file", file);
       formData.append("jobDescription", jobDescription);
-      console.log(" Video Recording File:", file);
-      //test the file
 
       const response = await axios.post(
         "http://localhost:5000/api/interview/generate-questions",
@@ -186,41 +201,6 @@ const VideoRecording = ({
     } catch (error) {
       console.error("Error fetching questions:", error);
     }
-  };
-
-  // Handle stopping and moving to the next question
-  const stopRecording = async () => {
-    // Check if MediaRecorder is active and recording
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
-      // Stop recording if it's currently active
-      mediaRecorderRef.current.stop();
-      console.log("Recording stopped"); // Debugging
-      console.log("Recorded chunks:", recordedChunksRef.current); // Debugging
-      // Upload the video data
-      await uploadVideo();
-      // Reset recording and pause states
-      setIsRecording(false);
-      // Pause the recording
-      setIsPaused(true);
-    }
-
-    // Check if we're at the last question
-    if (questionIndex === questions.length - 1 && isUploading === false) {
-      // Stop recording after the last question
-      mediaRecorderRef.current.stop();
-      // Show the success popup after the last question
-      setShowSuccessPopup(true);
-    } else {
-      // Move to the next question
-      setQuestionIndex((prevIndex) => prevIndex + 1);
-    }
-    // Reset countdown for next question
-    setCountdown(5);
-    // Stop countdown when recording is done
-    setIsCountdownActive(false);
   };
 
   // Timer Effect
@@ -261,9 +241,9 @@ const VideoRecording = ({
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
     setIsIntroShown(true);
-    setCountdown(5); // Reset countdown when intro starts
     setIsCountdownActive(true); // Activate countdown
     await fetchQuestions(); // Fetch questions when intro is finished
+    // setCountdown(5); // Reset countdown when intro starts
     setQuestionIndex(0); // Ensure the question index is reset at the start of the interview
   };
 
@@ -282,6 +262,7 @@ const VideoRecording = ({
     try {
       // Set uploading state to true
       setIsUploading(true);
+
       // Check if there is video data to upload
       if (recordedChunksRef.current.length === 0) {
         throw new Error("No video data to upload");
@@ -296,7 +277,6 @@ const VideoRecording = ({
       formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
       formData.append("question", questions[questionIndex]);
 
-      console.log("Uploading");
       // Make a POST request to the server to upload the video
       const response = await axios.post(
         "http://localhost:5000/api/interview/mock-interview",
@@ -327,22 +307,30 @@ const VideoRecording = ({
     setTimer({ minutes: 0, seconds: 0 }); // Reset timer
   };
 
-  // Countdown logic
   useEffect(() => {
+    console.log("Countdown effect ", countdown);
     if (isCountdownActive && countdown > 0) {
       countdownRef.current = setInterval(() => {
-        setCountdown((prevCountdown) => prevCountdown - 1);
+        setCountdown(countdown - 1);
       }, 1000);
-    } else if (countdown === 0) {
+    }
+
+    if (countdown === 0 && isCountdownActive) {
       clearInterval(countdownRef.current); // Stop countdown
       setIsCountdownActive(false); // Disable countdown after it ends
-      startRecording(); // Start recording
-
-      setQuestionIndex(0); // Ensure we're showing the first question
+      // Avoid resetting the question index here to keep the current question
     }
 
     return () => clearInterval(countdownRef.current);
   }, [isCountdownActive, countdown]);
+
+  // Only reset questionIndex if moving to the next question manually
+  useEffect(() => {
+    if (!isCountdownActive) {
+      // Trigger the next question or handle the end of the questions here, as needed
+      setQuestionIndex(0);
+    }
+  }, [isCountdownActive]);
 
   //Speech to text
   useEffect(() => {
@@ -463,6 +451,7 @@ const VideoRecording = ({
                   className=" position-relative btn-record"
                   onClick={isRecording ? stopRecording : startRecording}
                   variant={isRecording ? "danger" : "primary"}
+                  disabled={isUploading}
                 >
                   {isUploading
                     ? "Uploading..."

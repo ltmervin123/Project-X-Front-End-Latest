@@ -28,8 +28,6 @@ const MainDashboard = () => {
   const [searchTerm, setSearchTerm] = useState(""); // New state for search functionality
 
   const handleCategory = (category) => {
-    console.log("Main Dashboard Selected Category:", category);
-
     // Set category and show modal
     setCategory(category);
     if (category === "BEHAVIORAL") {
@@ -50,21 +48,18 @@ const MainDashboard = () => {
   };
 
   const handleDifficulty = (difficulty) => {
-    console.log(" Main Dashbaard Selected Difficulty:", difficulty);
     setDifficulty(difficulty);
     setShowModal(false);
     setShowUploadModal(true);
   };
 
   const handleFileUpload = (file) => {
-    console.log(" Main Dashbaard Uploaded File:", file);
     setFile(file);
     setShowUploadModal(false);
     setShowJobDescriptionModal(true);
   };
 
   const handleJobDescription = (jobDescription) => {
-    console.log(" Main Dashbaard Submitted Job Description:", jobDescription);
     setJobDescription(jobDescription);
     setShowJobDescriptionModal(false);
     setShowVideoRecording(true); // Open video recording after description submission
