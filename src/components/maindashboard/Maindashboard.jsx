@@ -26,13 +26,16 @@ const MainDashboard = () => {
   const [file, setFile] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
   const [searchTerm, setSearchTerm] = useState(""); // New state for search functionality
+  const [interviewType, setInterviewType] = useState(""); // New state for interview type
 
   const handleCategory = (category) => {
     // Set category and show modal
     setCategory(category);
     if (category === "BEHAVIORAL") {
       setShowBehavioralModal(true); // Show behavioral popup
+      setInterviewType("Behavioral"); // Set interview type
     } else {
+      setInterviewType("Mock"); // Set interview type
       setShowModal(true);
     }
   };
@@ -163,6 +166,7 @@ const MainDashboard = () => {
       {showVideoRecording && (
         <VideoRecording
           onClose={handleClose}
+          interviewType={interviewType}
           difficulty={difficulty}
           category={category}
           file={file}

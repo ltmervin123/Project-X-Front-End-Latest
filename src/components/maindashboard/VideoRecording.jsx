@@ -17,6 +17,7 @@ import { upload } from "@testing-library/user-event/dist/upload";
 
 const VideoRecording = ({
   onClose,
+  interviewType,
   difficulty,
   category,
   file,
@@ -42,6 +43,7 @@ const VideoRecording = ({
   const navigate = useNavigate(); // Use useNavigate for redirection
   const [questions, setQuestions] = useState([]); // State for questions
   const [isUploading, setIsUploading] = useState(false);
+  const [interviewId, setInterviewId] = useState("");
 
   const enableCameraFeed = async () => {
     try {
@@ -101,7 +103,7 @@ const VideoRecording = ({
     },
     [user.token]
   );
-
+  
   useEffect(() => {
     if (
       questions.length > 0 &&
@@ -110,7 +112,7 @@ const VideoRecording = ({
     ) {
       speakQuestion(questions[questionIndex]); // Play audio of the current question
     }
-  }, [isCountdownActive, questionIndex]);
+  }, [questions, isCountdownActive, questionIndex]);
 
   const startRecording = () => {
     if (streamRef.current) {
@@ -171,6 +173,7 @@ const VideoRecording = ({
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
+      setInterviewId(""); // Reset interview ID
       setShowSuccessPopup(true);
     } else {
       setQuestionIndex((prevIndex) => prevIndex + 1);
@@ -180,6 +183,7 @@ const VideoRecording = ({
   const fetchQuestions = async () => {
     try {
       const formData = new FormData();
+      formData.append("type", interviewType);
       formData.append("difficulty", difficulty);
       formData.append("category", category);
       formData.append("file", file);
@@ -198,6 +202,7 @@ const VideoRecording = ({
 
       // Update the questions state with the questions array from the response
       setQuestions(response.data.questions);
+      setInterviewId(response.data.interviewId);
     } catch (error) {
       console.error("Error fetching questions:", error);
     }
@@ -267,6 +272,7 @@ const VideoRecording = ({
       if (recordedChunksRef.current.length === 0) {
         throw new Error("No video data to upload");
       }
+
       // Create a Blob from the recorded chunks
       const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
 
@@ -274,6 +280,7 @@ const VideoRecording = ({
       const formData = new FormData();
 
       // Append the video file and question to the FormData
+      formData.append("interviewId", interviewId);
       formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
       formData.append("question", questions[questionIndex]);
 

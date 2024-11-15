@@ -11,49 +11,60 @@ const getResultClass = (score) => {
   return "result-green";
 };
 
+//for testing data
+const getDate = () => {
+  const date = new Date();
+  return date.toLocaleDateString("en-US"); // For US format
+};
+
 const MainDashboard = () => {
   const navigate = useNavigate();
   const data = [
     {
-      activityId: 1,
-      activity: "Behavioral",
-      topic: "Teamwork",
-      date: "10 / 24 / 24",
-      score: 5.0,
+      interviewId: 1,
+      type: "Behavioral",
+      category: "Information Teqnology",
+      diffuclty: "Beginner",
+      date: getDate(),
+      score: 9.0,
     },
     {
-      activityId: 2,
-      activity: "Behavioral",
-      topic: "Teamwork",
-      date: "10 / 24 / 24",
-      score: 2.5,
+      interviewId: 2,
+      type: "Mock",
+      category: "Engineering",
+      diffuclty: "Intermediate",
+      date: getDate(),
+      score: 7.0,
     },
     {
-      activityId: 3,
-      activity: "Behavioral",
-      topic: "Stress Management",
-      date: "10 / 24 / 24",
-      score: 5,
+      interviewId: 3,
+      type: "Behavioral",
+      category: "Teamwork",
+      diffuclty: "Advanced",
+      date: getDate(),
+      score: 6.5,
     },
     {
-      activityId: 4,
-      activity: "Behavioral",
-      topic: "Communication",
-      date: "10 / 24 / 24",
-      score: 7,
+      interviewId: 4,
+      type: "Mock",
+      category: "Software Engineering",
+      diffuclty: "Beginner",
+      date: getDate(),
+      score: 9.7,
     },
     {
-      activityId: 5,
-      activity: "IT",
-      topic: "IT Specialist",
-      date: "10 / 24 / 24",
-      score: 9,
+      interviewId: 5,
+      type: "Mock",
+      category: "Information Teqnology",
+      diffuclty: "Advanced",
+      date: getDate(),
+      score: 7.4,
     },
   ];
 
-  const handleViewResult = (activityId) => {
-    // navigate(`/result/${activityId}`);
-    navigate(`/result`);
+  const handleViewResult = (interviewId) => {
+    // navigate(`/result/${interviewId}`);
+    navigate(`/result`); 
   };
 
   return (
@@ -95,18 +106,20 @@ const MainDashboard = () => {
         <table>
           <thead>
             <tr>
-              <th>Activity</th>
-              <th>Topics/Job Description</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Difficulty</th>
               <th>Date</th>
-              <th>Result</th>
+              <th>Overall Result</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {data.map((item) => (
-              <tr key={item.activityId}>
-                <td>{item.activity}</td>
-                <td>{item.topic}</td>
+              <tr key={item.interviewId}>
+                <td>{item.type}</td>
+                <td>{item.category}</td>
+                <td>{item.diffuclty}</td>
                 <td>{item.date}</td>
                 <td className={getResultClass(item.score)}>
                   {item.score} / 10
@@ -114,7 +127,7 @@ const MainDashboard = () => {
                 <td>
                   <Button
                     variant="link"
-                    onClick={() => handleViewResult(item.activityId)}
+                    onClick={() => handleViewResult(item.interviewId)}
                   >
                     View Full Result
                   </Button>
