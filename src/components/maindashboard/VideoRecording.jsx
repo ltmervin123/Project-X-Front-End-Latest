@@ -413,7 +413,6 @@ const VideoRecording = ({
     } else {
       recognition.stop();
     }
-
     return () => {
       recognition.stop(); // Clean up when component unmounts or recording stops
     };
