@@ -1,9 +1,12 @@
-import React from "react";
+import { React, useEffect } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
+import { useAnalytics } from "../../hook/useAnalytics";
+import { useAnalyticsContext } from "../../hook/useAnalyticsContext";
 
+//Helper function
 const getResultClass = (score) => {
   if (score <= 1.5) return "result-red";
   if (score <= 5) return "result-yellow";
@@ -11,60 +14,71 @@ const getResultClass = (score) => {
   return "result-green";
 };
 
-//for testing data
-const getDate = () => {
-  const date = new Date();
+//for testing date
+const getDate = (dateString) => {
+  const date = new Date(dateString);
   return date.toLocaleDateString("en-US"); // For US format
 };
 
 const MainDashboard = () => {
+  const { dispatch, analytics } = useAnalyticsContext();
+  const { getAnalytics, isloaading, error } = useAnalytics();
   const navigate = useNavigate();
-  const data = [
-    {
-      interviewId: 1,
-      type: "Behavioral",
-      category: "Information Teqnology",
-      diffuclty: "Beginner",
-      date: getDate(),
-      score: 9.0,
-    },
-    {
-      interviewId: 2,
-      type: "Mock",
-      category: "Engineering",
-      diffuclty: "Intermediate",
-      date: getDate(),
-      score: 7.0,
-    },
-    {
-      interviewId: 3,
-      type: "Behavioral",
-      category: "Teamwork",
-      diffuclty: "Advanced",
-      date: getDate(),
-      score: 6.5,
-    },
-    {
-      interviewId: 4,
-      type: "Mock",
-      category: "Software Engineering",
-      diffuclty: "Beginner",
-      date: getDate(),
-      score: 9.7,
-    },
-    {
-      interviewId: 5,
-      type: "Mock",
-      category: "Information Teqnology",
-      diffuclty: "Advanced",
-      date: getDate(),
-      score: 7.4,
-    },
-  ];
+  // const interviewHistory = [
+  //   {
+  //     interviewId: "673761efa10ea4f843a1ea05",
+  //     type: "Behavioral",
+  //     category: "Information Teqnology",
+  //     difficulty: "Beginner",
+  //     date: getDate(),
+  //     score: 9.0,
+  //   },
+  //   {
+  //     interviewId: 2,
+  //     type: "Mock",
+  //     category: "Engineering",
+  //     difficulty: "Intermediate",
+  //     date: getDate(),
+  //     score: 7.0,
+  //   },
+  //   {
+  //     interviewId: 3,
+  //     type: "Behavioral",
+  //     category: "Teamwork",
+  //     difdifficulty: "Advanced",
+  //     date: getDate(),
+  //     score: 6.5,
+  //   },
+  //   {
+  //     interviewId: 4,
+  //     type: "Mock",
+  //     category: "Software Engineering",
+  //     difficulty: "Beginner",
+  //     date: getDate(),
+  //     score: 9.7,
+  //   },
+  //   {
+  //     interviewId: 5,
+  //     type: "Mock",
+  //     category: "Information Teqnology",
+  //     difficulty: "Advanced",
+  //     date: getDate(),
+  //     score: 7.4,
+  //   },
+  // ];
+
+  const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
+
+  useEffect(() => {
+    // Analytics data is not available in the context fetch it
+    if (!analytics) {
+      getAnalytics();
+    }
+  }, [dispatch]);
 
   const handleViewResult = (interviewId) => {
-    // navigate(`/result/${interviewId}`);
-    navigate(`/result`); 
+    navigate(`/result/${interviewId}`);
+    // navigate(`/result`);
   };
 
   return (
@@ -115,19 +129,23 @@ const MainDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
-              <tr key={item.interviewId}>
-                <td>{item.type}</td>
-                <td>{item.category}</td>
-                <td>{item.diffuclty}</td>
-                <td>{item.date}</td>
-                <td className={getResultClass(item.score)}>
-                  {item.score} / 10
+            {interviewHistory.map((item) => (
+              <tr key={item._id}>
+                <td>{item.interviewDetails[0].type}</td>
+                <td>{item.interviewDetails[0].category}</td>
+                <td>{item.interviewDetails[0].difficulty}</td>
+                <td>{getDate(item.createdAt)}</td>
+                <td
+                  className={getResultClass(
+                    parseFloat(item.overallFeedback.overallPerformance)
+                  )}
+                >
+                  {item.overallFeedback.overallPerformance}/10
                 </td>
                 <td>
                   <Button
                     variant="link"
-                    onClick={() => handleViewResult(item.interviewId)}
+                    onClick={() => handleViewResult(item._id)}
                   >
                     View Full Result
                   </Button>

@@ -14,6 +14,7 @@ import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
 import { upload } from "@testing-library/user-event/dist/upload";
+import { useAnalytics } from "../../hook/useAnalytics";
 
 const VideoRecording = ({
   onClose,
@@ -44,34 +45,7 @@ const VideoRecording = ({
   const [questions, setQuestions] = useState([]); // State for questions
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
-
-  // const enableCameraFeed = async () => {
-  //   try {
-  //     const stream = await navigator.mediaDevices.getUserMedia({
-  //       video: true,
-  //       audio: true,
-  //     });
-  //     streamRef.current = stream;
-  //     videoRef.current.srcObject = stream;
-  //     stream.getAudioTracks().forEach((track) => {
-  //       track.enabled = !isMuted;
-  //     });
-  //   } catch (error) {
-  //     console.error("Error accessing camera:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   enableCameraFeed();
-
-  //   return () => {
-  //     stopRecording();
-  //     if (streamRef.current) {
-  //       streamRef.current.getTracks().forEach((track) => track.stop());
-  //     }
-  //   };
-  // }, []);
-
+  const { addAnalytics } = useAnalytics();
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
     try {
@@ -227,10 +201,38 @@ const VideoRecording = ({
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      setInterviewId(""); // Reset interview ID
+      // Add analytics to the backend
+      await createFeedback();
+      // Add analytics to the context
+      addAnalytics();
+      // Show the success popup
       setShowSuccessPopup(true);
+      // Reset interview ID
+      setInterviewId("");
     } else {
       setQuestionIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  //Create Feedback
+  const createFeedback = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("interviewId", interviewId);
+      console.log("Interview ID: ", interviewId); 
+      const response = await axios.post(
+        "http://localhost:5000/api/interview/create-feedback",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      console.log(response.data.message);
+    } catch (err) {
+      console.log(err.response.data.error);
     }
   };
 
@@ -538,7 +540,9 @@ const VideoRecording = ({
         />
       )}
 
-      {showSuccessPopup && <InterviewSuccessfulPopup />}
+      {showSuccessPopup && (
+        <InterviewSuccessfulPopup interviewId={interviewId} />
+      )}
     </>
   );
 };

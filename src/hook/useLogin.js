@@ -31,8 +31,8 @@ export const useLogin = () => {
 
       // Check if the response is successful
       if (response.status === 200) {
-        //Set the user to the local storage
-        localStorage.setItem("user", JSON.stringify(user));
+        // //Set the user to the local storage
+        // localStorage.setItem("user", JSON.stringify(user));
 
         // Dispatch the user data to context or handle login state
         dispatch({ type: "LOGIN", payload: user });
