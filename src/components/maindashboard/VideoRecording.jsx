@@ -217,15 +217,13 @@ const VideoRecording = ({
   //Create Feedback
   const createFeedback = async () => {
     try {
-      const formData = new FormData();
-      formData.append("interviewId", interviewId);
-      console.log("Interview ID: ", interviewId); 
+      console.log("Interview ID: ", interviewId);
       const response = await axios.post(
         "http://localhost:5000/api/interview/create-feedback",
-        formData,
+        { interviewId },
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "Application/json",
             Authorization: `Bearer ${user.token}`,
           },
         }

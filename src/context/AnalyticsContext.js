@@ -16,6 +16,7 @@ const authReducer = (state, action) => {
       return { analytics: null };
 
     case "CREATE_ANALYTICS":
+      localStorage.removeItem("analytics");
       return {
         analytics: [action.payload, ...state.analytics],
       };

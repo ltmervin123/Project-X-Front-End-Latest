@@ -24,48 +24,7 @@ const MainDashboard = () => {
   const { dispatch, analytics } = useAnalyticsContext();
   const { getAnalytics, isloaading, error } = useAnalytics();
   const navigate = useNavigate();
-  // const interviewHistory = [
-  //   {
-  //     interviewId: "673761efa10ea4f843a1ea05",
-  //     type: "Behavioral",
-  //     category: "Information Teqnology",
-  //     difficulty: "Beginner",
-  //     date: getDate(),
-  //     score: 9.0,
-  //   },
-  //   {
-  //     interviewId: 2,
-  //     type: "Mock",
-  //     category: "Engineering",
-  //     difficulty: "Intermediate",
-  //     date: getDate(),
-  //     score: 7.0,
-  //   },
-  //   {
-  //     interviewId: 3,
-  //     type: "Behavioral",
-  //     category: "Teamwork",
-  //     difdifficulty: "Advanced",
-  //     date: getDate(),
-  //     score: 6.5,
-  //   },
-  //   {
-  //     interviewId: 4,
-  //     type: "Mock",
-  //     category: "Software Engineering",
-  //     difficulty: "Beginner",
-  //     date: getDate(),
-  //     score: 9.7,
-  //   },
-  //   {
-  //     interviewId: 5,
-  //     type: "Mock",
-  //     category: "Information Teqnology",
-  //     difficulty: "Advanced",
-  //     date: getDate(),
-  //     score: 7.4,
-  //   },
-  // ];
+
 
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
 
@@ -133,7 +92,7 @@ const MainDashboard = () => {
               <tr key={item._id}>
                 <td>{item.interviewDetails[0].type}</td>
                 <td>{item.interviewDetails[0].category}</td>
-                <td>{item.interviewDetails[0].difficulty}</td>
+                <td>{item.interviewDetails[0].difficulty}</td>  
                 <td>{getDate(item.createdAt)}</td>
                 <td
                   className={getResultClass(
