@@ -432,6 +432,7 @@ const VideoRecording = ({
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5>Video Recording</h5>
             <Button
+            className='closebtn'
               variant="link"
               onClick={handleClose}
               style={{ fontSize: "1.5rem", textDecoration: "none" }}
@@ -511,10 +512,10 @@ const VideoRecording = ({
                     ? "Stop Interview"
                     : "Start Interview"}
                 </Button>
-                <Button
-                  onClick={toggleMute}
-                  variant="link"
-                  className="btn-mute d-flex"
+                <Button 
+                  onClick={toggleMute} 
+                  variant="link" 
+                  className={`btn-mute d-flex ${isMuted ? 'muted' : ''}`}
                 >
                   {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                 </Button>

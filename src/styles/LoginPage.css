@@ -4,26 +4,28 @@
     --secondary-color: #1706AC;
     --font-white: #fff;
     --input-bg: #686868;
+    --bg-fade-signup:#D9D9D9 ;
 }
 
 .navbar{
     background: none !important;
 }
-.main-container {
-    /* background: var(--font-white);
-    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%); */
-    min-height: 100vh; 
-
-}
 
 .image-overlay {
     background-image: url('../assets/login-img.png'); /* Update with your image path */
-    background-size: cover;
+    background-size: contain;
     background-position: center;
+    background-repeat: no-repeat;
+    width: 650px !important;
+    position: relative;
+    z-index: 1;
+    bottom: 0;
     padding: 0 !important;
 }
 .main-login-form{
     padding: 0 !important;
+    top: 0;
+    gap: 0;
 }
 .main-login{
     width: 100%;
@@ -32,23 +34,32 @@
 
 .login-container {
     background: rgb(244,106,5);
-    background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
+    background: linear-gradient(128deg, rgba(244,106,5,1) 22%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
-    padding: 20px;
+    padding: 10px;
     width: 550px;
+    position: relative;
     border-radius: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 20px;
+    z-index: 0;
+    right: 40px;
+    bottom: 50px;
 }
 
 .login-header {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .login-header > h2{
-    font-size: 40px !important;
+    font-size: 30px !important;
+    color: var(--font-white) !important;
+}
+.login-header > p{
+    font-size: 20px !important;
+    padding: 0;
+    margin: 0;
 }
 .account-details {
     border: 1px solid white;
@@ -56,6 +67,7 @@
     border-radius: 50px;
     position: relative;
     width: 90%;
+    /* margin: 0 !important; */
 }
 .input-group {
     display: flex;
@@ -63,9 +75,11 @@
     align-items: center;
     gap: 10px;
 }
-.input-group > input{
+.input-group > input[type="text"], .input-group > input[type="password"], .input-group > input[type="email"]{
+    appearance: none;
     border-radius: 50px !important;
     border: 2px solid var(--input-bg);
+    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.25);
     background: rgb(195,194,194);
     background: linear-gradient(114deg, rgba(255, 254, 254, 0.363)  4%, rgba(195, 194, 194, 0.353) 100%);
 }
@@ -78,6 +92,15 @@
 .forgot{
     justify-content: flex-end;
     font-size: 12px;
+    font-weight: lighter;
+}
+.forgot-password {
+    color:var(--secondary-color);
+    text-align: right;
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    padding-left: 5px;
 }
 .login-button {
     width: 150px;
@@ -104,19 +127,12 @@
     padding: 0 10px;
     font-size: 12px !important;
 }
-.forgot-password {
-    color:var(--secondary-color);
-    text-align: right;
-    display: block;
-    margin-bottom: 10px;
-    text-decoration: none;
-}
+
 
 .remember-me {
     display: flex !important;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
     padding: 0 !important;
     width: 100%;
 }
@@ -129,8 +145,12 @@
     gap: 6px;
     margin-bottom: 1.5em;
 }
-.remeber-box-check > input{
-    background: none;
+.remeber-box-check > input[type="checkbox"]{
+    width: 15px;
+    height: 15px;
+    appearance: none;
+    border: 1px solid var(--font-white);
+    background: transparent;
 }
 .remeber-box-check > i{
     color: var(--font-white);
@@ -147,6 +167,9 @@
     cursor: pointer;
 }
 
+.login-container > .signup-container{
+    margin: 0 !important;
+}
 .signup-button {
     width: 150px;
     height: 50px;

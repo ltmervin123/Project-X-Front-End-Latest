@@ -16,88 +16,101 @@
     --font-black: #000;
 }
 body{
-    background: var(--font-white);
-    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%);
+    height: max-content;
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%);    
+
 }
 .main-container {
-    
-    min-height: 100vh; 
-    position: absolute; 
-   
-}
-.custom-shape-divider-bottom-1731674941 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: rotate(180deg);
-}
-
-.custom-shape-divider-bottom-1731674941 svg {
     position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 77px;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.custom-shape-divider-bottom-1731674941 .shape-fill {
-    fill: #FFFFFF;
+.navbar > .container{
+    padding: 0 !important;
 }
-
+/*bg shape*/
+.background-svg-hero-section{
+    margin-top: 10%;
+    position: fixed; /* Change from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 100%; /* Use viewport width */
+    height: 100%; /* Use viewport height */
+    z-index: -1;
+    object-fit: cover; /* Ensure the SVG covers the entire area */
+    pointer-events: none; /* Prevent SVG from interfering with interactions */
+}
 /* Header */
+
 .logoname {
     font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
-    font-size: 47px;
+    font-size: 25px;
     font-weight: 400;
-    line-height: 42px;
+    line-height: 12px;
+    padding-top: 10px;
 }
 
 .sublogoname {
     font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
     color: var(--primary-color);
     font-weight: 400;
-    font-size: 21px;
-    line-height: 0px;
+    font-size: 12px;
 }
 
 /* Button styles using the primary color */
-.btn-login{
+.btn-login {
     background-color: var(--secondary-color) !important;
     border: none !important;
-    width: 180px;
-    height: 50px;
+    width: 150px;
+    height: 35px;
     border-radius: 50px !important;
-    font-size: 20px !important;
+    font-size: 15px !important;
 }
-.btn-get{
+.btn-get {
     background-color: var(--primary-color) !important;
     border: none !important;
-    width: 250px;
-    height: 70px;
+    width: 240px;
+    height: 60px;
     border-radius: 50px !important;
-    font-size: 25px !important;
-    font-weight: 700;
+    font-size: 20px !important;
+    font-weight: 800;
 }
-.btn-login:hover  {
+.btn-get > .rocket-icon{
+    height: 30px;
+    width: 30px;
+    margin: 2px;
+}
+.btn-login:hover {
     background-color: rgba(244, 106, 5, 0.8); /* Slightly darker on hover */
     border-color: rgba(244, 106, 5, 0.8);
 }
-/*Hero Section*/
 
-h1{
-    font-size: 80px !important;
-    font-weight: 500 !important;
+/* Hero Section */
+.hero-container {
+    position: relative; /* Make the container relative */
+    background-image: url('../assets/hero-img.png'); /* Set your background image */
+    background-size:contain; /* Cover the entire section */
+    background-position: bottom right; /* Position the image at the bottom right */
+    background-repeat: no-repeat;
+    min-height: 90%; /* Ensure the section takes up at least 80% of the viewport height */
+    
+
 }
-h2{
-    font-size: 50px !important;
-    font-weight: 500 !important;
+
+h1 {
+    font-size: 70px !important;
+    font-weight: 700 !important;
+    padding-top: 10vh;
+    color: var(--font-black) !important;
 }
-.hero-content{
+h2 {
+    font-size: 45px !important;
+    font-weight: 500 !important;
+    color: var(--font-black) !important;
+}
+.hero-content {
     font-size: 20px !important;
+    font-weight: 500 !important;
 }
-.hero-container >.row {
-    min-height: 80vh; /* Ensures the row takes up at least the full viewport height */
-}
-

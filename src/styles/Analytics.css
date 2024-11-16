@@ -16,8 +16,13 @@
     justify-content: flex-end;
 }
 .analytics-search{
-    width: 50%;
-    
+    width: 400px;
+}
+.analytic-container-header > h4{
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+    color: var(--secondary-color);
 }
 .analytics-search input{
     border-radius: 0px 50px 50px 0px;
@@ -33,9 +38,11 @@
 
 .analytics-container {
     width: 100%;
+    height: 70vh;
     border-radius: 10px;
     padding: 20px;
     border: 2px solid var(--font-white);
+    overflow-y: scroll;
 }
 
 
@@ -55,14 +62,14 @@ table thead th {
 }
 
 table tbody td {
-    padding: 12px;
+    padding: 5px;
     border-bottom: none;
     font-size: 0.95rem;
 }
 
 
 table tbody td .btn-link {
-    background: var(--input-bg);
+    background: var(--primary-color);
     text-decoration: none;
     height: 40px;
     color: var(--font-white);

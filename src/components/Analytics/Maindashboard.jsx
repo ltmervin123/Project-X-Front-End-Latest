@@ -60,6 +60,30 @@ const MainDashboard = () => {
       date: getDate(),
       score: 7.4,
     },
+    {
+      interviewId: 6,
+      type: "Mock",
+      category: "Information Teqnology",
+      diffuclty: "Advanced",
+      date: getDate(),
+      score: 7.4,
+    },
+    {
+      interviewId: 7,
+      type: "Mock",
+      category: "Information Teqnology",
+      diffuclty: "Advanced",
+      date: getDate(),
+      score: 7.4,
+    },
+    {
+      interviewId: 8,
+      type: "Mock",
+      category: "Information Teqnology",
+      diffuclty: "Advanced",
+      date: getDate(),
+      score: 7.4,
+    },
   ];
 
   const handleViewResult = (interviewId) => {
@@ -69,9 +93,8 @@ const MainDashboard = () => {
 
   return (
     <Container className="main-container2 d-flex flex-column">
-      <div>
-        <h4>Mock Interview</h4>
-        <p>Select Professional Career Interview</p>
+      <div className="analytic-container-header">
+        <h4>Analytics</h4>
       </div>
 
       <div className="analytics-search-container d-flex mb-4">

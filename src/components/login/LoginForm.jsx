@@ -20,7 +20,7 @@ const LoginForm = () => {
   };
   return (
     <div className="row main-login">
-      <div className="col-md-6 d-none d-md-block image-overlay"></div>
+      <div className="col-md-4 d-none d-md-block image-overlay"></div>
       <div className="col-md-6 d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
@@ -57,10 +57,10 @@ const LoginForm = () => {
                 />
               </div>
               <div className="forgot d-flex">
-                Forgot your password?
+                Forgot your password? 
                 <a href="/forgot" className="forgot-password">
                   {" "}
-                  Click here to reset
+                   Click here to reset
                 </a>
               </div>
               <div className="remember-me form-check">

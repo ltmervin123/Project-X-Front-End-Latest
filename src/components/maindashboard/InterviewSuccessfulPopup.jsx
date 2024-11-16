@@ -7,7 +7,7 @@ const InterviewSuccessfulPopup = () => {
         <Modal show={true} centered dialogClassName="interviewsuccess-modal-width" backdrop={true}>
             <Modal.Body className='d-flex align-items-center flex-column'>
                 <p>Congratulations! Your interview was successfully recorded.</p>
-                <Button variant="primary" onClick={() => window.location.href = '/analytics'}>
+                <Button  onClick={() => window.location.href = '/analytics'}>
                     View Analytics
                 </Button>
                 <img src={avatarImg} alt="" />

@@ -150,7 +150,6 @@ const BehavioralVideoRecording = ({ onClose }) => {
         } else if (countdown === 0) {
             clearInterval(countdownRef.current);
             setIsCountdownActive(false);
-            startRecording();
             setQuestionIndex(0);
         }
 
@@ -195,7 +194,7 @@ const BehavioralVideoRecording = ({ onClose }) => {
                     <Modal.Body className="video-recording-modal">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <h5>Video Recording</h5>
-                            <Button variant="link" onClick={handleClose} style={{ fontSize: '1.5rem', textDecoration: 'none' }}>
+                            <Button variant="link" className='closebtn' onClick={handleClose} style={{ fontSize: '1.5rem', textDecoration: 'none' }}>
                                 &times;
                             </Button>
                         </div>
@@ -252,10 +251,14 @@ const BehavioralVideoRecording = ({ onClose }) => {
                                     >
                                         {isRecording ? 'Stop Interview' : 'Start Interview'}
                                     </Button>
-                                    <Button onClick={toggleMute} variant="link" className='btn-mute d-flex'>
-                                        {isMuted ? <FaMicrophoneSlash  /> : <FaMicrophone  />}
+                                    <Button 
+                                        onClick={toggleMute} 
+                                        variant="link" 
+                                        className={`btn-mute d-flex ${isMuted ? 'muted' : ''}`}
+                                    >
+                                        {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                                     </Button>
-                                </div>
+                                                                    </div>
                                 <div className="feedback-user-area">
                                     <h4>Answer:</h4>
                                     <p>{transcript}</p>
