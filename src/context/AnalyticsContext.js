@@ -3,7 +3,7 @@ import { createContext, useReducer, useEffect, useMemo } from "react";
 const AnalyticsContext = createContext();
 
 const initialState = {
-  analytics: JSON.parse(localStorage.getItem("currentAnalytics")) || null,
+  analytics: JSON.parse(localStorage.getItem("analytics")) || null,
 };
 
 const authReducer = (state, action) => {
@@ -12,8 +12,13 @@ const authReducer = (state, action) => {
       localStorage.setItem("analytics", JSON.stringify(action.payload));
       return { analytics: action.payload };
     case "CLEAR_ANALYTICS":
-      localStorage.removeItem("currentAnalytics");
+      localStorage.removeItem("analytics");
       return { analytics: null };
+
+    case "CREATE_ANALYTICS":
+      return {
+        analytics: [action.payload, ...state.analytics],
+      };
     default:
       return state;
   }
@@ -33,7 +38,9 @@ const AnalyticsContextProvider = ({ children }) => {
   );
 
   return (
-    <AnalyticsContext.Provider value={contextValue}>{children}</AnalyticsContext.Provider>
+    <AnalyticsContext.Provider value={contextValue}>
+      {children}
+    </AnalyticsContext.Provider>
   );
 };
 

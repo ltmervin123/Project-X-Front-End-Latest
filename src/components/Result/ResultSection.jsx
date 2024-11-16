@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "../../styles/Analytics.css";
 
-const ResultSection = () => {
+const ResultSection = (interviewId) => {
   const sampleData = [
     {
       question: "Tell me about a challenging project you've worked on.",

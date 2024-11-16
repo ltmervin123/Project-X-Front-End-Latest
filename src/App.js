@@ -37,7 +37,7 @@ function App() {
           element={<Analytics />}
         />
         <Route
-          path="/result"
+          path="/result/:interviewId"
           // element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
           element={<Results />}
         />
