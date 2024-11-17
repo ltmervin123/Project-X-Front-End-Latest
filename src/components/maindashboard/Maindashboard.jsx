@@ -90,36 +90,36 @@ const MainDashboard = () => {
         <p>Select Professional Career Interview</p>
       </div>
       <div className="career-search-container d-flex">
-    <Form inline className="career-search d-flex">
-      <Form.Group
-        controlId="careerSelect"
-        className="careerSelect position-relative"
-      >
-        <Form.Control as="select">
-          <option>Categories</option>
-          {careerCategories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </Form.Control>
-        <span className="dropdown-icon">
-          <FaChevronDown />
-        </span>
-      </Form.Group>
-      <Form.Group className="me-2 search-container">
-        <Form.Control
-          type="text"
-          placeholder="Search...."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      </Form.Group>
-      <button className="search-button" type="button">
-        <FaSearch />
-      </button>
-    </Form>
-  </div>
+        <Form inline className="career-search d-flex">
+          <Form.Group
+            controlId="careerSelect"
+            className="careerSelect position-relative"
+          >
+            <Form.Control as="select">
+              <option>Categories</option>
+              {careerCategories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
+            </Form.Control>
+            <span className="dropdown-icon">
+              <FaChevronDown />
+            </span>
+          </Form.Group>
+          <Form.Group className="me-2 search-container">
+            <Form.Control
+              type="text"
+              placeholder="Search...."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </Form.Group>
+          <button className="search-button" type="button">
+            <FaSearch />
+          </button>
+        </Form>
+      </div>
 
   {/* Combined Categories and Behavioral Skills */}
   <div className="category-container ">
@@ -163,7 +163,7 @@ const MainDashboard = () => {
         </div>
         <div className="d-flex flex-wrap justify-content-start gap-3">
         {filteredCategories.map((title, index) => (
-        <Col md={5} className="card-col" key={index}>
+        <Col md={5} className="card-col " key={index}>
           <div
             className="category-card"
             onClick={() => handleCategory(title)}

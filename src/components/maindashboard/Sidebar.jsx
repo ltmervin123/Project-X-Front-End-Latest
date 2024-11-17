@@ -22,8 +22,8 @@ const Sidebar = () => {
       <Navbar.Brand href="/" className="d-flex align-items-center mb-3 logo-brand">
         <img src={logo} alt="Logo" width="55" height="55" className="me-2" />
         <div>
-          <div className="logoname">HR-HATCH</div>
-          <small className="sublogoname">The Tech Behind Talent</small>
+          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
+
         </div>
       </Navbar.Brand>
       <div className="text-center mb-3 user-avatar-info">

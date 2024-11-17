@@ -16,9 +16,9 @@
     --font-black: #000;
 }
 body{
-    height: max-content;
-    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%);    
-
+    background: url("/src/assets/image.png")!important;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .main-container {
     position: relative;
@@ -50,11 +50,16 @@ body{
     font-weight: 400;
     line-height: 12px;
     padding-top: 10px;
+    display: flex;
 }
+.logocolor{
+    color: var(--primary-color);
+    font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
 
+}
 .sublogoname {
     font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
-    color: var(--primary-color);
+    color: var(--font-black);
     font-weight: 400;
     font-size: 12px;
 }

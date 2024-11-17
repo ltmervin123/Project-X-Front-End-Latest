@@ -11,8 +11,9 @@ import LandingPage from "./page/LandingPage.jsx";
 import Login from "./page/LoginPage.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MaindashboardPage from "./page/MaindashboardPage.jsx";
-import Analytics from "./page/Analytics.jsx";
-import Results from "./page/Result.jsx";
+import Analytics from "./page/AnalyticsPage.jsx";
+import Results from "./page/ResultPage.jsx";
+import ErrorPage from "./page/ErrorPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 
 function App() {
@@ -46,6 +47,10 @@ function App() {
           // element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
           element={<MaindashboardPage />}
         />
+        <Route
+        path="/error"
+        element={<ErrorPage />}
+        ></Route>
       </Routes>
     </Router>
   );
