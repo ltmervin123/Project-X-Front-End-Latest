@@ -4,8 +4,8 @@ import { FaSearch, FaChevronDown } from "react-icons/fa";
 import InterviewDifficultyCategoryPopup from "../maindashboard/InterviewDifficultyCategoryPopup";
 import UploadPopUp from "../maindashboard/UploadPopUp";
 import JobDescriptionPopup from "../maindashboard/JobDescriptionPopup";
-import VideoRecording from "../maindashboard/VideoRecording";
-import BehavioralVideoRecording from "../maindashboard/BehavioralVideoRecording"; 
+import VideoRecording from "./MockVideoRecording";
+import BehavioralVideoRecording from "../maindashboard/BehavioralVideoRecording";
 
 const MainDashboard = () => {
   const careerCategories = [
@@ -17,14 +17,20 @@ const MainDashboard = () => {
     "DEFAULT",
     "DEFAULT",
   ];
-  
-  const behavioralSkills = ['Teamwork', 'Adaptability', 'Communication', 'Stress Management'];
+
+  const behavioralSkills = [
+    "Teamwork",
+    "Adaptability",
+    "Communication",
+    "Stress Management",
+  ];
 
   const [showModal, setShowModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showJobDescriptionModal, setShowJobDescriptionModal] = useState(false);
   const [showVideoRecording, setShowVideoRecording] = useState(false);
-  const [showBehavioralVideoRecording, setShowBehavioralVideoRecording] = useState(false);
+  const [showBehavioralVideoRecording, setShowBehavioralVideoRecording] =
+    useState(false);
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [file, setFile] = useState(null);
@@ -121,95 +127,95 @@ const MainDashboard = () => {
         </Form>
       </div>
 
-  {/* Combined Categories and Behavioral Skills */}
-  <div className="category-container ">
-    <Row className="d-flex align-items-center g-2">
-      <div className="category-separtor-header d-flex align-items-center">
-        <div className="text-behavioral-header d-flex align-items-center">
-            BEHAVIORAL
-        </div>
-        <div className="header-text-interview text-center">
-          <p>"People & Performance Interview"</p>
-        </div>
-      </div>
-        <div className="skill-container d-flex w-100">
-          <div className="skill-space"></div>
-          
-          <div className="skill-col d-flex " >
-          {filteredBehavioralSkills.map((skill, index) => (
-            <div
-              className="skill-card"
-              key={index}
-              onClick={() => handleCategory(skill)}
-            >
-                <p className="skill-title">{skill}</p>
+      {/* Combined Categories and Behavioral Skills */}
+      <div className="category-container ">
+        <Row className="d-flex align-items-center g-2">
+          <div className="category-separtor-header d-flex align-items-center">
+            <div className="text-behavioral-header d-flex align-items-center">
+              BEHAVIORAL
             </div>
+            <div className="header-text-interview text-center">
+              <p>"People & Performance Interview"</p>
+            </div>
+          </div>
+          <div className="skill-container d-flex w-100">
+            <div className="skill-space"></div>
+
+            <div className="skill-col d-flex ">
+              {filteredBehavioralSkills.map((skill, index) => (
+                <div
+                  className="skill-card"
+                  key={index}
+                  onClick={() => handleCategory(skill)}
+                >
+                  <p className="skill-title">{skill}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Row>
+
+        <Row className="d-flex align-items-center g-3 mt-4">
+          <div className="category-separtor-header d-flex align-items-center">
+            <div className="text-behavioral-header d-flex align-items-center">
+              TOPICS
+            </div>
+            <div className="header-text-interview text-center">
+              <p>“Regular & Skill Interview”</p>
+            </div>
+          </div>
+          <div className="d-flex flex-wrap justify-content-start gap-3">
+            {filteredCategories.map((title, index) => (
+              <Col md={5} className="card-col " key={index}>
+                <div
+                  className="category-card"
+                  onClick={() => handleCategory(title)}
+                >
+                  <div className="card-body">
+                    <div className="img-category"></div>
+                    <p className="card-title">{title}</p>
+                  </div>
+                </div>
+              </Col>
             ))}
           </div>
-      
-        </div>
-        
-    </Row>
+        </Row>
+      </div>
 
-
-    <Row className="d-flex align-items-center g-3 mt-4">
-      <div className="category-separtor-header d-flex align-items-center">
-          <div className="text-behavioral-header d-flex align-items-center">
-              TOPICS
-          </div>
-          <div className="header-text-interview text-center">
-            <p>“Regular & Skill Interview”</p>
-          </div>
-        </div>
-        <div className="d-flex flex-wrap justify-content-start gap-3">
-        {filteredCategories.map((title, index) => (
-        <Col md={5} className="card-col " key={index}>
-          <div
-            className="category-card"
-            onClick={() => handleCategory(title)}
-          >
-            <div className="card-body">
-              <div className="img-category"></div>
-              <p className="card-title">{title}</p>
-            </div>
-          </div>
-        </Col>
-      ))}
-        </div>
-      
-    </Row>
-  </div>
-
-  {/* Modals */}
-  <InterviewDifficultyCategoryPopup
-    show={showModal}
-    onClose={handleClose}
-    onSelectDifficulty={handleDifficulty}
-  />
-  <UploadPopUp
-    show={showUploadModal}
-    onClose={handleClose}
-    onUploadComplete={handleFileUpload}
-  />
-  <JobDescriptionPopup
-    show={showJobDescriptionModal}
-    onClose={handleClose}
-    onSubmit={handleJobDescription}
-  />
-  {showVideoRecording && (
-    <VideoRecording
-      onClose={handleClose}
-      interviewType={interviewType}
-      difficulty={difficulty}
-      category={category}
-      file={file}
-      jobDescription={jobDescription}
-    />
-  )}
-  {showBehavioralVideoRecording && (
-    <BehavioralVideoRecording onClose={handleClose} />
-  )}
-</Container>
+      {/* Modals */}
+      <InterviewDifficultyCategoryPopup
+        show={showModal}
+        onClose={handleClose}
+        onSelectDifficulty={handleDifficulty}
+      />
+      <UploadPopUp
+        show={showUploadModal}
+        onClose={handleClose}
+        onUploadComplete={handleFileUpload}
+      />
+      <JobDescriptionPopup
+        show={showJobDescriptionModal}
+        onClose={handleClose}
+        onSubmit={handleJobDescription}
+      />
+      {showVideoRecording && (
+        <VideoRecording
+          onClose={handleClose}
+          interviewType={interviewType}
+          difficulty={difficulty}
+          category={category}
+          file={file}
+          jobDescription={jobDescription}
+        />
+      )}
+      {showBehavioralVideoRecording && (
+        <BehavioralVideoRecording
+          onClose={handleClose}
+          interviewType={interviewType}
+          category={category}
+        />
+      )}
+    </Container>
   );
 };
 

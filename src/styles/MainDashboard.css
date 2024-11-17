@@ -1,686 +1,684 @@
 :root {
-    --primary-color: #F46A05; 
-    --secondary-color: #1706AC;
-    --font-white: #fff;
-    --card-color: #686868;
-    --text-color: #000;
-    --acttivit-card-bg: #D9D9D9;
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --text-color: #000;
+  --acttivit-card-bg: #d9d9d9;
 }
 
-
-.main-container1{
-    gap: 10px !important; 
-    position: relative;
+.main-container1 {
+  gap: 10px !important;
+  position: relative;
 }
 .maindashboard-container1 {
-    min-height: 100vh; 
-    width: 100%;
-    z-index: 1; /* Place above the background */
-    overflow: hidden;
-    
+  min-height: 100vh;
+  width: 100%;
+  z-index: 1; /* Place above the background */
+  overflow: hidden;
 }
 
 .background-svg1 {
-    position: fixed; /* Use fixed positioning for the SVG */
-    bottom: 0; /* Align to the bottom */
-    left: 0; /* Align to the left */
-    z-index: -1; /* Send it to the back */
-    height: 200px; /* Fixed height */
-    width: auto; /* Maintain aspect ratio */
+  position: fixed; /* Use fixed positioning for the SVG */
+  bottom: 0; /* Align to the bottom */
+  left: 0; /* Align to the left */
+  z-index: -1; /* Send it to the back */
+  height: 200px; /* Fixed height */
+  width: auto; /* Maintain aspect ratio */
 }
-.maindashboard-container{
-    padding: 20px 20px 0px 20px;
+.maindashboard-container {
+  padding: 20px 20px 0px 20px;
 }
 .maindashboard-container > .container {
-    width: 65%;
-    
+  width: 65%;
 }
 
-
 .nav-link.active {
-    color: var(--primary-color) !important;
-    font-weight: bold;
+  color: var(--primary-color) !important;
+  font-weight: bold;
 }
 
 .nav-link {
-    color: inherit;
-    transition: color 0.3s;
+  color: inherit;
+  transition: color 0.3s;
 }
 
 /* Header */
 .dashboard-header > h3 {
-    color: var(--primary-color);
-    padding: 0;
-    margin: 0;
-    font-size: 20px;
+  color: var(--primary-color);
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
 }
 .dashboard-header > p {
-    font-size: 9px;
-    color: var(--acttivit-card-bg);
+  font-size: 15px;
+  color: var(--primary-color);
 }
 /*maindashboard*/
 
-
-.mock-interview-container-header > h4{
-    font-size: 20px;
-    padding: 0;
-    margin: 0;
-    color: var(--secondary-color);
+.mock-interview-container-header > h4 {
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  color: var(--secondary-color);
 }
 .career-search-container {
-    width: 100%;
-    justify-content: flex-end;
+  width: 100%;
+  justify-content: flex-end;
 }
-.mock-interview-container-header > p{
-    font-size: 9px;
-    color: var(--secondary-color);
-    padding: 0;
-    margin: 0;
+.mock-interview-container-header > p {
+  font-size: 9px;
+  color: var(--secondary-color);
+  padding: 0;
+  margin: 0;
 }
 .career-search {
-    position: relative;
-    overflow: hidden;   
-    width: 400px;
-    display: flex;
-    align-items: center; 
-     
+  position: relative;
+  overflow: hidden;
+  width: 400px;
+  display: flex;
+  align-items: center;
 }
 
 .search-container {
-    width: 80%;
-    margin-right: 10px;
-
+  width: 80%;
+  margin-right: 10px;
 }
 
 .search-button {
-    background: var(--primary-color);
-    border: none;
-    color: var(--font-white);
-    border-radius: 50%;
-    cursor: pointer;
-    padding: 0;
-    width: 40px;
-    height: 38px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 0;
+  background: var(--primary-color);
+  border: none;
+  color: var(--font-white);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
 }
 
 .careerSelect > select {
-    background: var(--primary-color);
-    color: var(--font-white);
-    margin: 0;
-    border-radius: 50px; 
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    width: 100px;
-    height: 38px;
-    font-size: 12px;
+  background: var(--primary-color);
+  color: var(--font-white);
+  margin: 0;
+  border-radius: 50px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  width: 100px;
+  height: 38px;
+  font-size: 12px;
 }
 
 .dropdown-icon {
-    position: absolute;
-    right: 10px; 
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--font-white);
-    pointer-events: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--font-white);
+  pointer-events: none;
 }
 
 .main-container1 {
-    flex-direction: column;
-    gap: 20px;
-    padding: 0px !important;
-    height: auto;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0px !important;
+  height: auto;
 }
 
 .category-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-    padding: 15px;
-    border: 1px solid var(--font-white);
-    border-radius: 10px;
-    overflow-y: scroll;
-    height: 70vh;
-    scrollbar-color: var(--primary-color) #f1f1f1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid var(--font-white);
+  border-radius: 10px;
+  overflow-y: scroll;
+  height: 70vh;
+  scrollbar-color: var(--primary-color) #f1f1f1;
 }
 
 .category-card {
-    color: var(--font-white) !important;
-    border-radius: 50px !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 5px;
-    width: 170px;
-    height: 170px;
-    transition: background 0.2s ease, box-shadow 0.2s ease; /* Add transition for box-shadow */
-    background: var(--card-color);
+  color: var(--font-white) !important;
+  border-radius: 50px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px;
+  width: 170px;
+  height: 170px;
+  transition: background 0.2s ease, box-shadow 0.2s ease; /* Add transition for box-shadow */
+  background: var(--card-color);
 }
 
 .category-card:hover {
-    animation: glow 1.5s infinite alternate;
-    animation-delay: 0.5s;
-    background: var(--primary-color);
-    box-shadow: 0 0 10px var(--primary-color), 0 0 30px var(--primary-color); /* Glow effect */
+  animation: glow 1.5s infinite alternate;
+  animation-delay: 0.5s;
+  background: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color), 0 0 30px var(--primary-color); /* Glow effect */
 }
 
 .img-category {
-    width: 100%;
-    height: 100px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+  width: 100%;
+  height: 100px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .card-title {
-    margin: 0;
-    text-align: center;
-    font-size: 11px;
-    height: 15px;
-    padding: 10px;
+  margin: 0;
+  text-align: center;
+  font-size: 11px;
+  height: 15px;
+  padding: 10px;
 }
 
 .card-col {
-    flex: 1 1 31%;
-    max-width: calc(31.33% - 0px) !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1 1 31%;
+  max-width: calc(31.33% - 0px) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .category-separtor-header {
-    width: 100%;
-    padding: 10px;
-    gap: 10px;
-    justify-content: space-between;
-    padding: 20px;
+  width: 100%;
+  padding: 10px;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .text-behavioral-header {
-    background: var(--primary-color);
-    color: var(--font-white);
-    width: 100px;
-    min-width: 25%;
-    height: 30px;
-    justify-content: center;
-    border-radius: 50px;
-    font-size: 11px;
+  background: var(--primary-color);
+  color: var(--font-white);
+  width: 100px;
+  min-width: 25%;
+  height: 30px;
+  justify-content: center;
+  border-radius: 50px;
+  font-size: 11px;
 }
 
 .header-text-interview {
-    width: 75%;
-    height: 30px;
+  width: 75%;
+  height: 30px;
 }
 
 .header-text-interview > p {
-    padding: 0;
-    border: 3px solid var(--primary-color);
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    line-height: 15px;
-    color: var(--primary-color);
-    padding-bottom: 5px;
+  padding: 0;
+  border: 3px solid var(--primary-color);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  line-height: 15px;
+  color: var(--primary-color);
+  padding-bottom: 5px;
 }
 
 .skill-col {
-    width: 75%;
-    flex-wrap: wrap;
-    gap: 20px;
+  width: 75%;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .skill-card {
-    background: var(--card-color);
-    transition: background 0.2s ease;
-    width: 150px;
-    min-width: 45%;
-    height: 40px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--font-white);
+  background: var(--card-color);
+  transition: background 0.2s ease;
+  width: 150px;
+  min-width: 45%;
+  height: 40px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--font-white);
 }
 .skill-card:hover {
-    animation: glow 1.5s infinite alternate;
-    animation-delay: 0.5s;
-    background: var(--primary-color);
-    box-shadow: 0 0 10px var(--primary-color), 0 0 30px var(--primary-color); /* Glow effect */
+  animation: glow 1.5s infinite alternate;
+  animation-delay: 0.5s;
+  background: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color), 0 0 30px var(--primary-color); /* Glow effect */
 }
 
 .skill-card > .skill-title {
-    text-align: center;
-    font-size: 15px;
-    margin: 0;
+  text-align: center;
+  font-size: 15px;
+  margin: 0;
 }
 
 .skill-space {
-    width: 25%;
+  width: 25%;
 }
 @media (max-width: 768px) {
-    .career-search-container {
-        flex-direction: column; /* Stack elements vertically */
-        align-items: stretch; /* Full width */
-    }
+  .career-search-container {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: stretch; /* Full width */
+  }
 
-    .career-search {
-        width: 100%; /* Full width for mobile */
-    }
+  .career-search {
+    width: 100%; /* Full width for mobile */
+  }
 
-    .category-container {
-        flex-direction: column; /* Stack categories vertically */
-        padding: 10px; /* Adjust padding */
-    }
+  .category-container {
+    flex-direction: column; /* Stack categories vertically */
+    padding: 10px; /* Adjust padding */
+  }
 
-    .category-card {
-        width: 100%; /* Full width cards */
-        margin-bottom: 10px; /* Space between cards */
-    }
+  .category-card {
+    width: 100%; /* Full width cards */
+    margin-bottom: 10px; /* Space between cards */
+  }
 }
 /* Summary */
 .summary-card {
-    width: 250px;
-    height: auto !important;
-    background: var(--font-white) !important;
-    color: var(--secondary-color) !important;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0px;
-    padding: 0;
-    border-radius: 50px !important;
-    position: relative;
-    bottom: 10px;
+  width: 250px;
+  height: auto !important;
+  background: var(--font-white) !important;
+  color: var(--secondary-color) !important;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0px;
+  padding: 0;
+  border-radius: 50px !important;
+  position: relative;
+  bottom: 10px;
 }
 .summary-card-wrapper {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .background-svg2 {
-    position: absolute;
-    bottom: 0;
-    /* margin-left: 10px; */
-    left: 3px;
-    width: 250px;
-    height: auto;
-    bottom: 6px;
-    z-index: 1; /* Ensure the SVG is behind the card */
+  position: absolute;
+  bottom: 0;
+  /* margin-left: 10px; */
+  left: 3px;
+  width: 250px;
+  height: auto;
+  bottom: 6px;
+  z-index: 1; /* Ensure the SVG is behind the card */
 }
 .card-text {
-    color: var(--secondary-color) !important;
-    font-weight: 100;
-    padding: 0px 20px;
-    margin: 0;
-    font-size: 15px;
+  color: var(--secondary-color) !important;
+  font-weight: 100;
+  padding: 0px 20px;
+  margin: 0;
+  font-size: 15px;
 }
 
 .activity-results-container {
-    display: flex;
-    gap: 15px;
-    padding: 10px;
+  display: flex;
+  gap: 15px;
+  padding: 10px;
 }
 
-.activity-container, .results-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.activity-container,
+.results-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .activity-container {
-    width: 70%;
-    gap: 5px;
+  width: 70%;
+  gap: 5px;
 }
 
-.activity-card, .result-of-interview {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100%;
-    margin: 2px 0;
+.activity-card,
+.result-of-interview {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  margin: 2px 0;
 }
 
 .activity-card {
-    min-height: 40px;
-    background: var(--acttivit-card-bg) !important;
-    border-radius: 50px;
+  min-height: 40px;
+  background: var(--acttivit-card-bg) !important;
+  border-radius: 50px;
 }
 
 .result-of-interview {
-    min-height: 0px;
+  min-height: 0px;
 }
 
 .activity-card > .category-name {
-    font-size: 10px;
-    color: var(--text-color);
-    margin: 0;
+  font-size: 10px;
+  color: var(--text-color);
+  margin: 0;
 }
 
 .activity-card > .type-of-interview {
-    font-size: 9px;
-    color: var(--primary-color);
-    margin: 0;
+  font-size: 9px;
+  color: var(--primary-color);
+  margin: 0;
 }
 
 .activity-card > .date-of-interview {
-    font-size: 8px;
-    color: var(--card-color);
-    margin: 0;
+  font-size: 8px;
+  color: var(--card-color);
+  margin: 0;
 }
 
-.results-container > p, .activity-container > p {
-    margin: 0 !important;
-    color: var(--text-color);
-    font-size: 11px;
-    font-weight: 100;
+.results-container > p,
+.activity-container > p {
+  margin: 0 !important;
+  color: var(--text-color);
+  font-size: 11px;
+  font-weight: 100;
 }
 
-.activity-card, .result-of-interview {
-    height: 40px;
-    justify-content: center;
-    color: var(--text-color);
-    font-weight: 500;
+.activity-card,
+.result-of-interview {
+  height: 40px;
+  justify-content: center;
+  color: var(--text-color);
+  font-weight: 500;
 }
 
 .summary-card > .card-title {
-    text-align: left;
-    padding: 20px;
-    font-weight: 700;
-    font-size: 20px;
+  text-align: left;
+  padding: 20px;
+  font-weight: 700;
+  font-size: 20px;
 }
 
-
 .subcription-reminder-container {
-    width: 100%;
-    flex-direction: column;
-    gap: 15px;
+  width: 100%;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .line-color-orange {
-    background-color: var(--primary-color);
-    width: 65%;
-    height: 2px;
-
+  background-color: var(--primary-color);
+  width: 65%;
+  height: 2px;
 }
 
 .subcription-reminder {
-    width: 90%;
-    height: 70px;
-    background-color: var(--acttivit-card-bg);
-    border-radius: 50px;
-    padding: 10px;
-    margin-top: 10px;
-    box-shadow: 0px 4px 5px 0px rgba(135, 135, 135, 0.686);
-    align-items: center;
+  width: 90%;
+  height: 70px;
+  background-color: var(--acttivit-card-bg);
+  border-radius: 50px;
+  padding: 10px;
+  margin-top: 10px;
+  box-shadow: 0px 4px 5px 0px rgba(135, 135, 135, 0.686);
+  align-items: center;
 }
-.subcription-reminder > .reminder-note{
-    width: 80%;
-    text-align: center;
-    font-size: 10px !important;
-    font-weight: 100 !important;
-    color: var(--text-color);
+.subcription-reminder > .reminder-note {
+  width: 80%;
+  text-align: center;
+  font-size: 10px !important;
+  font-weight: 100 !important;
+  color: var(--text-color);
 }
 .subcription-reminder > .sub-reminder-text {
-    font-size: 16px !important;
-    text-align: center;
-    color: var(--primary-color);
-    font-weight: 700 !important;
-    margin: 0;
+  font-size: 16px !important;
+  text-align: center;
+  color: var(--primary-color);
+  font-weight: 700 !important;
+  margin: 0;
 }
 
 .warning {
-    color: red;
-    font-size: 30px;
-    font-weight: 900;
-    width: 20px;
-    height: 30px;
-    background: var(--acttivit-card-bg);
-    position: absolute;
-    top: -23px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  color: red;
+  font-size: 30px;
+  font-weight: 900;
+  width: 20px;
+  height: 30px;
+  background: var(--acttivit-card-bg);
+  position: absolute;
+  top: -23px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .summary-avatar-img-bg {
-    background-image: url('../assets/summary-img.png');
-    background-position: bottom center; 
-    background-repeat: no-repeat; 
-    background-size: contain; 
-    width: 100%; 
-    height: 160px; 
-    margin-top: 20px; 
-    position: relative;
-    z-index: 2; /* Ensure this is above the SVG */
-    border-radius: 30px;
+  background-image: url("../assets/summary-img.png");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  height: 160px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2; /* Ensure this is above the SVG */
+  border-radius: 30px;
 }
 
 .upload-area {
-    height: 45vh;
-    flex-direction: column;
-    justify-content: center;
-    border-style: dashed;
-    color: var(--primary-color);
-    border-color: var(--text-color);
+  height: 45vh;
+  flex-direction: column;
+  justify-content: center;
+  border-style: dashed;
+  color: var(--primary-color);
+  border-color: var(--text-color);
 }
 
-.upload-area > i, .upload-area > p {
-    color: var(--text-color);
+.upload-area > i,
+.upload-area > p {
+  color: var(--text-color);
 }
 
 .upload-area > button {
-    background: var(--primary-color) !important;
-    border: none;
-    border-radius: 50px;
-    color: var(--font-white) !important;
-    font-style: italic;
-    width: 100px;
-    height: 40px;
+  background: var(--primary-color) !important;
+  border: none;
+  border-radius: 50px;
+  color: var(--font-white) !important;
+  font-style: italic;
+  width: 100px;
+  height: 40px;
 }
 
 .upload-area > button:hover {
-    background: var(--font-white);
+  background: var(--font-white);
 }
 
 .textarea-container {
-    position: relative;
+  position: relative;
 }
 
 .char-count {
-    position: absolute;
-    bottom: 0px;
-    right: 10px;
-    font-size: 0.9rem;
-    color: #6c757d;
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  font-size: 0.9rem;
+  color: #6c757d;
 }
 
 .submit-job-description {
-    width: 100%;
-    justify-content: center;
+  width: 100%;
+  justify-content: center;
 }
 
 .submit-job-description > button {
-    background: var(--primary-color);
-    color: var(--font-white);
-    border: none;
-    border-radius: 50px;
-    width: 100px;
+  background: var(--primary-color);
+  color: var(--font-white);
+  border: none;
+  border-radius: 50px;
+  width: 100px;
 }
-.submit-job-description > button:hover, .submit-job-description > button:disabled{
-    background: var(--card-color);
+.submit-job-description > button:hover,
+.submit-job-description > button:disabled {
+  background: var(--card-color);
 }
 .custom-video-record-modal-width {
-    max-width: 1100px !important; 
-    width: 85% !important; 
-    height: 80% !important;
-    max-height: 60vh !important;
+  max-width: 1100px !important;
+  width: 85% !important;
+  height: 80% !important;
+  max-height: 60vh !important;
 }
 
 .interview-question-container {
-    background: var(--acttivit-card-bg);
-    border-radius: 50px;
-    padding: 20px;
-    width: 100%;
-    height: 140px;
+  background: var(--acttivit-card-bg);
+  border-radius: 50px;
+  padding: 20px;
+  width: 100%;
+  height: 140px;
 }
 
 .timer {
-    color: var(--font-white) !important;
+  color: var(--font-white) !important;
 }
 
 .avatar-interviewer-img {
-    width: 100% !important;
-    height: 400px !important; 
-    object-fit: contain;
+  width: 100% !important;
+  height: 400px !important;
+  object-fit: contain;
 }
 
 .video-feed {
-    border-radius: 10px;
-    width: 100% !important;
-    height: 370px !important; 
-    object-fit: cover;  
-    transform: scaleX(-1);
+  border-radius: 10px;
+  width: 100% !important;
+  height: 370px !important;
+  object-fit: cover;
+  transform: scaleX(-1);
 }
 
 .video-area {
-    background: var(--text-color);
-    position: relative;
-    width: 100%;
-    height: 370px !important; 
-    border-radius: 10px;
-    flex-direction: column;
-    gap: 10px;
+  background: var(--text-color);
+  position: relative;
+  width: 100%;
+  height: 370px !important;
+  border-radius: 10px;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .btn-record {
-    background: var(--primary-color) !important;
-    border: none !important;
-    border-radius: 50px !important;
-    width: 180px;
-    height: 40px;
+  background: var(--primary-color) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  width: 180px;
+  height: 40px;
 }
 
 .btn-mute {
-    color: var(--text-color) !important;
-    background: var(--acttivit-card-bg) !important;
-    height: auto;
-    border-radius: 10px;
-    font-size: 40px;
-    display: flex;
-    align-items: center;
-    height: 40px;
+  color: var(--text-color) !important;
+  background: var(--acttivit-card-bg) !important;
+  height: auto;
+  border-radius: 10px;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  height: 40px;
 }
 
 .btn-mute:hover {
-    color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 .btn-mute.muted {
-    color: var(--primary-color) !important; /* Change color when muted */
+  color: var(--primary-color) !important; /* Change color when muted */
 }
 .pause-indicator {
-    background: var(--font-white);
-    color: red;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
+  background: var(--font-white);
+  color: red;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .feedback-user-area {
-    background: var(--acttivit-card-bg);
-    border-radius: 50px;
-    height: 100px;
-    padding: 20px;
-    width: 100%;
+  background: var(--acttivit-card-bg);
+  border-radius: 50px;
+  height: 100px;
+  padding: 20px;
+  width: 100%;
 }
 
 .countdown-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 4rem;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-.countdown-overlay > h2{
-    color: var(--font-white) !important;
+.countdown-overlay > h2 {
+  color: var(--font-white) !important;
 }
 /* BehavioralCategoryPopup */
 .behavioral-card {
-    height: 150px;
-    align-items: center;
-    border-radius: 50px;
+  height: 150px;
+  align-items: center;
+  border-radius: 50px;
 }
 
 .behavioral-card > .card-title {
-    font-size: 22px;
-    color: var(--font-white);
-    height: 2px;
-    padding: 0;
-    line-height: 0;
+  font-size: 22px;
+  color: var(--font-white);
+  height: 2px;
+  padding: 0;
+  line-height: 0;
 }
 
 /* InterviewSuccesspopup */
 .interviewsuccess-modal-width {
-    width: 800px !important;
+  width: 800px !important;
 }
 
 .interviewsuccess-modal-width .modal-body {
-    padding-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .interviewsuccess-modal-width p {
-    font-size: 18px;
-    text-align: center;
+  font-size: 18px;
+  text-align: center;
 }
 
 .interviewsuccess-modal-width button {
-    background: var(--primary-color);
-    border-radius: 50px;
-    border: none;
+  background: var(--primary-color);
+  border-radius: 50px;
+  border: none;
 }
-.interviewsuccess-modal-width button:hover, .interviewsuccess-modal-width button:active{
-    background: var(--card-color);
+.interviewsuccess-modal-width button:hover,
+.interviewsuccess-modal-width button:active {
+  background: var(--card-color);
 }
 .interviewsuccess-modal-width img {
-    width: 200px !important;
+  width: 200px !important;
 }
 
 .background-svg3 {
-    position: fixed;
-    bottom: 0;
-    left: 30%;
-    /* margin-left: 10px; */
-    width: 70%;
-    height: auto;
-    z-index: -1; /* Ensure the SVG is behind the card */
+  position: fixed;
+  bottom: 0;
+  left: 30%;
+  /* margin-left: 10px; */
+  width: 70%;
+  height: auto;
+  z-index: -1; /* Ensure the SVG is behind the card */
 }
 @media (max-width: 768px) {
-    .summary-card {
-        width: 90%; /* Full width on smaller screens */
-        margin: 10px auto; /* Center the card */
-    }
+  .summary-card {
+    width: 90%; /* Full width on smaller screens */
+    margin: 10px auto; /* Center the card */
+  }
 }
 
-.closebtn{
-    color: var(--text-color) !important;
+.closebtn {
+  color: var(--text-color) !important;
 }

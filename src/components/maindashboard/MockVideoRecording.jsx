@@ -8,11 +8,11 @@ import {
   FaBullseye,
 } from "react-icons/fa";
 import avatarImg from "../../assets/login-img.png";
-import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Import the ConfirmModal
+import CancelInterviewAlert from "./CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
-import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
+import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup"; // Import the success popup
 import { upload } from "@testing-library/user-event/dist/upload";
 import { useAnalytics } from "../../hook/useAnalytics";
 
@@ -431,7 +431,7 @@ const VideoRecording = ({
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5>Video Recording</h5>
             <Button
-            className='closebtn'
+              className="closebtn"
               variant="link"
               onClick={handleClose}
               style={{ fontSize: "1.5rem", textDecoration: "none" }}
@@ -511,10 +511,10 @@ const VideoRecording = ({
                     ? "Stop Interview"
                     : "Start Interview"}
                 </Button>
-                <Button 
-                  onClick={toggleMute} 
-                  variant="link" 
-                  className={`btn-mute d-flex ${isMuted ? 'muted' : ''}`}
+                <Button
+                  onClick={toggleMute}
+                  variant="link"
+                  className={`btn-mute d-flex ${isMuted ? "muted" : ""}`}
                 >
                   {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                 </Button>

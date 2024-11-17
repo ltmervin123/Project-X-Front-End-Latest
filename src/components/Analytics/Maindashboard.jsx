@@ -85,7 +85,7 @@ const MainDashboard = () => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="list">
             {interviewHistory.length > 0 ? (
               interviewHistory.map((item) => (
                 <tr key={item._id}>
