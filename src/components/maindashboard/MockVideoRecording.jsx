@@ -15,6 +15,7 @@ import axios from "axios";
 import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup"; // Import the success popup
 import { upload } from "@testing-library/user-event/dist/upload";
 import { useAnalytics } from "../../hook/useAnalytics";
+import LoadingScreen from "./loadingScreen"; // Import the loading screen
 
 const VideoRecording = ({
   onClose,
@@ -46,6 +47,7 @@ const VideoRecording = ({
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
   const { addAnalytics } = useAnalytics();
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
     try {
@@ -201,10 +203,12 @@ const VideoRecording = ({
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
+      setIsGeneratingFeedback(true);
       // Add analytics to the backend
       await createFeedback();
       // Add analytics to the context
       addAnalytics();
+      setIsGeneratingFeedback(false);
       // Show the success popup
       setShowSuccessPopup(true);
       // Reset interview ID
@@ -537,10 +541,8 @@ const VideoRecording = ({
           message="Are you sure you want to cancel the interview?"
         />
       )}
-
-      {showSuccessPopup && (
-        <InterviewSuccessfulPopup interviewId={interviewId} />
-      )}
+      {isGeneratingFeedback && <LoadingScreen />}
+      {showSuccessPopup && <InterviewSuccessfulPopup />}
     </>
   );
 };

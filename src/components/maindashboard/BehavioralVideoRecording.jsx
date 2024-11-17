@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for redire
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
+
+import LoadingScreen from "./loadingScreen"; // Import the loading screen
 import { useAnalytics } from "../../hook/useAnalytics";
 
 const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
@@ -25,7 +27,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [showConfirm, setShowConfirm] = useState(false); // State for the confirmation modal
   const [questionIndex, setQuestionIndex] = useState(0); // Track the current question
   const [isIntroShown, setIsIntroShown] = useState(false); // State for intro visibility
-  const [countdown, setCountdown] = useState(10); // Countdown state
+  const [countdown, setCountdown] = useState(5); // Countdown state
   const [isCountdownActive, setIsCountdownActive] = useState(false); // Track if countdown is active
   const [transcript, setTranscript] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for the success popup
@@ -52,14 +54,14 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     "Express gratitude at the end.",
   ];
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
-
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
   const incrementTip = () => {
     setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length); // Loop back to the first tip after the last one
   };
 
   useEffect(() => {
     // Set interval to increment the tip every 20 seconds
-    const interval = setInterval(incrementTip, 20000);
+    const interval = setInterval(incrementTip, 5000);
 
     // Cleanup the interval on component unmount
     return () => clearInterval(interval);
@@ -218,10 +220,21 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
+      // Set generating feedback state to true
+      setIsGeneratingFeedback(true);
+
       // Add analytics to the backend
       await createFeedback();
+
       // Add analytics to the context
       getAnalytics();
+
+      // Set generating feedback state to false
+      setIsGeneratingFeedback(false);
+
+      //Set generating feedback state to false
+      setIsGeneratingFeedback(false);
+
       // Show the success popup
       setShowSuccessPopup(true);
       // Reset interview ID
@@ -319,7 +332,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     setShowConfirm(false);
     stopRecording(); // Ensure recording is stopped before closing
     onClose(); // Proceed with closing the modal
-    window.location.reload(); // Reload the page
+    // window.location.reload(); // Reload the page
   };
 
   // Upload video to the server
@@ -490,9 +503,12 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                   {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                 </Button>
               </div>
-              <div className="feedback-user-area">
-                <h4>Answer:</h4>
-                <p>{transcript}</p>
+              <div className="tips-area">
+                <p>Tips: </p>
+                <p>{tips[currentTipIndex]}</p>
+                <div className="tips-number">
+                  {currentTipIndex + 1} out of {tips.length}
+                </div>
               </div>
             </Col>
             <Col md={4} className="d-flex flex-column align-items-center gap-3">
@@ -529,6 +545,13 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                 )}
               </div>
             </Col>
+            {/* <div className="tips-area">
+              <p>Tips: </p>
+              <p>{tips[currentTipIndex]}</p>
+              <div className="tips-number">
+                {currentTipIndex + 1} out of {tips.length}
+              </div>
+            </div> */}
           </Row>
         </Modal.Body>
       </Modal>
@@ -543,9 +566,9 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
         />
       )}
 
-      {showSuccessPopup && (
-        <InterviewSuccessfulPopup interviewId={interviewId} />
-      )}
+      {isGeneratingFeedback && <LoadingScreen />}
+
+      {showSuccessPopup && <InterviewSuccessfulPopup />}
     </>
   );
 };

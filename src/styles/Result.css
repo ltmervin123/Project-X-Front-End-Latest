@@ -29,12 +29,6 @@
   border-radius: 10px !important;
 }
 
-.pageNum {
-  font-size: 15px;
-  font-weight: bold;
-  color: var(--primary-color);
-}
-
 .score-section > div {
   width: 100%;
 }
@@ -72,4 +66,12 @@
 .question-navination > .prev,
 .question-navination > .next {
   color: var(--primary-color);
+}
+
+.pageNum {
+  color: var(--primary-color);
+  position: relative;
+  bottom: 0px;
+  bottom: -10px;
+  font-size: 30px;
 }

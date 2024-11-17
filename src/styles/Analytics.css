@@ -94,3 +94,10 @@ table tbody td .btn-link:hover {
 .result-green {
   color: #009900; /* Dark green text */
 }
+
+.btnReturn{
+  position: absolute;
+  bottom: 0;
+  bottom: 20px;
+  right: 20px;
+}

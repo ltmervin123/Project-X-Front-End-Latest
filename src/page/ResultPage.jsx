@@ -11,6 +11,7 @@ function Result() {
     <>
       <div className="container-fluid main-container">
         <Header />
+  
         <ResultSection interviewId={interviewId} />
       </div>
       <svg
