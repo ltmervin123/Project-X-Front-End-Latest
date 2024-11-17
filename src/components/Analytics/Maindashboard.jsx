@@ -25,7 +25,6 @@ const MainDashboard = () => {
   const { getAnalytics, isloaading, error } = useAnalytics();
   const navigate = useNavigate();
 
-
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
 
   useEffect(() => {
@@ -88,29 +87,37 @@ const MainDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {interviewHistory.map((item) => (
-              <tr key={item._id}>
-                <td>{item.interviewDetails[0].type}</td>
-                <td>{item.interviewDetails[0].category}</td>
-                <td>{item.interviewDetails[0].difficulty}</td>  
-                <td>{getDate(item.createdAt)}</td>
-                <td
-                  className={getResultClass(
-                    parseFloat(item.overallFeedback.overallPerformance)
-                  )}
-                >
-                  {item.overallFeedback.overallPerformance}/10
-                </td>
-                <td>
-                  <Button
-                    variant="link"
-                    onClick={() => handleViewResult(item._id)}
+            {interviewHistory.length > 0 ? (
+              interviewHistory.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.interviewDetails[0].type}</td>
+                  <td>{item.interviewDetails[0].category}</td>
+                  <td>{item.interviewDetails[0].difficulty}</td>
+                  <td>{getDate(item.createdAt)}</td>
+                  <td
+                    className={getResultClass(
+                      parseFloat(item.overallFeedback.overallPerformance)
+                    )}
                   >
-                    View Full Result
-                  </Button>
+                    {item.overallFeedback.overallPerformance}/10
+                  </td>
+                  <td>
+                    <Button
+                      variant="link"
+                      onClick={() => handleViewResult(item._id)}
+                    >
+                      View Full Result
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No data available
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
