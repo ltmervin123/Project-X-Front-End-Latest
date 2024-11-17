@@ -1,16 +1,3 @@
-// import React, { useState, useEffect, useRef } from "react";
-// import { Modal, Button, Row, Col } from "react-bootstrap";
-// import {
-//   FaMicrophone,
-//   FaMicrophoneSlash,
-//   FaPause,
-//   FaCircle,
-// } from "react-icons/fa";
-// import avatarImg from "../../assets/login-img.png";
-// import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Import the ConfirmModal
-// import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
-// import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
-
 import { React, useState, useEffect, useRef, useCallback } from "react";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import {
