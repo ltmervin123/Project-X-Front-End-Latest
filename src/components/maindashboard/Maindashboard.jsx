@@ -85,10 +85,6 @@ const MainDashboard = () => {
     setShowVideoRecording(true);
   };
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
   const filteredCategories = careerCategories.filter((category) =>
     category.toLowerCase().includes(searchTerm.toLowerCase())
   );
