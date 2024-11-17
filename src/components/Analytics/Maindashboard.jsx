@@ -89,7 +89,7 @@ const MainDashboard = () => {
           </thead>
           <tbody className="list">
             {interviewHistory.length > 0 ? (
-              interviewHistory.map((item) => (
+              interviewHistory.slice().reverse().map((item) => (
                 <tr key={item._id}>
                   <td>{item.interviewDetails[0].type}</td>
                   <td>{item.interviewDetails[0].category}</td>
