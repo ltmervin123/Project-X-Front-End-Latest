@@ -49,9 +49,10 @@ const MainDashboard = () => {
       setInterviewType("Mock");
       setShowModal(true);
     }
+  };
 
-    // console.log("Selected category:", category);
-    // console.log("Interview Type:", interviewType);
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   useEffect(() => {
