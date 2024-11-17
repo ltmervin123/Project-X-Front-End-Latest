@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import InterviewDifficultyCategoryPopup from "../maindashboard/InterviewDifficultyCategoryPopup";
@@ -41,6 +41,7 @@ const MainDashboard = () => {
   const handleCategory = (category) => {
     setCategory(category);
     console.log("Selected category:", category);
+    // console.log("Interview Type:", interviewType);
     if (behavioralSkills.includes(category)) {
       setInterviewType("Behavioral");
       setShowBehavioralVideoRecording(true);
@@ -48,7 +49,14 @@ const MainDashboard = () => {
       setInterviewType("Mock");
       setShowModal(true);
     }
+
+    // console.log("Selected category:", category);
+    // console.log("Interview Type:", interviewType);
   };
+
+  useEffect(() => {
+    console.log("Updated Interview Type:", interviewType);
+  }, [interviewType]);
 
   const handleClose = () => {
     setShowModal(false);
@@ -142,13 +150,13 @@ const MainDashboard = () => {
             <div className="skill-space"></div>
 
             <div className="skill-col d-flex ">
-              {filteredBehavioralSkills.map((skill, index) => (
+              {filteredBehavioralSkills.map((category, index) => (
                 <div
                   className="skill-card"
                   key={index}
-                  onClick={() => handleCategory(skill)}
+                  onClick={() => handleCategory(category)}
                 >
-                  <p className="skill-title">{skill}</p>
+                  <p className="skill-title">{category}</p>
                 </div>
               ))}
             </div>
@@ -165,15 +173,15 @@ const MainDashboard = () => {
             </div>
           </div>
           <div className="d-flex flex-wrap justify-content-start gap-3">
-            {filteredCategories.map((title, index) => (
+            {filteredCategories.map((category, index) => (
               <Col md={5} className="card-col " key={index}>
                 <div
                   className="category-card"
-                  onClick={() => handleCategory(title)}
+                  onClick={() => handleCategory(category)}
                 >
                   <div className="card-body">
                     <div className="img-category"></div>
-                    <p className="card-title">{title}</p>
+                    <p className="card-title">{category}</p>
                   </div>
                 </div>
               </Col>

@@ -9,6 +9,7 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case "SET_ANALYTICS":
+      localStorage.removeItem("analytics");
       localStorage.setItem("analytics", JSON.stringify(action.payload));
       return { analytics: action.payload };
     case "CLEAR_ANALYTICS":

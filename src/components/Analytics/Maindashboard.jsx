@@ -29,9 +29,11 @@ const MainDashboard = () => {
 
   useEffect(() => {
     // Analytics data is not available in the context fetch it
-    if (!analytics) {
-      getAnalytics();
-    }
+    // if (!analytics) {
+    //   getAnalytics();
+    // }
+
+    getAnalytics();
   }, [dispatch]);
 
   const handleViewResult = (interviewId) => {

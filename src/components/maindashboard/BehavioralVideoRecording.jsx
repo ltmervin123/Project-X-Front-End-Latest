@@ -49,7 +49,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [questions, setQuestions] = useState([]); // State for questions
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
-  const { addAnalytics } = useAnalytics();
+  const { addAnalytics, getAnalytics } = useAnalytics();
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
     try {
@@ -208,7 +208,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       // Add analytics to the backend
       await createFeedback();
       // Add analytics to the context
-      addAnalytics();
+      getAnalytics();
       // Show the success popup
       setShowSuccessPopup(true);
       // Reset interview ID

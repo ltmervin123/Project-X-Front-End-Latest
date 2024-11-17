@@ -20,7 +20,7 @@ const Sidebar = () => {
   return (
     <Navbar expand="lg" className="sidebar-container flex-column">
       <Navbar.Brand
-        href="/"
+        href="/maindashboard"
         className="d-flex align-items-center mb-3 logo-brand"
       >
         <img src={logo} alt="Logo" width="55" height="55" className="me-2" />

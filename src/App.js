@@ -39,7 +39,7 @@ function App() {
         />
         <Route
           path="/result/:interviewId"
-          element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
+          element={user ? <Results /> : <Navigate to="/login" />}
           // element={<Results />}
         />
         <Route
