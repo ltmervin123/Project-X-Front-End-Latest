@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
-import { FaMicrophone, FaMicrophoneSlash, FaPause, FaCircle } from 'react-icons/fa';
-import avatarImg from '../../assets/login-img.png';
+import { FaMicrophone, FaMicrophoneSlash, FaPause, FaCircle, FaVideo, FaVideoSlash } from 'react-icons/fa';
+import avatarImg from '../../assets/summary-img.png';
 import CancelInterviewAlert from '../maindashboard/CancelInterviewModal'; // Import the ConfirmModal
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import InterviewSuccessfulPopup from '../maindashboard/InterviewSuccessfulPopup'; // Import the success popup
@@ -23,25 +23,55 @@ const BehavioralVideoRecording = ({ onClose }) => {
     const streamRef = useRef(null);
     const countdownRef = useRef(null); // Reference for countdown timer
     const navigate = useNavigate(); // Use useNavigate for redirection
+    const [currentTipIndex, setCurrentTipIndex] = useState(0);// State to store the index of the current tip
 
     const questions = [
-        'Can you describe your experience with React and how you\'ve used it in your projects?',
+        'Can you describe your experience with React and how you\'ve used it in your projects?Can you describe your experience with React and how you\'ve used it in your projects?',
         'What are some of the challenges you\'ve faced in your development work and how did you overcome them?',
         'How do you stay up to date with the latest trends and best practices in web development?'
     ];
 
-    const enableCameraFeed = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-            streamRef.current = stream;
-            videoRef.current.srcObject = stream;
-            stream.getAudioTracks().forEach(track => {
-                track.enabled = !isMuted;
-            });
-        } catch (error) {
-            console.error('Error accessing camera:', error);
-        }
+    // Array of tips
+    const tips = [
+        "Know your resume.",
+        "Stay confident and positive.",
+        "Prepare for common questions.",
+        "Understand questions before answering.",
+        "Greet with a smile.",
+        "Speak with confidence.",
+        "Maintain eye contact with the interviewer.",
+        "Avoid negative topics.",
+        "Don’t forget to smile.",
+        "Express gratitude at the end."
+    ];
+
+
+     // Function to increment the tip index
+    const incrementTip = () => {
+        setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length); // Loop back to the first tip after the last one
     };
+
+    // Change tip every 20 seconds using useEffect and setInterval
+    useEffect(() => {
+        // Set interval to increment the tip every 20 seconds
+        const interval = setInterval(incrementTip, 20000);
+
+        // Cleanup the interval on component unmount
+        return () => clearInterval(interval);
+    }, []); // Empty dependency array ensures this runs once when the component mounts
+
+        const enableCameraFeed = async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                streamRef.current = stream;
+                videoRef.current.srcObject = stream;
+                stream.getAudioTracks().forEach(track => {
+                    track.enabled = !isMuted;
+                });
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
+        };
 
     const toggleMute = () => {
         setIsMuted(prev => !prev);
@@ -156,85 +186,83 @@ const BehavioralVideoRecording = ({ onClose }) => {
         return () => clearInterval(countdownRef.current);
     }, [isCountdownActive, countdown]);
 
-    useEffect(() => {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.continuous = true;
-        recognition.interimResults = true;
+    // useEffect(() => {
+    //     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    //     recognition.continuous = true;
+    //     recognition.interimResults = true;
 
-        recognition.onstart = () => {
-            console.log('Speech recognition started');
-        };
+    //     recognition.onstart = () => {
+    //         console.log('Speech recognition started');
+    //     };
 
-        recognition.onend = () => {
-            console.log('Speech recognition ended');
-        };
+    //     recognition.onend = () => {
+    //         console.log('Speech recognition ended');
+    //     };
 
-        recognition.onresult = (event) => {
-            let currentTranscript = '';
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-                currentTranscript += event.results[i][0].transcript;
-            }
-            setTranscript(currentTranscript);
-        };
+    //     recognition.onresult = (event) => {
+    //         let currentTranscript = '';
+    //         for (let i = event.resultIndex; i < event.results.length; i++) {
+    //             currentTranscript += event.results[i][0].transcript;
+    //         }
+    //         setTranscript(currentTranscript);
+    //     };
 
-        if (isRecording && !isPaused) {
-            recognition.start();
-        } else {
-            recognition.stop();
-        }
+    //     if (isRecording && !isPaused) {
+    //         recognition.start();
+    //     } else {
+    //         recognition.stop();
+    //     }
 
-        return () => {
-            recognition.stop();
-        };
-    }, [isRecording, isPaused]);
+    //     return () => {
+    //         recognition.stop();
+    //     };
+    // }, [isRecording, isPaused]);
 
         return (
             <>
                 <Modal show={true} onHide={handleClose} centered dialogClassName="custom-video-record-modal-width" backdrop={false}>
                     <Modal.Body className="video-recording-modal">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <h5>Video Recording</h5>
+                        <div className="d-flex justify-content-between align-items-center">
+                            <h5></h5>
                             <Button variant="link" className='closebtn' onClick={handleClose} style={{ fontSize: '1.5rem', textDecoration: 'none' }}>
                                 &times;
                             </Button>
                         </div>
                         <Row>
-                            <Col md={6} className="d-flex flex-column align-items-center">
-                                <img src={avatarImg} alt="Avatar" className="avatar-interviewer-img" />
-                                <div className="interview-question-container">
-                                    {isIntroShown ? (
-                                        <>
-                                            {isCountdownActive && countdown > 0 ? (
-                                                <p>Generating.....</p> // Displaying "Generating....." during countdown
-                                            ) : (
-                                                <>
-                                                    <h4>Question:</h4>
-                                                    <p className="question-text">
-                                                        {questions[questionIndex]} {/* Display the current question after countdown */}
-                                                    </p>
-                                                </>
-                                            )}
-                                        </>
-                                    ) : (
-                                        <>
-                                            <h4>Welcome to the Interview!</h4>
-                                            <p>We will start with a few questions. Please be prepared.</p>
-                                            <Button variant="link" onClick={handleIntroFinish}>Start Interview</Button>
-                                        </>
-                                    )}
-                                </div>
-                            </Col>
-                            <Col md={6} className="d-flex flex-column align-items-center">
+                            <Col md={7} className="d-flex flex-column align-items-center gap-3">
+
                                 <div className="video-area position-relative d-flex align-items-center">
                                     <video ref={videoRef} autoPlay muted className="video-feed"></video>
                                     <p className="timer position-absolute top-0 end-0 m-2">
                                         {`${String(timer.minutes).padStart(2, '0')}:${String(timer.seconds).padStart(2, '0')} / 2:00`}
                                     </p>
-                                    <div
-                                        className="position-absolute start-50 d-flex align-items-center translate-middle-x pause-indicator"
-                                    >
-                                        {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />}
+                                    <div className="interview-tools d-flex gap-3">
+                                        <Button 
+                                            // onClick={toggleCamera} 
+                                            // variant="link" 
+                                            // className={`btn-camera d-flex ${isCameraOn ? 'camera-on' : 'camera-off'}`}
+                                            className={`btn-mute d-flex ${isMuted ? 'muted' : ''}`}
+                                        >
+                                            {isMuted ? <FaVideoSlash  /> : <FaVideo /> }
+                                        </Button>
+
+                                        <Button
+                                            className="d-flex align-items-center  pause-indicator"
+                                            onClick={isRecording ? stopRecording : startRecording}
+                                            variant={isRecording ? 'danger' : 'primary'}
+                                        >
+                                            {isRecording ?  <FaPause size={30} />: <FaCircle size={30} /> }
+                                            {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
+                                        </Button>
+                                        <Button 
+                                            onClick={toggleMute} 
+                                            variant="link" 
+                                            className={`btn-mute d-flex ${isMuted ? 'muted' : ''}`}
+                                        >
+                                            {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                                        </Button>
                                     </div>
+                                    
                                     {/* Countdown Overlay */}
                                     {isCountdownActive && countdown > 0 && (
                                         <div className="countdown-overlay">
@@ -242,26 +270,52 @@ const BehavioralVideoRecording = ({ onClose }) => {
                                             <h2>{countdown}</h2>
                                         </div>
                                     )}
-                                </div>
-                                <div className="d-flex align-items-center m-3 gap-3">
-                                    <Button
+                                    <div className="d-flex align-items-center m-3 gap-3">
+                                    {/* <Button
                                         className=" position-relative btn-record"
                                         onClick={isRecording ? stopRecording : startRecording}
                                         variant={isRecording ? 'danger' : 'primary'}
                                     >
                                         {isRecording ? 'Stop Interview' : 'Start Interview'}
-                                    </Button>
-                                    <Button 
-                                        onClick={toggleMute} 
-                                        variant="link" 
-                                        className={`btn-mute d-flex ${isMuted ? 'muted' : ''}`}
-                                    >
-                                        {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                                    </Button>
-                                                                    </div>
-                                <div className="feedback-user-area">
+                                    </Button> */}
+                                    
+                                </div>
+                                </div>
+                                <div className="tips-area">
+                                    <p>Tips: </p>
+                                    <p>{tips[currentTipIndex]}</p>
+                                    <div className="tips-number">
+                                        {currentTipIndex + 1} out of {tips.length}
+                                    </div>
+                                </div>
+                                {/* <div className="feedback-user-area">
                                     <h4>Answer:</h4>
                                     <p>{transcript}</p>
+                                </div> */}
+                            </Col>
+                            <Col md={5} className="d-flex flex-column align-items-center gap-3">
+                                <img src={avatarImg} alt="Avatar" className="avatar-interviewer-img" />
+                                <div className="interview-question-container">
+                                    {isIntroShown ? (
+                                        <>
+                                            {isCountdownActive && countdown > 0 ? (
+                                                <p>Generating.....</p>
+                                            ) : (
+                                                <>
+                                                    <h4>Question:</h4>
+                                                    <p className="question-text">
+                                                        {questions[questionIndex]}
+                                                    </p>
+                                                </>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h5>Welcome to the Interview!</h5>
+                                            <p>We will start with a few questions. Please be prepared.</p>
+                                            <Button variant="link" onClick={handleIntroFinish}>Start Interview</Button>
+                                        </>
+                                    )}
                                 </div>
                             </Col>
                         </Row>

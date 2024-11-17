@@ -68,11 +68,7 @@ const JobDescriptionPopup = ({ show, onClose, onSubmit }) => {
           )}
           <p>SAMPLE: </p>
           <p>
-            We are seeking a dynamic and results-driven Marketing Specialist to
-            join our growing team at [Company Name]. The ideal candidate will be
-            responsible for developing and executing innovative marketing
-            strategies that enhance brand awareness, drive customer engagement,
-            and increase sales.
+          I will be responsible for designing, developing, testing, and maintaining high-quality software applications that serve our users' needs.
           </p>
         </div>
         <div className="submit-job-description d-flex align-items-center">
