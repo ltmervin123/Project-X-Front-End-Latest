@@ -48,6 +48,31 @@ const VideoRecording = ({
   const [interviewId, setInterviewId] = useState("");
   const { addAnalytics } = useAnalytics();
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+  const [currentTipIndex, setCurrentTipIndex] = useState(0);
+  const tips = [
+    "Know your resume.",
+    "Stay confident and positive.",
+    "Prepare for common questions.",
+    "Understand questions before answering.",
+    "Greet with a smile.",
+    "Speak with confidence.",
+    "Maintain eye contact with the interviewer.",
+    "Avoid negative topics.",
+    "Don’t forget to smile.",
+    "Express gratitude at the end.",
+  ];
+
+  const incrementTip = () => {
+    setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length); // Loop back to the first tip after the last one
+  };
+
+  useEffect(() => {
+    // Set interval to increment the tip every 20 seconds
+    const interval = setInterval(incrementTip, 5000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
     try {
@@ -489,9 +514,12 @@ const VideoRecording = ({
                   {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                 </Button>
               </div>
-              <div className="feedback-user-area">
-                <h4>Answer:</h4>
-                <p>{transcript}</p>
+              <div className="tips-area">
+                <p>Tips: </p>
+                <p>{tips[currentTipIndex]}</p>
+                <div className="tips-number">
+                  {currentTipIndex + 1} out of {tips.length}
+                </div>
               </div>
             </Col>
             <Col md={4} className="d-flex flex-column align-items-center gap-3">

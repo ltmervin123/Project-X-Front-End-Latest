@@ -39,8 +39,10 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [questions, setQuestions] = useState([]); // State for questions
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
-  const { addAnalytics, getAnalytics } = useAnalytics();
+  const { getAnalytics } = useAnalytics();
   const { user } = useAuthContext();
+  const [currentTipIndex, setCurrentTipIndex] = useState(0);
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -53,8 +55,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
-  const [currentTipIndex, setCurrentTipIndex] = useState(0);
-  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+
   const incrementTip = () => {
     setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length); // Loop back to the first tip after the last one
   };
