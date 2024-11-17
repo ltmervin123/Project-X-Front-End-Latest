@@ -14,7 +14,7 @@
 }
 
 .interview-result-container,
-.analytics-container {
+.interview-container {
     background: var(--font-white) !important;
     color: var(--font-black) !important;
     height: 70vh !important;

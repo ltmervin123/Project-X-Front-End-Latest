@@ -6,21 +6,43 @@ import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loginSuccess, setLoginSuccess] = useState(null); // Track success state
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setEmailError(""); // Clear previous errors
+    setPasswordError(""); // Clear previous errors
+    setLoginSuccess(null); // Reset success state
+
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError("Incorrect email address");
+      return; // Prevent submission if email is invalid
+    }
+
+    // Validate password (you can add custom logic here)
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      return; // Prevent submission if password is too short
+    }
+
     const isLogin = await login(email, password);
 
     if (isLogin) {
+      setLoginSuccess("Successfully logged in!");
       window.location.href = "/maindashboard";
       // navigate("/maindashboard");
     }
   };
+
   return (
     <div className="row main-login">
-      <div className="col-md-6 d-none d-md-block image-overlay"></div>
+      <div className="col-md-4 d-none d-md-block image-overlay"></div>
       <div className="col-md-6 d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
@@ -38,11 +60,12 @@ const LoginForm = () => {
                 </span>
                 <input
                   type="email"
-                  className="form-control"
+                  className={`form-control ${emailError ? "is-invalid" : ""}`} // Add red border if there's an error
                   placeholder="Email"
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
+                {emailError && <div className="invalid-feedback">{emailError}</div>} {/* Display error message */}
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -50,17 +73,17 @@ const LoginForm = () => {
                 </span>
                 <input
                   type="password"
-                  className="form-control"
+                  className={`form-control ${passwordError ? "is-invalid" : ""}`} // Add red border if there's an error
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                {passwordError && <div className="invalid-feedback">{passwordError}</div>} {/* Display error message */}
               </div>
               <div className="forgot d-flex">
-                Forgot your password?
+                Forgot your password? 
                 <a href="/forgot" className="forgot-password">
-                  {" "}
-                  Click here to reset
+                  {" "} Click here to reset
                 </a>
               </div>
               <div className="remember-me form-check">
@@ -75,6 +98,7 @@ const LoginForm = () => {
                 </div>
               </div>
               {error && <div className="error-message">{error}</div>}
+              {loginSuccess && <div className="alert alert-success">{loginSuccess}</div>} {/* Show success message */}
               <button
                 type="submit"
                 className="login-button"

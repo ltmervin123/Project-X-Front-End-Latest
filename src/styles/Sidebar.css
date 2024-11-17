@@ -5,29 +5,26 @@
     --card-color: #686868;
     --text-color: #000;
     --acttivit-card-bg: #D9D9D9;
-    --card1-bg: #FA8072;
-    --card2-bg: #F4A460;
-    --card3-bg: #4068E0;
-    --card4-bg: #00CED1;
-    --card5-bg: #FFA07A;
-    --card6-bg: #9370DB;
-    --card7-bg: #00BFFF;
+
 }
 
 .sidebar-container {
     justify-content: space-around;
-    gap: 50px;
-    width: 25%;
+    gap: 30px;
+    width: 350px;
     border: 2px solid var(--primary-color);
     border-top: none;
     border-left: none;
+    padding: 0 !important;
     border-bottom: none;
-    margin: 20px 0px;
+    transition: width 0.3s; /* Smooth transition for width change */
 }
-
+.logo-brand{
+    padding: 0 !important;
+}
 .avatar-img {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
 }
 
@@ -37,5 +34,22 @@
 
 .user-avatar-info > div {
     font-weight: 500;
+    font-size: 14px;
+}
+.user-email{
+    font-size: 11px;
+    font-weight: 100 !important;
+}
+@media (max-width: 768px) {
+    .sidebar-container {
+        width: 250px; /* Smaller width for tablets */
+    }
 }
 
+@media (max-width: 576px) {
+    .sidebar-container {
+        width: 100%; /* Full width for mobile */
+        position: absolute; /* Allow it to overlay the content */
+        z-index: 1000; /* Ensure it overlays */
+    }
+}

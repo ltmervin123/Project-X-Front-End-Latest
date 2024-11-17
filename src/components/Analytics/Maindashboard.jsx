@@ -41,9 +41,8 @@ const MainDashboard = () => {
 
   return (
     <Container className="main-container2 d-flex flex-column">
-      <div>
-        <h4>Mock Interview</h4>
-        <p>Select Professional Career Interview</p>
+      <div className="analytic-container-header">
+        <h4>Analytics</h4>
       </div>
 
       <div className="analytics-search-container d-flex mb-4">

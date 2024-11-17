@@ -1,13 +1,14 @@
 import React from 'react';
-import '../styles/SignUp.css';
-import SignUpForm from '../components/signup/SignUpForm';
+import '../styles/Error.css';
+import ErrorSection from '../components/Error/ErrorSection';
+import Header from '../components/Error/Header';
 
-function SignUpPage() {
+function ErrorPage() {
   return (
-    <div className="signup-page-wrapper">
-      <div className="container-fluid main-container d-flex align-items-center">
-        <SignUpForm/>
-      </div>
+    <>  
+      <Header/>
+      <ErrorSection/>
+ 
       <svg 
         preserveAspectRatio="none"
         className='background-svg' 
@@ -25,7 +26,7 @@ function SignUpPage() {
         </g>
         {/* Include the existing defs from your original SVG */}
       </svg>
-    </div>
+    </>
   );
 }
-export default SignUpPage;
+export default ErrorPage;

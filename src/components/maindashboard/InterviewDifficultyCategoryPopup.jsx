@@ -23,6 +23,7 @@ const InterviewDifficultyCategoryPopup = ({
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5 className="m-0">Tier</h5>
           <Button
+            className='closebtn'
             variant="link"
             onClick={onClose}
             style={{ fontSize: "1.5rem", textDecoration: "none" }}
@@ -36,9 +37,6 @@ const InterviewDifficultyCategoryPopup = ({
             <Col key={index} md={3}>
               <div
                 className="difficulty-card p-3 mb-3 d-flex justify-content-center"
-                style={{
-                  backgroundColor: `var(--card${(index % 3) + 1}-bg)`, // Loop background color after index 2
-                }}
                 onClick={() => handleDifficultyClick(level)} // Pass level to handler
               >
                 <img src="" alt="" className="difficulty-img" />

@@ -90,7 +90,7 @@ const ResultSection = (interviewId) => {
         </Col>
 
         <Col md={8}>
-          <Card className="analytics-container p-4 position-relative">
+          <Card className="interview-container p-4 position-relative">
             <h4>Question {currentIndex + 1} of 3 </h4>
             <div>
               <strong>Question :</strong>

@@ -22,6 +22,9 @@ const JobDescriptionPopup = ({ show, onClose, onSubmit }) => {
     onSubmit(description); // Call onSubmit to open the VideoRecording component
   };
 
+  // Check if the description has reached the character limit
+  const isLimitReached = description.length === charLimit;
+
   return (
     <Modal
       show={show}
@@ -30,10 +33,11 @@ const JobDescriptionPopup = ({ show, onClose, onSubmit }) => {
       dialogClassName="custom-modal-width"
       backdrop={false}
     >
-      <Modal.Body className="job-description-modal ">
+      <Modal.Body className="job-description-modal">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5 className="m-0">Job Description</h5>
           <Button
+            className="closebtn"
             variant="link"
             onClick={onClose}
             style={{ fontSize: "1.5rem", textDecoration: "none" }}
@@ -43,17 +47,25 @@ const JobDescriptionPopup = ({ show, onClose, onSubmit }) => {
         </div>
         <div className="textarea-container position-relative mb-3">
           <textarea
-            className="form-control"
+            className={`form-control ${isLimitReached}`}
             value={description}
             onChange={handleDescriptionChange}
             rows={7}
             placeholder="Type your Job Description Here..."
           />
-          <p className="char-count">
+          <p className={`char-count ${isLimitReached ? 'text-danger' : ''}`}>
             {description.length}/{charLimit}
           </p>
+          
         </div>
+
         <div className="sample-description-container">
+          {/* Display the error message if the character limit is reached */}
+          {isLimitReached && (
+            <p className="text-danger mt-2">
+              Exceeded character limit. Max: {charLimit}
+            </p>
+          )}
           <p>SAMPLE: </p>
           <p>
             We are seeking a dynamic and results-driven Marketing Specialist to
@@ -65,7 +77,7 @@ const JobDescriptionPopup = ({ show, onClose, onSubmit }) => {
         </div>
         <div className="submit-job-description d-flex align-items-center">
           <Button
-            variant="primary"
+            className="btnsumbitjobdescription"
             onClick={handleSubmit}
             disabled={hasDescription}
           >

@@ -50,11 +50,11 @@
     border-radius: 50px !important;
     /* min-height: 330px; */
     min-width: 230px;
-    
+    background: var(--acttivit-card-bg);
     font-weight: 500;
     font-size: 32px;
     flex-direction: column;
-    color: var(--font-white);
+    color: var(--text-color);
     cursor: pointer;
 }
 

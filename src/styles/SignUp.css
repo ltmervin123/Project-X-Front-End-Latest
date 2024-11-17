@@ -10,10 +10,22 @@
 .navbar{
     background: none !important;
 }
+.background-svg {
+    position: fixed; /* Change from absolute to fixed */
+    top: 0;
+    left: 0;
+    width: 100%; /* Use viewport width */
+    height: 100%; /* Use viewport height */
+    z-index: -1;
+    object-fit: cover; /* Ensure the SVG covers the entire area */
+    pointer-events: none; /* Prevent SVG from interfering with interactions */
+}
+
 .main-container {
-    background: var(--font-white);
-    background: radial-gradient(circle at top, rgba(255, 255, 255, 1) 18%, rgb(117, 117, 117) 100%) !important;
+    position: relative;
+    z-index: 1; 
     min-height: 100vh; 
+    /* overflow: auto; */
 
 }
 .signup-info-container {
@@ -22,7 +34,9 @@
     align-items: center;
     width: 100%;
     z-index: 1;
-    
+}
+.info-create-acc-container > h4{
+    font-weight: 700 !important;
 }
 .info-create-acc-container > img{
     width: 150px;
@@ -33,20 +47,30 @@
     background-color: var(--bg-fade-signup);
     border-radius: 20px;
     margin-bottom: 20px;
-    width: 37%; /* Adjust as necessary */
+    width: 35%; /* Adjust as necessary */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     position: relative;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.25);
     
 }
 .info-create-acc-container > p{
-    font-size: 12px;
+    font-size: 11px;
     word-wrap: break-word;
     text-align: left;
     width: 80%;
-    font-weight: 400;
+    font-weight: 500;
+}
+.already-have-acc{
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+}
+.already-have-acc > small{
+    font-size: 8px;
+    color: var(--input-bg);
 }
 .logo {
     width: 20%; /* Adjust as necessary */
@@ -67,13 +91,15 @@
     flex-direction: column;
     position: relative;
     left: -20px;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.25);
 }
 
 .singup-header {
     margin-bottom: 20px;
 }
 .singup-header > h2{
-    font-size: 40px !important;
+    font-size: 30px !important;
+    color: var(--font-white) !important;
 }
 .account-details {
     border: 1px solid white;
@@ -83,15 +109,22 @@
     position: relative;
     width: 90%;
 }
+.account-details > p{
+    margin-left: 2.8em !important;
+    width: 50% !important;
+    font-size: 8px !important;
+}
 .input-group {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
-.input-group > input{
+.input-group > input[type="text"], .input-group > input[type="password"], .input-group > input[type="email"]{
+    appearance: none;
     border-radius: 50px !important;
     border: 2px solid var(--input-bg);
+    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.25);
     background: rgb(195,194,194);
     background: linear-gradient(114deg, rgba(255, 254, 254, 0.363)  4%, rgba(195, 194, 194, 0.353) 100%);
 }
@@ -104,7 +137,8 @@
 .note{
     justify-content: flex-end;
     font-size: 9px;
-    margin-top: -15px;
+    margin-top: -10px;
+    width: 96%;
 }
 .singup-button{
     width: 150px;
@@ -140,24 +174,31 @@
     align-items: center;
     justify-content: center;
     padding: 0 !important;
-    width: 100%;
+    width: 98%;
     border: 1px solid var(--font-white);
     border-radius: 50px;
-    margin: 20px 0px !important;
+    margin: 20px 0px 50px 10px !important;
+
 }
 .privacy > .checkbox-container{
     width: 25%;
     justify-content: center;
 }
-.privacy > .checkbox-container > input{
+.privacy > .checkbox-container > input[type="checkbox"]{
     width: 15px;
     height: 15px;
-    
+    appearance: none;
+    border: 1px solid var(--font-white);
+    background: transparent;
+}
+.privacy-content{
+    padding: 5px 0px;
+    line-height: 15px;
 }
 .privacy > .privacy-content >p{
     word-wrap: break-word;
     width: 90%;
-    font-size: 10px;
+    font-size: 9px;
     padding: 0;
     margin: 0;
 }
@@ -185,10 +226,7 @@
     border: none !important;
     border-radius: 50px !important;
 }
-.already-have-acc{
-    margin: 0;
-    padding: 0;
-}
+
 
 .custom-regsuccess-container {
     display: flex;

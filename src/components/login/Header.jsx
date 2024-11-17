@@ -1,6 +1,6 @@
 // src/components/LandingPage/Header.jsx
 import React from 'react';
-import { Navbar, Container } from 'react-bootstrap';
+import { Navbar, Container, Button } from 'react-bootstrap';
 import logo from '../../assets/logo.png';
 
 const Header = () => {
@@ -11,13 +11,11 @@ const Header = () => {
           <img
             src={logo}
             alt="Logo"
-            width="75"
-            height="75"
-            className=""
+            width="55"
+            height="55"
           />
           <div>
-            <div className="logoname">HR-HATCH</div>
-            <small className="sublogoname">The Tech Behind Talent.</small>
+          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
           </div>
         </Navbar.Brand>
       </Container>

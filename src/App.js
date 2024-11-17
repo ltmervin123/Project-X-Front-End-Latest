@@ -1,4 +1,5 @@
 // src/App.js
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -10,8 +11,9 @@ import LandingPage from "./page/LandingPage.jsx";
 import Login from "./page/LoginPage.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MaindashboardPage from "./page/MaindashboardPage.jsx";
-import Analytics from "./page/Analytics.jsx";
-import Results from "./page/Result.jsx";
+import Analytics from "./page/AnalyticsPage.jsx";
+import Results from "./page/ResultPage.jsx";
+import ErrorPage from "./page/ErrorPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 
 function App() {
@@ -21,19 +23,19 @@ function App() {
       <Routes>
         <Route
           path="/login"
-          element={!user ? <Login /> : <Navigate to="/maindashboard" />}
-          // element={<Login/>}
+          // element={!user ? <Login /> : <Navigate to="/maindashboard" />}
+          element={<Login/>}
         />
         <Route path="/" element={<LandingPage />} />
         <Route
           path="/signup"
-          element={!user ? <SignUp /> : <Navigate to="/maindashboard" />}
-          // element={<SignUp/>}
+          // element={!user ? <SignUp /> : <Navigate to="/maindashboard" />}
+          element={<SignUp/>}
         />
         <Route
           path="/analytics"
-          element={user ? <Analytics /> : <Navigate to="/login" />}
-          // element={<Analytics />}
+          // element={user ? <Analytics /> : <Navigate to="/login" />}
+          element={<Analytics />}
         />
         <Route
           path="/result/:interviewId"
@@ -42,9 +44,13 @@ function App() {
         />
         <Route
           path="/maindashboard"
-          element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
-          // element={<MaindashboardPage />}
+          // element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
+          element={<MaindashboardPage />}
         />
+        <Route
+        path="/error"
+        element={<ErrorPage />}
+        ></Route>
       </Routes>
     </Router>
   );
