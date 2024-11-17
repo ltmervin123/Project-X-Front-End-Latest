@@ -259,7 +259,7 @@ const ResultSection = ({ interviewId }) => {
               >
                 &lt;
               </span>
-              <span>{currentIndex + 1}</span>
+              <span className="pageNum">{currentIndex + 1}</span>
               <span
                 className="next"
                 onClick={handleNext}

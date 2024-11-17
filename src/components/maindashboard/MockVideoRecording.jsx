@@ -440,41 +440,7 @@ const VideoRecording = ({
             </Button>
           </div>
           <Row>
-            <Col md={6} className="d-flex flex-column align-items-center">
-              <img
-                src={avatarImg}
-                alt="Avatar"
-                className="avatar-interviewer-img"
-              />
-              <div className="interview-question-container">
-                {isIntroShown ? (
-                  <>
-                    {isCountdownActive && countdown > 0 ? (
-                      <p>Generating.....</p> // Displaying "Generating....." during countdown
-                    ) : (
-                      <>
-                        <h4>Question:</h4>
-                        <p className="question-text">
-                          {questions[questionIndex]}{" "}
-                          {/* Display the current question after countdown */}
-                        </p>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <h4>Welcome to the Interview!</h4>
-                    <p>
-                      We will start with a few questions. Please be prepared.
-                    </p>
-                    <Button variant="link" onClick={handleIntroFinish}>
-                      Start Interview
-                    </Button>
-                  </>
-                )}
-              </div>
-            </Col>
-            <Col md={6} className="d-flex flex-column align-items-center">
+            <Col md={8} className="d-flex flex-column align-items-center">
               <div className="video-area position-relative d-flex align-items-center">
                 <video
                   ref={videoRef}
@@ -522,6 +488,40 @@ const VideoRecording = ({
               <div className="feedback-user-area">
                 <h4>Answer:</h4>
                 <p>{transcript}</p>
+              </div>
+            </Col>
+            <Col md={4} className="d-flex flex-column align-items-center gap-3">
+              <img
+                src={avatarImg}
+                alt="Avatar"
+                className="avatar-interviewer-img"
+              />
+              <div className="interview-question-container">
+                {isIntroShown ? (
+                  <>
+                    {isCountdownActive && countdown > 0 ? (
+                      <p>Generating.....</p> // Displaying "Generating....." during countdown
+                    ) : (
+                      <>
+                        <h4>Question:</h4>
+                        <p className="question-text">
+                          {questions[questionIndex]}{" "}
+                          {/* Display the current question after countdown */}
+                        </p>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <h4>Welcome to the Interview!</h4>
+                    <p>
+                      We will start with a few questions. Please be prepared.
+                    </p>
+                    <Button variant="link" onClick={handleIntroFinish}>
+                      Start Interview
+                    </Button>
+                  </>
+                )}
               </div>
             </Col>
           </Row>

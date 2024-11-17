@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { React, useCallback, useState, useEffect, useRef } from "react";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import {
   FaMicrophone,
@@ -17,6 +17,7 @@ import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"
 import { useAnalytics } from "../../hook/useAnalytics";
 
 const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
+  const recordedChunksRef = useRef([]); // Ref for recorded video chunks
   const [isRecording, setIsRecording] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
@@ -37,6 +38,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
   const { addAnalytics, getAnalytics } = useAnalytics();
+  const { user } = useAuthContext();
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -49,6 +51,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
+  const [currentTipIndex, setCurrentTipIndex] = useState(0);
 
   const incrementTip = () => {
     setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length); // Loop back to the first tip after the last one
@@ -62,7 +65,19 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const enableCameraFeed = async () => {
+  // Access camera when the component mounts
+  useEffect(() => {
+    enableCameraFeed();
+
+    return () => {
+      stopRecording();
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
+  const enableCameraFeed = async (retryCount = 3) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -75,6 +90,16 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       });
     } catch (error) {
       console.error("Error accessing camera:", error);
+
+      // Retry mechanism
+      if (retryCount > 0) {
+        console.log(
+          `Retrying to access camera... (${3 - retryCount + 1} attempt)`
+        );
+        setTimeout(() => enableCameraFeed(retryCount - 1), 1000); // Retry after 1 second
+      } else {
+        console.error("Failed to access the camera after multiple attempts.");
+      }
     }
   };
 
@@ -420,7 +445,57 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
             </Button>
           </div>
           <Row>
-            <Col md={6} className="d-flex flex-column align-items-center">
+            <Col md={8} className="d-flex flex-column align-items-center">
+              <div className="video-area position-relative d-flex align-items-center">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  className="video-feed"
+                ></video>
+                <p className="timer position-absolute top-0 end-0 m-2">
+                  {`${String(timer.minutes).padStart(2, "0")}:${String(
+                    timer.seconds
+                  ).padStart(2, "0")} / 2:00`}
+                </p>
+                <div className="position-absolute start-50 d-flex align-items-center translate-middle-x pause-indicator">
+                  {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />}
+                </div>
+                {/* Countdown Overlay */}
+                {isCountdownActive && countdown > 0 && (
+                  <div className="countdown-overlay">
+                    <h6>Interview will Start in</h6>
+                    <h2>{countdown}</h2>
+                  </div>
+                )}
+              </div>
+              <div className="d-flex align-items-center m-3 gap-3">
+                <Button
+                  className=" position-relative btn-record"
+                  onClick={isRecording ? stopRecording : startRecording}
+                  variant={isRecording ? "danger" : "primary"}
+                  disabled={isUploading}
+                >
+                  {isUploading
+                    ? "Uploading..."
+                    : isRecording
+                    ? "Stop Interview"
+                    : "Start Interview"}
+                </Button>
+                <Button
+                  onClick={toggleMute}
+                  variant="link"
+                  className={`btn-mute d-flex ${isMuted ? "muted" : ""}`}
+                >
+                  {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                </Button>
+              </div>
+              <div className="feedback-user-area">
+                <h4>Answer:</h4>
+                <p>{transcript}</p>
+              </div>
+            </Col>
+            <Col md={4} className="d-flex flex-column align-items-center gap-3">
               <img
                 src={avatarImg}
                 alt="Avatar"
@@ -452,51 +527,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                     </Button>
                   </>
                 )}
-              </div>
-            </Col>
-            <Col md={6} className="d-flex flex-column align-items-center">
-              <div className="video-area position-relative d-flex align-items-center">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  className="video-feed"
-                ></video>
-                <p className="timer position-absolute top-0 end-0 m-2">
-                  {`${String(timer.minutes).padStart(2, "0")}:${String(
-                    timer.seconds
-                  ).padStart(2, "0")} / 2:00`}
-                </p>
-                <div className="position-absolute start-50 d-flex align-items-center translate-middle-x pause-indicator">
-                  {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />}
-                </div>
-                {/* Countdown Overlay */}
-                {isCountdownActive && countdown > 0 && (
-                  <div className="countdown-overlay">
-                    <h6>Interview will Start in</h6>
-                    <h2>{countdown}</h2>
-                  </div>
-                )}
-              </div>
-              <div className="d-flex align-items-center m-3 gap-3">
-                <Button
-                  className=" position-relative btn-record"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  variant={isRecording ? "danger" : "primary"}
-                >
-                  {isRecording ? "Stop Interview" : "Start Interview"}
-                </Button>
-                <Button
-                  onClick={toggleMute}
-                  variant="link"
-                  className={`btn-mute d-flex ${isMuted ? "muted" : ""}`}
-                >
-                  {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                </Button>
-              </div>
-              <div className="feedback-user-area">
-                <h4>Answer:</h4>
-                <p>{transcript}</p>
               </div>
             </Col>
           </Row>
