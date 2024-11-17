@@ -1,23 +1,22 @@
-import { React, useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import {
   FaMicrophone,
   FaMicrophoneSlash,
   FaPause,
   FaCircle,
-  FaBullseye,
+  FaVideo,
+  FaVideoSlash,
 } from "react-icons/fa";
-import avatarImg from "../../assets/login-img.png";
-import CancelInterviewAlert from "./CancelInterviewModal"; // Import the ConfirmModal
+import avatarImg from "../../assets/summary-img.png";
+import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
-import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup"; // Import the success popup
+import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
 import { useAnalytics } from "../../hook/useAnalytics";
+
 const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
-  const recordedChunksRef = useRef([]);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for the success popup
-  const { user } = useAuthContext();
   const [isRecording, setIsRecording] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
@@ -25,9 +24,10 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [showConfirm, setShowConfirm] = useState(false); // State for the confirmation modal
   const [questionIndex, setQuestionIndex] = useState(0); // Track the current question
   const [isIntroShown, setIsIntroShown] = useState(false); // State for intro visibility
-  const [countdown, setCountdown] = useState(5); // Countdown state
+  const [countdown, setCountdown] = useState(10); // Countdown state
   const [isCountdownActive, setIsCountdownActive] = useState(false); // Track if countdown is active
   const [transcript, setTranscript] = useState("");
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for the success popup
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const streamRef = useRef(null);
@@ -37,8 +37,32 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
   const { addAnalytics, getAnalytics } = useAnalytics();
-  // function to enable camera feed
-  const enableCameraFeed = async (retryCount = 3) => {
+  const tips = [
+    "Know your resume.",
+    "Stay confident and positive.",
+    "Prepare for common questions.",
+    "Understand questions before answering.",
+    "Greet with a smile.",
+    "Speak with confidence.",
+    "Maintain eye contact with the interviewer.",
+    "Avoid negative topics.",
+    "Don’t forget to smile.",
+    "Express gratitude at the end.",
+  ];
+
+  const incrementTip = () => {
+    setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length); // Loop back to the first tip after the last one
+  };
+
+  useEffect(() => {
+    // Set interval to increment the tip every 20 seconds
+    const interval = setInterval(incrementTip, 20000);
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  const enableCameraFeed = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -51,32 +75,9 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       });
     } catch (error) {
       console.error("Error accessing camera:", error);
-
-      // Retry mechanism
-      if (retryCount > 0) {
-        console.log(
-          `Retrying to access camera... (${3 - retryCount + 1} attempt)`
-        );
-        setTimeout(() => enableCameraFeed(retryCount - 1), 1000); // Retry after 1 second
-      } else {
-        console.error("Failed to access the camera after multiple attempts.");
-      }
     }
   };
 
-  // Access camera when the component mounts
-  useEffect(() => {
-    enableCameraFeed();
-
-    return () => {
-      stopRecording();
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, []);
-
-  // Mute/Unmute audio
   const toggleMute = () => {
     setIsMuted((prev) => !prev);
     if (streamRef.current) {
@@ -364,15 +365,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     return () => clearInterval(countdownRef.current);
   }, [isCountdownActive, countdown]);
 
-  // Only reset questionIndex if moving to the next question manually
-  useEffect(() => {
-    if (!isCountdownActive) {
-      // Trigger the next question or handle the end of the questions here, as needed
-      setQuestionIndex(0);
-    }
-  }, [isCountdownActive]);
-
-  //Speech to text
   useEffect(() => {
     const recognition = new (window.SpeechRecognition ||
       window.webkitSpeechRecognition)();
@@ -392,17 +384,17 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       for (let i = event.resultIndex; i < event.results.length; i++) {
         currentTranscript += event.results[i][0].transcript;
       }
-      setTranscript(currentTranscript); // Update the transcript state with the recognized text
+      setTranscript(currentTranscript);
     };
 
-    // Start and stop the speech recognition based on recording state
     if (isRecording && !isPaused) {
       recognition.start();
     } else {
       recognition.stop();
     }
+
     return () => {
-      recognition.stop(); // Clean up when component unmounts or recording stops
+      recognition.stop();
     };
   }, [isRecording, isPaused]);
 
@@ -419,8 +411,8 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5>Video Recording</h5>
             <Button
-              className="closebtn"
               variant="link"
+              className="closebtn"
               onClick={handleClose}
               style={{ fontSize: "1.5rem", textDecoration: "none" }}
             >
@@ -491,13 +483,8 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                   className=" position-relative btn-record"
                   onClick={isRecording ? stopRecording : startRecording}
                   variant={isRecording ? "danger" : "primary"}
-                  disabled={isUploading}
                 >
-                  {isUploading
-                    ? "Uploading..."
-                    : isRecording
-                    ? "Stop Interview"
-                    : "Start Interview"}
+                  {isRecording ? "Stop Interview" : "Start Interview"}
                 </Button>
                 <Button
                   onClick={toggleMute}

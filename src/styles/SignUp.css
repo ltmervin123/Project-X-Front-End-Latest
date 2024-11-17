@@ -110,9 +110,9 @@
     width: 90%;
 }
 .account-details > p{
-    margin-left: 2.8em !important;
-    width: 50% !important;
-    font-size: 8px !important;
+    margin-left: 2em !important;
+    width: 70% !important;
+    font-size: 10px !important;
 }
 .input-group {
     display: flex;
