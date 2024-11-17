@@ -1,91 +1,129 @@
-import React from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
-import { FaSearch, FaChevronDown } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { React, useEffect } from "react";
+import { Container, Form, Button } from "react-bootstrap";
+import { FaSearch, FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
+import { useAnalytics } from "../../hook/useAnalytics";
+import { useAnalyticsContext } from "../../hook/useAnalyticsContext";
 
+//Helper function
 const getResultClass = (score) => {
-    if (score <= 1.5) return 'result-red';
-    if (score <= 5) return 'result-yellow';
-    if (score <= 7.5) return 'result-orange';
-    return 'result-green';
+  if (score <= 1.5) return "result-red";
+  if (score <= 5) return "result-yellow";
+  if (score <= 7.5) return "result-orange";
+  return "result-green";
+};
+
+//for testing date
+const getDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US"); // For US format
 };
 
 const MainDashboard = () => {
-    const navigate = useNavigate();
-    const data = [
-        { activityId: 1, activity: "Behavioral", topic: "Teamwork", date: "10 / 24 / 24", score: 9.5 },
-        { activityId: 2, activity: "Behavioral", topic: "Teamwork", date: "10 / 24 / 24", score: 2.5 },
-        { activityId: 3, activity: "Behavioral", topic: "Stress Management", date: "10 / 24 / 24", score: 5 },
-        { activityId: 4, activity: "Behavioral", topic: "Communication", date: "10 / 24 / 24", score: 7 },
-        { activityId: 5, activity: "IT", topic: "IT Specialist", date: "10 / 24 / 24", score: 9 }
-    ];
+  const { dispatch, analytics } = useAnalyticsContext();
+  const { getAnalytics, isloaading, error } = useAnalytics();
+  const navigate = useNavigate();
 
-    const handleViewResult = (activityId) => {
-        // navigate(`/result/${activityId}`);
-        navigate(`/result`);
-    };
+  const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
 
-    return (
-        <Container className='main-container2 d-flex flex-column'>
-            <div>
-                <h4>Mock Interview</h4>
-                <p>Select Professional Career Interview</p>
-            </div>
+  useEffect(() => {
+    // Analytics data is not available in the context fetch it
+    // if (!analytics) {
+    //   getAnalytics();
+    // }
 
-            <div className="analytics-search-container d-flex mb-4">
-                <Form className='analytics-search d-flex '>
-                    <Form.Group controlId="analytics" className='careerSelect position-relative me-2'>
-                        <Form.Control as="select">
-                            <option>Category</option>
-                        </Form.Control>
-                        <span className="dropdown-icon"><FaChevronDown /></span>
-                    </Form.Group>
+    getAnalytics();
+  }, [dispatch]);
 
-                    <Form.Group className="me-2 search-container w-100">
-                        <Form.Control
-                            type="text"
-                            placeholder="Search Category"
-                            className="search-input"
-                        />
-                    </Form.Group>
+  const handleViewResult = (interviewId) => {
+    navigate(`/result/${interviewId}`);
+    // navigate(`/result`);
+  };
 
-                    <Button variant="primary" className="search-button" type="button">
-                        <FaSearch />
+  return (
+    <Container className="main-container2 d-flex flex-column">
+      <div className="analytic-container-header">
+        <h4>Analytics</h4>
+      </div>
+
+      <div className="analytics-search-container d-flex mb-4">
+        <Form className="analytics-search d-flex ">
+          <Form.Group
+            controlId="analytics"
+            className="careerSelect position-relative me-2"
+          >
+            <Form.Control as="select">
+              <option>Category</option>
+            </Form.Control>
+            <span className="dropdown-icon">
+              <FaChevronDown />
+            </span>
+          </Form.Group>
+
+          <Form.Group className="me-2 search-container w-100">
+            <Form.Control
+              type="text"
+              placeholder="Search Category"
+              className="search-input"
+            />
+          </Form.Group>
+
+          <Button variant="primary" className="search-button" type="button">
+            <FaSearch />
+          </Button>
+        </Form>
+      </div>
+
+      <div className="analytics-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Difficulty</th>
+              <th>Date</th>
+              <th>Overall Result</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody className="list">
+            {interviewHistory.length > 0 ? (
+              interviewHistory.slice().reverse().map((item) => (
+                <tr key={item._id}>
+                  <td>{item.interviewDetails[0].type}</td>
+                  <td>{item.interviewDetails[0].category}</td>
+                  <td>{item.interviewDetails[0].difficulty}</td>
+                  <td>{getDate(item.createdAt)}</td>
+                  <td
+                    className={getResultClass(
+                      parseFloat(item.overallFeedback.overallPerformance)
+                    )}
+                  >
+                    {item.overallFeedback.overallPerformance}/10
+                  </td>
+                  <td>
+                    <Button
+                      variant="link"
+                      onClick={() => handleViewResult(item._id)}
+                    >
+                      View Full Result
                     </Button>
-                </Form>
-            </div>
-
-            <div className="analytics-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Activity</th>
-                            <th>Topics/Job Description</th>
-                            <th>Date</th>
-                            <th>Result</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item) => (
-                            <tr key={item.activityId}>
-                                <td>{item.activity}</td>
-                                <td>{item.topic}</td>
-                                <td>{item.date}</td>
-                                <td className={getResultClass(item.score)}>{item.score} / 10</td>
-                                <td>
-                                    <Button variant="link" onClick={() => handleViewResult(item.activityId)}>
-                                        View Full Result
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </Container>
-    );
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No data available
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </Container>
+  );
 };
 
 export default MainDashboard;

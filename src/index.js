@@ -5,12 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthContextProvider } from "./context/AuthContext";
-
+import { AnalyticsContextProvider } from "./context/AnalyticsContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <AuthContextProvider>
-    <App />
+    <AnalyticsContextProvider>
+      <App />
+    </AnalyticsContextProvider>
   </AuthContextProvider>
 );
 

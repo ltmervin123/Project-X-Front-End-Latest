@@ -1,44 +1,40 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useMemo } from "react";
 
 const AuthContext = createContext();
+
+const initialState = {
+  user: JSON.parse(localStorage.getItem("user")) || null,
+};
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      return {
-        user: action.payload,
-      };
+      localStorage.setItem("user", JSON.stringify(action.payload));
+      return { user: action.payload };
     case "LOGOUT":
-      return {
-        user: null,
-      };
+      localStorage.removeItem("user");
+      return { user: null };
     default:
       return state;
   }
 };
 
 const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, {
-    user: null,
-  });
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
+  // Log current state changes for debugging
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      dispatch({
-        type: "LOGIN",
-        payload: user,
-      });
-    }
-  }, []);
+    console.log("AuthState:", state);
+  }, [state]);
 
-  console.log("AuthSate ", state);
+  const contextValue = useMemo(
+    () => ({ ...state, dispatch }),
+    [state, dispatch]
+  );
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
-export { AuthContext, AuthContextProvider, authReducer };
+export { AuthContext, AuthContextProvider };

@@ -1,69 +1,77 @@
 :root {
-    --primary-color: #F46A05;
-    --secondary-color: #1706AC;
-    --font-white: #fff;
-    --input-bg: #686868;
-    --bg-fade-signup: #D9D9D9;
-    --font-black: #000;
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
+  --font-black: #000;
 }
 
 .result-container {
-    background-color: var(--bg-fade-signup);
-    border-radius: 10px;
-    position: relative;
+  background-color: var(--bg-fade-signup);
+  border-radius: 10px;
+  position: relative;
 }
 
 .interview-result-container,
-.analytics-container {
-    background: var(--font-white) !important;
-    color: var(--font-black) !important;
-    height: 70vh !important;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+.interview-container {
+  background: var(--font-white) !important;
+  color: var(--font-black) !important;
+  height: 70vh !important;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .interview-result-container {
-    justify-content: flex-start;
-    width: 100%;
-    border-radius: 10px !important;
+  justify-content: flex-start;
+  width: 100%;
+  border-radius: 10px !important;
 }
 
-
 .score-section > div {
-    width: 100%;
+  width: 100%;
 }
 
 .analytics-container {
-    width: 100%;
-    position: relative;
-    border-radius: 10px !important;
-    justify-content: flex-start;
+  width: 100%;
+  position: relative;
+  border-radius: 10px !important;
+  justify-content: flex-start;
 }
 
 .result-red {
-    color: #b30000; /* Dark red text */
+  color: #b30000; /* Dark red text */
 }
 
 .result-yellow {
-    color: #cc9900; /* Dark yellow text */
+  color: #cc9900; /* Dark yellow text */
 }
 
 .result-orange {
-    color: #e65c00; /* Dark orange text */
+  color: #e65c00; /* Dark orange text */
 }
 
 .result-green {
-    color: #009900; /* Dark green text */
+  color: #009900; /* Dark green text */
 }
 .question-navination {
-    font-size: 34px;
-    position: absolute;
-    bottom: 20px; /* Adjust distance from the bottom if needed */
-    left: 50%;
-    transform: translateX(-50%); /* Center-align horizontally */
+  font-size: 34px;
+  position: absolute;
+  bottom: 20px; /* Adjust distance from the bottom if needed */
+  left: 50%;
+  transform: translateX(-50%); /* Center-align horizontally */
 }
 
-.question-navination > .prev, .question-navination > .next {
-    color: var(--primary-color);
+.question-navination > .prev,
+.question-navination > .next {
+  color: var(--primary-color);
+}
+
+.pageNum {
+  color: var(--primary-color);
+  position: relative;
+  bottom: 0px;
+  bottom: -10px;
+  font-size: 30px;
 }

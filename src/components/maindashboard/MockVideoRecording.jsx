@@ -1,25 +1,33 @@
-import { React, useCallback, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef, useCallback } from "react";
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import {
   FaMicrophone,
   FaMicrophoneSlash,
   FaPause,
   FaCircle,
-  FaVideo,
-  FaVideoSlash,
+  FaBullseye,
 } from "react-icons/fa";
-import avatarImg from "../../assets/summary-img.png";
-import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Import the ConfirmModal
+import avatarImg from "../../assets/login-img.png";
+import CancelInterviewAlert from "./CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
-import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
-
-import LoadingScreen from "./loadingScreen"; // Import the loading screen
+import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup"; // Import the success popup
+import { upload } from "@testing-library/user-event/dist/upload";
 import { useAnalytics } from "../../hook/useAnalytics";
+import LoadingScreen from "./loadingScreen"; // Import the loading screen
 
-const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
-  const recordedChunksRef = useRef([]); // Ref for recorded video chunks
+const VideoRecording = ({
+  onClose,
+  interviewType,
+  difficulty,
+  category,
+  file,
+  jobDescription,
+}) => {
+  const recordedChunksRef = useRef([]);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for the success popup
+  const { user } = useAuthContext();
   const [isRecording, setIsRecording] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
@@ -30,7 +38,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [countdown, setCountdown] = useState(5); // Countdown state
   const [isCountdownActive, setIsCountdownActive] = useState(false); // Track if countdown is active
   const [transcript, setTranscript] = useState("");
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for the success popup
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const streamRef = useRef(null);
@@ -39,10 +46,9 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [questions, setQuestions] = useState([]); // State for questions
   const [isUploading, setIsUploading] = useState(false);
   const [interviewId, setInterviewId] = useState("");
-  const { getAnalytics } = useAnalytics();
-  const { user } = useAuthContext();
-  const [currentTipIndex, setCurrentTipIndex] = useState(0);
+  const { addAnalytics } = useAnalytics();
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+  const [currentTipIndex, setCurrentTipIndex] = useState(0);
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -67,19 +73,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     // Cleanup the interval on component unmount
     return () => clearInterval(interval);
   }, []);
-
-  // Access camera when the component mounts
-  useEffect(() => {
-    enableCameraFeed();
-
-    return () => {
-      stopRecording();
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, []);
-
+  // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -106,6 +100,19 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     }
   };
 
+  // Access camera when the component mounts
+  useEffect(() => {
+    enableCameraFeed();
+
+    return () => {
+      stopRecording();
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
+  // Mute/Unmute audio
   const toggleMute = () => {
     setIsMuted((prev) => !prev);
     if (streamRef.current) {
@@ -221,21 +228,12 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      // Set generating feedback state to true
       setIsGeneratingFeedback(true);
-
       // Add analytics to the backend
       await createFeedback();
-
       // Add analytics to the context
-      getAnalytics();
-
-      // Set generating feedback state to false
+      addAnalytics();
       setIsGeneratingFeedback(false);
-
-      //Set generating feedback state to false
-      setIsGeneratingFeedback(false);
-
       // Show the success popup
       setShowSuccessPopup(true);
       // Reset interview ID
@@ -270,7 +268,10 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     try {
       const formData = new FormData();
       formData.append("type", interviewType);
+      formData.append("difficulty", difficulty);
       formData.append("category", category);
+      formData.append("file", file);
+      formData.append("jobDescription", jobDescription);
 
       const response = await axios.post(
         "http://localhost:5000/api/interview/generate-questions",
@@ -333,7 +334,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     setShowConfirm(false);
     stopRecording(); // Ensure recording is stopped before closing
     onClose(); // Proceed with closing the modal
-    // window.location.reload(); // Reload the page
+    window.location.reload(); // Reload the page
   };
 
   // Upload video to the server
@@ -404,6 +405,15 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     return () => clearInterval(countdownRef.current);
   }, [isCountdownActive, countdown]);
 
+  // Only reset questionIndex if moving to the next question manually
+  useEffect(() => {
+    if (!isCountdownActive) {
+      // Trigger the next question or handle the end of the questions here, as needed
+      setQuestionIndex(0);
+    }
+  }, [isCountdownActive]);
+
+  //Speech to text
   useEffect(() => {
     const recognition = new (window.SpeechRecognition ||
       window.webkitSpeechRecognition)();
@@ -423,17 +433,17 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       for (let i = event.resultIndex; i < event.results.length; i++) {
         currentTranscript += event.results[i][0].transcript;
       }
-      setTranscript(currentTranscript);
+      setTranscript(currentTranscript); // Update the transcript state with the recognized text
     };
 
+    // Start and stop the speech recognition based on recording state
     if (isRecording && !isPaused) {
       recognition.start();
     } else {
       recognition.stop();
     }
-
     return () => {
-      recognition.stop();
+      recognition.stop(); // Clean up when component unmounts or recording stops
     };
   }, [isRecording, isPaused]);
 
@@ -450,8 +460,8 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5>Video Recording</h5>
             <Button
-              variant="link"
               className="closebtn"
+              variant="link"
               onClick={handleClose}
               style={{ fontSize: "1.5rem", textDecoration: "none" }}
             >
@@ -546,13 +556,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                 )}
               </div>
             </Col>
-            {/* <div className="tips-area">
-              <p>Tips: </p>
-              <p>{tips[currentTipIndex]}</p>
-              <div className="tips-number">
-                {currentTipIndex + 1} out of {tips.length}
-              </div>
-            </div> */}
           </Row>
         </Modal.Body>
       </Modal>
@@ -566,12 +569,10 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
           message="Are you sure you want to cancel the interview?"
         />
       )}
-
       {isGeneratingFeedback && <LoadingScreen />}
-
       {showSuccessPopup && <InterviewSuccessfulPopup />}
     </>
   );
 };
 
-export default BehavioralVideoRecording;
+export default VideoRecording;
