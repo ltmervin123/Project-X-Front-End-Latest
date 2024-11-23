@@ -115,6 +115,11 @@ const LoginForm = () => {
               <FaGoogle className="social-icon" />
               <FaFacebook className="social-icon" />
             </div>
+            <button
+              className="signup-button"
+              onClick={() => (window.location.href = "/signup")}
+            >
+            </button>
             <p>Don't have an account?</p>
 
             <button

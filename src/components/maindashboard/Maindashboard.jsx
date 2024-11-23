@@ -1,98 +1,78 @@
-import { React, useState, useEffect } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
-import { FaSearch, FaChevronDown } from "react-icons/fa";
+import React, { useState } from "react";
+import { Container } from "react-bootstrap";
 import InterviewDifficultyCategoryPopup from "../maindashboard/InterviewDifficultyCategoryPopup";
 import UploadPopUp from "../maindashboard/UploadPopUp";
 import JobDescriptionPopup from "../maindashboard/JobDescriptionPopup";
 import VideoRecording from "./MockVideoRecording";
 import BehavioralVideoRecording from "../maindashboard/BehavioralVideoRecording";
+import BasicVideoRecording from "../maindashboard/BasicVideoRecording"; 
+import BehavioralCategoryPopup from "../maindashboard/BehavioralCategoryPopup"; 
 
 const MainDashboard = () => {
-  const careerCategories = [
-    "Software Engineering",
-    "Data Science",
-    "Product Management",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-    "DEFAULT",
-  ];
 
-  const behavioralSkills = [
-    "Teamwork",
-    "Adaptability",
-    "Communication",
-    "Stress Management",
-  ];
-
-  const [showModal, setShowModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showJobDescriptionModal, setShowJobDescriptionModal] = useState(false);
   const [showVideoRecording, setShowVideoRecording] = useState(false);
-  const [showBehavioralVideoRecording, setShowBehavioralVideoRecording] =
-    useState(false);
+  const [showBehavioralVideoRecording, setShowBehavioralVideoRecording] = useState(false);
+  const [showBasicVideoRecording, setShowBasicVideoRecording] = useState(false); 
+  const [showBehavioralCategoryPopup, setShowBehavioralCategoryPopup] = useState(false); 
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [file, setFile] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
   const [interviewType, setInterviewType] = useState("");
 
-  const handleCategory = (category) => {
-    setCategory(category);
-    console.log("Selected category:", category);
-    // console.log("Interview Type:", interviewType);
-    if (behavioralSkills.includes(category)) {
+  const handleCategory = (selectedCategory) => {
+    setCategory(selectedCategory);
+    console.log("Selected category:", selectedCategory);
+    
+    if (selectedCategory === "BASIC") {
+      setInterviewType("Basic");
+      setShowBasicVideoRecording(true);
+    } else if (selectedCategory === "BEHAVIORAL") {
       setInterviewType("Behavioral");
-      setShowBehavioralVideoRecording(true);
-    } else {
-      setInterviewType("Mock");
-      setShowModal(true);
+      setShowBehavioralCategoryPopup(true);
+    } else if (selectedCategory === "EXPERT") {
+      // Show the UploadPopUp for the "Expert" category
+      setShowUploadModal(true);
     }
   };
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+  const handleSelectBehavioralSkill = (skill) => {
+    console.log("Selected Behavioral Category:", skill);
+    setCategory(skill);
+    setShowBehavioralCategoryPopup(false);
+    setShowBehavioralVideoRecording(true);
   };
 
-  useEffect(() => {
-    console.log("Updated Interview Type:", interviewType);
-  }, [interviewType]);
-
   const handleClose = () => {
-    setShowModal(false);
     setShowUploadModal(false);
     setShowJobDescriptionModal(false);
     setShowVideoRecording(false);
     setShowBehavioralVideoRecording(false);
+    setShowBasicVideoRecording(false);
+    setShowBehavioralCategoryPopup(false);
     setCategory("");
   };
 
-  const handleDifficulty = (difficulty) => {
-    setDifficulty(difficulty);
-    setShowModal(false);
-    setShowUploadModal(true);
-  };
 
-  const handleFileUpload = (file) => {
-    setFile(file);
-    setShowUploadModal(false);
-    setShowJobDescriptionModal(true);
-  };
+  const handleFileUpload = (uploadedFile) => {
+    setFile(uploadedFile); // Store the uploaded file if needed
+    console.log("Uploaded file:", uploadedFile); // Log the uploaded file
+    setShowUploadModal(false); // Close the UploadPopUp
+    setShowJobDescriptionModal(true); // Open the JobDescriptionPopup
+};
 
   const handleJobDescription = (jobDescription) => {
-    setJobDescription(jobDescription);
     setShowJobDescriptionModal(false);
     setShowVideoRecording(true);
   };
-
-  const filteredCategories = careerCategories.filter((category) =>
-    category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const filteredBehavioralSkills = behavioralSkills.filter((skill) =>
-    skill.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleJobDescriptionSubmit = (description) => {
+    setJobDescription(description); // Store the job description if needed
+    console.log("Job description submitted:", description); // Log the job description
+    setShowJobDescriptionModal(false); // Close the JobDescriptionPopup
+    setShowVideoRecording(true); // Open the VideoRecording component
+};
 
   return (
     <Container className="main-container1 d-flex flex-column">
@@ -100,126 +80,37 @@ const MainDashboard = () => {
         <h4>Mock Interview</h4>
         <p>Select Professional Career Interview</p>
       </div>
-      <div className="career-search-container d-flex">
-        <Form inline className="career-search d-flex">
-          <Form.Group
-            controlId="careerSelect"
-            className="careerSelect position-relative"
-          >
-            <Form.Control as="select">
-              <option>Categories</option>
-              {careerCategories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              ))}
-            </Form.Control>
-            <span className="dropdown-icon">
-              <FaChevronDown />
-            </span>
-          </Form.Group>
-          <Form.Group className="me-2 search-container">
-            <Form.Control
-              type="text"
-              placeholder="Search...."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </Form.Group>
-          <button className="search-button" type="button">
-            <FaSearch />
-          </button>
-        </Form>
+
+      {/* Combined Categories */}
+      <div className="category-container">
+        <div className="category-card" onClick={() => handleCategory("BEHAVIORAL")}>
+          <div className="category-card-title">BEHAVIORAL</div>
+          <p className="category-description">A behavioral interview focuses on your past behavior in specific situations to predict future performance.</p>
+        </div>
+        <div className="category-card" onClick={() => handleCategory("BASIC")}>
+          <div className="category-card-title">BASIC</div>
+          <p className="category-description">A basic interview is usually a more straightforward conversation where the focus is on your qualifications and experience.</p>
+        </div>
+        <div className="category-card" onClick={() => handleCategory("EXPERT")}>
+          <div className="category-card-title">EXPERT</div>
+          <p className="category-description">A mock interview simulates the interview experience to help you prepare.</p>
+        </div>
       </div>
 
-      {/* Combined Categories and Behavioral Skills */}
-      <div className="category-container ">
-        <Row className="d-flex align-items-center g-2">
-          <div className="category-separtor-header d-flex align-items-center">
-            <div className="text-behavioral-header d-flex align-items-center">
-              BEHAVIORAL
-            </div>
-            <div className="header-text-interview text-center">
-              <p>"People & Performance Interview"</p>
-            </div>
-          </div>
-          <div className="skill-container d-flex w-100">
-            <div className="skill-space"></div>
-
-            <div className="skill-col d-flex ">
-              {filteredBehavioralSkills.map((category, index) => (
-                <div
-                  className="skill-card"
-                  key={index}
-                  onClick={() => handleCategory(category)}
-                >
-                  <p className="skill-title">{category}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Row>
-
-        <Row className="d-flex align-items-center g-3 mt-4">
-          <div className="category-separtor-header d-flex align-items-center">
-            <div className="text-behavioral-header d-flex align-items-center">
-              TOPICS
-            </div>
-            <div className="header-text-interview text-center">
-              <p>“Regular & Skill Interview”</p>
-            </div>
-          </div>
-          <div className="d-flex flex-wrap justify-content-start gap-3">
-            {filteredCategories.map((category, index) => (
-              <Col md={5} className="card-col " key={index}>
-                <div
-                  className="category-card"
-                  onClick={() => handleCategory(category)}
-                >
-                  <div className="card-body">
-                    <div className="img-category"></div>
-                    <p className="card-title">{category}</p>
-                  </div>
-                </div>
-              </Col>
-            ))}
-          </div>
-        </Row>
-      </div>
-
-      {/* Modals */}
-      <InterviewDifficultyCategoryPopup
-        show={showModal}
-        onClose={handleClose}
-        onSelectDifficulty={handleDifficulty}
+      {/* Behavioral Category Popup */}
+      <BehavioralCategoryPopup 
+        show={showBehavioralCategoryPopup} 
+        onClose={() => setShowBehavioralCategoryPopup(false)} 
+        onSelectCategory={handleSelectBehavioralSkill} 
       />
-      <UploadPopUp
-        show={showUploadModal}
-        onClose={handleClose}
-        onUploadComplete={handleFileUpload}
-      />
-      <JobDescriptionPopup
-        show={showJobDescriptionModal}
-        onClose={handleClose}
-        onSubmit={handleJobDescription}
-      />
-      {showVideoRecording && (
-        <VideoRecording
-          onClose={handleClose}
-          interviewType={interviewType}
-          difficulty={difficulty}
-          category={category}
-          file={file}
-          jobDescription={jobDescription}
-        />
-      )}
-      {showBehavioralVideoRecording && (
-        <BehavioralVideoRecording
-          onClose={handleClose}
-          interviewType={interviewType}
-          category={category}
-        />
-      )}
+
+      {/* Behavioral Video Recording */}
+      {showBehavioralVideoRecording && <BehavioralVideoRecording category={category} onClose={handleClose} />}
+
+      {/* Other Modals */}
+      {showUploadModal && <UploadPopUp show={showUploadModal} onClose={handleClose} onUploadComplete={handleFileUpload} />}      
+      {showJobDescriptionModal && <JobDescriptionPopup show={showJobDescriptionModal} onClose={handleClose} onSubmit={handleJobDescriptionSubmit} />}      {showVideoRecording && <VideoRecording onClose={handleClose} />}
+      {showBasicVideoRecording && <BasicVideoRecording onClose={handleClose} />}
     </Container>
   );
 };
