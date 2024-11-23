@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Button, Card } from "react-bootstrap";
 import '../../styles/BehavioralCategoryPopup.css'; // Import the CSS file
 
-const BehavioralCategoryPopup = ({ show, onClose, onSelectCategory }) => {
+const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory }) => {
   const categories = [
     { title: "Teamwork", description: "A teamwork interview is all about understanding how well you work with others. It's not just about your skills, but how you communicate, collaborate, and contribute in a group setting.", color: "#9747FF" },
     { title: "Adaptability", description: "It is about showing how flexible you are when things change. It's not just about sticking to a plan, but how you adjust when faced with new challenges or unexpected situations.", color: "#F46A05" },
@@ -10,9 +10,8 @@ const BehavioralCategoryPopup = ({ show, onClose, onSelectCategory }) => {
     { title: "Stress Management", description: "It focuses on how you handle pressure and stay calm in tough situations. It’s about showing that you can keep your cool, prioritize tasks, and maintain a positive mindset when things get hectic.", color: "#E33629" },
   ];
 
-  const handleCategorySelect = (behavioral) => {
-    console.log("Selected Behavioral Category:", behavioral); // Log the selected category
-    onSelectCategory(behavioral);
+  const handleCategorySelect = (category) => {
+    handleSelectBehavioralCategory(category);
     onClose();
   };
 
