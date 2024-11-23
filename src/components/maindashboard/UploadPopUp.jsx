@@ -22,7 +22,7 @@ const UploadPopUp = ({ show, onClose, onUploadComplete }) => {
       setErrorMessage("");
 
       console.log("Uploaded Files (via Drag and Drop):", validFiles); // Log files to console
-      onUploadComplete(); // Trigger to close UploadPopUp and open JobDescriptionPopup
+      onUploadComplete(validFiles[0]);// Trigger to close UploadPopUp and open JobDescriptionPopup
     }
   };
 

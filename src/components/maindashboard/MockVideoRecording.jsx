@@ -1,5 +1,6 @@
 import { React, useState, useEffect, useRef, useCallback } from "react";
-import { Modal, Button, Row, Col } from "react-bootstrap";
+import { Modal, Button, Row, Col,Spinner  } from "react-bootstrap";
+import Draggable from 'react-draggable';
 import {
   FaMicrophone,
   FaMicrophoneSlash,
@@ -15,6 +16,7 @@ import axios from "axios";
 import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup"; // Import the success popup
 import { upload } from "@testing-library/user-event/dist/upload";
 import { useAnalytics } from "../../hook/useAnalytics";
+import tipsAvatar from '../../assets/tips-avatar.png';
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
 
 const VideoRecording = ({
@@ -413,39 +415,39 @@ const VideoRecording = ({
     }
   }, [isCountdownActive]);
 
-  //Speech to text
-  useEffect(() => {
-    const recognition = new (window.SpeechRecognition ||
-      window.webkitSpeechRecognition)();
-    recognition.continuous = true;
-    recognition.interimResults = true;
+  // //Speech to text
+  // useEffect(() => {
+  //   const recognition = new (window.SpeechRecognition ||
+  //     window.webkitSpeechRecognition)();
+  //   recognition.continuous = true;
+  //   recognition.interimResults = true;
 
-    recognition.onstart = () => {
-      console.log("Speech recognition started");
-    };
+  //   recognition.onstart = () => {
+  //     console.log("Speech recognition started");
+  //   };
 
-    recognition.onend = () => {
-      console.log("Speech recognition ended");
-    };
+  //   recognition.onend = () => {
+  //     console.log("Speech recognition ended");
+  //   };
 
-    recognition.onresult = (event) => {
-      let currentTranscript = "";
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        currentTranscript += event.results[i][0].transcript;
-      }
-      setTranscript(currentTranscript); // Update the transcript state with the recognized text
-    };
+  //   recognition.onresult = (event) => {
+  //     let currentTranscript = "";
+  //     for (let i = event.resultIndex; i < event.results.length; i++) {
+  //       currentTranscript += event.results[i][0].transcript;
+  //     }
+  //     setTranscript(currentTranscript); // Update the transcript state with the recognized text
+  //   };
 
-    // Start and stop the speech recognition based on recording state
-    if (isRecording && !isPaused) {
-      recognition.start();
-    } else {
-      recognition.stop();
-    }
-    return () => {
-      recognition.stop(); // Clean up when component unmounts or recording stops
-    };
-  }, [isRecording, isPaused]);
+  //   // Start and stop the speech recognition based on recording state
+  //   if (isRecording && !isPaused) {
+  //     recognition.start();
+  //   } else {
+  //     recognition.stop();
+  //   }
+  //   return () => {
+  //     recognition.stop(); // Clean up when component unmounts or recording stops
+  //   };
+  // }, [isRecording, isPaused]);
 
   return (
     <>
@@ -469,8 +471,8 @@ const VideoRecording = ({
             </Button>
           </div>
           <Row>
-            <Col md={8} className="d-flex flex-column align-items-center">
-              <div className="video-area position-relative d-flex align-items-center">
+            <Col md={7} className="d-flex flex-column align-items-center">
+            <div className="video-area position-relative d-flex align-items-center">
                 <video
                   ref={videoRef}
                   autoPlay
@@ -482,9 +484,18 @@ const VideoRecording = ({
                     timer.seconds
                   ).padStart(2, "0")} / 2:00`}
                 </p>
-                <div className="position-absolute start-50 d-flex align-items-center translate-middle-x pause-indicator">
-                  {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />}
-                </div>
+                <Button className="position-absolute start-50 d-flex align-items-center translate-middle-x pause-indicator"
+                 onClick={isRecording ? stopRecording : startRecording}
+                 variant={isRecording ? "danger" : "primary"}
+                 disabled={isUploading}>
+                  
+                  {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
+                  {isUploading
+                    ? <Spinner></Spinner>
+                    : isRecording
+                    ? <FaPause size={30} />
+                    : <FaCircle size={30} />}
+                </Button>
                 {/* Countdown Overlay */}
                 {isCountdownActive && countdown > 0 && (
                   <div className="countdown-overlay">
@@ -493,36 +504,18 @@ const VideoRecording = ({
                   </div>
                 )}
               </div>
-              <div className="d-flex align-items-center m-3 gap-3">
-                <Button
-                  className=" position-relative btn-record"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  variant={isRecording ? "danger" : "primary"}
-                  disabled={isUploading}
-                >
-                  {isUploading
-                    ? "Uploading..."
-                    : isRecording
-                    ? "Stop Interview"
-                    : "Start Interview"}
-                </Button>
-                <Button
-                  onClick={toggleMute}
-                  variant="link"
-                  className={`btn-mute d-flex ${isMuted ? "muted" : ""}`}
-                >
-                  {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                </Button>
-              </div>
-              <div className="tips-area">
-                <p>Tips: </p>
-                <p>{tips[currentTipIndex]}</p>
-                <div className="tips-number">
-                  {currentTipIndex + 1} out of {tips.length}
+
+              <Draggable>
+                <div className="tips-container d-flex">
+                  <div className="tips">
+                    <p className="tips-header">Tips:</p>
+                    <p className="tips-content">{tips[currentTipIndex]}</p>
+                  </div>
+                  <img className="tips-avatar" src={tipsAvatar} alt="Tips Avatar" />
                 </div>
-              </div>
+              </Draggable>
             </Col>
-            <Col md={4} className="d-flex flex-column align-items-center gap-3">
+            <Col md={5} className="d-flex flex-column align-items-center gap-3">
               <img
                 src={avatarImg}
                 alt="Avatar"
@@ -532,7 +525,7 @@ const VideoRecording = ({
                 {isIntroShown ? (
                   <>
                     {isCountdownActive && countdown > 0 ? (
-                      <p>Generating.....</p> // Displaying "Generating....." during countdown
+                      <i>Hold tight! We’re preparing the perfect questions for you...</i> // Displaying "Generating....." during countdown
                     ) : (
                       <>
                         <h4>Question:</h4>
@@ -549,13 +542,21 @@ const VideoRecording = ({
                     <p>
                       We will start with a few questions. Please be prepared.
                     </p>
-                    <Button variant="link" onClick={handleIntroFinish}>
-                      Start Interview
-                    </Button>
+                    <div className="d-flex justify-content-center w-100">
+                   
+                      <Button className="btn-startinterview d-flex align-items-center " variant="link" onClick={handleIntroFinish}>
+                      <svg width="20" height="20" viewBox="0 0 20 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4641 8.19381L28.2641 2.87953C28.3176 2.72713 28.3271 2.56269 28.2911 2.40516C28.2553 2.24764 28.1758 2.10346 28.0616 1.98924C27.9474 1.87501 27.8031 1.79538 27.6456 1.75954C27.4881 1.7237 27.3236 1.73311 27.1712 1.78667L21.8569 3.58667C21.7258 3.63285 21.5854 3.64721 21.4476 3.62859C21.3097 3.60996 21.1783 3.55888 21.064 3.47953L16.564 0.115243C16.4363 0.0413301 16.2916 0.00165214 16.1441 5.04898e-05C15.9965 -0.00155116 15.851 0.0349779 15.7217 0.106101C15.5924 0.177224 15.4836 0.28053 15.406 0.406018C15.3283 0.531506 15.2843 0.674925 15.2783 0.822386V6.43667C15.2743 6.57426 15.2395 6.7092 15.1764 6.83158C15.1134 6.95396 15.0237 7.06065 14.914 7.14381L10.3283 10.3795C10.1968 10.4713 10.0936 10.5981 10.0306 10.7456C9.96754 10.8931 9.94714 11.0553 9.9717 11.2138C9.99626 11.3722 10.0648 11.5207 10.1695 11.6422C10.2742 11.7636 10.4109 11.8533 10.564 11.901L15.9212 13.5724C16.0536 13.6105 16.1742 13.6817 16.2716 13.7791C16.3691 13.8765 16.4402 13.9971 16.4783 14.1295L18.1498 19.4867C18.1974 19.6398 18.2871 19.7765 18.4086 19.8812C18.5301 19.9859 18.6785 20.0545 18.837 20.079C18.9955 20.1036 19.1577 20.0832 19.3051 20.0201C19.4526 19.9571 19.5794 19.8539 19.6712 19.7224L22.7998 15.2224C22.8829 15.1127 22.9896 15.023 23.112 14.96C23.2344 14.897 23.3694 14.8622 23.5069 14.8581H29.1212C29.2821 14.8622 29.4411 14.8208 29.5796 14.7387C29.7182 14.6566 29.8309 14.5372 29.9046 14.394C29.9786 14.2509 30.0105 14.0899 29.997 13.9294C29.9835 13.7689 29.925 13.6155 29.8284 13.4867L26.4641 8.98667C26.4019 8.86376 26.3696 8.72796 26.3696 8.59024C26.3696 8.45252 26.4019 8.31673 26.4641 8.19381ZM0.627628 26.3419L11.8587 15.1109L14.2072 15.8436L14.9158 18.1148L3.65809 29.3726C2.82124 30.2094 1.46447 30.2094 0.627628 29.3726C-0.209209 28.5356 -0.209209 27.1789 0.627628 26.3419Z" fill="white"/>
+                      </svg>
+                        <p>Generate Questions</p>
+                        
+                      </Button>
+                    </div>
                   </>
                 )}
               </div>
             </Col>
+
           </Row>
         </Modal.Body>
       </Modal>

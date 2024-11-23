@@ -1,0 +1,76 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --card-color: #686868;
+    --avatar-bg: #8b8a8a;
+    --text-color: #000;
+    --subcription-btn: #319F43;
+    --acttivit-card-bg: #d9d9d9;
+  }
+.user-profile-section{
+    border: 2px solid var(--font-white);
+    border-radius: 20px;
+    height: 90vh;
+    padding: 30px 100px 50px 50px  ;
+}
+.user-nav{
+    background: var(--font-white);
+    border-radius: 50px ;
+}
+.user-nav > .nav-item{
+    width: 33%;
+    text-align: center;
+}
+.btn-update-user-info{
+    width: 50%;
+    background: var(--card-color);
+    border: 10px;
+    margin-bottom: 20px;
+}
+.btn-update-user-info:hover{
+    background: var(--avatar-bg);
+}
+.avatar-container{
+    align-items: center;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: var(--avatar-bg);
+}
+.user-default-img{
+    width: 60%;
+    
+}
+.upload-icon{
+    top: 20px;
+    right: 20px;
+    height: 50px;
+    width: 50px;
+    background: var(--font-white);
+    border-radius: 50%;
+    padding: 5px;
+    color: var(--primary-color);
+}
+.footer-personal-info{
+    border: 2px solid var(--font-white);
+    border-top-color: #f46a05;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 10px;
+}
+.footer-personal-info > div > div{
+    width: 70% !important;
+}
+.footer-personal-info > h5{
+    color: var(--avatar-bg);
+}
+.footer-personal-info > div > button{
+    width: 30%;
+    height: 60px;
+    background: var(--subcription-btn);
+    border: none;
+    border-radius: 20px;
+    font-size: 21px;
+}

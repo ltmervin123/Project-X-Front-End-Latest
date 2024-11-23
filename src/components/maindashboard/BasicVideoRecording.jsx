@@ -21,7 +21,7 @@ import LoadingScreen from "./loadingScreen"; // Import the loading screen
 import tipsAvatar from '../../assets/tips-avatar.png';
 import { useAnalytics } from "../../hook/useAnalytics";
 
-const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
+const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
   const [isRecording, setIsRecording] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -495,27 +495,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                   </div>
                 )}
               </div>
-              <div className="d-flex align-items-center m-3 gap-3">
-                {/* <Button
-                  className=" position-relative btn-record"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  variant={isRecording ? "danger" : "primary"}
-                  disabled={isUploading}
-                >
-                  {isUploading
-                    ? "Uploading..."
-                    : isRecording
-                    ? "Stop Interview"
-                    : "Start Interview"}
-                </Button> */}
-                {/* <Button
-                  onClick={toggleMute}
-                  variant="link"
-                  className={`btn-mute d-flex ${isMuted ? "muted" : ""}`}
-                >
-                  {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                </Button> */}
-              </div>
+
               
               <Draggable>
                 <div className="tips-container d-flex">
@@ -590,4 +570,4 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   );
 };
 
-export default BehavioralVideoRecording;
+export default BasicVideoRecording;

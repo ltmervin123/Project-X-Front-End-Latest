@@ -1,0 +1,90 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --card-color: #686868;
+    --text-color: #000;
+    --acttivit-card-bg: #d9d9d9;
+}
+
+.behavioral-cards {
+    display: flex;
+}
+
+.behavioral-card {
+    color: var(--font-white) !important;
+    border-radius: 20px !important;
+    border: none;
+    height: 240px !important;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.2s; /* Combine transitions */
+    cursor: pointer; /* Change cursor to pointer for better UX */
+    width: 23%; /* Set a fixed width for the cards */
+    background: var(--card-color);
+}
+
+.behavioral-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../assets/summary-img.png) no-repeat;
+    background-size: contain;
+    background-position: bottom center;
+}
+
+.behavioral-card > .card-body {
+    width: 100%;
+}
+
+.behavioral-title {
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    width: 100%;
+    left: 0;
+}
+
+.behavioral-description {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    color: var(--font-white);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 13px;
+    font-weight: 50;
+    text-align: left;
+    opacity: 0; /* Start hidden */
+    visibility: hidden; /* Start hidden */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition for fade effect */
+}
+
+.behavioral-description > .behavioral-title1 {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.behavioral-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+}
+
+.behavioral-card:hover .behavioral-description {
+    transition: opacity 0.9s ease, visibility 0.9s ease; /* Ensure smooth transition */
+    opacity: 1; /* Fade in */
+    visibility: visible; /* Make visible */
+}
+
+.closebtn {
+    color: #000; /* Change color of close button */
+}

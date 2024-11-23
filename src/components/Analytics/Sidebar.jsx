@@ -3,7 +3,7 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import { FaHome, FaFileAlt, FaChartBar, FaSignOutAlt } from "react-icons/fa";
-import defaultAvatar from "../../assets/default.jpg";
+import defaultAvatar from "../../assets/default.png";
 import { useLocation } from "react-router-dom";
 import { useLogout } from "../../hook/useLogout";
 import { useAuthContext } from "../../hook/useAuthContext";

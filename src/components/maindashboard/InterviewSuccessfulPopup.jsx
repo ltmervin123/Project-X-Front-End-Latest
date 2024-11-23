@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import avatarImg from "../../assets/login-img.png";
+import SuccessAvatar from '../../assets/logo.png';
 
 const InterviewSuccessfulPopup = () => {
   return (
@@ -10,15 +10,22 @@ const InterviewSuccessfulPopup = () => {
       dialogClassName="interviewsuccess-modal-width"
       backdrop={true}
     >
-      <Modal.Body className="d-flex align-items-center flex-column">
+      <Modal.Body className="d-flex align-items-center flex-column position-relative">
+        <img src={SuccessAvatar} alt="" />
         <p>Congratulations! Your interview was successfully recorded.</p>
-        <Button
-          variant="primary"
-          onClick={() => (window.location.href = "/analytics")}
-        >
-          View Analytics
-        </Button>
-        <img src={avatarImg} alt="" />
+        <div className="d-flex gap-2">
+          <Button className="btn-analytics"
+            onClick={() => (window.location.href = "/analytics")}
+          >
+            View Your Results
+          </Button>
+          <Button className="btn-return-maindashboard"
+            onClick={() => (window.location.href = "/maindashboard")}
+          >
+            Back for Interview
+          </Button>
+        </div>
+        
       </Modal.Body>
     </Modal>
   );
