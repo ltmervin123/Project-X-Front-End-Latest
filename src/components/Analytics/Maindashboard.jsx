@@ -81,7 +81,6 @@ const MainDashboard = () => {
             <tr>
               <th>Type</th>
               <th>Category</th>
-              <th>Difficulty</th>
               <th>Date</th>
               <th>Overall Result</th>
               <th>Action</th>
@@ -89,29 +88,31 @@ const MainDashboard = () => {
           </thead>
           <tbody className="list">
             {interviewHistory.length > 0 ? (
-              interviewHistory.slice().reverse().map((item) => (
-                <tr key={item._id}>
-                  <td>{item.interviewDetails[0].type}</td>
-                  <td>{item.interviewDetails[0].category}</td>
-                  <td>{item.interviewDetails[0].difficulty}</td>
-                  <td>{getDate(item.createdAt)}</td>
-                  <td
-                    className={getResultClass(
-                      parseFloat(item.overallFeedback.overallPerformance)
-                    )}
-                  >
-                    {item.overallFeedback.overallPerformance}/10
-                  </td>
-                  <td>
-                    <Button
-                      variant="link"
-                      onClick={() => handleViewResult(item._id)}
+              interviewHistory
+                .slice()
+                .reverse()
+                .map((item) => (
+                  <tr key={item._id}>
+                    <td>{item.interviewDetails[0].type}</td>
+                    <td>{item.interviewDetails[0].category}</td>
+                    <td>{getDate(item.createdAt)}</td>
+                    <td
+                      className={getResultClass(
+                        parseFloat(item.overallFeedback.overallPerformance)
+                      )}
                     >
-                      View Full Result
-                    </Button>
-                  </td>
-                </tr>
-              ))
+                      {item.overallFeedback.overallPerformance}/10
+                    </td>
+                    <td>
+                      <Button
+                        variant="link"
+                        onClick={() => handleViewResult(item._id)}
+                      >
+                        View Full Result
+                      </Button>
+                    </td>
+                  </tr>
+                ))
             ) : (
               <tr>
                 <td colSpan="6" className="text-center">
