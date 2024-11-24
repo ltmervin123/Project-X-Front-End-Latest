@@ -95,13 +95,11 @@ body{
 /* Hero Section */
 .hero-container {
     position: relative; /* Make the container relative */
-    background-image: url('../assets/hero-img.png'); /* Set your background image */
-    background-size:contain; /* Cover the entire section */
+    background-image: url('../assets/hero-avatar.png'); /* Set your background image */
+    background-size:550px; /* Cover the entire section */
     background-position: bottom right; /* Position the image at the bottom right */
     background-repeat: no-repeat;
     min-height: 90%; /* Ensure the section takes up at least 80% of the viewport height */
-    
-
 }
 
 h1 {

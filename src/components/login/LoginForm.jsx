@@ -41,8 +41,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="row main-login">
-      <div className="col-md-4 d-none d-md-block image-overlay"></div>
+    <div className="row main-login justify-content-end">
+            <div className="col-md-6 d-flex align-items-center justify-content-center "></div>
       <div className="col-md-6 d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
@@ -127,7 +127,17 @@ const LoginForm = () => {
               <FaGoogle className="social-icon" />
               <FaFacebook className="social-icon" />
             </div>
-            <p>Don't have an account?</p>
+            <button
+              className="guest-button"
+              onClick={() => (window.location.href = "/maindashboard")}
+            >
+              Continue as Guest
+            </button>
+            <div>
+              <p>Don't have an account?</p>
+      
+            </div>
+            
             <button
               className="signup-button"
               onClick={() => (window.location.href = "/signup")}

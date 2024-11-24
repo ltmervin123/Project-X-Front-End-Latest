@@ -166,13 +166,27 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url(../assets/login-img.png) no-repeat;
   background-size: contain;
   background-position: bottom center;
+  background-repeat: no-repeat;
   background-color: var(--primary-color);
   filter: grayscale(100%);
   z-index: 20;
   transition: filter 0.3s ease;
+}
+
+/* Specific background images for each card */
+.category-card.bg-behavioral::before {
+  
+  background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
+}
+
+.category-card.bg-basic::before {
+  background-image: url(../assets/basic.png); /* Replace with your actual image path */
+}
+
+.category-card.bg-expert::before {
+  background-image: url(../assets/expert.png); /* Replace with your actual image path */
 }
 
 .category-card:hover::before {

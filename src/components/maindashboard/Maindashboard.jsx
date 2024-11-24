@@ -91,7 +91,7 @@ const MainDashboard = () => {
       {/* Combined Categories */}
       <div className="category-container">
         <div
-          className="category-card"
+          className="category-card bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}
         >
           <div className="category-card-title">BEHAVIORAL</div>
@@ -101,7 +101,7 @@ const MainDashboard = () => {
           </p>
         </div>
         <div
-          className="category-card"
+          className="category-card bg-basic"
           onClick={() => handleInterviewType("BASIC")}
         >
           <div className="category-card-title">BASIC</div>
@@ -111,7 +111,7 @@ const MainDashboard = () => {
           </p>
         </div>
         <div
-          className="category-card"
+          className="category-card bg-expert"
           onClick={() => handleInterviewType("EXPERT")}
         >
           <div className="category-card-title">EXPERT</div>

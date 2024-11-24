@@ -28,8 +28,8 @@
     border-radius: 50%;
 }
 
-.user-avatar-info > div, .user-avatar-info > small {
-    color: var(--primary-color);
+.user-avatar-info > div, .user-avatar-info > .userprofilelink{
+    color: var(--primary-color) !important;
 }
 
 .user-avatar-info > div {

@@ -25,9 +25,13 @@ const Sidebar = () => {
       >
         <img src={logo} alt="Logo" width="55" height="55" className="me-2" />
         <div>
-        <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
+          <div className="logoname">
+            HR-<div className="logocolor">HATCH</div>{" "}
+          </div>{" "}
+          <small className="sublogoname">The Tech Behind Talent.</small>
         </div>
       </Navbar.Brand>
+      <Nav className="flex-column ">
       <div className="text-center mb-3 user-avatar-info">
         <img
           src={defaultAvatar}
@@ -37,13 +41,20 @@ const Sidebar = () => {
         {user ? (
           <>
             <div>{user.name}</div>
-            <small>{user.email}</small>
+            <Nav.Link
+              className="userprofilelink"
+              href="/userprofile"
+              active={location.pathname === "/userprofile"}
+            >
+              {user.email}
+            </Nav.Link>
+            
           </>
         ) : (
           <div>Guest</div>
         )}
       </div>
-      <Nav className="flex-column ">
+      
         <Nav.Link
           href="/maindashboard"
           active={location.pathname === "/maindashboard"}

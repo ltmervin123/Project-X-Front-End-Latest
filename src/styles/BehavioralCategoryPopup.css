@@ -30,8 +30,8 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: url(../assets/summary-img.png) no-repeat;
+    bottom: 25px;
+    background: url(../assets/behavioral-img.png) no-repeat;
     background-size: contain;
     background-position: bottom center;
 }

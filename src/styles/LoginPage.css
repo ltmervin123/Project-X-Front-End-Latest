@@ -11,25 +11,44 @@
     background: none !important;
 }
 
-.image-overlay {
-    background-image: url('../assets/login-img.png'); /* Update with your image path */
+/* .image-overlay {
+    background-image: url('../assets/login-img.png'); 
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     width: 640px !important;
     position: relative;
     z-index: 1;
+    top: 50px;
     bottom: 0;
     padding: 0 !important;
-}
+} */
 .main-login-form{
     padding: 0 !important;
     top: 0;
     gap: 0;
+    
 }
-.main-login{
+.main-login {
     width: 100%;
     margin: 0 !important;
+
+    /* Ensure the section takes up at least 90% of the viewport height */
+}
+
+/* Pseudo-element for overlay */
+.main-login::before {
+    content: ""; /* Required for pseudo-elements */
+    position: absolute; /* Position it absolutely within the .main-login */
+    top: 50px; /* Align to the top */
+    left: -100px; /* Align to the left */
+    right: 0; /* Align to the right */
+    bottom: 0; /* Align to the bottom */
+    background-image: url('../assets/login-img.png'); /* Set your background image */
+    background-size: 820px; /* Set the size of the background image */
+    background-repeat: no-repeat;
+    width: 60%;
+    z-index: 1; /* Ensure it sits above the background image */
 }
 
 .login-container {
@@ -182,7 +201,14 @@
     border: none;
 
 }
-
+.guest-button{
+    width: 180px;
+    height: 40px;
+    border-radius: 50px;
+    background: var(--primary-color);
+    color: var(--font-white) !important;
+    border: none;
+}
 .is-invalid {
     border-color: red;
   }
