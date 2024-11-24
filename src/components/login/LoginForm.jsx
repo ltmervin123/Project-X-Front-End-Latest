@@ -65,7 +65,10 @@ const LoginForm = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                {emailError && <div className="invalid-feedback">{emailError}</div>} {/* Display error message */}
+                {emailError && (
+                  <div className="invalid-feedback">{emailError}</div>
+                )}{" "}
+                {/* Display error message */}
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">
@@ -73,17 +76,23 @@ const LoginForm = () => {
                 </span>
                 <input
                   type="password"
-                  className={`form-control ${passwordError ? "is-invalid" : ""}`} // Add red border if there's an error
+                  className={`form-control ${
+                    passwordError ? "is-invalid" : ""
+                  }`} // Add red border if there's an error
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                {passwordError && <div className="invalid-feedback">{passwordError}</div>} {/* Display error message */}
+                {passwordError && (
+                  <div className="invalid-feedback">{passwordError}</div>
+                )}{" "}
+                {/* Display error message */}
               </div>
               <div className="forgot d-flex">
-                Forgot your password? 
+                Forgot your password?
                 <a href="/forgot" className="forgot-password">
-                  {" "} Click here to reset
+                  {" "}
+                  Click here to reset
                 </a>
               </div>
               <div className="remember-me form-check">
@@ -98,7 +107,10 @@ const LoginForm = () => {
                 </div>
               </div>
               {error && <div className="error-message">{error}</div>}
-              {loginSuccess && <div className="alert alert-success">{loginSuccess}</div>} {/* Show success message */}
+              {loginSuccess && (
+                <div className="alert alert-success">{loginSuccess}</div>
+              )}{" "}
+              {/* Show success message */}
               <button
                 type="submit"
                 className="login-button"
@@ -115,13 +127,7 @@ const LoginForm = () => {
               <FaGoogle className="social-icon" />
               <FaFacebook className="social-icon" />
             </div>
-            <button
-              className="signup-button"
-              onClick={() => (window.location.href = "/signup")}
-            >
-            </button>
             <p>Don't have an account?</p>
-
             <button
               className="signup-button"
               onClick={() => (window.location.href = "/signup")}
