@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useRef, useCallback } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import Draggable from "react-draggable";
-import ErrorAccessCam from '../maindashboard/ErrorAccessCam'; // Adjust the import path as necessary
+import ErrorAccessCam from "../maindashboard/ErrorAccessCam"; // Adjust the import path as necessary
 
 import {
   FaMicrophone,
@@ -59,7 +59,6 @@ const VideoRecording = ({
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [cameraError, setCameraError] = useState(false); // State to track camera error
 
-
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -103,6 +102,8 @@ const VideoRecording = ({
   };
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
+    setIsReattemptingCamera(true); // Reset reattempt state
+    setCameraError(false); // Set camera error state
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -116,16 +117,8 @@ const VideoRecording = ({
       setIsReattemptingCamera(false); // Reset if successful
       setCameraError(false); // Reset camera error state
     } catch (error) {
-      console.error("Error accessing camera:", error);
-      if (retryCount > 0) {
-        console.log(`Retrying to access camera... (${3 - retryCount + 1} attempt)`);
-        setIsReattemptingCamera(true);
-        setTimeout(() => enableCameraFeed(retryCount - 1), 1000); // Retry after 1 second
-      } else {
-        console.error("Failed to access the camera after multiple attempts.");
-        setIsReattemptingCamera(false); // Reset reattempt state
-        setCameraError(true); // Set camera error state
-      }
+      setIsReattemptingCamera(false); // Reset reattempt state
+      setCameraError(true); // Set camera error state
     }
   };
 
@@ -140,7 +133,6 @@ const VideoRecording = ({
       }
     };
   }, []);
-
 
   // Speak the question using the backend API
   const speakQuestion = useCallback(
@@ -286,7 +278,7 @@ const VideoRecording = ({
   // Fetch questions from the backend
   const fetchQuestions = async () => {
     try {
-      const formData = new FormData();  
+      const formData = new FormData();
       formData.append("type", interviewType);
       formData.append("category", category);
       formData.append("file", file);
@@ -501,8 +493,7 @@ const VideoRecording = ({
                     timer.seconds
                   ).padStart(2, "0")} / 2:00`}
                 </p>
-                <div className="d-flex align-items-center gap-3 interview-tools"                >
-
+                <div className="d-flex align-items-center gap-3 interview-tools">
                   <Button
                     className="btn-videorecord"
                     onClick={toggleCamera}
@@ -510,10 +501,9 @@ const VideoRecording = ({
                   >
                     {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
                   </Button>
-                        <Button
+                  <Button
                     className="position-relative  pause-indicator"
                     onClick={isRecording ? stopRecording : startRecording}
-
                     disabled={isUploading}
                   >
                     {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
@@ -536,8 +526,8 @@ const VideoRecording = ({
                     <h2>{countdown}</h2>
                   </div>
                 )}
-                                  {/* Overlay for reattempting access to camera */}
-                                  {isReattemptingCamera && (
+                {/* Overlay for reattempting access to camera */}
+                {isReattemptingCamera && (
                   <div className="camera-retry-overlay">
                     <Spinner animation="border" role="status" />
                     <p>Reattempting access to camera...</p>
@@ -593,6 +583,7 @@ const VideoRecording = ({
                       <Button
                         className="btn-startinterview d-flex align-items-center "
                         variant="link"
+                        disabled={isReattemptingCamera}
                         onClick={handleIntroFinish}
                       >
                         <svg
@@ -620,18 +611,21 @@ const VideoRecording = ({
         </Modal.Body>
       </Modal>
       {cameraError ? (
-      <ErrorAccessCam onRetry={() => { setCameraError(false); enableCameraFeed(); }} />
-        ) : (
-          <div
-            show={true}
-            onHide={handleClose}
-            centered
-            dialogClassName="custom-video-record-modal-width"
-            backdrop={false}
-          >
-
-          </div>
-        )}
+        <ErrorAccessCam
+          onRetry={() => {
+            setCameraError(false);
+            enableCameraFeed();
+          }}
+        />
+      ) : (
+        <div
+          show={true}
+          onHide={handleClose}
+          centered
+          dialogClassName="custom-video-record-modal-width"
+          backdrop={false}
+        ></div>
+      )}
       {showConfirm && (
         <CancelInterviewAlert
           show={showConfirm} // Control visibility with show prop
