@@ -59,3 +59,15 @@
   .error-section button:hover {
     background-color:var(--input-bg); /* Darker shade on hover */
   }
+
+
+  /*Error 400*/
+.error-box > .row > .col-md-6 {
+  text-align: left;
+}
+.error-box > .row > .col-md-6 > p{
+  font-size: 30px !important;
+  font-weight: 100 !important;
+  font-family:  Calibri;
+  word-spacing: -1px;
+}

@@ -13,8 +13,7 @@ const Header = () => {
         >
           <img src={logo} alt="Logo" width="55" height="55" className="" />
           <div>
-            <div className="logoname">HR-HATCH</div>
-            <small className="sublogoname">The Tech Behind Talent.</small>
+          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
           </div>
         </Navbar.Brand>
       </Container>

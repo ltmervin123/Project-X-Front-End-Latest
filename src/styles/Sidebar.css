@@ -19,13 +19,25 @@
     border-bottom: none;
     transition: width 0.3s; /* Smooth transition for width change */
 }
+.sidebarnav {
+    margin-bottom: 5px;
+    font-weight: 500 !important;
+    color: var(--card-color) !important;
+}
+.sidebarnav > svg{
+    fill:var(--card-color) !important;
+    margin-right: 10px;
+    width: 15px;
+}
 .logo-brand{
     padding: 0 !important;
 }
 .avatar-img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
+    padding: 10px;
+    background: var(--font-white);
 }
 
 .user-avatar-info > div, .user-avatar-info > .userprofilelink{

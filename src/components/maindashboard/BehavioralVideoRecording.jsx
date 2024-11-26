@@ -1,7 +1,7 @@
 import { React, useCallback, useState, useEffect, useRef } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import Draggable from "react-draggable";
-
+import ErrorAccessCam from '../maindashboard/ErrorAccessCam'; // Adjust the import path as necessary
 import {
   FaMicrophone,
   FaMicrophoneSlash,
@@ -18,7 +18,7 @@ import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
-import tipsAvatar from "../../assets/tips-avatar.png";
+import tipsAvatar from "../../assets/video-rec-avatar.png";
 import { useAnalytics } from "../../hook/useAnalytics";
 
 const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
@@ -46,6 +46,11 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const { user } = useAuthContext();
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+  const [isCameraOn, setIsCameraOn] = useState(true); // State to manage camera status
+
+  const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
+  const [cameraError, setCameraError] = useState(false); // State to track camera error
+
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -71,6 +76,22 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     return () => clearInterval(interval);
   }, []);
 
+  const toggleCamera = () => {
+    setIsCameraOn((prev) => !prev);
+    if (streamRef.current) {
+      streamRef.current.getVideoTracks().forEach((track) => {
+        track.enabled = !isCameraOn; // Toggle video track
+      });
+    }
+  };
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
+    if (streamRef.current) {
+      streamRef.current.getAudioTracks().forEach((track) => {
+        track.enabled = !isMuted; // Toggle audio track
+      });
+    }
+  };
   // Access camera when the component mounts
   useEffect(() => {
     enableCameraFeed();
@@ -94,29 +115,22 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       stream.getAudioTracks().forEach((track) => {
         track.enabled = !isMuted;
       });
+      setIsReattemptingCamera(false); // Reset if successful
+      setCameraError(false); // Reset camera error state
     } catch (error) {
       console.error("Error accessing camera:", error);
-
-      // Retry mechanism
       if (retryCount > 0) {
-        console.log(
-          `Retrying to access camera... (${3 - retryCount + 1} attempt)`
-        );
+        console.log(`Retrying to access camera... (${3 - retryCount + 1} attempt)`);
+        setIsReattemptingCamera(true);
         setTimeout(() => enableCameraFeed(retryCount - 1), 1000); // Retry after 1 second
       } else {
         console.error("Failed to access the camera after multiple attempts.");
+        setIsReattemptingCamera(false); // Reset reattempt state
+        setCameraError(true); // Set camera error state
       }
     }
   };
 
-  const toggleMute = () => {
-    setIsMuted((prev) => !prev);
-    if (streamRef.current) {
-      streamRef.current.getAudioTracks().forEach((track) => {
-        track.enabled = !isMuted;
-      });
-    }
-  };
 
   // Speak the question using the backend API
   const speakQuestion = useCallback(
@@ -475,21 +489,35 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                     timer.seconds
                   ).padStart(2, "0")} / 2:00`}
                 </p>
-                <Button
-                  className="position-absolute start-50 d-flex align-items-center translate-middle-x pause-indicator"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  variant={isRecording ? "danger" : "primary"}
-                  disabled={isUploading}
-                >
-                  {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                  {isUploading ? (
-                    <Spinner></Spinner>
-                  ) : isRecording ? (
-                    <FaPause size={30} />
-                  ) : (
-                    <FaCircle size={30} />
-                  )}
-                </Button>
+                <div className="d-flex align-items-center gap-3 interview-tools"                >
+
+                  <Button
+                    className="btn-videorecord"
+                    onClick={toggleCamera}
+                    variant={isCameraOn ? "success" : "secondary"}
+                  >
+                    {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
+                  </Button>
+                        <Button
+                    className="position-relative  pause-indicator"
+                    onClick={isRecording ? stopRecording : startRecording}
+
+                    disabled={isUploading}
+                  >
+                    {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
+                    {isUploading ? (
+                      <Spinner></Spinner>
+                    ) : isRecording ? (
+                      <FaPause size={30} />
+                    ) : (
+                      <FaCircle size={30} />
+                    )}
+                  </Button>
+                  <Button className="btn-mute" onClick={toggleMute}>
+                    {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                  </Button>
+                </div>
+                
                 {/* Countdown Overlay */}
                 {isCountdownActive && countdown > 0 && (
                   <div className="countdown-overlay">
@@ -497,27 +525,14 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                     <h2>{countdown}</h2>
                   </div>
                 )}
-              </div>
-              <div className="d-flex align-items-center m-3 gap-3">
-                {/* <Button
-                  className=" position-relative btn-record"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  variant={isRecording ? "danger" : "primary"}
-                  disabled={isUploading}
-                >
-                  {isUploading
-                    ? "Uploading..."
-                    : isRecording
-                    ? "Stop Interview"
-                    : "Start Interview"}
-                </Button> */}
-                {/* <Button
-                  onClick={toggleMute}
-                  variant="link"
-                  className={`btn-mute d-flex ${isMuted ? "muted" : ""}`}
-                >
-                  {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                </Button> */}
+                  {/* Overlay for reattempting access to camera */}
+                {isReattemptingCamera && (
+                  <div className="camera-retry-overlay">
+                    <Spinner animation="border" role="status" />
+                    <p>Reattempting access to camera...</p>
+                  </div>
+                )}
+                
               </div>
 
               <Draggable>
@@ -594,7 +609,19 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
           </Row>
         </Modal.Body>
       </Modal>
+      {cameraError ? (
+      <ErrorAccessCam onRetry={() => { setCameraError(false); enableCameraFeed(); }} />
+        ) : (
+          <div
+            show={true}
+            onHide={handleClose}
+            centered
+            dialogClassName="custom-video-record-modal-width"
+            backdrop={false}
+          >
 
+          </div>
+        )}
       {showConfirm && (
         <CancelInterviewAlert
           show={showConfirm} // Control visibility with show prop

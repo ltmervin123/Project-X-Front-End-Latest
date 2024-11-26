@@ -13,6 +13,7 @@ const ResultSection = ({ interviewId }) => {
   const answer = interviewDetails.interviewDetails[0].answer;
   const feedback = interviewDetails.feedback;
   const overallFeedback = interviewDetails.overallFeedback;
+  const improvedAnswer = interviewDetails.improvedAnswer;
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -39,7 +40,7 @@ const ResultSection = ({ interviewId }) => {
   };
 
   return interviewDetails ? (
-    <Container className="result-container shadow-sm p-4">
+    <Container className="result-container shadow-sm p-3">
       <Row>
         <Col md={4}>
           <Card className="interview-result-container d-flex">
@@ -84,9 +85,7 @@ const ResultSection = ({ interviewId }) => {
                 </p>
               </div>
             </div>
-            <button className="btn btn-secondary btnReturn" onClick={handleReturn}>
-              ← Return
-            </button>
+
           </Card>
         </Col>
 
@@ -100,8 +99,12 @@ const ResultSection = ({ interviewId }) => {
               <p>{question[currentIndex]}</p>
             </div>
             <div>
-              <strong>Answer:</strong>
+              <strong>Your Answer:</strong>
               <p>{answer[currentIndex]}</p>
+            </div>
+            <div>
+              <strong>Enhance Response:</strong>
+              <p>{improvedAnswer[currentIndex]}</p>  {/* Replace Enhance Ans/response */}
             </div>
             <div>
               <strong>Feedback:</strong>
@@ -128,7 +131,14 @@ const ResultSection = ({ interviewId }) => {
             </div>
           </Card>
         </Col>
+        <div className="w-100 d-flex justify-content-end">
+        <button className="btn btn-secondary btnReturn" onClick={handleReturn}>
+              Back to analytics
+            </button>
+        </div>
+        
       </Row>
+
     </Container>
   ) : (
     <Container className="result-container shadow-sm p-4">
