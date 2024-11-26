@@ -1,25 +1,28 @@
 import { React, useCallback, useState, useEffect, useRef } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
+import 'intro.js/introjs.css';
+import introJs from 'intro.js';
 import Draggable from "react-draggable";
-
+import ErrorAccessCam from '../maindashboard/ErrorAccessCam'; // Adjust the import path as necessary
 import {
   FaMicrophone,
   FaMicrophoneSlash,
   FaPause,
   FaCircle,
-  FaMagic,
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
-import avatarImg from "../../assets/summary-img.png";
+import avatarImg from "../../assets/video-rec-avatar.png";
 import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
-import tipsAvatar from "../../assets/tips-avatar.png";
+import tipsAvatar from "../../assets/video-rec-avatar.png";
 import { useAnalytics } from "../../hook/useAnalytics";
+
+import ErrorGenerateFeedback from './ErrorGenerateFeedback'; // Adjust the import path as necessary
 
 const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
@@ -46,6 +49,79 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const { user } = useAuthContext();
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+  const [isCameraOn, setIsCameraOn] = useState(true); // State to manage camera status
+
+  const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
+  const [cameraError, setCameraError] = useState(false); // State to track camera error
+
+  const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
+  
+  
+  // Function to initialize Intro.js
+  const startIntro = () => {
+    introJs().setOptions({
+      steps: [
+        {
+          intro: "Welcome to the Video Recording Interface!",
+        },
+        {
+          element: '#videoArea',
+          intro: 'This is where you will see yourself while recording.',
+        },
+        {
+          element: '#startButton',
+          intro: 'Click here to start recording your responses.',
+        },
+        {
+          element: '#muteButton',
+          intro: 'Use this button to mute or unmute your microphone.',
+        },
+        {
+          element: '#cameraButton',
+          intro: 'Toggle your camera on or off using this button.',
+        },
+        {
+          element: '#timer',
+          intro: 'Here are some tips to help you perform better in your interview.',
+        },
+        {
+          element: '#tipsContainer',
+          intro: 'Here are some tips to help you perform better in your interview.',
+        },
+        {
+          element: '#talkingAvatar',
+          intro: 'Talking Avatar.',
+        },
+        {
+          element: '#startInterviewButton',
+          intro: 'Click here to cancel the interview if you wish to stop.',
+        },
+        {
+          element: '#confirmCloseButton',
+          intro: 'Click here to cancel the interview if you wish to stop.',
+        },
+      ],
+    }).start();
+
+    // Set the flag in localStorage to indicate that the intro has been shown
+    localStorage.setItem('introShown', 'true');
+  };
+
+  // Call startIntro when the component mounts or when needed
+  useEffect(() => {
+    // Check if the intro has already been shown
+    const introShown = localStorage.getItem('introShown');
+    if (!introShown) {
+      startIntro();
+    }
+  }, []);
+
+      // Call startIntro when the component mounts or when needed
+  useEffect(() => {
+    startIntro();
+  }, []);
+
+
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -71,6 +147,22 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     return () => clearInterval(interval);
   }, []);
 
+  const toggleCamera = () => {
+    setIsCameraOn((prev) => !prev);
+    if (streamRef.current) {
+      streamRef.current.getVideoTracks().forEach((track) => {
+        track.enabled = !isCameraOn; // Toggle video track
+      });
+    }
+  };
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
+    if (streamRef.current) {
+      streamRef.current.getAudioTracks().forEach((track) => {
+        track.enabled = !isMuted; // Toggle audio track
+      });
+    }
+  };
   // Access camera when the component mounts
   useEffect(() => {
     enableCameraFeed();
@@ -94,27 +186,19 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       stream.getAudioTracks().forEach((track) => {
         track.enabled = !isMuted;
       });
+      setIsReattemptingCamera(false); // Reset if successful
+      setCameraError(false); // Reset camera error state
     } catch (error) {
       console.error("Error accessing camera:", error);
-
-      // Retry mechanism
       if (retryCount > 0) {
-        console.log(
-          `Retrying to access camera... (${3 - retryCount + 1} attempt)`
-        );
+        console.log(`Retrying to access camera... (${3 - retryCount + 1} attempt)`);
+        setIsReattemptingCamera(true);
         setTimeout(() => enableCameraFeed(retryCount - 1), 1000); // Retry after 1 second
       } else {
         console.error("Failed to access the camera after multiple attempts.");
+        setIsReattemptingCamera(false); // Reset reattempt state
+        setCameraError(true); // Set camera error state
       }
-    }
-  };
-
-  const toggleMute = () => {
-    setIsMuted((prev) => !prev);
-    if (streamRef.current) {
-      streamRef.current.getAudioTracks().forEach((track) => {
-        track.enabled = !isMuted;
-      });
     }
   };
 
@@ -236,9 +320,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       // Set generating feedback state to false
       setIsGeneratingFeedback(false);
 
-      //Set generating feedback state to false
-      setIsGeneratingFeedback(false);
-
       // Show the success popup
       setShowSuccessPopup(true);
       // Reset interview ID
@@ -262,9 +343,17 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           },
         }
       );
-      console.log(response.data.message);
+  
+      // Check if the response indicates success
+      if (response.data && response.data.message) {
+        console.log(response.data.message);
+      } else {
+        // If no message is returned, set the feedback error state
+        throw new Error("No feedback response from the server.");
+      }
     } catch (err) {
-      console.log(err.response.data.error);
+      console.log(err.response ? err.response.data.error : err.message);
+      setFeedbackError(true); // Set feedback error state
     }
   };
 
@@ -453,6 +542,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5>Video Recording</h5>
             <Button
+            id="confirmCloseButton"
               variant="link"
               className="closebtn"
               onClick={handleClose}
@@ -463,33 +553,49 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           </div>
           <Row>
             <Col md={7} className="d-flex flex-column align-items-center">
-              <div className="video-area position-relative d-flex align-items-center">
+              <div id="videoArea" className="video-area position-relative d-flex align-items-center">
                 <video
                   ref={videoRef}
                   autoPlay
                   muted
                   className="video-feed"
                 ></video>
-                <p className="timer position-absolute top-0 end-0 m-2">
+                <p id="timer" className="timer position-absolute top-0 end-0 m-2">
                   {`${String(timer.minutes).padStart(2, "0")}:${String(
                     timer.seconds
                   ).padStart(2, "0")} / 2:00`}
                 </p>
-                <Button
-                  className="position-absolute start-50 d-flex align-items-center translate-middle-x pause-indicator"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  variant={isRecording ? "danger" : "primary"}
-                  disabled={isUploading}
-                >
-                  {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                  {isUploading ? (
-                    <Spinner></Spinner>
-                  ) : isRecording ? (
-                    <FaPause size={30} />
-                  ) : (
-                    <FaCircle size={30} />
-                  )}
-                </Button>
+                <div className="d-flex align-items-center gap-3 interview-tools"                >
+
+                  <Button
+                    id="cameraButton"
+                    className="btn-videorecord"
+                    onClick={toggleCamera}
+                    variant={isCameraOn ? "success" : "secondary"}
+                  >
+                    {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
+                  </Button>
+                    <Button
+                    id="startButton"
+                    className="position-relative  pause-indicator"
+                    onClick={isRecording ? stopRecording : startRecording}
+
+                    disabled={isUploading}
+                  >
+                    {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
+                    {isUploading ? (
+                      <Spinner></Spinner>
+                    ) : isRecording ? (
+                      <FaPause size={30} />
+                    ) : (
+                      <FaCircle size={30} />
+                    )}
+                  </Button>
+                  <Button id="muteButton" className="btn-mute" onClick={toggleMute}>
+                    {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                  </Button>
+                </div>
+                
                 {/* Countdown Overlay */}
                 {isCountdownActive && countdown > 0 && (
                   <div className="countdown-overlay">
@@ -497,10 +603,18 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                     <h2>{countdown}</h2>
                   </div>
                 )}
+                  {/* Overlay for reattempting access to camera */}
+                {isReattemptingCamera && (
+                  <div className="camera-retry-overlay">
+                    <Spinner animation="border" role="status" />
+                    <p>Reattempting access to camera...</p>
+                  </div>
+                )}
+                
               </div>
 
               <Draggable>
-                <div className="tips-container d-flex">
+                <div id="tipsContainer" className="tips-container d-flex">
                   <div className="tips">
                     <p className="tips-header">Tips:</p>
                     <p className="tips-content">{tips[currentTipIndex]}</p>
@@ -515,6 +629,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-3">
               <img
+              id="talkingAvatar"
                 src={avatarImg}
                 alt="Avatar"
                 className="avatar-interviewer-img"
@@ -544,7 +659,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                       We will start with a few questions. Please be prepared.
                     </p>
                     <div className="d-flex justify-content-center w-100">
-                      <Button
+                      <Button 
+                        id="startInterviewButton"
                         className="btn-startinterview d-flex align-items-center "
                         variant="link"
                         onClick={handleIntroFinish}
@@ -573,7 +689,31 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           </Row>
         </Modal.Body>
       </Modal>
+      {feedbackError ? (
+          <ErrorGenerateFeedback onRetry={() => { setFeedbackError(false); createFeedback(); }} />
+        ) : (
+          <div
+            show={true}
+            onHide={handleClose}
+            centered
+            dialogClassName="custom-video-record-modal-width"
+            backdrop={false}
+          >
+          </div>
+        )}
+      {cameraError ? (
+      <ErrorAccessCam onRetry={() => { setCameraError(false); enableCameraFeed(); }} />
+        ) : (
+          <div
+            show={true}
+            onHide={handleClose}
+            centered
+            dialogClassName="custom-video-record-modal-width"
+            backdrop={false}
+          >
 
+          </div>
+        )}
       {showConfirm && (
         <CancelInterviewAlert
           show={showConfirm} // Control visibility with show prop
@@ -586,7 +726,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
       {isGeneratingFeedback && <LoadingScreen />}
 
-      {showSuccessPopup && <InterviewSuccessfulPopup />}
+      {/* {showSuccessPopup && <InterviewSuccessfulPopup />} */}
     </>
   );
 };

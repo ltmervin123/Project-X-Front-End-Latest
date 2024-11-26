@@ -33,9 +33,10 @@
   width: 65%;
 }
 
-.nav-link.active {
+.nav-link.active{
   color: var(--primary-color) !important;
   font-weight: bold;
+  fill: var(--primary-color) !important;
 }
 
 .nav-link {
@@ -146,7 +147,7 @@
   color: var(--font-white) !important;
   border-radius: 30px !important;
   display: flex;
-  border: none;
+  border: none !important;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -563,6 +564,7 @@
   max-height: 60vh !important;
 }
 
+
 .interview-question-container {
     background: var(--acttivit-card-bg);
     border-radius: 10px;
@@ -620,7 +622,7 @@
   height: 40px;
 }
 
-.btn-mute {
+.btn-mute , .btn-videorecord{
     color: var(--text-color) !important;
     background: var(--acttivit-card-bg) !important;
     height: auto;
@@ -633,7 +635,7 @@
     border: none !important;
 }
 
-.btn-mute:hover {
+.btn-mute:hover , .btn-videorecord:hover{
   color: var(--primary-color) !important;
 }
 
@@ -649,6 +651,7 @@
     bottom: 15px;
 
 }
+
 .pause-indicator {
     background: var(--font-white) !important;
     color: red !important;
@@ -660,7 +663,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    bottom: 10px;
+    bottom: 0;
 }
 .btn-startinterview{
   background: var(--primary-color) !important;
@@ -751,8 +754,22 @@
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 .countdown-overlay > h2 {
   color: var(--font-white) !important;
+}
+.camera-retry-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: white; /* Text color */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 /* BehavioralCategoryPopup */
 .behavioral-card {
@@ -821,4 +838,23 @@
 
 .closebtn {
   color: var(--text-color) !important;
+}
+
+
+.custom-error-modal-width{
+  max-width: 900px !important;
+  width: 85% !important;
+  height: 80% !important;
+  max-height: 60vh !important;
+}
+.btn-retry {
+  padding: 10px 20px; /* Padding for the button */
+  font-size: 1rem; /* Font size for the button */
+  border: none !important; /* Remove border */
+  border-radius: 50px !important;  /* Rounded corners */
+  background-color: var(--secondary-color); /* Button background color */
+  color: white; /* Button text color */
+  cursor: pointer; /* Pointer on hover */
+  height: 40px;
+  transition: background-color 0.3s; /* Smooth transition */
 }

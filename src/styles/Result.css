@@ -69,9 +69,23 @@
 }
 
 .pageNum {
-  color: var(--primary-color);
+  color: var(--font-black);
   position: relative;
   bottom: 0px;
   bottom: -10px;
   font-size: 30px;
+}
+.btnReturn{
+  position: relative;
+  top: 0;
+  bottom: 0;
+  right: 2px;
+  left: 0;
+  margin: 5px;
+}
+.btn-retry{
+  background: var(--primary-color) !important;
+  padding: 0 !important;
+  width: 200px;
+  font-size: 20px !important;
 }

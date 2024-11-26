@@ -15,6 +15,7 @@ import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
+import FeedbackErrorPage from './page/ErrorPageFeedbackErrorPage.jsx';
 import { useAuthContext } from "./hook/useAuthContext";
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
           element={<UserProfilePage />}
         />
         <Route path="/error" element={<ErrorPage />}></Route>
+        <Route path="/error400" element={<FeedbackErrorPage />}></Route>
       </Routes>
     </Router>
   );

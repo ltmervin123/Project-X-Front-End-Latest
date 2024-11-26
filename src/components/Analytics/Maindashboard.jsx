@@ -76,53 +76,55 @@ const MainDashboard = () => {
       </div>
 
       <div className="analytics-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Date</th>
-              <th>Overall Result</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody className="list">
-            {interviewHistory.length > 0 ? (
-              interviewHistory
-                .slice()
-                .reverse()
-                .map((item) => (
-                  <tr key={item._id}>
-                    <td>{item.interviewDetails[0].type}</td>
-                    <td>{item.interviewDetails[0].category}</td>
-                    <td>{getDate(item.createdAt)}</td>
-                    <td
-                      className={getResultClass(
-                        parseFloat(item.overallFeedback.overallPerformance)
-                      )}
-                    >
-                      {item.overallFeedback.overallPerformance}/10
-                    </td>
-                    <td>
-                      <Button
-                        variant="link"
-                        onClick={() => handleViewResult(item._id)}
-                      >
-                        View Full Result
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-            ) : (
+        <div className="table-responsive">
+          <table>
+            <thead>
               <tr>
-                <td colSpan="6" className="text-center">
-                  No data available
-                </td>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Overall Result</th>
+                <th>Action</th>
               </tr>
-            )}
-          </tbody>
+            </thead>
+            <tbody className="list">
+              {interviewHistory.length > 0 ? (
+                interviewHistory
+                  .slice()
+                  .reverse()
+                  .map((item) => (
+                    <tr key={item._id}>
+                      <td>{item.interviewDetails[0].type}</td>
+                      <td>{item.interviewDetails[0].category}</td>
+                      <td>{getDate(item.createdAt)}</td>
+                      <td
+                        className={getResultClass(
+                          parseFloat(item.overallFeedback.overallPerformance)
+                        )}
+                      >
+                        {item.overallFeedback.overallPerformance}/10
+                      </td>
+                      <td>
+                        <Button
+                          variant="link"
+                          onClick={() => handleViewResult(item._id)}
+                        >
+                          View Full Result
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    No data available
+                  </td>
+                </tr>
+              )}
+            </tbody>
         </table>
       </div>
+    </div>
     </Container>
   );
 };
