@@ -313,21 +313,18 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
       // Set generating feedback state to true
-      setIsGeneratingFeedback(true);
+      // setIsGeneratingFeedback(true);
 
       // Add analytics to the backend
       await createFeedback();
 
-      // Add analytics to the context
-      getAnalytics();
+      // // Set generating feedback state to false
+      // setIsGeneratingFeedback(false);
 
-      // Set generating feedback state to false
-      setIsGeneratingFeedback(false);
-
-      // Show the success popup
-      setShowSuccessPopup(true);
-      // Reset interview ID
-      setInterviewId("");
+      // // Show the success popup
+      // setShowSuccessPopup(true);
+      // // Reset interview ID
+      // setInterviewId("");
     } else {
       setQuestionIndex((prevIndex) => prevIndex + 1);
     }
@@ -335,6 +332,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
   //Create Feedback
   const createFeedback = async () => {
+    setIsGeneratingFeedback(true);
+    setFeedbackError(false); // Reset feedback error state
     try {
       console.log("Interview ID: ", interviewId);
       const response = await axios.post(
@@ -347,14 +346,12 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           },
         }
       );
-
-      // Check if the response indicates success
-      if (response.data && response.data.message) {
-        console.log(response.data.message);
-      } else {
-        // If no message is returned, set the feedback error state
-        throw new Error("No feedback response from the server.");
-      }
+      setFeedbackError(false);
+      setIsGeneratingFeedback(false);
+      // Show the success popup
+      setShowSuccessPopup(true);
+      // Reset interview ID
+      setInterviewId("");
     } catch (err) {
       console.log(err.response ? err.response.data.error : err.message);
       setFeedbackError(true); // Set feedback error state
@@ -413,8 +410,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
-    // setIsIntroShown(true);
-    // setIsCountdownActive(true);
+    setIsIntroShown(true);
+    setIsCountdownActive(true);
     await fetchQuestions();
     setQuestionIndex(0);
   };
@@ -704,7 +701,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       {feedbackError ? (
         <ErrorGenerateFeedback
           onRetry={() => {
-            setFeedbackError(false);
+            // setFeedbackError(false);
             createFeedback();
           }}
         />
@@ -745,7 +742,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
       {isGeneratingFeedback && <LoadingScreen />}
 
-      {/* {showSuccessPopup && <InterviewSuccessfulPopup />} */}
+      {showSuccessPopup && <InterviewSuccessfulPopup />}
     </>
   );
 };

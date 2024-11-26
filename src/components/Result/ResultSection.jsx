@@ -85,7 +85,6 @@ const ResultSection = ({ interviewId }) => {
                 </p>
               </div>
             </div>
-
           </Card>
         </Col>
 
@@ -100,11 +99,17 @@ const ResultSection = ({ interviewId }) => {
             </div>
             <div>
               <strong>Your Answer:</strong>
-              <p>{answer[currentIndex]}</p>
+              {/* <p>{answer[currentIndex]}</p> */}
+              {answer[currentIndex] ? (
+                <p>{answer[currentIndex]}</p>
+              ) : (
+                <p>No answer provided</p>
+              )}
             </div>
             <div>
               <strong>Enhance Response:</strong>
-              <p>{improvedAnswer[currentIndex]}</p>  {/* Replace Enhance Ans/response */}
+              <p>{improvedAnswer[currentIndex]}</p>{" "}
+              {/* Replace Enhance Ans/response */}
             </div>
             <div>
               <strong>Feedback:</strong>
@@ -132,13 +137,14 @@ const ResultSection = ({ interviewId }) => {
           </Card>
         </Col>
         <div className="w-100 d-flex justify-content-end">
-        <button className="btn btn-secondary btnReturn" onClick={handleReturn}>
-              Back to analytics
-            </button>
+          <button
+            className="btn btn-secondary btnReturn"
+            onClick={handleReturn}
+          >
+            Back to analytics
+          </button>
         </div>
-        
       </Row>
-
     </Container>
   ) : (
     <Container className="result-container shadow-sm p-4">

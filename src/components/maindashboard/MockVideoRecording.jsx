@@ -2,7 +2,7 @@ import { React, useState, useEffect, useRef, useCallback } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import Draggable from "react-draggable";
 import ErrorAccessCam from "../maindashboard/ErrorAccessCam"; // Adjust the import path as necessary
-
+import ErrorGenerateFeedback from "./ErrorGenerateFeedback"; // Adjust the import path as necessary
 import {
   FaMicrophone,
   FaMicrophoneSlash,
@@ -55,7 +55,7 @@ const VideoRecording = ({
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
   const [isCameraOn, setIsCameraOn] = useState(true); // State to manage camera status
-
+  const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [cameraError, setCameraError] = useState(false); // State to track camera error
 
@@ -240,16 +240,16 @@ const VideoRecording = ({
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      setIsGeneratingFeedback(true);
+      // setIsGeneratingFeedback(true);
       // Add analytics to the backend
       await createFeedback();
       // Add analytics to the context
-      addAnalytics();
-      setIsGeneratingFeedback(false);
-      // Show the success popup
-      setShowSuccessPopup(true);
-      // Reset interview ID
-      setInterviewId("");
+      // addAnalytics();
+      // setIsGeneratingFeedback(false);
+      // // Show the success popup
+      // setShowSuccessPopup(true);
+      // // Reset interview ID
+      // setInterviewId("");
     } else {
       setQuestionIndex((prevIndex) => prevIndex + 1);
     }
@@ -257,6 +257,8 @@ const VideoRecording = ({
 
   //Create Feedback
   const createFeedback = async () => {
+    setIsGeneratingFeedback(true);
+    setFeedbackError(false); // Reset feedback error state
     try {
       console.log("Interview ID: ", interviewId);
       const response = await axios.post(
@@ -269,9 +271,15 @@ const VideoRecording = ({
           },
         }
       );
-      console.log(response.data.message);
+      setFeedbackError(false);
+      setIsGeneratingFeedback(false);
+      // Show the success popup
+      setShowSuccessPopup(true);
+      // Reset interview ID
+      setInterviewId("");
     } catch (err) {
-      console.log(err.response.data.error);
+      console.log(err.response ? err.response.data.error : err.message);
+      setFeedbackError(true); // Set feedback error state
     }
   };
 
@@ -610,6 +618,23 @@ const VideoRecording = ({
           </Row>
         </Modal.Body>
       </Modal>
+      {feedbackError ? (
+        <ErrorGenerateFeedback
+          onRetry={() => {
+            // setFeedbackError(false);
+            createFeedback();
+          }}
+        />
+      ) : (
+        <div
+          show={true}
+          onHide={handleClose}
+          centered
+          dialogClassName="custom-video-record-modal-width"
+          backdrop={false}
+        ></div>
+      )}
+      
       {cameraError ? (
         <ErrorAccessCam
           onRetry={() => {
