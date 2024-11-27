@@ -108,7 +108,7 @@ const ResultSection = ({ interviewId }) => {
             </div>
             <div>
               <strong>Enhance Response:</strong>
-              <p>{improvedAnswer[currentIndex]}</p>{" "}
+              <p>{improvedAnswer[currentIndex]}</p>
               {/* Replace Enhance Ans/response */}
             </div>
             <div>

@@ -53,7 +53,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const [isCameraOn, setIsCameraOn] = useState(true); // State to manage camera status
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [cameraError, setCameraError] = useState(false); // State to track camera error
-
   const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
 
   //Function to initialize Intro.js
@@ -107,21 +106,16 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       .start();
 
     // Set the flag in localStorage to indicate that the intro has been shown
-    localStorage.setItem("introShown", "true");
+    JSON.stringify(sessionStorage.setItem("introShown", true));
   };
 
   // Call startIntro when the component mounts or when needed
   useEffect(() => {
     // Check if the intro has already been shown
-    const introShown = localStorage.getItem("introShown");
+    const introShown = JSON.parse(sessionStorage.getItem("introShown"));
     if (!introShown) {
       startIntro();
     }
-  }, []);
-
-  // Call startIntro when the component mounts or when needed
-  useEffect(() => {
-    startIntro();
   }, []);
 
   const tips = [
@@ -360,8 +354,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", 
-            Authorization: `Bearer ${user.token}`, 
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );

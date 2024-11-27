@@ -28,11 +28,6 @@ const MainDashboard = () => {
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
 
   useEffect(() => {
-    // Analytics data is not available in the context fetch it
-    // if (!analytics) {
-    //   getAnalytics();
-    // }
-
     getAnalytics();
   }, [dispatch]);
 
@@ -88,7 +83,9 @@ const MainDashboard = () => {
               </tr>
             </thead>
             <tbody className="list">
-              {interviewHistory.length > 0 ? (
+              {isloaading ? (
+                <p>Fetching data...</p>
+              ) : interviewHistory.length > 0 ? (
                 interviewHistory
                   .slice()
                   .reverse()
@@ -122,9 +119,9 @@ const MainDashboard = () => {
                 </tr>
               )}
             </tbody>
-        </table>
+          </table>
+        </div>
       </div>
-    </div>
     </Container>
   );
 };
