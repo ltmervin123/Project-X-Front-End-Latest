@@ -233,25 +233,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      // // Set generating feedback state to true
-      // setIsGeneratingFeedback(true);
-
-      // Add analytics to the backend
       await createFeedback();
-
-      // Add analytics to the context
-      // getAnalytics();
-
-      // // Set generating feedback state to false
-      // setIsGeneratingFeedback(false);
-
-      // //Set generating feedback state to false
-      // setIsGeneratingFeedback(false);
-
-      // // Show the success popup
-      // setShowSuccessPopup(true);
-      // // Reset interview ID
-      // setInterviewId("");
     } else {
       setQuestionIndex((prevIndex) => prevIndex + 1);
     }
@@ -423,39 +405,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
 
     return () => clearInterval(countdownRef.current);
   }, [isCountdownActive, countdown]);
-
-  // useEffect(() => {
-  //   const recognition = new (window.SpeechRecognition ||
-  //     window.webkitSpeechRecognition)();
-  //   recognition.continuous = true;
-  //   recognition.interimResults = true;
-
-  //   recognition.onstart = () => {
-  //     console.log("Speech recognition started");
-  //   };
-
-  //   recognition.onend = () => {
-  //     console.log("Speech recognition ended");
-  //   };
-
-  //   recognition.onresult = (event) => {
-  //     let currentTranscript = "";
-  //     for (let i = event.resultIndex; i < event.results.length; i++) {
-  //       currentTranscript += event.results[i][0].transcript;
-  //     }
-  //     setTranscript(currentTranscript);
-  //   };
-
-  //   if (isRecording && !isPaused) {
-  //     recognition.start();
-  //   } else {
-  //     recognition.stop();
-  //   }
-
-  //   return () => {
-  //     recognition.stop();
-  //   };
-  // }, [isRecording, isPaused]);
 
   return (
     <>

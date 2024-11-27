@@ -1,7 +1,7 @@
 import { React, useCallback, useState, useEffect, useRef } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
-// import 'intro.js/introjs.css';
-// import introJs from 'intro.js';
+import "intro.js/introjs.css";
+import introJs from "intro.js";
 import Draggable from "react-draggable";
 import ErrorAccessCam from "../maindashboard/ErrorAccessCam"; // Adjust the import path as necessary
 import {
@@ -56,69 +56,73 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
   const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
 
-  // Function to initialize Intro.js
-  // const startIntro = () => {
-  //   introJs().setOptions({
-  //     steps: [
-  //       {
-  //         intro: "Welcome to the Video Recording Interface!",
-  //       },
-  //       {
-  //         element: '#videoArea',
-  //         intro: 'This is where you will see yourself while recording.',
-  //       },
-  //       {
-  //         element: '#startButton',
-  //         intro: 'Click here to start recording your responses.',
-  //       },
-  //       {
-  //         element: '#muteButton',
-  //         intro: 'Use this button to mute or unmute your microphone.',
-  //       },
-  //       {
-  //         element: '#cameraButton',
-  //         intro: 'Toggle your camera on or off using this button.',
-  //       },
-  //       {
-  //         element: '#timer',
-  //         intro: 'Here are some tips to help you perform better in your interview.',
-  //       },
-  //       {
-  //         element: '#tipsContainer',
-  //         intro: 'Here are some tips to help you perform better in your interview.',
-  //       },
-  //       {
-  //         element: '#talkingAvatar',
-  //         intro: 'Talking Avatar.',
-  //       },
-  //       {
-  //         element: '#startInterviewButton',
-  //         intro: 'Click here to cancel the interview if you wish to stop.',
-  //       },
-  //       {
-  //         element: '#confirmCloseButton',
-  //         intro: 'Click here to cancel the interview if you wish to stop.',
-  //       },
-  //     ],
-  //   }).start();
+  //Function to initialize Intro.js
+  const startIntro = () => {
+    introJs()
+      .setOptions({
+        steps: [
+          {
+            intro: "Welcome to the Video Recording Interface!",
+          },
+          {
+            element: "#videoArea",
+            intro: "This is where you will see yourself while recording.",
+          },
+          {
+            element: "#startButton",
+            intro: "Click here to start recording your responses.",
+          },
+          {
+            element: "#muteButton",
+            intro: "Use this button to mute or unmute your microphone.",
+          },
+          {
+            element: "#cameraButton",
+            intro: "Toggle your camera on or off using this button.",
+          },
+          {
+            element: "#timer",
+            intro:
+              "Here are some tips to help you perform better in your interview.",
+          },
+          {
+            element: "#tipsContainer",
+            intro:
+              "Here are some tips to help you perform better in your interview.",
+          },
+          {
+            element: "#talkingAvatar",
+            intro: "Talking Avatar.",
+          },
+          {
+            element: "#startInterviewButton",
+            intro: "Click here to cancel the interview if you wish to stop.",
+          },
+          {
+            element: "#confirmCloseButton",
+            intro: "Click here to cancel the interview if you wish to stop.",
+          },
+        ],
+      })
+      .start();
 
-  //   // Set the flag in localStorage to indicate that the intro has been shown
-  //   localStorage.setItem('introShown', 'true');
-  // };
+    // Set the flag in localStorage to indicate that the intro has been shown
+    localStorage.setItem("introShown", "true");
+  };
 
-  // // Call startIntro when the component mounts or when needed
-  // useEffect(() => {
-  //   // Check if the intro has already been shown
-  //   const introShown = localStorage.getItem("introShown");
-  //   if (!introShown) {
-  //     startIntro();
-  //   }
-  // }, []);
+  // Call startIntro when the component mounts or when needed
+  useEffect(() => {
+    // Check if the intro has already been shown
+    const introShown = localStorage.getItem("introShown");
+    if (!introShown) {
+      startIntro();
+    }
+  }, []);
 
-  // // Call startIntro when the component mounts or when needed
-  // useEffect(() => {
-  //   startIntro();
-  // }, []);
+  // Call startIntro when the component mounts or when needed
+  useEffect(() => {
+    startIntro();
+  }, []);
 
   const tips = [
     "Know your resume.",
@@ -312,19 +316,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      // Set generating feedback state to true
-      // setIsGeneratingFeedback(true);
-
-      // Add analytics to the backend
       await createFeedback();
-
-      // // Set generating feedback state to false
-      // setIsGeneratingFeedback(false);
-
-      // // Show the success popup
-      // setShowSuccessPopup(true);
-      // // Reset interview ID
-      // setInterviewId("");
     } else {
       setQuestionIndex((prevIndex) => prevIndex + 1);
     }
@@ -348,9 +340,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       );
       setFeedbackError(false);
       setIsGeneratingFeedback(false);
-      // Show the success popup
       setShowSuccessPopup(true);
-      // Reset interview ID
       setInterviewId("");
     } catch (err) {
       console.log(err.response ? err.response.data.error : err.message);
@@ -370,8 +360,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Required for file uploads
-            Authorization: `Bearer ${user.token}`, // Dummy token
+            "Content-Type": "multipart/form-data", 
+            Authorization: `Bearer ${user.token}`, 
           },
         }
       );
@@ -496,39 +486,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
     return () => clearInterval(countdownRef.current);
   }, [isCountdownActive, countdown]);
-
-  // useEffect(() => {
-  //   const recognition = new (window.SpeechRecognition ||
-  //     window.webkitSpeechRecognition)();
-  //   recognition.continuous = true;
-  //   recognition.interimResults = true;
-
-  //   recognition.onstart = () => {
-  //     console.log("Speech recognition started");
-  //   };
-
-  //   recognition.onend = () => {
-  //     console.log("Speech recognition ended");
-  //   };
-
-  //   recognition.onresult = (event) => {
-  //     let currentTranscript = "";
-  //     for (let i = event.resultIndex; i < event.results.length; i++) {
-  //       currentTranscript += event.results[i][0].transcript;
-  //     }
-  //     setTranscript(currentTranscript);
-  //   };
-
-  //   if (isRecording && !isPaused) {
-  //     recognition.start();
-  //   } else {
-  //     recognition.stop();
-  //   }
-
-  //   return () => {
-  //     recognition.stop();
-  //   };
-  // }, [isRecording, isPaused]);
 
   return (
     <>

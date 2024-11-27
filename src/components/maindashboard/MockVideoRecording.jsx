@@ -240,16 +240,7 @@ const VideoRecording = ({
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      // setIsGeneratingFeedback(true);
-      // Add analytics to the backend
       await createFeedback();
-      // Add analytics to the context
-      // addAnalytics();
-      // setIsGeneratingFeedback(false);
-      // // Show the success popup
-      // setShowSuccessPopup(true);
-      // // Reset interview ID
-      // setInterviewId("");
     } else {
       setQuestionIndex((prevIndex) => prevIndex + 1);
     }
@@ -432,40 +423,6 @@ const VideoRecording = ({
     }
   }, [isCountdownActive]);
 
-  // //Speech to text
-  // useEffect(() => {
-  //   const recognition = new (window.SpeechRecognition ||
-  //     window.webkitSpeechRecognition)();
-  //   recognition.continuous = true;
-  //   recognition.interimResults = true;
-
-  //   recognition.onstart = () => {
-  //     console.log("Speech recognition started");
-  //   };
-
-  //   recognition.onend = () => {
-  //     console.log("Speech recognition ended");
-  //   };
-
-  //   recognition.onresult = (event) => {
-  //     let currentTranscript = "";
-  //     for (let i = event.resultIndex; i < event.results.length; i++) {
-  //       currentTranscript += event.results[i][0].transcript;
-  //     }
-  //     setTranscript(currentTranscript); // Update the transcript state with the recognized text
-  //   };
-
-  //   // Start and stop the speech recognition based on recording state
-  //   if (isRecording && !isPaused) {
-  //     recognition.start();
-  //   } else {
-  //     recognition.stop();
-  //   }
-  //   return () => {
-  //     recognition.stop(); // Clean up when component unmounts or recording stops
-  //   };
-  // }, [isRecording, isPaused]);
-
   return (
     <>
       <Modal
@@ -634,7 +591,7 @@ const VideoRecording = ({
           backdrop={false}
         ></div>
       )}
-      
+
       {cameraError ? (
         <ErrorAccessCam
           onRetry={() => {
