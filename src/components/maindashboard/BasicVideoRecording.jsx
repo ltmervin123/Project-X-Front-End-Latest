@@ -20,7 +20,7 @@ import axios from "axios";
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
 import tipsAvatar from "../../assets/video-rec-avatar.png";
 import { useAnalytics } from "../../hook/useAnalytics";
-
+import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./ErrorGenerateFeedback"; // Adjust the import path as necessary
 import ErrorGenerateQuestion from './ErrorGenerateQuestion'; 
 
