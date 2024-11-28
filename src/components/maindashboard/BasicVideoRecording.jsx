@@ -17,12 +17,13 @@ import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Imp
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
-import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
 import tipsAvatar from "../../assets/video-rec-avatar.png";
 import { useAnalytics } from "../../hook/useAnalytics";
 
 import ErrorGenerateFeedback from './ErrorGenerateFeedback'; // Adjust the import path as necessary
+import ErrorGenerateQuestion from './ErrorGenerateQuestion'; 
+
 
 const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
@@ -55,14 +56,22 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const [cameraError, setCameraError] = useState(false); // State to track camera error
 
   const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
+
+  const [questionError, setQuestionError] = useState(false);
   
   
   // Function to initialize Intro.js
   const startIntro = () => {
+    console.log("Starting Intro..."); // Log when the intro starts
     introJs().setOptions({
       steps: [
         {
-          intro: "Welcome to the Video Recording Interface!",
+          intro: `
+            <div class="intro-container">
+                <img class='introtipsAvatar' src="${tipsAvatar}" />
+                Welcome to the Video Recording Interface!
+            </div>
+          `,
         },
         {
           element: '#videoArea',
@@ -105,21 +114,21 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
     // Set the flag in localStorage to indicate that the intro has been shown
     localStorage.setItem('introShown', 'true');
+    console.log("Intro has been marked as shown in localStorage."); // Log when intro is marked as shown
   };
 
-  // Call startIntro when the component mounts or when needed
+  // Call startIntro when the component mounts
   useEffect(() => {
     // Check if the intro has already been shown
     const introShown = localStorage.getItem('introShown');
-    if (!introShown) {
+    console.log("Intro shown status:", introShown); // Log the current status of introShown
+    // if (!introShown) {
+      if (introShown) {
       startIntro();
+    } else {
+      console.log("Intro has already been shown."); // Log if the intro has already been shown
     }
-  }, []);
-
-      // Call startIntro when the component mounts or when needed
-  useEffect(() => {
-    startIntro();
-  }, []);
+  }, []); // Empty dependency array ensures this runs only once on mount
 
 
   const tips = [
@@ -373,15 +382,28 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
             Authorization: `Bearer ${user.token}`, // Dummy token
           },
         }
+        
       );
 
-      // Update the questions state with the questions array from the response
-      setQuestions(response.data.questions);
-      setInterviewId(response.data.interviewId);
+      // Check if questions are returned
+      if (response.data.questions && response.data.questions.length > 0) {
+        setQuestions(response.data.questions);
+        setQuestionError(false); // Reset error state if questions are fetched successfully
+      } else {
+        // If no questions are returned, set the question error state
+        setQuestionError(true);
+      }
+
     } catch (error) {
       console.error("Error fetching questions:", error);
+      setQuestionError(true);
     }
   };
+    // Call fetchQuestions when the component mounts or when interviewType/category changes
+    useEffect(() => {
+      fetchQuestions();
+    }, [interviewType, category]);
+  
 
   // Timer Effect
   useEffect(() => {
@@ -689,6 +711,12 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           </Row>
         </Modal.Body>
       </Modal>
+      {questionError && (
+        <ErrorGenerateQuestion onRetry={() => {
+          setQuestionError(false);
+          fetchQuestions(); // Retry fetching questions
+        }} />
+      )}
       {feedbackError ? (
           <ErrorGenerateFeedback onRetry={() => { setFeedbackError(false); createFeedback(); }} />
         ) : (
