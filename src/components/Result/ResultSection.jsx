@@ -1,10 +1,12 @@
 import { React, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "../../styles/Analytics.css";
+import { useNavigate } from "react-router-dom";
 
 const ResultSection = ({ interviewId }) => {
   // Retrieve analytics data from local storage
   const analytics = JSON.parse(localStorage.getItem("analytics")) || [];
+  const navigate = useNavigate();
 
   // Find the specific interview details based on the provided interviewId
   const interviewDetails = analytics.find((item) => item._id === interviewId);
@@ -36,7 +38,7 @@ const ResultSection = ({ interviewId }) => {
   };
 
   const handleReturn = () => {
-    window.history.back(); // Go back to the previous page
+    navigate(-1); // Go back to the previous page
   };
 
   return interviewDetails ? (

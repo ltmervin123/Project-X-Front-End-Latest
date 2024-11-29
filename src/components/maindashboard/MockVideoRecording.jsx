@@ -1,8 +1,9 @@
 import { React, useState, useEffect, useRef, useCallback } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import Draggable from "react-draggable";
-import ErrorAccessCam from "../maindashboard/ErrorAccessCam"; // Adjust the import path as necessary
-import ErrorGenerateFeedback from "./ErrorGenerateFeedback"; // Adjust the import path as necessary
+import ErrorAccessCam from "../maindashboard/ErrorAccessCam";
+import ErrorGenerateFeedback from "./ErrorGenerateFeedback";
+import ErrorGenerateQuestion from "./ErrorGenerateQuestion";
 import {
   FaMicrophone,
   FaMicrophoneSlash,
@@ -58,7 +59,7 @@ const VideoRecording = ({
   const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [cameraError, setCameraError] = useState(false); // State to track camera error
-
+  const [questionError, setQuestionError] = useState(false);
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -277,6 +278,9 @@ const VideoRecording = ({
   // Fetch questions from the backend
   const fetchQuestions = async () => {
     try {
+      setIsIntroShown(true);
+      setIsCountdownActive(false);
+      setQuestionError(false);
       const formData = new FormData();
       formData.append("type", interviewType);
       formData.append("category", category);
@@ -293,12 +297,13 @@ const VideoRecording = ({
           },
         }
       );
-
-      // Update the questions state with the questions array from the response
-      setQuestions(response.data.questions);
-      setInterviewId(response.data.interviewId);
+      if (response.data.questions && response.data.questions.length > 0) {
+        setQuestions(response.data.questions);
+        setIsCountdownActive(true);
+        setInterviewId(response.data.interviewId);
+      }
     } catch (error) {
-      console.error("Error fetching questions:", error);
+      setQuestionError(true);
     }
   };
 
@@ -328,10 +333,7 @@ const VideoRecording = ({
 
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
-    setIsIntroShown(true);
-    setIsCountdownActive(true);
     await fetchQuestions();
-    setQuestionIndex(0);
   };
 
   // Close handler
@@ -409,7 +411,7 @@ const VideoRecording = ({
     if (countdown === 0 && isCountdownActive) {
       clearInterval(countdownRef.current); // Stop countdown
       setIsCountdownActive(false); // Disable countdown after it ends
-      // Avoid resetting the question index here to keep the current question
+      setQuestionIndex(0);
     }
 
     return () => clearInterval(countdownRef.current);
@@ -434,7 +436,7 @@ const VideoRecording = ({
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Video Recording</h5>
+            <h5>Expert Interview</h5>
             <Button
               className="closebtn"
               variant="link"
@@ -523,7 +525,7 @@ const VideoRecording = ({
               <div className="interview-question-container">
                 {isIntroShown ? (
                   <>
-                    {isCountdownActive && countdown > 0 ? (
+                    {countdown > 0 ? (
                       <i>
                         Hold tight! We’re preparing the perfect questions for
                         you...
@@ -575,6 +577,14 @@ const VideoRecording = ({
           </Row>
         </Modal.Body>
       </Modal>
+      {questionError && (
+        <ErrorGenerateQuestion
+          onRetry={() => {
+            setIsIntroShown(false);
+            setQuestionError(false);
+          }}
+        />
+      )}
       {feedbackError ? (
         <ErrorGenerateFeedback
           onRetry={() => {
