@@ -84,11 +84,7 @@ const MainDashboard = () => {
             </thead>
             <tbody className="list">
               {isloaading ? (
-                <tr>
-                  <td colSpan="6" className="text-center">
-                    Fetching data...
-                  </td>
-                </tr>
+                <p>Fetching data...</p>
               ) : interviewHistory.length > 0 ? (
                 interviewHistory
                   .slice()

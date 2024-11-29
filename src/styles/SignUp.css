@@ -120,6 +120,14 @@
     align-items: center;
     gap: 10px;
 }
+.required-asterisk {
+    position: absolute;
+    top: 0px;
+    right: 25px;
+    color: red !important;
+    font-size: 20px !important;
+    z-index: 10;
+}
 .input-group > input[type="text"], .input-group > input[type="password"], .input-group > input[type="email"]{
     appearance: none;
     border-radius: 50px !important;
@@ -298,4 +306,13 @@
 .btn-close1:hover{
     background: none !important;
     color: #000 !important;
+}
+.toggle-password > svg {
+    font-size: 20px;
+    color: var(--input-bg);
+    transition: color 0.3s ease;
+}
+
+.toggle-password > svg:hover {
+    color: var(--primary-color);
 }

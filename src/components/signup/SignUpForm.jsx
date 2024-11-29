@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser , FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import logo from "../../assets/logo.png";
-import RegistrationSuccessPopUp from "./RegistrationSuccessPopUp"; // Import the success pop-up component
+import RegistrationSuccessPopUp from "./RegistrationSuccessPopUp";
 import { useSignup } from "../../hook/useSignup";
 
 function SignUpForm() {
@@ -11,15 +11,25 @@ function SignUpForm() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isBoxChecked, setIsBoxChecked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState(""); // New state for password error
   const { signup, isLoading, error } = useSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setPasswordError(""); // Reset password error
 
-    // Call the signup function from useSignup hook
+    let isValid = true;
+
+    // Validate password
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      isValid = false; // Mark as invalid
+    }
+
+    if (!isValid) return; // Exit if validation fails
+
     const isSignin = await signup(name, email, password);
-
-    // Show success pop-up
     if (isSignin) {
       setShowSuccessPopUp(true);
     }
@@ -40,11 +50,11 @@ function SignUpForm() {
         <h4>HR-HATCH</h4>
         <p>
           Our company offers comprehensive recruitment and talent support for
-          both job seekers and employers. It includes English mock interview
+          both job seekers and employers. It includes an English mock interview
           platform which helps candidates build confidence and improve their
           interviewing skills. Our resume builder tailors resumes to specific
-          job requirements. For employers, our job posting services attracts top
-          flexible candidates and, full-cycle Recruitment Process Outsourcing
+          job requirements. For employers, our job posting services attract top
+          flexible candidates and full-cycle Recruitment Process Outsourcing
           (RPO) solutions. We are dedicated to streamlining the hiring process,
           ensuring the right talent connects with the right roles.
         </p>
@@ -69,25 +79,24 @@ function SignUpForm() {
             Please provide your details to create your account. All fields
             marked with an asterisk (*) are required.
           </p>
-
           <form className="singup-form" onSubmit={handleSubmit}>
             <div className="input-group mb-3">
+              <span className="required-asterisk">*</span>
               <span className="input-group-text">
-                <FaUser />
+                <FaUser  />
               </span>
-
               <input
                 type="text"
                 className="form-control"
                 placeholder="Name"
                 required
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
+                onChange={(e) => setName(e.target.value)}
                 value={name}
               />
             </div>
+
             <div className="input-group mb-3">
+              <span className="required-asterisk">*</span>
               <span className="input-group-text">
                 <FaEnvelope />
               </span>
@@ -96,31 +105,40 @@ function SignUpForm() {
                 className="form-control"
                 placeholder="Email"
                 required
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
+                onChange={(e) => setEmail(e.target.value)}
                 value={email}
               />
             </div>
-            <div className="input-group mb-3">
+
+            <div className="input-group mb-3 position-relative">
+              <span className="required-asterisk">*</span>
               <span className="input-group-text">
                 <FaLock />
               </span>
               <input
-                type="password"
-                className="form-control"
+                type={showPassword ? "text" : "password"}
+                className={`form-control ${passwordError ? 'is-invalid' : ''}`} // Add invalid class if there's an error
                 placeholder="Password"
                 required
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
+              <span 
+                className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ 
+                    cursor: 'pointer', 
+                    zIndex: 10,
+                }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
             <div className="note d-flex">
               Choose a strong password (at least 8 characters, including letters
               and numbers)
             </div>
+            <div className="invalid-feedback">{passwordError}</div> {/* Display password error message */}
             <div className="privacy form-check">
               <div className="checkbox-container d-flex align-items-center">
                 <input
@@ -129,7 +147,7 @@ function SignUpForm() {
                   onChange={handleCheckboxChange}
                 />
               </div>
-              <div className="privacy-content r">
+              <div className="privacy-content">
                 <p>Privacy Agreement</p>
                 <p>
                   By registering, you agree to our Privacy Policy and Terms of
