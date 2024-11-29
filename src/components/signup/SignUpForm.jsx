@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaUser , FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import RegistrationSuccessPopUp from "./RegistrationSuccessPopUp";
@@ -11,25 +11,13 @@ function SignUpForm() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isBoxChecked, setIsBoxChecked] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState(""); // New state for password error
   const { signup, isLoading, error } = useSignup();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setPasswordError(""); // Reset password error
-
-    let isValid = true;
-
-    // Validate password
-    if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
-      isValid = false; // Mark as invalid
-    }
-
-    if (!isValid) return; // Exit if validation fails
-
     const isSignin = await signup(name, email, password);
+
     if (isSignin) {
       setShowSuccessPopUp(true);
     }
@@ -85,14 +73,19 @@ function SignUpForm() {
               <span className="input-group-text">
                 <FaUser  />
               </span>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Name"
-                required
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-              />
+
+              <div>
+                <input
+                  type="text"
+                  className={`form-control ${error ? "is-invalid" : ""}`}
+                  placeholder="Name"
+                  required
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  value={name}
+                />
+              </div>
             </div>
 
             <div className="input-group mb-3">
@@ -100,14 +93,18 @@ function SignUpForm() {
               <span className="input-group-text">
                 <FaEnvelope />
               </span>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                required
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-              />
+              <div>
+                <input
+                  type="email"
+                  className={`form-control ${error ? "is-invalid" : ""}`}
+                  placeholder="Email"
+                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
+                />
+              </div>
             </div>
 
             <div className="input-group mb-3 position-relative">
@@ -115,24 +112,31 @@ function SignUpForm() {
               <span className="input-group-text">
                 <FaLock />
               </span>
-              <input
-                type={showPassword ? "text" : "password"}
-                className={`form-control ${passwordError ? 'is-invalid' : ''}`} // Add invalid class if there's an error
-                placeholder="Password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              />
-              <span 
-                className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" 
-                onClick={() => setShowPassword(!showPassword)}
-                style={{ 
-                    cursor: 'pointer', 
+              <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className={`form-control ${error ? "is-invalid" : ""}`}
+                  placeholder="Password"
+                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
+                />
+                <span
+                  className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    cursor: "pointer",
                     zIndex: 10,
-                }}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
+                  }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+              {error && (
+                <div className="invalid-feedback-sign-up ">{error}</div>
+              )}
             </div>
             <div className="note d-flex">
               Choose a strong password (at least 8 characters, including letters
@@ -163,7 +167,6 @@ function SignUpForm() {
             >
               {isLoading ? "Creating Account..." : "Create Account"}
             </button>
-            {error && <div className="error-message">{error}</div>}
           </form>
         </div>
       </div>

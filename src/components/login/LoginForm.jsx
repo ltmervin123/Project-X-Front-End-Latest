@@ -1,65 +1,28 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaGoogle, FaFacebook, FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLock,
+  FaGoogle,
+  FaFacebook,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loginError, setLoginError] = useState(""); // Track combined error state
-  const [loginSuccess, setLoginSuccess] = useState(null); // Track success state
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setEmailError(""); // Clear previous errors
-    setPasswordError(""); // Clear previous errors
-    setLoginError(""); // Reset combined error state
-    setLoginSuccess(null); // Reset success state
-
-    // Simple email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    let isValid = true;
-
-    if (!emailRegex.test(email)) {
-      setEmailError("Incorrect email address");
-      isValid = false; // Mark as invalid
-    }
-
-    // Validate password
-    if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
-      isValid = false; // Mark as invalid
-    }
-
-    // If both fields are invalid
-    if (!isValid) {
-      setLoginError("Incorrect credentials provided.");
-      return; // Prevent submission if there are errors
-    }
-
     const isLogin = await login(email, password);
-
-
-    // Log the error
-  console.log("Login Error:", error); // Log the error here
-    
     if (isLogin) {
-      setLoginSuccess("Successfully logged in!");
       navigate("/maindashboard");
-    } else {
-      // Assuming that the login function can return specific errors
-      if (error === "Incorrect Password") {
-        setPasswordError("Incorrect Password");
-      } else {
-        setLoginError("Incorrect credentials provided."); // Set error if login fails
-      }
     }
-
   };
 
   return (
@@ -74,58 +37,47 @@ const LoginForm = () => {
           <div className="account-details">
             <h3>Account Details</h3>
             <p>Please enter your credentials to access your account.</p>
-            {/* {error && <div className="error-message">{error}</div> //eror butangi ni s part ra nga "Incorrect credentials provided."
-            }   */}
-
             <form className="login-form" onSubmit={handleSubmit}>
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <FaEnvelope />
                 </span>
                 <div>
-                <input
-                  type="email"
-                  className={`form-control ${emailError || loginError ? "is-invalid" : ""}`}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                  required
-                />
-                {emailError && (
-                  <div className="invalid-feedback">{emailError}</div> //error email not found na error diri na part
-                )}
+                  <input
+                    type="email"
+                    className={`form-control ${error ? "is-invalid" : ""}`}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    required
+                  />
                 </div>
-               
               </div>
               <div className="input-group mb-3 position-relative">
-                  <span className="input-group-text">
-                      <FaLock />
-                  </span>
-                  <div>
+                <span className="input-group-text">
+                  <FaLock />
+                </span>
+                <div>
                   <input
-                      type={showPassword ? "text" : "password"}
-                      className={`form-control ${passwordError || loginError ? "is-invalid" : ""}`} 
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
+                    type={showPassword ? "text" : "password"}
+                    className={`form-control ${error ? "is-invalid" : ""}`}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
-                  <span 
-                      className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password" 
-                      onClick={() => setShowPassword(!showPassword)}
-                      style={{ 
-                          cursor: 'pointer', 
-                          zIndex: 10,
-  
-                      }}
+                  <span
+                    className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      cursor: "pointer",
+                      zIndex: 10,
+                    }}
                   >
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </span>
-                  {error && (
-                      <div className="invalid-feedback">{passwordError}</div>
-                  )}
-                  </div>
 
-                 
+                  {error && <div className="invalid-feedback">{error}</div>}
+                </div>
               </div>
               <div className="forgot d-flex">
                 Forgot your password?
@@ -145,12 +97,7 @@ const LoginForm = () => {
                   </div>
                 </div>
               </div>
-              {loginError && (
-                <div className="invalid-feedback">{loginError}</div>
-              )} {/* Show combined error message */}
-              {loginSuccess && (
-                <div className="alert alert-success">{loginSuccess}</div>
-              )} {/* Show success message */}
+
               <button
                 type="submit"
                 className="login-button"
@@ -169,7 +116,7 @@ const LoginForm = () => {
             </div>
             <button
               className="guest-button"
-              onClick={() => (window.location.href = "/maindashboard")}
+              // onClick={() => (window.location.href = "/")} // not implemented yet
             >
               Continue as Guest
             </button>
