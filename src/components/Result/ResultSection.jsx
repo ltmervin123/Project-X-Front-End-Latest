@@ -43,41 +43,41 @@ const ResultSection = ({ interviewId }) => {
     <Container className="result-container shadow-sm p-3">
       <Row>
         <Col md={4}>
-          <Card className="interview-result-container d-flex">
-            <h4>Overall Rating</h4>
+          <Card className="interview-result-container d-flex align-items-center">
+            <h4>INTERVIEW RESULT</h4>
             <div className="score-section">
-              <div className="d-flex justify-content-between">
-                <p>Grammar</p>
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="rating-name">Grammar</p>
                 <p className={getResultClass(overallFeedback.grammar)}>
                   {overallFeedback.grammar || 0}/10
                 </p>
               </div>
-              <div className="d-flex justify-content-between">
-                <p>Skills</p>
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="rating-name">Skills</p>
                 <p className={getResultClass(overallFeedback.gkills)}>
                   {overallFeedback.gkills || 0}/10
                 </p>
               </div>
-              <div className="d-flex justify-content-between">
-                <p>Experience</p>
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="rating-name">Experience</p>
                 <p className={getResultClass(overallFeedback.experience)}>
                   {overallFeedback.experience || 0}/10
                 </p>
               </div>
-              <div className="d-flex justify-content-between">
-                <p>Relevance</p>
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="rating-name">Relevance</p>
                 <p className={getResultClass(overallFeedback.relevance)}>
                   {overallFeedback.relevance || 0}/10
                 </p>
               </div>
-              <div className="d-flex justify-content-between">
-                <p>Filler Count</p>
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="rating-name">Filler Count</p>
                 <p className={getResultClass(overallFeedback.fillerCount)}>
                   {overallFeedback.fillerCount || 0}
                 </p>
               </div>
-              <div className="d-flex justify-content-between">
-                <p>Overall Performance</p>
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="rating-name-overall">Overall Performance</p>
                 <p
                   className={getResultClass(overallFeedback.overallPerformance)}
                 >

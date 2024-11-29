@@ -75,49 +75,106 @@
     position: relative;
     width: 90%;
 }
-
-.input-group {
+.account-details > .input-group {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-.input-group > input[type="text"], 
-.input-group > input[type="password"], 
-.input-group > input[type="email"] {
-    appearance: none;
-    border-radius: 50px !important;
-    border: 2px solid var(--input-bg);
-    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.25);
-    background: rgb(195,194,194);
-    background: linear-gradient(114deg, rgba(255, 254, 254 , 0.363)  4%, rgba(195, 194, 194, 0.353) 100%);
+    justify-content: flex-end;
+    position: relative;
 }
 
 .input-group > span {
     background: none;
     border: none;
-    color: var(--font-white);
-    font-size: 35px;
-}
-
-.input-group {
-    position: relative;
-}
-
-
-.toggle-password > svg{
-    font-size: 30px;
     color: var(--input-bg);
+    font-size: 20px;
+}
+
+.input-group > div {
+    
+    position: relative;
+    width: 80%;
+}
+.input-group.mb-3 {
+    position: relative; /* Ensures that the absolute positioning of children works */
+}
+
+.position-relative .toggle-password {
+    position: absolute;
+    right: 15px; /* Adjust as necessary for spacing */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for perfect centering */
+    z-index: 10; /* Ensure it appears above other elements */
+    cursor: pointer; /* Pointer cursor for better UX */
+}
+
+.input-group > span {
+    background: none;
+    border: none;
+    color: var(--input-bg);
+    font-size: 20px;
+}
+
+.input-group > div > input[type="text"],
+.input-group > div > input[type="password"],
+.input-group > div > input[type="email"] {
+    appearance: none;
+    width: 100%;
+    padding: 12px 12px 12px 20px; /* Adjust padding as needed */
+    border-radius: 50px !important;
+    border: 2px solid var(--input-bg);
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+.input-group > div > input[type="text"]:focus,
+.input-group > div > input[type="password"]:focus,
+.input-group > div > input[type="email"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(244, 106, 5, 0.4);
 }
 
 .invalid-feedback {
     font-size: 12px;
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    width: 100%;
+    width: calc(100% - 30px);
     color: red !important;
+    animation: fadeIn 0.3s ease;
+    position: absolute;
+    z-index: 1;
+    bottom: -20px; /* Adjust this value to create space for the error message */
+    left: 25px; /* Adjust this value as necessary */
+}
+.error-message{
+    color: red;
+    position: relative;
+    font-size: 15px;
+    left: 20%;
+}
+.toggle-password > svg {
+    font-size: 20px;
+    color: var(--input-bg);
+    transition: color 0.3s ease;
+}
+
+.toggle-password > svg:hover {
+    color: var(--primary-color);
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.input-group > div > input.is-invalid {
+    border-color: red !important;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
 }
 .forgot {
     justify-content: flex-end;

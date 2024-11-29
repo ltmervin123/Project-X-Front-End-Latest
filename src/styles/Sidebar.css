@@ -29,6 +29,13 @@
     margin-right: 10px;
     width: 15px;
 }
+.sidebarnav.active {
+    color: var(--primary-color) !important; /* Change text color */
+}
+
+.sidebarnav.active > svg {
+    fill: var(--primary-color) !important; /* Change SVG fill color */
+}
 .logo-brand{
     padding: 0 !important;
 }
@@ -44,9 +51,9 @@
     color: var(--primary-color) !important;
 }
 
-.user-avatar-info > div {
-    font-weight: 500;
-    font-size: 14px;
+ .user-name {
+    font-weight: bolder !important;
+    font-size: 18px !important;
 }
 .user-email{
     font-size: 11px;
