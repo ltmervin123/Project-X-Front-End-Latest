@@ -26,7 +26,7 @@ export const useAnalytics = () => {
         dispatch({ type: "SET_ANALYTICS", payload: data });
       }
     } catch (err) {
-      console.log(err.response.data.error);
+      console.log(err.message);
     } finally {
       setIsLoading(false);
     }

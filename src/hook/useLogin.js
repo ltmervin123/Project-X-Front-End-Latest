@@ -40,7 +40,7 @@ export const useLogin = () => {
       }
     } catch (err) {
       // Handle any error from the request
-      setError(err.response ? err.response.data.error : "Signup failed");
+      setError(err.response ? err.response.data.error : "Login failed");
       return false;
     } finally {
       // Set loading to false after the request completes

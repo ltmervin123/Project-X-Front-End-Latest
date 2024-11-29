@@ -22,7 +22,7 @@ import tipsAvatar from "../../assets/video-rec-avatar.png";
 import { useAnalytics } from "../../hook/useAnalytics";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./ErrorGenerateFeedback"; // Adjust the import path as necessary
-import ErrorGenerateQuestion from './ErrorGenerateQuestion'; 
+import ErrorGenerateQuestion from "./ErrorGenerateQuestion";
 
 import { TbRuler2 } from "react-icons/tb";
 
@@ -55,7 +55,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [cameraError, setCameraError] = useState(false); // State to track camera error
   const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
-
   const [questionError, setQuestionError] = useState(false);
 
   //Function to initialize Intro.js
@@ -122,7 +121,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       console.log("Intro has already been shown."); // Log if the intro has already been shown
     }
   }, []); // Empty dependency array ensures this runs only once on mount
-
 
   const tips = [
     "Know your resume.",
@@ -351,6 +349,9 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   // Fetch questions from the backend
   const fetchQuestions = async () => {
     try {
+      setIsIntroShown(true);
+      setIsCountdownActive(false);
+      setQuestionError(false);
       const formData = new FormData();
       formData.append("type", interviewType);
       formData.append("category", category);
@@ -364,28 +365,18 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
             Authorization: `Bearer ${user.token}`,
           },
         }
-        
       );
 
       // Check if questions are returned
       if (response.data.questions && response.data.questions.length > 0) {
         setQuestions(response.data.questions);
-        setQuestionError(false); // Reset error state if questions are fetched successfully
-      } else {
-        // If no questions are returned, set the question error state
-        setQuestionError(true);
+        setIsCountdownActive(true);
+        setInterviewId(response.data.interviewId);
       }
-
     } catch (error) {
-      console.error("Error fetching questions:", error);
       setQuestionError(true);
     }
   };
-    // Call fetchQuestions when the component mounts or when interviewType/category changes
-    useEffect(() => {
-      fetchQuestions();
-    }, [interviewType, category]);
-  
 
   // Timer Effect
   useEffect(() => {
@@ -413,10 +404,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
-    setIsIntroShown(true);
-    setIsCountdownActive(true);
     await fetchQuestions();
-    setQuestionIndex(0);
   };
 
   // Close handler
@@ -493,8 +481,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
     if (countdown === 0 && isCountdownActive) {
       clearInterval(countdownRef.current); // Stop countdown
-      setIsCountdownActive(false); // Disable countdown after it ends
-      // Avoid resetting the question index here to keep the current question
+      setIsCountdownActive(false);
+      setQuestionIndex(0);
     }
 
     return () => clearInterval(countdownRef.current);
@@ -511,7 +499,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Video Recording</h5>
+            <h5>Basic Interview</h5>
             <Button
               id="confirmCloseButton"
               variant="link"
@@ -612,10 +600,10 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                 alt="Avatar"
                 className="avatar-interviewer-img"
               />
-              <div className="interview-question-container">
+              <div className="interview-question-con  tainer">
                 {isIntroShown ? (
                   <>
-                    {isCountdownActive && countdown > 0 ? (
+                    {countdown > 0 ? (
                       <i>
                         Hold tight! We’re preparing the perfect questions for
                         you...
@@ -669,15 +657,16 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
         </Modal.Body>
       </Modal>
       {questionError && (
-        <ErrorGenerateQuestion onRetry={() => {
-          setQuestionError(false);
-          fetchQuestions(); // Retry fetching questions
-        }} />
+        <ErrorGenerateQuestion
+          onRetry={() => {
+            setIsIntroShown(false);
+            setQuestionError(false);
+          }}
+        />
       )}
       {feedbackError ? (
         <ErrorGenerateFeedback
           onRetry={() => {
-            // setFeedbackError(false);
             createFeedback();
           }}
         />
