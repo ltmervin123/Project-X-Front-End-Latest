@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import RegistrationSuccessPopUp from "./RegistrationSuccessPopUp"; // Import the success pop-up component
@@ -12,6 +12,7 @@ function SignUpForm() {
   const [name, setName] = useState("");
   const [isBoxChecked, setIsBoxChecked] = useState(false);
   const { signup, isLoading, error } = useSignup();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,46 +77,65 @@ function SignUpForm() {
                 <FaUser />
               </span>
 
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Name"
-                required
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                value={name}
-              />
+              <div>
+                <input
+                  type="text"
+                  className={`form-control ${error ? "is-invalid" : ""}`}
+                  placeholder="Name"
+                  required
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  value={name}
+                />
+              </div>
             </div>
             <div className="input-group mb-3">
               <span className="input-group-text">
                 <FaEnvelope />
               </span>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                required
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                value={email}
-              />
+              <div>
+                <input
+                  type="email"
+                  className={`form-control ${error ? "is-invalid" : ""}`}
+                  placeholder="Email"
+                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
+                />
+              </div>
             </div>
             <div className="input-group mb-3">
               <span className="input-group-text">
                 <FaLock />
               </span>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-                required
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                value={password}
-              />
+              <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className={`form-control ${error ? "is-invalid" : ""}`}
+                  placeholder="Password"
+                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
+                />
+                <span
+                  className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    cursor: "pointer",
+                    zIndex: 10,
+                  }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+              {error && (
+                <div className="invalid-feedback-sign-up ">{error}</div>
+              )}
             </div>
             <div className="note d-flex">
               Choose a strong password (at least 8 characters, including letters
@@ -145,7 +165,6 @@ function SignUpForm() {
             >
               {isLoading ? "Creating Account..." : "Create Account"}
             </button>
-            {error && <div className="error-message">{error}</div>}
           </form>
         </div>
       </div>

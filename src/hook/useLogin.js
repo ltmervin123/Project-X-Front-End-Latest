@@ -9,10 +9,9 @@ export const useLogin = () => {
   const { dispatch } = useAuthContext();
 
   const login = async (email, password) => {
-    setIsLoading(true);
-    setError(null);
-
     try {
+      setIsLoading(true);
+      setError(null);
       //Request body
       const requestBody = { email, password };
 
@@ -40,7 +39,11 @@ export const useLogin = () => {
       }
     } catch (err) {
       // Handle any error from the request
-      setError(err.response ? err.response.data.error : "Login failed");
+      const responseError = err.response
+        ? err.response.data.error
+        : "Login failed";
+      setError(responseError);
+      console.log("Error ", error);
       return false;
     } finally {
       // Set loading to false after the request completes
