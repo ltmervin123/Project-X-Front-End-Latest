@@ -142,7 +142,6 @@ function SignUpForm() {
               Choose a strong password (at least 8 characters, including letters
               and numbers)
             </div>
-            <div className="invalid-feedback">{passwordError}</div> {/* Display password error message */}
             <div className="privacy form-check">
               <div className="checkbox-container d-flex align-items-center">
                 <input
