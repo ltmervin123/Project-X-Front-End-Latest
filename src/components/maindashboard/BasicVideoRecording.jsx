@@ -12,7 +12,7 @@ import {
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
-import avatarImg from "../../assets/video-rec-avatar.png";
+import avatarImg from "../../assets/basic.png";
 import CancelInterviewAlert from "../maindashboard/CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
@@ -600,7 +600,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                 alt="Avatar"
                 className="avatar-interviewer-img"
               />
-              <div className="interview-question-con  tainer">
+              <div className="interview-question-container">
                 {isIntroShown ? (
                   <>
                     {countdown > 0 ? (
