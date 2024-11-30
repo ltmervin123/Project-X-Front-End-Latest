@@ -456,7 +456,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                   <Button
                     className="position-relative  pause-indicator"
                     onClick={isRecording ? stopRecording : startRecording}
-                    disabled={isUploading}
+                    disabled={!questions.length || isUploading}
                   >
                     {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
                     {isUploading ? (
