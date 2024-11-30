@@ -23,7 +23,7 @@ import { useAnalytics } from "../../hook/useAnalytics";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./ErrorGenerateFeedback"; // Adjust the import path as necessary
 import ErrorGenerateQuestion from "./ErrorGenerateQuestion";
-import loading from '../../assets/loading.gif';
+import loading from "../../assets/loading.gif";
 
 const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
@@ -105,16 +105,30 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
         ],
       })
       .start();
+    //Get the introShown flag from sessionStorage
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
-    // Set the flag in localStorage to indicate that the intro has been shown
-    JSON.stringify(sessionStorage.setItem("introShown", true));
+    //Check if the intro has already been shown
+    if (!isIntroShown.basic) {
+      // Update the behavioral field
+      const updatedIntroShown = {
+        ...isIntroShown, // Preserve other fields
+        basic: true, // Update behavioral
+      };
+
+      //Clear the introShown flag from sessionStorage
+      sessionStorage.removeItem("isIntroShown");
+      // Save the updated object back to sessionStorage
+      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
+    }
   };
 
   // Call startIntro when the component mounts
   useEffect(() => {
     // Check if the intro has already been shown
-    const introShown = JSON.parse(sessionStorage.getItem("introShown"));
-    if (!introShown) {
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+
+    if (!isIntroShown.basic) {
       startIntro();
     } else {
       console.log("Intro has already been shown."); // Log if the intro has already been shown
@@ -190,18 +204,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       setIsReattemptingCamera(false); // Reset if successful
       setCameraError(false);
     } catch (error) {
-      // console.error("Error accessing camera:", error);
-      // if (retryCount > 0) {
-      //   console.log(
-      //     `Retrying to access camera... (${3 - retryCount + 1} attempt)`
-      //   );
-      //   setIsReattemptingCamera(true);
-      //   setTimeout(() => enableCameraFeed(retryCount - 1), 1000); // Retry after 1 second
-      // } else {
-      //   console.error("Failed to access the camera after multiple attempts.");
-      //   setIsReattemptingCamera(false); // Reset reattempt state
-      //   setCameraError(true); // Set camera error state
-      // }
       setIsReattemptingCamera(false);
       setCameraError(true);
     }
@@ -416,7 +418,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     setShowConfirm(false);
     stopRecording(); // Ensure recording is stopped before closing
     onClose(); // Proceed with closing the modal
-    // window.location.reload(); // Reload the page
+    window.location.reload(); // Reload the page
   };
 
   // Upload video to the server
@@ -573,7 +575,12 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                 {isReattemptingCamera && (
                   <div className="camera-retry-overlay">
                     {/* <Spinner animation="border" role="status" /> */}
-                    <img className="loadinganimation" animation="border" role="status" src={loading}/>
+                    <img
+                      className="loadinganimation"
+                      animation="border"
+                      role="status"
+                      src={loading}
+                    />
                     <p>Reattempting access to camera...</p>
                   </div>
                 )}

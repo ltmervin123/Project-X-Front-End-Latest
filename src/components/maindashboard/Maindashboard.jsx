@@ -57,6 +57,21 @@ const MainDashboard = () => {
     setShowBehavioralVideoRecording(true);
   };
 
+  //Set IntroShown flag in sessionStorage when the component mounts
+  useEffect(() => {
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+
+    if (!isIntroShown) {
+      const introShown = {
+        expert: false,
+        behavioral: false,
+        basic: false,
+      };
+      // Set the flag in localStorage to indicate that the intro has been shown
+      sessionStorage.setItem("isIntroShown", JSON.stringify(introShown));
+    }
+  }, []);
+
   //Close Model
   const handleClose = () => {
     setShowUploadModal(false);
