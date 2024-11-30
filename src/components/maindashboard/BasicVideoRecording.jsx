@@ -18,13 +18,12 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate for redire
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
-import tipsAvatar from "../../assets/video-rec-avatar.png";
+import tipsAvatar from "../../assets/basic.png";
 import { useAnalytics } from "../../hook/useAnalytics";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./ErrorGenerateFeedback"; // Adjust the import path as necessary
 import ErrorGenerateQuestion from "./ErrorGenerateQuestion";
-
-import { TbRuler2 } from "react-icons/tb";
+import loading from '../../assets/loading.gif';
 
 const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
@@ -573,7 +572,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                 {/* Overlay for reattempting access to camera */}
                 {isReattemptingCamera && (
                   <div className="camera-retry-overlay">
-                    <Spinner animation="border" role="status" />
+                    {/* <Spinner animation="border" role="status" /> */}
+                    <img className="loadinganimation" animation="border" role="status" src={loading}/>
                     <p>Reattempting access to camera...</p>
                   </div>
                 )}

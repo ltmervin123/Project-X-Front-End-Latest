@@ -34,9 +34,15 @@ function SignUpForm() {
   return (
     <div className="signup-info-container">
       <div className="info-create-acc-container">
-        <img src={logo} alt="Company Logo" className="logo" />
-        <h4>HR-HATCH</h4>
-        <p>
+          <img
+            src={logo}
+            alt="Logo"
+            width="80"
+            height="80"
+          />
+          <div>
+          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
+          </div>        <p>
           Our company offers comprehensive recruitment and talent support for
           both job seekers and employers. It includes an English mock interview
           platform which helps candidates build confidence and improve their

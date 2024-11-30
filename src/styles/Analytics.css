@@ -40,16 +40,15 @@
 
 .analytics-container {
   border-radius: 10px;
-  padding: 20px;
   border: 2px solid var(--font-white);
   position: relative;
   height: 70vh; /* Adjust height as necessary */
-  overflow: hidden; /* Hide overflow */
+  overflow: auto; /* Allow scrolling */
 }
 
 .table-responsive {
   height: 100%; /* Full height */
-
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 table {
@@ -58,14 +57,14 @@ table {
   border-collapse: collapse;
   color: var(--font-black);
   background-color: transparent !important;
-
+  position: relative; /* Required for the fixed header */
 }
-
-thead th {
-  position: relative; /* Stick the header */
-  top: 0; /* Position it at the top */
+thead{
+  height: 50px;
+  position: sticky; /* Make the header sticky */
+  top: 0; /* Stick to the top */
   z-index: 10; /* Ensure it is above other elements */
-  border-bottom: 2px solid var(--primary-color);
+  background: var(--font-white);
 }
 
 tbody td {

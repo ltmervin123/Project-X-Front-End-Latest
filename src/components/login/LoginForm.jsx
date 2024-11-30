@@ -7,8 +7,10 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
+import LoginAvatar from "../../assets/login-img.png";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -27,8 +29,10 @@ const LoginForm = () => {
 
   return (
     <div className="row main-login justify-content-end">
-      <div className="col-md-6 d-flex align-items-center justify-content-center"></div>
-      <div className="col-md-6 d-flex align-items-center justify-content-center main-login-form">
+      <Col md={2}  className=" d-flex align-items-center justify-content-center ">
+        <img className="login-avatar" src={LoginAvatar} alt="" />
+      </Col>
+      <Col md={7}  className="d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
             <h2>LOG IN</h2>
@@ -131,7 +135,7 @@ const LoginForm = () => {
             </button>
           </div>
         </div>
-      </div>
+      </Col>
     </div>
   );
 };

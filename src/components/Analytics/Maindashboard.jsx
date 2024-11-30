@@ -37,7 +37,7 @@ const MainDashboard = () => {
   };
 
   return (
-    <Container className="main-container2 d-flex flex-column">
+    <Container className=" d-flex flex-column">
       <div className="analytic-container-header">
         <h4>Analytics</h4>
       </div>
@@ -50,7 +50,7 @@ const MainDashboard = () => {
           >
             <Form.Control as="select">
               <option>Category</option>
-            </Form.Control>
+            </Form.Control> 
             <span className="dropdown-icon">
               <FaChevronDown />
             </span>

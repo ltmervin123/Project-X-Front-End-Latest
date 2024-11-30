@@ -23,7 +23,7 @@ const Sidebar = () => {
         href="/maindashboard"
         className="d-flex align-items-center mb-3 logo-brand"
       >
-        <img src={logo} alt="Logo" width="55" height="55" className="me-2" />
+        <img src={logo} alt="Logo" width="80" height="80" className="me-2" />
         <div>
           <div className="logoname">
             HR-<div className="logocolor">HATCH</div>{" "}

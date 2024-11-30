@@ -83,7 +83,7 @@ const MainDashboard = () => {
   };
 
   return (
-    <Container className="main-container1 d-flex flex-column">
+    <Container className=" d-flex flex-column">
       <div className="mock-interview-container-header">
         <h4>Mock Interview</h4>
         <p>Select Professional Career Interview</p>
