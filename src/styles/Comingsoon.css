@@ -1,0 +1,78 @@
+:root {
+    --primary-color: #F46A05; 
+    --secondary-color: #1706AC;
+    --font-white: #fff;
+    --font-black: #000;
+    --input-bg: #686868;
+    --bg-fade-signup: #D9D9D9;
+}
+.coming-soon-container {
+    background-image: url('../assets/coming-soon-img.png'); 
+    background-size: cover;
+    background-position: center; /* Center the background image */
+    width: 100%;
+    height: 100vh; /* Set height to 100% of the viewport height */
+    position: relative;
+    display: flex; /* Use flexbox for centering content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    color: var(--font-white); /* Change text color for better visibility */
+    text-align: center; /* Center text */
+}
+.comming-soon-main-content{
+    position: absolute;
+    z-index: 1; 
+    top: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: var(--font-black);
+    width: 490px;
+}
+.comming-soon-main-content > h4{
+    font-size: 30px !important;
+    width: 600px;
+    padding-right: 20px;
+}
+.comming-soon-content {
+    position: absolute;
+    z-index: 1; /* Ensure content is above the background */
+    padding: 20px; /* Add padding for better spacing */
+    bottom: 0;
+}
+
+.coming-soon-container::after {
+    content: " ";
+    background-image: url('../assets/comingsoon-bg1.png'); 
+    background-size: contain;
+    background-position: bottom center; /* Center the background image */
+    width: 100%;
+    height: 90%; /* Set height to 100% of the viewport height */
+    position: absolute;
+    top: 10%; /* Adjust to cover the entire container */
+    left: 0; /* Adjust to cover the entire container */
+    z-index: 0; /* Ensure it's behind the content */
+}
+
+.email-input {
+    padding: 10px; /* Add padding for input */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    outline: none; /* Remove outline */
+    width: 250px; /* Set a fixed width for the input */
+}
+
+.btn-notif {
+    padding: 10px 20px; /* Add padding for button */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: var(--primary-color); /* Button color */
+    color: white; /* Button text color */
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.btn-notif:hover {
+    background-color: var(--primary-color); /* Darker shade on hover */
+}

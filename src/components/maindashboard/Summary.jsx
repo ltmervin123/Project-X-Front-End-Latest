@@ -13,7 +13,7 @@ const Summary = () => {
       <Card className="summary-card d-flex">
         <Card.Title>Summary</Card.Title>
         <Card.Text>Mock Interview History</Card.Text>
-        <div className="activity-results-container d-flex">
+        <div className="activity-results-container d-flex justify-content-center">
           <div className="activity-container text-center d-flex">
             <p>Activity</p>
             {interviews.map((interview, index) => (

@@ -1,55 +1,91 @@
 :root {
-    --primary-color: #F46A05; 
-    --secondary-color: #1706AC;
-    --font-white: #fff;
-    --card-color: #686868;
-    --text-color: #000;
-    --acttivit-card-bg: #D9D9D9;
-
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --text-color: #000;
+  --acttivit-card-bg: #d9d9d9;
 }
 
 .sidebar-container {
-    justify-content: space-around;
-    gap: 30px;
-    width: 350px;
-    border: 2px solid var(--primary-color);
-    border-top: none;
-    border-left: none;
-    padding: 0 !important;
-    border-bottom: none;
-    transition: width 0.3s; /* Smooth transition for width change */
+  display: flex !important;
+  justify-content: flex-start !important;
+  min-width: 350px ;
+  width: 30%; /* Fixed width for desktop */
+  border: 2px solid var(--primary-color);
+  border-top: none;
+  border-left: none;
+  padding: 0 !important;
+  border-bottom: none;
+  transition: width 0.3s; /* Smooth transition for width change */
 }
-.logo-brand{
-    padding: 0 !important;
+
+.sidebarnav {
+  margin-bottom: 5px;
+  font-weight: 500 !important;
+  font-size: 1rem; /* Use rem for scalability */
+  color: var(--card-color) !important;
 }
+
+.sidebarnav > svg {
+  fill: var(--card-color) !important;
+  margin-right: 10px;
+  width: 1rem; /* Use rem for scalability */
+}
+
+.sidebarnav.active {
+  color: var(--primary-color) !important; /* Change text color */
+}
+
+.sidebarnav.active > svg {
+  fill: var(--primary-color) !important; /* Change SVG fill color */
+}
+
+.logo-brand {
+  padding: 0 !important;
+}
+
 .avatar-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+  width: 4.5rem; /* Use rem for scalability */
+  height: 4.5rem; /* Use rem for scalability */
+  border-radius: 50%;
+  padding: 10px;
+  background: var(--font-white);
 }
 
-.user-avatar-info > div, .user-avatar-info > small {
-    color: var(--primary-color);
+.user-avatar-info > div,
+.user-avatar-info > .userprofilelink {
+  color: var(--primary-color) !important;
 }
 
-.user-avatar-info > div {
-    font-weight: 500;
-    font-size: 14px;
-}
-.user-email{
-    font-size: 11px;
-    font-weight: 100 !important;
-}
-@media (max-width: 768px) {
-    .sidebar-container {
-        width: 250px; /* Smaller width for tablets */
-    }
+.user-name {
+  font-weight: bolder !important;
+  font-size: 1rem; /* Use rem for scalability */
 }
 
-@media (max-width: 576px) {
-    .sidebar-container {
-        width: 100%; /* Full width for mobile */
-        position: absolute; /* Allow it to overlay the content */
-        z-index: 1000; /* Ensure it overlays */
-    }
+.user-email {
+  font-size: 0.7rem; /* Use rem for scalability */
+  font-weight: 100 !important;
 }
+
+/* Media Queries for Desktop Responsiveness */
+@media (min-width: 1700px) {
+
+  .avatar-img {
+    width: 5rem; /* Use rem for scalability */
+    height: 5rem; /* Use rem for scalability */
+  
+  }
+  .sidebarnav {
+    font-size: 1.3rem !important; /* Larger font size for better readability */
+  }
+
+  .user-name {
+    font-size: 1.3rem; /* Larger font size for better readability */
+  }
+
+  .user-email {
+    font-size: 1rem; /* Larger font size for better readability */
+  }
+}
+

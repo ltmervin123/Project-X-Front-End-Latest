@@ -15,6 +15,7 @@ import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
+import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 
 function App() {
@@ -30,8 +31,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route
           path="/signup"
-          element={!user ? <SignUp /> : <Navigate to="/maindashboard" />}
-          // element={<SignUp/>}
+          // element={!user ? <SignUp /> : <Navigate to="/maindashboard" />}
+          element={<SignUp/>}
         />
         <Route
           path="/analytics"
@@ -54,6 +55,7 @@ function App() {
           element={<UserProfilePage />}
         />
         <Route path="/error" element={<ErrorPage />}></Route>
+        <Route path="/comingsoon" element={<CommingSoonPage />}></Route>
       </Routes>
     </Router>
   );

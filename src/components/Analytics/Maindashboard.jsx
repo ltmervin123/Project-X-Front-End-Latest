@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -26,23 +26,31 @@ const MainDashboard = () => {
   const navigate = useNavigate();
 
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-
+  
+  // State for search input
+  const [searchTerm, setSearchTerm] = useState("");
+  
   useEffect(() => {
-    // Analytics data is not available in the context fetch it
-    // if (!analytics) {
-    //   getAnalytics();
-    // }
-
     getAnalytics();
   }, [dispatch]);
 
   const handleViewResult = (interviewId) => {
     navigate(`/result/${interviewId}`);
-    // navigate(`/result`);
   };
 
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filter interview history based on search term
+  const filteredInterviewHistory = interviewHistory.filter(item => {
+    const category = item.interviewDetails[0].category.toLowerCase();
+    return category.includes(searchTerm.toLowerCase());
+  });
+
   return (
-    <Container className="main-container2 d-flex flex-column">
+    <Container className="d-flex flex-column">
       <div className="analytic-container-header">
         <h4>Analytics</h4>
       </div>
@@ -55,7 +63,7 @@ const MainDashboard = () => {
           >
             <Form.Control as="select">
               <option>Category</option>
-            </Form.Control>
+            </Form.Control> 
             <span className="dropdown-icon">
               <FaChevronDown />
             </span>
@@ -66,6 +74,8 @@ const MainDashboard = () => {
               type="text"
               placeholder="Search Category"
               className="search-input"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
           </Form.Group>
 
@@ -76,52 +86,60 @@ const MainDashboard = () => {
       </div>
 
       <div className="analytics-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Date</th>
-              <th>Overall Result</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody className="list">
-            {interviewHistory.length > 0 ? (
-              interviewHistory
-                .slice()
-                .reverse()
-                .map((item) => (
-                  <tr key={item._id}>
-                    <td>{item.interviewDetails[0].type}</td>
-                    <td>{item.interviewDetails[0].category}</td>
-                    <td>{getDate(item.createdAt)}</td>
-                    <td
-                      className={getResultClass(
-                        parseFloat(item.overallFeedback.overallPerformance)
-                      )}
-                    >
-                      {item.overallFeedback.overallPerformance}/10
-                    </td>
-                    <td>
-                      <Button
-                        variant="link"
-                        onClick={() => handleViewResult(item._id)}
-                      >
-                        View Full Result
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-            ) : (
+        <div className="table-responsive">
+          <table>
+            <thead>
               <tr>
-                <td colSpan="6" className="text-center">
-                  No data available
-                </td>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Overall Result</th>
+                <th>Action</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="list">
+              {isloaading ? (
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    Fetching interview history...
+                  </td>
+                </tr>
+              ) : filteredInterviewHistory.length > 0 ? (
+                filteredInterviewHistory  
+                  .slice()
+                  .reverse()
+                  .map((item) => (
+                    <tr key={item._id}>
+                      <td>{item.interviewDetails[0].type}</td>
+                      <td>{item.interviewDetails[0].category}</td>
+                      <td>{getDate(item.createdAt)}</td>
+                      <td
+                        className={getResultClass(
+                          parseFloat(item.overallFeedback.overallPerformance)
+                        )}
+                      >
+                        {item.overallFeedback.overallPerformance}/10
+                      </td>
+                      <td>
+                        <Button
+                          variant="link"
+                          onClick={() => handleViewResult(item._id)}
+                        >
+                          View Full Result
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className ="text-center">
+                    No data available
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Container>
   );

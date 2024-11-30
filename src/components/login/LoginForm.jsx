@@ -1,49 +1,38 @@
-import { React, useState } from "react";
-import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  FaEnvelope,
+  FaLock,
+  FaGoogle,
+  FaFacebook,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
+import LoginAvatar from "../../assets/login-img.png";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(null); // Track success state
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setEmailError(""); // Clear previous errors
-    setPasswordError(""); // Clear previous errors
-    setLoginSuccess(null); // Reset success state
-
-    // Simple email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailError("Incorrect email address");
-      return; // Prevent submission if email is invalid
-    }
-
-    // Validate password (you can add custom logic here)
-    if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
-      return; // Prevent submission if password is too short
-    }
-
     const isLogin = await login(email, password);
-
     if (isLogin) {
-      setLoginSuccess("Successfully logged in!");
-      window.location.href = "/maindashboard";
-      // navigate("/maindashboard");
+      navigate("/maindashboard");
     }
   };
 
   return (
-    <div className="row main-login">
-      <div className="col-md-4 d-none d-md-block image-overlay"></div>
-      <div className="col-md-6 d-flex align-items-center justify-content-center main-login-form">
+    <div className="row main-login justify-content-center">
+      <Col md={5}  className=" d-flex align-items-center justify-content-center ">
+        <img className="login-avatar" src={LoginAvatar} alt="" />
+      </Col>
+      <Col md={7}  className="d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
             <h2>LOG IN</h2>
@@ -52,65 +41,72 @@ const LoginForm = () => {
           <div className="account-details">
             <h3>Account Details</h3>
             <p>Please enter your credentials to access your account.</p>
-
             <form className="login-form" onSubmit={handleSubmit}>
               <div className="input-group mb-3">
                 <span className="input-group-text">
                   <FaEnvelope />
                 </span>
-                <input
-                  type="email"
-                  className={`form-control ${emailError ? "is-invalid" : ""}`} // Add red border if there's an error
-                  placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                {emailError && (
-                  <div className="invalid-feedback">{emailError}</div>
-                )}{" "}
-                {/* Display error message */}
+                <div>
+                  <input
+                    type="email"
+                    className={`form-control ${error ? "is-invalid" : ""}`}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    required
+                  />
+                </div>
               </div>
-              <div className="input-group mb-3">
+              <div className="input-group mb-3 position-relative">
                 <span className="input-group-text">
                   <FaLock />
                 </span>
-                <input
-                  type="password"
-                  className={`form-control ${
-                    passwordError ? "is-invalid" : ""
-                  }`} // Add red border if there's an error
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                {passwordError && (
-                  <div className="invalid-feedback">{passwordError}</div>
-                )}{" "}
-                {/* Display error message */}
-              </div>
-              <div className="forgot d-flex">
-                Forgot your password?
-                <a href="/forgot" className="forgot-password">
-                  {" "}
-                  Click here to reset
-                </a>
-              </div>
-              <div className="remember-me form-check">
-                <div className="remember-box">
-                  <b className="form-check-label">Remember me</b>
-                  <div className="remeber-box-check d-flex align-items-center">
-                    <input type="checkbox" className="form-check-input" />
-                    <i className="form-text ">
-                      Keep me logged in on this device.
-                    </i>
-                  </div>
+                <div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className={`form-control ${error ? "is-invalid" : ""}`}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <span
+                    className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                    style={{
+                      cursor: "pointer",
+                      zIndex: 10,
+                    }}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+
+                  {error && <div className="invalid-feedback">{error}</div>}
                 </div>
               </div>
-              {error && <div className="error-message">{error}</div>}
-              {loginSuccess && (
-                <div className="alert alert-success">{loginSuccess}</div>
-              )}{" "}
-              {/* Show success message */}
+              <div className="forgot-remember-container d-flex">
+                <div className="remember-me form-check">
+                  <div className="remember-box">
+                    <input type="checkbox" className="form-check-input" />
+                    <b className=" form-check-label">Remember me</b>
+                    {/* <div className="remeber-box-check d-flex align-items-center">
+                      <input type="checkbox" className="form-check-input" />
+                      <i className="form-text ">
+                        Keep me logged in on this device.
+                      </i>
+                    </div> */}
+                  </div>
+                </div>
+                <div className="forgot d-flex">
+                  Forgot your password?
+                  <a href="/forgot" className="forgot-password">
+                    {" "}
+                    Click here to reset
+                  </a>
+                </div>
+                
+              </div>
+              
+
               <button
                 type="submit"
                 className="login-button"
@@ -121,13 +117,21 @@ const LoginForm = () => {
             </form>
           </div>
 
-          <div className="signup-container text-center mt-3">
+          <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">
               <FaGoogle className="social-icon" />
               <FaFacebook className="social-icon" />
             </div>
+            <button
+              className="guest-button"
+              // onClick={() => (window.location.href = "/")} // not implemented yet
+            >
+              Continue as Guest
+            </button>
+
             <p>Don't have an account?</p>
+ 
             <button
               className="signup-button"
               onClick={() => (window.location.href = "/signup")}
@@ -136,7 +140,7 @@ const LoginForm = () => {
             </button>
           </div>
         </div>
-      </div>
+      </Col>
     </div>
   );
 };

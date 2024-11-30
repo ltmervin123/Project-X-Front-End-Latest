@@ -4,11 +4,14 @@
     --font-white: #fff;
     --card-color: #686868;
     --text-color: #000;
-    --acttivit-card-bg: #d9d9d9;
+    --activity-card-bg: #d9d9d9;
 }
 
 .behavioral-cards {
     display: flex;
+    justify-content: center; /* Center the cards horizontally */
+    position: relative; /* Needed for absolute positioning of rectangles */
+    flex-wrap: wrap; /* Allow cards to wrap if necessary */
 }
 
 .behavioral-card {
@@ -18,26 +21,12 @@
     height: 240px !important;
     position: relative;
     overflow: hidden;
-    transition: box-shadow 0.3s ease, transform 0.2s; /* Combine transitions */
-    cursor: pointer; /* Change cursor to pointer for better UX */
-    width: 23%; /* Set a fixed width for the cards */
+    transition: box-shadow 0.3s ease, transform 0.2s; 
+    cursor: pointer; 
+    width: 22%; 
+    max-width: 300px !important;
     background: var(--card-color);
-}
-
-.behavioral-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url(../assets/summary-img.png) no-repeat;
-    background-size: contain;
-    background-position: bottom center;
-}
-
-.behavioral-card > .card-body {
-    width: 100%;
+    z-index: 1; /* Ensure cards are above rectangles */
 }
 
 .behavioral-title {
@@ -63,11 +52,11 @@
     flex-direction: column;
     gap: 20px;
     font-size: 13px;
-    font-weight: 50;
+    font-weight: 500; /* Use 500 instead of 50 for normal weight */
     text-align: left;
-    opacity: 0; /* Start hidden */
-    visibility: hidden; /* Start hidden */
-    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition for fade effect */
+    opacity: 0; 
+    visibility: hidden; 
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
 }
 
 .behavioral-description > .behavioral-title1 {
@@ -76,15 +65,57 @@
 }
 
 .behavioral-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
 }
 
 .behavioral-card:hover .behavioral-description {
-    transition: opacity 0.9s ease, visibility 0.9s ease; /* Ensure smooth transition */
-    opacity: 1; /* Fade in */
-    visibility: visible; /* Make visible */
+    transition: opacity 0.9s ease, visibility 0.9s ease; 
+    opacity: 1; 
+    visibility: visible; 
+}
+
+.behavioral-image {
+    position: absolute;
+    bottom: 30px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    height: 80%; 
+    width: auto; 
+    max-width: 100%; 
+    z-index: 0; 
 }
 
 .closebtn {
-    color: #000; /* Change color of close button */
+    color: #000; 
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+    .behavioral-card {
+        width: 30%; /* Adjust width for medium screens */
+    }
+}
+
+@media (max-width: 992px) {
+    .behavioral-card {
+        width: 45%; /* Adjust width for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .behavioral-card {
+        width: 90%; /* Full width for mobile screens */
+    }
+    .behavioral-card {
+        height: 200px !important; /* Adjust height for mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    .behavioral-description {
+        font-size: 12px; /* Smaller font size for mobile */
+    }
+    .behavioral-description > .behavioral-title1 {
+        font-size: 14px; /* Smaller title size for mobile */
+    }
 }

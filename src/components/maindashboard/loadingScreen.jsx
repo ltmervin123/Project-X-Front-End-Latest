@@ -1,12 +1,12 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal} from "react-bootstrap";
-import loadAvatar from '../../assets/logo.png';
+import loading from '../../assets/loading.gif';
 const LoadingScreen = () => {
   return (
     <Modal show={true} centered backdrop={true}>
       <Modal.Body className="text-center p-5">
-        <img src={loadAvatar} alt="" style={{ height: '70px' }}/>
+        <img className="loadinganimation" src={loading} alt=""/>
           <span
             className="visually-hidden loading"
             style={{ color: "#f46a05" }}
@@ -15,7 +15,7 @@ const LoadingScreen = () => {
           </span>
 
         <h4>Processing your interview...</h4>
-        <p>Please wait while we analyze your responses.</p>
+        <i>Please wait while we analyze your responses.</i>
       </Modal.Body>
     </Modal>
   );

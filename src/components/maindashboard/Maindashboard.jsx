@@ -57,6 +57,21 @@ const MainDashboard = () => {
     setShowBehavioralVideoRecording(true);
   };
 
+  //Set IntroShown flag in sessionStorage when the component mounts
+  useEffect(() => {
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+
+    if (!isIntroShown) {
+      const introShown = {
+        expert: false,
+        behavioral: false,
+        basic: false,
+      };
+      // Set the flag in localStorage to indicate that the intro has been shown
+      sessionStorage.setItem("isIntroShown", JSON.stringify(introShown));
+    }
+  }, []);
+
   //Close Model
   const handleClose = () => {
     setShowUploadModal(false);
@@ -83,7 +98,7 @@ const MainDashboard = () => {
   };
 
   return (
-    <Container className="main-container1 d-flex flex-column">
+    <Container className=" d-flex flex-column">
       <div className="mock-interview-container-header">
         <h4>Mock Interview</h4>
         <p>Select Professional Career Interview</p>
@@ -91,7 +106,7 @@ const MainDashboard = () => {
       {/* Combined Categories */}
       <div className="category-container">
         <div
-          className="category-card"
+          className="category-card bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}
         >
           <div className="category-card-title">BEHAVIORAL</div>
@@ -101,7 +116,7 @@ const MainDashboard = () => {
           </p>
         </div>
         <div
-          className="category-card"
+          className="category-card bg-basic"
           onClick={() => handleInterviewType("BASIC")}
         >
           <div className="category-card-title">BASIC</div>
@@ -111,7 +126,7 @@ const MainDashboard = () => {
           </p>
         </div>
         <div
-          className="category-card"
+          className="category-card bg-expert"
           onClick={() => handleInterviewType("EXPERT")}
         >
           <div className="category-card-title">EXPERT</div>

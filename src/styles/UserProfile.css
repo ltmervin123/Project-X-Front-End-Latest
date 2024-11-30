@@ -3,46 +3,77 @@
     --secondary-color: #1706ac;
     --font-white: #fff;
     --card-color: #686868;
-    --avatar-bg: #8b8a8a;
+    --avatar-bg: #68686882;
     --text-color: #000;
-    --subcription-btn: #319F43;
-    --acttivit-card-bg: #d9d9d9;
-  }
-.user-profile-section{
+    --subscription-btn: #319F43;
+    --activity-card-bg: #d9d9d9;
+}
+
+.user-profile-section {
     border: 2px solid var(--font-white);
     border-radius: 20px;
     height: 90vh;
-    padding: 30px 100px 50px 50px  ;
+    padding: 30px 100px 50px 50px;
 }
-.user-nav{
-    background: var(--font-white);
-    border-radius: 50px ;
+
+.user-nav {
+    background: var(--avatar-bg);
+    border-radius: 50px;
 }
-.user-nav > .nav-item{
+
+.user-nav > .nav-item {
     width: 33%;
     text-align: center;
 }
-.btn-update-user-info{
+/* Active Nav Link Styles */
+.user-nav .nav-link{
+    margin: 5px;
+    color: var(--text-color);
+}
+.user-nav .nav-link.active {
+    background: var(--font-white); /* Set the background color to white when active */
+    color: var(--text-color) !important; /* Change text color if needed */
+    border-radius: 10px; /* Ensure it has rounded corners */
+}
+
+.btn-update-user-info {
     width: 50%;
     background: var(--card-color);
     border: 10px;
     margin-bottom: 20px;
 }
-.btn-update-user-info:hover{
+
+.btn-update-user-info:hover {
     background: var(--avatar-bg);
 }
-.avatar-container{
+.personal-info-container , .security-container, .preferences-container{
+    height: 300px !important;
+    min-height: 80%;
+}
+.avatar-container {
     align-items: center;
     width: 250px;
     height: 250px;
     border-radius: 50%;
     background: var(--avatar-bg);
 }
-.user-default-img{
+
+.user-default-img {
     width: 60%;
-    
 }
-.upload-icon{
+.btn-hide-unhide{
+    border-radius: 10px !important;
+    background: var(--font-white);
+}
+.btn-change-pass{
+    width: 200px;
+    background: var(--card-color);
+    border: none;
+}
+.btn-change-pass:hover{
+    background: var(--avatar-bg);
+}
+.upload-icon {
     top: 20px;
     right: 20px;
     height: 50px;
@@ -52,7 +83,21 @@
     padding: 5px;
     color: var(--primary-color);
 }
-.footer-personal-info{
+/* Custom styles for the switch */
+.custom-switch .form-check-input:checked {
+    background-color:var(--primary-color); /* Change this color to your desired checked color */
+    border-color: var(--text-color); /* Change this color to your desired border color */
+  }
+  
+  .custom-switch .form-check-input:focus {
+    box-shadow:none; /* Change this color for focus shadow */
+  }
+
+  .custom-switch .form-check-label {
+    color: #333; /* Change the label color */
+  }
+
+.footer-personal-info {
     border: 2px solid var(--font-white);
     border-top-color: #f46a05;
     border-left: none;
@@ -60,16 +105,19 @@
     border-bottom: none;
     padding: 10px;
 }
-.footer-personal-info > div > div{
+
+.footer-personal-info > div > div {
     width: 70% !important;
 }
-.footer-personal-info > h5{
+
+.footer-personal-info > h5 {
     color: var(--avatar-bg);
 }
-.footer-personal-info > div > button{
+
+.footer-personal-info > div > button {
     width: 30%;
     height: 60px;
-    background: var(--subcription-btn);
+    background: var(--subscription-btn);
     border: none;
     border-radius: 20px;
     font-size: 21px;
