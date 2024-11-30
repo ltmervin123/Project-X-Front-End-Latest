@@ -28,8 +28,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="row main-login justify-content-end">
-      <Col md={2}  className=" d-flex align-items-center justify-content-center ">
+    <div className="row main-login justify-content-center">
+      <Col md={5}  className=" d-flex align-items-center justify-content-center ">
         <img className="login-avatar" src={LoginAvatar} alt="" />
       </Col>
       <Col md={7}  className="d-flex align-items-center justify-content-center main-login-form">
@@ -83,24 +83,29 @@ const LoginForm = () => {
                   {error && <div className="invalid-feedback">{error}</div>}
                 </div>
               </div>
-              <div className="forgot d-flex">
-                Forgot your password?
-                <a href="/forgot" className="forgot-password">
-                  {" "}
-                  Click here to reset
-                </a>
-              </div>
-              <div className="remember-me form-check">
-                <div className="remember-box">
-                  <b className=" form-check-label">Remember me</b>
-                  <div className="remeber-box-check d-flex align-items-center">
+              <div className="forgot-remember-container d-flex">
+                <div className="remember-me form-check">
+                  <div className="remember-box">
                     <input type="checkbox" className="form-check-input" />
-                    <i className="form-text ">
-                      Keep me logged in on this device.
-                    </i>
+                    <b className=" form-check-label">Remember me</b>
+                    {/* <div className="remeber-box-check d-flex align-items-center">
+                      <input type="checkbox" className="form-check-input" />
+                      <i className="form-text ">
+                        Keep me logged in on this device.
+                      </i>
+                    </div> */}
                   </div>
                 </div>
+                <div className="forgot d-flex">
+                  Forgot your password?
+                  <a href="/forgot" className="forgot-password">
+                    {" "}
+                    Click here to reset
+                  </a>
+                </div>
+                
               </div>
+              
 
               <button
                 type="submit"
@@ -112,7 +117,7 @@ const LoginForm = () => {
             </form>
           </div>
 
-          <div className="signup-container text-center mt-3">
+          <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">
               <FaGoogle className="social-icon" />
@@ -124,9 +129,9 @@ const LoginForm = () => {
             >
               Continue as Guest
             </button>
-            <div>
-              <p>Don't have an account?</p>
-            </div>
+
+            <p>Don't have an account?</p>
+ 
             <button
               className="signup-button"
               onClick={() => (window.location.href = "/signup")}

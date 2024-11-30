@@ -19,6 +19,9 @@
 .main-login {
     width: 100%;
     margin: 0 !important;
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
 
 .login-container {
@@ -26,7 +29,7 @@
     background: linear-gradient(128deg, rgba(244,106,5,1) 22%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
     padding: 10px;
-    width: 650px;
+    width: 600px;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -35,16 +38,16 @@
     flex-direction: column;
     z-index: 0;
     right: 40px;
-    bottom: 0;
+    bottom: 35px;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.25);
 }
 .login-avatar{
-    position: absolute;
-    max-width: 700px !important;
-    height: auto; /* Maintain aspect ratio */
+    position: relative;
+    max-width: 100% !important;
+    height: 100%; /* Maintain aspect ratio */
     left: 0; /* Align to the right */
-    bottom: 0;
     z-index: 1;
+    bottom: 35px;
 }
 .login-header {
     margin-bottom: 10px;
@@ -56,7 +59,7 @@
 }
 
 .login-header > p {
-    font-size: 20px !important;
+    font-size: 18px !important;
     padding: 0;
     margin: 0;
 }
@@ -67,6 +70,7 @@
     border-radius: 50px;
     position: relative;
     width: 90%;
+    margin-bottom: 20px !important;
 }
 .account-details > .input-group {
     display: flex;
@@ -111,7 +115,7 @@
 .input-group > div > input[type="email"] {
     appearance: none;
     width: 100%;
-    padding: 12px 12px 12px 20px; /* Adjust padding as needed */
+    padding: 8px 8px 8px 10px; /* Adjust padding as needed */
     border-radius: 50px !important;
     border: 2px solid var(--input-bg);
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
@@ -147,6 +151,7 @@
     font-size: 20px;
     color: var(--input-bg);
     transition: color 0.3s ease;
+    margin-bottom: 5px;
 }
 
 .toggle-password > svg:hover {
@@ -173,6 +178,7 @@
     justify-content: flex-end;
     font-size: 12px;
     font-weight: lighter;
+
 }
 
 .forgot-password {
@@ -182,43 +188,14 @@
     margin-bottom: 10px;
     text-decoration: none;
     padding-left: 5px;
-}
-
-.login-button {
-    width: 150px;
-    height: 50px;
-    border-radius: 50px;
-    background: var(--secondary-color);
-    color: var(--font-white);
-    border: none;
-    position: absolute;
-    bottom: -23px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-}
-
-.account-details h3 {
-    position: absolute;
-    padding: 0 10px;
-    font-size: 20px;
-    top: -15px;
-    margin-left: 1em;
-    background-color: var(--primary-color);
-}
-
-.account-details > p {
-    margin-left: 1em;
-    padding: 0 10px;
-    font-size: 15px !important;
-}
-
+} 
 .remember-me {
     display: flex !important;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 0 !important;
-    width: 100%;
-    font-size: 15px;
+    width: 50%;
+    font-size: 12px;
+
 }
 
 .remember-box {
@@ -242,25 +219,57 @@
     color: var(--font-white);
 }
 
+.login-button {
+    width: 150px;
+    height: 40px;
+    border-radius: 50px;
+    background: var(--secondary-color);
+    color: var(--font-white);
+    border: none;
+    position: absolute;
+    bottom: -23px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+}
+
+.account-details h3 {
+    position: absolute;
+    padding: 0 10px;
+    font-size: 20px;
+    top: -15px;
+    margin-left: 1em;
+    background-color: var(--primary-color);
+}
+
+.account-details > p {
+    margin-left: 1em;
+    padding: 0 ;
+    
+    font-size: 15px !important;
+}
+
+
 .social-icons {
     display: flex;
     justify-content: center;
-    margin: 10px 0;
 }
 
 .social-icon {
     font-size: 24px;
-    margin: 0 10px;
+    margin: 0;
     cursor: pointer;
 }
 
 .login-container > .signup-container {
     margin: 0 !important;
 }
-
+.signup-container > p{
+    font-size: 13px;
+    margin: 2px !important;
+}
 .signup-button {
     width: 150px;
-    height: 50px;
+    height: 40px;
     border-radius: 50px;
     background: var(--secondary-color);
     color: var(--font-white) !important;
@@ -286,17 +295,12 @@
     color: #155724;
 }
 
-@media (max-width: 768px) {
-    .login-container {
-        width: 90%;
-        padding: 10px;
+@media (min-width: 1300px){
+    .login-container{
+        width: 580px;
+        height: auto;
     }
-
-    .login-header > h2 {
-        font-size: 28px;
+    .login-avatar{
+        width: 95% !important;
     }
-
-    .main-login {
-        flex-direction: column;
-    }
-}
+  }

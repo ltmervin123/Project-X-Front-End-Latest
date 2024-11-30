@@ -23,7 +23,7 @@
 .main-container {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
+  min-height: 80vh;
   /* overflow: auto; */
 }
 .signup-info-container {
@@ -32,6 +32,7 @@
   align-items: center;
   width: 100%;
   z-index: 1;
+
 }
 .info-create-acc-container > h4 {
   font-weight: 700 !important;
@@ -315,3 +316,5 @@
   background: none !important;
   color: #000 !important;
 }
+
+
