@@ -84,9 +84,13 @@ const MainDashboard = () => {
             </thead>
             <tbody className="list">
               {isloaading ? (
-                <p>Fetching data...</p>
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    Fetching interview history...
+                  </td>
+                </tr>
               ) : interviewHistory.length > 0 ? (
-                interviewHistory
+                interviewHistory  
                   .slice()
                   .reverse()
                   .map((item) => (
