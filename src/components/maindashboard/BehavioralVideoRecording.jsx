@@ -4,6 +4,8 @@ import Draggable from "react-draggable";
 import ErrorAccessCam from "../maindashboard/ErrorAccessCam";
 import ErrorGenerateFeedback from "./ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./ErrorGenerateQuestion";
+import "intro.js/introjs.css";
+import introJs from "intro.js";
 import {
   FaMicrophone,
   FaMicrophoneSlash,
@@ -20,8 +22,10 @@ import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"; // Import the success popup
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
-import tipsAvatar from "../../assets/video-rec-avatar.png";
+import tipsAvatar from "../../assets/basic.png";
 import { useAnalytics } from "../../hook/useAnalytics";
+import loading from '../../assets/loading.gif';
+
 
 const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
@@ -54,6 +58,71 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [cameraError, setCameraError] = useState(false); // State to track camera error
   const [questionError, setQuestionError] = useState(false);
 
+    //Function to initialize Intro.js
+    const startIntro = () => {
+      introJs()
+        .setOptions({
+          steps: [
+            {
+              intro: "Welcome to the Video Recording Interface!",
+            },
+            {
+              element: "#videoArea",
+              intro: "This is where you will see yourself while recording.",
+            },
+            {
+              element: "#startButton",
+              intro: "Click here to start recording your responses.",
+            },
+            {
+              element: "#muteButton",
+              intro: "Use this button to mute or unmute your microphone.",
+            },
+            {
+              element: "#cameraButton",
+              intro: "Toggle your camera on or off using this button.",
+            },
+            {
+              element: "#timer",
+              intro:
+                "Here are some tips to help you perform better in your interview.",
+            },
+            {
+              element: "#tipsContainer",
+              intro:
+                "Here are some tips to help you perform better in your interview.",
+            },
+            {
+              element: "#talkingAvatar",
+              intro: "Talking Avatar.",
+            },
+            {
+              element: "#startInterviewButton",
+              intro: "Click here to cancel the interview if you wish to stop.",
+            },
+            {
+              element: "#confirmCloseButton",
+              intro: "Click here to cancel the interview if you wish to stop.",
+            },
+          ],
+        })
+        .start();
+  
+      // Set the flag in localStorage to indicate that the intro has been shown
+      JSON.stringify(sessionStorage.setItem("introShown", true));
+    };
+  
+    // Call startIntro when the component mounts
+    useEffect(() => {
+      // Check if the intro has already been shown
+      const introShown = JSON.parse(sessionStorage.getItem("introShown"));
+      if (!introShown) {
+        startIntro();
+      } else {
+        console.log("Intro has already been shown."); // Log if the intro has already been shown
+      }
+    }, []); // Empty dependency array ensures this runs only once on mount
+  
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -482,7 +551,8 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                 {/* Overlay for reattempting access to camera */}
                 {isReattemptingCamera && (
                   <div className="camera-retry-overlay">
-                    <Spinner animation="border" role="status" />
+                    {/* <Spinner animation="border" role="status" /> */}
+                    <img className="loadinganimation" animation="border" role="status" src={loading}/>
                     <p>Reattempting access to camera...</p>
                   </div>
                 )}

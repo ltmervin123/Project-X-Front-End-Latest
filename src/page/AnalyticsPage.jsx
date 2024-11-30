@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/Analytics.css";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from 'react-bootstrap';
 import Header from "../components/Analytics/Header";
 import Sidebar from "../components/Analytics/Sidebar";
 import Maindashboard from "../components/Analytics/Maindashboard";
@@ -10,9 +10,14 @@ function Analytics() {
     <>
       <div className="d-flex maindashboard-container">
         <Sidebar />
-        <Container className="flex-grow-1 maindasboard-box">
+        <Container className="flex-grow-1 ">
           <Header />
-          <Maindashboard />
+          <Row>
+            <Col  md={12}>
+              <Maindashboard />
+            </Col>
+          </Row>
+          
         </Container>
       </div>
       <svg

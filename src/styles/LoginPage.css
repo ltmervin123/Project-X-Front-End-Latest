@@ -21,26 +21,12 @@
     margin: 0 !important;
 }
 
-.main-login::before {
-    content: ""; 
-    position: absolute; 
-    top: 50px; 
-    left: -100px; 
-    right: 0; 
-    bottom: 0; 
-    background-image: url('../assets/login-img.png'); 
-    background-size: 820px; 
-    background-repeat: no-repeat;
-    width: 60%;
-    z-index: 1; 
-}
-
 .login-container {
     background: rgb(244,106,5);
     background: linear-gradient(128deg, rgba(244,106,5,1) 22%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
     padding: 10px;
-    width: 550px;
+    width: 650px;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -49,10 +35,17 @@
     flex-direction: column;
     z-index: 0;
     right: 40px;
-    bottom: 50px;
+    bottom: 0;
     box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.25);
 }
-
+.login-avatar{
+    position: absolute;
+    max-width: 700px !important;
+    height: auto; /* Maintain aspect ratio */
+    left: 0; /* Align to the right */
+    bottom: 0;
+    z-index: 1;
+}
 .login-header {
     margin-bottom: 10px;
 }
@@ -91,7 +84,7 @@
 .input-group > div {
     
     position: relative;
-    width: 80%;
+    width: 85%;
 }
 .input-group.mb-3 {
     position: relative; /* Ensures that the absolute positioning of children works */

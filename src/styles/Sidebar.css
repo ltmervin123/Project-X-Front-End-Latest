@@ -8,9 +8,12 @@
 }
 
 .sidebar-container {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
   justify-content: space-around;
   gap: 30px;
-  width: 350px;
+  min-width: 350px ;
+  width: 30%; /* Fixed width for desktop */
   border: 2px solid var(--primary-color);
   border-top: none;
   border-left: none;
@@ -18,16 +21,20 @@
   border-bottom: none;
   transition: width 0.3s; /* Smooth transition for width change */
 }
+
 .sidebarnav {
   margin-bottom: 5px;
   font-weight: 500 !important;
+  font-size: 1.25rem; /* Use rem for scalability */
   color: var(--card-color) !important;
 }
+
 .sidebarnav > svg {
   fill: var(--card-color) !important;
   margin-right: 10px;
-  width: 15px;
+  width: 1.25rem; /* Use rem for scalability */
 }
+
 .sidebarnav.active {
   color: var(--primary-color) !important; /* Change text color */
 }
@@ -35,12 +42,14 @@
 .sidebarnav.active > svg {
   fill: var(--primary-color) !important; /* Change SVG fill color */
 }
+
 .logo-brand {
   padding: 0 !important;
 }
+
 .avatar-img {
-  width: 80px;
-  height: 80px;
+  width: 5rem; /* Use rem for scalability */
+  height: 5rem; /* Use rem for scalability */
   border-radius: 50%;
   padding: 10px;
   background: var(--font-white);
@@ -53,22 +62,35 @@
 
 .user-name {
   font-weight: bolder !important;
-  font-size: 18px !important;
+  font-size: 1.25rem; /* Use rem for scalability */
 }
+
 .user-email {
-  font-size: 11px;
+  font-size: 0.9375rem; /* Use rem for scalability */
   font-weight: 100 !important;
 }
-@media (max-width: 768px) {
+
+/* Media Queries for Desktop Responsiveness */
+@media (min-width: 992px) {
   .sidebar-container {
-    width: 250px; /* Smaller width for tablets */
+    width: 400px; /* Fixed width for large desktops */
+    gap: 40px; /* Increase gap for larger screens */
+  }
+  .avatar-img {
+    width: 4rem; /* Use rem for scalability */
+    height: 4rem; /* Use rem for scalability */
+  
+  }
+  .sidebarnav {
+    font-size: 1.5rem; /* Larger font size for better readability */
+  }
+
+  .user-name {
+    font-size: 1.0rem; /* Larger font size for better readability */
+  }
+
+  .user-email {
+    font-size: .7rem; /* Larger font size for better readability */
   }
 }
 
-@media (max-width: 576px) {
-  .sidebar-container {
-    width: 100%; /* Full width for mobile */
-    position: absolute; /* Allow it to overlay the content */
-    z-index: 1000; /* Ensure it overlays */
-  }
-}

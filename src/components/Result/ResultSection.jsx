@@ -95,47 +95,50 @@ const ResultSection = ({ interviewId }) => {
             <h4>
               Question {currentIndex + 1} of {question.length}
             </h4>
-            <div>
-              <strong>Question:</strong>
-              <p>{question[currentIndex]}</p>
-            </div>
-            <div>
-              <strong>Your Answer:</strong>
-              {/* <p>{answer[currentIndex]}</p> */}
-              {answer[currentIndex] ? (
-                <p>{answer[currentIndex]}</p>
-              ) : (
-                <p>No answer provided</p>
-              )}
-            </div>
-            <div>
-              <strong>Enhance Response:</strong>
-              <p>{improvedAnswer[currentIndex]}</p>
-              {/* Replace Enhance Ans/response */}
-            </div>
-            <div>
-              <strong>Feedback:</strong>
-              <p>{feedback[currentIndex]}</p>
-            </div>
+            <div className="interview-data">
+              <div>
+                <strong>Question:</strong>
+                <p>{question[currentIndex]}</p>
+              </div>
+              <div>
+                <strong>Your Answer:</strong>
+                {/* <p>{answer[currentIndex]}</p> */}
+                {answer[currentIndex] ? (
+                  <p>{answer[currentIndex]}</p>
+                ) : (
+                  <p>No answer provided</p>
+                )}
+              </div>
+              <div>
+                <strong>Enhance Response:</strong>
+                <p>{improvedAnswer[currentIndex]}</p>
+                {/* Replace Enhance Ans/response */}
+              </div>
+              <div>
+                <strong>Feedback:</strong>
+                <p>{feedback[currentIndex]}</p>
+              </div>
 
-            {/* Pagination display at the bottom center */}
-            <div className="d-flex justify-content-center question-navination">
-              <span
-                className="prev"
-                onClick={handlePrev}
-                style={{ cursor: "pointer", marginRight: "10px" }}
-              >
-                &lt;
-              </span>
-              <h4 className="pageNum">{currentIndex + 1}</h4>
-              <span
-                className="next"
-                onClick={handleNext}
-                style={{ cursor: "pointer", marginLeft: "10px" }}
-              >
-                &gt;
-              </span>
+             
             </div>
+             {/* Pagination display at the bottom center */}
+             <div className="d-flex justify-content-center question-navination">
+                <span
+                  className="prev"
+                  onClick={handlePrev}
+                  style={{ cursor: "pointer", marginRight: "10px" }}
+                >
+                  &lt;
+                </span>
+                <h4 className="pageNum">{currentIndex + 1}</h4>
+                <span
+                  className="next"
+                  onClick={handleNext}
+                  style={{ cursor: "pointer", marginLeft: "10px" }}
+                >
+                  &gt;
+                </span>
+              </div>
           </Card>
         </Col>
         <div className="w-100 d-flex justify-content-end">
