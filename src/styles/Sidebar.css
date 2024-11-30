@@ -8,10 +8,8 @@
 }
 
 .sidebar-container {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  justify-content: space-around;
-  gap: 30px;
+  display: flex !important;
+  justify-content: flex-start !important;
   min-width: 350px ;
   width: 30%; /* Fixed width for desktop */
   border: 2px solid var(--primary-color);
@@ -25,14 +23,14 @@
 .sidebarnav {
   margin-bottom: 5px;
   font-weight: 500 !important;
-  font-size: 1.25rem; /* Use rem for scalability */
+  font-size: 1rem; /* Use rem for scalability */
   color: var(--card-color) !important;
 }
 
 .sidebarnav > svg {
   fill: var(--card-color) !important;
   margin-right: 10px;
-  width: 1.25rem; /* Use rem for scalability */
+  width: 1rem; /* Use rem for scalability */
 }
 
 .sidebarnav.active {
@@ -48,8 +46,8 @@
 }
 
 .avatar-img {
-  width: 5rem; /* Use rem for scalability */
-  height: 5rem; /* Use rem for scalability */
+  width: 4.5rem; /* Use rem for scalability */
+  height: 4.5rem; /* Use rem for scalability */
   border-radius: 50%;
   padding: 10px;
   background: var(--font-white);
@@ -62,35 +60,32 @@
 
 .user-name {
   font-weight: bolder !important;
-  font-size: 1.25rem; /* Use rem for scalability */
+  font-size: 1rem; /* Use rem for scalability */
 }
 
 .user-email {
-  font-size: 0.9375rem; /* Use rem for scalability */
+  font-size: 0.7rem; /* Use rem for scalability */
   font-weight: 100 !important;
 }
 
 /* Media Queries for Desktop Responsiveness */
-@media (min-width: 992px) {
-  .sidebar-container {
-    width: 400px; /* Fixed width for large desktops */
-    gap: 40px; /* Increase gap for larger screens */
-  }
+@media (min-width: 1700px) {
+
   .avatar-img {
-    width: 4rem; /* Use rem for scalability */
-    height: 4rem; /* Use rem for scalability */
+    width: 5rem; /* Use rem for scalability */
+    height: 5rem; /* Use rem for scalability */
   
   }
   .sidebarnav {
-    font-size: 1.5rem; /* Larger font size for better readability */
+    font-size: 1.3rem !important; /* Larger font size for better readability */
   }
 
   .user-name {
-    font-size: 1.0rem; /* Larger font size for better readability */
+    font-size: 1.3rem; /* Larger font size for better readability */
   }
 
   .user-email {
-    font-size: .7rem; /* Larger font size for better readability */
+    font-size: 1rem; /* Larger font size for better readability */
   }
 }
 

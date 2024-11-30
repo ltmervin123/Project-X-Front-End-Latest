@@ -505,10 +505,11 @@ const VideoRecording = ({
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Expert Interview</h5>
+            <h5>Basic Interview</h5>
             <Button
-              className="closebtn"
+              id="confirmCloseButton"
               variant="link"
+              className="closebtn"
               onClick={handleClose}
               style={{ fontSize: "1.5rem", textDecoration: "none" }}
             >
@@ -517,20 +518,27 @@ const VideoRecording = ({
           </div>
           <Row>
             <Col md={7} className="d-flex flex-column align-items-center">
-              <div className="video-area position-relative d-flex align-items-center">
+              <div
+                id="videoArea"
+                className="video-area position-relative d-flex align-items-center"
+              >
                 <video
                   ref={videoRef}
                   autoPlay
                   muted
                   className="video-feed"
                 ></video>
-                <p className="timer position-absolute top-0 end-0 m-2">
+                <p
+                  id="timer"
+                  className="timer position-absolute top-0 end-0 m-2"
+                >
                   {`${String(timer.minutes).padStart(2, "0")}:${String(
                     timer.seconds
                   ).padStart(2, "0")} / 2:00`}
                 </p>
                 <div className="d-flex align-items-center gap-3 interview-tools">
                   <Button
+                    id="cameraButton"
                     className="btn-videorecord"
                     onClick={toggleCamera}
                     variant={isCameraOn ? "success" : "secondary"}
@@ -538,6 +546,7 @@ const VideoRecording = ({
                     {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
                   </Button>
                   <Button
+                    id="startButton"
                     className="position-relative  pause-indicator"
                     onClick={isRecording ? stopRecording : startRecording}
                     disabled={!questions.length || isUploading}
@@ -551,10 +560,15 @@ const VideoRecording = ({
                       <FaCircle size={30} />
                     )}
                   </Button>
-                  <Button className="btn-mute" onClick={toggleMute}>
+                  <Button
+                    id="muteButton"
+                    className="btn-mute"
+                    onClick={toggleMute}
+                  >
                     {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                   </Button>
                 </div>
+
                 {/* Countdown Overlay */}
                 {isCountdownActive && countdown > 0 && (
                   <div className="countdown-overlay">
@@ -566,14 +580,14 @@ const VideoRecording = ({
                 {isReattemptingCamera && (
                   <div className="camera-retry-overlay">
                     {/* <Spinner animation="border" role="status" /> */}
-                    <img className="loadinganimation " animation="border" role="status" src={loading}/>
+                    <img className="loadinganimation" animation="border" role="status" src={loading}/>
                     <p>Reattempting access to camera...</p>
                   </div>
                 )}
               </div>
 
               <Draggable>
-                <div className="tips-container d-flex">
+                <div id="tipsContainer" className="tips-container d-flex">
                   <div className="tips">
                     <p className="tips-header">Tips:</p>
                     <p className="tips-content">{tips[currentTipIndex]}</p>
@@ -588,6 +602,7 @@ const VideoRecording = ({
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-3">
               <img
+                id="talkingAvatar"
                 src={avatarImg}
                 alt="Avatar"
                 className="avatar-interviewer-img"
@@ -618,6 +633,7 @@ const VideoRecording = ({
                     </p>
                     <div className="d-flex justify-content-center w-100">
                       <Button
+                        id="startInterviewButton"
                         className="btn-startinterview d-flex align-items-center "
                         variant="link"
                         disabled={isReattemptingCamera}
@@ -658,7 +674,6 @@ const VideoRecording = ({
       {feedbackError ? (
         <ErrorGenerateFeedback
           onRetry={() => {
-            // setFeedbackError(false);
             createFeedback();
           }}
         />
@@ -671,11 +686,10 @@ const VideoRecording = ({
           backdrop={false}
         ></div>
       )}
-
       {cameraError ? (
         <ErrorAccessCam
           onRetry={() => {
-            setCameraError(false);
+            // setCameraError(false);
             enableCameraFeed();
           }}
         />
@@ -693,11 +707,13 @@ const VideoRecording = ({
           show={showConfirm} // Control visibility with show prop
           onHide={() => setShowConfirm(false)} // Close the modal when needed
           onConfirm={handleConfirmClose}
-          onCancel={handleCancelClose}
+          onClose={() => setShowConfirm(false)}
           message="Are you sure you want to cancel the interview?"
         />
       )}
+
       {isGeneratingFeedback && <LoadingScreen />}
+
       {showSuccessPopup && <InterviewSuccessfulPopup />}
     </>
   );

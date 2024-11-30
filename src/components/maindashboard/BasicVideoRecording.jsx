@@ -700,7 +700,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           show={showConfirm} // Control visibility with show prop
           onHide={() => setShowConfirm(false)} // Close the modal when needed
           onConfirm={handleConfirmClose}
-          onCancel={handleCancelClose}
+          onClose={() => setShowConfirm(false)}
           message="Are you sure you want to cancel the interview?"
         />
       )}

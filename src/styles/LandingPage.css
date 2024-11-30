@@ -110,16 +110,18 @@ h2 {
 }
 .hero-container {
     position: relative;
-    height: 90vh; /* Set height to 100% of the viewport */
+    height: 80vh; /* Set height to 100% of the viewport */
 }
 
 .heroavatar {
+    background-image: url('../assets/hero-avatar.png');
+    background-size: contain; /* Change to cover to fill the area */
     position: absolute;
-    min-width: 500px !important;
-    width: 47%;
-    height: auto; /* Maintain aspect ratio */
-    top: 0; /* Align to the top */
-    right: 0; /* Align to the right */
-    bottom: -20px;
+    background-repeat: no-repeat;
+    background-position: center right;
     z-index: 1;
+    width: 50%;
+    height: 100%; /* Set height to 100% of the parent container */
+    top: 0; /* Position it at the top */
+    right: 60px; /* Position it at the left */
 }

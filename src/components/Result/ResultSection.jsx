@@ -20,7 +20,15 @@ const ResultSection = ({ interviewId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Utility function to get result color class based on score
-  const getResultClass = (score) => {
+  const getResultClass = (score, type) => {
+    if (type === "fillerCount") {
+      if (score >= 0 && score <= 3) return "result-green";
+      if (score > 3 && score <= 6) return "result-yellow";
+      if (score > 6 && score <= 9) return "result-orange";
+      return "result-red"; // for score 10 and above
+    }
+
+    // Existing logic for other scores
     if (score >= 0 && score <= 1.5) return "result-red";
     if (score > 1.5 && score <= 5.0) return "result-yellow";
     if (score > 5.0 && score <= 7.5) return "result-orange";
@@ -74,7 +82,7 @@ const ResultSection = ({ interviewId }) => {
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="rating-name">Filler Count</p>
-                <p className={getResultClass(overallFeedback.fillerCount)}>
+                <p className={getResultClass(overallFeedback.fillerCount, "fillerCount")}>
                   {overallFeedback.fillerCount || 0}
                 </p>
               </div>
@@ -83,7 +91,7 @@ const ResultSection = ({ interviewId }) => {
                 <p
                   className={getResultClass(overallFeedback.overallPerformance)}
                 >
-                  {overallFeedback.overallPerformance || 0}/10
+                  {overallFeedback.overallPerformance ||  0}/10
                 </p>
               </div>
             </div>
@@ -102,7 +110,6 @@ const ResultSection = ({ interviewId }) => {
               </div>
               <div>
                 <strong>Your Answer:</strong>
-                {/* <p>{answer[currentIndex]}</p> */}
                 {answer[currentIndex] ? (
                   <p>{answer[currentIndex]}</p>
                 ) : (
@@ -112,33 +119,29 @@ const ResultSection = ({ interviewId }) => {
               <div>
                 <strong>Enhance Response:</strong>
                 <p>{improvedAnswer[currentIndex]}</p>
-                {/* Replace Enhance Ans/response */}
               </div>
               <div>
                 <strong>Feedback:</strong>
                 <p>{feedback[currentIndex]}</p>
               </div>
-
-             
             </div>
-             {/* Pagination display at the bottom center */}
-             <div className="d-flex justify-content-center question-navination">
-                <span
-                  className="prev"
-                  onClick={handlePrev}
-                  style={{ cursor: "pointer", marginRight: "10px" }}
-                >
-                  &lt;
-                </span>
-                <h4 className="pageNum">{currentIndex + 1}</h4>
-                <span
-                  className="next"
-                  onClick={handleNext}
-                  style={{ cursor: "pointer", marginLeft: "10px" }}
-                >
-                  &gt;
-                </span>
-              </div>
+            <div className="d-flex justify-content-center question-navination">
+              <span
+                className="prev"
+                onClick={handlePrev}
+                style={{ cursor: "pointer", marginRight: "10px" }}
+              >
+                &lt;
+              </span>
+              <h4 className="pageNum">{currentIndex + 1}</h4>
+              <span
+                className="next"
+                onClick={handleNext}
+                style={{ cursor: "pointer", marginLeft: "10px" }}
+              >
+                &gt;
+              </span>
+            </div>
           </Card>
         </Col>
         <div className="w-100 d-flex justify-content-end">
