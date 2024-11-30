@@ -25,7 +25,7 @@ import { upload } from "@testing-library/user-event/dist/upload";
 import { useAnalytics } from "../../hook/useAnalytics";
 import tipsAvatar from "../../assets/basic.png";
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
-import loading from '../../assets/loading.gif';
+import loading from "../../assets/loading.gif";
 
 const VideoRecording = ({
   onClose,
@@ -63,8 +63,8 @@ const VideoRecording = ({
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [cameraError, setCameraError] = useState(false); // State to track camera error
   const [questionError, setQuestionError] = useState(false);
-   //Function to initialize Intro.js
-   const startIntro = () => {
+  //Function to initialize Intro.js
+  const startIntro = () => {
     introJs()
       .setOptions({
         steps: [
@@ -113,22 +113,34 @@ const VideoRecording = ({
       })
       .start();
 
-    // Set the flag in localStorage to indicate that the intro has been shown
-    JSON.stringify(sessionStorage.setItem("introShown", true));
+    //Get the introShown flag from sessionStorage
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+
+    if (!isIntroShown.expert) {
+      // Update the behavioral field
+      const updatedIntroShown = {
+        ...isIntroShown, // Preserve other fields
+        expert: true, // Update behavioral
+      };
+
+      //Clear the introShown flag from sessionStorage
+      sessionStorage.removeItem("isIntroShown");
+      // Save the updated object back to sessionStorage
+      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
+    }
   };
 
   // Call startIntro when the component mounts
   useEffect(() => {
     // Check if the intro has already been shown
-    const introShown = JSON.parse(sessionStorage.getItem("introShown"));
-    if (!introShown) {
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+    if (!isIntroShown.expert) {
       startIntro();
     } else {
       console.log("Intro has already been shown."); // Log if the intro has already been shown
     }
   }, []); // Empty dependency array ensures this runs only once on mount
 
-  
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -580,7 +592,12 @@ const VideoRecording = ({
                 {isReattemptingCamera && (
                   <div className="camera-retry-overlay">
                     {/* <Spinner animation="border" role="status" /> */}
-                    <img className="loadinganimation" animation="border" role="status" src={loading}/>
+                    <img
+                      className="loadinganimation"
+                      animation="border"
+                      role="status"
+                      src={loading}
+                    />
                     <p>Reattempting access to camera...</p>
                   </div>
                 )}
