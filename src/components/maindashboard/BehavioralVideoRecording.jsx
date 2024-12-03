@@ -445,7 +445,11 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
 
       // Append the video file and question to the FormData
       formData.append("interviewId", interviewId);
-      formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
+      formData.append(
+        "videoFile",
+        blob,
+        `${interviewId}-question${questionIndex + 1}.webm`
+      );
       formData.append("question", questions[questionIndex]);
 
       // Make a POST request to the server to upload the video
