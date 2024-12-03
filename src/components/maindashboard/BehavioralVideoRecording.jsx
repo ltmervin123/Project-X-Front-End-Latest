@@ -168,14 +168,17 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       });
     }
   };
+
+  //Toogle mic to mute and unmute
   const toggleMute = () => {
-    setIsMuted((prev) => !prev);
+    setIsMuted(!isMuted);
     if (streamRef.current) {
       streamRef.current.getAudioTracks().forEach((track) => {
-        track.enabled = !isMuted; // Toggle audio track
+        track.enabled = isMuted; // Toggle the audio track enabled state
       });
     }
   };
+
   // Access camera when the component mounts
   useEffect(() => {
     enableCameraFeed();
