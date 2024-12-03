@@ -184,7 +184,7 @@ const VideoRecording = ({
       });
     }
   };
-  
+
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
     setIsReattemptingCamera(true); // Reset reattempt state
@@ -452,7 +452,11 @@ const VideoRecording = ({
 
       // Append the video file and question to the FormData
       formData.append("interviewId", interviewId);
-      formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
+      formData.append(
+        "videoFile",
+        blob,
+        `${interviewId}-question${questionIndex + 1}.webm`
+      );
       formData.append("question", questions[questionIndex]);
 
       // Make a POST request to the server to upload the video
