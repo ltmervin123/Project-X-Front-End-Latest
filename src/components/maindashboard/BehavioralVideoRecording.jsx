@@ -168,14 +168,17 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       });
     }
   };
+
+  //Toogle mic to mute and unmute
   const toggleMute = () => {
-    setIsMuted((prev) => !prev);
+    setIsMuted(!isMuted);
     if (streamRef.current) {
       streamRef.current.getAudioTracks().forEach((track) => {
-        track.enabled = !isMuted; // Toggle audio track
+        track.enabled = isMuted; // Toggle the audio track enabled state
       });
     }
   };
+
   // Access camera when the component mounts
   useEffect(() => {
     enableCameraFeed();
@@ -442,7 +445,11 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
 
       // Append the video file and question to the FormData
       formData.append("interviewId", interviewId);
-      formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
+      formData.append(
+        "videoFile",
+        blob,
+        `${interviewId}-question${questionIndex + 1}.webm`
+      );
       formData.append("question", questions[questionIndex]);
 
       // Make a POST request to the server to upload the video
