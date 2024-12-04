@@ -392,12 +392,16 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       interval = setInterval(() => {
         elapsedSeconds += 1; // Increment elapsed time by 1 second
 
-        setTimer({ minutes: 0, seconds: elapsedSeconds });
+        // Calculate minutes and seconds
+        const minutes = Math.floor(elapsedSeconds / 60);
+        const seconds = elapsedSeconds % 60;
+
+        setTimer({ minutes, seconds });
 
         if (elapsedSeconds === 120) {
-          // Check if elapsed time is exactly 5 seconds
+          // Check if elapsed time is exactly 120 seconds (2 minutes)
           stopRecording();
-          clearInterval(interval); // Stop the timer after 5 seconds
+          clearInterval(interval); // Stop the timer after 2 minutes
         }
       }, 1000);
     } else {
