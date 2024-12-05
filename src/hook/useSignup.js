@@ -5,7 +5,8 @@ import axios from "axios";
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const URL = "http://localhost:5000/api/user/auth/signup";
+  const API = process.env.REACT_APP_API_URL;
+  const URL = `${API}/api/user/auth/signup`;
   const { dispatch } = useAuthContext();
 
   const signup = async (name, email, password) => {
