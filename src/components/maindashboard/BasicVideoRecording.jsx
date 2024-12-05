@@ -55,6 +55,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const [cameraError, setCameraError] = useState(false); // State to track camera error
   const [feedbackError, setFeedbackError] = useState(false); // State to track feedback error
   const [questionError, setQuestionError] = useState(false);
+  const API = process.env.REACT_APP_API_URL;
 
   //Function to initialize Intro.js
   const startIntro = () => {
@@ -218,7 +219,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     async (question) => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/interview/audio",
+          `${API}/api/interview/audio`,
           { question },
           {
             headers: {
@@ -332,7 +333,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     try {
       console.log("Interview ID: ", interviewId);
       const response = await axios.post(
-        "http://localhost:5000/api/interview/create-feedback",
+        `${API}/api/interview/create-feedback`,
         { interviewId },
         {
           headers: {
@@ -362,7 +363,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       formData.append("category", category);
 
       const response = await axios.post(
-        "http://localhost:5000/api/interview/generate-questions",
+        `${API}/api/interview/generate-questions`,
         formData,
         {
           headers: {
@@ -458,7 +459,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
-        "http://localhost:5000/api/interview/mock-interview",
+        `${API}/api/interview/mock-interview`,
         formData,
         {
           headers: {

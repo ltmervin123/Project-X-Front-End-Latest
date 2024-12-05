@@ -8,7 +8,12 @@ const Header = () => {
     <Navbar>
       <Container>
         <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
-          <img src={logo} alt="Logo" width="80" height="80" />
+          <img
+            src={logo}
+            alt="Logo"
+            width="80"
+            height="80"
+          />
           <div>
             <div className="logoname">
               HR-<div className="logocolor">HATCH</div>{" "}

@@ -8,7 +8,8 @@ export const useAnalytics = () => {
   const [error, setError] = useState(null);
   const { user } = useAuthContext();
   const { dispatch } = useAnalyticsContext();
-  const URL = "http://localhost:5000/api/interview/get-feedback";
+  const API = process.env.REACT_APP_API_URL;
+  const URL = `${API}/api/interview/get-feedback`;
 
   const getAnalytics = async () => {
     try {

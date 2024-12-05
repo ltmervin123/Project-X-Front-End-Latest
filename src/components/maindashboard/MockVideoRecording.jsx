@@ -14,6 +14,7 @@ import {
   FaMagic,
   FaVideo,
   FaVideoSlash,
+  FaAudioDescription,
 } from "react-icons/fa";
 import avatarImg from "../../assets/expert.png";
 import CancelInterviewAlert from "./CancelInterviewModal"; // Import the ConfirmModal
@@ -63,6 +64,7 @@ const VideoRecording = ({
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [cameraError, setCameraError] = useState(false); // State to track camera error
   const [questionError, setQuestionError] = useState(false);
+  const API = process.env.REACT_APP_API_URL;
   //Function to initialize Intro.js
   const startIntro = () => {
     introJs()
@@ -176,14 +178,19 @@ const VideoRecording = ({
   };
 
   // Toggle mute state
+
+  // Toggle mute state
   const toggleMute = () => {
+    setIsMuted(!isMuted);
     setIsMuted(!isMuted);
     if (streamRef.current) {
       streamRef.current.getAudioTracks().forEach((track) => {
         track.enabled = isMuted; // Toggle the audio track enabled state
+        track.enabled = isMuted; // Toggle the audio track enabled state
       });
     }
   };
+
 
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
@@ -224,7 +231,7 @@ const VideoRecording = ({
     async (question) => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/interview/audio",
+          `${API}/api/interview/audio`,
           { question },
           {
             headers: {
@@ -338,7 +345,7 @@ const VideoRecording = ({
     try {
       console.log("Interview ID: ", interviewId);
       const response = await axios.post(
-        "http://localhost:5000/api/interview/create-feedback",
+        `${API}/api/interview/create-feedback`,
         { interviewId },
         {
           headers: {
@@ -372,7 +379,7 @@ const VideoRecording = ({
       formData.append("jobDescription", jobDescription);
 
       const response = await axios.post(
-        "http://localhost:5000/api/interview/generate-questions",
+        `${API}/api/interview/generate-questions`,
         formData,
         {
           headers: {
@@ -460,11 +467,16 @@ useEffect(() => {
         blob,
         `${interviewId}-question${questionIndex + 1}.webm`
       );
+      formData.append(
+        "videoFile",
+        blob,
+        `${interviewId}-question${questionIndex + 1}.webm`
+      );
       formData.append("question", questions[questionIndex]);
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
-        "http://localhost:5000/api/interview/mock-interview",
+        `${API}/api/interview/mock-interview`,
         formData,
         {
           headers: {
@@ -527,7 +539,7 @@ useEffect(() => {
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Basic Interview</h5>
+           <h5>Expert Interview</h5>
             <Button
               id="confirmCloseButton"
               variant="link"
@@ -591,6 +603,7 @@ useEffect(() => {
                   </Button>
                 </div>
 
+
                 {/* Countdown Overlay */}
                 {isCountdownActive && countdown > 0 && (
                   <div className="countdown-overlay">
@@ -602,12 +615,7 @@ useEffect(() => {
                 {isReattemptingCamera && (
                   <div className="camera-retry-overlay">
                     {/* <Spinner animation="border" role="status" /> */}
-                    <img
-                      className="loadinganimation"
-                      animation="border"
-                      role="status"
-                      src={loading}
-                    />
+                    <img className="loadinganimation" animation="border" role="status" src={loading}/>
                     <p>Reattempting access to camera...</p>
                   </div>
                 )}
@@ -717,6 +725,7 @@ useEffect(() => {
         <ErrorAccessCam
           onRetry={() => {
             // setCameraError(false);
+            // setCameraError(false);
             enableCameraFeed();
           }}
         />
@@ -739,7 +748,9 @@ useEffect(() => {
         />
       )}
 
+
       {isGeneratingFeedback && <LoadingScreen />}
+
 
       {showSuccessPopup && <InterviewSuccessfulPopup />}
     </>
