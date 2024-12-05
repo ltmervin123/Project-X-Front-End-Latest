@@ -384,29 +384,33 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     }
   };
 
-  // Timer Effect
-  useEffect(() => {
-    let interval;
-    let elapsedSeconds = 0; // Variable to track elapsed time
+// Timer Effect
+useEffect(() => {
+  let interval;
+  let elapsedSeconds = 0; // Variable to track elapsed time
 
-    if (isRecording && !isPaused) {
-      interval = setInterval(() => {
-        elapsedSeconds += 1; // Increment elapsed time by 1 second
+  if (isRecording && !isPaused) {
+    interval = setInterval(() => {
+      elapsedSeconds += 1; // Increment elapsed time by 1 second
 
-        setTimer({ minutes: 0, seconds: elapsedSeconds });
+      // Calculate minutes and seconds
+      const minutes = Math.floor(elapsedSeconds / 60);
+      const seconds = elapsedSeconds % 60;
 
-        if (elapsedSeconds === 120) {
-          // Check if elapsed time is exactly 5 seconds
-          stopRecording();
-          clearInterval(interval); // Stop the timer after 5 seconds
-        }
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
+      setTimer({ minutes, seconds });
 
-    return () => clearInterval(interval);
-  }, [isRecording, isPaused]);
+      if (elapsedSeconds === 120) {
+        // Check if elapsed time is exactly 120 seconds (2 minutes)
+        stopRecording();
+        clearInterval(interval); // Stop the timer after 2 minutes
+      }
+    }, 1000);
+  } else {
+    clearInterval(interval);
+  }
+
+  return () => clearInterval(interval);
+}, [isRecording, isPaused]);
 
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
