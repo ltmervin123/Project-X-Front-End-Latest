@@ -58,83 +58,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [questionError, setQuestionError] = useState(false);
   const API = process.env.REACT_APP_API_URL;
 
-  //Function to initialize Intro.js
-  const startIntro = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click here to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-          {
-            element: "#talkingAvatar",
-            intro: "Talking Avatar.",
-          },
-          {
-            element: "#startInterviewButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
-          },
-          {
-            element: "#confirmCloseButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
-          },
-        ],
-      })
-      .start();
-
-    //Get the introShown flag from sessionStorage
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-
-    if (!isIntroShown.behavioral) {
-      // Update the behavioral field
-      const updatedIntroShown = {
-        ...isIntroShown, // Preserve other fields
-        behavioral: true, // Update behavioral
-      };
-
-      //Clear the introShown flag from sessionStorage
-      sessionStorage.removeItem("isIntroShown");
-      // Save the updated object back to sessionStorage
-      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
-    }
-  };
-
-  // Call startIntro when the component mounts
-  useEffect(() => {
-    // Check if the intro has already been shown
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-    if (!isIntroShown.behavioral) {
-      startIntro();
-    } else {
-      console.log("Intro has already been shown."); // Log if the intro has already been shown
-    }
-  }, []); // Empty dependency array ensures this runs only once on mount
 
   //Function to initialize Intro.js
   const startIntro = () => {
@@ -592,7 +515,7 @@ useEffect(() => {
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Basic Interview</h5>
+            <h5>Behavioral Interview</h5>
             <Button
               id="confirmCloseButton"
               variant="link"
