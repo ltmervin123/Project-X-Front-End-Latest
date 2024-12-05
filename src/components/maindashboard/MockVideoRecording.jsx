@@ -3,6 +3,8 @@ import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import Draggable from "react-draggable";
 import "intro.js/introjs.css";
 import introJs from "intro.js";
+import "intro.js/introjs.css";
+import introJs from "intro.js";
 import ErrorAccessCam from "../maindashboard/ErrorAccessCam";
 import ErrorGenerateFeedback from "./ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./ErrorGenerateQuestion";
@@ -25,7 +27,9 @@ import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup"; // Import the
 import { upload } from "@testing-library/user-event/dist/upload";
 import { useAnalytics } from "../../hook/useAnalytics";
 import tipsAvatar from "../../assets/basic.png";
+import tipsAvatar from "../../assets/basic.png";
 import LoadingScreen from "./loadingScreen"; // Import the loading screen
+import loading from "../../assets/loading.gif";
 import loading from "../../assets/loading.gif";
 
 const VideoRecording = ({
@@ -178,14 +182,19 @@ const VideoRecording = ({
   };
 
   // Toggle mute state
+
+  // Toggle mute state
   const toggleMute = () => {
+    setIsMuted(!isMuted);
     setIsMuted(!isMuted);
     if (streamRef.current) {
       streamRef.current.getAudioTracks().forEach((track) => {
         track.enabled = isMuted; // Toggle the audio track enabled state
+        track.enabled = isMuted; // Toggle the audio track enabled state
       });
     }
   };
+
 
   // function to enable camera feed
   const enableCameraFeed = async (retryCount = 3) => {
@@ -392,30 +401,33 @@ const VideoRecording = ({
       setQuestionError(true);
     }
   };
+// Timer Effect
+useEffect(() => {
+  let interval;
+  let elapsedSeconds = 0; // Variable to track elapsed time
 
-  // Timer Effect
-  useEffect(() => {
-    let interval;
-    let elapsedSeconds = 0; // Variable to track elapsed time
+  if (isRecording && !isPaused) {
+    interval = setInterval(() => {
+      elapsedSeconds += 1; // Increment elapsed time by 1 second
 
-    if (isRecording && !isPaused) {
-      interval = setInterval(() => {
-        elapsedSeconds += 1; // Increment elapsed time by 1 second
+      // Calculate minutes and seconds
+      const minutes = Math.floor(elapsedSeconds / 60);
+      const seconds = elapsedSeconds % 60;
 
-        setTimer({ minutes: 0, seconds: elapsedSeconds });
+      setTimer({ minutes, seconds });
 
-        if (elapsedSeconds === 120) {
-          // Check if elapsed time is exactly 5 seconds
-          stopRecording();
-          clearInterval(interval); // Stop the timer after 5 seconds
-        }
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
+      if (elapsedSeconds === 120) {
+        // Check if elapsed time is exactly 120 seconds (2 minutes)
+        stopRecording();
+        clearInterval(interval); // Stop the timer after 2 minutes
+      }
+    }, 1000);
+  } else {
+    clearInterval(interval);
+  }
 
-    return () => clearInterval(interval);
-  }, [isRecording, isPaused]);
+  return () => clearInterval(interval);
+}, [isRecording, isPaused]);
 
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
@@ -454,6 +466,11 @@ const VideoRecording = ({
 
       // Append the video file and question to the FormData
       formData.append("interviewId", interviewId);
+      formData.append(
+        "videoFile",
+        blob,
+        `${interviewId}-question${questionIndex + 1}.webm`
+      );
       formData.append(
         "videoFile",
         blob,
@@ -527,7 +544,10 @@ const VideoRecording = ({
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5>Basic Interview</h5>
+            <h5>Basic Interview</h5>
             <Button
+              id="confirmCloseButton"
+              variant="link"
               id="confirmCloseButton"
               variant="link"
               className="closebtn"
@@ -543,12 +563,20 @@ const VideoRecording = ({
                 id="videoArea"
                 className="video-area position-relative d-flex align-items-center"
               >
+              <div
+                id="videoArea"
+                className="video-area position-relative d-flex align-items-center"
+              >
                 <video
                   ref={videoRef}
                   autoPlay
                   muted
                   className="video-feed"
                 ></video>
+                <p
+                  id="timer"
+                  className="timer position-absolute top-0 end-0 m-2"
+                >
                 <p
                   id="timer"
                   className="timer position-absolute top-0 end-0 m-2"
@@ -560,6 +588,7 @@ const VideoRecording = ({
                 <div className="d-flex align-items-center gap-3 interview-tools">
                   <Button
                     id="cameraButton"
+                    id="cameraButton"
                     className="btn-videorecord"
                     onClick={toggleCamera}
                     variant={isCameraOn ? "success" : "secondary"}
@@ -567,6 +596,7 @@ const VideoRecording = ({
                     {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
                   </Button>
                   <Button
+                    id="startButton"
                     id="startButton"
                     className="position-relative  pause-indicator"
                     onClick={isRecording ? stopRecording : startRecording}
@@ -586,9 +616,15 @@ const VideoRecording = ({
                     className="btn-mute"
                     onClick={toggleMute}
                   >
+                  <Button
+                    id="muteButton"
+                    className="btn-mute"
+                    onClick={toggleMute}
+                  >
                     {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                   </Button>
                 </div>
+
 
                 {/* Countdown Overlay */}
                 {isCountdownActive && countdown > 0 && (
@@ -609,6 +645,7 @@ const VideoRecording = ({
 
               <Draggable>
                 <div id="tipsContainer" className="tips-container d-flex">
+                <div id="tipsContainer" className="tips-container d-flex">
                   <div className="tips">
                     <p className="tips-header">Tips:</p>
                     <p className="tips-content">{tips[currentTipIndex]}</p>
@@ -623,6 +660,7 @@ const VideoRecording = ({
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-3">
               <img
+                id="talkingAvatar"
                 id="talkingAvatar"
                 src={avatarImg}
                 alt="Avatar"
@@ -654,6 +692,7 @@ const VideoRecording = ({
                     </p>
                     <div className="d-flex justify-content-center w-100">
                       <Button
+                        id="startInterviewButton"
                         id="startInterviewButton"
                         className="btn-startinterview d-flex align-items-center "
                         variant="link"
@@ -711,6 +750,7 @@ const VideoRecording = ({
         <ErrorAccessCam
           onRetry={() => {
             // setCameraError(false);
+            // setCameraError(false);
             enableCameraFeed();
           }}
         />
@@ -729,11 +769,14 @@ const VideoRecording = ({
           onHide={() => setShowConfirm(false)} // Close the modal when needed
           onConfirm={handleConfirmClose}
           onClose={() => setShowConfirm(false)}
+          onClose={() => setShowConfirm(false)}
           message="Are you sure you want to cancel the interview?"
         />
       )}
 
+
       {isGeneratingFeedback && <LoadingScreen />}
+
 
       {showSuccessPopup && <InterviewSuccessfulPopup />}
     </>

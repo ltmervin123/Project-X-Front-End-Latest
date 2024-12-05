@@ -136,6 +136,84 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     }
   }, []); // Empty dependency array ensures this runs only once on mount
 
+  //Function to initialize Intro.js
+  const startIntro = () => {
+    introJs()
+      .setOptions({
+        steps: [
+          {
+            intro: "Welcome to the Video Recording Interface!",
+          },
+          {
+            element: "#videoArea",
+            intro: "This is where you will see yourself while recording.",
+          },
+          {
+            element: "#startButton",
+            intro: "Click here to start recording your responses.",
+          },
+          {
+            element: "#muteButton",
+            intro: "Use this button to mute or unmute your microphone.",
+          },
+          {
+            element: "#cameraButton",
+            intro: "Toggle your camera on or off using this button.",
+          },
+          {
+            element: "#timer",
+            intro:
+              "Here are some tips to help you perform better in your interview.",
+          },
+          {
+            element: "#tipsContainer",
+            intro:
+              "Here are some tips to help you perform better in your interview.",
+          },
+          {
+            element: "#talkingAvatar",
+            intro: "Talking Avatar.",
+          },
+          {
+            element: "#startInterviewButton",
+            intro: "Click here to cancel the interview if you wish to stop.",
+          },
+          {
+            element: "#confirmCloseButton",
+            intro: "Click here to cancel the interview if you wish to stop.",
+          },
+        ],
+      })
+      .start();
+
+    //Get the introShown flag from sessionStorage
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+
+    if (!isIntroShown.behavioral) {
+      // Update the behavioral field
+      const updatedIntroShown = {
+        ...isIntroShown, // Preserve other fields
+        behavioral: true, // Update behavioral
+      };
+
+      //Clear the introShown flag from sessionStorage
+      sessionStorage.removeItem("isIntroShown");
+      // Save the updated object back to sessionStorage
+      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
+    }
+  };
+
+  // Call startIntro when the component mounts
+  useEffect(() => {
+    // Check if the intro has already been shown
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+    if (!isIntroShown.behavioral) {
+      startIntro();
+    } else {
+      console.log("Intro has already been shown."); // Log if the intro has already been shown
+    }
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -385,29 +463,33 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     }
   };
 
-  // Timer Effect
-  useEffect(() => {
-    let interval;
-    let elapsedSeconds = 0; // Variable to track elapsed time
+// Timer Effect
+useEffect(() => {
+  let interval;
+  let elapsedSeconds = 0; // Variable to track elapsed time
 
-    if (isRecording && !isPaused) {
-      interval = setInterval(() => {
-        elapsedSeconds += 1; // Increment elapsed time by 1 second
+  if (isRecording && !isPaused) {
+    interval = setInterval(() => {
+      elapsedSeconds += 1; // Increment elapsed time by 1 second
 
-        setTimer({ minutes: 0, seconds: elapsedSeconds });
+      // Calculate minutes and seconds
+      const minutes = Math.floor(elapsedSeconds / 60);
+      const seconds = elapsedSeconds % 60;
 
-        if (elapsedSeconds === 120) {
-          // Check if elapsed time is exactly 5 seconds
-          stopRecording();
-          clearInterval(interval); // Stop the timer after 5 seconds
-        }
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
+      setTimer({ minutes, seconds });
 
-    return () => clearInterval(interval);
-  }, [isRecording, isPaused]);
+      if (elapsedSeconds === 120) {
+        // Check if elapsed time is exactly 120 seconds (2 minutes)
+        stopRecording();
+        clearInterval(interval); // Stop the timer after 2 minutes
+      }
+    }, 1000);
+  } else {
+    clearInterval(interval);
+  }
+
+  return () => clearInterval(interval);
+}, [isRecording, isPaused]);
 
   //Make a post request to the backend to get the questions
   const handleIntroFinish = async () => {
