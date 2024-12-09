@@ -47,9 +47,7 @@ export const useLogin = () => {
       console.log("Error ", error);
       return false;
     } finally {
-      // Set loading to false after the request completes
       setIsLoading(false);
-      console.log(`Email: ${email}, Password: ${password}`);
     }
   };
 

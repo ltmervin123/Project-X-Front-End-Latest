@@ -43,12 +43,6 @@ const MainDashboard = () => {
     }
   };
 
-  //Log interview type and category
-  useEffect(() => {
-    console.log(`Interview Type: ${interviewType}`);
-    console.log(`Category: ${category}`);
-  }, [interviewType, category]);
-
   //Set Behavioral as interviewType of Behavioral and what ever the category under Behavioral
   const handleSelectBehavioralCategory = (category) => {
     setInterviewType("Behavioral");
@@ -85,13 +79,11 @@ const MainDashboard = () => {
 
   const handleFileUpload = (uploadedFile) => {
     setFile(uploadedFile); // Store the uploaded file if needed
-    console.log("Uploaded file:", uploadedFile); // Log the uploaded file
     setShowUploadModal(false); // Close the UploadPopUp
     setShowJobDescriptionModal(true); // Open the JobDescriptionPopup
   };
 
   const handleJobDescriptionSubmit = (description) => {
-    console.log("Job description submitted:", description); // Log the job description
     setJobDescription(description); // Store the job description if needed
     setShowJobDescriptionModal(false); // Close the JobDescriptionPopup
     setShowVideoRecording(true); // Open the VideoRecording component
