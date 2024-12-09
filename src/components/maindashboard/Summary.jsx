@@ -1,8 +1,13 @@
 import { React, useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
+import { useAnalytics } from "../../hook/useAnalytics";
+import { useAnalyticsContext } from "../../hook/useAnalyticsContext";
 
 const Summary = () => {
-  const [interviews, setInterviews] = useState([]);
+  // const [interviews, setInterviews] = useState([]);
+  const { getAnalytics } = useAnalytics();
+  const { dispatch } = useAnalyticsContext();
+  const interviews = JSON.parse(localStorage.getItem("analytics")) || [];
 
   // Helper function to format the date
   const formattedDate = (createdAt) => {
@@ -17,25 +22,9 @@ const Summary = () => {
     return `${month} / ${day} / ${year} | ${hours}:${minutes} ${amPm}`;
   };
 
-  // Fetch the summary of the last 3 interviews from local storage
-  const fetchSummary = () => {
-    const analytics = JSON.parse(localStorage.getItem("analytics")) || [];
-    const summary = analytics
-      .reverse()
-      .splice(0, 3)
-      .map((item) => ({
-        category: item.interviewDetails[0].category,
-        type: item.interviewDetails[0].type,
-        date: formattedDate(item.createdAt),
-        result: item.overallFeedback.overallPerformance,
-      }));
-    setInterviews(summary);
-  };
-
-  // Fetch the summary on component mount
   useEffect(() => {
-    fetchSummary();
-  }, []);
+    getAnalytics();
+  }, [dispatch]);
 
   return (
     <div className="summary-card-wrapper">
@@ -45,24 +34,38 @@ const Summary = () => {
         <div className="activity-results-container d-flex justify-content-center">
           <div className="activity-container text-center d-flex">
             <p>Activity</p>
-            {interviews.map((interview, index) => (
-              <div className="activity-card" key={index}>
-                <p className="category-name">{interview.category}</p>
-                <p className="type-of-interview">{interview.type}</p>
-                <p className="date-of-interview">{interview.date}</p>
-              </div>
-            ))}
+            {interviews
+              .slice()
+              .reverse()
+              .slice(0, 3)
+              .map((item, index) => (
+                <div className="activity-card" key={index}>
+                  <p className="category-name">
+                    {item.interviewDetails[0].category}
+                  </p>
+                  <p className="type-of-interview">
+                    {item.interviewDetails[0].type}
+                  </p>
+                  <p className="date-of-interview">
+                    {formattedDate(item.createdAt)}
+                  </p>
+                </div>
+              ))}
           </div>
           <div className="results-container text-center d-flex">
             <p>Results</p>
-            {interviews.map((interview, index) => (
-              <p
-                className="result-of-interview d-flex align-items-center"
-                key={index}
-              >
-                {interview.result}/10
-              </p>
-            ))}
+            {interviews
+              .slice()
+              .reverse()
+              .slice(0, 3)
+              .map((item, index) => (
+                <p
+                  className="result-of-interview d-flex align-items-center"
+                  key={index}
+                >
+                  {item.overallFeedback.overallPerformance}/10
+                </p>
+              ))}
           </div>
         </div>
         <div className="subcription-reminder-container d-flex align-items-center">

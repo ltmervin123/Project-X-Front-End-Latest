@@ -23,7 +23,6 @@ export const useAnalytics = () => {
       });
       const data = await response.data.feedback;
       if (response.status === 200) {
-        // localStorage.setItem("user", JSON.stringify(user));
         dispatch({ type: "SET_ANALYTICS", payload: data });
       }
     } catch (err) {
@@ -45,7 +44,6 @@ export const useAnalytics = () => {
       });
       const data = await response.data.feedback;
       if (response.status === 200) {
-        // localStorage.setItem("user", JSON.stringify(user));
         dispatch({ type: "CREATE_ANALYTICS", payload: data });
       }
     } catch (err) {

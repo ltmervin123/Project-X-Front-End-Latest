@@ -24,12 +24,11 @@ const MainDashboard = () => {
   const { dispatch, analytics } = useAnalyticsContext();
   const { getAnalytics, isloaading, error } = useAnalytics();
   const navigate = useNavigate();
-
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-  
+
   // State for search input
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   useEffect(() => {
     getAnalytics();
   }, [dispatch]);
@@ -44,7 +43,7 @@ const MainDashboard = () => {
   };
 
   // Filter interview history based on search term
-  const filteredInterviewHistory = interviewHistory.filter(item => {
+  const filteredInterviewHistory = interviewHistory.filter((item) => {
     const category = item.interviewDetails[0].category.toLowerCase();
     return category.includes(searchTerm.toLowerCase());
   });
@@ -63,7 +62,7 @@ const MainDashboard = () => {
           >
             <Form.Control as="select">
               <option>Category</option>
-            </Form.Control> 
+            </Form.Control>
             <span className="dropdown-icon">
               <FaChevronDown />
             </span>
@@ -105,7 +104,7 @@ const MainDashboard = () => {
                   </td>
                 </tr>
               ) : filteredInterviewHistory.length > 0 ? (
-                filteredInterviewHistory  
+                filteredInterviewHistory
                   .slice()
                   .reverse()
                   .map((item) => (
@@ -132,7 +131,7 @@ const MainDashboard = () => {
                   ))
               ) : (
                 <tr>
-                  <td colSpan="6" className ="text-center">
+                  <td colSpan="6" className="text-center">
                     No data available
                   </td>
                 </tr>
