@@ -49,6 +49,9 @@ function App() {
             <Route path="/userprofile" element={<UserProfilePage />} />
           </Route>
         </Route>
+
+        {/* Catch all un existing routes */}
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
   );
