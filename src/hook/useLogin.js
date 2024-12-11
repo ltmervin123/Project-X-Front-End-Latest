@@ -28,23 +28,18 @@ export const useLogin = () => {
         id: data.user._id,
         token: data.user.token,
       };
-
-      // Check if the response is successful
       if (response.status === 200) {
-        // //Set the user to the local storage
-        // localStorage.setItem("user", JSON.stringify(user));
-
-        // Dispatch the user data to context or handle login state
         dispatch({ type: "LOGIN", payload: user });
         return true;
       }
     } catch (err) {
       // Handle any error from the request
       const responseError = err.response
-        ? err.response.data.error
+        ? err.response.data.message
         : "Login failed";
+
+      console.log("error :", err.response);
       setError(responseError);
-      console.log("Error ", error);
       return false;
     } finally {
       setIsLoading(false);

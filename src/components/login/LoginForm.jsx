@@ -7,7 +7,7 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import LoginAvatar from "../../assets/login-img.png";
@@ -22,6 +22,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password);
+    console.log("error", error);
     if (isLogin) {
       navigate("/maindashboard");
     }
@@ -29,10 +30,16 @@ const LoginForm = () => {
 
   return (
     <div className="row main-login justify-content-center">
-      <Col md={5}  className=" d-flex align-items-center justify-content-center ">
+      <Col
+        md={5}
+        className=" d-flex align-items-center justify-content-center "
+      >
         <img className="login-avatar" src={LoginAvatar} alt="" />
       </Col>
-      <Col md={7}  className="d-flex align-items-center justify-content-center main-login-form">
+      <Col
+        md={7}
+        className="d-flex align-items-center justify-content-center main-login-form"
+      >
         <div className="login-container">
           <div className="login-header text-center">
             <h2>LOG IN</h2>
@@ -88,12 +95,6 @@ const LoginForm = () => {
                   <div className="remember-box">
                     <input type="checkbox" className="form-check-input" />
                     <b className=" form-check-label">Remember me</b>
-                    {/* <div className="remeber-box-check d-flex align-items-center">
-                      <input type="checkbox" className="form-check-input" />
-                      <i className="form-text ">
-                        Keep me logged in on this device.
-                      </i>
-                    </div> */}
                   </div>
                 </div>
                 <div className="forgot d-flex">
@@ -103,16 +104,14 @@ const LoginForm = () => {
                     Click here to reset
                   </a>
                 </div>
-                
               </div>
-              
 
               <button
                 type="submit"
                 className="login-button"
                 disabled={isLoading}
               >
-                Login
+                {isLoading ? "Logging in...." : "Log in"}
               </button>
             </form>
           </div>
@@ -131,7 +130,7 @@ const LoginForm = () => {
             </button>
 
             <p>Don't have an account?</p>
- 
+
             <button
               className="signup-button"
               onClick={() => (window.location.href = "/signup")}

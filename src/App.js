@@ -1,4 +1,3 @@
-// src/App.js
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import React from "react";
 import {
@@ -16,6 +15,8 @@ import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
+import PersistLogin from "./components/session/userSession";
+import RequireAuth from "./components/session/requireAuth";
 import { useAuthContext } from "./hook/useAuthContext";
 
 function App() {
@@ -23,39 +24,31 @@ function App() {
   return (
     <Router>
       <Routes>
-          <Route
-          path="/login"
-          element={!user ? <Login /> : <Navigate to="/maindashboard" />}
-          // element={<Login/>}
-        />
         <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/signup"
-          // element={!user ? <SignUp /> : <Navigate to="/maindashboard" />}
-          element={<SignUp/>}
-        />
-        <Route
-          path="/analytics"
-          element={user ? <Analytics /> : <Navigate to="/login" />}
-          // element={<Analytics />}
-        />
-        <Route
-          path="/result/:interviewId"
-          element={user ? <Results /> : <Navigate to="/login" />}
-          // element={<Results />}
-        />
-        <Route
-          path="/maindashboard"
-          element={user ? <MaindashboardPage /> : <Navigate to="/login" />}
-          // element={<MaindashboardPage />}
-        />
-        <Route
-          path="/userprofile"
-          // element={user ? <UserProfilePage /> : <Navigate to="/login" />}
-          element={<UserProfilePage />}
-        />
-        <Route path="/error" element={<ErrorPage />}></Route>
-        <Route path="/comingsoon" element={<CommingSoonPage />}></Route>
+        {/* Public routes */}
+        <Route path="/error" element={<ErrorPage />} />
+        <Route path="/comingsoon" element={<CommingSoonPage />} />
+        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/login" element={<Login />} /> */}s
+        {/* Protected routes */}
+        <Route element={<PersistLogin />}>
+          <Route
+            path="/login"
+            element={!user ? <Login /> : <Navigate to="/maindashboard" />}
+          />
+          <Route element={<RequireAuth />}>
+            <Route path="/analytics" element={<Analytics />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/result/:interviewId" element={<Results />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/maindashboard" element={<MaindashboardPage />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/userprofile" element={<UserProfilePage />} />
+          </Route>
+        </Route>
       </Routes>
     </Router>
   );
