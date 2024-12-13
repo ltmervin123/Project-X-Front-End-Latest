@@ -29,7 +29,7 @@ const LoginForm = () => {
 
   return (
     <div className="row main-login justify-content-center">
-      <Col md={5}  className=" d-flex align-items-center justify-content-center ">
+      <Col md={5}  className=" d-flex align-items-center justify-content-center login-avatar-container ">
         <img className="login-avatar" src={LoginAvatar} alt="" />
       </Col>
       <Col md={7}  className="d-flex align-items-center justify-content-center main-login-form">
@@ -46,14 +46,15 @@ const LoginForm = () => {
                 <span className="input-group-text">
                   <FaEnvelope />
                 </span>
-                <div>
+                <div className="input-container">
                   <input
                     type="email"
                     className={`form-control ${error ? "is-invalid" : ""}`}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email"
                     required
+                    placeholder=" " // Use a space to trigger the placeholder-shown pseudo-class
                   />
+                  <label className="input-label">Email</label>
                 </div>
               </div>
               <div className="input-group mb-3 position-relative">
@@ -64,11 +65,12 @@ const LoginForm = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     className={`form-control ${error ? "is-invalid" : ""}`}
-                    placeholder="Password"
+                    placeholder=""
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                  <label className="input-label">Passwrod</label>
                   <span
                     className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
                     onClick={() => setShowPassword(!showPassword)}
@@ -129,12 +131,14 @@ const LoginForm = () => {
             >
               Continue as Guest
             </button>
-
+            <div className="d-flex flex-column">
             <p>Don't have an account?</p>
- 
+            <i>Join Us Today</i>
+            </div>
+            
             <button
               className="signup-button"
-              onClick={() => (window.location.href = "/signup")}
+              onClick={() => (window.location.href = "/HR_HATCH/signup")}
             >
               Sign up
             </button>

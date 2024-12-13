@@ -90,8 +90,10 @@ const MainDashboard = () => {
           <table>
             <thead>
               <tr>
-                <th>Type</th>
-                <th>Category</th>
+                {/* <th>Type</th> */}
+                <th>Activity</th>
+                {/* <th>Category</th> */}
+                <th>Topics/Job Description</th>
                 <th>Date</th>
                 <th>Overall Result</th>
                 <th>Action</th>

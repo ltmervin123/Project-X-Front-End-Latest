@@ -592,7 +592,10 @@
 }
 
 .timer {
-  color: var(--font-white) !important;
+  color: var(--font-white) !important; /* Keep the text color */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  padding: 5px; /* Add some padding for better readability */
+  border-radius: 5px; /* Optional: round the corners */
 }
 
 .avatar-interviewer-img {
@@ -717,55 +720,63 @@
   justify-content: flex-end;
   align-items: center; /* Center items vertically */
   position: absolute; /* Allow positioning of the entire container */
-  top: 90px; /* Distance from the top */
-  right: 25px; /* Distance from the right */
+  top: 10px; /* Distance from the top */
+  left: 10px; /* Distance from the right */
   gap: 0;
   z-index: 1000; /* Ensure it appears above other content */
 }
 
 .tips {
-  background-color: var(--font-white); /* Light blue background */
-  border: none; /* Slightly darker blue border */
+  background-color: var(--font-white); /* Light background */
+  border: none; /* No border */
   border-radius: 10px; /* Rounded corners */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  padding: 10px; /* Inner spacing */
+  padding: 5px; /* Inner spacing */
   max-width: 100%; /* Max width of the message bubble */
-  margin-right: 20px; /* Space between the tips and the avatar */
+  margin-left: 18px; /* Space between the tips and the avatar */
   position: relative;
 }
 
 .tips::after {
   content: ""; /* No text content */
   position: absolute; /* Position it absolutely */
-  right: -10px; /* Adjust based on your layout */
+  left: -10px; /* Position it to the left of the tips */
   top: 50%; /* Center vertically */
-  transform: translateY(-50%) rotate(20deg); /* Adjust for vertical centering */
-  border-left: 10px solid transparent; /* Left side of the triangle */
-  border-right: 10px solid transparent; /* Right side of the triangle */
-  border-top: 10px solid var(--font-white); /* Color of the triangle */
+  transform: translateY(-50%); /* Adjust for vertical centering */
+  border-top: 10px solid transparent; /* Top side of the triangle */
+  border-bottom: 10px solid transparent; /* Bottom side of the triangle */
+  border-right: 10px solid var(--font-white); /* Color of the triangle */
   width: 0; /* No width */
   height: 0; /* No height */
 }
+
 .tips-header {
+  font-size: 10px;
   font-weight: bold; /* Bold header */
   margin-bottom: 0px; /* Space below the header */
-  color: var(--primary-color); /* Darker blue for the header */
+  color: var(--primary-color); /* Darker color for the header */
 }
 
 .tips-content {
   margin: 0px 0; /* Space above and below the content */
-  font-size: 14px; /* Font size for the message content */
+  font-size: 9px; /* Font size for the message content */
   color: #333; /* Dark color for the text */
 }
-
 .tips-avatar {
-  width: 60px; /* Width of the avatar */
-  height: 60px; /* Height of the avatar */
+  width: 40px; /* Width of the avatar */
+  height: 40px; /* Height of the avatar */
   border-radius: 50%; /* Circular avatar */
   background: var(--acttivit-card-bg);
   border: 2px solid var(--primary-color); /* White border around the avatar */
 }
 .countdown-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -775,10 +786,13 @@
   font-weight: bold;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+
 }
 
 .countdown-overlay > h2 {
   color: var(--font-white) !important;
+  font-weight: 700;
 }
 .camera-retry-overlay {
   position: absolute;
@@ -792,6 +806,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.speech-subtitle-overlay{
+  position: absolute;
+  z-index: 100;
+  height: auto;
+  width: auto;
+  bottom: 75px;
+  color: var(--font-white);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
 }
 /* BehavioralCategoryPopup */
 .behavioral-card {
@@ -811,10 +834,11 @@
 /* InterviewSuccesspopup */
 .interviewsuccess-modal-width {
   width: 800px !important;
-}
+  height: 60% !important;
+  max-height: 60vh !important;}
 
 .interviewsuccess-modal-width .modal-body {
-  padding: 40px !important;
+  padding: 0px 20px 20px 20px !important;
 }
 
 .interviewsuccess-modal-width p {
@@ -860,26 +884,14 @@
 
 .closebtn {
   color: var(--text-color) !important;
+  cursor: pointer;
+  background-color: transparent !important;
 }
 
+.closebtn:hover {
+  background-color: transparent !important;
+}
 
-.custom-error-modal-width{
-  max-width: 900px !important;
-  width: 85% !important;
-  height: 80% !important;
-  max-height: 60vh !important;
-}
-.btn-retry {
-  padding: 10px 20px; /* Padding for the button */
-  font-size: 1rem; /* Font size for the button */
-  border: none !important; /* Remove border */
-  border-radius: 50px !important;  /* Rounded corners */
-  background-color: var(--secondary-color); /* Button background color */
-  color: white; /* Button text color */
-  cursor: pointer; /* Pointer on hover */
-  height: 40px;
-  transition: background-color 0.3s; /* Smooth transition */
-}
 
 
 /*Custom Intro*/

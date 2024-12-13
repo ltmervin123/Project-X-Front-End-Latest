@@ -1,8 +1,10 @@
 import React from "react";
 import { Modal, Button, Row, Col } from "react-bootstrap";
-import errorImage from "../../assets/error-image.png"; // Replace with the actual path to your error image
+import errorImage from "../../../assets/error-image.png"; // Replace with the actual path to your error image
+import '../../../styles/Error.css';
 
-const ErrorGenerateFeedback = ({ onRetry }) => {
+
+const ErrorGenerateQuestion = ({ onRetry }) => {
   return (
     <Modal show={true} centered dialogClassName="custom-error-modal-width">
       <Modal.Body>
@@ -11,8 +13,10 @@ const ErrorGenerateFeedback = ({ onRetry }) => {
             <img src={errorImage} alt="Error" className="img-fluid" />
           </Col>
           <Col md={7}>
-            {/* <h4>ERROR: Unable to Generate Feedback</h4> */}
-            <p>Unable to generate feedback at the moment. Please try again!</p>
+            <h4>ERROR: Something Wrong on the Server</h4>
+            <p>
+            We encountered an issue while processing your request. Please try again!
+            </p>
             <div className="d-flex justify-content-center">
               <Button className="btn-retry" onClick={onRetry}>
                 Retry
@@ -25,4 +29,4 @@ const ErrorGenerateFeedback = ({ onRetry }) => {
   );
 };
 
-export default ErrorGenerateFeedback;
+export default ErrorGenerateQuestion;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Row, Col, Image, Nav } from "react-bootstrap";
-import { FaUpload, FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
+import {  FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
 import "../../styles/UserProfile.css";
-import defaultAvatart from "../../assets/default.png";
+import defaultAvatar from "../../assets/default.png";
 
 const UserProfile = () => {
   const [activeSection, setActiveSection] = useState("personal-info");
@@ -10,6 +10,19 @@ const UserProfile = () => {
   const [isToggled, setIsToggled] = useState(false); // State for two-factor authentication
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false); // State for notifications
   const [isDarkMode, setIsDarkMode] = useState(false); // State for dark mode
+  const [avatar, setAvatar] = useState(defaultAvatar); // State for avatar
+
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result); // Set the new avatar
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  };
 
   const handleNavClick = (section) => {
     setActiveSection(section);
@@ -33,9 +46,11 @@ const UserProfile = () => {
 
   return (
     <Container className="user-profile-section">
+      <div className="user-profile-container">
       <h4>USER PROFILE</h4>
       <p>Manage your account settings and preferences.</p>
       
+
       {/* Navigation Links */}
       <Nav className="mb-4 user-nav d-flex justify-content-center">
         <Nav.Item>
@@ -90,26 +105,20 @@ const UserProfile = () => {
             </Col>
             <Col md={5} className="d-flex align-items-center justify-content-end">
               <div className="avatar-container d-flex justify-content-center position-relative">
-                <Image src={defaultAvatart} className="user-default-img" />
-                
-                <FaUpload className="upload-icon position-absolute" />
+                <Image src={avatar} className="user-default-img" />
+                <div className="upload-icon position-absolute d-flex align-items-center justify-content-center">
+                  <input type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} id="avatar-upload" />
+                  <label htmlFor="avatar-upload" className="d-flex align-items-center justify-content-center">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M22 32V15.7L16.8 20.9L14 18L24 8L34 18L31.2 20.9L26 15.7V32H22ZM12 40C10.9 40 9.95867 39.6087 9.176 38.826C8.39333 38.0433 8.00133 37.1013 8 36V30H12V36H36V30H40V36C40 37.1 39.6087 38.042 38.826 38.826C38.0433 39.61 37.1013 40.0013 36 40H12Z" fill="#F46A05"/>
+                    </svg>
+                  </label>
+                </div>
+
               </div>
             </Col>
           </Row>
-          <Row>
-            <div className="footer-personal-info w-100">
-              <h5>Subscription</h5>
-              <div className="d-flex">
-                <div>
-                  <p className="currentPlanTitle">Current Plan: Pro (Annual)</p>
-                  <p>15 days Remaining</p>
-                </div>
-                <Button type="button">
-                    Update Subscription
-                </Button>
-              </div>
-            </div>
-          </Row>
+
         </div>
       )}
 
@@ -118,7 +127,7 @@ const UserProfile = () => {
           <Row className="security-container">
             <Form className="d-flex flex-column gap-3">
               <Form.Group controlId="formPass">
-                <Form .Label>Password</Form.Label>
+                <Form.Label>Password</Form.Label>
                 <div className="d-flex gap-2">
                   <Form.Control 
                     type={showPassword ? "text" : "password"} 
@@ -148,20 +157,7 @@ const UserProfile = () => {
               </Form.Group>
             </Form>
           </Row>
-          <Row>
-            <div className="footer-personal-info w-100">
-              <h5>Subscription</h5>
-              <div className="d-flex">
-                <div>
-                  <p className="currentPlanTitle">Current Plan: Pro (Annual)</p>
-                  <p>15 days Remaining</p>
-                </div>
-                <Button type="button">
-                    Update Subscription
-                </Button>
-              </div>
-            </div>
-          </Row>
+
         </div>
       )}
       
@@ -206,7 +202,12 @@ const UserProfile = () => {
               </Form.Group>
             </Form>
           </Row>
-          <Row>
+
+        </div>
+      )}
+      </div>
+
+                <Row>
             <div className="footer-personal-info w-100">
               <h5>Subscription</h5>
               <div className="d-flex">
@@ -220,8 +221,6 @@ const UserProfile = () => {
               </div>
             </div>
           </Row>
-        </div>
-      )}
       
     </Container>
   );

@@ -71,3 +71,56 @@
   font-family:  Calibri;
   word-spacing: -1px;
 }
+
+
+/*Error Camera*/
+.custom-modal-width1 {
+  width: 800px !important;
+  height: 60% !important;
+  max-height: 60vh !important;
+}
+
+.custom-modal-width1 .modal-body {
+  padding: 0px 20px 20px 20px !important;
+}
+
+.custom-modal-width1 p {
+  font-size: 18px;
+  text-align: center;
+}
+
+.custom-modal-width1 .btn-analytics{
+  background: var(--primary-color);
+  border-radius: 50px;
+  border: none;
+  width: 180px;
+}
+.custom-modal-width1 .btn-return-maindashboard{
+  background: var(--secondary-color);
+  border-radius: 50px;
+  border: none;
+  width: 180px;
+}
+.custom-modal-width1 img {
+  width: 90px !important;
+}
+
+
+/*Error Generate Feedback, Question*/
+.custom-error-modal-width{
+  max-width: 900px !important;
+  width: 85% !important;
+  height: 80% !important;
+  max-height: 60vh !important;
+}
+.btn-retry {
+  padding: 10px 20px; /* Padding for the button */
+  font-size: 1rem; /* Font size for the button */
+  border: none !important; /* Remove border */
+  border-radius: 50px !important;  /* Rounded corners */
+  background-color: var(--secondary-color); /* Button background color */
+  color: white; /* Button text color */
+  cursor: pointer; /* Pointer on hover */
+  height: 40px;
+  transition: background-color 0.3s; /* Smooth transition */
+}

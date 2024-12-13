@@ -1,4 +1,3 @@
-
 /* Global styles */
 * {
     box-sizing: border-box;
@@ -7,121 +6,582 @@
 }
 
 :root {
-    --primary-color: #F46A05; 
+    --primary-color: #F46A05;
     --secondary-color: #1706AC;
     --font-white: #fff;
     --font-black: #000;
+    --acttivit-card-bg: #d9d9d9;
+    --exclusive-btn-color: #B90416;
 }
-body{
-    background: url("/src/assets/image.png")!important;
+/* 
+body {
+    background: url("/src/assets/image.png") !important;
     background-repeat: no-repeat;
-    background-size: cover;
-}
+    background-size: contain;
+} */
+
 .main-container {
     position: relative;
     width: 100%;
     height: 100vh;
-  
 }
 
-.navbar > .container{
+.bglandingpage {
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 8%, rgba(250,181,131,1) 66%, rgba(244,106,5,0.8085609243697479) 99%);
+}
+
+
+.navbar>.container {
     padding: 0 !important;
 }
-/*bg shape*/
-.background-svg-hero-section{
-    margin-top: 10%;
-    position: fixed; /* Change from absolute to fixed */
-    top: 0;
-    left: 0;
-    width: 100%; /* Use viewport width */
-    height: 100%; /* Use viewport height */
-    z-index: -1;
-    object-fit: cover; /* Ensure the SVG covers the entire area */
-    pointer-events: none; /* Prevent SVG from interfering with interactions */
-}
-/* Header */
 
+.nav-dropdown {
+    background-color: var(--font-white);
+    /* Background color for dropdown */
+}
+
+.navbar .nav-item {
+    font-weight: 700;
+    color: var(--font-black) !important;
+    /* Text color for dropdown items */
+}
+
+.navbar .nav-item:hover {
+    color: var(--primary-color) !important;
+}
+
+.hero-container {
+    position: relative;
+    height: 85vh;
+    padding: 0;
+    /* Set height to 100% of the viewport */
+}
+.hero-container > svg{
+    position: absolute;
+    z-index: 1;
+    bottom: 0px;
+}
+
+/* Header */
 .logoname {
-    font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
-    font-size: 35px;
-    font-weight: 400;
-    line-height: 12px;
+    font-family: Roboto;
+    font-size: 25px;
+    font-weight: 1000;
+    line-height: 2px;
     padding-top: 10px;
     display: flex;
 }
-.logocolor{
+
+.logocolor {
     color: var(--primary-color);
-    font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
-
+    font-family: Roboto, sans-serif;
+    font-weight: 1000;
 }
+
 .sublogoname {
-    font-family: 'Londrina Solid', cursive; /* Apply Londrina Solid font */
+    font-family: Roboto, sans-serif;
     color: var(--font-black);
-    font-weight: 400;
-    font-size: 15px;
+    font-weight: 1000;
+    font-size: 9px;
 }
-
 /* Button styles using the primary color */
-.btn-login {
-    background-color: var(--secondary-color) !important;
-    border: none !important;
+.btn-signup {
     width: 200px;
     height: 50px;
-    border-radius: 50px !important;
-    font-size: 20px !important;
+    margin-left: 30px;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 700;
+
 }
+
 .btn-get {
     background-color: var(--primary-color) !important;
     border: none !important;
     width: 240px;
-    height: 60px;
+    height: 40px;
     border-radius: 50px !important;
-    font-size: 20px !important;
+    font-size: 22px !important;
     font-weight: 800;
 }
-.btn-get > .rocket-icon{
+
+.btn-get>.rocket-icon {
     height: 30px;
     width: 30px;
     margin: 2px;
 }
-.btn-login:hover {
-    background-color: rgba(244, 106, 5, 0.8); /* Slightly darker on hover */
-    border-color: rgba(244, 106, 5, 0.8);
+.arrow-svg-pointing-btn{
+    position: absolute;
+    left: -50px;
+    z-index: 1;
+    bottom: 20px;
 }
-
-
+/* hero section*/
+.custom-hero-container {
+    width: 50% !important;
+    margin: 0 auto;
+    /* Center the container */
+}
 
 h1 {
-    font-size: 70px !important;
+    font-size: 60px !important;
     font-weight: 700 !important;
-    padding-top: 50px;
     color: var(--font-black) !important;
+    margin: 0 !important;
 }
+
 h2 {
-    font-size: 47px !important;
-    font-weight: 600 !important;
+    font-size: 45px !important;
+    font-weight: 200 !important;
+    margin: 0 !important;
     color: var(--font-black) !important;
 }
 
-.hero-content{
-    color: var(--font-black) !important;
-    font-size: 25px !important;
-    font-weight: 500 !important;
-}
-.hero-container {
+h2>.quote {
+    font-weight: 900;
     position: relative;
-    height: 80vh; /* Set height to 100% of the viewport */
+    top: -20px;
+    z-index: 1;
+}
+
+.hero-content {
+    color: var(--font-black) !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
 }
 
 .heroavatar {
-    background-image: url('../assets/hero-avatar.png');
-    background-size: contain; /* Change to cover to fill the area */
+    width: 100%;
+}
+
+
+/*mock interview section*/
+.mock-interview-container,
+.bundle-mock-interview-container {
+    position: relative;
+    background: var(--font-white);
+    
+}
+
+.navigation-container nav ul li {
+    list-style: none;
+    font-weight: 700;
+}
+
+.navigation-container>nav>ul {
+    height: 100px;
+    background: var(--font-white);
+}
+.color-orange {
+    color: var(--primary-color) !important;
+    margin: 0;
+    text-decoration: none;
+}
+
+.custom-mock-interview-container, .custom-bundle-mock-interview-container {
+    width: 70% !important;
+    margin: 0 auto;
+    /* Center the container */
+    position: relative;
+}
+
+.content-mock-interview-container, .content-bundle-mock {
+    height: 500px;
+    position: relative;
+}
+
+.mock-content-bg , .bundle-mock-bg{
+    background: var(--acttivit-card-bg);
+    border-radius: 50px;
+    padding: 30px 50px;
+    position: relative;
+    z-index: 1;
+}
+
+.mock-content-bg>p , .bundle-mock-bg>p{
+    text-align: left;
+    width: 78%;
+    font-size: 22px;
+}
+
+.mock-content-bg>img {
     position: absolute;
-    background-repeat: no-repeat;
-    background-position: center right;
+    z-index: 1;
+    right: 0;
+    top: -90px;
+    height: 180%;
+}
+
+.overlayed-icons {
+    position: absolute;
+    z-index: 100;
+    top: -20px;
+    left: 30px;
+    padding: 5px;
+    width: 190px;
+    border-radius: 50px;
+    background: var(--primary-color);
+}
+
+.bg-blue-behind {
+    position: absolute;
+    z-index: 0;
+    right: -80px;
+    bottom: 80px;
+    background: var(--secondary-color);
+    width: 60%;
+    height: 150px;
+    border-radius: 50px;
+}
+
+.btn-mock {
+    background-color: var(--primary-color) !important;
+    border: none !important;
+    width: 320px;
+    height: 50px;
+    margin-left: 10%;
+    border-radius: 50px !important;
+    font-size: 20px !important;
+    font-weight: 200;
+    color: var(--font-white);
+}
+
+.mock-interview-container>video {
+    background: var(--font-black);
+    width: 60%;
+
+}
+
+.mock-interview-container>i {
+    color: var(--primary-color);
+    padding-top: 10px;
+    font-size: 30px;
+    font-weight: 100;
+    margin-bottom: 50px;
+}
+
+/*Bundle Mock Interview*/
+
+.custom-bundle-mock-interview-container>h3 {
+    font-size: 49px !important;
+    margin-bottom: 60px;
+    
+}
+.bundle-mock-bg > .bundle-avatar {
+    position: absolute; /* Keep it absolute */
+    right: -50px; /* Align to the right */
+    top: 0; /* Adjust the top position as needed */
+    height: auto; /* Set height to auto for responsiveness */
+    z-index: 1; /* Ensure it is above the background */
+}
+
+.bundle-avatar > svg {
+    position: absolute;
+    z-index: -1; /* Keep SVG behind the image */
+    top: 100px;
+    height: 60%; /* Adjust height for better fit */
+    right: -20px; /* Align SVG to the right as well */
+}
+
+.bundle-avatar > img {
+    position: relative; /* Keep image relative to its container */
+    height: 550px; /* Set height to auto for responsiveness */
+    max-height: 50%; /* Ensure it doesn't overflow */
+    bottom: 0; /* Align to the bottom */
+    right: 40px;
+}
+.bundle-bg2{
+    border: 2px solid var(--primary-color);
+    border-radius: 20px;
+    position: relative;
+    z-index: 1;
+    width: 70%;
+    padding: 30px;
+    margin: 100px 0px;
+}
+.bundle-bg2 > p{
+    font-size: 23px;
+}
+.bundle-bg2 > img{
+    position: absolute;
+    left: -100px;
+    z-index: 1;
+    top: -60px;
+    height: 140%;
+}
+
+.bundle-box{
+    height: 70vh;
+    border: 3px solid var(--primary-color);
+    border-radius: 50px;
+    width: 90%;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 70px;
+}
+.bundle-box > .bundle-card{
+    background: var(--acttivit-card-bg);
+    width: 25%;
+    height: 80%;
+    border-radius: 50px;
+    position: relative;
+    gap: 20px;
+    padding: 20px;
+    text-align: center;
+}
+.bundle-card > svg{
+    height: 30%;
+}
+.bundle-card > b{
+    font-size: 30px;
+    padding-bottom: 30px;
+}
+.bundle-card > p{
+    width: 80%;
+    text-align: center;
+}
+.steps{
+    position: absolute;
+    top: -20px;
     z-index: 1;
     width: 50%;
-    height: 100%; /* Set height to 100% of the parent container */
-    top: 0; /* Position it at the top */
-    right: 60px; /* Position it at the left */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-color);
+    text-align: center;
+    border-radius: 50px;
+    color: var(--font-white);
+    font-weight: 200;
+    font-size: 25px;
+}
+.bg-orange-behindcard{
+    position: absolute;
+    z-index: -1;
+    height: 150px;
+    width: 70%;
+    background: var(--primary-color);
+}
+
+/*Premium Package Section*/
+.premium-package-container{
+    background: url('../assets/premium-bg.png');
+    background-size: cover;
+    
+}
+.premium-package-container > h1{
+    padding: 90px 0px;
+}
+.premium-box-container{
+    width: 80%;
+}
+.premium-box-container > .premium-card{
+    width: 30%;
+    height: 450px;
+    background: var(--font-white);
+    border-radius: 50px;
+}
+.premium-card > .premium-card-border{
+    width: 85%;
+    height: 85%;
+    border-radius: 40px;
+    border: 2px solid var(--primary-color);
+    padding: 30px;
+}
+
+.premium-card-title{
+    font-weight: 700;
+    font-size: 30px;
+}
+.premium-card-price{
+    font-weight: 700;
+    font-size: 28px;
+    margin: 0;
+}
+.premium-card-below-price{
+    margin: 0;
+}
+.premium-card-content{
+    width: 70%;
+    font-size: 12px;
+    text-align: center;
+}
+.start-now-btn{
+    width: 80%;
+    height: 40px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 50px;
+    color: var(--font-white);
+    font-weight: 600;
+}
+.premium-card-border > div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 40%;
+}
+.premium-get-in-touch{
+    height: 400px;
+    display: flex;
+    align-items: center;
+    color: var(--font-white);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/*About Hr hatch*/
+.about-hr-hatch-container{
+    height: 140vh;
+    padding: 30px;
+}
+
+.about-hr-hatch-container > h3 {
+    font-size: 49px !important;
+}
+
+.about-hr-hatch-container > h2 {
+    width: 70%;
+    text-align: center;
+    font-size: 30px !important;
+}
+
+.about-content-container {
+    width: 70%;
+    height: 600px;
+    position: relative;
+}
+
+.about-main-content {
+    width: 70%;
+    line-height: 40px;
+}
+
+.about-content-container > .about-avatar-bg {
+    background: url("/src/assets/about-bg.png") no-repeat center center; /* Center the background */
+    background-size: cover; /* Cover the entire area */
+    width: 70%; /* Ensure it takes full width */
+    height: 70%; /* Ensure it takes full height */
+    display: flex; /* Use flex to center the image */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+}
+
+.about-avatar-bg > img {
+    width: 50%;
+}
+.exclusive-partner{
+    width: 600px;
+    background: var(--font-white);
+    border-radius: 20px;
+    padding: 35px;
+    position: relative;
+    border: 2px solid var(--font-black);
+    box-shadow: 10px 10px 5px 0px rgba(80, 80, 80, 0.885);
+}
+.exclusive-overlay{
+    border: 2px solid var(--font-black);
+    border-radius: 50px;
+    position: absolute;
+    background: var(--font-white);
+    height: 40px;
+    width:250px;
+    top: -10px;
+    left: -30px;
+}
+.exclusive-overlay > p{
+    margin: 0;
+    color: var(--exclusive-btn-color);
+    font-size: 18px;
+    font-weight: 600;
+}
+.exclusive-partner > img{
+    width: 80%;
+}
+.exclusive-partner > p{
+    text-align: center;
+    width: 80%;
+    font-size: 15px !important;
+}
+.btn-learnmore-overlay{
+    background: var(--exclusive-btn-color);
+    border-radius: 50px;
+    height: 40px;
+    width: 200px;
+    border: none;
+    color: var(--font-white);
+    position: absolute;
+    z-index: 1;
+    bottom: -15px;
+}
+/*footer*/
+footer {
+    padding: 10px 0;
+}
+.footer-container-bg {
+    width: 85%; /* Use full width for better distribution */
+    background: var(--primary-color);
+    border-radius: 20px; /* Adjusted for a more subtle curve */
+}
+.footer-logo{
+    height: 100%;
+}
+.footer-logo > img {
+    width: 40%; 
+}
+footer h5 {
+    margin-bottom: 15px;
+    text-align: left;
+    color: var(--font-white);
+    height: 10%;
+    font-size: 18px;
+}
+footer li{
+    text-align: left;
+}
+footer a {
+    color: var(--font-white);
+    text-decoration: none;
+    text-align: left;
+    width: 100%;
+    line-height: 35px;
+    font-size: 13px;
+    font-weight: 200;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+.footer-partner-logo > img {
+    width: 70%; /* Responsive width for partner logo */
+}
+.img-partner{
+    height: 100% !important;
+}
+.color-white, .sublogoname-footer{
+    color: var(--font-white);
+}
+.bg-boxbehind-left{
+    width: 500px;
+    height: 250px;
+    border-radius: 50px;
+    background: var(--secondary-color);
+    transform:rotate(10deg);
+    position: absolute;
+    z-index: -1;
+    left: -50px;
+    top: -30px;
+}
+.bg-boxbehind-right{
+    width: 500px;
+    height: 250px;
+    border-radius: 50px;
+    background: var(--secondary-color);
+    transform:rotate(-10deg);
+    position: absolute;
+    z-index: -1;
+    right: -50px;
+    top: 20px;
 }

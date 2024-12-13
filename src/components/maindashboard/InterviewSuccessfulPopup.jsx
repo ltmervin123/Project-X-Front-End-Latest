@@ -15,12 +15,12 @@ const InterviewSuccessfulPopup = () => {
         <p>Congratulations! Your interview was successfully recorded.</p>
         <div className="d-flex gap-2">
           <Button className="btn-analytics"
-            onClick={() => (window.location.href = "/analytics")}
+            onClick={() => (window.location.href = "/HR_HATCH/analytics")}
           >
             View Your Results
           </Button>
           <Button className="btn-return-maindashboard"
-            onClick={() => (window.location.href = "/maindashboard")}
+            onClick={() => (window.location.href = "/HR_HATCH/maindashboard")}
           >
             Back for Interview
           </Button>
