@@ -8,12 +8,13 @@ const Header = () => {
     <Navbar>
       <Container>
         <Navbar.Brand
-          href="/maindashboard"
+          href="/HR_HATCH/maindashboard"
           className="d-flex align-items-center"
         >
           <img src={logo} alt="Logo" width="55" height="55" className="" />
           <div>
-          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
+            <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
+            <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
           </div>
         </Navbar.Brand>
       </Container>

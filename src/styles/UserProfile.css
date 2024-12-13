@@ -46,9 +46,11 @@
 .btn-update-user-info:hover {
     background: var(--avatar-bg);
 }
+.user-profile-container{
+    height: 90%;
+}
 .personal-info-container , .security-container, .preferences-container{
-    height: 300px !important;
-    min-height: 80%;
+    height: 80%!important;
 }
 .avatar-container {
     align-items: center;
@@ -82,6 +84,10 @@
     border-radius: 50%;
     padding: 5px;
     color: var(--primary-color);
+}
+.upload-icon > label{
+    cursor: pointer !important; 
+
 }
 /* Custom styles for the switch */
 .custom-switch .form-check-input:checked {

@@ -1,0 +1,14 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --card-color: #686868;
+    --avatar-bg: #68686882;
+    --text-color: #000;
+    --subscription-btn: #319F43;
+    --activity-card-bg: #d9d9d9;
+}
+.ai-reference-sidebar-container{
+    width: 25%;
+    background: var(--avatar-bg) !important;
+}

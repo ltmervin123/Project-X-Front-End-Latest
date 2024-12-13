@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <Navbar>
       <Container>
-        <Navbar.Brand href="/maindashboard" className="d-flex align-items-center gap-2">
+        <Navbar.Brand href="/HR_HATCH/maindashboard" className="d-flex align-items-center gap-2">
           <img
             src={logo}
             alt="Logo"
@@ -15,7 +15,8 @@ const Header = () => {
             height="80"
           />
           <div>
-          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
+            <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
+            <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
           </div>
         </Navbar.Brand>
       </Container>

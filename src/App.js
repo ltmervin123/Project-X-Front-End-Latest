@@ -7,6 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import LandingPage from "./page/LandingPage.jsx";
+import MockLandingPage from "./page/MockLanding.jsx";
 import Login from "./page/LoginPage.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MaindashboardPage from "./page/MaindashboardPage.jsx";
@@ -17,12 +18,16 @@ import UserProfilePage from "./page/UserProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuth from "./components/session/requireAuth";
+import AiReferencePage from "./page/AiReferencePage.jsx";
+import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
+
+
 
 function App() {
   const { user } = useAuthContext();
   return (
-    <Router>
+    <Router basename="/HR_HATCH">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         {/* Public routes */}
@@ -33,12 +38,25 @@ function App() {
         {/* Protected routes */}
         <Route element={<PersistLogin />}>
           <Route
-            path="/login"
+            path="/login"t
             element={!user ? <Login /> : <Navigate to="/maindashboard" />}
           />
           <Route element={<RequireAuth />}>
+            <Route path="/EnglishResumeBuilder" element={<EnglishResumeBuilderPage />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            <Route path="/AiReference" element={<AiReferencePage />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            <Route path="/MockLandingPage" element={<MockLandingPage />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
             <Route path="/analytics" element={<Analytics />} />
           </Route>
+
           <Route element={<RequireAuth />}>
             <Route path="/result/:interviewId" element={<Results />} />
           </Route>
