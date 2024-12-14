@@ -22,27 +22,39 @@ import AiReferencePage from "./page/AiReferencePage.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 
-
-
 function App() {
   const { user } = useAuthContext();
+
+  // Check if the pathname starts with the correct base path
+  const currentPath = window.location.pathname;
+  const expectedBasePath = "/HR_HATCH";
+
+  if (!currentPath.startsWith(expectedBasePath)) {
+    // Redirect to the correct base path
+    window.location.replace(`${window.location.origin}${expectedBasePath}`);
+    return null; // Prevent rendering the rest of the app while redirecting
+  }
+
   return (
     <Router basename="/HR_HATCH">
       <Routes>
-        <Route path="/" element={<LandingPage />} />
         {/* Public routes */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/comingsoon" element={<CommingSoonPage />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/login" element={<Login />} /> */}s
+
         {/* Protected routes */}
         <Route element={<PersistLogin />}>
           <Route
-            path="/login"t
+            path="/login"
             element={!user ? <Login /> : <Navigate to="/maindashboard" />}
           />
           <Route element={<RequireAuth />}>
-            <Route path="/EnglishResumeBuilder" element={<EnglishResumeBuilderPage />} />
+            <Route
+              path="/EnglishResumeBuilder"
+              element={<EnglishResumeBuilderPage />}
+            />
           </Route>
 
           <Route element={<RequireAuth />}>
