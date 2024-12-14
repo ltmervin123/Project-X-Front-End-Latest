@@ -66,7 +66,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const finalGreeting =
     "I hope you are doing great. To start your interview please press the button “Generate Questions.”";
   const API = process.env.REACT_APP_API_URL;
-  const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
+  // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
 
   //Function to initialize Intro.js
   const startIntro = () => {

@@ -74,7 +74,7 @@ const VideoRecording = ({
   const followUpGreeting = `Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`;
   const finalGreeting =
     "I hope you are doing great. To start your interview please press the button “Generate Questions.”";
-  const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
+  // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
   const API = process.env.REACT_APP_API_URL;
   //Function to initialize Intro.js
   const startIntro = () => {
