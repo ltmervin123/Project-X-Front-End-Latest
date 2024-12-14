@@ -1,6 +1,6 @@
 {
   "root": "build/",
   "routes": {
-    "/HR_HATCH*": "index.html"
+    "/**": "index.html"
   }
 }
