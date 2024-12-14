@@ -3,7 +3,7 @@ import React from 'react';
 const PremiumPackageSection = () => {
   return (
     <>
-        <section className='premium-package-container d-flex align-items-center flex-column'>
+        <section className='premium-package-container d-flex align-items-center flex-column' id="pricing">
             <h1 className='color-orange'>Available Premium Packages</h1>
             <div className="premium-box-container d-flex align-items-center justify-content-center flex-wrap gap-5">
             {[
