@@ -121,11 +121,11 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
-    if (!isIntroShown.basic) {
+    if (!isIntroShown.behavioral) {
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
-        basic: true, // Update behavioral
+        behavioral: true, // Update behavioral
       };
 
       //Clear the introShown flag from sessionStorage
@@ -370,7 +370,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       console.error("Error fetching audio:", error);
     }
   };
-  
+
   // Speak the current question when the component mounts
   useEffect(() => {
     if (
@@ -443,12 +443,12 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
         // Show greeting message
         setShowGreeting(true);
         const greetingMessage = `Thanks ${user.name}, and I hope you enjoyed your interview with us.`;
-        speakWithGoogleTTS(greetingMessage); // Speak the greeting message
+        speak(greetingMessage); // Speak the greeting message
 
-        // Delay showing the success popup
-        setTimeout(() => {
-          setShowSuccessPopup(true);
-        }, 3000); // Adjust the delay as needed (3000ms = 3 seconds)
+        // // Delay showing the success popup
+        // setTimeout(() => {
+        //   setShowSuccessPopup(true);
+        // }, 3000); // Adjust the delay as needed (3000ms = 3 seconds)
 
         await createFeedback(); // Call createFeedback after the greeting
       } else {
@@ -636,44 +636,44 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
 
   /*Avatar Greeting */
 
-  const speakWithGoogleTTS = async (text) => {
-    const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${googleApiKey}`;
+  // const speakWithGoogleTTS = async (text) => {
+  //   const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${googleApiKey}`;
 
-    const requestBody = {
-      input: { text: text },
-      voice: { languageCode: "en-US", ssmlGender: "NEUTRAL" },
-      audioConfig: { audioEncoding: "MP3", pitch: 0, speakingRate: 1 },
-    };
+  //   const requestBody = {
+  //     input: { text: text },
+  //     voice: { languageCode: "en-US", ssmlGender: "NEUTRAL" },
+  //     audioConfig: { audioEncoding: "MP3", pitch: 0, speakingRate: 1 },
+  //   };
 
-    try {
-      const response = await axios.post(url, requestBody);
-      const audioContent = response.data.audioContent;
+  //   try {
+  //     const response = await axios.post(url, requestBody);
+  //     const audioContent = response.data.audioContent;
 
-      // Create a blob from the audio content
-      const audioBlob = new Blob(
-        [
-          new Uint8Array(
-            atob(audioContent)
-              .split("")
-              .map((c) => c.charCodeAt(0))
-          ),
-        ],
-        { type: "audio/mp3" }
-      );
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
+  //     // Create a blob from the audio content
+  //     const audioBlob = new Blob(
+  //       [
+  //         new Uint8Array(
+  //           atob(audioContent)
+  //             .split("")
+  //             .map((c) => c.charCodeAt(0))
+  //         ),
+  //       ],
+  //       { type: "audio/mp3" }
+  //     );
+  //     const audioUrl = URL.createObjectURL(audioBlob);
+  //     const audio = new Audio(audioUrl);
 
-      // Return a promise that resolves when the audio ends
-      return new Promise((resolve, reject) => {
-        audio.onended = resolve; // Resolve the promise when the audio ends
-        audio.onerror = reject; // Reject the promise on error
-        audio.play().catch(reject); // Play the audio and catch any errors
-      });
-    } catch (error) {
-      console.error("Error with Google TTS:", error);
-    }
-  };
-  /*Speach to Text| User Response */
+  //     // Return a promise that resolves when the audio ends
+  //     return new Promise((resolve, reject) => {
+  //       audio.onended = resolve; // Resolve the promise when the audio ends
+  //       audio.onerror = reject; // Reject the promise on error
+  //       audio.play().catch(reject); // Play the audio and catch any errors
+  //     });
+  //   } catch (error) {
+  //     console.error("Error with Google TTS:", error);
+  //   }
+  // };
+  // /*Speach to Text| User Response */
 
   return (
     <>

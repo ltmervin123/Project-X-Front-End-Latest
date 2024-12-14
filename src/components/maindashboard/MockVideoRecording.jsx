@@ -129,11 +129,11 @@ const VideoRecording = ({
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
-    if (!isIntroShown.basic) {
+    if (!isIntroShown.expert) {
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
-        basic: true, // Update behavioral
+        expert: true, // Update behavioral
       };
 
       //Clear the introShown flag from sessionStorage

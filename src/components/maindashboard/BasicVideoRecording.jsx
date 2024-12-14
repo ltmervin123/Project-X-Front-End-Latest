@@ -618,43 +618,43 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
   /*Avatar Greeting */
 
-  const speakWithGoogleTTS = async (text) => {
-    const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${googleApiKey}`;
+  // const speakWithGoogleTTS = async (text) => {
+  //   const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${googleApiKey}`;
 
-    const requestBody = {
-      input: { text: text },
-      voice: { languageCode: "en-US", ssmlGender: "NEUTRAL" },
-      audioConfig: { audioEncoding: "MP3", pitch: 0, speakingRate: 1 },
-    };
+  //   const requestBody = {
+  //     input: { text: text },
+  //     voice: { languageCode: "en-US", ssmlGender: "NEUTRAL" },
+  //     audioConfig: { audioEncoding: "MP3", pitch: 0, speakingRate: 1 },
+  //   };
 
-    try {
-      const response = await axios.post(url, requestBody);
-      const audioContent = response.data.audioContent;
+  //   try {
+  //     const response = await axios.post(url, requestBody);
+  //     const audioContent = response.data.audioContent;
 
-      // Create a blob from the audio content
-      const audioBlob = new Blob(
-        [
-          new Uint8Array(
-            atob(audioContent)
-              .split("")
-              .map((c) => c.charCodeAt(0))
-          ),
-        ],
-        { type: "audio/mp3" }
-      );
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
+  //     // Create a blob from the audio content
+  //     const audioBlob = new Blob(
+  //       [
+  //         new Uint8Array(
+  //           atob(audioContent)
+  //             .split("")
+  //             .map((c) => c.charCodeAt(0))
+  //         ),
+  //       ],
+  //       { type: "audio/mp3" }
+  //     );
+  //     const audioUrl = URL.createObjectURL(audioBlob);
+  //     const audio = new Audio(audioUrl);
 
-      // Return a promise that resolves when the audio ends
-      return new Promise((resolve, reject) => {
-        audio.onended = resolve; // Resolve the promise when the audio ends
-        audio.onerror = reject; // Reject the promise on error
-        audio.play().catch(reject); // Play the audio and catch any errors
-      });
-    } catch (error) {
-      console.error("Error with Google TTS:", error);
-    }
-  };
+  //     // Return a promise that resolves when the audio ends
+  //     return new Promise((resolve, reject) => {
+  //       audio.onended = resolve; // Resolve the promise when the audio ends
+  //       audio.onerror = reject; // Reject the promise on error
+  //       audio.play().catch(reject); // Play the audio and catch any errors
+  //     });
+  //   } catch (error) {
+  //     console.error("Error with Google TTS:", error);
+  //   }
+  // };
   /*Speach to Text| User Response */
 
 
