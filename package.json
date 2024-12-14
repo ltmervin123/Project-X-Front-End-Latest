@@ -1,6 +1,7 @@
 {
   "name": "project-x",
   "version": "0.1.0",
+  "homepage": "/HR_HATCH",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
@@ -11,6 +12,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "boxicons": "^2.1.4",
+    "express": "^4.21.2",
     "intro.js": "^7.2.0",
     "introjs": "^0.2.2",
     "react": "^18.3.1",
@@ -21,7 +23,8 @@
     "react-router": "^6.0.0",
     "react-router-dom": "^6.0.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "ws": "^8.18.0"
   },
   "scripts": {
     "start": "react-scripts start",

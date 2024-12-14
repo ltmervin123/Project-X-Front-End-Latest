@@ -20,6 +20,7 @@ import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import AiReferencePage from "./page/AiReferencePage.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
+import Speech from "./page/SpeechToText.jsx";
 
 
 
@@ -58,6 +59,8 @@ function App() {
           path="/userprofile"
           element={<UserProfilePage />}
         />
+        <Route path="/speech" element={<Speech />}></Route>
+
         <Route path="/error" element={<ErrorPage />}></Route>
         <Route path="/comingsoon" element={<CommingSoonPage />}></Route>
         <Route path="/AiReference" element={<AiReferencePage />}></Route>

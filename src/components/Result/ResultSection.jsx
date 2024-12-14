@@ -21,25 +21,40 @@ const ResultSection = ({ interviewId }) => {
 
   // List of filler words
   const fillerWords = [
-    "um,",
+    "um",
+    // "Um",
     "uh", 
+    "Uh",
     "hmm", 
+    "Hmm",
     "ah", 
-    "um", 
+    "Ah", 
     "like", 
+    "Like", 
     "you know", 
+    "You know", 
     "basically", 
-    "you see", 
+    "Basically", 
+    "you see",
+    "You see",  
     "kind of", 
+    "Kind of", 
     "most likely", 
+    "Most likely", 
     "as well as", 
+    "As well as", 
     "actually", 
     "sort of", 
-    "I mean", 
-    "well", 
+    "i mean", 
+    "I mean",  
+    "well",
+    "Well",  
     "so", 
+    "So", 
     "right", 
-    "okay", 
+    "okay",
+    "Right", 
+    "Okay",  
     "just", 
     "literally", 
     "anyway", 
@@ -75,7 +90,9 @@ const ResultSection = ({ interviewId }) => {
     "you know what I'm saying", 
     "for real", 
     "honestly", 
+    "Honestly", 
     "seriously", 
+    "Seriously", 
     "like seriously", 
     "you know what I mean, right?", 
     "I mean, you know", 
@@ -87,8 +104,10 @@ const ResultSection = ({ interviewId }) => {
   const highlightFillerWords = (text) => {
     const words = text.split(" ");
     return words.map((word, index) => {
-      const lowerWord = word.toLowerCase();
-      if (fillerWords.includes(lowerWord)) {
+      // Remove punctuation from the word for comparison
+      const cleanWord = word.replace(/[.,!?;:]/g, "").toLowerCase();
+      
+      if (fillerWords.includes(cleanWord)) {
         return <span key={index} className="filler-red">{word}</span>;
       }
       return <span key={index}> {word} </span>; // Add space after each word

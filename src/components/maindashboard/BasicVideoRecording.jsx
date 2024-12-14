@@ -205,41 +205,48 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     setCameraError(false);
     setIsReattemptingCamera(true);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-      streamRef.current = stream;
-      videoRef.current.srcObject = stream;
-      stream.getAudioTracks().forEach((track) => {
-        track.enabled = !isMuted;
-      });
-      setIsReattemptingCamera(false); // Reset if successful
-      setCameraError(false);
-  
-      // Call the greeting function after the camera is enabled, if not already spoken
-      if (!hasSpokenGreeting) {
-        // Speak the first greeting
-        setCurrentGreetingText("Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.");
-        await speakWithGoogleTTS(greeting);
-  
-        // Speak the follow-up greeting
-        setCurrentGreetingText(`Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`);
-        await speakWithGoogleTTS(followUpGreeting);
-  
-        // Speak the final greeting
-        setCurrentGreetingText("I am glad you are doing great. I am doing great too. To start your interview please press the button “Generate Questions.”");
-        await speakWithGoogleTTS(finalGreeting);
-  
-        setHasSpokenGreeting(true); // Set the flag to true after speaking
-        setCurrentGreetingText(""); // Clear greeting text after finishing
-      }
-    } catch (error) {
-      setIsReattemptingCamera(false);
-      setCameraError(true);
-    }
-  };
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true,
+        });
+        streamRef.current = stream;
+        videoRef.current.srcObject = stream;
+        stream.getAudioTracks().forEach((track) => {
+            track.enabled = !isMuted;
+        });
+        setIsReattemptingCamera(false); // Reset if successful
+        setCameraError(false);
 
+        // Call the greeting function after the camera is enabled, if not already spoken
+        if (!hasSpokenGreeting) {
+            // Speak the initial greeting
+            setCurrentGreetingText("Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.");
+            await speakWithGoogleTTS(greeting);
+
+            // Speak the follow-up greeting
+            setCurrentGreetingText(`Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`);
+            await speakWithGoogleTTS(followUpGreeting);
+
+            // Start recording user response
+            startRecording();
+
+            // Automatically stop recording after 5 seconds
+            setTimeout(async () => {
+                await stopRecording(); // Stop recording after 5 seconds
+
+                // Speak the final greeting
+                setCurrentGreetingText("I am glad you are doing great. I am doing great too. To start your interview please press the button 'Generate Questions.'");
+                await speakWithGoogleTTS(finalGreeting);
+
+                setHasSpokenGreeting(true); // Set the flag to true after speaking
+                setCurrentGreetingText(""); // Clear greeting text after finishing
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
+    } catch (error) {
+        setIsReattemptingCamera(false);
+        setCameraError(true);
+    }
+};
   // Speak the question using the backend API
   const speakQuestion = useCallback(
     async (question) => {
@@ -567,6 +574,23 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     } catch (error) {
       console.error("Error with Google TTS:", error);
     }
+  };
+  
+  
+  // Function to handle the greeting and user response
+  const handleGreetingAndResponse = async () => {
+    // Speak the initial greeting
+    await speakWithGoogleTTS(`Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`);
+
+    // Start recording user response
+    startRecording();
+
+    // Automatically stop recording after 5 seconds
+    setTimeout(async () => {
+      await stopRecording(); // Stop recording after 5 seconds
+      // Proceed to the next greeting or question
+      await speakWithGoogleTTS("I am glad you are doing great. I am doing great too. To start your interview please press the button 'Generate Questions.'");
+    }, 5000); // 5000 milliseconds = 5 seconds
   };
   /*Speach to Text| User Response */
 
