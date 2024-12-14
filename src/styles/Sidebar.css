@@ -3,6 +3,7 @@
   --secondary-color: #1706ac;
   --font-white: #fff;
   --card-color: #686868;
+  --avatar-bg: #68686882;
   --text-color: #000;
   --acttivit-card-bg: #d9d9d9;
 }
@@ -50,7 +51,7 @@
   height: 4.5rem; /* Use rem for scalability */
   border-radius: 50%;
   padding: 10px;
-  background: var(--font-white);
+  background: var(--avatar-bg);
 }
 
 .user-avatar-info > div,

@@ -19,6 +19,81 @@ const ResultSection = ({ interviewId }) => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // List of filler words
+  const fillerWords = [
+    "um,",
+    "uh", 
+    "hmm", 
+    "ah", 
+    "um", 
+    "like", 
+    "you know", 
+    "basically", 
+    "you see", 
+    "kind of", 
+    "most likely", 
+    "as well as", 
+    "actually", 
+    "sort of", 
+    "I mean", 
+    "well", 
+    "so", 
+    "right", 
+    "okay", 
+    "just", 
+    "literally", 
+    "anyway", 
+    "probably", 
+    "maybe", 
+    "in a way", 
+    "to be honest", 
+    "you know what I mean", 
+    "let's say", 
+    "for example", 
+    "at the end of the day", 
+    "like I said", 
+    "you know what I'm saying",
+    "erm", 
+    "uh-huh", 
+    "uh-oh", 
+    "like, you know", 
+    "I guess", 
+    "sorta", 
+    "kinda", 
+    "right?", 
+    "y'know", 
+    "basically", 
+    "I suppose", 
+    "you know what I mean?", 
+    "to be fair", 
+    "if you will", 
+    "I reckon", 
+    "you know what I'm talking about", 
+    "let me think", 
+    "let's see", 
+    "I mean, like", 
+    "you know what I'm saying", 
+    "for real", 
+    "honestly", 
+    "seriously", 
+    "like seriously", 
+    "you know what I mean, right?", 
+    "I mean, you know", 
+    "I mean, honestly"
+  ];
+
+
+  // Function to highlight filler words in the answer
+  const highlightFillerWords = (text) => {
+    const words = text.split(" ");
+    return words.map((word, index) => {
+      const lowerWord = word.toLowerCase();
+      if (fillerWords.includes(lowerWord)) {
+        return <span key={index} className="filler-red">{word}</span>;
+      }
+      return <span key={index}> {word} </span>; // Add space after each word
+    });
+  };
   // Utility function to get result color class based on score
   const getResultClass = (score, type) => {
     if (type === "fillerCount") {
@@ -91,7 +166,7 @@ const ResultSection = ({ interviewId }) => {
                 <p
                   className={getResultClass(overallFeedback.overallPerformance)}
                 >
-                  {overallFeedback.overallPerformance ||  0}/10
+                  {overallFeedback.overallPerformance || 0}/10
                 </p>
               </div>
             </div>
@@ -109,15 +184,13 @@ const ResultSection = ({ interviewId }) => {
                 <p>{question[currentIndex]}</p>
               </div>
               <div>
-                <strong>Your Answer:</strong>
-                {answer[currentIndex] ? (
-                  <p>{answer[currentIndex]}</p>
-                ) : (
-                  <p>No answer provided</p>
-                )}
-              </div>
+              <strong>Your Answer:</strong>
+              <p>
+                {answer[currentIndex] ? highlightFillerWords(answer[currentIndex]) : "No answer provided"}
+              </p>
+            </div>
               <div>
-                <strong>Enhance Response:</strong>
+                <strong>Enhance Answer:</strong>
                 <p>{improvedAnswer[currentIndex]}</p>
               </div>
               <div>

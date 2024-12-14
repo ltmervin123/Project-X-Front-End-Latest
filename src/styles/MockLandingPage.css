@@ -1,0 +1,44 @@
+:root {
+    --primary-color: #F46A05;
+    --secondary-color: #1706AC;
+    --font-white: #fff;
+    --font-black: #000;
+    --acttivit-card-bg: #d9d9d9;
+    --exclusive-btn-color: #B90416;
+}
+.bg-header-orange{
+    height: 50px;
+    width: 100%;
+    background: var(--primary-color);
+}
+
+.btn-mock1 {
+    background-color: var(--primary-color) !important;
+    border: none !important;
+    width: 250px !important;
+    height: 50px;
+    margin-left: 10%;
+    border-radius: 50px !important;
+    font-size: 20px !important;
+    font-weight: 200;
+    color: var(--font-white);
+}
+
+.triangle-left {
+	width: 0;
+	height: 0;
+	border-top: 25px solid transparent;
+	border-right: 50px solid var(--primary-color);
+	border-bottom: 25px solid transparent;
+    position: relative;
+    z-index: 100;
+}
+.triangle-right {
+	width: 0;
+	height: 0;
+	border-top: 25px solid transparent;
+	border-left: 50px solid var(--primary-color);
+	border-bottom: 25px solid transparent;
+    position: relative;
+    z-index: 100;
+}
