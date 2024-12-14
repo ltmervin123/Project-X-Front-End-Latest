@@ -11,7 +11,7 @@ function RegistrationSuccessPopUp({ onClose }) {
 
         <h2>Registration Complete</h2>
         <p>Thank you for signing up! Check your email for confirmation, and click below to go to your dashboard.</p>
-        <Button href="/HR_HATCH/maindashboard" className="btn-dashboard">
+        <Button href="/maindashboard" className="btn-dashboard">
           Go to Dashboard
         </Button>
         <FaEnvelope className='email-icon'/>
