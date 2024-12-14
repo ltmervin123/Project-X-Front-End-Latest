@@ -3,7 +3,7 @@ import AboutAvatar from "../../assets/about-avatar.png";
 import ExclusivePartner from "../../assets/exclusivepartner.png";
 const AboutHRHatchSection = () => {
   return (
-    <section className='about-hr-hatch-container d-flex align-items-center flex-column'>
+    <section className='about-hr-hatch-container d-flex align-items-center flex-column' id="about">
       <h3 className='d-flex'>Why HR- <p className='color-orange'>HATCH</p></h3>
       <h2>
         <svg className='quote' width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +25,7 @@ const AboutHRHatchSection = () => {
         </div>
       </div>
 
-      <div className="exclusive-partner d-flex align-items-center flex-column">
+      <div className="exclusive-partner d-flex align-items-center flex-column" id="partner">
         <div className="exclusive-overlay d-flex align-items-center justify-content-center">
             <p>Our Exclusive Partnership</p>
         </div>
