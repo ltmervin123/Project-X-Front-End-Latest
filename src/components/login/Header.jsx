@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <Navbar>
       <Container>
-        <Navbar.Brand href="/HR_HATCH" className="d-flex align-items-center gap-2">
+        <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
           <img
             src={logo}
             alt="Logo"
