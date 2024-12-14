@@ -34,17 +34,14 @@ function SignUpForm() {
   return (
     <div className="signup-info-container">
       <div className="info-create-acc-container">
-          <img
-            src={logo}
-            alt="Logo"
-            width="80"
-            height="80"
-          />
-          <div>
-            <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
-            <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
-          </div>       
-          <p>
+        <img src={logo} alt="Logo" width="80" height="80" />
+        <div>
+          <div className="logoname">
+            HR-<div className="logocolor">HATCH</div>
+          </div>
+          <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
+        </div>
+        <p>
           Our company offers comprehensive recruitment and talent support for
           both job seekers and employers. It includes an English mock interview
           platform which helps candidates build confidence and improve their
@@ -59,7 +56,7 @@ function SignUpForm() {
           <small>Log in to access your dashboard.</small>
         </p>
         <Button
-          href="/HR_HATCH/login"
+          href="/login"
           className="btn-login1 d-flex align-items-center justify-content-center"
         >
           Login
@@ -79,7 +76,7 @@ function SignUpForm() {
             <div className="input-group mb-3">
               <span className="required-asterisk">*</span>
               <span className="input-group-text">
-                <FaUser  />
+                <FaUser />
               </span>
 
               <div>
@@ -94,7 +91,6 @@ function SignUpForm() {
                   value={name}
                 />
                 <label className="input-label">Name</label>
-
               </div>
             </div>
 
@@ -114,8 +110,7 @@ function SignUpForm() {
                   }}
                   value={email}
                 />
-                  <label className="input-label">Email</label>
-
+                <label className="input-label">Email</label>
               </div>
             </div>
 

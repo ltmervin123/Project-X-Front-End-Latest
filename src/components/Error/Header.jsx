@@ -8,7 +8,7 @@ const Header = () => {
     <Navbar>
       <Container>
         <Navbar.Brand
-          href="/HR_HATCH/maindashboard"
+          href="/maindashboard"
           className="d-flex align-items-center"
         >
           <img src={logo} alt="Logo" width="55" height="55" className="" />

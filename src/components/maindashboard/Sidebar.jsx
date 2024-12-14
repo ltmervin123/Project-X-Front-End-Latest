@@ -20,7 +20,7 @@ const Sidebar = () => {
   return (
     <Navbar expand="lg" className="sidebar-container flex-column">
       <Navbar.Brand
-        href="/HR_HATCH/maindashboard"
+        href="/maindashboard"
         className="d-flex align-items-center mb-3 logo-brand"
       >
         <img src={logo} alt="Logo" width="80" height="80" className="me-2" />
@@ -33,8 +33,8 @@ const Sidebar = () => {
       <div className="text-center mb-3 user-avatar-info">
         <Nav.Link
               className="userprofilelink" 
-              href="/HR_HATCH/userprofile"
-              active={location.pathname === "/HR_HATCH/userprofile"}
+              href="/userprofile"
+              active={location.pathname === "/userprofile"}
             >
         <img
           src={defaultAvatar}
@@ -58,7 +58,7 @@ const Sidebar = () => {
         <Nav.Link
           className="sidebarnav"
           key="main-dashboard"
-          href="/HR_HATCH/maindashboard"
+          href="/maindashboard"
           active={location.pathname === "/maindashboard"}
         >
           <svg width="21" height="22" viewBox="0 0 21 22"  fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +70,7 @@ const Sidebar = () => {
         <Nav.Link
         className="sidebarnav"
           key="resume-builder"
-          href="/HR_HATCH/comingsoon"
+          href="/comingsoon"
           active={location.pathname === "/comingsoon"}
         >
         <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +83,7 @@ const Sidebar = () => {
         <Nav.Link
         className="sidebarnav"
           key="analytics"
-          href="/HR_HATCH/analytics"
+          href="/analytics"
           active={location.pathname === "/analytics"}
         >
         <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
