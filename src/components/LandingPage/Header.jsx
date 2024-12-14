@@ -22,9 +22,9 @@ const Header = () => {
         <div className="d-flex align-items-center">
           <Nav className="me-auto d-flex gap-3">
             <NavDropdown title="Product/Services" id="nav-dropdown-products">
-              <NavDropdown.Item href="/products/service1">Mock AI</NavDropdown.Item>
-              <NavDropdown.Item href="/products/service2">Resume Builder</NavDropdown.Item>
-              <NavDropdown.Item href="/products/service3">Talent Acquisition Consulting</NavDropdown.Item>
+              <NavDropdown.Item href="/maindashboard">Mock AI</NavDropdown.Item>
+              <NavDropdown.Item href="/comingsoon">Resume Builder</NavDropdown.Item>
+              <NavDropdown.Item href="/comingsoon">Talent Acquisition Consulting</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Company" id="nav-dropdown-company">
               <NavDropdown.Item href="/company/about">About Us</NavDropdown.Item>
