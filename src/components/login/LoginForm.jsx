@@ -137,7 +137,7 @@ const LoginForm = () => {
            
             <button
               className="signup-button"
-              onClick={() => (window.location.href = "/HR_HATCH/signup")}
+              onClick={() => (window.location.href = "/signup")}
             >
               Sign up
             </button>
