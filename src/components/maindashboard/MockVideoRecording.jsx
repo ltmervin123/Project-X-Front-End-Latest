@@ -479,7 +479,8 @@ const VideoRecording = ({
       const formData = new FormData();
       formData.append("type", interviewType);
       formData.append("category", category);
-
+      formData.append("jobDescription", jobDescription);
+      formData.append("file", file);
       const response = await axios.post(
         `${API}/api/interview/generate-questions`,
         formData,
@@ -567,11 +568,6 @@ const VideoRecording = ({
 
       // Append the video file and question to the FormData
       formData.append("interviewId", interviewId);
-      formData.append(
-        "videoFile",
-        blob,
-        `${interviewId}-question${questionIndex + 1}.webm`
-      );
       formData.append(
         "videoFile",
         blob,
