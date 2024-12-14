@@ -34,7 +34,7 @@ const Sidebar = () => {
         <div className="text-center mb-3 user-avatar-info">
           <Nav.Link
             className="userprofilelink"
-            href="/HR_HATCH/userprofile"
+            href="userprofile"
             active={location.pathname === "/userprofile"}
           >
             <img
@@ -57,7 +57,7 @@ const Sidebar = () => {
         <Nav.Link
           className="sidebarnav"
           key="main-dashboard"
-          href="/HR_HATCH/maindashboard"
+          href="maindashboard"
           active={location.pathname === "/maindashboard"}
         >
           <svg
@@ -75,7 +75,7 @@ const Sidebar = () => {
         <Nav.Link
           className="sidebarnav"
           key="resume-builder"
-          href="/HR_HATCH/comingsoon"
+          href="/comingsoon"
           active={location.pathname === "/comingsoon"}
         >
           <svg
@@ -92,7 +92,7 @@ const Sidebar = () => {
         <Nav.Link
           className="sidebarnav"
           key="analytics"
-          href="/HR_HATCH/analytics"
+          href="/analytics"
           active={location.pathname === "/analytics"}
         >
           <svg

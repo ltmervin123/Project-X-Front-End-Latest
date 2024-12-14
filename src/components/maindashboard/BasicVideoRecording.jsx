@@ -657,8 +657,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   // };
   /*Speach to Text| User Response */
 
-
-
   return (
     <>
       <Modal
