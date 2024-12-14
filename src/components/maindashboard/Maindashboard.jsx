@@ -22,9 +22,6 @@ const MainDashboard = () => {
   const [jobDescription, setJobDescription] = useState("");
   const [interviewType, setInterviewType] = useState("");
 
-  //Interview Type: BASIC, BEHAVIORAL, EXPERT
-  //Category For Behavioral: Teamwork, Adaptability, Communication, Stress Management
-  //Category for Mock: Basic, Expert
   const handleInterviewType = (type) => {
     switch (type) {
       case "BEHAVIORAL":

@@ -22,8 +22,6 @@ const authReducer = (state, action) => {
 const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-
-
   const contextValue = useMemo(
     () => ({ ...state, dispatch }),
     [state, dispatch]

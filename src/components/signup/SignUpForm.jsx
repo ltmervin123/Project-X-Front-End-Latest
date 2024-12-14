@@ -41,8 +41,10 @@ function SignUpForm() {
             height="80"
           />
           <div>
-          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
-          </div>        <p>
+            <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
+            <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
+          </div>       
+          <p>
           Our company offers comprehensive recruitment and talent support for
           both job seekers and employers. It includes an English mock interview
           platform which helps candidates build confidence and improve their
@@ -57,7 +59,7 @@ function SignUpForm() {
           <small>Log in to access your dashboard.</small>
         </p>
         <Button
-          href="/login"
+          href="/HR_HATCH/login"
           className="btn-login1 d-flex align-items-center justify-content-center"
         >
           Login
@@ -84,13 +86,15 @@ function SignUpForm() {
                 <input
                   type="text"
                   className={`form-control ${error ? "is-invalid" : ""}`}
-                  placeholder="Name"
+                  placeholder=""
                   required
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
                   value={name}
                 />
+                <label className="input-label">Name</label>
+
               </div>
             </div>
 
@@ -103,13 +107,15 @@ function SignUpForm() {
                 <input
                   type="email"
                   className={`form-control ${error ? "is-invalid" : ""}`}
-                  placeholder="Email"
+                  placeholder=""
                   required
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
                   value={email}
                 />
+                  <label className="input-label">Email</label>
+
               </div>
             </div>
 
@@ -122,13 +128,15 @@ function SignUpForm() {
                 <input
                   type={showPassword ? "text" : "password"}
                   className={`form-control ${error ? "is-invalid" : ""}`}
-                  placeholder="Password"
+                  placeholder=""
                   required
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
                   value={password}
                 />
+                <label className="input-label">Password</label>
+
                 <span
                   className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
                   onClick={() => setShowPassword(!showPassword)}

@@ -1,13 +1,13 @@
 // src/components/LandingPage/Header.jsx
 import React from 'react';
-import { Navbar, Container, Button } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/logo.png';
 
 const Header = () => {
   return (
     <Navbar>
-      <Container>
-        <Navbar.Brand href="/maindashboard" className="d-flex align-items-center gap-2">
+      <Container className="d-flex justify-content-between align-items-center">
+        <Navbar.Brand href="/HR_HATCH" className="d-flex align-items-center gap-2">
           <img
             src={logo}
             alt="Logo"
@@ -15,13 +15,32 @@ const Header = () => {
             height="80"
           />
           <div>
-          <div className="logoname">HR-<div className='logocolor'>HATCH</div> </div>            <small className="sublogoname">The Tech Behind Talent.</small>
+            <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
+            <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
           </div>
         </Navbar.Brand>
-        <Button href="/login" className="btn-login d-flex align-items-center justify-content-center">
-          Login
-        </Button>
-     
+        <div className="d-flex align-items-center">
+          <Nav className="me-auto d-flex gap-3">
+            <NavDropdown title="Product/Services" id="nav-dropdown-products">
+              <NavDropdown.Item href="/products/service1">Service 1</NavDropdown.Item>
+              <NavDropdown.Item href="/products/service2">Service 2</NavDropdown.Item>
+              <NavDropdown.Item href="/products/service3">Service 3</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Company" id="nav-dropdown-company">
+              <NavDropdown.Item href="/company/about">About Us</NavDropdown.Item>
+              <NavDropdown.Item href="/company/team">Our Team</NavDropdown.Item>
+              <NavDropdown.Item href="/company/careers">Careers</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Pricing" id="nav-dropdown-pricing">
+              <NavDropdown.Item href="/pricing/basic">Basic Plan</NavDropdown.Item>
+              <NavDropdown.Item href="/pricing/pro">Pro Plan</NavDropdown.Item>
+              <NavDropdown.Item href="/pricing/enterprise">Enterprise Plan</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <div className="signup-link ms-3">| {/* Added margin start for spacing */}
+            <a href="/HR_HATCH/signup" className="btn-signup">Signup</a>
+          </div>
+        </div>
       </Container>
     </Navbar>
   );

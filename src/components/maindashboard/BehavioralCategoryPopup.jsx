@@ -5,6 +5,10 @@ import BH1 from "../../assets/behavioral-img.png"; // Import your images
 import BH2 from "../../assets/adaptability-img.png"; // Import adaptability image
 import BH3 from "../../assets/communication-img.png"; // Import communication image
 import BH4 from "../../assets/stress-management-img.png"; // Import stress management image
+import BH5 from "../../assets/dealingwithmistakes-avatar.png"; // Import stress management image
+import BH6 from "../../assets/decision-avatar.png"; // Import stress management image
+import BH7 from "../../assets/ethics-avatar.png"; // Import stress management image
+import BH8 from "../../assets/time-avatar.png"; // Import stress management image
 
 const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory }) => {
   const categories = [
@@ -31,6 +35,30 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
       description: "It focuses on how you handle pressure...",
       color: "#E33629",
       image: BH4
+    },
+    {
+      title: "Dealing with Mistakes",
+      description: "It focuses on how you handle pressure and stay calm in tough situations. It’s about showing that you can keep your cool, prioritize tasks, and maintain a positive mindset when things get hectic.",
+      color: "#9747FF",
+      image: BH5
+    },
+    {
+      title: "Decision Making",
+      description: "It is all about how effectively you share ideas, listen to others, and work through problems together. It’s not just about talking—it's about being clear, respectful, and making sure everyone is on the same page.",
+      color: "#F46A05",
+      image: BH6
+    },
+    {
+      title: "Ethics and Integrity",
+      description: "It is about showing how flexible you are when things change. It's not just about sticking to a plan, but how you adjust when faced with new challenges or unexpected situations.",
+      color: "#319F43",
+      image: BH7
+    },
+    {
+      title: "Time Management",
+      description: "A teamwork interview is all about understanding how well you work with others. It's not just about your skills, but how you communicate, collaborate, and contribute in a group setting.",
+      color: "#E33629",
+      image: BH8
     },
   ];
 
