@@ -25,18 +25,8 @@ import { useAuthContext } from "./hook/useAuthContext";
 function App() {
   const { user } = useAuthContext();
 
-  // Check if the pathname starts with the correct base path
-  const currentPath = window.location.pathname;
-  const expectedBasePath = "/HR_HATCH";
-
-  if (!currentPath.startsWith(expectedBasePath)) {
-    // Redirect to the correct base path
-    window.location.replace(`${window.location.origin}${expectedBasePath}`);
-    return null; // Prevent rendering the rest of the app while redirecting
-  }
-
   return (
-    <Router basename="/HR_HATCH">
+    <Router>
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
