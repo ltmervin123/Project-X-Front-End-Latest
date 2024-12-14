@@ -592,8 +592,9 @@
 }
 
 .timer {
+  background-color: var(--text-color);
   color: var(--font-white) !important; /* Keep the text color */
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  /* background-color: rgba(0, 0, 0, 0.5); Semi-transparent black */
   padding: 5px; /* Add some padding for better readability */
   border-radius: 5px; /* Optional: round the corners */
 }
