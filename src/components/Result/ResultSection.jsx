@@ -86,7 +86,6 @@ const ResultSection = ({ interviewId }) => {
 
   console.log("Filler words: ", fillerWords);
 
-
   const highlightFillerWords = (text) => {
     const words = text.split(" "); // Split text into words
     return words.map((word, index) => {
