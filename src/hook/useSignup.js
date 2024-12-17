@@ -5,7 +5,8 @@ import axios from "axios";
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const URL = "http://localhost:5000/api/user/auth/signup";
+  const API = process.env.REACT_APP_API_URL;
+  const URL = `${API}/api/user/auth/signup`;
   const { dispatch } = useAuthContext();
 
   const signup = async (name, email, password) => {
@@ -13,10 +14,7 @@ export const useSignup = () => {
     setError(null);
 
     try {
-      //Request body
       const requestBody = { name, email, password };
-
-      // Make POST request with axios
       const response = await axios.post(URL, requestBody, {
         headers: { "Content-Type": "application/json" },
       });
@@ -30,21 +28,16 @@ export const useSignup = () => {
         token: data.user.token,
       };
 
-      // Check if the response is successful
       if (response.status === 201) {
-        //Set the user to the local storage
         localStorage.setItem("user", JSON.stringify(user));
 
-        // Dispatch the user data to context or handle login state
         dispatch({ type: "LOGIN", payload: user });
       }
       return true;
     } catch (err) {
-      // Handle any error from the request
-      setError(err.response ? err.response.data.error : "Signup failed");
+      setError(err.response ? err.response.data.message : "Signup failed");
       return false;
-    } finally {
-      // Set loading to false after the request completes
+    } finally {   
       setIsLoading(false);
     }
   };

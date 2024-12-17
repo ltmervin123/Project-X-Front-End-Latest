@@ -191,7 +191,7 @@
 }
 
 .category-card.bg-expert::before {
-  background-image: url(../assets/expert.png); /* Replace with your actual image path */
+  background-image: url(../assets/expert1.png); /* Replace with your actual image path */
 }
 
 .category-card:hover::before {

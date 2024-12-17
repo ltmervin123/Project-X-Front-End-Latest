@@ -8,7 +8,8 @@ export const useAnalytics = () => {
   const [error, setError] = useState(null);
   const { user } = useAuthContext();
   const { dispatch } = useAnalyticsContext();
-  const URL = "http://localhost:5000/api/interview/get-feedback";
+  const API = process.env.REACT_APP_API_URL;
+  const URL = `${API}/api/interview/get-feedback`;
 
   const getAnalytics = async () => {
     try {
@@ -22,7 +23,6 @@ export const useAnalytics = () => {
       });
       const data = await response.data.feedback;
       if (response.status === 200) {
-        // localStorage.setItem("user", JSON.stringify(user));
         dispatch({ type: "SET_ANALYTICS", payload: data });
       }
     } catch (err) {
@@ -44,7 +44,6 @@ export const useAnalytics = () => {
       });
       const data = await response.data.feedback;
       if (response.status === 200) {
-        // localStorage.setItem("user", JSON.stringify(user));
         dispatch({ type: "CREATE_ANALYTICS", payload: data });
       }
     } catch (err) {

@@ -5,7 +5,8 @@ import axios from "axios";
 export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const URL = "http://localhost:5000/api/user/auth/login";
+  const API = process.env.REACT_APP_API_URL;
+  const URL = `${API}/api/user/auth/login`;
   const { dispatch } = useAuthContext();
 
   const login = async (email, password) => {
@@ -27,28 +28,21 @@ export const useLogin = () => {
         id: data.user._id,
         token: data.user.token,
       };
-
-      // Check if the response is successful
       if (response.status === 200) {
-        // //Set the user to the local storage
-        // localStorage.setItem("user", JSON.stringify(user));
-
-        // Dispatch the user data to context or handle login state
         dispatch({ type: "LOGIN", payload: user });
         return true;
       }
     } catch (err) {
       // Handle any error from the request
       const responseError = err.response
-        ? err.response.data.error
+        ? err.response.data.message
         : "Login failed";
+
+      console.log("error :", err.response);
       setError(responseError);
-      console.log("Error ", error);
       return false;
     } finally {
-      // Set loading to false after the request completes
       setIsLoading(false);
-      console.log(`Email: ${email}, Password: ${password}`);
     }
   };
 

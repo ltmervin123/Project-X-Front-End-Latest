@@ -22,11 +22,6 @@ const authReducer = (state, action) => {
 const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Log current state changes for debugging
-  useEffect(() => {
-    console.log("AuthState:", state);
-  }, [state]);
-
   const contextValue = useMemo(
     () => ({ ...state, dispatch }),
     [state, dispatch]

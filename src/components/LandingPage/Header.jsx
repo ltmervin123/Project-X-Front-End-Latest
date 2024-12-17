@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <Navbar>
       <Container className="d-flex justify-content-between align-items-center">
-        <Navbar.Brand href="/HR_HATCH" className="d-flex align-items-center gap-2">
+        <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
           <img
             src={logo}
             alt="Logo"
@@ -22,10 +22,10 @@ const Header = () => {
         <div className="d-flex align-items-center">
           <Nav className="me-auto d-flex gap-3">
             <NavDropdown title="Product/Services" id="nav-dropdown-products">
-              <NavDropdown.Item href="/products/MockAI">Mock AI</NavDropdown.Item>
-              <NavDropdown.Item href="/products/Resume Builder">Resume Builder</NavDropdown.Item>
-              <NavDropdown.Item href="/products/Resume Builder">Resume Builder</NavDropdown.Item>
-              <NavDropdown.Item href="/products/Talent Acquisition Consulting">Talent Acquisition Consulting</NavDropdown.Item>
+              <NavDropdown.Item href="/maindashboard">Mock AI</NavDropdown.Item>
+              <NavDropdown.Item href="/comingsoon">Resume Builder</NavDropdown.Item>
+              <NavDropdown.Item href="/comingsoon">Resume Builder</NavDropdown.Item>
+              <NavDropdown.Item href="/comingsoon">Talent Acquisition Consulting</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Company" id="nav-dropdown-company">
               <NavDropdown.Item href="/company/about">About Us</NavDropdown.Item>
@@ -39,7 +39,7 @@ const Header = () => {
             </NavDropdown>
           </Nav>
           <div className="signup-link ms-3">| {/* Added margin start for spacing */}
-            <a href="/HR_HATCH/signup" className="btn-signup">Signup</a>
+            <a href="/signup" className="btn-signup">Signup</a>
           </div>
         </div>
       </Container>
