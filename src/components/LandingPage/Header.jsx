@@ -24,7 +24,6 @@ const Header = () => {
             <NavDropdown title="Product/Services" id="nav-dropdown-products">
               <NavDropdown.Item href="/maindashboard">Mock AI</NavDropdown.Item>
               <NavDropdown.Item href="/comingsoon">Resume Builder</NavDropdown.Item>
-              <NavDropdown.Item href="/comingsoon">Resume Builder</NavDropdown.Item>
               <NavDropdown.Item href="/comingsoon">Talent Acquisition Consulting</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Company" id="nav-dropdown-company">

@@ -20,102 +20,92 @@ const ResultSection = ({ interviewId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // List of filler words
-  const fillerWords = [
-    "um",
-    // "Um",
-    "uh", 
-    "Uh",
-    "hmm", 
-    "Hmm",
-    "ah", 
-    "Ah", 
-    "like", 
-    "Like", 
-    "you know", 
-    "You know", 
-    "basically", 
-    "Basically", 
-    "you see",
-    "You see",  
-    "kind of", 
-    "Kind of", 
-    "most likely", 
-    "Most likely", 
-    "as well as", 
-    "As well as", 
-    "actually", 
-    "sort of", 
-    "i mean", 
-    "I mean",  
-    "well",
-    "Well",  
-    "so", 
-    "So", 
-    "right", 
-    "okay",
-    "Right", 
-    "Okay",  
-    "just", 
-    "literally", 
-    "anyway", 
-    "probably", 
-    "maybe", 
-    "in a way", 
-    "to be honest", 
-    "you know what I mean", 
-    "let's say", 
-    "for example", 
-    "at the end of the day", 
-    "like I said", 
-    "you know what I'm saying",
-    "erm", 
-    "uh-huh", 
-    "uh-oh", 
-    "like, you know", 
-    "I guess", 
-    "sorta", 
-    "kinda", 
-    "right?", 
-    "y'know", 
-    "basically", 
-    "I suppose", 
-    "you know what I mean?", 
-    "to be fair", 
-    "if you will", 
-    "I reckon", 
-    "you know what I'm talking about", 
-    "let me think", 
-    "let's see", 
-    "I mean, like", 
-    "you know what I'm saying", 
-    "for real", 
-    "honestly", 
-    "Honestly", 
-    "seriously", 
-    "Seriously", 
-    "like seriously", 
-    "you know what I mean, right?", 
-    "I mean, you know", 
-    "I mean, honestly"
-  ];
+  const fillerWords = (
+    overallFeedback.list || [
+      "um,",
+      "uh",
+      "hmm",
+      "ah",
+      "um",
+      "like",
+      "you know",
+      "basically",
+      "you see",
+      "kind of",
+      "most likely",
+      "as well as",
+      "actually",
+      "sort of",
+      "I mean",
+      "well",
+      "so",
+      "right",
+      "okay",
+      "just",
+      "literally",
+      "anyway",
+      "probably",
+      "maybe",
+      "in a way",
+      "to be honest",
+      "you know what I mean",
+      "let's say",
+      "for example",
+      "at the end of the day",
+      "like I said",
+      "you know what I'm saying",
+      "erm",
+      "uh-huh",
+      "uh-oh",
+      "like, you know",
+      "I guess",
+      "sorta",
+      "kinda",
+      "right?",
+      "y'know",
+      "basically",
+      "I suppose",
+      "you know what I mean?",
+      "to be fair",
+      "if you will",
+      "I reckon",
+      "you know what I'm talking about",
+      "let me think",
+      "let's see",
+      "I mean, like",
+      "you know what I'm saying",
+      "for real",
+      "honestly",
+      "seriously",
+      "like seriously",
+      "you know what I mean, right?",
+      "I mean, you know",
+      "I mean, honestly",
+    ]
+  ).map((word) => word.toLowerCase());
 
+  console.log("Filler words: ", fillerWords);
 
-  // Function to highlight filler words in the answer
   const highlightFillerWords = (text) => {
-    const words = text.split(" ");
+    const words = text.split(" "); // Split text into words
     return words.map((word, index) => {
-      // Remove punctuation from the word for comparison
-      const cleanWord = word.replace(/[.,!?;:]/g, "").toLowerCase();
-      
-      if (fillerWords.includes(cleanWord)) {
-        return <span key={index} className="filler-red">{word}</span>;
+      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation
+      console.log("Lower word: ", lowerWord);
+      if (fillerWords.includes(lowerWord)) {
+        return (
+          <span key={index} className="filler-red">
+            {word}
+          </span>
+        );
       }
-      return <span key={index}> {word} </span>; // Add space after each word
+      return <span key={index}>{word} </span>;
     });
   };
+
   // Utility function to get result color class based on score
-  const getResultClass = (score, type) => {
+  const getResultClass = (scores, type) => {
     if (type === "fillerCount") {
+      const score = parseInt(scores, 10);
       if (score >= 0 && score <= 3) return "result-green";
       if (score > 3 && score <= 6) return "result-yellow";
       if (score > 6 && score <= 9) return "result-orange";
@@ -123,9 +113,9 @@ const ResultSection = ({ interviewId }) => {
     }
 
     // Existing logic for other scores
-    if (score >= 0 && score <= 1.5) return "result-red";
-    if (score > 1.5 && score <= 5.0) return "result-yellow";
-    if (score > 5.0 && score <= 7.5) return "result-orange";
+    if (scores >= 0 && scores <= 1.5) return "result-red";
+    if (scores > 1.5 && scores <= 5.0) return "result-yellow";
+    if (scores > 5.0 && scores <= 7.5) return "result-orange";
     return "result-green";
   };
 
@@ -176,8 +166,13 @@ const ResultSection = ({ interviewId }) => {
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="rating-name">Filler Count</p>
-                <p className={getResultClass(overallFeedback.fillerCount, "fillerCount")}>
-                  {overallFeedback.fillerCount || 0}
+                <p
+                  className={getResultClass(
+                    overallFeedback.fillerCount || 0,
+                    "fillerCount"
+                  )}
+                >
+                  {overallFeedback.fillers || 0}
                 </p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
@@ -203,11 +198,13 @@ const ResultSection = ({ interviewId }) => {
                 <p>{question[currentIndex]}</p>
               </div>
               <div>
-              <strong>Your Answer:</strong>
-              <p>
-                {answer[currentIndex] ? highlightFillerWords(answer[currentIndex]) : "No answer provided"}
-              </p>
-            </div>
+                <strong>Your Answer:</strong>
+                <p>
+                  {answer[currentIndex]
+                    ? highlightFillerWords(answer[currentIndex])
+                    : "No answer provided"}
+                </p>
+              </div>
               <div>
                 <strong>Enhance Answer:</strong>
                 <p>{improvedAnswer[currentIndex]}</p>

@@ -21,17 +21,10 @@ const getDate = (dateString) => {
 };
 
 const MainDashboard = () => {
-  const { dispatch, analytics } = useAnalyticsContext();
   const { getAnalytics, isloaading, error } = useAnalytics();
   const navigate = useNavigate();
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-
-  // State for search input
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    getAnalytics();
-  }, [dispatch]);
 
   const handleViewResult = (interviewId) => {
     navigate(`/result/${interviewId}`);
@@ -41,6 +34,13 @@ const MainDashboard = () => {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  // Fetch analytics if there are no interviews
+  useEffect(() => {
+    if (interviewHistory.length === 0) {
+      getAnalytics();
+    }
+  }, []);
 
   // Filter interview history based on search term
   const filteredInterviewHistory = interviewHistory.filter((item) => {

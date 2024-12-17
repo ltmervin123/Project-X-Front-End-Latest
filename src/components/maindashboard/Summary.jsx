@@ -4,10 +4,15 @@ import { useAnalytics } from "../../hook/useAnalytics";
 import { useAnalyticsContext } from "../../hook/useAnalyticsContext";
 
 const Summary = () => {
-  // const [interviews, setInterviews] = useState([]);
   const { getAnalytics } = useAnalytics();
-  const { dispatch } = useAnalyticsContext();
   const interviews = JSON.parse(localStorage.getItem("analytics")) || [];
+
+  // Fetch analytics if there are no interviews
+  useEffect(() => {
+    if (interviews.length === 0) {
+      getAnalytics();
+    }
+  }, []);
 
   // Helper function to format the date
   const formattedDate = (createdAt) => {
@@ -22,51 +27,53 @@ const Summary = () => {
     return `${month} / ${day} / ${year} | ${hours}:${minutes} ${amPm}`;
   };
 
-  useEffect(() => {
-    getAnalytics();
-  }, [dispatch]);
-
   return (
     <div className="summary-card-wrapper">
       <Card className="summary-card d-flex">
         <Card.Title>Summary</Card.Title>
         <Card.Text>Mock Interview History</Card.Text>
         <div className="activity-results-container d-flex justify-content-center">
-          <div className="activity-container text-center d-flex">
-            <p>Activity</p>
-            {interviews
-              .slice()
-              .reverse()
-              .slice(0, 3)
-              .map((item, index) => (
-                <div className="activity-card" key={index}>
-                  <p className="category-name">
-                    {item.interviewDetails[0].category}
-                  </p>
-                  <p className="type-of-interview">
-                    {item.interviewDetails[0].type}
-                  </p>
-                  <p className="date-of-interview">
-                    {formattedDate(item.createdAt)}
-                  </p>
-                </div>
-              ))}
-          </div>
-          <div className="results-container text-center d-flex">
-            <p>Results</p>
-            {interviews
-              .slice()
-              .reverse()
-              .slice(0, 3)
-              .map((item, index) => (
-                <p
-                  className="result-of-interview d-flex align-items-center"
-                  key={index}
-                >
-                  {item.overallFeedback.overallPerformance}/10
-                </p>
-              ))}
-          </div>
+          {interviews.length > 0 ? (
+            <>
+              <div className="activity-container text-center d-flex">
+                <p>Activity</p>
+                {interviews
+                  .slice()
+                  .reverse()
+                  .slice(0, 3)
+                  .map((item, index) => (
+                    <div className="activity-card" key={index}>
+                      <p className="category-name">
+                        {item.interviewDetails[0].category}
+                      </p>
+                      <p className="type-of-interview">
+                        {item.interviewDetails[0].type}
+                      </p>
+                      <p className="date-of-interview">
+                        {formattedDate(item.createdAt)}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+              <div className="results-container text-center d-flex">
+                <p>Results</p>
+                {interviews
+                  .slice()
+                  .reverse()
+                  .slice(0, 3)
+                  .map((item, index) => (
+                    <p
+                      className="result-of-interview d-flex align-items-center"
+                      key={index}
+                    >
+                      {item.overallFeedback.overallPerformance}/10
+                    </p>
+                  ))}
+              </div>
+            </>
+          ) : (
+            <p>No history</p>
+          )}
         </div>
         <div className="subcription-reminder-container d-flex align-items-center">
           <div className="line-color-orange"></div>
