@@ -1,0 +1,51 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --card-color: #686868;
+    --avatar-bg: #68686882;
+    --text-color: #000;
+    --acttivit-card-bg: #d9d9d9;
+  }
+.dashboard-section{
+    height: 85vh;
+}
+.dashoard-title{
+    font-size: 25px !important;
+    font-weight: 500 !important;
+}
+.dashboard-content-card .card-text{
+    text-align: left;
+}
+.dashboard-content-card .card-title{
+    text-align: left;
+}
+.dashboard-content-card  .video-play-container{
+    position: relative;
+    height: 250px !important;
+}
+.dashboard-content-card  .video-play-container > video{
+    height: 100%;
+}
+.video-play-container .list-group-item {
+    display: list-item; /* Force list items */
+    list-style-type: disc; /* Change to dots */
+    list-style-position: inside; /* Ensure dots align properly */
+    padding-left: 20px; /* Adjust spacing for alignment */
+    border: none; /* Remove Bootstrap's border */
+}
+.btn-watch{
+    background: var(--primary-color);
+    border: none;
+    width: 90%;
+    font-size: 24px;
+}
+.btn-upgrade-now{
+    background: var(--secondary-color);
+    border: none;
+    width: 90%;
+    font-size: 24px;
+}
+.btn-upgrade-now:hover, .btn-watch:hover{
+    background: var(--avatar-bg) !important;
+}

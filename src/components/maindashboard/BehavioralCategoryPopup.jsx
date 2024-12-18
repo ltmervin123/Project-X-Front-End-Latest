@@ -95,7 +95,7 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
               onClick={() => handleCategorySelect(behavioral.title)}
               style={{
                 position: "relative",
-                overflow: "hidden",
+                // overflow: "hidden",
               }}
             >
 
@@ -107,6 +107,8 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
                   <p>{behavioral.description}</p>
                 </div>
               </Card.Body>
+
+              <div className="square-bg-behavoral-card"></div>
             </Card>
           ))}
         </div>

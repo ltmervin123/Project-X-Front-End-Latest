@@ -1,9 +1,9 @@
 // src/pages/MaindashboardPage.js
 import React from "react";
-import "../styles/MainDashboard.css";
+import "../styles/MockInterviewPage.css";
 import { Container, Row, Col } from "react-bootstrap";
 import Sidebar from "../components/maindashboard/Sidebar";
-import MainDashboard from "../components/maindashboard/Maindashboard";
+import MainDashboard from "../components/maindashboard/MockInterview";
 import Summary from "../components/maindashboard/Summary";
 import Header from "../components/maindashboard/Header";
 

@@ -76,7 +76,7 @@ const MockInterviewSection = () => {
 
 
           </div>
-          <p>Designed for job seekers aiming to practice and perfect their interview skills. Through personalized mock interviews, it helps you build confidence, refine your responses, and ultimately succeed in landing your dream job.</p>
+          <p>Designed for job seekers looking to enhance their English interview skills, our Mock.AI platform offers personalized mock interviews along with detailed analytics to help you track your progress. It provides insights into areas for improvement, helping you refine your responses, improve fluency, and build confidence. Tailored to your needs, the platform ensures you are well-prepared to successfully secure your ideal job.</p>
           <img src={MockAvatar} alt="" />
         </div>
         <div className="bg-blue-behind"></div>

@@ -17,9 +17,9 @@ const Sidebar = () => {
         </div>
       </Navbar.Brand>
       
-      <Nav className="flex-column">
-        <Nav.Link href="#company-name" className="sidebar-item">Company Name</Nav.Link>
-        <Nav.Link href="#profile" className="sidebar-item">Profile</Nav.Link>
+      <Nav className="flex-column justify-content-start ai-reference-sidebar">
+        <Nav.Link href="#company-name" className=" company-name">Company Name</Nav.Link>
+        <Nav.Link href="#dashboard" className="sidebar-item">Dashboard</Nav.Link>
         <Nav.Link href="#reference" className="sidebar-item">Reference</Nav.Link>
         <Nav.Link href="#reports" className="sidebar-item">Reports</Nav.Link>
       </Nav>

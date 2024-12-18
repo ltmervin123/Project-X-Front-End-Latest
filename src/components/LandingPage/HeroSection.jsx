@@ -6,7 +6,7 @@ import HeroAvatar from "../../assets/hero-avatar.png";
 const HeroSection = () => {
   return (
     <>
-      <section className='hero-container d-flex align-items-center flex-column ' id='home'>
+      <section className='hero-container d-flex align-items-center justify-content-center flex-column ' id='home'>
         <h1>HR-HATCH</h1>
         <h2>
           <svg className='quote' width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">

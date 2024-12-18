@@ -22,7 +22,6 @@
 }
 
 .sidebarnav {
-  margin-bottom: 5px;
   font-weight: 500 !important;
   font-size: 1rem; /* Use rem for scalability */
   color: var(--card-color) !important;

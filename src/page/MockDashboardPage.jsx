@@ -1,11 +1,14 @@
+// src/pages/MaindashboardPage.js
 import React from "react";
-import "../styles/Analytics.css";
-import { Container, Row, Col } from 'react-bootstrap';
-import Header from "../components/Analytics/Header";
+import "../styles/MockInterviewPage.css";
+import { Container, Row, Col } from "react-bootstrap";
 import Sidebar from "../components/maindashboard/Sidebar";
-import Maindashboard from "../components/Analytics/Maindashboard";
+import MainDashboard from "../components/MockDashboard/DashboardContent";
+import Header from "../components/MockDashboard/Header";
+import "../styles/MockDashboard.css";
 
-function Analytics() {
+
+function MaindashboardPage() {
   return (
     <>
       <div className="d-flex maindashboard-container">
@@ -13,11 +16,10 @@ function Analytics() {
         <Container className="flex-grow-1 ">
           <Header />
           <Row>
-            <Col  md={12}>
-              <Maindashboard />
+            <Col md={12}>
+              <MainDashboard />
             </Col>
           </Row>
-          
         </Container>
       </div>
       <svg
@@ -42,4 +44,4 @@ function Analytics() {
   );
 }
 
-export default Analytics;
+export default MaindashboardPage;
