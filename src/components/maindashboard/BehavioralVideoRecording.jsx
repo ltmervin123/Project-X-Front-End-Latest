@@ -559,7 +559,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Behavioral Mock Interview</h5>
+            <h5>Behavioral Interview</h5>
             <Button
               id="confirmCloseButton"
               variant="link"

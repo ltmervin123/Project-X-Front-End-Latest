@@ -555,7 +555,7 @@ const VideoRecording = ({
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Mock Interview</h5>
+            <h5>Expert Mock Interview</h5>
             <Button
               id="confirmCloseButton"
               variant="link"
