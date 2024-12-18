@@ -14,25 +14,25 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
   const categories = [
     {
       title: "Teamwork",
-      description: "A teamwork interview is all about understanding how well you work with others...",
+      description: "A teamwork interview is all about understanding how well you work with others. It's not just about your skills, but how you communicate, collaborate, and contribute in a group setting.",
       color: "#9747FF",
       image: BH1
     },
     {
       title: "Adaptability",
-      description: "It is about showing how flexible you are when things change...",
+      description: "It is about showing how flexible you are when things change. It's not just about sticking to a plan, but how you adjust when faced with new challenges or unexpected situations.",
       color: "#F46A05",
       image: BH2
     },
     {
       title: "Communication",
-      description: "It is all about how effectively you share ideas...",
+      description: "It is all about how effectively you share ideas, listen to others, and work through problems together. It’s not just about talking—it's about being clear, respectful, and making sure everyone is on the same page.",
       color: "#319F43",
       image: BH3
     },
     {
       title: "Stress Management",
-      description: "It focuses on how you handle pressure...",
+      description: "It focuses on how you handle pressure and stay calm in tough situations. It’s about showing that you can keep your cool, prioritize tasks, and maintain a positive mindset when things get hectic.",
       color: "#E33629",
       image: BH4
     },
@@ -95,7 +95,7 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
               onClick={() => handleCategorySelect(behavioral.title)}
               style={{
                 position: "relative",
-                overflow: "hidden",
+                // overflow: "hidden",
               }}
             >
 
@@ -107,6 +107,8 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
                   <p>{behavioral.description}</p>
                 </div>
               </Card.Body>
+
+              <div className="square-bg-behavoral-card"></div>
             </Card>
           ))}
         </div>

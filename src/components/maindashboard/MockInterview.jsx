@@ -1,12 +1,12 @@
 import { React, useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import InterviewDifficultyCategoryPopup from "../maindashboard/InterviewDifficultyCategoryPopup";
-import UploadPopUp from "../maindashboard/UploadPopUp";
-import JobDescriptionPopup from "../maindashboard/JobDescriptionPopup";
+import InterviewDifficultyCategoryPopup from "./InterviewDifficultyCategoryPopup";
+import UploadPopUp from "./UploadPopUp";
+import JobDescriptionPopup from "./JobDescriptionPopup";
 import VideoRecording from "./MockVideoRecording";
-import BehavioralVideoRecording from "../maindashboard/BehavioralVideoRecording";
-import BasicVideoRecording from "../maindashboard/BasicVideoRecording";
-import BehavioralCategoryPopup from "../maindashboard/BehavioralCategoryPopup";
+import BehavioralVideoRecording from "./BehavioralVideoRecording";
+import BasicVideoRecording from "./BasicVideoRecording";
+import BehavioralCategoryPopup from "./BehavioralCategoryPopup";
 
 const MainDashboard = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -93,7 +93,7 @@ const MainDashboard = () => {
         <p>Select Professional Career Interview</p>
       </div>
       {/* Combined Categories */}
-      <div className="category-container">
+      <div className="category-container ">
         <div
           className="category-card bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}

@@ -15,7 +15,7 @@ const InterviewSuccessfulPopup = () => {
 
   const handleBackToInterview = () => {
     getAnalytics();
-    navigate("/maindashboard");
+    navigate("/mockInterview");
   };
   return (
     <Modal

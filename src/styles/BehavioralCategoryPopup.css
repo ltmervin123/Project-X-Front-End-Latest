@@ -12,7 +12,10 @@
     justify-content: center; /* Center the cards horizontally */
     position: relative; /* Needed for absolute positioning of rectangles */
     flex-wrap: wrap; /* Allow cards to wrap if necessary */
+    z-index: 0;
 }
+
+
 
 .behavioral-card {
     color: var(--font-white) !important;
@@ -21,14 +24,27 @@
     height: 240px !important;
     position: relative;
     overflow: hidden;
-    transition: box-shadow 0.3s ease, transform 0.2s; 
-    cursor: pointer; 
-    width: 22%; 
+    transition: box-shadow 0.3s ease, transform 0.2s;
+    cursor: pointer;
+    width: 22%;
     max-width: 300px !important;
     background: var(--card-color);
-    z-index: 1; /* Ensure cards are above rectangles */
-}
-
+    z-index: 1; /* Ensure card stays above the rectangle */
+  }
+  
+.square-bg-behavoral-card {
+    content: "";
+    position: absolute;
+    top: 50%; /* Center it vertically */
+    left: -10%; /* Start it from slightly outside */
+    width: 120%; /* Make it wider than the card */
+    height: 40px; /* Match card height */
+    background-color: var(--primary-color); /* Use a default fallback color */
+    border-radius: 20px; /* Optional: Match card's border radius */
+    transform: translateY(-50%); /* Perfect vertical centering */
+    z-index: -1; /* Push behind the card */
+  }
+  
 .behavioral-title {
     position: absolute;
     bottom: 10px;

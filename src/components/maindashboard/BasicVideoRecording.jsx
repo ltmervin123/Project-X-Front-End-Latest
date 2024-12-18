@@ -223,8 +223,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
       await userIntroduction();
     } catch (error) {
-      setIsReattemptingCamera(false);
-      setCameraError(true);
+        setIsReattemptingCamera(false);
+        setCameraError(true);
     }
   };
 

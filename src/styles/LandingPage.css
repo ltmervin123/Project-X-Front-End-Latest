@@ -26,11 +26,14 @@ body {
     height: 100vh;
 }
 
-.bglandingpage {
-    background: rgb(255,255,255);
-    background: linear-gradient(180deg, rgba(255,255,255,1) 8%, rgba(250,181,131,1) 66%, rgba(244,106,5,0.8085609243697479) 99%);
-}
 
+.landingHeader {
+    background: var(--font-white) !important;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
 .navbar>.container {
     padding: 0 !important;
@@ -51,17 +54,6 @@ body {
     color: var(--primary-color) !important;
 }
 
-.hero-container {
-    position: relative;
-    height: 85vh;
-    padding: 0;
-    /* Set height to 100% of the viewport */
-}
-.hero-container > svg{
-    position: absolute;
-    z-index: 1;
-    bottom: 0px;
-}
 
 /* Header */
 .logoname {
@@ -105,7 +97,10 @@ body {
     font-size: 22px !important;
     font-weight: 800;
 }
-
+.btn-get > a{
+    text-decoration: none;
+    color: var(--font-white);
+}
 .btn-get>.rocket-icon {
     height: 30px;
     width: 30px;
@@ -118,6 +113,21 @@ body {
     bottom: 20px;
 }
 /* hero section*/
+.hero-container {
+    position: relative;
+    height: 85vh;
+    padding: 0;
+    /* Set height to 100% of the viewport */
+}
+.hero-container > svg{
+    position: absolute;
+    z-index: 1;
+    bottom: -10px;
+}
+
+.hero-container{
+    height: 100vh;
+}
 .custom-hero-container {
     width: 50% !important;
     margin: 0 auto;
@@ -129,6 +139,7 @@ h1 {
     font-weight: 700 !important;
     color: var(--font-black) !important;
     margin: 0 !important;
+    padding-top: 30px;
 }
 
 h2 {
@@ -168,7 +179,10 @@ h2>.quote {
     list-style: none;
     font-weight: 700;
 }
-
+.navigation-container nav ul li > a{
+    text-decoration: none;
+    color: var(--font-black);
+}
 .navigation-container>nav>ul {
     height: 100px;
     background: var(--font-white);
@@ -268,10 +282,13 @@ h2>.quote {
     margin-bottom: 60px;
     
 }
+.bundle-mock-bg > p{
+    padding-right: 70px;
+}
 .bundle-mock-bg > .bundle-avatar {
     position: absolute; /* Keep it absolute */
     right: -50px; /* Align to the right */
-    top: 0; /* Adjust the top position as needed */
+    top: -150px; /* Adjust the top position as needed */
     height: auto; /* Set height to auto for responsiveness */
     z-index: 1; /* Ensure it is above the background */
 }
@@ -297,7 +314,7 @@ h2>.quote {
     position: relative;
     z-index: 1;
     width: 70%;
-    padding: 30px;
+    padding: 30px 30px 30px 90px;
     margin: 100px 0px;
 }
 .bundle-bg2 > p{
@@ -435,7 +452,7 @@ h2>.quote {
 
 /*About Hr hatch*/
 .about-hr-hatch-container{
-    height: 140vh;
+    height: 100vh;
     padding: 30px;
 }
 
@@ -473,50 +490,7 @@ h2>.quote {
 .about-avatar-bg > img {
     width: 50%;
 }
-.exclusive-partner{
-    width: 600px;
-    background: var(--font-white);
-    border-radius: 20px;
-    padding: 35px;
-    position: relative;
-    border: 2px solid var(--font-black);
-    box-shadow: 10px 10px 5px 0px rgba(80, 80, 80, 0.885);
-}
-.exclusive-overlay{
-    border: 2px solid var(--font-black);
-    border-radius: 50px;
-    position: absolute;
-    background: var(--font-white);
-    height: 40px;
-    width:250px;
-    top: -10px;
-    left: -30px;
-}
-.exclusive-overlay > p{
-    margin: 0;
-    color: var(--exclusive-btn-color);
-    font-size: 18px;
-    font-weight: 600;
-}
-.exclusive-partner > img{
-    width: 80%;
-}
-.exclusive-partner > p{
-    text-align: center;
-    width: 80%;
-    font-size: 15px !important;
-}
-.btn-learnmore-overlay{
-    background: var(--exclusive-btn-color);
-    border-radius: 50px;
-    height: 40px;
-    width: 200px;
-    border: none;
-    color: var(--font-white);
-    position: absolute;
-    z-index: 1;
-    bottom: -15px;
-}
+
 /*footer*/
 footer {
     padding: 10px 0;
@@ -548,8 +522,8 @@ footer a {
     text-align: left;
     width: 100%;
     line-height: 35px;
-    font-size: 13px;
-    font-weight: 200;
+    font-size: 16px;
+    font-weight: 100 !important;
 }
 footer a:hover {
     text-decoration: underline;

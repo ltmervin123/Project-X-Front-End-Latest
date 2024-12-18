@@ -16,7 +16,7 @@ import {
   FaVideoSlash,
   FaAudioDescription,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
+import avatarImg from "../../assets/expert1.png";
 import CancelInterviewAlert from "./CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";

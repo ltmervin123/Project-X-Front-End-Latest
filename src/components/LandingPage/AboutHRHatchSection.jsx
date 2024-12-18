@@ -18,21 +18,15 @@ const AboutHRHatchSection = () => {
       </h2>
       <div className="about-content-container d-flex align-items-center">
         <div className="about-main-content">
-          <p>HR-Hatch is your dedicated partner in boosting hiring potential for candidates and streamlining hiring processes for companies. Our purpose is to empower job seekers and employers by bridging the gap between talent and opportunity, offering personalized support and innovative solutions that enhance confidence, streamline recruitment, and drive growth for all.</p>
+          <p>HR-Hatch is your trusted partner in unlocking hiring potential, helping job seekers prepare for their job search journey while optimizing recruitment processes for companies to achieve more efficient talent acquisition. Our mission is to empower both job seekers and employers by bridging the gap between talent and opportunity. We offer personalized support and innovative solutions that build confidence, streamline hiring, and drive sustainable growth for all.
+          </p>
         </div>
         <div className="about-avatar-bg d-flex align-items-center justify-content-center">
           <img src={AboutAvatar} alt="" />
         </div>
       </div>
 
-      <div className="exclusive-partner d-flex align-items-center flex-column" id="partner">
-        <div className="exclusive-overlay d-flex align-items-center justify-content-center">
-            <p>Our Exclusive Partnership</p>
-        </div>
-        <img src={ExclusivePartner} alt="" />
-        <p>A boutique recruitment firm specializing in the tech sector, with a strong focus on fast-growing startups.</p>
-        <button className='btn-learnmore-overlay'>Learn More...</button>
-      </div>
+
     </section>
   );
 };

@@ -1,6 +1,6 @@
 // src/pages/UserProfilePage.js
 import React from 'react';
-import '../styles/MainDashboard.css';
+import '../styles/MockInterviewPage.css';
 import { Container } from 'react-bootstrap';
 import Sidebar from '../components/maindashboard/Sidebar';
 import UserProfile from '../components/UserProfile/UserProfile';
