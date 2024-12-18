@@ -117,22 +117,6 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
         ],
       })
       .start();
-    //Get the introShown flag from sessionStorage
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-
-    //Check if the intro has already been shown
-    if (!isIntroShown.basic) {
-      // Update the behavioral field
-      const updatedIntroShown = {
-        ...isIntroShown, // Preserve other fields
-        basic: true, // Update behavioral
-      };
-
-      //Clear the introShown flag from sessionStorage
-      sessionStorage.removeItem("isIntroShown");
-      // Save the updated object back to sessionStorage
-      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
-    }
   };
 
   // Call startIntro when the component mounts
@@ -140,13 +124,19 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
+    //Check if the intro has already been shown
     if (!isIntroShown.basic) {
       startIntro();
-    } else {
-      console.log("Intro has already been shown."); // Log if the intro has already been shown
-    }
-  }, []); // Empty dependency array ensures this runs only once on mount
+      // Update the behavioral field
+      const updatedIntroShown = {
+        ...isIntroShown, // Preserve other fields
+        basic: true, // Update behavioral
+      };
 
+      // Save and override the prevous value with the updated object back to sessionStorage
+      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
+    }
+  }, []);
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -223,8 +213,8 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
       await userIntroduction();
     } catch (error) {
-        setIsReattemptingCamera(false);
-        setCameraError(true);
+      setIsReattemptingCamera(false);
+      setCameraError(true);
     }
   };
 

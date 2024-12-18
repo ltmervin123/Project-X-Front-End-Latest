@@ -117,22 +117,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
         ],
       })
       .start();
-    //Get the introShown flag from sessionStorage
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-
-    //Check if the intro has already been shown
-    if (!isIntroShown.behavioral) {
-      // Update the behavioral field
-      const updatedIntroShown = {
-        ...isIntroShown, // Preserve other fields
-        behavioral: true, // Update behavioral
-      };
-
-      //Clear the introShown flag from sessionStorage
-      sessionStorage.removeItem("isIntroShown");
-      // Save the updated object back to sessionStorage
-      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
-    }
   };
 
   // Call startIntro when the component mounts
@@ -140,10 +124,17 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
-    if (!isIntroShown.basic) {
+    //Check if the intro has already been shown
+    if (!isIntroShown.behavioral) {
       startIntro();
-    } else {
-      console.log("Intro has already been shown."); // Log if the intro has already been shown
+      // Update the behavioral field
+      const updatedIntroShown = {
+        ...isIntroShown, // Preserve other fields
+        behavioral: true, // Update behavioral
+      };
+
+      // Save and override the prevous value with the updated object back to sessionStorage
+      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
   }, []); // Empty dependency array ensures this runs only once on mount
 
@@ -220,8 +211,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       });
       setIsReattemptingCamera(false); // Reset if successful
       setCameraError(false);
-
-
 
       await userIntroduction();
     } catch (error) {
