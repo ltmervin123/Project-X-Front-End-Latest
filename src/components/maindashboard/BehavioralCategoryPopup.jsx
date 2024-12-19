@@ -77,7 +77,7 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
     >
       <Modal.Body className="custom-modal">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="m-0">Behavioral Mock Interview</h5>
+          <h5 className="m-0">Behavioral Interview Category</h5>
           <Button
             className='closebtn'
             variant="link"

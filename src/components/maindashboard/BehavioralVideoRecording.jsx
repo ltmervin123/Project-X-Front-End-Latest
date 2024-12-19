@@ -69,7 +69,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
 
   //Function to initialize Intro.js
-  const startIntro = () => {
+  const popupGuide = () => {
     introJs()
       .setOptions({
         steps: [
@@ -108,7 +108,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
+            intro: "Click here to start the interview.",
           },
           {
             element: "#confirmCloseButton",
@@ -117,35 +117,25 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
         ],
       })
       .start();
-    //Get the introShown flag from sessionStorage
+  };
+
+  const startGuide = () => {
+    // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
     if (!isIntroShown.behavioral) {
+      popupGuide();
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
         behavioral: true, // Update behavioral
       };
 
-      //Clear the introShown flag from sessionStorage
-      sessionStorage.removeItem("isIntroShown");
-      // Save the updated object back to sessionStorage
+      // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
   };
-
-  // Call startIntro when the component mounts
-  useEffect(() => {
-    // Check if the intro has already been shown
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-
-    if (!isIntroShown.basic) {
-      startIntro();
-    } else {
-      console.log("Intro has already been shown."); // Log if the intro has already been shown
-    }
-  }, []); // Empty dependency array ensures this runs only once on mount
 
   const tips = [
     "Know your resume.",
@@ -221,9 +211,10 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       setIsReattemptingCamera(false); // Reset if successful
       setCameraError(false);
 
-
-
       await userIntroduction();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Start the guide
+      startGuide();
     } catch (error) {
       setIsReattemptingCamera(false);
       setCameraError(true);
@@ -559,7 +550,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Behavioral Mock Interview</h5>
+            <h5>Behavioral Interview</h5>
             <Button
               id="confirmCloseButton"
               variant="link"

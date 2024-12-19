@@ -69,7 +69,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const API = process.env.REACT_APP_API_URL;
 
   //Function to initialize Intro.js
-  const startIntro = () => {
+  const popupGuide = () => {
     introJs()
       .setOptions({
         steps: [
@@ -108,7 +108,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
+            intro: "Click here to start the interview.",
           },
           {
             element: "#confirmCloseButton",
@@ -117,36 +117,26 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
         ],
       })
       .start();
-    //Get the introShown flag from sessionStorage
+  };
+
+  // Pop up guide function
+  const startGuide = () => {
+    // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
     if (!isIntroShown.basic) {
+      popupGuide();
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
         basic: true, // Update behavioral
       };
 
-      //Clear the introShown flag from sessionStorage
-      sessionStorage.removeItem("isIntroShown");
-      // Save the updated object back to sessionStorage
+      // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
   };
-
-  // Call startIntro when the component mounts
-  useEffect(() => {
-    // Check if the intro has already been shown
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-
-    if (!isIntroShown.basic) {
-      startIntro();
-    } else {
-      console.log("Intro has already been shown."); // Log if the intro has already been shown
-    }
-  }, []); // Empty dependency array ensures this runs only once on mount
-
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -221,13 +211,20 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       setIsReattemptingCamera(false); // Reset if successful
       setCameraError(false);
 
+      // Speak the greeting if it hasn't been spoken yet
       await userIntroduction();
+
+      // Wait for a brief moment before starting the guide
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Start the guide
+      startGuide();
     } catch (error) {
-        setIsReattemptingCamera(false);
-        setCameraError(true);
+      setIsReattemptingCamera(false);
+      setCameraError(true);
     }
   };
 
+  // User introduction
   const userIntroduction = async () => {
     if (!isIntroShown) {
       setCurrentGreetingText(greeting);
