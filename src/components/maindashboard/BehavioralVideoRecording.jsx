@@ -69,7 +69,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
 
   //Function to initialize Intro.js
-  const startIntro = () => {
+  const popupGuide = () => {
     introJs()
       .setOptions({
         steps: [
@@ -108,7 +108,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
+            intro: "Click here to start the interview.",
           },
           {
             element: "#confirmCloseButton",
@@ -119,14 +119,13 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       .start();
   };
 
-  // Call startIntro when the component mounts
-  useEffect(() => {
+  const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
     if (!isIntroShown.behavioral) {
-      startIntro();
+      popupGuide();
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
@@ -136,7 +135,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
+  };
 
   const tips = [
     "Know your resume.",
@@ -213,6 +212,9 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       setCameraError(false);
 
       await userIntroduction();
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Start the guide
+      startGuide();
     } catch (error) {
       setIsReattemptingCamera(false);
       setCameraError(true);

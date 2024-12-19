@@ -69,7 +69,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const API = process.env.REACT_APP_API_URL;
 
   //Function to initialize Intro.js
-  const startIntro = () => {
+  const popupGuide = () => {
     introJs()
       .setOptions({
         steps: [
@@ -108,7 +108,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
+            intro: "Click here to start the interview.",
           },
           {
             element: "#confirmCloseButton",
@@ -119,14 +119,14 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       .start();
   };
 
-  // Call startIntro when the component mounts
-  useEffect(() => {
+  // Pop up guide function
+  const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
     if (!isIntroShown.basic) {
-      startIntro();
+      popupGuide();
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
@@ -136,7 +136,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
-  }, []);
+  };
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -211,13 +211,20 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       setIsReattemptingCamera(false); // Reset if successful
       setCameraError(false);
 
+      // Speak the greeting if it hasn't been spoken yet
       await userIntroduction();
+
+      // Wait for a brief moment before starting the guide
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Start the guide
+      startGuide();
     } catch (error) {
       setIsReattemptingCamera(false);
       setCameraError(true);
     }
   };
 
+  // User introduction
   const userIntroduction = async () => {
     setCurrentGreetingText(greeting);
 

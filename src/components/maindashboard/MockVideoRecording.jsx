@@ -77,7 +77,7 @@ const VideoRecording = ({
   // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
   const API = process.env.REACT_APP_API_URL;
   //Function to initialize Intro.js
-  const startIntro = () => {
+  const popupGuide = () => {
     introJs()
       .setOptions({
         steps: [
@@ -116,7 +116,7 @@ const VideoRecording = ({
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
+            intro: "Click here to start the interview.",
           },
           {
             element: "#confirmCloseButton",
@@ -127,14 +127,13 @@ const VideoRecording = ({
       .start();
   };
 
-  // Call startIntro when the component mounts
-  useEffect(() => {
+  const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
     if (!isIntroShown.expert) {
-      startIntro();
+      popupGuide();
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
@@ -143,7 +142,7 @@ const VideoRecording = ({
       // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
-  }, []); // Empty dependency array ensures this runs only once on mount
+  };
 
   const tips = [
     "Know your resume.",
@@ -219,6 +218,10 @@ const VideoRecording = ({
       setCameraError(false);
 
       await userIntroduction();
+      // Wait for a brief moment before starting the guide
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Start the guide
+      startGuide();
     } catch (error) {
       setIsReattemptingCamera(false);
       setCameraError(true);
