@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Fork
         uses: actions/checkout@v3
         with:
-          repository: your-username/repo-name
+          repository: Project-X-Front-End-Latest
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add Upstream Repository
