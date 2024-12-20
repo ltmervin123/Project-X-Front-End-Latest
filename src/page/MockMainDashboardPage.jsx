@@ -12,20 +12,20 @@ function MockMainDashboardPage() {
     <>
       <Header />
       <div className="MockMaindashboard-container">
-          <Row>
-            {/* Sidebar (3/12 width) */}
-            <Col md={2} className="p-0">
-              <Sidebar />
-            </Col>
-            {/* Main Dashboard (7/12 width) */}
-            <Col md={7} className="p-3">
-              <MainDashboard />
-            </Col>
-            {/* Summary (3/12 width) */}
-            <Col md={3} className="p-3">
-              <Summary />
-            </Col>
-          </Row>
+        <Row>
+          {/* Sidebar (3/12 width) */}
+          <Col md={2} className="p-0">
+            <Sidebar />
+          </Col>
+          {/* Main Dashboard (7/12 width) */}
+          <Col md={7} className="p-3">
+            <MainDashboard />
+          </Col>
+          {/* Summary (3/12 width) */}
+          <Col md={3} className="p-3">
+            <Summary />
+          </Col>
+        </Row>
       </div>
     </>
   );
