@@ -84,13 +84,11 @@ const ResultSection = ({ interviewId }) => {
     ]
   ).map((word) => word.toLowerCase());
 
-  console.log("Filler words: ", fillerWords);
-
   const highlightFillerWords = (text) => {
     const words = text.split(" "); // Split text into words
     return words.map((word, index) => {
       const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation
-      console.log("Lower word: ", lowerWord);
+
       if (fillerWords.includes(lowerWord)) {
         return (
           <span key={index} className="filler-red">
@@ -131,6 +129,10 @@ const ResultSection = ({ interviewId }) => {
 
   const handleReturn = () => {
     navigate(-1); // Go back to the previous page
+  };
+
+  const handlePractice = () => {
+    navigate("/mockInterview");
   };
 
   return interviewDetails ? (
@@ -234,9 +236,9 @@ const ResultSection = ({ interviewId }) => {
           </Card>
         </Col>
         <div className="w-100 d-flex justify-content-center gap-3">
-        <button
+          <button
             className="btn btn-secondary btnPractice"
-            // onClick={}
+            onClick={handlePractice}
           >
             Practice Again
           </button>
