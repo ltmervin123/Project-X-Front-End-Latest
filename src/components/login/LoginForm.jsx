@@ -29,7 +29,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="row main-login justify-content-center">
+    <div className="row main-login justify-content-center position-relative">
       <Col
         md={5}
         className=" d-flex align-items-center justify-content-center login-avatar-container "
@@ -77,7 +77,7 @@ const LoginForm = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
-                  <label className="input-label">Passwrod</label>
+                  <label className="input-label">Password</label>
                   <span
                     className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
                     onClick={() => setShowPassword(!showPassword)}

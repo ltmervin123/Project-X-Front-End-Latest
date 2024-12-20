@@ -16,7 +16,7 @@ import {
   FaVideoSlash,
   FaAudioDescription,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
+import avatarImg from "../../assets/expert1.png";
 import CancelInterviewAlert from "./CancelInterviewModal"; // Import the ConfirmModal
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { useAuthContext } from "../../hook/useAuthContext";
@@ -69,15 +69,16 @@ const VideoRecording = ({
   const [recognizedText, setRecognizedText] = useState(""); // State for recognized speech text
   const [isGreetingActive, setIsGreetingActive] = useState(false);
   const [currentGreetingText, setCurrentGreetingText] = useState("");
+  const name = user.name.split(" ")[0];
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
-  const followUpGreeting = `Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`;
+  const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
   const finalGreeting =
     "I hope you are doing great. To start your interview please press the button “Generate Questions.”";
   // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
   const API = process.env.REACT_APP_API_URL;
   //Function to initialize Intro.js
-  const startIntro = () => {
+  const popupGuide = () => {
     introJs()
       .setOptions({
         steps: [
@@ -116,7 +117,7 @@ const VideoRecording = ({
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
+            intro: 'Click here to "Generate Questions" start the interview.',
           },
           {
             element: "#confirmCloseButton",
@@ -125,35 +126,24 @@ const VideoRecording = ({
         ],
       })
       .start();
-    //Get the introShown flag from sessionStorage
+  };
+
+  const startGuide = () => {
+    // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
 
     //Check if the intro has already been shown
     if (!isIntroShown.expert) {
+      popupGuide();
       // Update the behavioral field
       const updatedIntroShown = {
         ...isIntroShown, // Preserve other fields
         expert: true, // Update behavioral
       };
-
-      //Clear the introShown flag from sessionStorage
-      sessionStorage.removeItem("isIntroShown");
-      // Save the updated object back to sessionStorage
+      // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
   };
-
-  // Call startIntro when the component mounts
-  useEffect(() => {
-    // Check if the intro has already been shown
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-
-    if (!isIntroShown.basic) {
-      startIntro();
-    } else {
-      console.log("Intro has already been shown."); // Log if the intro has already been shown
-    }
-  }, []); // Empty dependency array ensures this runs only once on mount
 
   const tips = [
     "Know your resume.",
@@ -189,8 +179,6 @@ const VideoRecording = ({
       });
     }
   };
-
-  // Toggle mute state
 
   // Toggle mic mute and unmute function
   const toggleMute = () => {
@@ -231,46 +219,15 @@ const VideoRecording = ({
       setCameraError(false);
 
       await userIntroduction();
+      // Wait for a brief moment before starting the guide
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Start the guide
+      startGuide();
     } catch (error) {
       setIsReattemptingCamera(false);
       setCameraError(true);
     }
   };
-
-  // Speak the question using the backend API
-  // const speak = useCallback(
-  //   async (question) => {
-  //     try {
-  //       const response = await axios.post(
-  //         `${API}/api/interview/audio`,
-  //         { question },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json", // Required for file uploads
-  //             Authorization: `Bearer ${user.token}`,
-  //           },
-  //         }
-  //       );
-  //       const { audio } = response.data;
-
-  //       const audioBlob = new Blob(
-  //         [Uint8Array.from(atob(audio), (c) => c.charCodeAt(0))],
-  //         {
-  //           type: "audio/mp3",
-  //         }
-  //       );
-  //       const audioUrl = URL.createObjectURL(audioBlob);
-  //       const audioElement = new Audio(audioUrl);
-
-  //       audioElement
-  //         .play()
-  //         .catch((error) => console.error("Error playing audio:", error));
-  //     } catch (error) {
-  //       console.error("Error fetching audio:", error);
-  //     }
-  //   },
-  //   [user.token]
-  // );
 
   const speak = async (text) => {
     try {
@@ -295,9 +252,6 @@ const VideoRecording = ({
       const audioUrl = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(audioUrl);
 
-      // audioElement
-      //   .play()
-      //   .catch((error) => console.error("Error playing audio:", error));
       return new Promise((resolve, reject) => {
         audioElement.onended = resolve; // Resolve the promise when the audio ends
         audioElement.onerror = reject; // Reject the promise on error
@@ -322,7 +276,6 @@ const VideoRecording = ({
   //
   const startRecording = () => {
     if (streamRef.current) {
-      console.log("Start Recording");
       recordedChunksRef.current = []; // Clear chunks before new recording
 
       // Initialize MediaRecorder with stream
@@ -340,17 +293,10 @@ const VideoRecording = ({
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
-          console.log("Data chunk available:", event.data);
         }
       };
 
       // Event listener to handle stop recording
-      mediaRecorderRef.current.onstop = () => {
-        console.log(
-          "Recording stopped. Collected chunks:",
-          recordedChunksRef.current
-        );
-      };
 
       mediaRecorderRef.current.onerror = (e) => {
         console.error("Recording error:", e);
@@ -380,15 +326,10 @@ const VideoRecording = ({
       if (questionIndex === questions.length - 1 && !isUploading) {
         // Show greeting message
         setShowGreeting(true);
-        const greetingMessage = `Thanks ${user.name}, and I hope you enjoyed your interview with us.`;
+        const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
         speak(greetingMessage); // Speak the greeting message
 
-        // Delay showing the success popup
-        // setTimeout(() => {
-        //   setShowSuccessPopup(true);
-        // }, 3000); // Adjust the delay as needed (3000ms = 3 seconds)
-
-        await createFeedback(); // Call createFeedback after the greeting
+        await createFeedback();
       } else {
         setQuestionIndex((prevIndex) => prevIndex + 1);
       }
@@ -396,52 +337,19 @@ const VideoRecording = ({
   };
 
   const userIntroduction = async () => {
-    // // Call the greeting function after the camera is enabled, if not already spoken
-    // if (!hasSpokenGreeting) {
-    //   // Speak the first greeting
-    //   // setCurrentGreetingText(
-    //   //   "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve."
-    //   // );
-
     setCurrentGreetingText(greeting);
-    //   // await speakWithGoogleTTS(greeting);
+
     await speak(greeting);
 
-    //   // Speak the follow-up greeting
-    //   // setCurrentGreetingText(
-    //   //   `Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`
-    //   // );
-
     setCurrentGreetingText(followUpGreeting);
-    //   // await speakWithGoogleTTS(followUpGreeting);
     await speak(followUpGreeting);
-
-    //   // Speak the final greeting
-    //   // setCurrentGreetingText(
-    //   //   "I am glad you are doing great. I am doing great too. To start your interview please press the button “Generate Questions.”"
-    //   // );
-    // setAnswerGreetings("Im fine")
-    // Wait for 5 seconds before speaking the final greeting
     await new Promise((resolve) => setTimeout(resolve, 3000));
-
     setCurrentGreetingText(finalGreeting);
 
-    //   // await speakWithGoogleTTS(finalGreeting);
     await speak(finalGreeting);
 
-    setHasSpokenGreeting(true); // Set the flag to true after speaking
-    setCurrentGreetingText(""); // Clear greeting text after finishing
-    // }
-
-    // setCurrentGreetingText(introGreeting[introIndex]);
-    // await speak(introGreeting[introIndex]);
-
-    // // Move to the next greeting
-    // if (introIndex + 1 < introGreeting.length) {
-    //   setIntroIndex(introIndex + 1);
-    // } else {
-    //   setHasSpokenGreeting(true); // Mark greeting sequence as complete
-    // }
+    setHasSpokenGreeting(true);
+    setCurrentGreetingText("");
   };
 
   //Create Feedback
@@ -568,7 +476,7 @@ const VideoRecording = ({
 
       // Append the video file and question to the FormData
       formData.append("interviewId", interviewId);
-      formData.append(  
+      formData.append(
         "videoFile",
         blob,
         `${interviewId}-question${questionIndex + 1}.webm`
@@ -622,47 +530,6 @@ const VideoRecording = ({
     return () => clearInterval(countdownRef.current);
   }, [isCountdownActive, countdown]);
 
-  /*Avatar Greeting */
-
-  // const speakWithGoogleTTS = async (text) => {
-  //   const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${googleApiKey}`;
-
-  //   const requestBody = {
-  //     input: { text: text },
-  //     voice: { languageCode: "en-US", ssmlGender: "NEUTRAL" },
-  //     audioConfig: { audioEncoding: "MP3", pitch: 0, speakingRate: 1 },
-  //   };
-
-  //   try {
-  //     const response = await axios.post(url, requestBody);
-  //     const audioContent = response.data.audioContent;
-
-  //     // Create a blob from the audio content
-  //     const audioBlob = new Blob(
-  //       [
-  //         new Uint8Array(
-  //           atob(audioContent)
-  //             .split("")
-  //             .map((c) => c.charCodeAt(0))
-  //         ),
-  //       ],
-  //       { type: "audio/mp3" }
-  //     );
-  //     const audioUrl = URL.createObjectURL(audioBlob);
-  //     const audio = new Audio(audioUrl);
-
-  //     // Return a promise that resolves when the audio ends
-  //     return new Promise((resolve, reject) => {
-  //       audio.onended = resolve; // Resolve the promise when the audio ends
-  //       audio.onerror = reject; // Reject the promise on error
-  //       audio.play().catch(reject); // Play the audio and catch any errors
-  //     });
-  //   } catch (error) {
-  //     console.error("Error with Google TTS:", error);
-  //   }
-  // };
-  /*Speach to Text| User Response */
-
   return (
     <>
       <Modal
@@ -674,7 +541,7 @@ const VideoRecording = ({
       >
         <Modal.Body className="video-recording-modal">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5>Mock Interview</h5>
+            <h5>Expert Mock Interview</h5>
             <Button
               id="confirmCloseButton"
               variant="link"

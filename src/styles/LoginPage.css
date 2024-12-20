@@ -10,7 +10,9 @@
 .navbar {
     background: none !important;
 }
-
+.login-page-container{
+    overflow: hidden;
+}
 .main-login-form {
     padding: 0 !important;
     top: 0;
@@ -47,12 +49,13 @@
     height: 100%;
 }
 .login-avatar{
-    position: relative;
-    max-width: 100% !important;
-    height: 100%; /* Maintain aspect ratio */
+    position: absolute;
+    max-width: 55% ;
+    min-width: 600px;
+    top: 0;
     left: 0; /* Align to the right */
     z-index: 1;
-    bottom: 0;
+    bottom: -250px;
 }
 .login-header {
     margin-bottom: 10px;

@@ -6,7 +6,7 @@ import LoginForm from "../components/login/LoginForm";
 function LoginPage() {
   return (
     <>
-      <div className="container-fluid main-container">
+      <div className="container-fluid main-container login-page-container">
         <Header />
         <LoginForm />
       </div>
