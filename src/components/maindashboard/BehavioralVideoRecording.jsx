@@ -64,7 +64,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
   const followUpGreeting = `Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`;
   const finalGreeting =
-    "I hope you are doing great. To start your interview please press the button “Generate Questions.”";
+    "I hope you are doing great. To start your interview please press the button “Start Interview.”";
   const API = process.env.REACT_APP_API_URL;
   // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
 
@@ -108,7 +108,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
           },
           {
             element: "#startInterviewButton",
-            intro: 'Click here to "Generate Questions" start the interview.',
+            intro: 'Click here to "Start Interview" start the interview.',
           },
           {
             element: "#confirmCloseButton",
@@ -707,7 +707,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
                             fill="white"
                           />{" "}
                         </svg>
-                        <p>Generate Questions</p>
+                        <p>Start Interview</p>
                       </Button>
                     </div>
                   </>

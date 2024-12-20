@@ -18,9 +18,15 @@ import UserProfilePage from "./page/UserProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuth from "./components/session/requireAuth";
-import AiReferencePage from "./page/AiReferencePage.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
+
+/*Ai Reference */
+import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
+import AiRefereneCheckerPage from "./page/AiReferenceCheckerPage.jsx";
+import AiReferenceReportPage from "./page/AiReferenceReportPage.jsx";
+
+
 
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 
@@ -51,10 +57,6 @@ function App() {
           </Route>
 
           <Route element={<RequireAuth />}>
-            <Route path="/AiReference" element={<AiReferencePage />} />
-          </Route>
-
-          <Route element={<RequireAuth />}>
             <Route path="/MockLandingPage" element={<MockLandingPage />} />
           </Route>
 
@@ -77,6 +79,19 @@ function App() {
             <Route path="/userprofile" element={<UserProfilePage />} />
           </Route>
         </Route>
+
+        {/*Ai Reference */}
+          <Route element={<RequireAuth />}>
+            <Route path="/AiReference" element={<AiReferenceMainDashboardPage />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            <Route path="/AiReferenceChecker" element={<AiRefereneCheckerPage />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            <Route path="/AiReferenceReport" element={<AiReferenceReportPage />} />
+          </Route>
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

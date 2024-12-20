@@ -14,7 +14,7 @@ function MockMainDashboardPage() {
       <div className="MockMaindashboard-container">
           <Row>
             {/* Sidebar (3/12 width) */}
-            <Col md={2} className="p-0">
+            <Col  md={2} className="p-0 MockSidebar">
               <Sidebar />
             </Col>
             {/* Main Dashboard (7/12 width) */}
@@ -22,7 +22,7 @@ function MockMainDashboardPage() {
               <MainDashboard />
             </Col>
             {/* Summary (3/12 width) */}
-            <Col md={3} className="p-3">
+            <Col className="p-3">
               <Summary />
             </Col>
           </Row>

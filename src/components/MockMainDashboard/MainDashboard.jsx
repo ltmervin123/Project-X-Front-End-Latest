@@ -2,7 +2,7 @@ import React from "react";
 
 function MainDashboard() {
   return (
-    <div className="MockMainDashboard-content ">
+    <div className="MockMainDashboard-content d-flex flex-column gap-3">
         <div>
             <h4>Welcome to your Dashboard!</h4>
             <span >
@@ -11,8 +11,9 @@ function MainDashboard() {
             </span>
         </div>
 
-      <br />
+
       <i className="color-orange">Hello, Levi! Ready to boost your career today?</i>
+
       <div className="MockGuide-container w-100 d-flex flex-column align-items-center gap-3">
         <div className="d-flex justify-content-start align-items-center gap-3">
             <svg width="66" height="73" viewBox="0 0 66 73" fill="none" xmlns="http://www.w3.org/2000/svg">
