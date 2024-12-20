@@ -1,12 +1,13 @@
 import { React, useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import InterviewDifficultyCategoryPopup from "../maindashboard/InterviewDifficultyCategoryPopup";
-import UploadPopUp from "../maindashboard/UploadPopUp";
-import JobDescriptionPopup from "../maindashboard/JobDescriptionPopup";
+import { useAuthContext } from "../../hook/useAuthContext";
+import InterviewDifficultyCategoryPopup from "./InterviewDifficultyCategoryPopup";
+import UploadPopUp from "./UploadPopUp";
+import JobDescriptionPopup from "./JobDescriptionPopup";
 import VideoRecording from "./MockVideoRecording";
-import BehavioralVideoRecording from "../maindashboard/BehavioralVideoRecording";
-import BasicVideoRecording from "../maindashboard/BasicVideoRecording";
-import BehavioralCategoryPopup from "../maindashboard/BehavioralCategoryPopup";
+import BehavioralVideoRecording from "./BehavioralVideoRecording";
+import BasicVideoRecording from "./BasicVideoRecording";
+import BehavioralCategoryPopup from "./BehavioralCategoryPopup";
 
 const MainDashboard = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -21,6 +22,19 @@ const MainDashboard = () => {
   const [file, setFile] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
   const [interviewType, setInterviewType] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    setCurrentDate(formattedDate);
+  }, []);
 
   const handleInterviewType = (type) => {
     switch (type) {
@@ -87,13 +101,26 @@ const MainDashboard = () => {
   };
 
   return (
-    <Container className=" d-flex flex-column">
+    <Container className=" d-flex flex-column MockMainDashboard-content">
+      <div className="dashboard-header">
+        {user ? (
+          <>
+            <h3>Hello, {user.name}</h3>
+            <p>Today is {currentDate}</p>
+          </>
+        ) : (
+          <>
+            <h3>Hello, Guest</h3>
+            <p>Today is {currentDate}</p>
+          </>
+        )}
+      </div>
       <div className="mock-interview-container-header">
         <h4>Mock Interview</h4>
         <p>Select Professional Career Interview</p>
       </div>
       {/* Combined Categories */}
-      <div className="category-container">
+      <div className="category-container ">
         <div
           className="category-card bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}

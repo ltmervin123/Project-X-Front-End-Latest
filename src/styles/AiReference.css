@@ -5,10 +5,18 @@
     --card-color: #686868;
     --avatar-bg: #68686882;
     --text-color: #000;
-    --subscription-btn: #319F43;
-    --activity-card-bg: #d9d9d9;
+    --sidebar-bg: #F2F3F7;
+    
 }
 .ai-reference-sidebar-container{
-    width: 25%;
-    background: var(--avatar-bg) !important;
+    width: 20%;
+    background: var(--sidebar-bg);
+    padding: 0 !important;
+}
+.ai-reference-sidebar{
+    width: 100%;
+
+}
+.company-name{
+    border-bottom: 2px solid var(--primary-color);
 }
