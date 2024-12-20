@@ -212,8 +212,8 @@ const UserProfile = () => {
               <h5>Subscription</h5>
               <div className="d-flex">
                 <div>
-                  <p className="currentPlanTitle">Current Plan: Pro (Annual)</p>
-                  <p>15 days Remaining</p>
+                  <p className="currentPlanTitle">FREE PLAN</p>
+                  <p>1 FREE USAGE</p>
                 </div>
                 <Button type="button">
                     Update Subscription

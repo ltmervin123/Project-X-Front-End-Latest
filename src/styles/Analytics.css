@@ -14,6 +14,7 @@
   position: relative;
   width: 100%;
   justify-content: flex-end;
+
 }
 .analytics-search {
   width: 400px;
@@ -39,8 +40,8 @@
 
 
 .analytics-container {
-  border-radius: 10px;
-  border: 2px solid var(--font-white);
+  border-radius: 50px;
+  border: 2px solid var(--primary-color);
   position: relative;
   height: 70vh; /* Adjust height as necessary */
   overflow: auto; /* Allow scrolling */

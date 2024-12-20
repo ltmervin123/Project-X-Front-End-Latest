@@ -48,19 +48,20 @@
 /* Header */
 .dashboard-header > h3 {
   color: var(--primary-color);
-  padding: 15px 10px 0px 10px;
   margin: 0;
   font-size: 20px;
+  font-weight: 600;
 }
 .dashboard-header > p {
     font-size: 9px;
-    padding: 0px 10px;
+    font-weight: 600;
     color: var(--card-color);
 }
 /*maindashboard*/
 
 .mock-interview-container-header > h4 {
   font-size: 20px;
+  font-weight: 600;
   padding: 0;
   margin: 0;
   color: var(--secondary-color);
@@ -74,6 +75,7 @@
   color: var(--secondary-color);
   padding: 0px 0px 20px 0px;
   margin: 0;
+  font-weight: 600;
 }
 .career-search {
   position: relative;
@@ -125,6 +127,7 @@
   pointer-events: none;
 }
 
+
 .main-container1 {
   flex-direction: column;
   gap: 20px;
@@ -135,14 +138,13 @@
 .category-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   gap: 20px;
   width: 100%;
-  height: 78vh !important;
-  border: 1px solid var(--font-white);
-  border-radius: 10px;
-  height: 70vh;
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  height: 75vh;
   scrollbar-color: var(--primary-color) #f1f1f1;
 }
 
@@ -155,8 +157,8 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 30%;
-  max-width: 400px;
+  width: 20%;
+  max-width: 200px;
   height: 90%;
   position: relative;
   background-color: var(--primary-color);
@@ -321,204 +323,7 @@
     margin-bottom: 10px; /* Space between cards */
   }
 }
-/* Summary */
-.summary-card {
-  width: 100%;
-  
-  height: 100% !important;
-  border: none !important;
-  color: var(--secondary-color) !important;
-  flex-direction: column;
-  gap: 0px;
-  padding: 0;
-  background-color: transparent !important;
-  position: relative;
-  
-}
-.summary-card-wrapper {
-  position: relative;
-  min-width: 200px;
-  width: 100%;
-  max-width: 300px;
-  height: 100%;
-  border: 1px solid var(--acttivit-card-bg);
-  border-radius: 50px !important;
-  background: var(--font-white) !important;
-}
 
-.summary-card > .card-title {
-  text-align: left;
-  padding: 10px 20px 0px 20px;
-  font-weight: 700;
-  font-size: 20px;
-  height: 5%;
-}
-
-.summary-card > .card-text {
-  color: var(--secondary-color) !important;
-  font-weight: 500;
-  padding: 0px 20px;
-  margin: 0;
-  font-size: 15px;
-  height: 5%;
-}
-.background-svg2 {
-  position: absolute;
-  bottom: 0;
-  /* margin-left: 10px; */
-  left: 3px;
-  width: 100%;
-  height: auto;
-  bottom: 0px;
-  z-index: 1; /* Ensure the SVG is behind the card */
-}
-
-
-.activity-results-container {
-  display: flex;
-  gap: 15px;
-  padding: 10px;
-  height: 30%;
-}
-
-.activity-container,
-.results-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.activity-container {
-  width: 70%;
-  gap: 5px;
-}
-
-.activity-card,
-.result-of-interview {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100%;
-  margin: 2px 0;
-}
-
-.activity-card {
-  min-height: 40px;
-  background: var(--acttivit-card-bg) !important;
-  border-radius: 50px;
-}
-
-.result-of-interview {
-  min-height: 0px;
-}
-.activity-card > .category-name {
-  font-size: 10px;
-  color: var(--text-color);
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.activity-card > .type-of-interview {
-  font-size: 9px;
-  color: var(--primary-color);
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.activity-card > .date-of-interview {
-  font-size: 8px;
-  color: var(--card-color);
-  margin: 0;
-  text-transform: uppercase;
-}
-
-
-.results-container > p,
-.activity-container > p {
-  margin: 0 !important;
-  color: var(--text-color);
-  font-size: 11px;
-  font-weight: 100;
-}
-
-.activity-card,
-.result-of-interview {
-  height: 40px;
-  justify-content: center;
-  color: var(--text-color);
-  font-weight: 500;
-}
-
-.subcription-reminder-container {
-    width: 100%;
-    flex-direction: column;
-    height: 20%;
-}
-
-.line-color-orange {
-  background-color: var(--primary-color);
-  width: 65%;
-  height: 2px;
-  margin-bottom: 30px;
-  margin-top: 10px;
-}
-
-.subcription-reminder {
-    width: 90%;
-    height: 65px;
-    background-color: var(--acttivit-card-bg);
-    border-radius: 50px;
-    padding: 10px;
-    margin-top: 0;
-    box-shadow: 0px 4px 5px 0px rgba(135, 135, 135, 0.686);
-    align-items: center;
-}
-.subcription-reminder > .reminder-note {
-  width: 80%;
-  text-align: center;
-  font-size: 10px !important;
-  font-weight: 100 !important;
-  color: var(--text-color);
-}
-.subcription-reminder > .sub-reminder-text {
-  font-size: 16px !important;
-  text-align: center;
-  color: var(--primary-color);
-  font-weight: 700 !important;
-  margin: 0;
-}
-
-.warning {
-  color: red;
-  font-size: 30px;
-  font-weight: 900;
-  width: 20px;
-  height: 30px;
-  background: var(--acttivit-card-bg);
-  position: absolute;
-  top: -23px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.summary-avatar-img-bg {
-    background-image: url('../assets/summary-img.png');
-    background-position: bottom center; 
-    background-repeat: no-repeat; 
-    background-size: contain ; 
-    height: 40%; 
-    position: relative;
-    top: 0; 
-    bottom: 20px !important;
-    z-index: 2; /* Ensure this is above the SVG */
-  
-}
 
 .upload-area {
   height: 45vh;

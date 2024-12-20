@@ -134,11 +134,11 @@ const ResultSection = ({ interviewId }) => {
   };
 
   return interviewDetails ? (
-    <Container className="result-container shadow-sm p-3">
+    <Container className="result-container shadow-sm p-3 ">
       <Row>
         <Col md={4}>
           <Card className="interview-result-container d-flex align-items-center">
-            <h4>INTERVIEW RESULT</h4>
+            <h4>Interview Result</h4>
             <div className="score-section">
               <div className="d-flex justify-content-between align-items-center">
                 <p className="rating-name">Grammar</p>
@@ -214,7 +214,7 @@ const ResultSection = ({ interviewId }) => {
                 <p>{feedback[currentIndex]}</p>
               </div>
             </div>
-            <div className="d-flex justify-content-center question-navination">
+            <div className="d-flex justify-content-center align-items-center question-navigation">
               <span
                 className="prev"
                 onClick={handlePrev}
@@ -233,9 +233,15 @@ const ResultSection = ({ interviewId }) => {
             </div>
           </Card>
         </Col>
-        <div className="w-100 d-flex justify-content-end">
+        <div className="w-100 d-flex justify-content-center gap-3">
+        <button
+            className="btn btn-secondary btnPractice"
+            // onClick={}
+          >
+            Practice Again
+          </button>
           <button
-            className="btn btn-secondary btnReturn"
+            className="btn btn-secondary btnReturnAnalytics"
             onClick={handleReturn}
           >
             Back to analytics

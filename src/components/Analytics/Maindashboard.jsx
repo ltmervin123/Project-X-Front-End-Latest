@@ -4,8 +4,19 @@ import { FaSearch, FaChevronDown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
 import { useAnalytics } from "../../hook/useAnalytics";
+import { useAuthContext } from "../../hook/useAuthContext";
 import { useAnalyticsContext } from "../../hook/useAnalyticsContext";
 
+
+const MainDashboard = () => {
+  const { getAnalytics, isloaading, error } = useAnalytics();
+  const navigate = useNavigate();
+  const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
+  const { user } = useAuthContext();
+
+  
 //Helper function
 const getResultClass = (score) => {
   if (score <= 1.5) return "result-red";
@@ -19,12 +30,17 @@ const getDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US"); // For US format
 };
+  useEffect(() => {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    setCurrentDate(formattedDate);
+  }, []);
 
-const MainDashboard = () => {
-  const { getAnalytics, isloaading, error } = useAnalytics();
-  const navigate = useNavigate();
-  const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-  const [searchTerm, setSearchTerm] = useState("");
 
   const handleViewResult = (interviewId) => {
     navigate(`/result/${interviewId}`);
@@ -50,8 +66,18 @@ const MainDashboard = () => {
 
   return (
     <Container className="d-flex flex-column">
-      <div className="analytic-container-header">
-        <h4>Analytics</h4>
+      <div className="dashboard-header">
+        {user ? (
+          <>
+            <h3>Hello, {user.name}</h3>
+            <p>Today is {currentDate}</p>
+          </>
+        ) : (
+          <>
+            <h3>Hello, Guest</h3>
+            <p>Today is {currentDate}</p>
+          </>
+        )}
       </div>
 
       <div className="analytics-search-container d-flex mb-4">
