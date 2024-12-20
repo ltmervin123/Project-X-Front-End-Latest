@@ -61,9 +61,10 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const [isGreetingActive, setIsGreetingActive] = useState(false);
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const [answerGreetings, setAnswerGreetings] = useState("");
+  const name = user.name.split(" ")[0];
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
-  const followUpGreeting = `Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`;
+  const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
   const finalGreeting =
     "I hope you are doing great. To start your interview please press the button “Generate Questions.”";
   const API = process.env.REACT_APP_API_URL;
@@ -230,21 +231,20 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
       setCurrentGreetingText(greeting);
 
       await speak(greeting);
-  
+
       setCurrentGreetingText(followUpGreeting);
-  
+
       await speak(followUpGreeting);
-  
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
-  
+
       setCurrentGreetingText(finalGreeting);
-  
+
       await speak(finalGreeting);
-  
+
       setHasSpokenGreeting(true);
       setCurrentGreetingText("");
     }
-
   };
 
   // Speak the question using the backend API

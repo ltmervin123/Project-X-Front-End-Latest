@@ -69,9 +69,10 @@ const VideoRecording = ({
   const [recognizedText, setRecognizedText] = useState(""); // State for recognized speech text
   const [isGreetingActive, setIsGreetingActive] = useState(false);
   const [currentGreetingText, setCurrentGreetingText] = useState("");
+  const name = user.name.split(" ")[0];
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
-  const followUpGreeting = `Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`;
+  const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
   const finalGreeting =
     "I hope you are doing great. To start your interview please press the button “Generate Questions.”";
   // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
