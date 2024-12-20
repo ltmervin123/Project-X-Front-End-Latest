@@ -11,12 +11,9 @@ function Result() {
 
   return (
     <>
-    <Header />
+      <Header />
       <div className="analytics-bg">
-        
-
         <ResultSection interviewId={interviewId} />
-
       </div>
     </>
   );
