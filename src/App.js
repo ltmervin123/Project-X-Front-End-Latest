@@ -11,7 +11,6 @@ import MockLandingPage from "./page/MockLanding.jsx";
 import Login from "./page/LoginPage.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MockInterviewPage from "./page/MockInterviewPage.jsx";
-import MockDashboardPage from "./page/MockDashboardPage.jsx";
 import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
@@ -23,6 +22,7 @@ import AiReferencePage from "./page/AiReferencePage.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 
+import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 
 
 function App() {
@@ -65,11 +65,13 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="/result/:interviewId" element={<Results />} />
           </Route>
-          <Route element={<RequireAuth />}>
-            <Route path="/maindashboard" element={<MockDashboardPage />} />
-          </Route>
+
           <Route element={<RequireAuth />}>
             <Route path="/mockInterview" element={<MockInterviewPage />} />
+          </Route>
+          {/*new dashboard */}
+          <Route element={<RequireAuth />}>
+            <Route path="/maindashboard" element={<MockMainDashboardPage />} />
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="/userprofile" element={<UserProfilePage />} />

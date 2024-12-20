@@ -116,7 +116,7 @@ const VideoRecording = ({
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to start the interview.",
+            intro: 'Click here to "Generate Questions" start the interview.',
           },
           {
             element: "#confirmCloseButton",

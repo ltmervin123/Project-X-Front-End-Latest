@@ -108,7 +108,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
           },
           {
             element: "#startInterviewButton",
-            intro: "Click here to start the interview.",
+            intro: 'Click here to "Generate Questions" start the interview.',
           },
           {
             element: "#confirmCloseButton",
@@ -226,22 +226,25 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
 
   // User introduction
   const userIntroduction = async () => {
-    setCurrentGreetingText(greeting);
+    if (!isIntroShown) {
+      setCurrentGreetingText(greeting);
 
-    await speak(greeting);
+      await speak(greeting);
+  
+      setCurrentGreetingText(followUpGreeting);
+  
+      await speak(followUpGreeting);
+  
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+  
+      setCurrentGreetingText(finalGreeting);
+  
+      await speak(finalGreeting);
+  
+      setHasSpokenGreeting(true);
+      setCurrentGreetingText("");
+    }
 
-    setCurrentGreetingText(followUpGreeting);
-
-    await speak(followUpGreeting);
-
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    setCurrentGreetingText(finalGreeting);
-
-    await speak(finalGreeting);
-
-    setHasSpokenGreeting(true);
-    setCurrentGreetingText("");
   };
 
   // Speak the question using the backend API
