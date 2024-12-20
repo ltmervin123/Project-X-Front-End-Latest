@@ -276,7 +276,6 @@ const VideoRecording = ({
   //
   const startRecording = () => {
     if (streamRef.current) {
-      console.log("Start Recording");
       recordedChunksRef.current = []; // Clear chunks before new recording
 
       // Initialize MediaRecorder with stream
@@ -294,17 +293,10 @@ const VideoRecording = ({
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
-          console.log("Data chunk available:", event.data);
         }
       };
 
       // Event listener to handle stop recording
-      mediaRecorderRef.current.onstop = () => {
-        console.log(
-          "Recording stopped. Collected chunks:",
-          recordedChunksRef.current
-        );
-      };
 
       mediaRecorderRef.current.onerror = (e) => {
         console.error("Recording error:", e);
@@ -334,7 +326,7 @@ const VideoRecording = ({
       if (questionIndex === questions.length - 1 && !isUploading) {
         // Show greeting message
         setShowGreeting(true);
-        const greetingMessage = `Thanks ${user.name}, and I hope you enjoyed your interview with us.`;
+        const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
         speak(greetingMessage); // Speak the greeting message
 
         await createFeedback();

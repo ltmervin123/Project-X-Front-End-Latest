@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/AiReference.css";
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from "react-bootstrap";
 import Header from "../components/AiReferenceDashboard/Header";
 import Sidebar from "../components/AiReferenceDashboard/Sidebar";
 // import Maindashboard from "../components/Analytics/Maindashboard";
@@ -17,10 +17,8 @@ function AiReferencePage() {
               <Maindashboard />
             </Col>
           </Row> */}
-          
         </Container>
       </div>
-
     </>
   );
 }
