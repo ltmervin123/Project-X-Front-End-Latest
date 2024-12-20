@@ -1,9 +1,20 @@
 import React from "react";
 import { useAuthContext } from "../../hook/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 function MainDashboard() {
   const { user } = useAuthContext();
   const username = user ? user.name.split(" ")[0] : "Guest";
+  const navigate = useNavigate();
+
+  const handleResumeBuilderClick = () => {
+    navigate(`/comingsoon`);
+  };
+
+  const handleMockInterviewClick = () => {
+    navigate(`/mockInterview`);
+  };
+
   return (
     <div className="MockMainDashboard-content ">
       <div>
@@ -56,7 +67,10 @@ function MainDashboard() {
             <b>Create a standout resume </b>
             <p>to boost your chances of landing your dream job</p>
           </div>
-          <button className="d-flex justify-content-center align-items-center gap-1">
+          <button
+            className="d-flex justify-content-center align-items-center gap-1"
+            onClick={handleResumeBuilderClick}
+          >
             <svg
               width="18"
               height="18"
@@ -94,7 +108,10 @@ function MainDashboard() {
             <b>Prepare for success </b>
             <p>Ready to ace your interview?, Let’s get started</p>
           </div>
-          <button className="d-flex justify-content-center align-items-center gap-1">
+          <button
+            className="d-flex justify-content-center align-items-center gap-1"
+            onClick={handleMockInterviewClick}
+          >
             Start Mock Interview
           </button>
         </div>
