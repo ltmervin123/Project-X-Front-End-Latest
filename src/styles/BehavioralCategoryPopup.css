@@ -32,19 +32,19 @@
     z-index: 1; /* Ensure card stays above the rectangle */
   }
   
-.square-bg-behavoral-card {
+/* .square-bg-behavoral-card {
     content: "";
     position: absolute;
-    top: 50%; /* Center it vertically */
-    left: -10%; /* Start it from slightly outside */
-    width: 120%; /* Make it wider than the card */
-    height: 40px; /* Match card height */
-    background-color: var(--primary-color); /* Use a default fallback color */
-    border-radius: 20px; /* Optional: Match card's border radius */
-    transform: translateY(-50%); /* Perfect vertical centering */
-    z-index: -1; /* Push behind the card */
+    top: 50%; 
+    left: -10%; 
+    width: 120%; 
+    height: 40px; 
+    background-color: var(--primary-color); 
+    border-radius: 20px; 
+    transform: translateY(-50%);
+    z-index: -1; 
   }
-  
+   */
 .behavioral-title {
     position: absolute;
     bottom: 10px;
