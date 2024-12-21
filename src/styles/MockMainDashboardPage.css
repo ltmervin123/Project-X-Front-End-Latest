@@ -16,8 +16,8 @@
     margin: 0;
     height: 100%;
 }
-.MockMaindashboard-container > .row > .col{
-    padding: 0;
+.MockMaindashboard-container > .row > div{
+    padding: 0 !important;
 }
 /* .MockMaindashboard-container > .row > .sidebar{
     padding: 0;
@@ -33,20 +33,25 @@
     background: var(--font-white);
     border-radius: 50px;
     margin: 0 !important;
-    width: 200px;
+    width: 211px;
+    height: 75px;
 }
 .MockMain-LogoBrand > img{
     height: 60px;
     margin: 0 !important;
 }
-.dropdown-header{
-    border-radius: 50px;
-    background: var(--font-white) !important;
-    border: none;
-    height: 40px;
-    width: 150px;
-    color: var(--primary-color);
+/* Ensure the hover effect only affects the dropdown items */
+.dropdown-header {
+  border-radius: 50px;
+  background: var(--font-white) !important;
+  border: none;
+  height: 40px;
+  color: var(--primary-color) !important;
+  display: flex;
+  align-items: center;
+  padding: 20px;
 }
+
 .dropdown-header >img{
     width: 31px;
     background: var(--avatar-bg);
@@ -57,25 +62,52 @@
     margin: 0;
     font-weight: 700;
 }
-.dropdown-header:hover{
-    color: var(--text-color);
+.dropdown-header:hover > p {
+  color: var(--primary-color); 
 }
 
+.dropdown-item:hover {
+  color: var(--text-color);
+}
+
+.dropdown-toggle:focus, .dropdown-toggle:active {
+  color: var(--primary-color) !important;
+}
+
+.dropdown-toggle:focus > p, .dropdown-toggle:active > p {
+  color: var(--primary-color) !important;
+}
+.dropdown-item.active-link {
+  color: var(--primary-color) !important;
+  border-left: 3px solid var(--primary-color);
+  font-weight: bold;  /* Make the active profile link bold */
+}
+
+.dropdown-header.active > img {
+  border: 2px solid var(--primary-color); /* Optional: add a border to the avatar when profile is active */
+}
+
+.dropdown-header.active > p {
+  color: var(--primary-color);  /* Change text color for the username when profile is active */
+}
 /*Sidebar*/
 
 .MockMain-sidebar{
     background: var(--sidebar-bg);
     padding: 30px 10px 10px 10px;
-    /* width: 250px; */
-    height: 100%;
-}
 
+    position: relative;
+    height: 100%;
+
+}
+.MockSidebar{
+  width: 250px;
+}
 .MockMain-sidebar > a{
-    color: var(--text-color) !important;
     text-decoration: none;
     padding-left: 10px  ;
     border-left: 3px solid var(--sidebar-bg);
-
+    font-size: 15px;
 }
 .MockMain-sidebar > button {
     border: none;
@@ -90,9 +122,9 @@
 }
 
 /*Maindashboard Content*/
-/* .MockMainDashboard-content{
-    padding: 30px;
-} */
+.MockMainDashboard-content{
+    padding: 20px 30px;
+}
 .MockMainDashboard-content h4 {
     font-weight: 500 !important;
 }
@@ -156,24 +188,13 @@
 }
 
 /* Summary */
-.summary-card {
-  width: 100%;
-  border: none !important;
-  color: var(--secondary-color) !important;
-  flex-direction: column;
-  gap: 0px;
-  padding: 10px;
 
-  background-color: transparent !important;
-  position: relative;
-  
-}
 .summary-card-wrapper {
   position: relative;
   min-width: 200px;
   margin-top: 30px;
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
   border: 2px solid var(--primary-color);
   border-radius: 50px !important;
   background: var(--font-white) !important;
@@ -186,7 +207,17 @@
   font-size: 20px;
   height: 5%;
 }
-
+.summary-card {
+  width: 100%;
+  border: none !important;
+  color: var(--secondary-color) !important;
+  flex-direction: column;
+  gap: 0px;
+  padding: 10px;
+  background-color: transparent !important;
+  position: relative;
+  
+}
 .summary-card > .card-text {
   color: var(--secondary-color) !important;
   font-weight: 500;

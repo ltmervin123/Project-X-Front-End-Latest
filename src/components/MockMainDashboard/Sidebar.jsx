@@ -91,8 +91,8 @@ const Sidebar = () => {
         to="/login" // Update this path as per your logout route
         className="sidebarnav"
         onClick={handleLogout}
-      >
-        <FaSignOutAlt className="logout-icon" />
+        >
+        {/* <FaSignOutAlt className="logout-icon" /> */}
         <span>Logout</span>
       </NavLink>
     </div>

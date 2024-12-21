@@ -16,7 +16,7 @@ function MainDashboard() {
   };
 
   return (
-    <div className="MockMainDashboard-content ">
+    <div className="MockMainDashboard-content d-flex flex-column gap-3">
       <div>
         <h4>Welcome to your Dashboard!</h4>
         <span>

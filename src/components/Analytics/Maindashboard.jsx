@@ -65,7 +65,7 @@ const getDate = (dateString) => {
   });
 
   return (
-    <Container className="d-flex flex-column">
+    <Container className="d-flex flex-column MockMainDashboard-content">
       <div className="dashboard-header">
         {user ? (
           <>
