@@ -13,9 +13,13 @@ function Header() {
   const handleLogout = () => {
     logout();
   };
+  const username = user ? user.name.split(" ")[0]: "";
 
   return (
-    <Navbar expand="lg" className="MockMain-Header d-flex align-items-center justify-content-between">
+    <Navbar
+      expand="lg"
+      className="MockMain-Header d-flex align-items-center justify-content-between"
+    >
       <Navbar.Brand
         href="/maindashboard"
         className="d-flex align-items-center justify-content-center MockMain-LogoBrand"
@@ -34,7 +38,7 @@ function Header() {
               {/* Conditional rendering of the username */}
               {user ? (
                 <>
-                  <p className="user-name">{user.name}</p>
+                  <p className="user-name">{username}</p>
                 </>
               ) : (
                 <div>Guest</div>

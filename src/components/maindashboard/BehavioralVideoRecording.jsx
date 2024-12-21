@@ -60,9 +60,10 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   const [recognizedText, setRecognizedText] = useState(""); // State for recognized speech text
   const [isGreetingActive, setIsGreetingActive] = useState(false);
   const [currentGreetingText, setCurrentGreetingText] = useState("");
+  const name = user.name.split(" ")[0];
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
-  const followUpGreeting = `Hi ${user.name}, my name is Steve. Thanks for attending the interview. How are you today?`;
+  const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
   const finalGreeting =
     "I hope you are doing great. To start your interview please press the button “Start Interview.”";
   const API = process.env.REACT_APP_API_URL;
@@ -290,7 +291,6 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
   //
   const startRecording = () => {
     if (streamRef.current) {
-      console.log("Start Recording");
       recordedChunksRef.current = []; // Clear chunks before new recording
 
       // Initialize MediaRecorder with stream
@@ -308,16 +308,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       mediaRecorderRef.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunksRef.current.push(event.data);
-          console.log("Data chunk available:", event.data);
         }
-      };
-
-      // Event listener to handle stop recording
-      mediaRecorderRef.current.onstop = () => {
-        console.log(
-          "Recording stopped. Collected chunks:",
-          recordedChunksRef.current
-        );
       };
 
       mediaRecorderRef.current.onerror = (e) => {
@@ -347,7 +338,7 @@ const BehavioralVideoRecording = ({ onClose, interviewType, category }) => {
       if (questionIndex === questions.length - 1 && !isUploading) {
         // Show greeting message
         setShowGreeting(true);
-        const greetingMessage = `Thanks ${user.name}, and I hope you enjoyed your interview with us.`;
+        const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
         speak(greetingMessage); // Speak the greeting message
 
         // // Delay showing the success popup
