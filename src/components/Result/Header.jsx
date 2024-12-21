@@ -1,7 +1,7 @@
 // src/components/MockMainDashboard/Header.js
 import React from "react";
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import defaultAvatar from "../../assets/default.png";
 import logo from "../../assets/LogoBrand.png"; // Adjust the path to your logo image
 import { useLogout } from "../../hook/useLogout";
@@ -32,16 +32,17 @@ function Header() {
                 alt="User Avatar"
               />
               {/* Conditional rendering of the username */}
-            {user ? (
-              <>
-                <p className="user-name">{user.name}</p>
-              </>
-            ) : (
-              <div>Guest</div>
-            )}
+              {user ? (
+                <>
+                  <p className="user-name">{user.name}</p>
+                </>
+              ) : (
+                <div>Guest</div>
+              )}
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            {/* Align the dropdown menu to the right */}
+            <Dropdown.Menu className="dropdown-menu-end">
               {/* Conditionally applying the active class to Dropdown.Item based on current location */}
               <Dropdown.Item
                 as={NavLink}
