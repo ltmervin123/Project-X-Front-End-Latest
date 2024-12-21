@@ -81,17 +81,17 @@ function App() {
         </Route>
 
         {/*Ai Reference */}
-          <Route element={<RequireAuth />}>
+          {/* <Route element={<RequireAuth />}> */}
             <Route path="/AiReference" element={<AiReferenceMainDashboardPage />} />
-          </Route>
+          {/* </Route> */}
 
-          <Route element={<RequireAuth />}>
+          {/* <Route element={<RequireAuth />}> */}
             <Route path="/AiReferenceChecker" element={<AiRefereneCheckerPage />} />
-          </Route>
+          {/* </Route> */}
 
-          <Route element={<RequireAuth />}>
+          {/* <Route element={<RequireAuth />}> */}
             <Route path="/AiReferenceReport" element={<AiReferenceReportPage />} />
-          </Route>
+          {/* </Route> */}
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

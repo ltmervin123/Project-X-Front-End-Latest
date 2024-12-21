@@ -56,13 +56,18 @@ body {
 
 
 /* Header */
+.landing-header{
+    padding: 0px 5%;
+}
 .logoname {
     font-family: Roboto;
     font-size: 25px;
     font-weight: 1000;
-    line-height: 2px;
-    padding-top: 10px;
+    line-height: 0px;
+    padding-top: 20px;
     display: flex;
+    position: relative;
+    bottom: -5px;
 }
 
 .logocolor {
@@ -203,6 +208,7 @@ h2>.quote {
 .content-mock-interview-container, .content-bundle-mock {
     height: 500px;
     position: relative;
+    margin-top: 20px;
 }
 
 .mock-content-bg , .bundle-mock-bg{
@@ -219,12 +225,13 @@ h2>.quote {
     font-size: 22px;
 }
 
-.mock-content-bg>img {
+.mock-content-bg > img {
     position: absolute;
     z-index: 1;
     right: 0;
     top: -90px;
-    height: 180%;
+    min-height: 400px;
+    height: 100%;
 }
 
 .overlayed-icons {
@@ -296,7 +303,7 @@ h2>.quote {
 .bundle-avatar > svg {
     position: absolute;
     z-index: -1; /* Keep SVG behind the image */
-    top: 100px;
+    top: 120px;
     height: 60%; /* Adjust height for better fit */
     right: -20px; /* Align SVG to the right as well */
 }
@@ -305,7 +312,7 @@ h2>.quote {
     position: relative; /* Keep image relative to its container */
     height: 550px; /* Set height to auto for responsiveness */
     max-height: 50%; /* Ensure it doesn't overflow */
-    bottom: 0; /* Align to the bottom */
+    bottom: -20px; /* Align to the bottom */
     right: 40px;
 }
 .bundle-bg2{

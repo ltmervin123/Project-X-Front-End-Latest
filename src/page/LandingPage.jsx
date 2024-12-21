@@ -17,8 +17,6 @@ const LandingPage = () => {
             <div className='main-container'>
                 <Header />
                 <HeroSection />
-
-
                 <MockInterviewSection />
                 <BundleMockInterviewSection />
                 <PremiumPackageSection />
