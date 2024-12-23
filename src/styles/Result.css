@@ -7,20 +7,20 @@
   --font-black: #000;
 }
 
-
-
 .analytics-bg {
-  background-color: var(--input-bg);
+  background: url("../assets/image.png");
+  background-size: cover;
   min-height: 100vh;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.result-container{
+.result-container {
   background: var(--font-white);
   border-radius: 10px;
   padding: 20px;
+  margin-top: 10vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .result-main-container {
@@ -50,8 +50,10 @@
   overflow-y: auto;
   height: 100%;
 }
-.interview-data{
-  height: 90%;
+.interview-data {
+  height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 .score-section {
   display: flex;
@@ -110,17 +112,19 @@
   color: #009900; /* Dark green */
 }
 
-
+.question-navigation{
+  height: 10%;
+}
 .question-navigation > .prev , .question-navigation > .next{
   color: var(--primary-color);
   font-weight: 700;
   font-size: 25px;
 }
-.question-navigation > h4{
+.question-navigation > h4 {
   font-size: 30px;
   margin: 0;
 }
-.result-container > .row > div{
+.result-container > .row > div {
   margin-top: 20px;
 }
 .btn:hover {
@@ -128,7 +132,7 @@
 }
 
 .btnReturnAnalytics {
-  background-color: var(--secondary-color);
+  background-color: var(--input-bg);
   color: var(--font-white);
   border: none;
   border-radius: 50px;

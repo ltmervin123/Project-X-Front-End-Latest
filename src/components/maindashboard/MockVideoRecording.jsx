@@ -81,49 +81,48 @@ const VideoRecording = ({
   const popupGuide = () => {
     introJs()
       .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click here to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-          {
-            element: "#talkingAvatar",
-            intro: "Talking Avatar.",
-          },
-          {
-            element: "#startInterviewButton",
-            intro: 'Click here to "Start Interview" start the interview.',
-          },
-          {
-            element: "#confirmCloseButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
-          },
-        ],
+        steps: 
+          [
+            {
+              "intro": "Welcome to the Video Recording Interface!"
+            },
+            {
+              "element": "#videoArea",
+              "intro": "This is where you will see yourself while recording."
+            },
+            {
+              "element": "#startButton",
+              "intro": "Click this button to start recording your responses."
+            },
+            {
+              "element": "#muteButton",
+              "intro": "Use this button to mute or unmute your microphone."
+            },
+            {
+              "element": "#cameraButton",
+              "intro": "Toggle your camera on or off using this button."
+            },
+            {
+              "element": "#timer",
+              "intro": "This timer shows the time remaining for your response."
+            },
+            {
+              "element": "#tipsContainer",
+              "intro": "Here are some tips to help you perform better in your interview."
+            },
+            {
+              "element": "#talkingAvatar",
+              "intro": "This is the talking avatar that guides you during the interview."
+            },
+            {
+              "element": "#startInterviewButton",
+              "intro": "Click this button to start the interview."
+            },
+            {
+              "element": "#confirmCloseButton",
+              "intro": "Click this button to cancel the interview if you wish to stop."
+            }
+          ]
       })
       .start();
   };

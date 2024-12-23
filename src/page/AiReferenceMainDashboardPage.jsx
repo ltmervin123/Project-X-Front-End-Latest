@@ -7,7 +7,7 @@ import Maindashboard from "../components/AiReferenceDashboard/Maindashboard";
 function AiReferenceMainDashboardPage() {
   return (
     <>
-      <div className="d-flex ">
+      <div className="d-flex AiReferecenceContent">
         <Sidebar />
         <Container className="flex-grow-1 AiReferencebg">
           <Row>

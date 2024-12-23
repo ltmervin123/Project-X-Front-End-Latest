@@ -3,7 +3,7 @@ import React from "react";
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import defaultAvatar from "../../assets/default.png";
-import logo from "../../assets/LogoBrand.png"; // Adjust the path to your logo image
+import logo from "../../assets/logo.png"; // Adjust the path to your logo image
 import { useLogout } from "../../hook/useLogout";
 import { useAuthContext } from "../../hook/useAuthContext";
 
@@ -22,9 +22,18 @@ function Header() {
     >
       <Navbar.Brand
         href="/maindashboard"
-        className="d-flex align-items-center justify-content-center MockMain-LogoBrand"
+        className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
-        <img src={logo} alt="Logo" className="me-2" />
+            <img
+              src={logo}
+              alt="Logo"
+              width="50"
+              height="50"
+            />
+            <div>
+              <div className="logoname1">HR-<div className='logocolor'>HATCH</div></div>
+              <small className="sublogoname1">THE TECH BEHIND THE TALENT.</small>
+            </div>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="UserNameNav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">

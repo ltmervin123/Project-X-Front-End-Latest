@@ -1,19 +1,27 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { useLocation } from "react-router-dom"; // To track the current path
-import logo from "../../assets/LogoBrand.png";
+import logo from "../../assets/logo.png";
 
 const Sidebar = () => {
   const location = useLocation(); // Get the current location (path)
 
   return (
-    <Navbar expand="lg" className="ai-reference-sidebar-container flex-column">
+    <Navbar className="ai-reference-sidebar-container flex-column">
       <Navbar.Brand
         href="/maindashboard"
-        className="d-flex align-items-center mb-3 logo-brand"
-      >
-        <img src={logo} alt="Logo" width="80" height="80" className="LogoBrand" />
-      </Navbar.Brand>
+        className="d-flex align-items-center mb-3 gap-2 ">
+            <img
+              src={logo}
+              alt="Logo"
+              width="80"
+              height="80"
+            />
+            <div>
+              <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
+              <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
+            </div>      
+        </Navbar.Brand>
 
       <Nav className="flex-column justify-content-start ai-reference-sidebar">
         <Nav.Link

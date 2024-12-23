@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { React, useCallback, useState, useEffect, useRef } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import "intro.js/introjs.css";
@@ -73,49 +75,48 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
   const popupGuide = () => {
     introJs()
       .setOptions({
-        steps: [
+        steps: 
+        [
           {
-            intro: "Welcome to the Video Recording Interface!",
+            "intro": "Welcome to the Video Recording Interface!"
           },
           {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
+            "element": "#videoArea",
+            "intro": "This is where you will see yourself while recording."
           },
           {
-            element: "#startButton",
-            intro: "Click here to start recording your responses.",
+            "element": "#startButton",
+            "intro": "Click this button to start recording your responses."
           },
           {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
+            "element": "#muteButton",
+            "intro": "Use this button to mute or unmute your microphone."
           },
           {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
+            "element": "#cameraButton",
+            "intro": "Toggle your camera on or off using this button."
           },
           {
-            element: "#timer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
+            "element": "#timer",
+            "intro": "This timer shows the time remaining for your response."
           },
           {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
+            "element": "#tipsContainer",
+            "intro": "Here are some tips to help you perform better in your interview."
           },
           {
-            element: "#talkingAvatar",
-            intro: "Talking Avatar.",
+            "element": "#talkingAvatar",
+            "intro": "This is the talking avatar that guides you during the interview."
           },
           {
-            element: "#startInterviewButton",
-            intro: 'Click here to "Start Interview" start the interview.',
+            "element": "#startInterviewButton",
+            "intro": "Click this button to start the interview."
           },
           {
-            element: "#confirmCloseButton",
-            intro: "Click here to cancel the interview if you wish to stop.",
-          },
-        ],
+            "element": "#confirmCloseButton",
+            "intro": "Click this button to cancel the interview if you wish to stop."
+          }
+        ]
       })
       .start();
   };
@@ -606,7 +607,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                   >
                     {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
                     {isUploading ? (
-                      <Spinner></Spinner>
+                      <Spinner className="pause-indicator-spinner"></Spinner>
                     ) : isRecording ? (
                       <FaPause size={30} />
                     ) : (
@@ -678,7 +679,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                     <p>
                       We will start with a few questions. Please be prepared.
                     </p>
-                    <div className="d-flex justify-content-center w-100">
+                    <div className="d-flex justify-content-center gap-2 w-100">
                       <Button
                         id="startInterviewButton"
                         className="btn-startinterview d-flex align-items-center"
