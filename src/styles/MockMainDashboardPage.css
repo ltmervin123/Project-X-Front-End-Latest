@@ -10,9 +10,10 @@
 .MockMaindashboard-container{
     padding: 0 !important;  
     width: 100%;
-    height: 80vh;
-    margin-top: 12vh; /* Adjust based on your header's height */
+    min-height: 80vh;
+    margin-top: 12vh;
     padding: 20px;
+    overflow-x: hidden;
 }
 .MockMaindashboard-container > .row{
     margin: 0;
@@ -124,10 +125,12 @@
   top: 60px; /* Adjust this based on your header's height */
   left: 0;
   background: var(--sidebar-bg);
-  padding: 8vh 40px 10px 10px;
+  padding: 8vh 0px 10px 10px;
   height: calc(100vh - 60px); /* Full height minus header */
   overflow-y: auto; /* Add scrolling if content overflows */
   z-index: 999;
+  width: 230px;
+  transition: all 0.3s ease;
 }
 /* .MockSidebar{
   width: 250px;
@@ -152,7 +155,8 @@
 
 /*Maindashboard Content*/
 .MockMainDashboard-content{
-    padding: 10px 40px;
+    padding: 10px 20px;
+    width: 100%;
 }
 .MockMainDashboard-content h4 {
     font-weight: 500 !important;
@@ -169,9 +173,12 @@
 }
 .MockGuide-container > div{
     width: 100%;
-    height: 100px;
-    padding: 5px 40px;
+    min-height: 100px;
+    padding: 15px 20px;
     border-radius: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     border: 2px solid var(--primary-color);
 }
 .MockGuide-container > div > svg {
@@ -182,7 +189,7 @@
 }
 .MockGuide-container > div > div {
     color: var(--primary-color);
-    width: 70%;
+    width: 55%;
 }
 .MockGuide-container > div > div > p{
     margin: 0 !important;
@@ -194,7 +201,9 @@
     border: none;
     color: var(--font-white);
     height: 35px;
-    width: 220px;
+    width: auto;
+    min-width: 180px;
+    padding: 0 20px;
 }
 .MockGuide-container >svg{
     width: 80%;
@@ -206,10 +215,13 @@
 }
 .MockVideo-container >video{
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
 }
 .MockVideo-container> button{
     background: var(--primary-color);
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     height: 55px;
     border-radius: 50px;
     color: var(--font-white);
@@ -222,12 +234,13 @@
   position: relative;
   /* min-width: 200px; */
   margin-top: 1vh;
-  width: 80%;
-  /* max-width: 280px; */
+  width: 90%;
+  max-width: 350px;
   border: 2px solid var(--primary-color);
   border-radius: 50px !important;
   background: var(--font-white) !important;
-  height: 90vh;
+  height: auto;
+  min-height: 80vh;
 }
 
 .summary-card {
@@ -416,4 +429,87 @@
     bottom: 0px !important;
     z-index: 2; /* Ensure this is above the SVG */ 
 
+}
+
+/* Add media queries for different screen sizes */
+@media (max-width: 768px) {
+    .MockMaindashboard-container {
+        margin-top: 10vh;
+    }
+
+    /* Collapse sidebar on mobile */
+    .MockMain-sidebar {
+        transform: translateX(-100%);
+        width: 200px;
+    }
+
+    .MockMain-sidebar.active {
+        transform: translateX(0);
+    }
+
+    /* Adjust columns for mobile */
+    .MockMaindashboard-container > .row > div[class*='col-'] {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    /* Adjust guide container for mobile */
+    .MockGuide-container > div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .MockGuide-container > div > svg {
+        width: 40px;
+    }
+
+    /* Center text content on mobile */
+    .MockMainDashboard-content h4,
+    .MockMainDashboard-content span,
+    .MockMainDashboard-content i {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .MockMain-LogoBrand {
+        width: auto;
+    }
+
+    .activity-results-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .activity-container,
+    .results-container {
+        width: 100%;
+    }
+
+    .subcription-reminder > .reminder-note {
+        font-size: 9px !important;
+    }
+}
+
+/* Add a hamburger menu button for mobile */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 10px;
+    z-index: 1000;
+    background: var(--primary-color);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
 }
