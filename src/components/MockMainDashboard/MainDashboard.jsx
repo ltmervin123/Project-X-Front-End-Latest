@@ -16,7 +16,7 @@ function MainDashboard() {
   };
 
   return (
-    <div className="MockMainDashboard-content d-flex flex-column gap-3">
+    <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
         <h4>Welcome to your Dashboard!</h4>
         <span>
@@ -126,7 +126,7 @@ function MainDashboard() {
         </svg>
       </div>
       <div className="MockVideo-container d-flex flex-column align-items-center">
-        <p>"Unsure how it works? Check out the video below."</p>
+        <i>"Unsure how it works? Check out the video below."</i>
         <video width="80%" controls>
           <source src="path-to-your-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.

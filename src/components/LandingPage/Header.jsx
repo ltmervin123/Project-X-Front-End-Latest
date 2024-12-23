@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <div className="landingHeader">
       <Navbar>
-        <Container className="d-flex justify-content-between align-items-center ">
+        <div className="d-flex justify-content-between align-items-center landing-header w-100">
           <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
             <img
               src={logo}
@@ -43,7 +43,7 @@ const Header = () => {
               <a href="/login" className="btn-signup">Signin</a>
             </div>
           </div>
-        </Container>
+        </div>
       </Navbar>
     </div>
 
