@@ -7,14 +7,17 @@ function ComingSoonPage() {
         <>
             <div className="coming-soon-container">
                 <div className="comming-soon-main-content gap-3">
-                    <div className='d-flex align-items-center  logo-brand'>
-                        <img src={logo} alt="Logo" width="60" height="60" className="me-2" />
-                        <div>
-                            <div className="logoname">
-                                HR-<div className="logocolor">HATCH</div>{" "}
-                            </div>{" "}
-                            <small className="sublogoname">The Tech Behind Talent.</small>
-                        </div>
+                    <div className='d-flex align-items-center mb-3 gap-2 '>
+                    <img
+                    src={logo}
+                    alt="Logo"
+                    width="80"
+                    height="80"
+                    />
+                    <div>
+                    <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
+                    <small className="sublogoname2">THE TECH BEHIND THE TALENT.</small>
+                    </div>
                     </div>
                     <h4>Coming Soon : HR-HATCH AI PRODUCTS </h4>
                     <p>We're working on something exciting! Sign up to be the first to know when we launch our new suite of AI Products.</p>

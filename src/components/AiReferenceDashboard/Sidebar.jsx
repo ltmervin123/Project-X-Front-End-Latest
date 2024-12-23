@@ -7,7 +7,7 @@ const Sidebar = () => {
   const location = useLocation(); // Get the current location (path)
 
   return (
-    <Navbar expand="lg" className="ai-reference-sidebar-container flex-column">
+    <Navbar className="ai-reference-sidebar-container flex-column">
       <Navbar.Brand
         href="/maindashboard"
         className="d-flex align-items-center mb-3 gap-2 ">
@@ -20,7 +20,8 @@ const Sidebar = () => {
             <div>
               <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
               <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
-            </div>      </Navbar.Brand>
+            </div>      
+        </Navbar.Brand>
 
       <Nav className="flex-column justify-content-start ai-reference-sidebar">
         <Nav.Link

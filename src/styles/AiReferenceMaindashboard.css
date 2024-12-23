@@ -8,6 +8,10 @@
     --sidebar-bg: #F2F3F7;
     
 }
+.AiReferecenceContent{
+    height: 100vh !important;
+    background: var(--primary-color);
+}
 /*Ai Reference BG*/
 .AiReferencebg{
     background: url("../assets/image.png");
@@ -22,7 +26,7 @@
 }
 .ai-reference-sidebar-container{
     width: 355px;
-    height: 100vh;
+    /* height: 100vh; */
     background: var(--sidebar-bg) !important;
     padding: 30px !important;
 }

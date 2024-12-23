@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { React, useCallback, useState, useEffect, useRef } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import "intro.js/introjs.css";
@@ -677,7 +679,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                     <p>
                       We will start with a few questions. Please be prepared.
                     </p>
-                    <div className="d-flex justify-content-center w-100">
+                    <div className="d-flex justify-content-center gap-2 w-100">
                       <Button
                         id="startInterviewButton"
                         className="btn-startinterview d-flex align-items-center"

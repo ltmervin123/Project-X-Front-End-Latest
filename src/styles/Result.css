@@ -10,7 +10,8 @@
 
 
 .analytics-bg {
-  background-color: var(--input-bg);
+  background: url("../assets/image.png");
+  background-size: cover;
   min-height: 100vh;
   padding-top: 20px;
   display: flex;
@@ -21,6 +22,7 @@
   background: var(--font-white);
   border-radius: 10px;
   padding: 20px;
+  margin-top: 10vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .result-main-container {
@@ -51,7 +53,9 @@
   height: 100%;
 }
 .interview-data{
-  height: 90%;
+  height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 .score-section {
   display: flex;
