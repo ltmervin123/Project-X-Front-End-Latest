@@ -607,7 +607,7 @@ const BasicVideoRecording = ({ onClose, interviewType, category }) => {
                   >
                     {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
                     {isUploading ? (
-                      <Spinner></Spinner>
+                      <Spinner className="pause-indicator-spinner"></Spinner>
                     ) : isRecording ? (
                       <FaPause size={30} />
                     ) : (

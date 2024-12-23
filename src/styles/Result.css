@@ -112,8 +112,10 @@
   color: #009900; /* Dark green */
 }
 
-.question-navigation > .prev,
-.question-navigation > .next {
+.question-navigation{
+  height: 10%;
+}
+.question-navigation > .prev , .question-navigation > .next{
   color: var(--primary-color);
   font-weight: 700;
   font-size: 25px;
@@ -130,7 +132,7 @@
 }
 
 .btnReturnAnalytics {
-  background-color: var(--secondary-color);
+  background-color: var(--input-bg);
   color: var(--font-white);
   border: none;
   border-radius: 50px;
