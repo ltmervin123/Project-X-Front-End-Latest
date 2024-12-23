@@ -507,6 +507,12 @@
     position: relative;
     bottom: 0;
 }
+.pause-indicator-spinner{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: 3px;
+}
 .btn-startinterview{
   background: var(--primary-color) !important;
   color: var(--font-white) !important;
