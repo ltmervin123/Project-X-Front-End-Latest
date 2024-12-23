@@ -10,7 +10,7 @@ const ResultSection = ({ interviewId }) => {
 
   // Find the specific interview details based on the provided interviewId
   const interviewDetails = analytics.find((item) => item._id === interviewId);
-  console.log(interviewDetails);
+
   const question = interviewDetails.interviewDetails[0].question;
   const answer = interviewDetails.interviewDetails[0].answer;
   const feedback = interviewDetails.feedback;
@@ -90,6 +90,9 @@ const ResultSection = ({ interviewId }) => {
       const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation
 
       if (fillerWords.includes(lowerWord)) {
+        if(lowerWord === "gonna"){
+          console.log(fillerWords.includes(lowerWord));
+        }
         return (
           <span key={index} className="filler-red">
             {word}
