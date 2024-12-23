@@ -201,8 +201,7 @@
     border: none;
     color: var(--font-white);
     height: 35px;
-    width: auto;
-    min-width: 180px;
+    width: 200px;
     padding: 0 20px;
 }
 .MockGuide-container >svg{
