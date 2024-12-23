@@ -168,13 +168,14 @@ const ResultSection = ({ interviewId }) => {
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="rating-name">Filler Count</p>
+                {/* Display the prevous interview filler count */}
                 <p
                   className={getResultClass(
-                    overallFeedback.fillerCount || 0,
+                    overallFeedback.fillers || 0,
                     "fillerCount"
                   )}
                 >
-                  {overallFeedback.fillers || 0}
+                  {overallFeedback.fillers || overallFeedback.fillerCount}
                 </p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
