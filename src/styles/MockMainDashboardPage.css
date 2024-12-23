@@ -124,7 +124,7 @@
   top: 60px; /* Adjust this based on your header's height */
   left: 0;
   background: var(--sidebar-bg);
-  padding: 8vh 20px 10px 10px;
+  padding: 8vh 40px 10px 10px;
   height: calc(100vh - 60px); /* Full height minus header */
   overflow-y: auto; /* Add scrolling if content overflows */
   z-index: 999;
@@ -152,7 +152,7 @@
 
 /*Maindashboard Content*/
 .MockMainDashboard-content{
-    margin: 10px 40px;
+    padding: 10px 40px;
 }
 .MockMainDashboard-content h4 {
     font-weight: 500 !important;
