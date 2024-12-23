@@ -7,22 +7,20 @@ import MainDashboard from "../components/MockMainDashboard/MainDashboard";
 import Summary from "../components/MockMainDashboard/Summary";
 import { Container, Row, Col } from "react-bootstrap";
 
+// MockMainDashboardPage.js
 function MockMainDashboardPage() {
   return (
     <>
       <Header />
       <div className="MockMaindashboard-container">
-        <Row>
-          {/* Sidebar (3/12 width) */}
-          <Col  md={2} className="p-0 MockSidebar">
+        <Row className="h-100">
+          <Col md={2} className="p-0 MockSidebar">
             <Sidebar />
           </Col>
-          {/* Main Dashboard (7/12 width) */}
-          <Col md={7} className="p-3">
+          <Col md={7} className="d-flex flex-column">
             <MainDashboard />
           </Col>
-          {/* Summary (3/12 width) */}
-          <Col className="p-3">
+          <Col md={3} className="d-flex justify-content-center">
             <Summary />
           </Col>
         </Row>

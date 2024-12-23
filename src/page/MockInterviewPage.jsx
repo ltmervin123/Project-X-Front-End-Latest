@@ -17,7 +17,7 @@ function MaindashboardPage() {
               <Sidebar />
             </Col>
             {/* Main content area with 9/12 width */}
-            <Col md={9} className="p-3">
+            <Col md={10} className="p-3">
               <MainDashboard />
             </Col>
           </Row>

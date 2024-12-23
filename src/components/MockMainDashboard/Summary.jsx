@@ -85,8 +85,8 @@ const Summary = () => {
               <div className="warning">!</div>
               <p className="sub-reminder-text">Subscription Reminder</p>
               <p className="reminder-note">
-                Your subscription is valid for 10 days. Be sure to make the most
-                of it!
+              You have 1 free usage available. 
+              Make the most of it!
               </p>
             </div>
           </div>

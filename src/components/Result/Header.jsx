@@ -22,17 +22,17 @@ function Header() {
     >
       <Navbar.Brand
         href="/maindashboard"
-        className="d-flex align-items-center justify-content-center gap-2 MockMain-LogoBrand"
+        className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
             <img
               src={logo}
               alt="Logo"
-              width="80"
-              height="80"
+              width="50"
+              height="50"
             />
             <div>
-              <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
-              <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
+              <div className="logoname1">HR-<div className='logocolor'>HATCH</div></div>
+              <small className="sublogoname1">THE TECH BEHIND THE TALENT.</small>
             </div>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="UserNameNav" />

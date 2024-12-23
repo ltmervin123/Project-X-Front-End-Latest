@@ -11,7 +11,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="MockMain-sidebar d-flex flex-column gap-3">
+    <div className="MockMain-sidebar d-flex flex-column gap-4">
       <NavLink
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
