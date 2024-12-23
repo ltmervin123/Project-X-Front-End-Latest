@@ -83,23 +83,27 @@ const ResultSection = ({ interviewId }) => {
       "I mean, honestly",
     ]
   ).map((word) => word.toLowerCase());
-
+  console.log(fillerWords);
   const highlightFillerWords = (text) => {
-    const words = text.split(" "); // Split text into words
-    return words.map((word, index) => {
-      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation
+    // Split text into words
+    const words = text.split(" ");
 
+    return words.map((word, index) => {
+      // Remove punctuation for comparison (but leave it in the word for display)
+      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation for checking against fillerWords
+
+      // Check if the cleaned word is in the fillerWords list
       if (fillerWords.includes(lowerWord)) {
-        if(lowerWord === "gonna"){
-          console.log(fillerWords.includes(lowerWord));
-        }
+        console.log(word);
         return (
           <span key={index} className="filler-red">
-            {word}
+            {word} {/* Render the word with punctuation intact */}
           </span>
         );
       }
-      return <span key={index}>{word} </span>;
+      word += " ";
+      // For non-filler words, just render the word (including punctuation)
+      return <span key={index}>{word}</span>;
     });
   };
 
