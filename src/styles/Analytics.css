@@ -43,8 +43,9 @@
   border-radius: 50px;
   border: 2px solid var(--primary-color);
   position: relative;
-  height: 70vh; /* Adjust height as necessary */
+  height: 40vh; /* Adjust height as necessary */
   overflow: auto; /* Allow scrolling */
+  right: 0;
 }
 
 .table-responsive {

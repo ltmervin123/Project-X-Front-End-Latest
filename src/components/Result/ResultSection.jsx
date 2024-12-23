@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import "../../styles/Analytics.css";
+import "../../styles/Result.css";
 import { useNavigate } from "react-router-dom";
 
 const ResultSection = ({ interviewId }) => {
@@ -136,9 +136,9 @@ const ResultSection = ({ interviewId }) => {
   };
 
   return interviewDetails ? (
-    <Container className="result-container shadow-sm p-3 ">
-      <Row>
-        <Col md={4}>
+    <Container className="result-container shadow-sm d-flex flex-column align-items-center">
+      <Row className="w-100">
+        <Col md={4} xs={12} >
           <Card className="interview-result-container d-flex align-items-center">
             <h4>Interview Result</h4>
             <div className="score-section">
@@ -189,7 +189,7 @@ const ResultSection = ({ interviewId }) => {
           </Card>
         </Col>
 
-        <Col md={8}>
+        <Col md={8} xs={12}>
           <Card className="interview-container p-4 position-relative">
             <h4>
               Question {currentIndex + 1} of {question.length}
@@ -235,17 +235,11 @@ const ResultSection = ({ interviewId }) => {
             </div>
           </Card>
         </Col>
-        <div className="w-100 d-flex justify-content-center gap-3">
-          <button
-            className="btn btn-secondary btnPractice"
-            onClick={handlePractice}
-          >
+        <div className="w-100 d-flex justify-content-center gap-3 button-container">
+          <button className="btn btnPractice" onClick={handlePractice}>
             Practice Again
           </button>
-          <button
-            className="btn btn-secondary btnReturnAnalytics"
-            onClick={handleReturn}
-          >
+          <button className="btn btnReturnAnalytics" onClick={handleReturn}>
             Back to analytics
           </button>
         </div>
