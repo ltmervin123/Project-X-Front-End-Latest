@@ -9,8 +9,8 @@ const Footer = () => {
         <div className="bg-boxbehind-left"></div>
         <div className="bg-boxbehind-right"></div>
         <div className="container p-4 d-flex align-items-center justify-content-center">
-          <div className="row d-flex align-items-start jsutify-content-start ">
-            <div className="col-lg-3 col-md-4  footer-logo d-flex align-items-center  flex-column">
+          <div className="row d-flex align-items-start jsutify-content-start w-100">
+            <div className="col-lg-3 col-md-4  footer-logo d-flex align-items-center justify-content-center flex-column">
               <img src={logo} alt="Logo" />
               <div>
                 <div className="logoname">
@@ -21,7 +21,7 @@ const Footer = () => {
                 </small>
               </div>
             </div>
-            <div className="col-lg-2 col-md-4 ">
+            <div className="col-lg-3 col-md-4 ">
               <h5>SERVICES</h5>
 
               <ul className="list-unstyled ">
@@ -47,7 +47,7 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-lg-2 col-md-4 ">
+            <div className="col-lg-3 col-md-4 ">
               <h5>LEARN</h5>
 
               <ul className="list-unstyled">
@@ -73,7 +73,7 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-lg-2 col-md-4 ">
+            <div className="col-lg-3 col-md-4 ">
               <h5>RESOURCES</h5>
 
               <ul className="list-unstyled">
@@ -99,17 +99,11 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-lg-3 col-md-4  footer-partner-logo d-flex align-items-center justify-content-center ">
-              <img
-                src={ExclusivePartner}
-                alt="Exclusive Partner Logo"
-                className="img-partner"
-              />
-            </div>
           </div>
         </div>
       </div>
     </footer>
+    
   );
 };
 
