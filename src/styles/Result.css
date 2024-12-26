@@ -147,11 +147,11 @@
   font-weight: 700;
   font-size: 25px;
 }
-.question-navigation > h4{
+.question-navigation > h4 {
   font-size: 30px;
   margin: 0;
 }
-.result-container > .row > div{
+.result-container > .row > div {
   margin-top: 20px;
 }
 .btn:hover {

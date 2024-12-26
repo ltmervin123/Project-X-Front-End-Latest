@@ -10,7 +10,7 @@ const ResultSection = ({ interviewId }) => {
 
   // Find the specific interview details based on the provided interviewId
   const interviewDetails = analytics.find((item) => item._id === interviewId);
-  console.log(interviewDetails);
+
   const question = interviewDetails.interviewDetails[0].question;
   const answer = interviewDetails.interviewDetails[0].answer;
   const feedback = interviewDetails.feedback;
@@ -83,20 +83,27 @@ const ResultSection = ({ interviewId }) => {
       "I mean, honestly",
     ]
   ).map((word) => word.toLowerCase());
-
+  console.log(fillerWords);
   const highlightFillerWords = (text) => {
-    const words = text.split(" "); // Split text into words
-    return words.map((word, index) => {
-      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation
+    // Split text into words
+    const words = text.split(" ");
 
+    return words.map((word, index) => {
+      // Remove punctuation for comparison (but leave it in the word for display)
+      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation for checking against fillerWords
+
+      // Check if the cleaned word is in the fillerWords list
       if (fillerWords.includes(lowerWord)) {
+        console.log(word);
         return (
           <span key={index} className="filler-red">
-            {word}
+            {word} {/* Render the word with punctuation intact */}
           </span>
         );
       }
-      return <span key={index}>{word} </span>;
+      word += " ";
+      // For non-filler words, just render the word (including punctuation)
+      return <span key={index}>{word}</span>;
     });
   };
 
@@ -168,13 +175,14 @@ const ResultSection = ({ interviewId }) => {
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <p className="rating-name">Filler Count</p>
+                {/* Display the prevous interview filler count */}
                 <p
                   className={getResultClass(
-                    overallFeedback.fillerCount || 0,
+                    overallFeedback.fillers || 0,
                     "fillerCount"
                   )}
                 >
-                  {overallFeedback.fillers || 0}
+                  {overallFeedback.fillers || overallFeedback.fillerCount}
                 </p>
               </div>
               <div className="d-flex justify-content-between align-items-center">
