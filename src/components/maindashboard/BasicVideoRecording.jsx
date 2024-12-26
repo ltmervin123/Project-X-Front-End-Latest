@@ -26,6 +26,7 @@ import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback"; // Adjust the import path as necessary
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import loading from "../../assets/loading.gif";
+import io from "socket.io-client";
 import Header from "../../components/Result/Header";
 
 
@@ -66,6 +67,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const [answerGreetings, setAnswerGreetings] = useState("");
   const name = user.name.split(" ")[0];
+  const audioRecorderRef = useRef(null);
+  const [socket, setSocket] = useState(null);
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
   const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
@@ -77,52 +80,54 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const popupGuide = () => {
     introJs()
       .setOptions({
-        steps: 
-        [
+        steps: [
           {
-            "intro": "Welcome to the Video Recording Interface!"
+            intro: "Welcome to the Video Recording Interface!",
           },
           {
-            "element": "#videoArea",
-            "intro": "This is where you will see yourself while recording."
+            element: "#videoArea",
+            intro: "This is where you will see yourself while recording.",
           },
           {
-            "element": "#startButton",
-            "intro": "Click this button to start recording your responses."
+            element: "#startButton",
+            intro: "Click this button to start recording your responses.",
           },
           {
-            "element": "#muteButton",
-            "intro": "Use this button to mute or unmute your microphone."
+            element: "#muteButton",
+            intro: "Use this button to mute or unmute your microphone.",
           },
           {
-            "element": "#cameraButton",
-            "intro": "Toggle your camera on or off using this button."
+            element: "#cameraButton",
+            intro: "Toggle your camera on or off using this button.",
           },
           {
-            "element": "#timer",
-            "intro": "This timer shows the time remaining for your response."
+            element: "#timer",
+            intro: "This timer shows the time remaining for your response.",
           },
           {
-            "element": "mute-indicator",
-            "intro": "Mute and Unmute indicator."
+            element: "mute-indicator",
+            intro: "Mute and Unmute indicator."
           },
           {
-            "element": "#tipsContainer",
-            "intro": "Here are some tips to help you perform better in your interview."
+            element: "#tipsContainer",
+            intro:
+              "Here are some tips to help you perform better in your interview.",
           },
           {
-            "element": "#talkingAvatar",
-            "intro": "This is the talking avatar that guides you during the interview."
+            element: "#talkingAvatar",
+            intro:
+              "This is the talking avatar that guides you during the interview.",
           },
           {
-            "element": "#startInterviewButton",
-            "intro": "Click this button to start the interview."
+            element: "#startInterviewButton",
+            intro: "Click this button to start the interview.",
           },
           {
-            "element": "#confirmCloseButton",
-            "intro": "Click this button to cancel the interview if you wish to stop."
-          }
-        ]
+            element: "#confirmCloseButton",
+            intro:
+              "Click this button to cancel the interview if you wish to stop.",
+          },
+        ],
       })
       .start();
   };
@@ -170,6 +175,31 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     return () => clearInterval(interval);
   }, []);
 
+  //Initialize websocket and handle the recognized text
+  useEffect(() => {
+    // Initialize socket connection
+    const newSocket = io(API, {
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+    });
+
+    newSocket.on("connect", () => {
+      console.log("Connected to server");
+    });
+
+    newSocket.on("connect_error", (err) => {
+      console.error("Connection error:", err);
+    });
+
+    setSocket(newSocket);
+
+    // Cleanup function to disconnect the socket when the component unmounts
+    return () => {
+      newSocket.disconnect();
+      setSocket(null);
+    };
+  }, []);
+
   //Toogle camera function
   const toggleCamera = () => {
     setIsCameraOn((prev) => !prev);
@@ -195,11 +225,13 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   useEffect(() => {
     enableCameraFeed();
 
+    // Cleanup function to stop the camera feed when the component unmounts
     return () => {
-      stopRecording();
       if (streamRef.current) {
         streamRef.current.getTracks().forEach((track) => track.stop());
       }
+      recordedChunksRef.current = [];
+      audioRecorderRef.current = null;
     };
   }, []);
 
@@ -302,11 +334,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   }, [questions, isCountdownActive, questionIndex]);
 
-  //
+  //Rercord the video
   const startRecording = () => {
     if (streamRef.current) {
       recordedChunksRef.current = []; // Clear chunks before new recording
-
+      const stream = streamRef.current; // Use the reference
       // Initialize MediaRecorder with stream
       mediaRecorderRef.current = new MediaRecorder(streamRef.current);
 
@@ -318,16 +350,46 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         setTimer({ minutes: 0, seconds: 0 }); // Reset timer
       }
 
-      // Event listener to handle data as it becomes available
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunksRef.current.push(event.data);
+      // Set up audio streaming
+      const audioTrack = stream.getAudioTracks()[0];
+      const audioStream = new MediaStream([audioTrack]);
+
+      audioRecorderRef.current = new MediaRecorder(audioStream, {
+        mimeType: "audio/webm;codecs=opus",
+        audioBitsPerSecond: 128000, // 128 kbps bitrate
+      });
+
+      socket.off("transcription");
+      socket.on("transcription", (data) => {
+        if (data.isFinal) {
+          setTranscript((prevTranscript) => `${prevTranscript}${data.text}`);
+          // setRecognizedText("");
+        } else {
+          setRecognizedText(data.text);
+        }
+      });
+
+      socket.on("transcription-error", (error) => {
+        console.error("Transcription error:", error);
+      });
+
+      audioRecorderRef.current.ondataavailable = async (event) => {
+        if (
+          event.data.size > 0 &&
+          socket?.connected &&
+          audioRecorderRef.current?.state === "recording"
+        ) {
+          try {
+            const buffer = await event.data.arrayBuffer();
+            socket.emit("audio-stream", buffer);
+          } catch (error) {
+            console.error("Error processing audio chunk:", error);
+          }
         }
       };
 
-      mediaRecorderRef.current.onerror = (e) => {
-        console.error("Recording error:", e);
-      };
+      // Start recording audio
+      audioRecorderRef.current.start(500);
     }
   };
   // Stop recording and upload video
@@ -336,24 +398,17 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
     ) {
-      setIsRecording(false);
-      setIsPaused(true);
+      mediaRecorderRef.current?.stop();
+      audioRecorderRef.current?.stop();
 
-      // Stop recording and wait briefly for all data to be collected
-      mediaRecorderRef.current.stop();
-
-      // Small delay to ensure chunks are gathered
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      // Upload video
-      await uploadVideo();
+      await uploadTranscription();
 
       // Check if we're at the last question
       if (questionIndex === questions.length - 1 && !isUploading) {
         // Show greeting message
         setShowGreeting(true);
         const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-        speak(greetingMessage); // Speak the greeting message
+        speak(greetingMessage);
 
         await createFeedback();
       } else {
@@ -467,48 +522,110 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   };
 
   // Upload video to the server
-  const uploadVideo = async () => {
+  // const uploadVideo = async () => {
+  //   try {
+  //     // Set uploading state to true
+  //     setIsUploading(true);
+
+  //     // Check if there is video data to upload
+  //     if (recordedChunksRef.current.length === 0) {
+  //       throw new Error("No video data to upload");
+  //     }
+
+  //     // Create a Blob from the recorded chunks
+  //     const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
+
+  //     // Create a FormData object to send the video data
+  //     const formData = new FormData();
+
+  //     // Append the video file and question to the FormData
+  //     formData.append("interviewId", interviewId);
+  //     formData.append(
+  //       "videoFile",
+  //       blob,
+  //       `${interviewId}-question${questionIndex + 1}.webm`
+  //     );
+  //     // formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
+  //     formData.append("question", questions[questionIndex]);
+
+  //     // Make a POST request to the server to upload the video
+  //     const response = await axios.post(
+  //       `${API}/api/interview/mock-interview`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //           Authorization: `Bearer ${user.token}`, // JWT token
+  //         },
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log("Error uploading video:", error);
+  //   } finally {
+  //     // Clear the recorded chunks after uploading
+  //     recordedChunksRef.current = [];
+  //     // Set uploading state to false
+  //     setIsUploading(false);
+  //   }
+  // };
+
+  // Upload video to the server
+  const uploadTranscription = async () => {
     try {
       // Set uploading state to true
       setIsUploading(true);
+      setIsRecording(false);
+      setIsPaused(true);
+      setRecognizedText("");
+
+      // Wait for a brief moment before stopping the transcription
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      //Stop the transcription
+      socket.emit("stop-transcription");
+
+      console.log("Final Transcription : ", transcript);
+
+      const question = questions[questionIndex];
+
+      // Create a payload object to send the transcription data
+      const payload = {
+        interviewId,
+        transcript,
+        question,
+      };
 
       // Check if there is video data to upload
-      if (recordedChunksRef.current.length === 0) {
-        throw new Error("No video data to upload");
+      if (!interviewId) {
+        throw new Error("No transcription data to upload");
       }
 
-      // Create a Blob from the recorded chunks
-      const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
+      if (!transcript) {
+        throw new Error("No transcription data to upload");
+      }
 
-      // Create a FormData object to send the video data
-      const formData = new FormData();
-
-      // Append the video file and question to the FormData
-      formData.append("interviewId", interviewId);
-      formData.append(
-        "videoFile",
-        blob,
-        `${interviewId}-question${questionIndex + 1}.webm`
-      );
-      // formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
-      formData.append("question", questions[questionIndex]);
+      if (!question) {
+        throw new Error("No transcription data to upload");
+      }
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
         `${API}/api/interview/mock-interview`,
-        formData,
+        payload,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${user.token}`, // JWT token
           },
         }
       );
+      console.log("Transcription uploaded:", response.data);
+      setTranscript("");
     } catch (error) {
-      console.log("Error uploading video:", error);
+      console.log("Error uploading transcription: ", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
+      audioRecorderRef.current = [];
       // Set uploading state to false
       setIsUploading(false);
     }

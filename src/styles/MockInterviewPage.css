@@ -922,10 +922,13 @@
   position: absolute;
   z-index: 100;
   height: auto;
-  width: auto;
+  width: 100%;
   bottom: 75px;
   color: var(--font-white);
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  text-align: center;
+  margin: 0 20px;
+  padding: 0 20px;
 }
 
 /* InterviewSuccesspopup */
