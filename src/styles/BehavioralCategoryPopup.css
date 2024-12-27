@@ -124,7 +124,7 @@
   content: "";
   position: absolute;
   top: 80%;
-  left: -4px;
+  left: -2px;
   width: 24%;
   height: 90px;
   background-color: var(--primary-color);
