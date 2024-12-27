@@ -69,6 +69,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const name = user.name.split(" ")[0];
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const [isfinalTranscription, setIsFinalTranscription] = useState(false);
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
   const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
@@ -362,10 +363,12 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       socket.off("transcription");
       socket.on("transcription", (data) => {
         if (data.isFinal) {
-          setTranscript((prevTranscript) => `${prevTranscript}${data.text}`);
-          // setRecognizedText("");
+          setTranscript((prev) => `${prev}${data.text}`);
+          // setIsFinalTranscription(true);
+          setRecognizedText("");
         } else {
           setRecognizedText(data.text);
+          // setIsFinalTranscription(false);
         }
       });
 
@@ -389,7 +392,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       };
 
       // Start recording audio
-      audioRecorderRef.current.start(500);
+      audioRecorderRef.current.start(250);
     }
   };
   // Stop recording and upload video
@@ -401,19 +404,83 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       mediaRecorderRef.current?.stop();
       audioRecorderRef.current?.stop();
 
-      await uploadTranscription();
+      audioRecorderRef.current.onstop = async () => {
+        console.log("Audio recording stopped");
+        // if (isfinalTranscription) {
+        //   // await uploadTranscription();
 
-      // Check if we're at the last question
-      if (questionIndex === questions.length - 1 && !isUploading) {
-        // Show greeting message
-        setShowGreeting(true);
-        const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-        speak(greetingMessage);
+        //   // // Check if we're at the last question
+        //   // if (questionIndex === questions.length - 1 && !isUploading) {
+        //   //   // Show greeting message
+        //   //   setShowGreeting(true);
+        //   //   const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+        //   //   speak(greetingMessage);
 
-        await createFeedback();
-      } else {
-        setQuestionIndex((prevIndex) => prevIndex + 1);
-      }
+        //   //   await createFeedback();
+        //   // } else {
+        //   //   setQuestionIndex((prevIndex) => prevIndex + 1);
+        //   // }
+        // }
+
+        // socket.on("finalTranscription", async (data) => {
+        //   if (data.text) {
+        //     setTranscript(data.text);
+        //     await uploadTranscription();
+        //   }
+        // });
+
+        //Stop the transcription
+        socket.emit("stop-transcription");
+
+        socket.off("transcriptionComplete"); // Remove the event listener
+        socket.on("transcriptionComplete", async (data) => {
+          if (data.status === "completed") {
+            console.log("Transcription completed");
+            setIsUploading(true);
+            await uploadTranscription();
+
+            // Check if we're at the last question
+            if (questionIndex === questions.length - 1 && !isUploading) {
+              // Show greeting message
+              setShowGreeting(true);
+              const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+              speak(greetingMessage);
+
+              await createFeedback();
+            } else {
+              setQuestionIndex((prevIndex) => prevIndex + 1);
+            }
+          }
+        });
+
+        // await uploadTranscription();
+
+        // // Check if we're at the last question
+        // if (questionIndex === questions.length - 1 && !isUploading) {
+        //   // Show greeting message
+        //   setShowGreeting(true);
+        //   const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+        //   speak(greetingMessage);
+
+        //   await createFeedback();
+        // } else {
+        //   setQuestionIndex((prevIndex) => prevIndex + 1);
+        // }
+      };
+
+      // await uploadTranscription();
+
+      // // Check if we're at the last question
+      // if (questionIndex === questions.length - 1 && !isUploading) {
+      //   // Show greeting message
+      //   setShowGreeting(true);
+      //   const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+      //   speak(greetingMessage);
+
+      //   await createFeedback();
+      // } else {
+      //   setQuestionIndex((prevIndex) => prevIndex + 1);
+      // }
     }
   };
 
@@ -573,15 +640,19 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const uploadTranscription = async () => {
     try {
       // Set uploading state to true
-      setIsUploading(true);
+      // setIsUploading(true);
       setIsRecording(false);
       setIsPaused(true);
       setRecognizedText("");
 
+      // //Stop the transcription
+      // socket.emit("stop-transcription");
+
       // Wait for a brief moment before stopping the transcription
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      //Stop the transcription
-      socket.emit("stop-transcription");
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      // //Stop the transcription
+      // socket.emit("stop-transcription");
 
       console.log("Final Transcription : ", transcript);
 
@@ -628,6 +699,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       audioRecorderRef.current = [];
       // Set uploading state to false
       setIsUploading(false);
+      setIsFinalTranscription(false);
     }
   };
 
