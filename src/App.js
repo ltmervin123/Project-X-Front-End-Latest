@@ -1,5 +1,5 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -29,6 +29,10 @@ import AiReferenceReportPage from "./page/AiReferenceReportPage.jsx";
 
 
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
+import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
+import BehavioralVideoRecording from "./components/maindashboard/BehavioralVideoRecording";
+import VideoRecording from "./components/maindashboard/MockVideoRecording";
+
 
 
 function App() {
@@ -92,6 +96,36 @@ function App() {
           {/* <Route element={<RequireAuth />}> */}
             <Route path="/AiReferenceReport" element={<AiReferenceReportPage />} />
           {/* </Route> */}
+
+        <Route element={<RequireAuth />}>
+          <Route 
+            path="/basic-interview" 
+            element={
+              <BasicVideoRecording 
+                interviewType="Mock" 
+                category="Basic" 
+              />
+            } 
+          />
+        </Route>
+                <Route element={<RequireAuth />}>
+          <Route 
+            path="/behavioral-interview" 
+            element={<BehavioralVideoRecording />}
+          />
+        </Route>
+
+        <Route element={<RequireAuth />}>
+          <Route 
+            path="/expert-interview" 
+            element={
+              <VideoRecording 
+                interviewType="Mock"
+                category="Expert"
+              />
+            } 
+          />
+        </Route>
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

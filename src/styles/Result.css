@@ -7,21 +7,29 @@
   --font-black: #000;
 }
 
+
+/* Add this to center the result container and cover the background */
 .analytics-bg {
-  background: url("../assets/image.png");
-  background-size: cover;
-  min-height: 100vh;
-  padding-top: 20px;
+  background: url("../assets/image.png") no-repeat center center fixed; /* Center and fix the background */
+  background-size: cover; /* Ensure the background covers the entire screen */
+  min-height: 100vh; /* Full viewport height */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Center the content vertically */
 }
-.result-container {
+
+.result-container{
   background: var(--font-white);
   border-radius: 10px;
-  padding: 20px;
-  margin-top: 10vh;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  padding: 20px;
+  margin-top: 2em;
+}
+.result-container > .row{
+  padding:0px 30px;
+  height: 100%;
 }
 .result-main-container {
   width: 100%;
@@ -40,36 +48,54 @@
   gap: 20px;
   color: var(--font-black);
   border: none;
+  height: 100% ;
 }
-
+.interview-result-container > h4{
+  color: var(--primary-color);
+  padding-top: 30px;
+  height: 20%;
+}
 .interview-container {
   background: var(--font-white);
   border-radius: 20px;
-  border: 2px solid var(--primary-color);
-  padding: 20px;
+  border: 3px solid var(--primary-color);
+  padding: 15px;
   overflow-y: auto;
   height: 100%;
 }
-.interview-data {
-  height: 400px;
+.interview-container > h4{
+  border-bottom: 3px solid var(--primary-color);
+  width: 170px;
+
+}
+.interview-data{
+  height: 80%;
   overflow-y: auto;
-  padding-right: 10px;
+  padding-right: 15px;
+}
+.interview-data > div > strong {
+  color: var(--input-bg);
+}
+.interview-data > div > p{
+  font-weight: 700;
 }
 .score-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  gap: 20px;
+  justify-content: center;
+  min-width: 85%;
+  width: 80%;
   padding: 20px;
   border-radius: 20px;
-  border: 2px solid var(--primary-color);
+  border: 3px solid var(--primary-color);
+  height: 100%;
 }
 
 .score-section > div {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -113,7 +139,8 @@
 }
 
 .question-navigation{
-  height: 10%;
+  height: 8%;
+  margin-top: 10px;
 }
 .question-navigation > .prev , .question-navigation > .next{
   color: var(--primary-color);
@@ -136,8 +163,8 @@
   color: var(--font-white);
   border: none;
   border-radius: 50px;
-  height: 40px;
-  width: 200px;
+  height: 30px;
+  width: 150px;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -148,8 +175,8 @@
   color: var(--font-white);
   border: none;
   border-radius: 50px;
-  height: 40px;
-  width: 200px;
+  height: 30px;
+  width: 150px;
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -162,4 +189,52 @@
 
 .filler-red {
   color: red;
+}
+
+.button-container {
+  margin-top: 20px;
+  padding: 0 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .result-container {
+    height: auto;
+    min-height: 85vh;
+  }
+  
+  .result-container > .row {
+    padding: 0 15px;
+  }
+  
+  .interview-container,
+  .interview-result-container {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 1024px) { /* Adjust for laptop screens */
+  .result-container {
+    width: 90%; /* Set width to 90% of the viewport */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add padding for better spacing */
+  }
+
+  .interview-container,
+  .interview-result-container {
+    margin-bottom: 20px; /* Add margin for spacing */
+  }
+
+  .score-section {
+    flex-direction: column; /* Stack score sections vertically */
+  }
+
+  .question-navigation {
+    flex-direction: column; /* Stack navigation vertically */
+  }
+
+  .btn {
+    width: 100%; /* Make buttons full width */
+    margin-top: 10px; /* Add margin for spacing */
+  }
 }
