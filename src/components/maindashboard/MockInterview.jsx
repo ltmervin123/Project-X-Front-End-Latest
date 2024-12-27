@@ -8,6 +8,7 @@ import VideoRecording from "./MockVideoRecording";
 import BehavioralVideoRecording from "./BehavioralVideoRecording";
 import BasicVideoRecording from "./BasicVideoRecording";
 import BehavioralCategoryPopup from "./BehavioralCategoryPopup";
+import { useNavigate } from 'react-router-dom';
 
 const MainDashboard = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -24,6 +25,7 @@ const MainDashboard = () => {
   const [interviewType, setInterviewType] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const today = new Date();
@@ -39,16 +41,12 @@ const MainDashboard = () => {
   const handleInterviewType = (type) => {
     switch (type) {
       case "BEHAVIORAL":
-        setShowBehavioralCategoryPopup(true); //Interview type and catergory set after choosing behavioral category
+        setShowBehavioralCategoryPopup(true);
         break;
       case "BASIC":
-        setInterviewType("Mock");
-        setCategory("Basic");
-        setShowBasicVideoRecording(true);
+        navigate('/basic-interview');
         break;
       case "EXPERT":
-        setInterviewType("Mock");
-        setCategory("Expert");
         setShowUploadModal(true);
         break;
     }
@@ -59,7 +57,7 @@ const MainDashboard = () => {
     setInterviewType("Behavioral");
     setCategory(category);
     setShowBehavioralCategoryPopup(false);
-    setShowBehavioralVideoRecording(true);
+    navigate('/behavioral-interview', { state: { category } });
   };
 
   //Set IntroShown flag in sessionStorage when the component mounts
@@ -89,15 +87,20 @@ const MainDashboard = () => {
   };
 
   const handleFileUpload = (uploadedFile) => {
-    setFile(uploadedFile); // Store the uploaded file if needed
-    setShowUploadModal(false); // Close the UploadPopUp
-    setShowJobDescriptionModal(true); // Open the JobDescriptionPopup
+    setFile(uploadedFile);
+    setShowUploadModal(false);
+    setShowJobDescriptionModal(true);
   };
 
   const handleJobDescriptionSubmit = (description) => {
-    setJobDescription(description); // Store the job description if needed
-    setShowJobDescriptionModal(false); // Close the JobDescriptionPopup
-    setShowVideoRecording(true); // Open the VideoRecording component
+    setJobDescription(description);
+    setShowJobDescriptionModal(false);
+    navigate('/expert-interview', { 
+      state: { 
+        file: file,
+        jobDescription: description 
+      }
+    });
   };
 
   return (
@@ -137,9 +140,7 @@ const MainDashboard = () => {
         >
           <div className="category-card-title">BASIC</div>
           <p className="category-description">
-            A basic interview is usually a more straightforward conversation
-            where the focus is on your qualifications and experience.
-          </p>
+          A basic interview is usually a more straightforward conversation where the focus is on your qualifications, experience, and understanding of the role.            </p>
         </div>
         <div
           className="category-card bg-expert"
@@ -147,8 +148,7 @@ const MainDashboard = () => {
         >
           <div className="category-card-title">EXPERT</div>
           <p className="category-description">
-            A mock interview simulates the interview experience to help you
-            prepare.
+          An expert interview is a conversation where you ask a specialist deep questions to gain insights, advice, or their professional perspective on a specific topic. It’s all about learning from their expertise!
           </p>
         </div>
       </div>
@@ -162,7 +162,7 @@ const MainDashboard = () => {
       {showUploadModal && (
         <UploadPopUp
           show={showUploadModal}
-          onClose={handleClose}
+          onClose={() => setShowUploadModal(false)}
           onUploadComplete={handleFileUpload}
         />
       )}
@@ -170,7 +170,7 @@ const MainDashboard = () => {
       {showJobDescriptionModal && (
         <JobDescriptionPopup
           show={showJobDescriptionModal}
-          onClose={handleClose}
+          onClose={() => setShowJobDescriptionModal(false)}
           onSubmit={handleJobDescriptionSubmit}
         />
       )}{" "}
