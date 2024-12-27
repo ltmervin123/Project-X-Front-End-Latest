@@ -67,7 +67,6 @@ const BehavioralVideoRecording = () => {
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
-  const [isfinalTranscription, setIsFinalTranscription] = useState(false);
   const name = user.name.split(" ")[0];
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
@@ -75,7 +74,6 @@ const BehavioralVideoRecording = () => {
   const finalGreeting =
     "I hope you are doing great. To start your interview please press the button “Start Interview.”";
   const API = process.env.REACT_APP_API_URL;
-  // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
 
   console.log(category);
   //Function to initialize Intro.js
@@ -206,6 +204,7 @@ const BehavioralVideoRecording = () => {
     };
   }, []);
 
+  // Function to reattempt access to camera
   const enableCameraFeed = async (retryCount = 3) => {
     setCameraError(false);
     setIsReattemptingCamera(true);
@@ -231,7 +230,7 @@ const BehavioralVideoRecording = () => {
       setCameraError(true);
     }
   };
-
+  //User introduction function
   const userIntroduction = async () => {
     setCurrentGreetingText(greeting);
 
@@ -251,6 +250,7 @@ const BehavioralVideoRecording = () => {
     setCurrentGreetingText("");
   };
 
+  // Speak function to convert text to audio
   const speak = async (text) => {
     try {
       const response = await axios.post(
@@ -274,9 +274,6 @@ const BehavioralVideoRecording = () => {
       const audioUrl = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(audioUrl);
 
-      // audioElement
-      //   .play()
-      //   .catch((error) => console.error("Error playing audio:", error));
       return new Promise((resolve, reject) => {
         audioElement.onended = resolve; // Resolve the promise when the audio ends
         audioElement.onerror = reject; // Reject the promise on error
@@ -388,17 +385,6 @@ const BehavioralVideoRecording = () => {
   //   }
   // };
 
-  const waitForRecognizedTextToClear = () => {
-    return new Promise((resolve) => {
-      const checkInterval = setInterval(() => {
-        if (recognizedText === "") {
-          clearInterval(checkInterval);
-          resolve();
-        }
-      }, 100); // Check every 100ms
-    });
-  };
-
   //Rercord the video
   const startRecording = () => {
     if (streamRef.current) {
@@ -427,11 +413,9 @@ const BehavioralVideoRecording = () => {
       socket.on("transcription", (data) => {
         if (data.isFinal) {
           setTranscript((prev) => `${prev}${data.text}`);
-          // setIsFinalTranscription(true);
           setRecognizedText("");
         } else {
           setRecognizedText(data.text);
-          // setIsFinalTranscription(false);
         }
       });
 
@@ -455,7 +439,7 @@ const BehavioralVideoRecording = () => {
       };
 
       // Start recording audio
-      audioRecorderRef.current.start(100);
+      audioRecorderRef.current.start(250);
     }
   };
   // Stop recording and upload video
@@ -465,105 +449,29 @@ const BehavioralVideoRecording = () => {
       mediaRecorderRef.current.state === "recording"
     ) {
       mediaRecorderRef.current?.stop();
-
-      setIsUploading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       audioRecorderRef.current?.stop();
 
-      audioRecorderRef.current.onstop = async () => {
-        console.log("Audio recording stopped");
-        // if (isfinalTranscription) {
-        //   // await uploadTranscription();
+      // Set uploading state to true
+      setIsUploading(true);
 
-        //   // // Check if we're at the last question
-        //   // if (questionIndex === questions.length - 1 && !isUploading) {
-        //   //   // Show greeting message
-        //   //   setShowGreeting(true);
-        //   //   const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-        //   //   speak(greetingMessage);
+      // Wait for the audio recorder to stop
+      await new Promise((resolve) => {
+        audioRecorderRef.current.onstop = resolve;
+      });
 
-        //   //   await createFeedback();
-        //   // } else {
-        //   //   setQuestionIndex((prevIndex) => prevIndex + 1);
-        //   // }
-        // }
+      // Upload transcription
+      await uploadTranscription();
 
-        // socket.on("finalTranscription", async (data) => {
-        //   if (data.text) {
-        //     setTranscript(data.text);
-        //     await uploadTranscription();
-        //   }
-        // });
-        // setIsUploading(true);
-        // await new Promise((resolve) => setTimeout(resolve, 3000));
-
-        // await waitForRecognizedTextToClear();
-        //Stop the transcription
-        // if (recognizedText === "") {
-        //   socket.emit("stop-transcription");
-        //   socket.off("transcriptionComplete"); // Remove the event listener
-        //   socket.on("transcriptionComplete", async (data) => {
-        //     if (data.status === "completed") {
-        //       console.log("Transcription completed");
-
-        //       await uploadTranscription();
-
-        //       // Check if we're at the last question
-        //       if (questionIndex === questions.length - 1 && !isUploading) {
-        //         // Show greeting message
-        //         setShowGreeting(true);
-        //         const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-        //         speak(greetingMessage);
-
-        //         await createFeedback();
-        //       } else {
-        //         setQuestionIndex((prevIndex) => prevIndex + 1);
-        //       }
-        //     }
-        //   });
-        // }
-
-        // await uploadTranscription();
-
-        // // Check if we're at the last question
-        // if (questionIndex === questions.length - 1 && !isUploading) {
-        //   // Show greeting message
-        //   setShowGreeting(true);
-        //   const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-        //   speak(greetingMessage);
-
-        //   await createFeedback();
-        // } else {
-        //   setQuestionIndex((prevIndex) => prevIndex + 1);
-        // }
-
-        await uploadTranscription();
-
-        // Check if we're at the last question
-        if (questionIndex === questions.length - 1 && !isUploading) {
-          // Show greeting message
-          setShowGreeting(true);
-          const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-          speak(greetingMessage);
-          await createFeedback();
-        } else {
-          setQuestionIndex((prevIndex) => prevIndex + 1);
-        }
-      };
-
-      // await uploadTranscription();
-
-      // // Check if we're at the last question
-      // if (questionIndex === questions.length - 1 && !isUploading) {
-      //   // Show greeting message
-      //   setShowGreeting(true);
-      //   const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-      //   speak(greetingMessage);
-
-      //   await createFeedback();
-      // } else {
-      //   setQuestionIndex((prevIndex) => prevIndex + 1);
-      // }
+      // Check if we're at the last question
+      if (questionIndex === questions.length - 1 && !isUploading) {
+        // Show greeting message
+        setShowGreeting(true);
+        const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+        speak(greetingMessage);
+        await createFeedback();
+      } else {
+        setQuestionIndex((prevIndex) => prevIndex + 1);
+      }
     }
   };
 
@@ -618,22 +526,14 @@ const BehavioralVideoRecording = () => {
   // Upload video to the server
   const uploadTranscription = async () => {
     try {
-      // Set uploading state to true
-      // setIsUploading(true);
       setIsRecording(false);
       setIsPaused(true);
       setRecognizedText("");
 
-      //Stop the transcription
-      socket.emit("stop-transcription");
-
-      // Wait for a brief moment before stopping the transcription
-      // await new Promise((resolve) => setTimeout(resolve, 3000));
-
-      // //Stop the transcription
-      // socket.emit("stop-transcription");
-
-      console.log("Final Transcription : ", transcript);
+      // Check if the socket is connected
+      if (socket?.connected) {
+        socket.emit("stop-transcription");
+      }
 
       const question = questions[questionIndex];
 
@@ -644,20 +544,18 @@ const BehavioralVideoRecording = () => {
         question,
       };
 
-      // Check if there is video data to upload
-      if (!interviewId) {
-        throw new Error("No interviewID data to upload");
-      }
-
       if (!transcript) {
         throw new Error("No transcription data to upload");
+      }
+
+      if (!interviewId) {
+        throw new Error("No interviewID data to upload");
       }
 
       if (!question) {
         throw new Error("No question data to upload");
       }
 
-      // Make a POST request to the server to upload the video
       const response = await axios.post(
         `${API}/api/interview/mock-interview`,
         payload,
@@ -670,16 +568,13 @@ const BehavioralVideoRecording = () => {
       );
       console.log("Transcription uploaded:", response.data);
       setTranscript("");
-      // setRecognizedText("");
     } catch (error) {
       console.log("Error uploading transcription: ", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
       audioRecorderRef.current = [];
-      // Set uploading state to false
       setIsUploading(false);
-      setIsFinalTranscription(false);
     }
   };
 
@@ -747,7 +642,7 @@ const BehavioralVideoRecording = () => {
     let elapsedSeconds = 0; // Variable to track elapsed time
 
     if (isRecording && !isPaused) {
-      interval = setInterval(() => {
+      interval = setInterval(async () => {
         elapsedSeconds += 1; // Increment elapsed time by 1 second
 
         // Calculate minutes and seconds
@@ -756,9 +651,10 @@ const BehavioralVideoRecording = () => {
 
         setTimer({ minutes, seconds });
 
+        // Check if 3 minutes have elapsed
         if (elapsedSeconds === 180) {
-          // Change from 120 to 180 seconds
-          stopRecording();
+          // Stop recording after 3 minutes
+          await stopRecording();
           clearInterval(interval); // Stop the timer after 3 minutes
         }
       }, 1000);
