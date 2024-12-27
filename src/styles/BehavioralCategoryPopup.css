@@ -1,37 +1,35 @@
 :root {
-    --primary-color: #f46a05;
-    --secondary-color: #1706ac;
-    --font-white: #fff;
-    --card-color: #686868;
-    --text-color: #000;
-    --activity-card-bg: #d9d9d9;
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --text-color: #000;
+  --activity-card-bg: #d9d9d9;
 }
 
 .behavioral-cards {
-    display: flex;
-    justify-content: center; /* Center the cards horizontally */
-    position: relative; /* Needed for absolute positioning of rectangles */
-    flex-wrap: wrap; /* Allow cards to wrap if necessary */
-    z-index: 0;
+  display: flex;
+  justify-content: center; /* Center the cards horizontally */
+  position: relative; /* Needed for absolute positioning of rectangles */
+  flex-wrap: wrap; /* Allow cards to wrap if necessary */
+  z-index: 0;
 }
 
-
-
 .behavioral-card {
-    color: var(--font-white) !important;
-    border-radius: 20px !important;
-    border: none;
-    height: 260px !important;
-    position: relative;
-    overflow: hidden;
-    transition: box-shadow 0.3s ease, transform 0.2s;
-    cursor: pointer;
-    width: 22%;
-    max-width: 300px !important;
-    background: var(--card-color);
-    z-index: 1; /* Ensure card stays above the rectangle */
-  }
-  
+  color: var(--font-white) !important;
+  border-radius: 20px !important;
+  border: none;
+  height: 260px !important;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.2s;
+  cursor: pointer;
+  width: 22%;
+  max-width: 300px !important;
+  background: var(--card-color);
+  z-index: 1; /* Ensure card stays above the rectangle */
+}
+
 /* .square-bg-behavoral-card {
     content: "";
     position: absolute;
@@ -46,92 +44,227 @@
   }
    */
 .behavioral-title {
-    position: absolute;
-    bottom: 10px;
-    text-align: center;
-    width: 100%;
-    left: 0;
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  width: 100%;
+  left: 0;
 }
 
 .behavioral-description {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    color: var(--font-white);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    font-size: 13px;
-    font-weight: 500; /* Use 500 instead of 50 for normal weight */
-    text-align: left;
-    opacity: 0; 
-    visibility: hidden; 
-    transition: opacity 0.3s ease, visibility 0.3s ease; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  color: var(--font-white);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 13px;
+  font-weight: 500; /* Use 500 instead of 50 for normal weight */
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .behavioral-description > .behavioral-title1 {
-    font-size: 15px;
-    font-weight: 700;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .behavioral-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .behavioral-card:hover .behavioral-description {
-    transition: opacity 0.9s ease, visibility 0.9s ease; 
-    opacity: 1; 
-    visibility: visible; 
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+  opacity: 1;
+  visibility: visible;
 }
 
 .behavioral-image {
-    position: absolute;
-    bottom: 30px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    height: 80%; 
-    width: auto; 
-    max-width: 100%; 
-    z-index: 0; 
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 80%;
+  width: auto;
+  max-width: 100%;
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card1top {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: -2px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card2top {
+  content: "";
+  position: absolute;
+  top: 30%;
+  right: -2px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card3bottom {
+  content: "";
+  position: absolute;
+  top: 80%;
+  left: -4px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card4bottom {
+  content: "";
+  position: absolute;
+  top: 80%;
+  right: -2px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card5bottom {
+  content: "";
+  position: absolute;
+  top: 80%;
+  left: 270px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card6bottom {
+  content: "";
+  position: absolute;
+  top: 80%;
+  right: 270px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card7top {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 270px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
+}
+.rectangle-bg-behavioral-card8top {
+  content: "";
+  position: absolute;
+  top: 30%;
+  right: 270px;
+  width: 24%;
+  height: 90px;
+  background-color: var(--primary-color);
+  transform: translateY(-70%);
+  z-index: 0;
 }
 
 .closebtn {
-    color: #000; 
+  color: #000;
 }
-
 /* Media Queries for Responsiveness */
 @media (max-width: 1200px) {
-    .behavioral-card {
-        width: 30%; /* Adjust width for medium screens */
-    }
+  .behavioral-card {
+    width: 30%; /* Adjust width for medium screens */
+  }
+  .rectangle-bg-behavioral-card1top,
+  .rectangle-bg-behavioral-card2top,
+  .rectangle-bg-behavioral-card3bottom,
+  .rectangle-bg-behavioral-card4bottom,
+  .rectangle-bg-behavioral-card5bottom,
+  .rectangle-bg-behavioral-card6bottom,
+  .rectangle-bg-behavioral-card7top,
+  .rectangle-bg-behavioral-card8top {
+    width: 30%;
+    left: 10px;
+    right: 10px;
+  }
 }
 
 @media (max-width: 992px) {
-    .behavioral-card {
-        width: 45%; /* Adjust width for smaller screens */
-    }
+  .behavioral-card {
+    width: 45%; /* Adjust width for smaller screens */
+  }
+  .rectangle-bg-behavioral-card1top,
+  .rectangle-bg-behavioral-card2top,
+  .rectangle-bg-behavioral-card3bottom,
+  .rectangle-bg-behavioral-card4bottom,
+  .rectangle-bg-behavioral-card5bottom,
+  .rectangle-bg-behavioral-card6bottom,
+  .rectangle-bg-behavioral-card7top,
+  .rectangle-bg-behavioral-card8top {
+    width: 45%;
+    left: 5px;
+    right: 5px;
+  }
 }
 
 @media (max-width: 768px) {
-    .behavioral-card {
-        width: 90%; /* Full width for mobile screens */
-    }
-    .behavioral-card {
-        height: 200px !important; /* Adjust height for mobile */
-    }
+  .behavioral-card {
+    width: 90%; /* Full width for mobile screens */
+  }
+  .behavioral-card {
+    height: 200px !important; /* Adjust height for mobile */
+  }
+  .rectangle-bg-behavioral-card1top,
+  .rectangle-bg-behavioral-card2top,
+  .rectangle-bg-behavioral-card3bottom,
+  .rectangle-bg-behavioral-card4bottom,
+  .rectangle-bg-behavioral-card5bottom,
+  .rectangle-bg-behavioral-card6bottom,
+  .rectangle-bg-behavioral-card7top,
+  .rectangle-bg-behavioral-card8top {
+    width: 90%;
+    left: 0;
+    right: 0;
+  }
 }
 
 @media (max-width: 576px) {
-    .behavioral-description {
-        font-size: 12px; /* Smaller font size for mobile */
-    }
-    .behavioral-description > .behavioral-title1 {
-        font-size: 14px; /* Smaller title size for mobile */
-    }
+  .behavioral-description {
+    font-size: 12px; /* Smaller font size for mobile */
+  }
+  .behavioral-description > .behavioral-title1 {
+    font-size: 14px; /* Smaller title size for mobile */
+  }
+  .rectangle-bg-behavioral-card1top,
+  .rectangle-bg-behavioral-card2top,
+  .rectangle-bg-behavioral-card3bottom,
+  .rectangle-bg-behavioral-card4bottom,
+  .rectangle-bg-behavioral-card5bottom,
+  .rectangle-bg-behavioral-card6bottom,
+  .rectangle-bg-behavioral-card7top,
+  .rectangle-bg-behavioral-card8top {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
 }
