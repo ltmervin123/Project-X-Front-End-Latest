@@ -33,6 +33,7 @@
   left: 0;
   width: 100%;
   background: var(--primary-color) !important;
+  background: linear-gradient(264deg, rgba(244,106,5,1) 19%, rgba(255,157,85,0.8417038690476191) 74%) !important;
   padding: 10px 3%;
   margin: 0 !important;
   z-index: 1000; /* Ensure it's above other elements */
@@ -173,12 +174,11 @@
 }
 .MockGuide-container > div{
     width: 100%;
-    min-height: 100px;
-    padding: 15px 20px;
+    height: 70px;
+    padding: 0px 25px;
     border-radius: 50px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
     border: 2px solid var(--primary-color);
 }
 /* .MockGuide-container > div > svg {
@@ -189,8 +189,9 @@
 } */
 .MockGuide-container > div > div {
     color: var(--primary-color);
-    width: 70%;
+    width: 66%;
     padding-left: 10px;
+    font-size: 12px;
   }
 .MockGuide-container > div > div > p{
     margin: 0 !important;

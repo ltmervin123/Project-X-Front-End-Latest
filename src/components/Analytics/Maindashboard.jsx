@@ -7,10 +7,10 @@ import { useAnalytics } from "../../hook/useAnalytics";
 import { useAuthContext } from "../../hook/useAuthContext";
 import { useAnalyticsContext } from "../../hook/useAnalyticsContext";
 import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement, Tooltip, LineElement, PointElement, LinearScale, CategoryScale, Legend } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Chart, ArcElement, LineElement, PointElement, LinearScale, CategoryScale, Legend } from "chart.js";
+import { AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 Chart.register(ArcElement);
-Chart.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
+Chart.register(LineElement, PointElement, LinearScale, CategoryScale, Legend);
 
 
 const MainDashboard = () => {
@@ -40,7 +40,7 @@ const getDate = (dateString) => {
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-GB", {
-      weekday: "long",
+      Dayday: "long",
       day: "numeric",
       month: "long",
       year: "numeric",
@@ -92,15 +92,15 @@ const getDate = (dateString) => {
 
   // Example data for each category
   const categoryScores = {
-    basic: [4.0, 4.2, 4.5],
-    behavioral: [4.5, 4.6, 4.7],
-    expert: [4.6, 4.8, 4.9],
-    overall: [4.6, 4.7, 4.8],
+    basic: [10, 10, 2.5, 4.8],
+    behavioral: [4.5, 9.6, 3.7, 4.9],
+    expert: [8.6, 4.8, 8.9, 5.0],
+    overall: [10, 5.7, 4.8, 2.1],
   };
 
   // Function to create line chart data for each category
   const createCategoryChartData = (scores) => ({
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
     datasets: [
       {
         label: 'Performance',
@@ -116,7 +116,59 @@ const getDate = (dateString) => {
       },
     ],
   });
+// Reusable AreaChart component
+const AreaChartComponent = ({ title, data }) => (
+  <div className="chart-card">
+    <h5>{title}</h5>
+    <ResponsiveContainer width="100%" height="90%">
+      <AreaChart data={createCategoryAreaData(data)}>
+        <XAxis
+          dataKey="Day"
+          interval={0} // Ensure all ticks are displayed
+          tick={({ x, y, payload }) => {
+            // Only render the tick if it's not "Day 0" or "Day 5"
+            if (payload.value === 'Day 0' || payload.value === 'Day 5') {
+              return null; // Do not render these ticks
+            }
+            return (
+              <text
+                x={x}
+                y={y + 10} // Adjust y position if needed
+                textAnchor="middle" // Center the text
+                fill="#666"
+              >
+                {payload.value}
+              </text>
+            );
+          }}
+        />
+        <RechartsTooltip />
+        <Area
+          type="monotone"
+          dataKey="score"
+          stroke="#686868"
+          fill="url(#colorUv)"
+          isAnimationActive={false} // Disable animation for better performance
+        />
+        <defs>
+          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="50%" stopColor="#F46A05" stopOpacity={0.8} />
+            <stop offset="94%" stopColor="#FFF" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+      </AreaChart>
+    </ResponsiveContainer>
+  </div>
+);
 
+  // New function to create area chart data for each category
+  const createCategoryAreaData = (scores) => {
+    return [
+      { Day: 'Day 0', score: 0.1 }, // Gap before Day 1
+      ...scores.map((score, index) => ({ Day: `Day ${index + 1}`, score })),
+      { Day: 'Day 5', score: 10 } // Gap after Day 4
+    ];
+  };
   return (
     <Container className="d-flex flex-column MockMainDashboard-content gap-3">
 
@@ -136,7 +188,7 @@ const getDate = (dateString) => {
       </div>
 
       {/* New button container */}
-      <div className="button-container-analytics d-flex justify-content-end gap-3">
+      <Row className="button-container-analytics d-flex justify-content-end gap-3">
         <Button 
           className={`btn-overall-analytics ${selectedChart === "overall" ? "btn-active" : ""}`} 
           onClick={() => setSelectedChart("overall")}
@@ -161,7 +213,7 @@ const getDate = (dateString) => {
         >
           Expert
         </Button>
-      </div>
+      </Row>
 
 
       <Row className="chart-container justify-content-center align-items-center  " >
@@ -169,9 +221,11 @@ const getDate = (dateString) => {
         <Col md={9}>
           <Row className="justify-content-center " >
             {chartData.map((item) => (
-              <Col key={item.name} xs={6} md={3} className="p-3 chart-col">
+              <Col key={item.name} xs={6} md={3} className="chart-col">
                 <div className="chart-name">{item.name}</div>
+                <div className="doughnut-chart" style={{ width: '100%' }}>
                 <Doughnut
+                className="doughnut"
                   data={createDoughnutData(item.score, item.color)}
                   options={{
                     plugins: {
@@ -188,272 +242,53 @@ const getDate = (dateString) => {
                     },
                     rotation: -90,
                     circumference: 180,
-                    cutout: "60%",
+                    cutout: "70%",
                     maintainAspectRatio: true,
                     responsive: true
                   }}
                 />
+                </div>
+
                 <div className="chart-score">
-                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{item.score}</div>
+                  <div>{item.score}</div>
                 </div>
               </Col>
             ))}
           </Row>
         </Col>
-        <Col md={3} className="d-flex align-items-center justify-content-center flex-column overall-performance ">
-          <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>4.6</div>
+        <Col md={3} className="overall-performance">
+          <div style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>4.6</div>
           <h5>Overall Performance</h5>
 
         </Col>
       </Row>
-      {/* New Line Chart Slider Section */}
-      <Row className="chart-line-container ">
-        {/* Line Chart Container */}
-        <Col md={6} className="line-chart-container d-flex justify-content-center align-items-center">
+      {/* New Area Chart Slider Section */}
+      <Row className="chart-area-container ">
+        {/* Area Chart Container */}
+        <Col md={6} className="area-chart-container d-flex justify-content-center align-items-center">
           <div className="carousel-controls">
-
-
-            <Carousel className="chart-card-line-container" ref={carouselRef} controls={false} indicators={false} interval={null}>
-              {/* Conditional Rendering of Line Charts */}
-              {selectedChart === "overall" && (
-                <Carousel.Item>
-                  <div className="chart-card">
-                    <h5>Overall Performance</h5>
-                    <Line 
-                      data={createCategoryChartData(categoryScores.overall)} 
-                      options={{ 
-                        responsive: true, 
-                        scales: { 
-                          y: { 
-                            min: 1, 
-                            max: 10,
-                            grid: {
-                              color: 'rgba(0, 0, 0, 0.1)',
-                            },
-                          },
-                          x: {
-                            grid: {
-                              display: false,
-                            },
-                          },
-                        },
-                        plugins: {
-                          legend: { display: false },
-                          tooltip: {
-                            backgroundColor: '#FF6F20',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            callbacks: {
-                              label: (tooltipItem) => {
-                                return `${tooltipItem.raw[0]}`;
-                              },
-                            },
-                          },
-                        },
-                        elements: {
-                          point: {
-                            radius: 6,
-                            hoverRadius: 8,
-                          },
-                        },
-                        annotation: {
-                          annotations: {
-                            line: {
-                              type: 'line',
-                              xMin: 2,
-                              xMax: 2,
-                              borderColor: 'rgba(0, 0, 0, 0.5)',
-                              borderWidth: 1,
-                              label: {
-                                content: '4.6',
-                                enabled: true,
-                                position: 'top',
-                                backgroundColor: '#FF6F20',
-                                color: '#fff',
-                                font: {
-                                  size: 14,
-                                },
-                              },
-                            },
-                          },
-                        },
-                      }} 
-                    />
-                  </div>
-                </Carousel.Item>
-              )}
-              {selectedChart === "behavioral" && (
-                <Carousel.Item>
-                  <div className="chart-card">
-                    <h5>Behavioral</h5>
-                    <Line 
-                      data={createCategoryChartData(categoryScores.behavioral)} 
-                      options={{ 
-                        responsive: true, 
-                        scales: { 
-                          y: { 
-                            min: 1, 
-                            max: 10,
-                            grid: {
-                              color: 'rgba(0, 0, 0, 0.1)',
-                            },
-                          },
-                          x: {
-                            grid: {
-                              display: false,
-                            },
-                          },
-                        },
-                        plugins: {
-                          legend: { display: false },
-                          tooltip: {
-                            backgroundColor: '#FF6F20',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            callbacks: {
-                              label: (tooltipItem) => {
-                                return `${tooltipItem.raw[0]}`;
-                              },
-                            },
-                          },
-                        },
-                        elements: {
-                          point: {
-                            radius: 6,
-                            hoverRadius: 8,
-                          },
-                        },
-                        annotation: {
-                          annotations: {
-                            line: {
-                              type: 'line',
-                              xMin: 2,
-                              xMax: 2,
-                              borderColor: 'rgba(0, 0, 0, 0.5)',
-                              borderWidth: 1,
-                              label: {
-                                content: '4.6',
-                                enabled: true,
-                                position: 'top',
-                                backgroundColor: '#FF6F20',
-                                color: '#fff',
-                                font: {
-                                  size: 14,
-                                },
-                              },
-                            },
-                          },
-                        },
-                      }} 
-                    />
-                  </div>
-                </Carousel.Item>
-              )}
-              {selectedChart === "basic" && (
-                <Carousel.Item>
-                  <div className="chart-card">
-                    <h5>Basic</h5>
-                    <Line 
-                      data={createCategoryChartData(categoryScores.basic)} 
-                      options={{ 
-                        responsive: true, 
-                        scales: { 
-                          y: { 
-                            min: 1, 
-                            max: 10,
-                            grid: {
-                              color: 'rgba(0, 0, 0, 0.1)',
-                            },
-                          },
-                          x: {
-                            grid: {
-                              display: false,
-                            },
-                          },
-                        },
-                        plugins: {
-                          legend: { display: false },
-                          tooltip: {
-                            backgroundColor: '#FF6F20',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            callbacks: {
-                              label: (tooltipItem) => {
-                                return `${tooltipItem.raw[0]}`;
-                              },
-                            },
-                          },
-                        },
-                        elements: {
-                          point: {
-                            radius: 6,
-                            hoverRadius: 8,
-                          },
-                        },
-                        annotation: {
-                          annotations: {
-                            line: {
-                              type: 'line',
-                              xMin: 2,
-                              xMax: 2,
-                              borderColor: 'rgba(0, 0, 0, 0.5)',
-                              borderWidth: 1,
-                              label: {
-                                content: '4.6',
-                                enabled: true,
-                                position: 'top',
-                                backgroundColor: '#FF6F20',
-                                color: '#fff',
-                                font: {
-                                  size: 14,
-                                },
-                              },
-                            },
-                          },
-                        },
-                      }} 
-                    />
-                  </div>
-                </Carousel.Item>
-              )}
-              {selectedChart === "expert" && (
-                <Carousel.Item>
-                  <div className="chart-card">
-                    <h5>Expert</h5>
-                    <Line 
-                      data={createCategoryChartData(categoryScores.expert)} 
-                      options={{ 
-                        responsive: true, 
-                        scales: { 
-                          y: { 
-                            min: 1, 
-                            max: 10,
-                            grid: {
-                              color: 'rgba(0, 0, 0, 0.1)',
-                            },
-                          },
-                          x: {
-                            grid: {
-                              display: false,
-                            },
-                          },
-                        },
-                        plugins: {
-                          legend: { display: false },
-                          tooltip: {
-                            backgroundColor: '#FF6F20',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                          },
-                        },
-                      }} 
-                    />
-                  </div>
-                </Carousel.Item>
-              )}
-            </Carousel>
-
-
+          <Carousel className="chart-card-area-container" controls={false} indicators={false} interval={null}>
+    {selectedChart === "overall" && (
+      <Carousel.Item>
+        <AreaChartComponent title="Your Overall Performance" data={categoryScores.overall} />
+      </Carousel.Item>
+    )}
+    {selectedChart === "behavioral" && (
+      <Carousel.Item>
+        <AreaChartComponent title="Behavioral" data={categoryScores.behavioral} />
+      </Carousel.Item>
+    )}
+    {selectedChart === "basic" && (
+      <Carousel.Item>
+        <AreaChartComponent title="Basic" data={categoryScores.basic} />
+      </Carousel.Item>
+    )}
+    {selectedChart === "expert" && (
+      <Carousel.Item>
+        <AreaChartComponent title="Expert" data={categoryScores.expert} />
+      </Carousel.Item>
+    )}
+  </Carousel>
           </div>
         </Col>
 
