@@ -18,6 +18,7 @@
   border: none;
   border-radius: 50px;
   width: 180px;
+  font-size: 12px;
 }
 .button-container-analytics > button:hover{
   background: var(--input-bg);
@@ -26,14 +27,15 @@
 /* chart */
 .chart-line-container{
   width: 100%;
-
+  
 }
 .chart-card-line-container{
   border: 1px solid var(--primary-color);
   border-radius: 50px;
-  padding: 30px;
+  padding: 20px;
   width: 420px;
   height: 40vh; /* Adjust height as necessary */
+
 }
 .carousel-controls {
   display: flex;
@@ -60,12 +62,14 @@
 .line-chart-container {
   border-radius: 8px; /* Rounded corners */
   text-align: center; /* Center the title */
+  height: 100%;
 }
 
 .line-chart-container h5 , .chart-card > p{
   margin-top: 10px;
   text-align: left !important;
   margin: 0;
+  
 }
 .chart-card-container{
   border: 1px solid var(--primary-color);
@@ -84,6 +88,7 @@
 .chart-container{
   border: 1px solid var(--primary-color);
   border-radius: 50px;
+  height: 25vh;
 }
 
 .chart-col {
@@ -141,20 +146,31 @@ table {
   border-collapse: collapse;
   color: var(--font-black);
   background-color: transparent !important;
-  position: relative; /* Required for the fixed header */
-
 }
+
 thead{
   height: 50px;
   position: sticky; /* Make the header sticky */
   top: 0; /* Stick to the top */
   z-index: 10; /* Ensure it is above other elements */
   background: var(--font-white);
-  /* border-bottom: 1px solid var(--primary-color) !important; */
   font-size: 11px;
 }
-thead > div{
-  width: 100% !important;
+
+thead::after {
+  content: '';
+  display: block;
+  height: 2px; /* Height of the border */
+  background: var(--primary-color); /* Color of the border */
+  position: absolute;
+  bottom: 0; /* Position it at the bottom of the thead */
+  left: 0;
+  right: 0;
+  z-index: -1; /* Ensure it is behind the thead */
+}
+
+thead tr{
+  position: relative;
 }
 
 tbody td {
@@ -178,19 +194,19 @@ table tbody td .btn-link:hover {
   color: var(--font-white);
   background: var(--input-bg);
 }
-.result-red {
+.result-red-analytic {
   color: #b30000; /* Dark red text */
 }
 
-.result-yellow {
-  color: #cc9900; /* Dark yellow text */
+.result-yellow-analytic {
+  color: #F8BD00; /* Dark yellow text */
 }
 
-.result-orange {
+.result-orange-analytic {
   color: #e65c00; /* Dark orange text */
 }
 
-.result-green {
+.result-green-analytic {
   color: #009900; /* Dark green text */
 }
 

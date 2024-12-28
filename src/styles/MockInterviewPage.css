@@ -52,7 +52,7 @@
   font-size: 20px;
   font-weight: 600;
 }
-.dashboard-header > p {
+.dashboard-header > p , .mock-interview-container-header > p{
     font-size: 9px;
     font-weight: 600;
     color: var(--card-color);
@@ -78,17 +78,18 @@
 .category-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
+  /* justify-content: space-around;
+  align-items: center; */
+  /* gap: 10px; */
+  width: 95%;
   /* border: 2px solid var(--primary-color); */
   border-radius: 50px;
-  height: 75vh;
+  height:67vh;
+  position: relative;
   scrollbar-color: var(--primary-color) #f1f1f1;
 }
 
-.category-card {
+/* .category-card {
   color: var(--font-white) !important;
   border-radius: 30px !important;
   display: flex;
@@ -104,9 +105,70 @@
   background-color: var(--primary-color);
   overflow: hidden;
   transition: box-shadow 0.3s ease;
-}
+  
+} */
+.category-card1{
+  color: var(--font-white) !important;
+  display: flex;
+  border: none !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  width: 60%;
+  height: 62%;
+  left: 20px;
 
-.category-card::before {
+  position: absolute;
+  background: var(--primary-color);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  clip-path: polygon(0 1%, 100% 0%, 91% 72%, 0% 100%);
+}
+.category-card2{
+  color: var(--font-white) !important;
+  display: flex;
+  border: none !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  width: 42%;
+  /* max-width: 500px; */
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: var(--primary-color);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+clip-path: polygon(13% 0, 100% 0%, 100% 100%, 0 45%);
+
+}
+.category-card3{
+  color: var(--font-white) !important;
+  display: flex;
+  border: none !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  width: 96%;
+  left: 20px;
+
+  /* max-width: 500px; */
+  height: 100%;
+  position: absolute;
+  background: var(--primary-color);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  bottom: 0;
+  z-index: 1;
+clip-path: polygon(0 65%, 57.5% 48%, 100% 100%, 0 100%);
+
+}
+.category-card1::before , .category-card2::before, .category-card3::before {
   content: '';
   position: absolute;
   top: 0;
@@ -122,75 +184,127 @@
   transition: filter 0.3s ease;
 }
 
+
+
 /* Specific background images for each card */
-.category-card.bg-behavioral::before {
-  
-  background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
+.category-card1.bg-behavioral::before {
+    background-image: url(../assets/basic.png); /* Replace with your actual image path */
+    background-size: 160px;
+    background-position: right 190px bottom 30px;
+
 }
 
-.category-card.bg-basic::before {
-  background-image: url(../assets/basic.png); /* Replace with your actual image path */
-}
-
-.category-card.bg-expert::before {
+.category-card2.bg-basic::before {
   background-image: url(../assets/expert1.png); /* Replace with your actual image path */
+  background-size: 200px;
+  background-position: right 30px bottom 150px;
+    transform: scaleX(-1);
 }
 
-.category-card:hover::before {
+.category-card3.bg-expert::before {
+  background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
+  background-size: 160px;
+
+}
+
+.category-card1:hover::before,.category-card2:hover::before, .category-card3:hover::before {
   filter: grayscale(0%);
 }
 
-.category-card-title {
+
+.category-card-title1 {
   width: 30%;
-  font-size: 2.0em;
+  font-size: 3.5em;
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-  transform: rotate(90deg);
   white-space: nowrap;
   margin: 0;
   position: absolute;
-  top: 20px;
-  right: 10px;
-  font-weight: 700;
+  top: 10px;
+  left: 150px;
+  font-weight: 500;
+  z-index: 30;
+  transition: transform 0.3s ease;
+}
+.category-card-title2 {
+  width: 30%;
+  font-size: 3.5em;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  right: 30px;
+  font-weight: 500;
   z-index: 30;
   transition: transform 0.3s ease;
 }
 
-.category-description {
+.category-card-title3 {
+  width: 30%;
+  font-size: 3.5em;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  margin: 0;
+  position: absolute;
+  bottom: 50px;
+  left: 90px;
+  font-weight: 500;
+  z-index: 30;
+  transition: transform 0.3s ease;
+}
+
+.category-description1 {
   position: absolute;
   z-index: 200;
   font-size: 12px;
   padding: 10px;
-  top: 12%;
+  top: 0;
   text-align: center;
-  visibility: hidden; /* Initially hide the paragraph */
-  opacity: 0; /* Start with opacity 0 */
-  transition: visibility 0s linear 0.3s, opacity 0.3s linear; /* Smooth transition */
+  visibility: visible;
+  opacity: 1; 
+  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
-/* Keyframes for moving to center and scaling */
-@keyframes moveToCenter {
-  0% {
-    transform: rotate(90deg) translate(0, 0) scale(1); /* Initial state */
-    text-shadow: none; /* No shadow initially */
-  }
+.category-description2 {
+  position: absolute;
+  z-index: 200;
+  font-size: 12px;
+  padding: 10px;
+  top: 0;
+  text-align: center;
+  visibility: visible;
+  opacity: 1; 
+  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+}
 
-  100% {
-    transform: rotate(0deg)  scale(1.1); /* Scale up */
-    font-size: 1em; /* Resize font size */
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(0, 0, 255, 0.6); 
-  }
+.category-description3 {
+  position: absolute;
+  z-index: 200;
+  font-size: 12px;
+  padding: 10px;
+  bottom: 0;
+  text-align: center;
+  visibility: visible;
+  opacity: 1; 
+  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
-.category-card:hover .category-card-title {
-  animation: moveToCenter 0.5s forwards; /* Trigger the animation */
-  width: 90%; /* Optional: Adjust the width on hover */
+
+.category-card1:hover .category-card-title1 {
+  animation: moveRight 0.5s forwards;
+  width: 90%;
   text-align: center !important;
+  transform: translateX(2%) translateY(20px);
 }
 
-.category-card:hover .category-description {
-  visibility: visible; /* Make the paragraph visible on hover */
-  opacity: 1; /* Fade in effect */
-  transition-delay: 0s; /* Remove delay when showing */
-}
+/* .category-card1:hover .category-description {
+  animation: moveRight 0.5s forwards; 
+  visibility: visible; 
+  opacity: 1;
+  transition-delay: 0s; 
+  transform: translateX(10%);
+} */
 
 
 .header-text-interview {
@@ -370,7 +484,7 @@
     position: relative;
     border-radius: 10px;
     width: 100% !important;
-    height: 400px !important; 
+    height: 100% !important; 
     object-fit: cover;  
     transform: scaleX(-1);
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.423);
