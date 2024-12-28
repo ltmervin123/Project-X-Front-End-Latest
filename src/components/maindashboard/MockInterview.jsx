@@ -125,29 +125,29 @@ const MainDashboard = () => {
       {/* Combined Categories */}
       <div className="category-container ">
         <div
-          className="category-card bg-behavioral"
+          className="category-card1 bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}
         >
-          <div className="category-card-title">BEHAVIORAL</div>
-          <p className="category-description">
+          <div className="category-card-title1">Behavioral</div>
+          <p className="category-description1">
             A behavioral interview focuses on your past behavior in specific
             situations to predict future performance.
           </p>
         </div>
         <div
-          className="category-card bg-basic"
+          className="category-card2 bg-basic"
           onClick={() => handleInterviewType("BASIC")}
         >
-          <div className="category-card-title">BASIC</div>
-          <p className="category-description">
+          <div className="category-card-title2">Basic</div>
+          <p className="category-description2">
           A basic interview is usually a more straightforward conversation where the focus is on your qualifications, experience, and understanding of the role.            </p>
         </div>
         <div
-          className="category-card bg-expert"
+          className="category-card3 bg-expert"
           onClick={() => handleInterviewType("EXPERT")}
         >
-          <div className="category-card-title">EXPERT</div>
-          <p className="category-description">
+          <div className="category-card-title3">Expert</div>
+          <p className="category-description3">
           An expert interview is a conversation where you ask a specialist deep questions to gain insights, advice, or their professional perspective on a specific topic. It’s all about learning from their expertise!
           </p>
         </div>

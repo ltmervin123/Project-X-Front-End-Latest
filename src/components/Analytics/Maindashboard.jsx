@@ -26,10 +26,10 @@ const MainDashboard = () => {
   
 //Helper function
 const getResultClass = (score) => {
-  if (score <= 1.5) return "result-red";
-  if (score <= 5) return "result-yellow";
-  if (score <= 7.5) return "result-orange";
-  return "result-green";
+  if (score <= 1.5) return "result-red-analytic";
+  if (score <= 5) return "result-yellow-analytic";
+  if (score <= 7.5) return "result-orange-analytic";
+  return "result-green-analytic";
 };
 
 //for testing date
@@ -100,14 +100,19 @@ const getDate = (dateString) => {
 
   // Function to create line chart data for each category
   const createCategoryChartData = (scores) => ({
-    labels: ['Week 1', 'Week 2', 'Week 3'],
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
     datasets: [
       {
         label: 'Performance',
         data: scores,
-        borderColor: '#4F52F4',
-        backgroundColor: 'rgba(79, 82, 244, 0.2)',
+        borderColor: '#FF6F20',
+        backgroundColor: 'rgba(255, 111, 32, 0.3)',
         fill: true,
+        tension: 0.4,
+        pointRadius: 6,
+        pointBackgroundColor: '#FF6F20',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
       },
     ],
   });
@@ -206,12 +211,7 @@ const getDate = (dateString) => {
         {/* Line Chart Container */}
         <Col md={6} className="line-chart-container d-flex justify-content-center align-items-center">
           <div className="carousel-controls">
-            <Button variant="outline-primary" onClick={() => carouselRef.current.prev()}>
-            <svg width="21" height="33" viewBox="0 0 21 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 28.5012L8.99816 16.5L21 4.49883L16.5009 -1.96661e-07L1.18611e-06 16.5L16.5009 33L21 28.5012Z" fill="#F46A05"/>
-            </svg>
 
-            </Button>
 
             <Carousel className="chart-card-line-container" ref={carouselRef} controls={false} indicators={false} interval={null}>
               {/* Conditional Rendering of Line Charts */}
@@ -223,10 +223,60 @@ const getDate = (dateString) => {
                       data={createCategoryChartData(categoryScores.overall)} 
                       options={{ 
                         responsive: true, 
-                        scales: { y: { min: 1, max: 10 } },
+                        scales: { 
+                          y: { 
+                            min: 1, 
+                            max: 10,
+                            grid: {
+                              color: 'rgba(0, 0, 0, 0.1)',
+                            },
+                          },
+                          x: {
+                            grid: {
+                              display: false,
+                            },
+                          },
+                        },
                         plugins: {
-                          legend: { display: false } // Hide the legend
-                        }
+                          legend: { display: false },
+                          tooltip: {
+                            backgroundColor: '#FF6F20',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            callbacks: {
+                              label: (tooltipItem) => {
+                                return `${tooltipItem.raw[0]}`;
+                              },
+                            },
+                          },
+                        },
+                        elements: {
+                          point: {
+                            radius: 6,
+                            hoverRadius: 8,
+                          },
+                        },
+                        annotation: {
+                          annotations: {
+                            line: {
+                              type: 'line',
+                              xMin: 2,
+                              xMax: 2,
+                              borderColor: 'rgba(0, 0, 0, 0.5)',
+                              borderWidth: 1,
+                              label: {
+                                content: '4.6',
+                                enabled: true,
+                                position: 'top',
+                                backgroundColor: '#FF6F20',
+                                color: '#fff',
+                                font: {
+                                  size: 14,
+                                },
+                              },
+                            },
+                          },
+                        },
                       }} 
                     />
                   </div>
@@ -240,10 +290,60 @@ const getDate = (dateString) => {
                       data={createCategoryChartData(categoryScores.behavioral)} 
                       options={{ 
                         responsive: true, 
-                        scales: { y: { min: 1, max: 10 } },
+                        scales: { 
+                          y: { 
+                            min: 1, 
+                            max: 10,
+                            grid: {
+                              color: 'rgba(0, 0, 0, 0.1)',
+                            },
+                          },
+                          x: {
+                            grid: {
+                              display: false,
+                            },
+                          },
+                        },
                         plugins: {
-                          legend: { display: false }
-                        }
+                          legend: { display: false },
+                          tooltip: {
+                            backgroundColor: '#FF6F20',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            callbacks: {
+                              label: (tooltipItem) => {
+                                return `${tooltipItem.raw[0]}`;
+                              },
+                            },
+                          },
+                        },
+                        elements: {
+                          point: {
+                            radius: 6,
+                            hoverRadius: 8,
+                          },
+                        },
+                        annotation: {
+                          annotations: {
+                            line: {
+                              type: 'line',
+                              xMin: 2,
+                              xMax: 2,
+                              borderColor: 'rgba(0, 0, 0, 0.5)',
+                              borderWidth: 1,
+                              label: {
+                                content: '4.6',
+                                enabled: true,
+                                position: 'top',
+                                backgroundColor: '#FF6F20',
+                                color: '#fff',
+                                font: {
+                                  size: 14,
+                                },
+                              },
+                            },
+                          },
+                        },
                       }} 
                     />
                   </div>
@@ -257,10 +357,60 @@ const getDate = (dateString) => {
                       data={createCategoryChartData(categoryScores.basic)} 
                       options={{ 
                         responsive: true, 
-                        scales: { y: { min: 1, max: 10 } },
+                        scales: { 
+                          y: { 
+                            min: 1, 
+                            max: 10,
+                            grid: {
+                              color: 'rgba(0, 0, 0, 0.1)',
+                            },
+                          },
+                          x: {
+                            grid: {
+                              display: false,
+                            },
+                          },
+                        },
                         plugins: {
-                          legend: { display: false }
-                        }
+                          legend: { display: false },
+                          tooltip: {
+                            backgroundColor: '#FF6F20',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            callbacks: {
+                              label: (tooltipItem) => {
+                                return `${tooltipItem.raw[0]}`;
+                              },
+                            },
+                          },
+                        },
+                        elements: {
+                          point: {
+                            radius: 6,
+                            hoverRadius: 8,
+                          },
+                        },
+                        annotation: {
+                          annotations: {
+                            line: {
+                              type: 'line',
+                              xMin: 2,
+                              xMax: 2,
+                              borderColor: 'rgba(0, 0, 0, 0.5)',
+                              borderWidth: 1,
+                              label: {
+                                content: '4.6',
+                                enabled: true,
+                                position: 'top',
+                                backgroundColor: '#FF6F20',
+                                color: '#fff',
+                                font: {
+                                  size: 14,
+                                },
+                              },
+                            },
+                          },
+                        },
                       }} 
                     />
                   </div>
@@ -274,10 +424,28 @@ const getDate = (dateString) => {
                       data={createCategoryChartData(categoryScores.expert)} 
                       options={{ 
                         responsive: true, 
-                        scales: { y: { min: 1, max: 10 } },
+                        scales: { 
+                          y: { 
+                            min: 1, 
+                            max: 10,
+                            grid: {
+                              color: 'rgba(0, 0, 0, 0.1)',
+                            },
+                          },
+                          x: {
+                            grid: {
+                              display: false,
+                            },
+                          },
+                        },
                         plugins: {
-                          legend: { display: false }
-                        }
+                          legend: { display: false },
+                          tooltip: {
+                            backgroundColor: '#FF6F20',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                          },
+                        },
                       }} 
                     />
                   </div>
@@ -285,12 +453,7 @@ const getDate = (dateString) => {
               )}
             </Carousel>
 
-            <Button variant="outline-primary" onClick={() => carouselRef.current.next()}>
-              <svg width="21" height="33" viewBox="0 0 21 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M-1.24583e-06 4.49883L12.0018 16.5L-1.9665e-07 28.5012L4.49908 33L21 16.5L4.49908 -1.96661e-07L-1.24583e-06 4.49883Z" fill="#F46A05"/>
-              </svg>
 
-            </Button>
           </div>
         </Col>
 
@@ -307,7 +470,9 @@ const getDate = (dateString) => {
                   <th>Date</th>
                   <th>Overall Result</th>
                   <th>Action</th>
+                  
                 </tr>
+
               </thead>
               <tbody className="list">
                 {isloaading ? (

@@ -18,14 +18,6 @@
   --exclusive-btn-color: #b90416;
 }
 
-body {
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 1) 58%,
-    rgba(244, 106, 5, 1) 130%
-  );
-}
 
 .main-container {
   position: relative;
@@ -128,15 +120,18 @@ body {
   position: relative;
   height: 100vh;
   padding: 0;
-  @media only screen and (min-width: 769px max-width: 1024px) {
-    height: 100%;
-  }
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 58%,
+    rgba(244, 106, 5, 1) 130%
+  );
   /* Set height to 100% of the viewport */
 }
 .hero-container > svg {
   position: absolute;
   z-index: 1;
-  bottom: -10px;
+  bottom: -12px;
 }
 
 .hero-container {
@@ -181,6 +176,12 @@ h2 > .quote {
 }
 
 /*mock interview section*/
+.mock-interview-container{
+    overflow-x: hidden;
+    background: url('../assets/bg-mockinterviewsection.png') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 .mock-interview-container,
 .bundle-mock-interview-container {
   position: relative;
