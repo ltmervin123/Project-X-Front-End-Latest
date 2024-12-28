@@ -115,7 +115,7 @@
   font-weight: 800;
   width: 50%;
   font-size: 15px;
-  color: var(--primary-color);
+  color: var(--font-black);
 }
 .progress-bar-container {
   width: 500px !important;
