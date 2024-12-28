@@ -8,7 +8,12 @@ import VideoRecording from "./MockVideoRecording";
 import BehavioralVideoRecording from "./BehavioralVideoRecording";
 import BasicVideoRecording from "./BasicVideoRecording";
 import BehavioralCategoryPopup from "./BehavioralCategoryPopup";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import CheckedCircle from "../../assets/check.png";
+import Pin from "../../assets/pin.png";
+import TronArrow from "../../assets/tronArrow.png";
+import RectangelScribble from "../../assets/RectangleScribble.png";
+import MagniFyingGlass from "../../assets/MagnifyingGlass.png";
 
 const MainDashboard = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -44,11 +49,13 @@ const MainDashboard = () => {
         setShowBehavioralCategoryPopup(true);
         break;
       case "BASIC":
-        navigate('/basic-interview');
+        navigate("/basic-interview");
         break;
       case "EXPERT":
         setShowUploadModal(true);
         break;
+      default:
+        console.error(`Unknown interview type: ${type}`);
     }
   };
 
@@ -57,7 +64,7 @@ const MainDashboard = () => {
     setInterviewType("Behavioral");
     setCategory(category);
     setShowBehavioralCategoryPopup(false);
-    navigate('/behavioral-interview', { state: { category } });
+    navigate("/behavioral-interview", { state: { category } });
   };
 
   //Set IntroShown flag in sessionStorage when the component mounts
@@ -95,11 +102,11 @@ const MainDashboard = () => {
   const handleJobDescriptionSubmit = (description) => {
     setJobDescription(description);
     setShowJobDescriptionModal(false);
-    navigate('/expert-interview', { 
-      state: { 
+    navigate("/expert-interview", {
+      state: {
         file: file,
-        jobDescription: description 
-      }
+        jobDescription: description,
+      },
     });
   };
 
@@ -133,6 +140,16 @@ const MainDashboard = () => {
             A behavioral interview focuses on your past behavior in specific
             situations to predict future performance.
           </p>
+          <div className="category-card-checkCircle">
+            <img src={CheckedCircle} alt="Check Circle" />
+          </div>
+          <div className="category-card-tronArrow">
+            <img src={TronArrow} alt="Tron Arrow" />
+          </div>
+          <p className="description1">Assess your situational <br/> responses</p>
+          <div className="category-card-RectangelScribble">
+            <img src={RectangelScribble} alt="Rectangel Scribble" />
+          </div>
         </div>
         <div
           className="category-card2 bg-basic"
@@ -140,7 +157,20 @@ const MainDashboard = () => {
         >
           <div className="category-card-title2">Basic</div>
           <p className="category-description2">
-          A basic interview is usually a more straightforward conversation where the focus is on your qualifications, experience, and understanding of the role.            </p>
+            A basic interview is usually a more straightforward conversation
+            where the focus is on your qualifications, experience, and
+            understanding of the role.{" "}
+          </p>
+          <div className="category-card-pin">
+            <img src={Pin} alt="pin" />
+          </div>
+          <div className="category-card-tronArrow2">
+            <img src={TronArrow} alt="Tron Arrow" />
+          </div>
+          <p className="description2">Test your fundamental knowledge</p>
+          <div className="category-card-RectangelScribble2">
+            <img src={RectangelScribble} alt="Rectangel Scribble" />
+          </div>
         </div>
         <div
           className="category-card3 bg-expert"
@@ -148,8 +178,21 @@ const MainDashboard = () => {
         >
           <div className="category-card-title3">Expert</div>
           <p className="category-description3">
-          An expert interview is a conversation where you ask a specialist deep questions to gain insights, advice, or their professional perspective on a specific topic. It’s all about learning from their expertise!
+            An expert interview is a conversation where you ask a specialist
+            deep questions to gain insights, advice, or their professional
+            perspective on a specific topic. It’s all about learning from their
+            expertise!
           </p>
+          <div className="category-card-magnifyingGlass">
+            <img src={MagniFyingGlass} alt="Magnifying Glass" />
+          </div>
+          <div className="category-card-tronArrow3">
+            <img src={TronArrow} alt="Tron Arrow" />
+          </div>
+          <p className="description3">Challenge advanced <br/>interview</p>
+          <div className="category-card-RectangelScribble3 ">
+            <img src={RectangelScribble} alt="Rectangel Scribble" />
+          </div>
         </div>
       </div>
       {/* Behavioral Category Popup */}
