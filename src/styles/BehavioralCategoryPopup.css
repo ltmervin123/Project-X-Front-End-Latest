@@ -101,7 +101,7 @@
 .rectangle-bg-behavioral-card1top {
   content: "";
   position: absolute;
-  top: 30%;
+  top: 20%;
   left: -2px;
   width: 24%;
   height: 90px;
@@ -112,10 +112,10 @@
 .rectangle-bg-behavioral-card2top {
   content: "";
   position: absolute;
-  top: 30%;
+  top: 21.5%;
   right: -2px;
   width: 24%;
-  height: 90px;
+  height: 60px;
   background-color: var(--primary-color);
   transform: translateY(-70%);
   z-index: 0;
@@ -123,10 +123,10 @@
 .rectangle-bg-behavioral-card3bottom {
   content: "";
   position: absolute;
-  top: 80%;
-  left: -2px;
+  top: 76%;
+  left: 2px;
   width: 24%;
-  height: 90px;
+  height: 60px;
   background-color: var(--primary-color);
   transform: translateY(-70%);
   z-index: 0;
@@ -145,10 +145,10 @@
 .rectangle-bg-behavioral-card5bottom {
   content: "";
   position: absolute;
-  top: 80%;
-  left: 270px;
+  top: 77.5%;
+  left: 25.5%;
   width: 24%;
-  height: 90px;
+  height: 70px;
   background-color: var(--primary-color);
   transform: translateY(-70%);
   z-index: 0;
@@ -156,10 +156,10 @@
 .rectangle-bg-behavioral-card6bottom {
   content: "";
   position: absolute;
-  top: 80%;
-  right: 270px;
+  top: 78.7%;
+  right: 25.5%;
   width: 24%;
-  height: 90px;
+  height: 80px;
   background-color: var(--primary-color);
   transform: translateY(-70%);
   z-index: 0;
@@ -167,10 +167,10 @@
 .rectangle-bg-behavioral-card7top {
   content: "";
   position: absolute;
-  top: 30%;
-  left: 270px;
+  top: 20.5%;
+  left: 25.5%;
   width: 24%;
-  height: 90px;
+  height: 80px;
   background-color: var(--primary-color);
   transform: translateY(-70%);
   z-index: 0;
@@ -178,10 +178,10 @@
 .rectangle-bg-behavioral-card8top {
   content: "";
   position: absolute;
-  top: 30%;
-  right: 270px;
+  top: 21%;
+  right: 25.5%;
   width: 24%;
-  height: 90px;
+  height: 70px;
   background-color: var(--primary-color);
   transform: translateY(-70%);
   z-index: 0;

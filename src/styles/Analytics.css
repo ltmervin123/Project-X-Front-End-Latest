@@ -29,7 +29,7 @@
 }
 
 /* chart */
-.chart-line-container{
+.chart-area-container{
   width: 100%;
 
 }
@@ -39,7 +39,7 @@
   align-items: center; /* Center items vertically */
   justify-content: space-between; /* Space between buttons and carousel */
   height: 100%;
-
+  
 }
 
 .carousel-controls button {
@@ -55,24 +55,23 @@
   color: var(--font-white);
 }
 
-.line-chart-container {
+.area-chart-container {
   border-radius: 8px; /* Rounded corners */
   text-align: center; /* Center the title */
   height: 100%;
-  
-  padding: 0;
 }
 
-.line-chart-container h5 , .chart-card > p{
+.area-chart-container h5 , .chart-card > p{
   margin-top: 10px;
   text-align: center !important;
   margin: 0;
   
 }
+
 /* .chart-card > canvas{
   height: 80% !important;
 } */
-.chart-card-line-container{
+.chart-card-area-container{
   border: 1px solid var(--primary-color);
   border-radius: 50px;
   padding: 20px 30px;
@@ -81,12 +80,10 @@
 
 }
 .chart-card {
-  border-radius: 8px; /* Rounded corners */
-  padding: 20px; /* Padding inside the card */
-  margin-bottom: 20px; /* Space below each card */
-  background: var(--bg-fade-signup);
+  border-radius: 24px; /* Rounded corners */
+  background: #F2F3F7;
   height: 43vh !important;
-
+  padding: 20px 0px;
 }
 .chart-card > p{
   font-size: 40px;
@@ -128,23 +125,32 @@
   left: 50%;
   transform: translate(-50%, 0);
   text-align: center;
-  font-size: 10px !important;
+  font-size: 13px !important;
   font-weight: bold;
 }
 
 .overall-performance {
   font-size: 2rem;
   text-align: center;
-  border-left: 2px solid var(--bg-fade-signup);
-  height: 10vh;
+  height: 16vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 20px;
+  justify-content: center;
 }
 .overall-performance > div{
   font-size: 2.5rem !important;
   font-weight: 600 !important;
-  padding: 0;
+  border-left: 3px solid var(--bg-fade-signup);
+  width: 100%;
 }
 .overall-performance > h5{
   font-size: .8rem;
+  margin: 0;
+  border-left: 3px solid var(--bg-fade-signup);
+  width: 100%;
+
 }
 
 
@@ -168,7 +174,7 @@
 }
 
 table {
-  text-align: center;
+  text-align: left;
   width: 100%;
   border-collapse: collapse;
   color: var(--font-black);
@@ -181,7 +187,7 @@ thead{
   top: 0; /* Stick to the top */
   z-index: 10; /* Ensure it is above other elements */
   background: var(--font-white);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 thead::after {
@@ -222,7 +228,8 @@ table tbody td .btn-link:hover {
   background: var(--input-bg);
 }
 .result-red-analytic {
-  color: #b30000; /* Dark red text */
+  color: #FF0000; /* Dark red text */
+  font-weight: 400;
 }
 
 .result-yellow-analytic {
@@ -230,11 +237,11 @@ table tbody td .btn-link:hover {
 }
 
 .result-orange-analytic {
-  color: #e65c00; /* Dark orange text */
+  color: #F46A05; /* Dark orange text */
 }
 
 .result-green-analytic {
-  color: #009900; /* Dark green text */
+  color: #319F43; /* Dark green text */
 }
 
 .btnReturn{
