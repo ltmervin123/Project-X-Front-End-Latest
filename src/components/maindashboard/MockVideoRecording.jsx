@@ -25,9 +25,10 @@ import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
-import introJs from 'intro.js';
-import 'intro.js/minified/introjs.min.css';
+import introJs from "intro.js";
+import "intro.js/minified/introjs.min.css";
 import io from "socket.io-client";
+import { useGreeting } from "../../hook/useGreeting";
 
 const VideoRecording = ({ interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
@@ -66,6 +67,8 @@ const VideoRecording = ({ interviewType, category }) => {
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const { firstGreeting } = useGreeting();
+  const fistGreetingText = firstGreeting();
   const name = user.name.split(" ")[0];
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
@@ -81,7 +84,7 @@ const VideoRecording = ({ interviewType, category }) => {
   // Add validation
   useEffect(() => {
     if (!file || !jobDescription) {
-      navigate('/maindashboard'); // Redirect if data is missing
+      navigate("/maindashboard"); // Redirect if data is missing
     }
   }, [file, jobDescription]);
 
@@ -644,8 +647,9 @@ const VideoRecording = ({ interviewType, category }) => {
 
     await speak(greeting);
 
-    setCurrentGreetingText(followUpGreeting);
-    await speak(followUpGreeting);
+    setCurrentGreetingText(fistGreetingText);
+
+    await speak(fistGreetingText);
     await new Promise((resolve) => setTimeout(resolve, 3000));
     setCurrentGreetingText(finalGreeting);
 
@@ -836,7 +840,10 @@ const VideoRecording = ({ interviewType, category }) => {
   return (
     <>
       <Header />
-      <Container fluid className="video-recording-page align-items-center justify-content-center">
+      <Container
+        fluid
+        className="video-recording-page align-items-center justify-content-center"
+      >
         <div className="video-recording-content">
           <Row>
             <Col md={7} className="d-flex flex-column align-items-center">
@@ -933,12 +940,19 @@ const VideoRecording = ({ interviewType, category }) => {
               </div>
 
               {/* Move Tips Container here */}
-              <div id="tipsContainer" className="tips-container d-flex mt-3 gap-2">
+              <div
+                id="tipsContainer"
+                className="tips-container d-flex mt-3 gap-2"
+              >
                 <div className="tips">
                   <p className="tips-header">Tips:</p>
                   <p className="tips-content">{tips[currentTipIndex]}</p>
                 </div>
-                <img className="tips-avatar" src={tipsAvatar} alt="Tips Avatar" />
+                <img
+                  className="tips-avatar"
+                  src={tipsAvatar}
+                  alt="Tips Avatar"
+                />
               </div>
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-3">
@@ -972,10 +986,7 @@ const VideoRecording = ({ interviewType, category }) => {
                 ) : (
                   <>
                     <h4>Welcome to the Interview!</h4>
-                    <p>
-                      We will start when you are ready. Please be prepared.
-
-                    </p>
+                    <p>We will start when you are ready. Please be prepared.</p>
                     <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
                       <Button
                         id="startInterviewButton"
@@ -984,8 +995,17 @@ const VideoRecording = ({ interviewType, category }) => {
                         disabled={isReattemptingCamera}
                         onClick={handleIntroFinish}
                       >
-                        <svg width="20" height="20" viewBox="0 0 19 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z" fill="white"/>
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 19 25"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z"
+                            fill="white"
+                          />
                         </svg>
                         <p>Start Interview</p>
                       </Button>
@@ -998,7 +1018,7 @@ const VideoRecording = ({ interviewType, category }) => {
           </Row>
 
           {/* ... error handling components ... */}
-          
+
           {questionError && (
             <ErrorGenerateQuestion
               onRetry={() => {
@@ -1007,9 +1027,9 @@ const VideoRecording = ({ interviewType, category }) => {
               }}
             />
           )}
-          
+
           {/* ... other modal components ... */}
-          
+
           {isGeneratingFeedback && <LoadingScreen />}
           {showSuccessPopup && <InterviewSuccessfulPopup />}
         </div>

@@ -26,6 +26,7 @@ import { useAnalytics } from "../../hook/useAnalytics";
 import loading from "../../assets/loading.gif";
 import Header from "../../components/Result/Header";
 import io from "socket.io-client";
+import { useGreeting } from "../../hook/useGreeting";
 
 const BehavioralVideoRecording = () => {
   const location = useLocation();
@@ -67,6 +68,8 @@ const BehavioralVideoRecording = () => {
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const { firstGreeting } = useGreeting();
+  const fistGreetingText = firstGreeting();
   const name = user.name.split(" ")[0];
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
@@ -77,7 +80,7 @@ const BehavioralVideoRecording = () => {
 
   //Function to initialize Intro.js
   const popupGuide = () => {
-    introJs() 
+    introJs()
       .setOptions({
         steps: [
           {
@@ -235,9 +238,9 @@ const BehavioralVideoRecording = () => {
 
     await speak(greeting);
 
-    setCurrentGreetingText(followUpGreeting);
+    setCurrentGreetingText(fistGreetingText);
 
-    await speak(followUpGreeting);
+    await speak(fistGreetingText);
 
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
@@ -799,7 +802,7 @@ const BehavioralVideoRecording = () => {
                 </p>
 
                 <p className="speech-subtitle-overlay">{recognizedText}</p>
-                
+
                 <div className="d-flex align-items-center gap-3 interview-tools">
                   <Button
                     id="cameraButton"

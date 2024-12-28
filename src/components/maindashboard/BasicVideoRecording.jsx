@@ -28,7 +28,7 @@ import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
-
+import { useGreeting } from "../../hook/useGreeting";
 
 const BasicVideoRecording = ({ interviewType, category }) => {
   const recordedChunksRef = useRef([]); // Ref for recorded video chunks
@@ -69,6 +69,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const name = user.name.split(" ")[0];
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const { firstGreeting } = useGreeting();
+  const fistGreetingText = firstGreeting();
   const greeting =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
   const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
@@ -106,7 +108,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
           {
             element: "mute-indicator",
-            intro: "Mute and Unmute indicator."
+            intro: "Mute and Unmute indicator.",
           },
           {
             element: "#tipsContainer",
@@ -271,9 +273,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       await speak(greeting);
 
-      setCurrentGreetingText(followUpGreeting);
+      setCurrentGreetingText(fistGreetingText);
 
-      await speak(followUpGreeting);
+      await speak(fistGreetingText);
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -518,14 +520,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Close handler
   const handleClose = () => {
-    navigate('/maindashboard'); // Navigate back to dashboard instead of closing modal
+    navigate("/maindashboard"); // Navigate back to dashboard instead of closing modal
   };
 
   // Confirm close handler
   const handleConfirmClose = () => {
     setShowConfirm(false);
     stopRecording(); // Ensure recording is stopped before closing
-    navigate('/maindashboard'); // Navigate back to dashboard
+    navigate("/maindashboard"); // Navigate back to dashboard
     window.location.reload(); // Reload the page
   };
 
@@ -670,10 +672,13 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   return (
     <>
-        <Header />
-        <Container fluid className="video-recording-page align-items-center justify-content-center">
+      <Header />
+      <Container
+        fluid
+        className="video-recording-page align-items-center justify-content-center"
+      >
         <div className="video-recording-content">
-        {/* <div className="d-flex justify-content-between align-items-center mb-3 p-3">
+          {/* <div className="d-flex justify-content-between align-items-center mb-3 p-3">
         <h5>Basic Mock Interview</h5>
         <Button
           id="confirmCloseButton"
@@ -685,219 +690,232 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           &times;
         </Button>
       </div> */}
-      <Row>
-        <Col md={7} className="d-flex flex-column align-items-center">
-          <div
-            id="videoArea"
-            className="video-area position-relative d-flex align-items-center "
-          >
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              className="video-feed"
-            ></video>
-            {/* Mute indicator in top left */}
-            <div id="mute-indicator" className="mute-indicator position-absolute top-0 start-0 m-2">
-              {isMuted ? (
-                <div className="d-flex align-items-center gap-2">
-                  <FaMicrophoneSlash  />
-                </div>
-              ) : (
-                <div className="d-flex align-items-center gap-2">
-                  <FaMicrophone />
-                </div>
-              )}
-            </div>
-            <p
-              id="timer"
-              className="timer position-absolute top-0 end-0 m-2"
-            >
-              {`${String(timer.minutes).padStart(2, "0")}:${String(
-                timer.seconds
-              ).padStart(2, "0")} / 3:00`}{" "}
-              {/* Change from 2:00 to 3:00 */}
-            </p>
-            <p className="speech-subtitle-overlay">{recognizedText}</p>
-            <div className="d-flex align-items-center gap-3 interview-tools">
-              <Button
-                id="cameraButton"
-                className="btn-videorecord"
-                onClick={toggleCamera}
-                variant={isCameraOn ? "success" : "secondary"}
+          <Row>
+            <Col md={7} className="d-flex flex-column align-items-center">
+              <div
+                id="videoArea"
+                className="video-area position-relative d-flex align-items-center "
               >
-                {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
-              </Button>
-              <Button
-                id="startButton"
-                className="position-relative  pause-indicator"
-                onClick={isRecording ? stopRecording : startRecording}
-                disabled={!questions.length || isUploading}
-              >
-                {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                {isUploading ? (
-                  <Spinner className="pause-indicator-spinner"></Spinner>
-                ) : isRecording ? (
-                  <FaPause size={30} />
-                ) : (
-                  <FaCircle size={30} />
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  className="video-feed"
+                ></video>
+                {/* Mute indicator in top left */}
+                <div
+                  id="mute-indicator"
+                  className="mute-indicator position-absolute top-0 start-0 m-2"
+                >
+                  {isMuted ? (
+                    <div className="d-flex align-items-center gap-2">
+                      <FaMicrophoneSlash />
+                    </div>
+                  ) : (
+                    <div className="d-flex align-items-center gap-2">
+                      <FaMicrophone />
+                    </div>
+                  )}
+                </div>
+                <p
+                  id="timer"
+                  className="timer position-absolute top-0 end-0 m-2"
+                >
+                  {`${String(timer.minutes).padStart(2, "0")}:${String(
+                    timer.seconds
+                  ).padStart(2, "0")} / 3:00`}{" "}
+                  {/* Change from 2:00 to 3:00 */}
+                </p>
+                <p className="speech-subtitle-overlay">{recognizedText}</p>
+                <div className="d-flex align-items-center gap-3 interview-tools">
+                  <Button
+                    id="cameraButton"
+                    className="btn-videorecord"
+                    onClick={toggleCamera}
+                    variant={isCameraOn ? "success" : "secondary"}
+                  >
+                    {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
+                  </Button>
+                  <Button
+                    id="startButton"
+                    className="position-relative  pause-indicator"
+                    onClick={isRecording ? stopRecording : startRecording}
+                    disabled={!questions.length || isUploading}
+                  >
+                    {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
+                    {isUploading ? (
+                      <Spinner className="pause-indicator-spinner"></Spinner>
+                    ) : isRecording ? (
+                      <FaPause size={30} />
+                    ) : (
+                      <FaCircle size={30} />
+                    )}
+                  </Button>
+                  <Button
+                    id="muteButton"
+                    className="btn-mute"
+                    onClick={toggleMute}
+                  >
+                    {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                  </Button>
+                </div>
+
+                {/* Countdown Overlay */}
+                {isCountdownActive && countdown > 0 && (
+                  <div className="countdown-overlay">
+                    <h6>Interview will Start in</h6>
+                    <h2>{countdown}</h2>
+                  </div>
                 )}
-              </Button>
-              <Button
-                id="muteButton"
-                className="btn-mute"
-                onClick={toggleMute}
+                {/* Overlay for reattempting access to camera */}
+                {isReattemptingCamera && (
+                  <div className="camera-retry-overlay">
+                    {/* <Spinner animation="border" role="status" /> */}
+                    <img
+                      className="loadinganimation"
+                      animation="border"
+                      role="status"
+                      src={loading}
+                    />
+                    <p>Reattempting access to camera...</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Tips container moved below video */}
+              <div
+                id="tipsContainer"
+                className="tips-container d-flex mt-3 gap-2"
               >
-                {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-              </Button>
-            </div>
-
-            {/* Countdown Overlay */}
-            {isCountdownActive && countdown > 0 && (
-              <div className="countdown-overlay">
-                <h6>Interview will Start in</h6>
-                <h2>{countdown}</h2>
-              </div>
-            )}
-            {/* Overlay for reattempting access to camera */}
-            {isReattemptingCamera && (
-              <div className="camera-retry-overlay">
-                {/* <Spinner animation="border" role="status" /> */}
+                <div className="tips">
+                  <p className="tips-header">Tips:</p>
+                  <p className="tips-content">{tips[currentTipIndex]}</p>
+                </div>
                 <img
-                  className="loadinganimation"
-                  animation="border"
-                  role="status"
-                  src={loading}
+                  className="tips-avatar"
+                  src={tipsAvatar}
+                  alt="Tips Avatar"
                 />
-                <p>Reattempting access to camera...</p>
               </div>
-            )}
-          </div>
+            </Col>
+            <Col md={5} className="d-flex flex-column align-items-center gap-3">
+              <img
+                id="talkingAvatar"
+                src={avatarImg}
+                alt="Avatar"
+                className="avatar-interviewer-img"
+              />
+              {/* <div className="avatar-interviewer-img"></div> */}
 
-          {/* Tips container moved below video */}
-          <div id="tipsContainer" className="tips-container d-flex mt-3 gap-2">
-            <div className="tips">
-              <p className="tips-header">Tips:</p>
-              <p className="tips-content">{tips[currentTipIndex]}</p>
-            </div>
-            <img className="tips-avatar" src={tipsAvatar} alt="Tips Avatar" />
-
-          </div>
-        </Col>
-        <Col md={5} className="d-flex flex-column align-items-center gap-3">
-          <img
-            id="talkingAvatar"
-            src={avatarImg}
-            alt="Avatar"
-            className="avatar-interviewer-img"
-          />
-          {/* <div className="avatar-interviewer-img"></div> */}
-
-          <div className="interview-question-container">
-            {currentGreetingText ? (
-              <p>{currentGreetingText}</p>
-            ) : isIntroShown ? (
-              <>
-                {countdown > 0 ? (
-                  <i>
-                    Hold tight! We’re preparing the perfect questions for
-                    you...
-                  </i>
+              <div className="interview-question-container">
+                {currentGreetingText ? (
+                  <p>{currentGreetingText}</p>
+                ) : isIntroShown ? (
+                  <>
+                    {countdown > 0 ? (
+                      <i>
+                        Hold tight! We’re preparing the perfect questions for
+                        you...
+                      </i>
+                    ) : (
+                      <>
+                        <h4>Question:</h4>
+                        <p className="question-text">
+                          {questions[questionIndex]}
+                        </p>
+                      </>
+                    )}
+                  </>
                 ) : (
                   <>
-                    <h4>Question:</h4>
-                    <p className="question-text">
-                      {questions[questionIndex]}
-                    </p>
+                    <h4>Welcome to the Interview!</h4>
+                    <p>We will start when you are ready. Please be prepared.</p>
+                    <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
+                      <Button
+                        id="startInterviewButton"
+                        className="btn-startinterview d-flex align-items-center"
+                        variant="link"
+                        disabled={isReattemptingCamera}
+                        onClick={handleIntroFinish}
+                      >
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 19 25"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z"
+                            fill="white"
+                          />
+                        </svg>
+
+                        <p>Start Interview</p>
+                      </Button>
+                      <i>Click here to Generate Interview Questions</i>
+                    </div>
                   </>
                 )}
-              </>
-            ) : (
-              <>
-                <h4>Welcome to the Interview!</h4>
-                <p>
-                  We will start when you are ready. Please be prepared.
+              </div>
+            </Col>
+          </Row>
 
-                </p>
-                <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
-                  <Button
-                    id="startInterviewButton"
-                    className="btn-startinterview d-flex align-items-center"
-                    variant="link"
-                    disabled={isReattemptingCamera}
-                    onClick={handleIntroFinish}
-                  >
-                  <svg width="20" height="20" viewBox="0 0 19 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z" fill="white"/>
-                  </svg>
+          {questionError && (
+            <ErrorGenerateQuestion
+              onRetry={() => {
+                setIsIntroShown(false);
+                setQuestionError(false);
+              }}
+            />
+          )}
+          {feedbackError ? (
+            <ErrorGenerateFeedback
+              onRetry={() => {
+                createFeedback();
+              }}
+            />
+          ) : (
+            <div
+              show={true}
+              onHide={handleClose}
+              centered
+              dialogClassName="custom-video-record-modal-width"
+              backdrop={false}
+            ></div>
+          )}
+          {cameraError ? (
+            <ErrorAccessCam
+              onClose={() => setCameraError(false)}
+              onRetry={() => {
+                // setCameraError(false);
+                enableCameraFeed();
+              }}
+            />
+          ) : (
+            <div
+              show={true}
+              onHide={handleClose}
+              centered
+              dialogClassName="custom-video-record-modal-width"
+              backdrop={false}
+            ></div>
+          )}
+          {showConfirm && (
+            <CancelInterviewAlert
+              show={showConfirm} // Control visibility with show prop
+              onHide={() => setShowConfirm(false)} // Close the modal when needed
+              onConfirm={handleConfirmClose}
+              onClose={() => setShowConfirm(false)}
+              message="Are you sure you want to cancel the interview?"
+            />
+          )}
 
-                    <p>Start Interview</p>
-                  </Button>
-                  <i>Click here to Generate Interview Questions</i>
-                </div>
+          {isGeneratingFeedback && <LoadingScreen />}
 
-              </>
-            )}
-          </div>
-        </Col>
-      </Row>
-
-      {questionError && (
-        <ErrorGenerateQuestion
-          onRetry={() => {
-            setIsIntroShown(false);
-            setQuestionError(false);
-          }}
-        />
-      )}
-      {feedbackError ? (
-        <ErrorGenerateFeedback
-          onRetry={() => {
-            createFeedback();
-          }}
-        />
-      ) : (
-        <div
-          show={true}
-          onHide={handleClose}
-          centered
-          dialogClassName="custom-video-record-modal-width"
-          backdrop={false}
-        ></div>
-      )}
-      {cameraError ? (
-        <ErrorAccessCam
-          onClose={() => setCameraError(false)}
-          onRetry={() => {
-            // setCameraError(false);
-            enableCameraFeed();
-          }}
-        />
-      ) : (
-        <div
-          show={true}
-          onHide={handleClose}
-          centered
-          dialogClassName="custom-video-record-modal-width"
-          backdrop={false}
-        ></div>
-      )}
-      {showConfirm && (
-        <CancelInterviewAlert
-          show={showConfirm} // Control visibility with show prop
-          onHide={() => setShowConfirm(false)} // Close the modal when needed
-          onConfirm={handleConfirmClose}
-          onClose={() => setShowConfirm(false)}
-          message="Are you sure you want to cancel the interview?"
-        />
-      )}
-
-      {isGeneratingFeedback && <LoadingScreen />}
-
-      {showSuccessPopup && <InterviewSuccessfulPopup />}
-
+          {showSuccessPopup && <InterviewSuccessfulPopup />}
         </div>
-    </Container>
+      </Container>
     </>
   );
 };

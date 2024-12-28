@@ -1,10 +1,11 @@
 import { useAuthContext } from "./useAuthContext";
-import { AfterGreeting } from "../utils/greetings/afternoonGreetings";
-import { MorningGreeting } from "../utils/greetings/morningGreetings";
-import { EveningGreeting } from "../utils/greetings/eveningGreetingsGreetings";
+import AfterGreeting from "../utils/greetings/afternoonGreetings";
+import MorningGreeting from "../utils/greetings/morningGreetings";
+import EveningGreeting from "../utils/greetings/eveningGreetings";
 
 export const useGreeting = () => {
   const { user } = useAuthContext();
+  const name = user.name.split(" ")[0];
 
   const getTimePerdiod = () => {
     const date = new Date();
@@ -26,16 +27,16 @@ export const useGreeting = () => {
 
     switch (time) {
       case "morning":
-        const morningGreeting = MorningGreeting(user);
+        const morningGreeting = new MorningGreeting(name);
         return morningGreeting.getGreeting();
       case "afternoon":
-        const afternoonGreeting = AfterGreeting(user);
+        const afternoonGreeting = new AfterGreeting(name);
         return afternoonGreeting.getGreeting();
       case "evening":
-        const eveningGreeting = EveningGreeting(user);
+        const eveningGreeting = new EveningGreeting(name);
         return eveningGreeting.getGreeting();
       case "night":
-        return `Hello! ${user} Thank you for accommodating this interview time.`;
+        return `Hello! ${name} Thank you for accommodating this interview time.`;
       default:
         throw new Error("Invalid time period");
     }
