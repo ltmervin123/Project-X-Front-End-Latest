@@ -74,6 +74,7 @@
   overflow-y: auto;
   padding-right: 15px;
   font-size: 12px;
+  width: 100%;
 }
 .interview-data > div > strong {
   color: var(--input-bg);
@@ -233,6 +234,10 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .btnPractice {
@@ -245,6 +250,9 @@
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-retry {

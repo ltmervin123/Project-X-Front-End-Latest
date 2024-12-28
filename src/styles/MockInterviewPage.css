@@ -256,7 +256,7 @@ clip-path: polygon(0 65%, 57.5% 48%, 100% 100%, 0 100%);
   transition: transform 0.3s ease;
 }
 
-.category-description1 {
+/* .category-description1 {
   position: absolute;
   z-index: 200;
   font-size: 12px;
@@ -289,7 +289,7 @@ clip-path: polygon(0 65%, 57.5% 48%, 100% 100%, 0 100%);
   visibility: visible;
   opacity: 1; 
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
-}
+} */
 
 .category-card1:hover .category-card-title1 {
   animation: moveRight 0.5s forwards;

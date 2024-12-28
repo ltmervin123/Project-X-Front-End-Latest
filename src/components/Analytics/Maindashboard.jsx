@@ -136,7 +136,7 @@ const getDate = (dateString) => {
       </div>
 
       {/* New button container */}
-      <div className="button-container-analytics d-flex justify-content-end gap-3">
+      <Row className="button-container-analytics d-flex justify-content-end gap-3">
         <Button 
           className={`btn-overall-analytics ${selectedChart === "overall" ? "btn-active" : ""}`} 
           onClick={() => setSelectedChart("overall")}
@@ -161,49 +161,51 @@ const getDate = (dateString) => {
         >
           Expert
         </Button>
-      </div>
+      </Row>
 
 
       <Row className="chart-container justify-content-center align-items-center  " >
 
-        <Col md={9}>
-          <Row className="justify-content-center " >
+        <Col md={9} className="h-100">
+          <Row className="justify-content-center">
             {chartData.map((item) => (
-              <Col key={item.name} xs={6} md={3} className="p-3 chart-col">
+              <Col key={item.name} xs={6} md={3} className="chart-col">
                 <div className="chart-name">{item.name}</div>
-                <Doughnut
-                  data={createDoughnutData(item.score, item.color)}
-                  options={{
-                    plugins: {
-                      legend: { display: false },
-                      tooltip: {
-                        enabled: true,
-                        callbacks: {
-                          label: (tooltipItem) => {
-                            const filledValue = tooltipItem.raw[0];
-                            return `${item.name}: ${filledValue} filled`;
+                <div className="doughnut-chart" style={{ width: '100%' }}>
+                  <Doughnut
+                    className="doughnut"
+                    data={createDoughnutData(item.score, item.color)}
+                    options={{
+                      plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                          enabled: true,
+                          callbacks: {
+                            label: (tooltipItem) => {
+                              const filledValue = tooltipItem.raw[0];
+                              return `${item.name}: ${filledValue} filled`;
+                            }
                           }
                         }
-                      }
-                    },
-                    rotation: -90,
-                    circumference: 180,
-                    cutout: "60%",
-                    maintainAspectRatio: true,
-                    responsive: true
-                  }}
-                />
+                      },
+                      rotation: -90,
+                      circumference: 180,
+                      cutout: "70%",
+                      maintainAspectRatio: true,
+                      responsive: true
+                    }}
+                  />
+                </div>
                 <div className="chart-score">
-                  <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{item.score}</div>
+                  <div>{item.score}</div>
                 </div>
               </Col>
             ))}
           </Row>
         </Col>
-        <Col md={3} className="d-flex align-items-center justify-content-center flex-column overall-performance ">
-          <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>4.6</div>
+        <Col md={3} className="overall-performance">
+          <div style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>4.6</div>
           <h5>Overall Performance</h5>
-
         </Col>
       </Row>
       {/* New Line Chart Slider Section */}
@@ -218,7 +220,7 @@ const getDate = (dateString) => {
               {selectedChart === "overall" && (
                 <Carousel.Item>
                   <div className="chart-card">
-                    <h5>Overall Performance</h5>
+                    <h5>Your Overall Performance</h5>
                     <Line 
                       data={createCategoryChartData(categoryScores.overall)} 
                       options={{ 
@@ -252,29 +254,10 @@ const getDate = (dateString) => {
                         },
                         elements: {
                           point: {
-                            radius: 6,
-                            hoverRadius: 8,
+                            radius: 0,
                           },
-                        },
-                        annotation: {
-                          annotations: {
-                            line: {
-                              type: 'line',
-                              xMin: 2,
-                              xMax: 2,
-                              borderColor: 'rgba(0, 0, 0, 0.5)',
-                              borderWidth: 1,
-                              label: {
-                                content: '4.6',
-                                enabled: true,
-                                position: 'top',
-                                backgroundColor: '#FF6F20',
-                                color: '#fff',
-                                font: {
-                                  size: 14,
-                                },
-                              },
-                            },
+                          line: {
+                            fill: true,
                           },
                         },
                       }} 
@@ -458,7 +441,7 @@ const getDate = (dateString) => {
         </Col>
 
         {/* Analytics Container */}
-        <Col md={6} className="analytics-container"> {/* 40% width */}
+        <Col md={6} className="analytics-container "> {/* 40% width */}
           <div className="table-responsive">
             <table>
               <thead>

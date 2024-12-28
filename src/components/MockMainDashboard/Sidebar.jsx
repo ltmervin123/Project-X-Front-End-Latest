@@ -19,8 +19,8 @@ const Sidebar = () => {
         to="/maindashboard"
       >
         <svg
-          width="21"
-          height="22"
+          width="15"
+          height="16"
           viewBox="0 0 21 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -37,8 +37,8 @@ const Sidebar = () => {
         to="/mockInterview"
       >
         <svg
-          width="21"
-          height="22"
+          width="15"
+          height="16"
           viewBox="0 0 21 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -55,8 +55,8 @@ const Sidebar = () => {
         to="/comingsoon"
       >
         <svg
-          width="21"
-          height="22"
+          width="15"
+          height="16"
           viewBox="0 0 21 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -76,8 +76,8 @@ const Sidebar = () => {
         to="/analytics"
       >
         <svg
-          width="21"
-          height="22"
+          width="15"
+          height="16"
           viewBox="0 0 21 22"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
