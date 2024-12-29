@@ -146,7 +146,9 @@ const MainDashboard = () => {
           <div className="category-card-tronArrow">
             <img src={TronArrow} alt="Tron Arrow" />
           </div>
-          <p className="description1">Assess your situational <br/> responses</p>
+          <p className="description1">
+            Assess your situational <br /> responses
+          </p>
           <div className="category-card-RectangelScribble">
             <img src={RectangelScribble} alt="Rectangel Scribble" />
           </div>
@@ -189,7 +191,10 @@ const MainDashboard = () => {
           <div className="category-card-tronArrow3">
             <img src={TronArrow} alt="Tron Arrow" />
           </div>
-          <p className="description3">Challenge advanced <br/>interview</p>
+          <p className="description3">
+            Challenge advanced <br />
+            interview
+          </p>
           <div className="category-card-RectangelScribble3 ">
             <img src={RectangelScribble} alt="Rectangel Scribble" />
           </div>

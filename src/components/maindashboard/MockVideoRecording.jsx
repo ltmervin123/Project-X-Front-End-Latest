@@ -69,12 +69,13 @@ const VideoRecording = ({ interviewType, category }) => {
   const [socket, setSocket] = useState(null);
   const { firstGreeting } = useGreeting();
   const fistGreetingText = firstGreeting();
+  const [isIntro, setIsIntro] = useState(false);
   const name = user.name.split(" ")[0];
-  const greeting =
+  const firstGreetingText =
     "Welcome to HR Hatch mock interview simulation. Today’s interviewer is Steve.";
-  const followUpGreeting = `Hi ${name}, my name is Steve. Thanks for attending the interview. How are you today?`;
-  const finalGreeting =
-    "I hope you are doing great. To start your interview please press the button “Start Interview.”";
+  const secondGreetingText = firstGreeting();
+  // const finalGreeting =
+  //   "I hope you are doing great. To start your interview please press the button “Start Interview.”";
   // const googleApiKey = process.env.REACT_APP_GOOGLE_CONSOLE_API_KEY;
   const API = process.env.REACT_APP_API_URL;
   const location = useLocation();
@@ -234,12 +235,7 @@ const VideoRecording = ({ interviewType, category }) => {
       });
       setIsReattemptingCamera(false); // Reset if successful
       setCameraError(false);
-
       await userIntroduction();
-      // Wait for a brief moment before starting the guide
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      // Start the guide
-      startGuide();
     } catch (error) {
       setIsReattemptingCamera(false);
       setCameraError(true);
@@ -277,6 +273,62 @@ const VideoRecording = ({ interviewType, category }) => {
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
+    }
+  };
+
+  const aiFinalGreeting = async () => {
+    try {
+      // Set uploading state to true
+      setIsRecording(false);
+      setIsPaused(true);
+      setRecognizedText("");
+
+      // Check if the socket is connected
+      if (socket?.connected) {
+        socket.emit("stop-transcription");
+      }
+
+      // Create a payload object to send the transcription data
+      const greeting = secondGreetingText;
+      const userResponse = transcript;
+      const payload = { greeting, userResponse };
+
+      const response = await axios.post(
+        `${API}/api/interview/final-greeting`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json", // Required for file uploads
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setIsUploading(false);
+      setIsIntro(false);
+      //Extract the final greeting from the response
+      const finalGreeting = await response.data.finalGreeting;
+
+      // Set the final greeting text
+      setCurrentGreetingText(finalGreeting);
+      // Speak the final greeting
+      await speak(finalGreeting);
+
+      setCurrentGreetingText("");
+      setTranscript("");
+
+      // Wait for a brief moment before starting the guide
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Start the guide
+      startGuide();
+    } catch (error) {
+      console.error("Error fetching final response:", error.response.error);
+    } finally {
+      // Clear the recorded chunks after uploading
+      recordedChunksRef.current = [];
+      audioRecorderRef.current = [];
+      // Set uploading state to false
+      setIsUploading(false);
     }
   };
 
@@ -518,18 +570,22 @@ const VideoRecording = ({ interviewType, category }) => {
         audioRecorderRef.current.onstop = resolve;
       });
 
-      // Upload transcription
-      await uploadTranscription();
-
-      // Check if we're at the last question
-      if (questionIndex === questions.length - 1 && !isUploading) {
-        // Show greeting message
-        setShowGreeting(true);
-        const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-        speak(greetingMessage);
-        await createFeedback();
+      if (isIntro) {
+        aiFinalGreeting();
       } else {
-        setQuestionIndex((prevIndex) => prevIndex + 1);
+        // Upload transcription
+        await uploadTranscription();
+
+        // Check if we're at the last question
+        if (questionIndex === questions.length - 1 && !isUploading) {
+          // Show greeting message
+          setShowGreeting(true);
+          const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+          speak(greetingMessage);
+          await createFeedback();
+        } else {
+          setQuestionIndex((prevIndex) => prevIndex + 1);
+        }
       }
     }
   };
@@ -643,20 +699,13 @@ const VideoRecording = ({ interviewType, category }) => {
 
   //
   const userIntroduction = async () => {
-    setCurrentGreetingText(greeting);
-
-    await speak(greeting);
-
-    setCurrentGreetingText(fistGreetingText);
-
-    await speak(fistGreetingText);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    setCurrentGreetingText(finalGreeting);
-
-    await speak(finalGreeting);
-
-    setHasSpokenGreeting(true);
-    setCurrentGreetingText("");
+    if (!isIntroShown) {
+      setIsIntro(true);
+      setCurrentGreetingText(firstGreetingText);
+      await speak(firstGreetingText);
+      setCurrentGreetingText(secondGreetingText);
+      await speak(secondGreetingText);
+    }
   };
 
   //Create Feedback
@@ -893,21 +942,42 @@ const VideoRecording = ({ interviewType, category }) => {
                   >
                     {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
                   </Button>
-                  <Button
-                    id="startButton"
-                    className="position-relative  pause-indicator"
-                    onClick={isRecording ? stopRecording : startRecording}
-                    disabled={!questions.length || isUploading}
-                  >
-                    {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                    {isUploading ? (
-                      <Spinner className="pause-indicator-spinner"></Spinner>
-                    ) : isRecording ? (
-                      <FaPause size={30} />
-                    ) : (
-                      <FaCircle size={30} />
-                    )}
-                  </Button>
+                  {/* Start and Stop record button */}
+                  {isIntro ? (
+                    // this button is for the intro
+                    <Button
+                      id="startButton"
+                      className="position-relative  pause-indicator"
+                      onClick={isRecording ? stopRecording : startRecording}
+                      disabled={isUploading}
+                    >
+                      {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
+                      {isUploading ? (
+                        <Spinner className="pause-indicator-spinner"></Spinner>
+                      ) : isRecording ? (
+                        <FaPause size={30} />
+                      ) : (
+                        <FaCircle size={30} />
+                      )}
+                    </Button>
+                  ) : (
+                    // this button is for the interview
+                    <Button
+                      id="startButton"
+                      className="position-relative  pause-indicator"
+                      onClick={isRecording ? stopRecording : startRecording}
+                      disabled={!questions.length || isUploading}
+                    >
+                      {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
+                      {isUploading ? (
+                        <Spinner className="pause-indicator-spinner"></Spinner>
+                      ) : isRecording ? (
+                        <FaPause size={30} />
+                      ) : (
+                        <FaCircle size={30} />
+                      )}
+                    </Button>
+                  )}
                   <Button
                     id="muteButton"
                     className="btn-mute"
