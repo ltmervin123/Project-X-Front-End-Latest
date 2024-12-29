@@ -1,6 +1,6 @@
 import { React, useState } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import "../../styles/Analytics.css";
+import { Container, Row, Col } from "react-bootstrap";
+import "../../styles/Result.css";
 import { useNavigate } from "react-router-dom";
 
 const ResultSection = ({ interviewId }) => {
@@ -10,95 +10,48 @@ const ResultSection = ({ interviewId }) => {
 
   // Find the specific interview details based on the provided interviewId
   const interviewDetails = analytics.find((item) => item._id === interviewId);
-  console.log(interviewDetails);
-  const question = interviewDetails.interviewDetails[0].question;
-  const answer = interviewDetails.interviewDetails[0].answer;
-  const feedback = interviewDetails.feedback;
-  const overallFeedback = interviewDetails.overallFeedback;
-  const improvedAnswer = interviewDetails.improvedAnswer;
+  
+  // Destructure interview details for easier access
+  const {
+    interviewDetails: [{ question, answer }],
+    feedback,
+    overallFeedback,
+    improvedAnswer,
+  } = interviewDetails;
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // List of filler words
   const fillerWords = (
     overallFeedback.list || [
-      "um,",
-      "uh",
-      "hmm",
-      "ah",
-      "um",
-      "like",
-      "you know",
-      "basically",
-      "you see",
-      "kind of",
-      "most likely",
-      "as well as",
-      "actually",
-      "sort of",
-      "I mean",
-      "well",
-      "so",
-      "right",
-      "okay",
-      "just",
-      "literally",
-      "anyway",
-      "probably",
-      "maybe",
-      "in a way",
-      "to be honest",
-      "you know what I mean",
-      "let's say",
-      "for example",
-      "at the end of the day",
-      "like I said",
-      "you know what I'm saying",
-      "erm",
-      "uh-huh",
-      "uh-oh",
-      "like, you know",
-      "I guess",
-      "sorta",
-      "kinda",
-      "right?",
-      "y'know",
-      "basically",
-      "I suppose",
-      "you know what I mean?",
-      "to be fair",
-      "if you will",
-      "I reckon",
-      "you know what I'm talking about",
-      "let me think",
-      "let's see",
-      "I mean, like",
-      "you know what I'm saying",
-      "for real",
-      "honestly",
-      "seriously",
-      "like seriously",
-      "you know what I mean, right?",
-      "I mean, you know",
-      "I mean, honestly",
+      "um,", "uh", "hmm", "ah", "um", "like", "you know", "basically",
+      "you see", "kind of", "most likely", "as well as", "actually",
+      "sort of", "I mean", "well", "so", "right", "okay", "just",
+      "literally", "anyway", "probably", "maybe", "in a way",
+      "to be honest", "you know what I mean", "let's say", "for example",
+      "at the end of the day", "like I said", "you know what I'm saying",
+      "erm", "uh-huh", "uh-oh", "like, you know", "I guess", "sorta",
+      "kinda", "right?", "y'know", "basically", "I suppose",
+      "you know what I mean?", "to be fair", "if you will", "I reckon",
+      "you know what I'm talking about", "let me think", "let's see",
+      "I mean, like", "you know what I'm saying", "for real", "honestly",
+      "seriously", "like seriously", "you know what I mean, right?",
+      "I mean, you know", "I mean, honestly",
     ]
   ).map((word) => word.toLowerCase());
 
-  console.log("Filler words: ", fillerWords);
-
   const highlightFillerWords = (text) => {
-    const words = text.split(" "); // Split text into words
+    const words = text.split(" ");
     return words.map((word, index) => {
-      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, ""); // Remove punctuation
-      console.log("Lower word: ", lowerWord);
+      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, "");
       if (fillerWords.includes(lowerWord)) {
         return (
           <span key={index} className="filler-red">
-            {word}
+            {word  + " "}
           </span>
         );
       }
-      return <span key={index}>{word} </span>;
+      return <span key={index}>{word + " "}</span>;
     });
   };
 
@@ -106,13 +59,11 @@ const ResultSection = ({ interviewId }) => {
   const getResultClass = (scores, type) => {
     if (type === "fillerCount") {
       const score = parseInt(scores, 10);
-      if (score >= 0 && score <= 3) return "result-green";
-      if (score > 3 && score <= 6) return "result-yellow";
-      if (score > 6 && score <= 9) return "result-orange";
+      if (score >= 0 && score <= 3) return "result-green-bg";
+      if (score > 3 && score <= 6) return "result-yellow-bg";
+      if (score > 6 && score <= 9) return "result-orange-bg";
       return "result-red"; // for score 10 and above
     }
-
-    // Existing logic for other scores
     if (scores >= 0 && scores <= 1.5) return "result-red";
     if (scores > 1.5 && scores <= 5.0) return "result-yellow";
     if (scores > 5.0 && scores <= 7.5) return "result-orange";
@@ -120,9 +71,7 @@ const ResultSection = ({ interviewId }) => {
   };
 
   const handlePrev = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + question.length) % question.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + question.length) % question.length);
   };
 
   const handleNext = () => {
@@ -133,119 +82,152 @@ const ResultSection = ({ interviewId }) => {
     navigate(-1); // Go back to the previous page
   };
 
-  return interviewDetails ? (
-    <Container className="result-container shadow-sm p-3">
-      <Row>
-        <Col md={4}>
-          <Card className="interview-result-container d-flex align-items-center">
-            <h4>INTERVIEW RESULT</h4>
-            <div className="score-section">
-              <div className="d-flex justify-content-between align-items-center">
-                <p className="rating-name">Grammar</p>
-                <p className={getResultClass(overallFeedback.grammar)}>
-                  {overallFeedback.grammar || 0}/10
-                </p>
-              </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <p className="rating-name">Skills</p>
-                <p className={getResultClass(overallFeedback.gkills)}>
-                  {overallFeedback.gkills || 0}/10
-                </p>
-              </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <p className="rating-name">Experience</p>
-                <p className={getResultClass(overallFeedback.experience)}>
-                  {overallFeedback.experience || 0}/10
-                </p>
-              </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <p className="rating-name">Relevance</p>
-                <p className={getResultClass(overallFeedback.relevance)}>
-                  {overallFeedback.relevance || 0}/10
-                </p>
-              </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <p className="rating-name">Filler Count</p>
-                <p
-                  className={getResultClass(
-                    overallFeedback.fillerCount || 0,
-                    "fillerCount"
-                  )}
-                >
-                  {overallFeedback.fillers || 0}
-                </p>
-              </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <p className="rating-name-overall">Overall Performance</p>
-                <p
-                  className={getResultClass(overallFeedback.overallPerformance)}
-                >
-                  {overallFeedback.overallPerformance || 0}/10
-                </p>
-              </div>
-            </div>
-          </Card>
-        </Col>
+  const handlePractice = () => {
+    navigate("/mockInterview");
+  };
 
-        <Col md={8}>
-          <Card className="interview-container p-4 position-relative">
-            <h4>
-              Question {currentIndex + 1} of {question.length}
-            </h4>
-            <div className="interview-data">
-              <div>
-                <strong>Question:</strong>
-                <p>{question[currentIndex]}</p>
-              </div>
-              <div>
-                <strong>Your Answer:</strong>
-                <p>
-                  {answer[currentIndex]
-                    ? highlightFillerWords(answer[currentIndex])
-                    : "No answer provided"}
-                </p>
-              </div>
-              <div>
-                <strong>Enhance Answer:</strong>
-                <p>{improvedAnswer[currentIndex]}</p>
-              </div>
-              <div>
-                <strong>Feedback:</strong>
-                <p>{feedback[currentIndex]}</p>
+  return interviewDetails ? (
+    <Container className="result-container shadow-sm d-flex flex-column">
+      <h4>Interview Result</h4>
+      <div className="score-section gap-2">
+        <Row className="d-flex align-items-center justify-content-center ">
+          <Col md={6} xs={12}>
+            {/* Grammar Score */}
+            <div className="d-flex  align-items-center justify-content-center">
+              <p className="rating-name">Grammar</p>
+              <div className="progress-bar-container" style={{ width: '100%' }}>
+                <div 
+                  className={`progress-bar ${getResultClass(overallFeedback.grammar)}`} 
+                  style={{ width: `${(overallFeedback.grammar || 0) * 10}%` }} 
+                >
+                  <span className="score-text">{overallFeedback.grammar || 0}</span>
+                </div>
+                <p className="score-out-of1">{`${10}`}</p>
               </div>
             </div>
-            <div className="d-flex justify-content-center question-navination">
-              <span
-                className="prev"
-                onClick={handlePrev}
-                style={{ cursor: "pointer", marginRight: "10px" }}
-              >
-                &lt;
-              </span>
-              <h4 className="pageNum">{currentIndex + 1}</h4>
-              <span
-                className="next"
-                onClick={handleNext}
-                style={{ cursor: "pointer", marginLeft: "10px" }}
-              >
-                &gt;
-              </span>
+            {/* Experience Score */}
+            <div className="d-flex  align-items-center justify-content-center">
+              <p className="rating-name">Experience</p>
+              <div className="progress-bar-container" style={{ width: '100%' }}>
+                <div 
+                  className={`progress-bar ${getResultClass(overallFeedback.experience)}`} 
+                  style={{ width: `${(overallFeedback.experience || 0) * 10}%` }} 
+                >
+                  <span className="score-text">{overallFeedback.experience || 0}</span>
+                </div>
+                <p className="score-out-of1">{`${10}`}</p>
+              </div>
             </div>
-          </Card>
-        </Col>
-        <div className="w-100 d-flex justify-content-end">
-          <button
-            className="btn btn-secondary btnReturn"
-            onClick={handleReturn}
-          >
-            Back to analytics
-          </button>
+          </Col>
+          <Col md={6} xs={12}>
+            {/* Skills Score */}
+            <div className="d-flex  align-items-center justify-content-center">
+              <p className="rating-name">Skills</p>
+              <div className="progress-bar-container" style={{ width: '100%' }}>
+                <div 
+                  className={`progress-bar ${getResultClass(overallFeedback.skills)}`} 
+                  style={{ width: `${(overallFeedback.skills || 0) * 10}%` }} 
+                >
+                  <span className="score-text">{overallFeedback.skills || 0}</span>
+                </div>
+                <p className="score-out-of1">{`${10}`}</p>
+              </div>
+            </div>
+            {/* Relevance Score */}
+            <div className="d-flex justify-content-center align-items-center">
+              <p className="rating-name">Relevance</p>
+              <div className="progress-bar-container" style={{ width: '100%' }}>
+                <div 
+                  className={`progress-bar ${getResultClass(overallFeedback.relevance)}`} 
+                  style={{ width: `${(overallFeedback.relevance || 0) * 10}%` }} 
+                >
+                  <span className="score-text">{overallFeedback.relevance || 0}</span>
+                </div>
+                <p className="score-out-of1">{`${10}`}</p>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        {/* Overall Performance Score */}
+        <div className="d-flex justify-content-center align-items-center gap-3 overall-performance-container">
+          <div className="d-flex justify-content-between align-items-center">
+            <p className="rating-name">Overall Performance</p>
+            <div className="progress-bar-container" style={{ width: '100%' }}>
+              <div 
+                className={`progress-bar ${getResultClass(overallFeedback.overallPerformance)}`} 
+                style={{ width: `${(overallFeedback.overallPerformance || 0) * 10}%` }} 
+              >
+                <span className="score-text">{overallFeedback.overallPerformance || 0}</span>
+              </div>
+              <p className="score-out-of1">{`${10}`}</p>
+            </div>
+          </div>
         </div>
-      </Row>
+        {/* Filler Count */}
+        <div className="d-flex justify-content-center align-items-center flex-column filler-container">
+          <p className="rating-name">Filler Count</p>
+          <p className={getResultClass(overallFeedback.fillers || 0, "fillerCount")}>
+            {overallFeedback.fillers || overallFeedback.fillerCount}
+          </p>
+        </div>
+        <div className="interview-container flex-column w-100">
+          <div className="interview-data">
+            <h5>
+              Question {currentIndex + 1} of {question.length}
+            </h5>
+            <div>
+              <strong>Question:</strong>
+              <p>{question[currentIndex]}</p>
+            </div>
+            <div>
+              <strong>Your Answer:</strong>
+              <p>
+                {answer[currentIndex]
+                  ? highlightFillerWords(answer[currentIndex])
+                  : "No answer provided"}
+              </p>
+            </div>
+            <div>
+              <strong>Enhance Answer:</strong>
+              <p>{improvedAnswer[currentIndex]}</p>
+            </div>
+            <div>
+              <strong>Feedback:</strong>
+              <p>{feedback[currentIndex]}</p>
+            </div>
+          </div>
+          <div className="d-flex justify-content-center align-items-center question-navigation">
+            <span
+              className="prev"
+              onClick={handlePrev}
+              style={{ cursor: "pointer", marginRight: "10px" }}
+            >
+              &lt;
+            </span>
+            <h4 className="pageNum">{currentIndex + 1}</h4>
+            <span
+              className="next"
+              onClick={handleNext}
+              style={{ cursor: "pointer", marginLeft: "10px" }}
+            >
+              &gt;
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-100 d-flex justify-content-center gap-3 button-container">
+        <button className="btn btnPractice" onClick={handlePractice}>
+          Practice Again
+        </button>
+        <button className="btn btnReturnAnalytics" onClick={handleReturn}>
+          Back to analytics
+        </button>
+      </div>
     </Container>
   ) : (
     <Container className="result-container shadow-sm p-4">
-      <h4>No data found for the selected interview</h4>
+      <h5>No data found for the selected interview</h5>
     </Container>
   );
 };

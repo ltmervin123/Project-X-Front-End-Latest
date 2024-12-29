@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React} from "react";
 
 const Header = () => {
 
@@ -6,8 +6,6 @@ const Header = () => {
   return (
     <div className="dashboard-header">
 
-          <h3>Overview</h3>
-          <p>Manage and track your reference check processes.</p>
     </div>
   );
 };

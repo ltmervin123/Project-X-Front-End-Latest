@@ -9,97 +9,239 @@
 .main-container2 {
   padding: 0 !important;
 }
-/*search*/
-.analytics-search-container {
-  position: relative;
+.MockMainDashboard-content{
+  overflow: hidden;
+}
+
+/* button container */
+.button-container-analytics{
   width: 100%;
-  justify-content: flex-end;
 }
-.analytics-search {
-  width: 400px;
-}
-.analytic-container-header > h4 {
-  font-size: 20px;
-  padding: 0;
-  margin: 0;
-  color: var(--secondary-color);
-}
-.analytics-search input {
-  border-radius: 0px 50px 50px 0px;
-}
-.analytics-search button {
-  border-radius: 50%;
+.button-container-analytics > button{
   background: var(--primary-color);
   border: none;
+  border-radius: 50px;
+  width: 120px;
+  font-size: 10px;
 }
-.analytics-search-container .careerSelect {
-  margin: 0 !important;
+.button-container-analytics > button:hover{
+  background: var(--input-bg);
 }
 
+/* chart */
+.chart-area-container{
+  width: 100%;
 
+}
 
-.analytics-container {
-  border-radius: 10px;
-  border: 2px solid var(--font-white);
+.carousel-controls {
+  display: flex;
+  align-items: center; /* Center items vertically */
+  justify-content: space-between; /* Space between buttons and carousel */
+  height: 100%;
+  
+}
+
+.carousel-controls button {
+  width: 50px; /* Fixed width for buttons */
+  border: none;
+  background: none;
+}
+.carousel-controls > button:hover, .carousel-controls > button:active{
+  background: none;
+}
+.btn-active {
+  background: var(--input-bg) !important;
+  color: var(--font-white);
+}
+
+.area-chart-container {
+  border-radius: 8px; /* Rounded corners */
+  text-align: center; /* Center the title */
+  height: 100%;
+}
+
+.area-chart-container h5 , .chart-card > p{
+  margin-top: 10px;
+  text-align: center !important;
+  margin: 0;
+  
+}
+
+/* .chart-card > canvas{
+  height: 80% !important;
+} */
+.chart-card-area-container{
+  border: 1px solid var(--primary-color);
+  border-radius: 50px;
+  padding: 20px 30px;
+  width: 420px;
+  height: 50vh; /* Adjust height as necessary */
+
+}
+.chart-card {
+  border-radius: 24px; /* Rounded corners */
+  background: #F2F3F7;
+  height: 43vh !important;
+  padding: 20px 0px;
+}
+.chart-card > p{
+  font-size: 40px;
+}
+.chart-container{
+  border: 1px solid var(--primary-color);
+  border-radius: 20px;
+  height: 15vh;
+  width: 100%;
+  padding: 10px;
+  
+}
+
+.chart-col {
   position: relative;
-  height: 70vh; /* Adjust height as necessary */
-  overflow: auto; /* Allow scrolling */
+  height: 16vh;
+}
+.doughnut-chart{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: var(--input-bg); */
+}
+
+.chart-name{
+  text-align: center;
+  font-weight: 900;
+  font-size: 15px;
+  padding-bottom: 10px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.chart-score {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  text-align: center;
+  font-size: 13px !important;
+  font-weight: bold;
+}
+
+.overall-performance {
+  font-size: 2rem;
+  text-align: center;
+  height: 16vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 20px;
+  justify-content: center;
+}
+.overall-performance > div{
+  font-size: 2.5rem !important;
+  font-weight: 600 !important;
+  border-left: 3px solid var(--bg-fade-signup);
+  width: 100%;
+}
+.overall-performance > h5{
+  font-size: .8rem;
+  margin: 0;
+  border-left: 3px solid var(--bg-fade-signup);
+  width: 100%;
+
+}
+
+
+/* analytics container */
+.analytics-container {
+  padding: 20px; /* Add padding for better spacing */
+  background-color: #ffffff; /* White background for clarity */
+  border-radius: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border: 1px solid var(--primary-color);
+  height: 50vh; /* Adjust height as necessary */
+  /* margin-right: 2px; */
+  width: 48%;
 }
 
 .table-responsive {
-  height: 100%; /* Full height */
+  /* padding: 20px; */
+  height: 97%; /* Full height */
+  padding: 0px 10px;
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
 table {
-  text-align: center;
+  text-align: left;
   width: 100%;
   border-collapse: collapse;
   color: var(--font-black);
   background-color: transparent !important;
-  position: relative; /* Required for the fixed header */
 }
+
 thead{
   height: 50px;
   position: sticky; /* Make the header sticky */
   top: 0; /* Stick to the top */
   z-index: 10; /* Ensure it is above other elements */
   background: var(--font-white);
+  font-size: 12px;
+}
+
+thead::after {
+  content: '';
+  display: block;
+  height: 2px; /* Height of the border */
+  background: var(--primary-color); /* Color of the border */
+  position: absolute;
+  bottom: 0; /* Position it at the bottom of the thead */
+  left: 0;
+  right: 0;
+  z-index: -1; /* Ensure it is behind the thead */
+}
+
+thead tr{
+  position: relative;
 }
 
 tbody td {
   padding: 5px;
   border-bottom: none;
   font-size: 0.95rem;
+  font-size: 11px;
 }
 
 table tbody td .btn-link {
   background: var(--primary-color);
   text-decoration: none;
-  height: 40px;
+  height: 30px;
   color: var(--font-white);
-  width: 160px;
+  width: 100px;
   border-radius: 50px;
+  font-size: 11px;
 }
 
 table tbody td .btn-link:hover {
   color: var(--font-white);
   background: var(--input-bg);
 }
-.result-red {
-  color: #b30000; /* Dark red text */
+.result-red-analytic {
+  color: #FF0000; /* Dark red text */
+  font-weight: 400;
 }
 
-.result-yellow {
-  color: #cc9900; /* Dark yellow text */
+.result-yellow-analytic {
+  color: #F8BD00; /* Dark yellow text */
 }
 
-.result-orange {
-  color: #e65c00; /* Dark orange text */
+.result-orange-analytic {
+  color: #F46A05; /* Dark orange text */
 }
 
-.result-green {
-  color: #009900; /* Dark green text */
+.result-green-analytic {
+  color: #319F43; /* Dark green text */
 }
 
 .btnReturn{
@@ -108,3 +250,4 @@ table tbody td .btn-link:hover {
   bottom: 20px;
   right: 20px;
 }
+

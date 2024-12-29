@@ -1,0 +1,98 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --card-color: #686868;
+    --avatar-bg: #68686882;
+    --text-color: #000;
+    --sidebar-bg: #F2F3F7;
+    
+}
+.AiReferecenceContent{
+    height: 100vh !important;
+}
+/*Ai Reference BG*/
+.AiReferencebg{
+    background: url("../assets/image.png");
+    background-size: cover;
+}
+/*Ai Reference Sidebar*/
+.LogoBrand{
+    margin: 0 !important;
+    width: 211px;
+    height: 75px;
+
+}
+.ai-reference-sidebar-container{
+    width: 355px;
+    /* height: 100vh; */
+    background: var(--sidebar-bg) !important;
+    padding: 30px !important;
+}
+.ai-reference-sidebar{
+    width: 100%;
+
+}
+.company-name{
+    border-bottom: 3px solid var(--primary-color);
+}
+.active-link {
+    color: var(--primary-color) !important; /* This will make the active link orange */
+    font-weight: bold; /* Optionally, you can make it bold */
+  }
+
+/*AiReference Maindashboard*/
+.AiReferenceMaindashboard{
+    padding: 30px;
+}
+.AiReferenceMaindashboard > h3{
+    color: var(--primary-color);
+}
+.AiReferenceMaindashboard p {
+    margin-bottom: 20px;
+}
+  
+.AiReferenceCards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between cards */
+}
+  
+.AiReferenceCard {
+    padding: 20px;
+    border-radius: 8px;
+    color: var(--font-white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+.AiReferenceCard h4 {
+    margin-bottom: 10px;
+}
+  
+.AiReferenceCard .count {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+  
+.AiReferenceCard .description {
+    font-size: 14px;
+    color: var(--font-white);
+}
+
+/*AI Reference Recent Check*/
+.CheckContainer{
+    border: 3px solid var(--primary-color);
+    border-radius: 50px;
+    padding: 30px;
+    background: var(--font-white);
+}
+.CheckContainer > table{
+    text-align: left;
+}
+.CheckContainer > table > thead{
+    border: transparent!important;
+}
+.CheckContainer > table > thead tr th{
+    font-weight: 500 !important;
+}

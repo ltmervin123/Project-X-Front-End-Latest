@@ -15,9 +15,12 @@
     height: 90vh;
     padding: 30px 100px 50px 50px;
 }
-
+.user-profile-container > p{
+    width: 350px;
+    border-bottom: 5px solid var(--primary-color) !important;
+}
 .user-nav {
-    background: var(--avatar-bg);
+    background: var(--font-white);
     border-radius: 50px;
 }
 
@@ -29,10 +32,14 @@
 .user-nav .nav-link{
     margin: 5px;
     color: var(--text-color);
+    background: var(--activity-card-bg);
+    border-radius: 10px; /* Ensure it has rounded corners */
+
+
 }
 .user-nav .nav-link.active {
-    background: var(--font-white); /* Set the background color to white when active */
-    color: var(--text-color) !important; /* Change text color if needed */
+    background: var(--primary-color); /* Set the background color to white when active */
+    color: var(--font-white) !important; /* Change text color if needed */
     border-radius: 10px; /* Ensure it has rounded corners */
 }
 
@@ -104,16 +111,12 @@
   }
 
 .footer-personal-info {
-    border: 2px solid var(--font-white);
-    border-top-color: #f46a05;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
+
     padding: 10px;
 }
 
 .footer-personal-info > div > div {
-    width: 70% !important;
+    width: 80% !important;
 }
 
 .footer-personal-info > h5 {
@@ -121,10 +124,10 @@
 }
 
 .footer-personal-info > div > button {
-    width: 30%;
-    height: 60px;
+    width: 20%;
+    height: 50px;
     background: var(--subscription-btn);
     border: none;
-    border-radius: 20px;
-    font-size: 21px;
+    border-radius: 10px;
+    font-size: 15px;
 }

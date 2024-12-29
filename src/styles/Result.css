@@ -7,125 +7,309 @@
   --font-black: #000;
 }
 
-.result-container {
-  background-color: var(--bg-fade-signup);
-  border-radius: 10px;
-  position: relative;
-}
 
-.interview-result-container,
-.interview-container {
-  background: var(--font-white) !important;
-  color: var(--font-black) !important;
-  height: 70vh !important;
-  padding: 20px;
+/* Add this to center the result container and cover the background */
+.analytics-bg {
+  background: url("../assets/image.png") no-repeat center center fixed; /* Center and fix the background */
+  background-size: cover; /* Ensure the background covers the entire screen */
+  min-height: 100vh; /* Full viewport height */
   display: flex;
   flex-direction: column;
-  position: relative;
+  align-items: center;
+  justify-content: center; /* Center the content vertically */
 }
+
+.result-container{
+  background: var(--font-white);
+  border-radius: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  padding: 15px 40px;
+  margin: 15vh 0vh 10vh 0vh;
+}
+.result-container p{
+  margin: 0 !important;
+}
+.result-container  h4 {
+ color: var(--primary-color);
+ font-size: 25px;
+}
+.result-container > .row{
+  padding:0px 30px;
+  height: 100%;
+}
+.result-main-container {
+  width: 100%;
+  max-width: 1200px;
+  background: var(--font-white) !important;
+  padding: 20px;
+}
+
 
 .interview-result-container {
-  justify-content: flex-start;
-  width: 100%;
-  border-radius: 10px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--font-black);
+  border: none;
+  height: 100% ;
+}
+
+.interview-container {
+  background: var(--font-white);
+  border-radius: 40px;
+  border: 1px solid var(--font-black);
+  padding: 15px;
+  overflow-y: auto;
+  height: 100%;
+}
+.interview-container  h5{
+  border-bottom: 3px solid var(--primary-color);
+  width: 240px;
+  text-align: left;
+  font-size: 20px;
 }
 .interview-data{
-  height: 85% !important;
-  overflow: auto;
-}
-.score-section{
+  height: 80%;
+  overflow-y: auto;
+  padding-right: 15px;
+  font-size: 12px;
   width: 100%;
-  height: 90%;
-  position: relative;
+}
+.interview-data > div > strong {
+  color: var(--input-bg);
+}
+.interview-data > div > p{
+  font-weight: 700;
+}
+.score-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  min-width: 85%;
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  height: 100%;
+}
+.score-section > .row {
+  width: 90% !important;
 }
 .score-section > div {
-  width: 100%;
-  min-height: 20px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-}
-.score-section > div > p{
-  margin: 0;
-  padding: 0;
-}
-.rating-name , .rating-name-overall{
-  max-width: 700px !important;
-  width: 70%;
-  border-radius: 50px;
-  height: 90%;
-  min-height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 700;
-  margin-bottom: 0 !important;
+  width: 70%;
 }
-.rating-name {
-  background-color: var(--bg-fade-signup);
+.overall-performance-container{
+  width: 65% !important;
+  font-weight: 800;
+  border-top: 1px solid var(--input-bg);
+  padding-top: 10px;
 }
-.rating-name-overall{
-  background-color: var(--primary-color);
-  color: var(--font-white);
+.overall-performance-container > div{
+  width: 70%;
 }
-.analytics-container {
-  width: 100%;
-  position: relative;
-  border-radius: 10px !important;
-  justify-content: flex-start;
+.rating-name{
+  font-weight: 800;
+  width: 50%;
+  font-size: 15px;
+  color: var(--font-black);
+}
+.progress-bar-container {
+  width: 500px !important;
+  background-color: #e0e0e0; /* Light gray background for the progress bar */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Ensure the inner bar doesn't overflow */
+  margin: 5px;
+  position: relative; /* Position relative for absolute children */
+  right: 0;
 }
 
+
+.progress-bar {
+  
+  height: 20px; /* Height of the progress bar */
+  border-radius: 10px; /* Rounded corners */
+  transition: width 0.3s ease; /* Smooth transition for width change */
+  position: relative; /* Position relative for absolute children */
+}
+
+.score-text,
+.score-out-of1{
+  position: absolute; /* Position absolute to center it */
+  right: 0; /* Center horizontally */
+  top: -1px;
+  transform: translateX(-50%); /* Adjust for width */
+  color: var(--font-black);
+  font-weight: bold; /* Make text bold */
+  font-size: 15px;
+
+}
+.score-out-of1{
+  color: var(--input-bg);
+}
+.filler-container{
+  width: 20% !important;
+  text-align: center;
+}
+
+
 .result-red {
-  color: #b30000; /* Dark red text */
+  background-color: #b30000; 
 }
 
 .result-yellow {
-  color: #cc9900; /* Dark yellow text */
+  background-color: #F8BD00; 
 }
 
 .result-orange {
-  color: #e65c00; /* Dark orange text */
+  background-color: #e65c00; 
 }
 
 .result-green {
-  color: #009900; /* Dark green text */
+  background-color: #009900; 
 }
-.question-navination {
-  font-size: 34px;
-  height: 10%;
-}
-
-.question-navination > .prev,
-.question-navination > .next {
-  color: var(--primary-color);
-}
-
-.pageNum {
-  color: var(--font-black);
-  position: relative;
-  bottom: 0px;
-  bottom: -10px;
-  font-size: 30px;
-}
-.btnReturn{
-  position: relative;
-  top: 0;
-  bottom: 0;
-  right: 2px;
-  left: 0;
-  margin: 5px;
+.result-red-bg {
+  background-color: #b30000; 
+  width: 80px;
   border-radius: 50px;
+  text-align: center;
+  color: var(--font-white);
 }
-.btn-retry{
-  background: var(--primary-color) !important;
-  padding: 0 !important;
-  width: 200px;
-  font-size: 20px !important;
+
+.result-yellow-bg {
+  background-color: #F8BD00; 
+  width: 80px;
+  border-radius: 50px;
+  text-align: center;
+  color: var(--font-white);
 }
+
+.result-orange-bg {
+  background-color: #e65c00; 
+  width: 80px;
+  border-radius: 50px;
+  text-align: center;
+  color: var(--font-white);
+}
+
+.result-green-bg {
+  background-color: #009900; 
+  width: 80px;
+  border-radius: 50px;
+  text-align: center;
+  color: var(--font-white);
+}
+
+.question-navigation{
+  height: 8%;
+  margin-top: 10px;
+}
+.question-navigation > .prev , .question-navigation > .next{
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 25px;
+}
+.question-navigation > h4 {
+  font-size: 30px;
+  margin: 0;
+}
+.result-container > .row > div {
+  margin-top: 20px;
+}
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btnReturnAnalytics {
+  background-color: var(--input-bg);
+  color: var(--font-white);
+  border: none;
+  border-radius: 50px;
+  height: 30px;
+  width: 150px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.btnPractice {
+  background-color: var(--primary-color);
+  color: var(--font-white);
+  border: none;
+  border-radius: 50px;
+  height: 30px;
+  width: 150px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-retry {
+  background-color: var(--primary-color);
+  color: var(--font-white);
+}
+
 .filler-red {
   color: red;
 }
+
+.button-container {
+  margin-top: 20px;
+  padding: 0 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .result-container {
+    height: auto;
+    min-height: 85vh;
+  }
+  
+  .result-container > .row {
+    padding: 0 15px;
+  }
+  
+  .interview-container,
+  .interview-result-container {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 1024px) { /* Adjust for laptop screens */
+  .result-container {
+    width: 90%; /* Set width to 90% of the viewport */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Add padding for better spacing */
+  }
+
+  .interview-container,
+  .interview-result-container {
+    margin-bottom: 20px; /* Add margin for spacing */
+  }
+
+  .score-section {
+    flex-direction: column; /* Stack score sections vertically */
+  }
+
+  .question-navigation {
+    flex-direction: column; /* Stack navigation vertically */
+  }
+
+  .btn {
+    width: 100%; /* Make buttons full width */
+    margin-top: 10px; /* Add margin for spacing */
+  }
+}
+
+

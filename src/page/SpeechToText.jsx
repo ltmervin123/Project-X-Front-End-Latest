@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 // Function to convert audio blob to base64 encoded string
 const audioBlobToBase64 = (blob) => {
@@ -10,7 +10,7 @@ const audioBlobToBase64 = (blob) => {
       const base64Audio = btoa(
         new Uint8Array(arrayBuffer).reduce(
           (data, byte) => data + String.fromCharCode(byte),
-          ''
+          ""
         )
       );
       resolve(base64Audio);
@@ -23,13 +23,13 @@ const audioBlobToBase64 = (blob) => {
 const SpeechToText = () => {
   const [recording, setRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [transcription, setTranscription] = useState('');
-  const [error, setError] = useState('');
+  const [transcription, setTranscription] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     return () => {
       if (mediaRecorder) {
-        mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        mediaRecorder.stream.getTracks().forEach((track) => track.stop());
       }
     };
   }, [mediaRecorder]);
@@ -41,7 +41,7 @@ const SpeechToText = () => {
 
       recorder.start();
 
-      recorder.addEventListener('dataavailable', async (event) => {
+      recorder.addEventListener("dataavailable", async (event) => {
         const audioBlob = event.data;
         const base64Audio = await audioBlobToBase64(audioBlob);
 
@@ -51,9 +51,9 @@ const SpeechToText = () => {
             `https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAiGiva1sR5Zhltvq8V2_mEtcBmsJomgM8`,
             {
               config: {
-                encoding: 'WEBM_OPUS',
+                encoding: "WEBM_OPUS",
                 sampleRateHertz: 48000,
-                languageCode: 'en-US',
+                languageCode: "en-US",
               },
               audio: {
                 content: base64Audio,
@@ -62,30 +62,33 @@ const SpeechToText = () => {
           );
 
           if (response.data.results && response.data.results.length > 0) {
-            const newTranscript = response.data.results[0].alternatives[0].transcript;
-            setTranscription(prev => prev + ' ' + newTranscript); // Append new transcription
-            setError(''); // Clear any previous errors
+            const newTranscript =
+              response.data.results[0].alternatives[0].transcript;
+            setTranscription((prev) => prev + " " + newTranscript); // Append new transcription
+            setError(""); // Clear any previous errors
           } else {
-            setTranscription((prev) => prev + ' (No transcription available for this chunk)');
+            setTranscription(
+              (prev) => prev + " (No transcription available for this chunk)"
+            );
           }
         } catch (error) {
-          console.error('Error with Google Speech-to-Text API:', error);
-          setError('Error with transcription. Please try again.');
+          console.error("Error with Google Speech-to-Text API:", error);
+          setError("Error with transcription. Please try again.");
         }
       });
 
-      recorder.addEventListener('stop', () => {
+      recorder.addEventListener("stop", () => {
         // Cleanup when the recording stops
         if (mediaRecorder) {
-          mediaRecorder.stream.getTracks().forEach(track => track.stop());
+          mediaRecorder.stream.getTracks().forEach((track) => track.stop());
         }
       });
 
       setRecording(true);
       setMediaRecorder(recorder);
     } catch (error) {
-      console.error('Error getting user media:', error);
-      setError('Error accessing microphone. Please check your permissions.');
+      console.error("Error getting user media:", error);
+      setError("Error accessing microphone. Please check your permissions.");
     }
   };
 
@@ -105,7 +108,7 @@ const SpeechToText = () => {
         <button onClick={stopRecording}>Stop Recording</button>
       )}
       <p>Transcription: {transcription}</p>
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
     </div>
   );
 };

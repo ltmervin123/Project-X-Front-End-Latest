@@ -1,5 +1,5 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,7 +11,6 @@ import MockLandingPage from "./page/MockLanding.jsx";
 import Login from "./page/LoginPage.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MockInterviewPage from "./page/MockInterviewPage.jsx";
-import MockDashboardPage from "./page/MockDashboardPage.jsx";
 import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
@@ -19,9 +18,20 @@ import UserProfilePage from "./page/UserProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuth from "./components/session/requireAuth";
-import AiReferencePage from "./page/AiReferencePage.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
+
+/*Ai Reference */
+import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
+import AiRefereneCheckerPage from "./page/AiReferenceCheckerPage.jsx";
+import AiReferenceReportPage from "./page/AiReferenceReportPage.jsx";
+
+
+
+import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
+import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
+import BehavioralVideoRecording from "./components/maindashboard/BehavioralVideoRecording";
+import VideoRecording from "./components/maindashboard/MockVideoRecording";
 
 
 
@@ -51,10 +61,6 @@ function App() {
           </Route>
 
           <Route element={<RequireAuth />}>
-            <Route path="/AiReference" element={<AiReferencePage />} />
-          </Route>
-
-          <Route element={<RequireAuth />}>
             <Route path="/MockLandingPage" element={<MockLandingPage />} />
           </Route>
 
@@ -65,15 +71,60 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="/result/:interviewId" element={<Results />} />
           </Route>
-          <Route element={<RequireAuth />}>
-            <Route path="/maindashboard" element={<MockDashboardPage />} />
-          </Route>
+
           <Route element={<RequireAuth />}>
             <Route path="/mockInterview" element={<MockInterviewPage />} />
+          </Route>
+          {/*new dashboard */}
+          <Route element={<RequireAuth />}>
+            <Route path="/maindashboard" element={<MockMainDashboardPage />} />
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="/userprofile" element={<UserProfilePage />} />
           </Route>
+        </Route>
+
+        {/*Ai Reference */}
+          {/* <Route element={<RequireAuth />}> */}
+            <Route path="/AiReference" element={<AiReferenceMainDashboardPage />} />
+          {/* </Route> */}
+
+          {/* <Route element={<RequireAuth />}> */}
+            <Route path="/AiReferenceChecker" element={<AiRefereneCheckerPage />} />
+          {/* </Route> */}
+
+          {/* <Route element={<RequireAuth />}> */}
+            <Route path="/AiReferenceReport" element={<AiReferenceReportPage />} />
+          {/* </Route> */}
+
+        <Route element={<RequireAuth />}>
+          <Route 
+            path="/basic-interview" 
+            element={
+              <BasicVideoRecording 
+                interviewType="Mock" 
+                category="Basic" 
+              />
+            } 
+          />
+        </Route>
+                <Route element={<RequireAuth />}>
+          <Route 
+            path="/behavioral-interview" 
+            element={<BehavioralVideoRecording />}
+          />
+        </Route>
+
+        <Route element={<RequireAuth />}>
+          <Route 
+            path="/expert-interview" 
+            element={
+              <VideoRecording 
+                interviewType="Mock"
+                category="Expert"
+              />
+            } 
+          />
         </Route>
 
         {/* Catch all un existing routes */}

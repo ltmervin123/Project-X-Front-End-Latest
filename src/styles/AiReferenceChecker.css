@@ -1,0 +1,24 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --card-color: #686868;
+    --avatar-bg: #68686882;
+    --text-color: #000;
+    --sidebar-bg: #F2F3F7;   
+}
+
+.AiReferenceCheckerContent{
+    border-radius: 50px;
+    border: 3px solid var(--primary-color);
+    padding: 50px;
+    height: 80vh;
+    background: var(--font-white);
+    margin: 30px;
+}
+.AiReferenceCheckerContent  button{
+    background: var(--primary-color) !important;
+    border: none;
+    border-radius: 10px;
+    width: 250px;
+}
