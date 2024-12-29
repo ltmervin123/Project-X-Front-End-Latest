@@ -277,6 +277,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       await speak(fistGreetingText);
 
+      //Allow user to record as the response for the greeting
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       setCurrentGreetingText(finalGreeting);
@@ -323,7 +324,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
-  const userAnswerGreetings = async () => {};
+  const aiFinalGreeting = async () => {
+
+  };
 
   // Speak the current question when the component mounts
   useEffect(() => {

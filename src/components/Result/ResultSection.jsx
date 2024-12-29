@@ -125,10 +125,10 @@ const ResultSection = ({ interviewId }) => {
               <p className="rating-name">Skills</p>
               <div className="progress-bar-container" style={{ width: '100%' }}>
                 <div 
-                  className={`progress-bar ${getResultClass(overallFeedback.skills)}`} 
-                  style={{ width: `${(overallFeedback.skills || 0) * 10}%` }} 
+                  className={`progress-bar ${getResultClass(overallFeedback.gkills)}`} 
+                  style={{ width: `${(overallFeedback.gkills || 0) * 10}%` }} 
                 >
-                  <span className="score-text">{overallFeedback.skills || 0}</span>
+                  <span className="score-text">{overallFeedback.gkills || 0}</span>
                 </div>
                 <p className="score-out-of1">{`${10}`}</p>
               </div>
