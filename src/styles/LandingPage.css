@@ -18,7 +18,6 @@
   --exclusive-btn-color: #b90416;
 }
 
-
 .main-container {
   position: relative;
   width: 100%;
@@ -176,11 +175,11 @@ h2 > .quote {
 }
 
 /*mock interview section*/
-.mock-interview-container{
-    overflow-x: hidden;
-    background: url('../assets/bg-mockinterviewsection.png') !important;
-    background-size: cover;
-    background-repeat: no-repeat;
+.mock-interview-container {
+  overflow-x: hidden;
+  background: url("../assets/bg-mockinterviewsection.png") !important;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .mock-interview-container,
 .bundle-mock-interview-container {
@@ -272,28 +271,28 @@ h2 > .quote {
 .mock-interview-blue-lines_top1 {
   position: absolute;
   z-index: 0;
-  left: -30px;
+  left: -25px;
   top: 190px;
   background: var(--secondary-color);
-  width: 15%;
+  width: 10%;
   height: 10px;
   transform: rotate(90deg); /* Rotate the element by 70 degrees */
 }
 .mock-interview-blue-lines_top2 {
   position: absolute;
   z-index: 0;
-  left: -150px;
+  left: -140px;
   top: 400px;
   background: var(--secondary-color);
-  width: 30%;
+  width: 25%;
   height: 10px;
   transform: rotate(80deg); /* Rotate the element by 70 degrees */
 }
 .mock-interview-blue-lines_top3 {
   position: absolute;
   z-index: 0;
-  left: -110px;
-  top: 500px;
+  left: -144px;
+  top: 510px;
   background: var(--secondary-color);
   width: 20%;
   height: 10px;
@@ -367,10 +366,10 @@ h2 > .quote {
 .mock-interview-blue-lines_bottom5 {
   position: absolute;
   z-index: 0;
-  left: -110px;
+  left: -80px;
   bottom: 200px;
   background: var(--secondary-color);
-  width: 20%;
+  width: 15%;
   height: 10px;
   transform: rotate(110deg); /* Rotate the element by 70 degrees */
 }
@@ -526,6 +525,7 @@ h2 > .quote {
 .premium-package-container {
   background: url("../assets/premium-bg.png");
   background-size: cover;
+  background-position: center; /* Center the background image */
 }
 .premium-package-container > h1 {
   padding: 90px 0px;

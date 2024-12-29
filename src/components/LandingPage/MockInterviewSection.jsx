@@ -21,13 +21,13 @@ const MockInterviewSection = () => {
 
       <div className="navigation-container">
         <nav>
-          <ul className="navigation-list d-flex justify-content-center align-items-center gap-3">
+          <ul className="navigation-list d-flex justify-content-center align-items-center gap-5 px-5">
             <li className="nav-item d-flex justify-content-center align-items-center ">
               <a href="/maindashboard">
                 <svg
                   width="39"
-                  height="25"
-                  viewBox="0 0 39 39"
+                  height="27"
+                  viewBox="0 0 40 40"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
