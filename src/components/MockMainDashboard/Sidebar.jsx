@@ -87,14 +87,14 @@ const Sidebar = () => {
         Analytics
       </NavLink>
 
-      <NavLink
-        to="/login" // Update this path as per your logout route
+      {/* <NavLink
+        to="/login"
         className="sidebarnav"
         onClick={handleLogout}
         >
-        {/* <FaSignOutAlt className="logout-icon" /> */}
+
         <span>Logout</span>
-      </NavLink>
+      </NavLink> */}
     </div>
   );
 };
