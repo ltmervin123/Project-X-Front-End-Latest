@@ -31,10 +31,11 @@ function MainDashboard() {
         Hello, {username}! Ready to boost your career today?
       </i>
       <div className="MockGuide-container w-100 d-flex flex-column align-items-center gap-3">
-        <div className="d-flex justify-content-start align-items-center gap-3">
+        <div className="d-flex justify-content-between align-items-center gap-3">
+          <div className="d-flex align-items-center gap-4">
           <svg
-            width="66"
-            height="73"
+            width="50"
+            height="50"
             viewBox="0 0 66 73"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -67,6 +68,8 @@ function MainDashboard() {
             <b>Create a standout resume </b>
             <p>to boost your chances of landing your dream job</p>
           </div>
+          </div>
+
           <button
             className="d-flex justify-content-center align-items-center gap-1"
             onClick={handleResumeBuilderClick}
@@ -90,10 +93,11 @@ function MainDashboard() {
             Build Your Resume
           </button>
         </div>
-        <div className="d-flex justify-content-start align-items-center gap-3">
+        <div className="d-flex justify-content-between align-items-center gap-3">
+          <div className="d-flex gap-4 align-items-center ">
           <svg
-            width="69"
-            height="69"
+            width="50"
+            height="50"
             viewBox="0 0 69 69"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -108,6 +112,8 @@ function MainDashboard() {
             <b>Prepare for success </b>
             <p>Ready to ace your interview?, Let’s get started</p>
           </div>
+          </div>
+
           <button
             className="d-flex justify-content-center align-items-center gap-1"
             onClick={handleMockInterviewClick}
@@ -131,7 +137,7 @@ function MainDashboard() {
           <source src="path-to-your-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <button className="MockVideo-container d-flex align-items-center justify-content-center gap-3">
+        <button className=" d-flex align-items-center justify-content-center gap-3">
           <svg
             width="40"
             height="40"
