@@ -75,7 +75,7 @@
   border: 1px solid var(--primary-color);
   border-radius: 50px;
   padding: 20px 30px;
-  width: 420px;
+  width: 470px;
   height: 50vh; /* Adjust height as necessary */
 
 }
@@ -153,6 +153,12 @@
 
 }
 
+.custom-tool-tip > p{
+  padding: 0 !important;
+  margin: 0 !important;
+  color: var(--font-white);
+  font-size: 12px;
+}
 
 /* analytics container */
 .analytics-container {
