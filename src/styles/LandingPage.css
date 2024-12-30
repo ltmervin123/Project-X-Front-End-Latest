@@ -524,7 +524,7 @@ h2 > .quote {
 /*Premium Package Section*/
 .premium-package-container {
   background: url("../assets/premium-bg.png");
-  background-size: cover;
+  background-size: contain 100%;
   background-position: center; /* Center the background image */
 }
 .premium-package-container > h1 {

@@ -1031,7 +1031,7 @@
 }
 
 .introjs-bullets,
-.introjs-tooltip-header {
+.introjs-tooltip-title {
   display: none !important;
 }
 .introjs-tooltip-inner {
