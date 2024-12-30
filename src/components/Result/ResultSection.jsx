@@ -39,7 +39,6 @@ const ResultSection = ({ interviewId }) => {
       "I mean, you know", "I mean, honestly",
     ]
   ).map((word) => word.toLowerCase());
-  console.log(fillerWords);
   const highlightFillerWords = (text) => {
     const words = text.split(" ");
     return words.map((word, index) => {

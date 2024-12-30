@@ -6,8 +6,22 @@ import "../../styles/Analytics.css";
 import { useAnalytics } from "../../hook/useAnalytics";
 import { useAuthContext } from "../../hook/useAuthContext";
 import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement, LineElement, PointElement, LinearScale, CategoryScale, Legend } from "chart.js";
-import { Tooltip as RechartsTooltip, AreaChart, Area, XAxis, ResponsiveContainer } from 'recharts';
+import {
+  Chart,
+  ArcElement,
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Legend,
+} from "chart.js";
+import {
+  Tooltip as RechartsTooltip,
+  AreaChart,
+  Area,
+  XAxis,
+  ResponsiveContainer,
+} from "recharts";
 
 Chart.register(ArcElement);
 Chart.register(LineElement, PointElement, LinearScale, CategoryScale, Legend);
@@ -70,21 +84,22 @@ const MainDashboard = () => {
   });
 
   // Function to get category scores with date and time
-// Function to get category scores with date and time
-const getCategoryScoresWithDate = () => {
-  const categoryScores = {
+  const getCategoryScoresWithDate = () => {
+    const categoryScores = {
       basic: [],
       behavioral: [],
       expert: [],
       overall: [],
-  };
+    };
 
-  // Define the categories to check against
-  const categoriesToCheck = ['basic', 'behavioral', 'expert'];
+    // Define the categories to check against
+    const categoriesToCheck = ["basic", "behavioral", "expert"];
 
-  interviewHistory.forEach(item => {
+    interviewHistory.forEach((item) => {
       const updatedAt = item.updatedAt; // Accessing the date
-      const overallPerformance = parseFloat(item.overallFeedback.overallPerformance); // Accessing the score
+      const overallPerformance = parseFloat(
+        item.overallFeedback.overallPerformance
+      ); // Accessing the score
 
       // console.log(updatedAt);
       // Get the category and type from the interview details
@@ -93,67 +108,105 @@ const getCategoryScoresWithDate = () => {
 
       // Check if the category matches any of the specified categories
       if (categoriesToCheck.includes(category)) {
-          // Push the score and date into the appropriate category
-          categoryScores[category].push({ date: updatedAt, score: overallPerformance });
+        // Push the score and date into the appropriate category
+        categoryScores[category].push({
+          date: updatedAt,
+          score: overallPerformance,
+        });
       }
 
       // Check if the type matches any of the specified categories
       if (categoriesToCheck.includes(type)) {
-          // Push the score and date into the appropriate category
-          categoryScores[type].push({ date: updatedAt, score: overallPerformance });
+        // Push the score and date into the appropriate category
+        categoryScores[type].push({
+          date: updatedAt,
+          score: overallPerformance,
+        });
       }
 
       // Always push to overall
-      categoryScores.overall.push({ date: updatedAt, score: overallPerformance });
-  });
+      categoryScores.overall.push({
+        date: updatedAt,
+        score: overallPerformance,
+      });
+    });
 
-  return categoryScores;
-};
+    return categoryScores;
+  };
 
-// Example usage
-const categoryScoresWithDate = getCategoryScoresWithDate();
+  // Example usage
+  const categoryScoresWithDate = getCategoryScoresWithDate();
 
-  // Log the results to see the structure
-  // console.log(categoryScoresWithDate);
 
   // Function to get dynamic chart data from local storage
   const getDynamicChartData = (category) => {
-    const filteredData = interviewHistory.filter(item => 
-      item.interviewDetails[0].category.toLowerCase() === category.toLowerCase() ||
-      item.interviewDetails[0].type.toLowerCase() === category.toLowerCase()
+    const filteredData = interviewHistory.filter(
+      (item) =>
+        item.interviewDetails[0].category.toLowerCase() ===
+          category.toLowerCase() ||
+        item.interviewDetails[0].type.toLowerCase() === category.toLowerCase()
     );
 
     // Extract scores for each specific feedback category
-    const grammarScores = filteredData.map(item => parseFloat(item.overallFeedback.grammar));
-    const skillsScores = filteredData.map(item => parseFloat(item.overallFeedback.gkills)); // Fixed typo from 'gkills' to 'skills'
-    const experienceScores = filteredData.map(item => parseFloat(item.overallFeedback.experience));
-    const relevanceScores = filteredData.map(item => parseFloat(item.overallFeedback.relevance));
-    
+    const grammarScores = filteredData.map((item) =>
+      parseFloat(item.overallFeedback.grammar)
+    );
+    const skillsScores = filteredData.map((item) =>
+      parseFloat(item.overallFeedback.gkills)
+    ); // Fixed typo from 'gkills' to 'skills'
+    const experienceScores = filteredData.map((item) =>
+      parseFloat(item.overallFeedback.experience)
+    );
+    const relevanceScores = filteredData.map((item) =>
+      parseFloat(item.overallFeedback.relevance)
+    );
+
     // Calculate average scores for each category
-    const averageGrammarScore = grammarScores.length > 0 ? (grammarScores.reduce ((a, b) => a + b, 0) / grammarScores.length).toFixed(1) : 0;
-    const averageSkillsScore = skillsScores.length > 0 ? (skillsScores.reduce((a, b) => a + b, 0) / skillsScores.length).toFixed(1) : 0;
-    const averageExperienceScore = experienceScores.length > 0 ? (experienceScores.reduce((a, b) => a + b, 0) / experienceScores.length).toFixed(1) : 0;
-    const averageRelevanceScore = relevanceScores.length > 0 ? (relevanceScores.reduce((a, b) => a + b, 0) / relevanceScores.length).toFixed(1) : 0;
+    const averageGrammarScore =
+      grammarScores.length > 0
+        ? (
+            grammarScores.reduce((a, b) => a + b, 0) / grammarScores.length
+          ).toFixed(1)
+        : 0;
+    const averageSkillsScore =
+      skillsScores.length > 0
+        ? (
+            skillsScores.reduce((a, b) => a + b, 0) / skillsScores.length
+          ).toFixed(1)
+        : 0;
+    const averageExperienceScore =
+      experienceScores.length > 0
+        ? (
+            experienceScores.reduce((a, b) => a + b, 0) /
+            experienceScores.length
+          ).toFixed(1)
+        : 0;
+    const averageRelevanceScore =
+      relevanceScores.length > 0
+        ? (
+            relevanceScores.reduce((a, b) => a + b, 0) / relevanceScores.length
+          ).toFixed(1)
+        : 0;
 
     return [
-      { name: 'Grammar', score: averageGrammarScore, color: "#FF6060" },
-      { name: 'Skills', score: averageSkillsScore, color: "#4F52F4" },
-      { name: 'Experience', score: averageExperienceScore, color: "#04CF52" },
-      { name: 'Relevance', score: averageRelevanceScore, color: "#FFCA56" },
+      { name: "Grammar", score: averageGrammarScore, color: "#FF6060" },
+      { name: "Skills", score: averageSkillsScore, color: "#4F52F4" },
+      { name: "Experience", score: averageExperienceScore, color: "#04CF52" },
+      { name: "Relevance", score: averageRelevanceScore, color: "#FFCA56" },
     ];
   };
 
   // Function to get overall scores by aggregating other categories
   const getOverallChartData = () => {
-    const categories = ['Basic', 'Behavioral', 'Expert'];
+    const categories = ["Basic", "Behavioral", "Expert"];
     const overallScores = {
       grammar: [],
       skills: [],
       experience: [],
-      relevance: []
+      relevance: [],
     };
 
-    categories.forEach(category => {
+    categories.forEach((category) => {
       const categoryData = getDynamicChartData(category);
       overallScores.grammar.push(parseFloat(categoryData[0].score));
       overallScores.skills.push(parseFloat(categoryData[1].score));
@@ -162,16 +215,40 @@ const categoryScoresWithDate = getCategoryScoresWithDate();
     });
 
     // Calculate overall averages
-    const averageGrammarScore = overallScores.grammar.length > 0 ? (overallScores.grammar.reduce((a, b) => a + b, 0) / overallScores.grammar.length).toFixed(1) : 0;
-    const averageSkillsScore = overallScores.skills.length > 0 ? (overallScores.skills.reduce((a, b) => a + b, 0) / overallScores.skills.length).toFixed(1) : 0;
-    const averageExperienceScore = overallScores.experience.length > 0 ? (overallScores.experience.reduce((a, b) => a + b, 0) / overallScores.experience.length).toFixed(1) : 0;
-    const averageRelevanceScore = overallScores.relevance.length > 0 ? (overallScores.relevance.reduce((a, b) => a + b, 0) / overallScores.relevance.length).toFixed(1) : 0;
+    const averageGrammarScore =
+      overallScores.grammar.length > 0
+        ? (
+            overallScores.grammar.reduce((a, b) => a + b, 0) /
+            overallScores.grammar.length
+          ).toFixed(1)
+        : 0;
+    const averageSkillsScore =
+      overallScores.skills.length > 0
+        ? (
+            overallScores.skills.reduce((a, b) => a + b, 0) /
+            overallScores.skills.length
+          ).toFixed(1)
+        : 0;
+    const averageExperienceScore =
+      overallScores.experience.length > 0
+        ? (
+            overallScores.experience.reduce((a, b) => a + b, 0) /
+            overallScores.experience.length
+          ).toFixed(1)
+        : 0;
+    const averageRelevanceScore =
+      overallScores.relevance.length > 0
+        ? (
+            overallScores.relevance.reduce((a, b) => a + b, 0) /
+            overallScores.relevance.length
+          ).toFixed(1)
+        : 0;
 
     return [
-      { name: 'Grammar', score: averageGrammarScore, color: "#FF6060" },
-      { name: 'Skills', score: averageSkillsScore, color: "#4F52F4" },
-      { name: 'Experience', score: averageExperienceScore, color: "#04CF52" },
-      { name: 'Relevance', score: averageRelevanceScore, color: "#FFCA56" },
+      { name: "Grammar", score: averageGrammarScore, color: "#FF6060" },
+      { name: "Skills", score: averageSkillsScore, color: "#4F52F4" },
+      { name: "Experience", score: averageExperienceScore, color: "#04CF52" },
+      { name: "Relevance", score: averageRelevanceScore, color: "#FFCA56" },
     ];
   };
 
@@ -189,74 +266,72 @@ const categoryScoresWithDate = getCategoryScoresWithDate();
       {
         data: [score, 10 - score], // Assuming a scale of 10
         backgroundColor: [color, "#36434E"], // Use the specified color and remaining color
-        borderColor: "#36434E"
-      }
-    ]
+        borderColor: "#36434E",
+      },
+    ],
   });
 
   const transformScoresForChart = (scores) => {
-    return scores.map(item => ({
+    return scores.map((item) => ({
       Day: new Date(item.date).toLocaleDateString(), // Format the date as needed
       score: item.score,
     }));
   };
 
-// Custom Tooltip Component
-const CustomTooltip = ({ active, payload }) => {
-  if (active && payload && payload.length) {
+  // Custom Tooltip Component
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          className="custom-tool-tip"
+          style={{
+            backgroundColor: "#f46a05",
+            padding: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          <p>{`Date: ${payload[0].payload.Day}`}</p>
+          <p>{`Score: ${payload[0].value}`}</p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  // Reusable AreaChart component
+  const AreaChartComponent = ({ title, data }) => {
     return (
-      <div className="custom-tool-tip" style={{ backgroundColor: '#f46a05', padding: '10px', borderRadius: '5px' }}>
-        <p>{`Date: ${payload[0].payload.Day}`}</p>
-        <p>{`Score: ${payload[0].value}`}</p>
+      <div className="chart-card">
+        <h5>{title}</h5>
+        {data.length === 0 ? ( // Check if data is empty
+          <div className="no-data-message">No Data Available</div>
+        ) : (
+          <ResponsiveContainer width="100%" height="90%">
+            <AreaChart data={data}>
+              <XAxis dataKey="Day" />
+              {/* Use the custom tooltip here */}
+              <RechartsTooltip content={<CustomTooltip />} />
+              <Area
+                type="monotone"
+                dataKey="score"
+                stroke="#686868"
+                fill="url(#colorUv)"
+                isAnimationActive={false}
+              />
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="50%" stopColor="#F46A05" stopOpacity={0.8} />
+                  <stop offset="94%" stopColor="#f46a05" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </div>
     );
-  }
+  };
 
-  return null;
-};
-
-
-
-// Reusable AreaChart component
-const AreaChartComponent = ({ title, data }) => {
-  return (
-    <div className="chart-card">
-      <h5>{title}</h5>
-      {data.length === 0 ? ( // Check if data is empty
-        <div className="no-data-message">No Data Available</div>
-      ) : (
-        <ResponsiveContainer width="100%" height="90%">
-          <AreaChart data={data}>
-            <XAxis dataKey="Day" />
-            {/* Use the custom tooltip here */}
-            <RechartsTooltip content={<CustomTooltip />} />
-            <Area
-              type="monotone"
-              dataKey="score"
-              stroke="#686868"
-              fill="url(#colorUv)"
-              isAnimationActive={false}
-            />
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="50%" stopColor="#F46A05" stopOpacity={0.8} />
-                <stop offset="94%" stopColor="#f46a05" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-          </AreaChart>
-        </ResponsiveContainer>
-      )}
-    </div>
-  );
-};
-  // // New function to create area chart data for each category
-  // const createCategoryAreaData = (scores) => {
-  //   return [
-  //     { Day: 'Day 0', score: 0.1 }, // Gap before Day 1
-  //     ...scores.map((score, index) => ({ Day: `Day ${index + 1}`, score })),
-  //     { Day: 'Day 5', score: 10 } // Gap after Day 4
-  //   ];
-  // };
   return (
     <Container className="d-flex flex-column MockMainDashboard-content gap-3">
       <div className="dashboard-header">
@@ -275,26 +350,34 @@ const AreaChartComponent = ({ title, data }) => {
 
       {/* New button container */}
       <Row className="button-container-analytics d-flex justify-content-end gap-3">
-        <Button 
-          className={`btn-overall-analytics ${selectedChart === "overall" ? "btn-active" : ""}`} 
+        <Button
+          className={`btn-overall-analytics ${
+            selectedChart === "overall" ? "btn-active" : ""
+          }`}
           onClick={() => setSelectedChart("overall")}
- >
+        >
           Overall Performance
         </Button>
-        <Button 
-          className={`btn-behavioral-analytics ${selectedChart === "behavioral" ? "btn-active" : ""}`} 
+        <Button
+          className={`btn-behavioral-analytics ${
+            selectedChart === "behavioral" ? "btn-active" : ""
+          }`}
           onClick={() => setSelectedChart("behavioral")}
         >
           Behavioral
         </Button>
-        <Button 
-          className={`btn-basic-analytics ${selectedChart === "basic" ? "btn-active" : ""}`} 
+        <Button
+          className={`btn-basic-analytics ${
+            selectedChart === "basic" ? "btn-active" : ""
+          }`}
           onClick={() => setSelectedChart("basic")}
         >
           Basic
         </Button>
-        <Button 
-          className={`btn-expert-analytics ${selectedChart === "expert" ? "btn-active" : ""}`} 
+        <Button
+          className={`btn-expert-analytics ${
+            selectedChart === "expert" ? "btn-active" : ""
+          }`}
           onClick={() => setSelectedChart("expert")}
         >
           Expert
@@ -304,44 +387,51 @@ const AreaChartComponent = ({ title, data }) => {
       <Row className="chart-container justify-content-center align-items-center">
         <Col md={9}>
           <Row className="justify-content-center">
-            {chartData[selectedChart].map((item) => ( // Use selectedChart to get the right data
-              <Col key={item.name} xs={6} md={3} className="chart-col">
-                <div className="chart-name">{item.name}</div>
-                <div className="doughnut-chart" style={{ width: '100%' }}>
-                  <Doughnut
-                    className="doughnut"
-                    data={createDoughnutData(item.score, item.color)}
-                    options={{
-                      plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                          enabled: true,
-                          callbacks: {
-                            label: (tooltipItem) => {
-                              const filledValue = tooltipItem.raw[0];
-                              return `${item.name}: ${filledValue} filled`;
-                            }
-                          }
-                        }
-                      },
-                      rotation: -90,
-                      circumference: 180,
-                      cutout: "70%",
-                      maintainAspectRatio: true,
-                      responsive: true
-                    }}
-                  />
-                </div>
-                <div className="chart-score">
-                  <div>{item.score}</div>
-                </div>
-              </Col>
-            ))}
+            {chartData[selectedChart].map(
+              (
+                item // Use selectedChart to get the right data
+              ) => (
+                <Col key={item.name} xs={6} md={3} className="chart-col">
+                  <div className="chart-name">{item.name}</div>
+                  <div className="doughnut-chart" style={{ width: "100%" }}>
+                    <Doughnut
+                      className="doughnut"
+                      data={createDoughnutData(item.score, item.color)}
+                      options={{
+                        plugins: {
+                          legend: { display: false },
+                          tooltip: {
+                            enabled: true,
+                            callbacks: {
+                              label: (tooltipItem) => {
+                                const filledValue = tooltipItem.raw[0];
+                                return `${item.name}: ${filledValue} filled`;
+                              },
+                            },
+                          },
+                        },
+                        rotation: -90,
+                        circumference: 180,
+                        cutout: "70%",
+                        maintainAspectRatio: true,
+                        responsive: true,
+                      }}
+                    />
+                  </div>
+                  <div className="chart-score">
+                    <div>{item.score}</div>
+                  </div>
+                </Col>
+              )
+            )}
           </Row>
         </Col>
         <Col md={3} className="overall-performance">
-          <div style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
-            {Math.max(...chartData[selectedChart].map(item => item.score)).toFixed(1)} {/* Update to reflect max score */}
+          <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>
+            {Math.max(
+              ...chartData[selectedChart].map((item) => item.score)
+            ).toFixed(1)}{" "}
+            {/* Update to reflect max score */}
           </div>
           <h5>Overall Performance</h5>
         </Col>
@@ -349,27 +439,53 @@ const AreaChartComponent = ({ title, data }) => {
       {/* New Area Chart Slider Section */}
       <Row className="chart-area-container ">
         {/* Area Chart Container */}
-        <Col md={6} className="area-chart-container d-flex justify-content-center align-items-center">
+        <Col
+          md={6}
+          className="area-chart-container d-flex justify-content-center align-items-center"
+        >
           <div className="carousel-controls">
-            <Carousel className="chart-card-area-container" controls={false} indicators={false} interval={null}>
+            <Carousel
+              className="chart-card-area-container"
+              controls={false}
+              indicators={false}
+              interval={null}
+            >
               {selectedChart === "overall" && (
                 <Carousel.Item>
-                  <AreaChartComponent title="Your Overall Performance" data={transformScoresForChart(categoryScoresWithDate.overall)} />
+                  <AreaChartComponent
+                    title="Your Overall Performance"
+                    data={transformScoresForChart(
+                      categoryScoresWithDate.overall
+                    )}
+                  />
                 </Carousel.Item>
               )}
               {selectedChart === "behavioral" && (
                 <Carousel.Item>
-                  <AreaChartComponent title="Behavioral" data={transformScoresForChart(categoryScoresWithDate.behavioral)} />
+                  <AreaChartComponent
+                    title="Behavioral"
+                    data={transformScoresForChart(
+                      categoryScoresWithDate.behavioral
+                    )}
+                  />
                 </Carousel.Item>
               )}
               {selectedChart === "basic" && (
                 <Carousel.Item>
-                  <AreaChartComponent title="Basic" data={transformScoresForChart(categoryScoresWithDate.basic)} />
+                  <AreaChartComponent
+                    title="Basic"
+                    data={transformScoresForChart(categoryScoresWithDate.basic)}
+                  />
                 </Carousel.Item>
               )}
               {selectedChart === "expert" && (
                 <Carousel.Item>
-                  <AreaChartComponent title="Expert" data={transformScoresForChart(categoryScoresWithDate.expert)} />
+                  <AreaChartComponent
+                    title="Expert"
+                    data={transformScoresForChart(
+                      categoryScoresWithDate.expert
+                    )}
+                  />
                 </Carousel.Item>
               )}
             </Carousel>
@@ -377,7 +493,9 @@ const AreaChartComponent = ({ title, data }) => {
         </Col>
 
         {/* Analytics Container */}
-        <Col md={6} className="analytics-container"> {/* 40% width */}
+        <Col md={6} className="analytics-container">
+          {" "}
+          {/* 40% width */}
           <div className="table-responsive">
             <table>
               <thead>
