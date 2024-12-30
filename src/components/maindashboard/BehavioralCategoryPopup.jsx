@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button, Card } from "react-bootstrap";
-import '../../styles/BehavioralCategoryPopup.css'; // Import the CSS file
+import "../../styles/BehavioralCategoryPopup.css"; // Import the CSS file
 import BH1 from "../../assets/behavioral-img.png"; // Import your images
 import BH2 from "../../assets/adaptability-img.png"; // Import adaptability image
 import BH3 from "../../assets/communication-img.png"; // Import communication image
@@ -10,65 +10,76 @@ import BH6 from "../../assets/decision-avatar.png"; // Import stress management 
 import BH7 from "../../assets/ethics-avatar.png"; // Import stress management image
 import BH8 from "../../assets/time-avatar.png"; // Import stress management image
 
-const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory }) => {
+const BehavioralCategoryPopup = ({
+  show,
+  onClose,
+  handleSelectBehavioralCategory,
+}) => {
   const categories = [
     {
       title: "Teamwork",
-      description: "A teamwork interview is all about understanding how well you work with others. It's not just about your skills, but how you communicate, collaborate, and contribute in a group setting.",
+      description:
+        "A teamwork interview is all about understanding how well you work with others. It's not just about your skills, but how you communicate, collaborate, and contribute in a group setting.",
       color: "#9747FF",
-      image: BH1
+      image: BH1,
     },
     {
       title: "Adaptability",
-      description: "It is about showing how flexible you are when things change. It's not just about sticking to a plan, but how you adjust when faced with new challenges or unexpected situations.",
+      description:
+        "It is about showing how flexible you are when things change. It's not just about sticking to a plan, but how you adjust when faced with new challenges or unexpected situations.",
       color: "#F46A05",
-      image: BH2
+      image: BH2,
     },
     {
       title: "Communication",
-      description: "It is all about how effectively you share ideas, listen to others, and work through problems together. It’s not just about talking—it's about being clear, respectful, and making sure everyone is on the same page.",
+      description:
+        "It is all about how effectively you share ideas, listen to others, and work through problems together. It’s not just about talking—it's about being clear, respectful, and making sure everyone is on the same page.",
       color: "#319F43",
-      image: BH3
+      image: BH3,
     },
     {
       title: "Stress Management",
-      description: "It focuses on how you handle pressure and stay calm in tough situations. It’s about showing that you can keep your cool, prioritize tasks, and maintain a positive mindset when things get hectic.",
+      description:
+        "It focuses on how you handle pressure and stay calm in tough situations. It’s about showing that you can keep your cool, prioritize tasks, and maintain a positive mindset when things get hectic.",
       color: "#E33629",
-      image: BH4
+      image: BH4,
     },
     {
       title: "Time Management",
-      description: "It focuses on your ability to prioritize tasks, meet deadlines, and handle multiple responsibilities effectively. It often asks questions designed to understand how you've demonstrated time management skills in past situations.",
+      description:
+        "It focuses on your ability to prioritize tasks, meet deadlines, and handle multiple responsibilities effectively. It often asks questions designed to understand how you've demonstrated time management skills in past situations.",
       color: "#E33629",
-      image: BH8
+      image: BH8,
     },
     {
       title: "Ethics and Integrity",
-      description: "Ethics refers to the principles and moral values that guide an individual or organization's behavior in determining what is right or wrong. Integrity is the quality of being honest and transparent.",
+      description:
+        "Ethics refers to the principles and moral values that guide an individual or organization's behavior in determining what is right or wrong. Integrity is the quality of being honest and transparent.",
       color: "#319F43",
-      image: BH7
+      image: BH7,
     },
     {
       title: "Decision Making",
-      description: "Decision-making is the process of identifying and choosing among alternative courses of action to address a problem or opportunity.",
+      description:
+        "Decision-making is the process of identifying and choosing among alternative courses of action to address a problem or opportunity.",
       color: "#F46A05",
-      image: BH6
+      image: BH6,
     },
 
     {
       title: "Dealing with Mistakes",
-      description: "It focuses on how to evaluate your accountability, problem-solving skills, and ability to learn and grow. This is a behavioral question designed to see how you handle challenges under pressure.",
+      description:
+        "It focuses on how to evaluate your accountability, problem-solving skills, and ability to learn and grow. This is a behavioral question designed to see how you handle challenges under pressure.",
       color: "#9747FF",
-      image: BH5
+      image: BH5,
     },
-
-
   ];
 
   const handleCategorySelect = (category) => {
     handleSelectBehavioralCategory(category);
     onClose();
   };
+
 
   return (
     <Modal
@@ -82,7 +93,7 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5 className="m-0">Behavioral Interview Category</h5>
           <Button
-            className='closebtn'
+            className="closebtn"
             variant="link"
             onClick={onClose}
             style={{ fontSize: "1.5rem", textDecoration: "none" }}
@@ -90,37 +101,52 @@ const BehavioralCategoryPopup = ({ show, onClose, handleSelectBehavioralCategory
             &times;
           </Button>
         </div>
-        <div className="behavioral-cards justify-content-between d-flex flex-wrap">
+
+        <div className="behavioral-cards justify-content-between d-flex flex-wrap ">
           {categories.map((behavioral, index) => (
             <>
-            {/* <div className="rectangle-bg-behavoral-card"></div> */}
+              <div className="rectangle-bg-behavioral-card1top "></div>
+              <div className="rectangle-bg-behavioral-card2top "></div>
+              <div className="rectangle-bg-behavioral-card3bottom "></div>
+              <div className="rectangle-bg-behavioral-card4bottom "></div>
+              <div className="rectangle-bg-behavioral-card5bottom "></div>
+              <div className="rectangle-bg-behavioral-card6bottom "></div>
+              <div className="rectangle-bg-behavioral-card7top "></div>
+              <div className="rectangle-bg-behavioral-card8top "></div>
 
-            <Card
-              key={index}
-              className="behavioral-card m-2"
-              onClick={() => handleCategorySelect(behavioral.title)}
-              style={{
-                position: "relative",
-                // overflow: "hidden",
-              }}
-            >
-              
-              <img src={behavioral.image} alt={behavioral.title} className="behavioral-image" />
-              <Card.Body>
-                <div className="behavioral-title">{behavioral.title}</div>
-                <div className="behavioral-description" style={{ backgroundColor: behavioral.color }}>
-                  <div className="behavioral-title1">{behavioral.title}</div>
-                  <p>{behavioral.description}</p>
-                </div>
-              </Card.Body>
+              <Card
+                key={index}
+                className="behavioral-card m-2"
+                onClick={() => handleCategorySelect(behavioral.title)}
+                style={{
+                  position: "relative",
+                  // overflow: "hidden",
+                }}
+              >
+                <img
+                  src={behavioral.image}
+                  alt={behavioral.title}
+                  className="behavioral-image"
+                />
 
-            </Card>
+                <Card.Body>
+                  <div className="behavioral-title ">{behavioral.title}</div>
+                  <div
+                    className="behavioral-description"
+                    style={{ backgroundColor: behavioral.color }}
+                  >
+                    <div className="behavioral-title1">{behavioral.title}</div>
+                    <p>{behavioral.description}</p>
+                  </div>
+                </Card.Body>
+              </Card>
             </>
-
           ))}
         </div>
         <br />
-        <p className="text-center">Please select your category for the behavioral interview.</p>
+        <p className="text-center">
+          Please select your category for the behavioral interview.
+        </p>
       </Modal.Body>
     </Modal>
   );
