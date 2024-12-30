@@ -192,7 +192,7 @@
   background-position: right 40% bottom 30%;
 }
 .category-card1.bg-behavioral:hover{
-  transition: transform 0.3s ease-in-out; /* Smooth animation */
+  transition: transform 0.5s ease-in-out; 
   clip-path: polygon(0 1%, 100% 0%, 91% 72%, 0% 100%);
   width: 61%;
   height: 63%;
@@ -200,10 +200,10 @@
 
 }
 .category-card1.bg-behavioral:hover::before {
-  transform: scaleX(1) translateX(-25%) translateY(-10px); /* Adjust the value as needed */
+  transform: scaleX(1) translateX(-25%) translateY(-10px);
   transition: transform 0.3s ease-in-out; /* Smooth animation */
   scale: 1.5;
-  
+  background-color: transparent;
 }
 .category-card1.bg-behavioral::before {
   transition: transform 0.4s ease-in-out; /* Smooth animation on unhover */
@@ -528,7 +528,7 @@
   padding: 10px;
   bottom: -8px;
   left: 240px;
-  warap: wrap;
+  /* wrap: wrap; */
   text-align: center;
   visibility: visible;
   opacity: 1;
