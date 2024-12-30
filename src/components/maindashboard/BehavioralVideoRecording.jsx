@@ -104,6 +104,10 @@ const BehavioralVideoRecording = () => {
               "intro": "This timer shows the time remaining for your response."
             },
             {
+              "element": "#mute-indicator",
+              "intro": "Mute and Unmute indicator."
+            },
+            {
               "element": "#tipsContainer",
               "intro": "Here are some tips to help you perform better in your interview."
             },
@@ -116,8 +120,7 @@ const BehavioralVideoRecording = () => {
               "intro": "Click this button to start the interview."
             },
             {
-              "element": "#confirmCloseButton",
-              "intro": "Click this button to cancel the interview if you wish to stop."
+              "intro": "Goodluck to your interview!"
             }
           ]
       })

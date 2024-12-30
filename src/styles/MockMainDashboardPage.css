@@ -33,7 +33,7 @@
   left: 0;
   width: 100%;
   background: var(--primary-color) !important;
-  background: linear-gradient(264deg, rgba(244,106,5,1) 19%, rgba(255,157,85,0.8417038690476191) 74%) !important;
+  background: linear-gradient(264deg, rgba(244,106,5,1) 19%, rgb(255, 156, 85) 74%) !important;
   padding: 10px 3%;
   margin: 0 !important;
   z-index: 1000; /* Ensure it's above other elements */

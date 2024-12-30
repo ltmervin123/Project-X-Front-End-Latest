@@ -119,7 +119,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             "intro": "Click this button to start the interview."
           },
           {
-            "element": "#confirmCloseButton",
             "intro": "Click this button to cancel the interview if you wish to stop."
           }
         ]
