@@ -112,7 +112,7 @@ const VideoRecording = ({ interviewType, category }) => {
               "intro": "This timer shows the time remaining for your response."
             },
             {
-              "element": "#mute-indicator",
+              "element": ".mute-indicator",
               "intro": "Mute and Unmute indicator."
             },
             {
