@@ -72,6 +72,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     useState(false);
   const API = process.env.REACT_APP_API_URL;
 
+
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
