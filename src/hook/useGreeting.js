@@ -11,9 +11,10 @@ export const useGreeting = () => {
     const date = new Date();
     const hours = date.getHours(); // 0-23
 
+    // 0-11:59 morning, 12-16:59 afternoon, 17-23 evening
     if (hours >= 0 && hours < 12) {
       return "morning";
-    } else if (hours >= 12 && hours < 15) {
+    } else if (hours >= 12 && hours < 18) {
       return "afternoon";
     } else {
       return "evening";

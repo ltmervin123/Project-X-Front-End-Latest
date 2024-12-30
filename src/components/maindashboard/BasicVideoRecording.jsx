@@ -20,7 +20,9 @@ import LoadingScreen from "./loadingScreen";
 import tipsAvatar from "../../assets/basic.png";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
+import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
+import ErrorTranscription from "./errors/ErrorTranscription";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
@@ -65,6 +67,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const firstGreetingText =
     "Welcome to HR Hatch basic interview simulation. Today’s interviewer is Steve.";
   const secondGreetingText = firstGreeting();
+  const [transcriptionError, setTranscriptionError] = useState(false);
+  const [generateFinalGreetingError, setGenerateFinalGreetingError] =
+    useState(false);
   const API = process.env.REACT_APP_API_URL;
 
   const tips = [
@@ -79,81 +84,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
-
-  //Function to initialize Intro.js
-  const popupGuide = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click this button to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro: "This timer shows the time remaining for your response.",
-          },
-          {
-            element: "mute-indicator",
-            intro: "Mute and Unmute indicator.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-          {
-            element: "#talkingAvatar",
-            intro:
-              "This is the talking avatar that guides you during the interview.",
-          },
-          {
-            element: "#startInterviewButton",
-            intro: "Click this button to start the interview.",
-          },
-          {
-            element: "#confirmCloseButton",
-            intro:
-              "Click this button to cancel the interview if you wish to stop.",
-          },
-        ],
-      })
-      .start();
-  };
-
-  // Pop up guide function
-  const startGuide = () => {
-    // Check if the intro has already been shown
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
-
-    //Check if the intro has already been shown
-    if (!isIntroShown.basic) {
-      popupGuide();
-      // Update the behavioral field
-      const updatedIntroShown = {
-        ...isIntroShown,
-        basic: true,
-      };
-
-      // Save and override the prevous value with the updated object back to sessionStorage
-      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
-    }
-  };
 
   //increment the tip index
   const incrementTip = () => {
@@ -316,6 +246,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
       const userResponse = transcript;
+
+      if (!userResponse) {
+        throw new Error("No transcription data to upload");
+      }
+
       const payload = { greeting, userResponse };
 
       const response = await axios.post(
@@ -347,7 +282,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Start the guide
       startGuide();
     } catch (error) {
-      console.error("Error fetching final response:", error.response.error);
+      if (error?.response?.status === 500) {
+        setGenerateFinalGreetingError(true);
+      }
+      if (error?.message === "No transcription data to upload") {
+        setTranscriptionError(true);
+      }
+
+      console.log("Error fetching final response:", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -406,7 +348,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           setRecognizedText(data.text);
         }
       });
-
+      //Remove the previous event listener
+      socket.off("transcription-error");
+      // Listen for transcription error events
       socket.on("transcription-error", (error) => {
         console.error("Transcription error:", error);
       });
@@ -436,20 +380,27 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
+    // Set uploading state to true
+    setIsUploading(true);
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
     ) {
-      mediaRecorderRef.current?.stop();
+      // Stop recording
       audioRecorderRef.current?.stop();
-
-      // Set uploading state to true
-      setIsUploading(true);
+      mediaRecorderRef.current?.stop();
 
       // Wait for the audio recorder to stop
       await new Promise((resolve) => {
         audioRecorderRef.current.onstop = resolve;
       });
+      console.log("Audio recorder stopped");
+
+      //wait for the media recorder to stop
+      await new Promise((resolve) => {
+        mediaRecorderRef.current.onstop = resolve;
+      });
+      console.log("Media recorder stopped");
 
       //Check if intro and execute the final greeting function
       if (isIntro) {
@@ -464,6 +415,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const handleInterviewAnswer = async () => {
     // Upload transcription
     await uploadTranscription();
+
+    // Check if there is a transcription error
+    if (transcriptionError) {
+      return;
+    }
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
@@ -503,41 +459,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     } catch (err) {
       console.log(err.response ? err.response.data.error : err.message);
       setFeedbackError(true); // Set feedback error state
-    }
-  };
-
-  // Fetch questions from the backend
-  const fetchQuestions = async () => {
-    try {
-      // Set the intro state to true
-      setIsIntroShown(true);
-      setIsCountdownActive(false);
-      setQuestionError(false);
-
-      // Create a FormData object to send the interview type and category
-      const formData = new FormData();
-      formData.append("type", interviewType);
-      formData.append("category", category);
-
-      const response = await axios.post(
-        `${API}/api/interview/generate-questions`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-
-      // Check if questions are returned
-      if (response.data.questions && response.data.questions.length > 0) {
-        setQuestions(response.data.questions);
-        setIsCountdownActive(true);
-        setInterviewId(response.data.interviewId);
-      }
-    } catch (error) {
-      setQuestionError(true);
     }
   };
 
@@ -638,6 +559,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   // };
 
   //Function to upload transcription
+
+  //
   const uploadTranscription = async () => {
     try {
       setIsRecording(false);
@@ -685,6 +608,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       setTranscript("");
     } catch (error) {
       console.log("Error uploading transcription: ", error);
+      if (error.message === "No transcription data to upload") {
+        setTranscriptionError(true);
+      }
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -718,6 +644,118 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
     return () => clearInterval(countdownRef.current);
   }, [isCountdownActive, countdown]);
+
+  /* Function below is unique on every recording component*/
+
+  // Fetch questions from the backend
+  const fetchQuestions = async () => {
+    try {
+      // Set the intro state to true
+      setIsIntroShown(true);
+      setIsCountdownActive(false);
+      setQuestionError(false);
+
+      // Create a FormData object to send the interview type and category
+      const formData = new FormData();
+      formData.append("type", interviewType);
+      formData.append("category", category);
+
+      const response = await axios.post(
+        `${API}/api/interview/generate-questions`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      // Check if questions are returned
+      if (response.data.questions && response.data.questions.length > 0) {
+        setQuestions(response.data.questions);
+        setIsCountdownActive(true);
+        setInterviewId(response.data.interviewId);
+      }
+    } catch (error) {
+      setQuestionError(true);
+    }
+  };
+
+  //Function to initialize Intro.js
+  const popupGuide = () => {
+    introJs()
+      .setOptions({
+        steps: [
+          {
+            intro: "Welcome to the Video Recording Interface!",
+          },
+          {
+            element: "#videoArea",
+            intro: "This is where you will see yourself while recording.",
+          },
+          {
+            element: "#startButton",
+            intro: "Click this button to start recording your responses.",
+          },
+          {
+            element: "#muteButton",
+            intro: "Use this button to mute or unmute your microphone.",
+          },
+          {
+            element: "#cameraButton",
+            intro: "Toggle your camera on or off using this button.",
+          },
+          {
+            element: "#timer",
+            intro: "This timer shows the time remaining for your response.",
+          },
+          {
+            element: "mute-indicator",
+            intro: "Mute and Unmute indicator.",
+          },
+          {
+            element: "#tipsContainer",
+            intro:
+              "Here are some tips to help you perform better in your interview.",
+          },
+          {
+            element: "#talkingAvatar",
+            intro:
+              "This is the talking avatar that guides you during the interview.",
+          },
+          {
+            element: "#startInterviewButton",
+            intro: "Click this button to start the interview.",
+          },
+          {
+            element: "#confirmCloseButton",
+            intro:
+              "Click this button to cancel the interview if you wish to stop.",
+          },
+        ],
+      })
+      .start();
+  };
+
+  // Pop up guide function
+  const startGuide = () => {
+    // Check if the intro has already been shown
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
+
+    //Check if the intro has already been shown
+    if (!isIntroShown.basic) {
+      popupGuide();
+      // Update the behavioral field
+      const updatedIntroShown = {
+        ...isIntroShown,
+        basic: true,
+      };
+
+      // Save and override the prevous value with the updated object back to sessionStorage
+      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
+    }
+  };
 
   return (
     <>
@@ -966,6 +1004,23 @@ const BasicVideoRecording = ({ interviewType, category }) => {
               onConfirm={handleConfirmClose}
               onClose={() => setShowConfirm(false)}
               message="Are you sure you want to cancel the interview?"
+            />
+          )}
+          {transcriptionError && (
+            <ErrorTranscription
+              onRetry={() => {
+                setTranscriptionError(false);
+              }}
+            />
+          )}
+
+          {generateFinalGreetingError && (
+            <ErrorGenerateFinalGreeting
+              onRetry={async () => {
+                setGenerateFinalGreetingError(false);
+                setIsUploading(true);
+                await aiFinalGreeting();
+              }}
             />
           )}
 
