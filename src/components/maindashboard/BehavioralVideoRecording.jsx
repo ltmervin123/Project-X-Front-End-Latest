@@ -868,10 +868,8 @@ const BehavioralVideoRecording = () => {
       setIsPaused(true);
       setRecognizedText("");
 
-      // Check if the socket is connected
-      if (socket?.connected) {
-        socket.emit("stop-transcription");
-      }
+      // Close the socket connection
+      socket.emit("stop-transcription");
 
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
@@ -1017,6 +1015,13 @@ const BehavioralVideoRecording = () => {
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
     ) {
+      // Stop audio recording
+      audioRecorderRef.current.stop();
+
+      // Wait for the audio recorder to stop
+      await new Promise((resolve) => {
+        audioRecorderRef.current.onstop = resolve;
+      });
       
       //Check if intro and execute the final greeting function
       if (isIntro) {
@@ -1183,10 +1188,8 @@ const BehavioralVideoRecording = () => {
       setIsPaused(true);
       setRecognizedText("");
 
-      // Check if the socket is connected
-      if (socket?.connected) {
-        socket.emit("stop-transcription");
-      }
+      // Close the transcription socket
+      socket.emit("stop-transcription");
 
       const question = questions[questionIndex];
 

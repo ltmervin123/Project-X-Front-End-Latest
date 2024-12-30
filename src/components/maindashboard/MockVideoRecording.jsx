@@ -935,10 +935,8 @@ const VideoRecording = ({ interviewType, category }) => {
       setIsPaused(true);
       setRecognizedText("");
 
-      // Check if the socket is connected
-      if (socket?.connected) {
-        socket.emit("stop-transcription");
-      }
+      //Close the socket connection
+      socket.emit("stop-transcription");
 
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
@@ -1084,21 +1082,13 @@ const VideoRecording = ({ interviewType, category }) => {
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
     ) {
-      // Stop recording
-      audioRecorderRef.current?.stop();
-      mediaRecorderRef.current?.stop();
+      // Stop audio recording
+      audioRecorderRef.current.stop();
 
       // Wait for the audio recorder to stop
       await new Promise((resolve) => {
         audioRecorderRef.current.onstop = resolve;
       });
-      console.log("Audio recorder stopped");
-
-      //wait for the media recorder to stop
-      await new Promise((resolve) => {
-        mediaRecorderRef.current.onstop = resolve;
-      });
-      console.log("Media recorder stopped");
 
       //Check if intro and execute the final greeting function
       if (isIntro) {
@@ -1264,10 +1254,8 @@ const VideoRecording = ({ interviewType, category }) => {
       setIsPaused(true);
       setRecognizedText("");
 
-      // Check if the socket is connected
-      if (socket?.connected) {
-        socket.emit("stop-transcription");
-      }
+      //Close the socket connection
+      socket.emit("stop-transcription");
 
       const question = questions[questionIndex];
 
