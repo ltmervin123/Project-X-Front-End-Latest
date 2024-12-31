@@ -293,9 +293,8 @@ const BehavioralVideoRecording = () => {
       }
       if (error?.message === "No transcription data to upload") {
         setTranscriptionError(true);
+        setTranscript("");
       }
-
-      console.log("Error fetching final response:", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -414,11 +413,11 @@ const BehavioralVideoRecording = () => {
   };
 
   const handleInterviewAnswer = async () => {
-    // Upload transcription
-    await uploadTranscription();
+    //This function return true if there is no transcription error
+    const isSuccess = await uploadTranscription();
 
-    // Check if there is a transcription error
-    if (transcriptionError) {
+    // Check if there is a transcription error and return if there is
+    if (!isSuccess) {
       return;
     }
 
@@ -605,10 +604,13 @@ const BehavioralVideoRecording = () => {
         }
       );
       setTranscript("");
+      return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
         setTranscriptionError(true);
+        setTranscript("");
+        return false;
       }
     } finally {
       // Clear the recorded chunks after uploading
