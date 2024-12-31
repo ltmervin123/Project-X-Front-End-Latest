@@ -130,8 +130,10 @@
   height: calc(100vh - 60px); /* Full height minus header */
   overflow-y: auto; /* Add scrolling if content overflows */
   z-index: 999;
-  width: 230px;
-  transition: all 0.3s ease;
+  width: 17%;
+  min-width: 210px;
+
+  /* transition: all 0.3s ease; */
 }
 /* .MockSidebar{
   width: 250px;
@@ -157,7 +159,8 @@
 /*Maindashboard Content*/
 .MockMainDashboard-content{
     padding: 10px 30px;
-    width: 100%;
+    width: 100% !important;
+    /* margin: 0; */
 }
 .MockMainDashboard-content h4 {
     font-weight: 500 !important;

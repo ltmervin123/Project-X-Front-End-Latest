@@ -50,6 +50,7 @@
   margin: 0;
   font-size: 20px;
   font-weight: 600;
+  width: 100%;
 }
 .dashboard-header > p,
 .mock-interview-container-header > p {
@@ -904,6 +905,38 @@
   width: 40px; /* Width of the avatar */
   height: 40px; /* Height of the avatar */
 }
+.response-indicator {
+  font-size: 14px;
+  position: absolute;
+  z-index: 1;
+  bottom: 80px; /* Adjust this value as needed */
+  background: var(--primary-color);
+  border: none; /* No border */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 5px; /* Inner spacing */
+  text-align: center; /* Center the text */
+  transition: opacity 0.3s ease;
+  color: var(--font-white);
+}
+
+.response-indicator::after {
+  content: '';
+  position: absolute;
+  left: 50%; /* Center the triangle horizontally */
+  bottom: -20px; /* Position it just below the indicator */
+  margin-left: -10px; /* Adjust to center the triangle */
+  border-width: 10px; /* Size of the triangle */
+  border-style: solid;
+  transform: rotate(180deg);
+  border-color: transparent transparent var(--primary-color) transparent; /* Triangle color */
+}
+
+/* Hide the response indicator on hover */
+#startButton:hover + .response-indicator {
+  opacity: 0;
+}
+
 .countdown-overlay {
   display: flex;
   align-items: center;
@@ -1087,6 +1120,7 @@
   margin: 0 !important;
   margin-bottom: 2rem;
 }
+
 /* Responsive styles for different screen sizes */
 @media (min-width: 1200px) {
   .video-recording-content {
@@ -1142,3 +1176,5 @@
     padding: 0.75rem;
   }
 }
+
+

@@ -50,6 +50,11 @@
 .navbar .nav-item:hover {
   color: var(--primary-color) !important;
 }
+.noclickblue:focus,
+.noclickblue:active {
+  background-color: transparent !important; /* Prevent background color change */
+  outline: none; /* Prevent focus outline */
+}
 
 /* Header */
 .landing-header {
@@ -89,6 +94,7 @@
   color: var(--primary-color);
   font-weight: 700;
 }
+
 
 .btn-get {
   background-color: var(--primary-color) !important;

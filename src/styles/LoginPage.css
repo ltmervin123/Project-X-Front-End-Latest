@@ -10,8 +10,13 @@
 .navbar {
     background: none !important;
 }
+.header-login{
+    background: var(--input-bg);
+}
 .login-page-container{
     overflow: hidden;
+    padding: 0 !important;
+    margin: 0;
 }
 .main-login-form {
     padding: 0 !important;
@@ -58,6 +63,7 @@
     bottom: -250px;
 }
 .login-header {
+    /* background: var(--primary-color) !important; */
     margin-bottom: 10px;
 }
 
