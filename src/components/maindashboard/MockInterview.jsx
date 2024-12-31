@@ -111,7 +111,7 @@ const MainDashboard = () => {
   };
 
   return (
-    <Container className=" d-flex align-items-start flex-column MockMainDashboard-content">
+    <div className=" d-flex align-items-start flex-column MockMainDashboard-content">
       <div className="dashboard-header">
         {user ? (
           <>
@@ -252,7 +252,7 @@ const MainDashboard = () => {
           category={category}
         />
       )}
-    </Container>
+    </div>
   );
 };
 

@@ -158,9 +158,11 @@
 
 /*Maindashboard Content*/
 .MockMainDashboard-content{
-    padding: 10px 30px;
+    padding: 10px 40px;
     width: 100% !important;
-    margin: 0px 3%;
+    /* margin: 0px 3%; */
+    /* margin: ; */
+    /* background-color: var(--card-color); */
 }
 .MockMainDashboard-content h4 {
     font-weight: 500 !important;

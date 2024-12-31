@@ -211,7 +211,14 @@ thead::after {
 thead tr{
   position: relative;
 }
-
+.action-t-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.action-t-center-text{
+  text-align: center;
+}
 tbody td {
   padding: 5px;
   border-bottom: none;
