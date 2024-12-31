@@ -15,9 +15,10 @@ const ErrorTranscription = ({ onRetry }) => {
             <h4>ERROR: Unable to Transcribe Answer</h4>
             <p>
               We encountered an issue while transcribing your answer. This may
-              have occurred because the recording was stopped too soon, and the
-              audio was not fully transcribed. Please try recording your answer
-              again and ensure you speak clearly until the end.
+              have occurred because the recording was stopped too soon, the
+              audio was not fully transcribed, or the microphone was muted.
+              Please try recording your answer again, ensure you speak clearly
+              until the end, and verify that your microphone is not muted.
             </p>
             <div className="d-flex justify-content-center">
               <Button className="btn-retry" onClick={onRetry}>
