@@ -111,7 +111,7 @@ const MainDashboard = () => {
   };
 
   return (
-    <Container className=" d-flex flex-column MockMainDashboard-content">
+    <Container className=" d-flex align-items-start flex-column MockMainDashboard-content">
       <div className="dashboard-header">
         {user ? (
           <>

@@ -160,7 +160,7 @@
 .MockMainDashboard-content{
     padding: 10px 30px;
     width: 100% !important;
-    /* margin: 0; */
+    margin: 0px 3%;
 }
 .MockMainDashboard-content h4 {
     font-weight: 500 !important;
@@ -435,9 +435,9 @@
     z-index: 2; /* Ensure this is above the SVG */ 
 
 }
-@media (max-width: 1600px) {
+@media (min-width: 1700px) {
   .MockMain-sidebar > a svg{
-    font-size: 18px;
+    font-size: 30px;
     height: 20px;
   }
   
