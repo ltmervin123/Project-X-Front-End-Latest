@@ -115,7 +115,7 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 60%;
+  width: 55%;
   height: 62%;
   left: 20px;
 
@@ -134,7 +134,7 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 42%;
+  width: 47%;
   /* max-width: 500px; */
   height: 100%;
   position: absolute;
@@ -144,7 +144,7 @@
   background: var(--primary-color);
   overflow: hidden;
   transition: box-shadow 0.3s ease;
-  clip-path: polygon(13% 0, 100% 0%, 100% 100%, 0 45%);
+  clip-path: polygon(11% 0, 100% 0%, 100% 100%, 0 45%);
 }
 .category-card3 {
   color: var(--font-white) !important;
@@ -166,7 +166,7 @@
   transition: box-shadow 0.3s ease;
   bottom: 0;
   z-index: 1;
-  clip-path: polygon(0 65%, 57.5% 48%, 100% 100%, 0 100%);
+  clip-path: polygon(0 65%, 52.5% 48%, 100% 100%, 0 100%);
 }
 .category-card1::before,
 .category-card2::before,
@@ -195,10 +195,9 @@
 .category-card1.bg-behavioral:hover{
   transition: transform 0.5s ease-in-out; 
   clip-path: polygon(0 1%, 100% 0%, 91% 72%, 0% 100%);
-  width: 61%;
+  /* width: 61%; */
   height: 63%;
-
-
+  width: 55.5%;
 }
 .category-card1.bg-behavioral:hover::before {
   transform: scaleX(1) translateX(-25%) translateY(-10px);
@@ -211,13 +210,15 @@
 }
 .category-card2.bg-basic::before {
   background-image: url(../assets/expert1.png); /* Replace with your actual image path */
-  background-size: 44%;
+  background-size: 45%;
   background-position: right 5% bottom 65%;
   transform: scaleX(-1);
   transition: transform 0.3s ease;
 }
 .category-card2.bg-basic:hover{
-  width: 43%;
+  /* width: 43%; */
+  width: 47.5%;
+
   height: 102%;
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 
@@ -229,7 +230,7 @@
 .category-card3.bg-expert::before {
   background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
   background-size: 17%;
-  background-position: right 420px bottom -8px;
+  background-position: right 50% bottom -8px;
 }
 .category-card3.bg-expert:hover{
   transition: transform 0.3s ease-in-out; /* Smooth animation */
@@ -263,7 +264,7 @@
   top: 10px;
   left: 30%;
   font-weight: 500;
-  z-index: 30;
+  z-index: 20;
   transition: transform 0.3s ease;
 }
 
@@ -271,21 +272,22 @@
   transform: translateX(55%) translateY(25%); /* Adjust the value as needed */
 }
 .category-card-title2 {
-  width: 30%;
+  width: 35%;
   font-size: 3.5em;
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
   margin: 0;
   position: absolute;
-  top: 24%;
-  right: 13%;
+  top: 22%;
+  right: 18%;
   font-weight: 500;
   z-index: 30;
   transition: transform 0.3s ease;
+  /* background: var(--card-color); */
 }
 .category-card2:hover .category-card-title2 {
-  transform: translateY(17%) translateX(-24%);
+  transform: translateY(19%);
 }
 
 .category-card-title3 {
@@ -454,8 +456,8 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 .category-card-pin img {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -464,7 +466,7 @@
 .category-card-tronArrow2 {
   position: absolute;
   z-index: 200;
-  right: -10%;
+  right: -1%;
   bottom: 44%;
   visibility: visible;
   opacity: 1;
@@ -481,12 +483,70 @@
 .category-card-RectangelScribble2 {
   position: absolute;
   z-index: 200;
-  right: -10%;
+  right: -1%;
   bottom: 8%;
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
+@media (min-width: 1500px) {
+  .category-card2:hover .category-card-title2 {
+    transform: translateX(-2%);
+  }
+  .category-card3:hover .category-card-title3{
+    transform: translateX(55%) translateY(-12%);
+  } 
+  .category-card-tronArrow2{
+    right: 6%;
+  }
+ .category-description2 {
+    top: 36% !important;
+  }
+}
+@media (min-width: 1600px) {
+  .category-card2:hover .category-card-title2 {
+    transform: translateX(-5%);
+  }
+  .category-card3:hover .category-card-title3{
+    transform: translateX(53%) translateY(-12%);
+  } 
+  .category-card-tronArrow2{
+    bottom: 48%;
+    right: 8%;
+  }
+  .category-card-RectangelScribble2{
+    bottom: 15%;
+    right: 5%;
+  }
+  .category-description2 {
+    top: 33% !important;
+  }
+  .category-card3.bg-expert::before {
+    background-position: right 50% bottom -8px;
+  }
+}
+@media (min-width: 1700px) {
+  .category-card2:hover .category-card-title2 {
+    transform: translateX(-8%);
+  }
+  .category-card3:hover .category-card-title3{
+    transform: translateX(60%) translateY(-12%);
+  } 
+  .category-card-tronArrow2{
+    bottom: 50%;
+    right: 8%;
+  }
+  .category-card-RectangelScribble2{
+    bottom: 20%;
+    right: 5%;
+  }
+  .category-description3 {
+    right: 31.5% !important;
+
+  }
+}
+
+
 /* .category-card2:hover .category-card-RectangelScribble2   {
   visibility: hidden;
   opacity: 0;
