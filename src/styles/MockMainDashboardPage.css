@@ -69,6 +69,9 @@
   position: relative;
   bottom: 4px;
 }
+#basic-navbar-nav > .navbar-nav{
+  width: auto;
+}
 /* Ensure the hover effect only affects the dropdown items */
 .dropdown-header {
   border-radius: 50px;
@@ -79,6 +82,7 @@
   display: flex;
   align-items: center;
   padding: 20px;
+  width: auto;
 }
 
 .dropdown-header >img{
@@ -130,8 +134,8 @@
   height: calc(100vh - 60px); /* Full height minus header */
   overflow-y: auto; /* Add scrolling if content overflows */
   z-index: 999;
-  width: 17%;
-  min-width: 230px;
+  width: 16.5%;
+  min-width: 210px;
   /* max-width: 240px; */
   /* transition: all 0.3s ease; */
 }
@@ -437,12 +441,38 @@
     z-index: 2; /* Ensure this is above the SVG */ 
 
 }
+@media (min-width: 1500px) {
+  .MockMain-sidebar > svg{
+    height: 20px;
+    color: var(-);
+
+  }
+  .MockMain-sidebar > a {
+    font-size: 18px;
+
+  }
+  
+}
+@media (min-width: 1600px) {
+  .MockMain-sidebar > a svg{
+    font-size: 35px;
+    height: 25px;
+  }
+  .MockMain-sidebar > a {
+    font-size: 19px;
+
+  }
+  
+}
 @media (min-width: 1700px) {
   .MockMain-sidebar > a svg{
     font-size: 30px;
     height: 20px;
   }
-  
+  .MockMain-sidebar > a {
+    font-size: 20px;
+
+  }
 }
 /* 
 

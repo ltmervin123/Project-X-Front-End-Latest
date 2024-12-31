@@ -125,12 +125,13 @@
   position: relative;
   height: 100vh;
   padding: 0;
-  background: rgb(255, 255, 255);
+  background: var(--font-white);
+  /* background: rgb(255, 255, 255);
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 1) 58%,
     rgba(244, 106, 5, 1) 130%
-  );
+  ); */
   /* Set height to 100% of the viewport */
 }
 .hero-container > svg {
