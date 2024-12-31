@@ -131,8 +131,8 @@
   overflow-y: auto; /* Add scrolling if content overflows */
   z-index: 999;
   width: 17%;
-  min-width: 210px;
-
+  min-width: 230px;
+  /* max-width: 240px; */
   /* transition: all 0.3s ease; */
 }
 /* .MockSidebar{
@@ -435,6 +435,14 @@
     z-index: 2; /* Ensure this is above the SVG */ 
 
 }
+@media (max-width: 1600px) {
+  .MockMain-sidebar > a svg{
+    font-size: 18px;
+    height: 20px;
+  }
+  
+}
+/* 
 
 /* Add media queries for different screen sizes */
 @media (max-width: 768px) {

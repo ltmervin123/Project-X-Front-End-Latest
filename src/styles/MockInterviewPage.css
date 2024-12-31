@@ -54,8 +54,8 @@
 }
 .dashboard-header > p,
 .mock-interview-container-header > p {
-  font-size: 9px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 500;
   color: var(--card-color);
 }
 /*maindashboard*/
@@ -768,10 +768,11 @@
 }
 
 .video-area {
-  background: var(--text-color);
+  /* background: var(--text-color); */
+  background: var(--card-color);
   position: relative;
   width: 100%;
-  height: 400px !important;
+  height: 90% !important;
   border-radius: 10px;
   flex-direction: column;
   gap: 10px;
@@ -1114,6 +1115,7 @@
   width: 95% !important;
   margin: 0 auto !important;
   /* background: var(--primary-color); */
+  height: 80vh;
   border: 2px solid var(--primary-color);
   border-radius: 20px;
   padding: 2rem;
@@ -1128,9 +1130,9 @@
     max-width: 1800px;
   }
 
-  .video-area {
+  /* .video-area {
     height: 450px !important;
-  }
+  } */
 
   .avatar-interviewer-img {
     height: 250px !important;
@@ -1142,10 +1144,15 @@
     width: 80%;
     max-width: 2000px;
   }
+  .dashboard-header > p,
+  .mock-interview-container-header > p {
+    font-size: 12px;
 
+  }
+/* 
   .video-area {
     height: 550px !important;
-  }
+  } */
 
   .avatar-interviewer-img {
     height: 300px !important;
