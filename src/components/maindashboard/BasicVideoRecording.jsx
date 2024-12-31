@@ -403,11 +403,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   };
 
   const handleInterviewAnswer = async () => {
-    // Upload transcription
-    await uploadTranscription();
+    // this function return true when transcription is uploaded successfully and false when it fails
+    const isSuccess = await uploadTranscription();
 
-    // Check if there is a transcription error
-    if (transcriptionError) {
+    // Check if transcription upload was successful and exit if not
+    if (!isSuccess) {
       return;
     }
 
@@ -594,11 +594,16 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         }
       );
       setTranscript("");
+      return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
+        // Set transcription error state to pop up the error modal
         setTranscriptionError(true);
+        //Reset the transcript text
+        setTranscript("");
       }
+      return false;
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -699,8 +704,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             intro: "This timer shows the time remaining for your response.",
           },
           {
-            "element": ".mute-indicator",
-            "intro": "Mute and Unmute indicator."
+            element: ".mute-indicator",
+            intro: "Mute and Unmute indicator.",
           },
           {
             element: "#tipsContainer",

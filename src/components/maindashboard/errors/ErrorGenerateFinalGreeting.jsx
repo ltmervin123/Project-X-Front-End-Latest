@@ -14,8 +14,8 @@ const ErrorGenerateFinalGreeting = ({ onRetry }) => {
           <Col md={7}>
             <h4>ERROR: Unable to Generate Final Greeting</h4>
             <p>
-              We encountered an issue while generating final greeting. Please
-              try again!
+              We encountered an issue while generating the final greeting based
+              on your response. Please try again!
             </p>
             <div className="d-flex justify-content-center">
               <Button className="btn-retry" onClick={onRetry}>
