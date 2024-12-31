@@ -768,8 +768,8 @@
 }
 
 .video-area {
-  /* background: var(--text-color); */
-  background: var(--card-color);
+  background: var(--text-color);
+  /* background: var(--card-color); */
   position: relative;
   width: 100%;
   height: 90% !important;

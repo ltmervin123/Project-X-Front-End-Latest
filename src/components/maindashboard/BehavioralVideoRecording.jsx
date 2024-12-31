@@ -758,8 +758,8 @@ const BehavioralVideoRecording = () => {
         className="video-recording-page align-items-center justify-content-center"
       >
         <div className="video-recording-content">
-          <Row>
-            <Col md={7} className="d-flex flex-column align-items-center">
+          <Row className="h-100">
+            <Col md={7} className="d-flex flex-column align-items-center h-100">
               <div
                 id="videoArea"
                 className="video-area position-relative d-flex align-items-center"
