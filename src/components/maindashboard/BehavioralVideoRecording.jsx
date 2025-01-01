@@ -75,8 +75,7 @@ const BehavioralVideoRecording = () => {
     useState(false);
   const API = process.env.REACT_APP_API_URL;
 
-  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
-    useState(false);
+  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] = useState(false);
 
   const tips = [
     "Know your resume.",
@@ -200,6 +199,7 @@ const BehavioralVideoRecording = () => {
       await speak(secondGreetingText);
 
       setIsResponseIndicatorVisible(true);
+
     }
   };
 
@@ -808,7 +808,7 @@ const BehavioralVideoRecording = () => {
                   </Button>
                   {/* Start and Stop record button */}
                   {isIntro ? (
-                    <>
+                      <>
                       <Button
                         id="startButton"
                         className="position-relative pause-indicator"
@@ -829,29 +829,29 @@ const BehavioralVideoRecording = () => {
                         </div>
                       )}
                     </>
-                  ) : (
-                    <>
-                      {/* {isResponseIndicatorVisible && (
+                    ) : (
+                      <>
+                        {/* {isResponseIndicatorVisible && (
                           <div className="response-indicator">
                             Click here to respond
                           </div>
                         )} */}
-                      <Button
-                        id="startButton"
-                        className="position-relative pause-indicator"
-                        onClick={isRecording ? stopRecording : startRecording}
-                        disabled={!questions.length || isUploading}
-                      >
-                        {isUploading ? (
-                          <Spinner className="pause-indicator-spinner"></Spinner>
-                        ) : isRecording ? (
-                          <FaPause size={30} />
-                        ) : (
-                          <FaCircle size={30} />
-                        )}
-                      </Button>
-                    </>
-                  )}
+                        <Button
+                          id="startButton"
+                          className="position-relative pause-indicator"
+                          onClick={isRecording ? stopRecording : startRecording}
+                          disabled={!questions.length || isUploading}
+                        >
+                          {isUploading ? (
+                            <Spinner className="pause-indicator-spinner"></Spinner>
+                          ) : isRecording ? (
+                            <FaPause size={30} />
+                          ) : (
+                            <FaCircle size={30} />
+                          )}
+                        </Button>
+                      </>
+                    )}
                   <Button
                     id="muteButton"
                     className="btn-mute"
