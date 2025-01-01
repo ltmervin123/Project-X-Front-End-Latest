@@ -39,7 +39,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [isIntroShown, setIsIntroShown] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
-  const [transcript, setTranscript] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -71,9 +70,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
   const API = process.env.REACT_APP_API_URL;
-
-  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] = useState(false);
-
+  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
+    useState(false);
+  const transcriptRef = useRef("");
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -86,6 +85,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
+
+  const setTranscript = (text) => {
+    transcriptRef.current = `${transcriptRef.current}${text}`;
+  };
+
+  const clearTranscript = () => {
+    transcriptRef.current = "";
+  };
 
   //increment the tip index
   const incrementTip = () => {
@@ -186,18 +193,18 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
-const userIntroduction = async () => {
-  if (!isIntroShown) {
-    setIsIntro(true);
-    setCurrentGreetingText(firstGreetingText);
-    await speak(firstGreetingText);
-    setCurrentGreetingText(secondGreetingText);
-    await speak(secondGreetingText);
-    
-    // Show the response indicator after speaking the second greeting
-    setIsResponseIndicatorVisible(true);
-  }
-};
+  const userIntroduction = async () => {
+    if (!isIntroShown) {
+      setIsIntro(true);
+      setCurrentGreetingText(firstGreetingText);
+      await speak(firstGreetingText);
+      setCurrentGreetingText(secondGreetingText);
+      await speak(secondGreetingText);
+
+      // Show the response indicator after speaking the second greeting
+      setIsResponseIndicatorVisible(true);
+    }
+  };
 
   // Speak function to convert text to audio
   const speak = async (text) => {
@@ -247,7 +254,7 @@ const userIntroduction = async () => {
 
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
-      const userResponse = transcript;
+      const userResponse = transcriptRef.current;
 
       if (!userResponse) {
         throw new Error("No transcription data to upload");
@@ -276,7 +283,7 @@ const userIntroduction = async () => {
       await speak(finalGreeting);
 
       setCurrentGreetingText("");
-      setTranscript("");
+      clearTranscript();
 
       // Wait for a brief moment before starting the guide
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -289,6 +296,7 @@ const userIntroduction = async () => {
       }
       if (error?.message === "No transcription data to upload") {
         setTranscriptionError(true);
+        clearTranscript();
       }
 
       console.log("Error fetching final response:", error);
@@ -345,7 +353,7 @@ const userIntroduction = async () => {
       // Listen for transcription events
       socket.on("transcription", (data) => {
         if (data.isFinal) {
-          setTranscript((prev) => `${prev}${data.text}`);
+          setTranscript(data.text);
           setRecognizedText("");
         } else {
           setRecognizedText(data.text);
@@ -473,9 +481,12 @@ const userIntroduction = async () => {
         setTimer({ minutes, seconds });
 
         // Check if 3 minutes have elapsed and stop recording
-        if (elapsedSeconds === 180) {
-          await stopRecording();
-          clearInterval(interval);
+        if (elapsedSeconds === 179) {
+          //Add a slight delay before stopping the recording
+          setTimeout(async () => {
+            await stopRecording();
+            clearInterval(interval);
+          }, 1000);
         }
       }, 1000);
     } else {
@@ -570,7 +581,7 @@ const userIntroduction = async () => {
       // Create a payload object to send the transcription data
       const payload = {
         interviewId,
-        transcript,
+        transcript: transcriptRef.current,
         question,
       };
 
@@ -579,7 +590,7 @@ const userIntroduction = async () => {
         throw new Error("No transcription data to upload");
       }
 
-      if (!transcript) {
+      if (!transcriptRef.current) {
         throw new Error("No transcription data to upload");
       }
 
@@ -598,7 +609,7 @@ const userIntroduction = async () => {
           },
         }
       );
-      setTranscript("");
+      clearTranscript();
       return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
@@ -606,7 +617,7 @@ const userIntroduction = async () => {
         // Set transcription error state to pop up the error modal
         setTranscriptionError(true);
         //Reset the transcript text
-        setTranscript("");
+        clearTranscript();
       }
       return false;
     } finally {
@@ -809,7 +820,7 @@ const userIntroduction = async () => {
                   </Button>
                   {/* Start and Stop record button */}
                   {isIntro ? (
-                      <>
+                    <>
                       <Button
                         id="startButton"
                         className="position-relative pause-indicator"
@@ -830,29 +841,29 @@ const userIntroduction = async () => {
                         </div>
                       )}
                     </>
-                    ) : (
-                      <>
-                        {/* {isResponseIndicatorVisible && (
+                  ) : (
+                    <>
+                      {/* {isResponseIndicatorVisible && (
                           <div className="response-indicator">
                             Click here to respond
                           </div>
                         )} */}
-                        <Button
-                          id="startButton"
-                          className="position-relative pause-indicator"
-                          onClick={isRecording ? stopRecording : startRecording}
-                          disabled={!questions.length || isUploading}
-                        >
-                          {isUploading ? (
-                            <Spinner className="pause-indicator-spinner"></Spinner>
-                          ) : isRecording ? (
-                            <FaPause size={30} />
-                          ) : (
-                            <FaCircle size={30} />
-                          )}
-                        </Button>
-                      </>
-                    )}
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={!questions.length || isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                    </>
+                  )}
                   <Button
                     id="muteButton"
                     className="btn-mute"

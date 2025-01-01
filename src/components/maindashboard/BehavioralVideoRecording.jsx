@@ -42,7 +42,6 @@ const BehavioralVideoRecording = () => {
   const [isIntroShown, setIsIntroShown] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
-  const [transcript, setTranscript] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -74,8 +73,9 @@ const BehavioralVideoRecording = () => {
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
   const API = process.env.REACT_APP_API_URL;
-
-  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] = useState(false);
+  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
+    useState(false);
+  const transcriptRef = useRef("");
 
   const tips = [
     "Know your resume.",
@@ -89,6 +89,14 @@ const BehavioralVideoRecording = () => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
+
+  const setTranscript = (text) => {
+    transcriptRef.current = `${transcriptRef.current}${text}`;
+  };
+
+  const clearTranscript = () => {
+    transcriptRef.current = "";
+  };
 
   //increment the tip index
   const incrementTip = () => {
@@ -199,7 +207,6 @@ const BehavioralVideoRecording = () => {
       await speak(secondGreetingText);
 
       setIsResponseIndicatorVisible(true);
-
     }
   };
 
@@ -251,7 +258,7 @@ const BehavioralVideoRecording = () => {
 
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
-      const userResponse = transcript;
+      const userResponse = transcriptRef.current;
 
       if (!userResponse) {
         throw new Error("No transcription data to upload");
@@ -280,7 +287,7 @@ const BehavioralVideoRecording = () => {
       await speak(finalGreeting);
 
       setCurrentGreetingText("");
-      setTranscript("");
+      clearTranscript();
 
       // Wait for a brief moment before starting the guide
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -293,8 +300,9 @@ const BehavioralVideoRecording = () => {
       }
       if (error?.message === "No transcription data to upload") {
         setTranscriptionError(true);
-        setTranscript("");
+        clearTranscript();
       }
+      console.log("Error ", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -349,7 +357,7 @@ const BehavioralVideoRecording = () => {
       // Listen for transcription events
       socket.on("transcription", (data) => {
         if (data.isFinal) {
-          setTranscript((prev) => `${prev}${data.text}`);
+          setTranscript(data.text);
           setRecognizedText("");
         } else {
           setRecognizedText(data.text);
@@ -478,9 +486,12 @@ const BehavioralVideoRecording = () => {
         setTimer({ minutes, seconds });
 
         // Check if 3 minutes have elapsed and stop recording
-        if (elapsedSeconds === 180) {
-          await stopRecording();
-          clearInterval(interval);
+        if (elapsedSeconds === 179) {
+          //Add a slight delay before stopping the recording
+          setTimeout(async () => {
+            await stopRecording();
+            clearInterval(interval);
+          }, 1000);
         }
       }, 1000);
     } else {
@@ -559,8 +570,6 @@ const BehavioralVideoRecording = () => {
   // };
 
   //Function to upload transcription
-
-  //
   const uploadTranscription = async () => {
     try {
       setIsRecording(false);
@@ -575,7 +584,7 @@ const BehavioralVideoRecording = () => {
       // Create a payload object to send the transcription data
       const payload = {
         interviewId,
-        transcript,
+        transcript: transcriptRef.current,
         question,
       };
 
@@ -584,7 +593,7 @@ const BehavioralVideoRecording = () => {
         throw new Error("No transcription data to upload");
       }
 
-      if (!transcript) {
+      if (!transcriptRef.current) {
         throw new Error("No transcription data to upload");
       }
 
@@ -603,13 +612,13 @@ const BehavioralVideoRecording = () => {
           },
         }
       );
-      setTranscript("");
+      clearTranscript();
       return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
         setTranscriptionError(true);
-        setTranscript("");
+        clearTranscript();
         return false;
       }
     } finally {
@@ -647,7 +656,6 @@ const BehavioralVideoRecording = () => {
   }, [isCountdownActive, countdown]);
 
   /* Function below is unique on every recording component*/
-
   // Fetch questions from the backend
   const fetchQuestions = async () => {
     try {
@@ -809,7 +817,7 @@ const BehavioralVideoRecording = () => {
                   </Button>
                   {/* Start and Stop record button */}
                   {isIntro ? (
-                      <>
+                    <>
                       <Button
                         id="startButton"
                         className="position-relative pause-indicator"
@@ -830,29 +838,29 @@ const BehavioralVideoRecording = () => {
                         </div>
                       )}
                     </>
-                    ) : (
-                      <>
-                        {/* {isResponseIndicatorVisible && (
+                  ) : (
+                    <>
+                      {/* {isResponseIndicatorVisible && (
                           <div className="response-indicator">
                             Click here to respond
                           </div>
                         )} */}
-                        <Button
-                          id="startButton"
-                          className="position-relative pause-indicator"
-                          onClick={isRecording ? stopRecording : startRecording}
-                          disabled={!questions.length || isUploading}
-                        >
-                          {isUploading ? (
-                            <Spinner className="pause-indicator-spinner"></Spinner>
-                          ) : isRecording ? (
-                            <FaPause size={30} />
-                          ) : (
-                            <FaCircle size={30} />
-                          )}
-                        </Button>
-                      </>
-                    )}
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={!questions.length || isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                    </>
+                  )}
                   <Button
                     id="muteButton"
                     className="btn-mute"
