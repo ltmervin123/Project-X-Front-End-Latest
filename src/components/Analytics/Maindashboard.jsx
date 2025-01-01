@@ -152,7 +152,7 @@ const MainDashboard = () => {
       parseFloat(item.overallFeedback.grammar)
     );
     const skillsScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.gkills)
+      parseFloat(item.overallFeedback.skill)
     ); // Fixed typo from 'gkills' to 'skills'
     const experienceScores = filteredData.map((item) =>
       parseFloat(item.overallFeedback.experience)
