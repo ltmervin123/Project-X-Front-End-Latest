@@ -192,8 +192,8 @@
   background-size: 28%;
   background-position: right 40% bottom 30%;
 }
-.category-card1.bg-behavioral:hover{
-  transition: transform 0.5s ease-in-out; 
+.category-card1.bg-behavioral:hover {
+  transition: transform 0.5s ease-in-out;
   clip-path: polygon(0 1%, 100% 0%, 91% 72%, 0% 100%);
   /* width: 61%; */
   height: 63%;
@@ -215,16 +215,15 @@
   transform: scaleX(-1);
   transition: transform 0.3s ease;
 }
-.category-card2.bg-basic:hover{
+.category-card2.bg-basic:hover {
   /* width: 43%; */
   width: 47.5%;
 
   height: 102%;
   transition: transform 0.3s ease-in-out; /* Smooth animation */
-
 }
 .category-card2.bg-basic:hover::before {
-  transform: scaleX(-1) ; /* Adjust the value as needed */
+  transform: scaleX(-1); /* Adjust the value as needed */
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
 .category-card3.bg-expert::before {
@@ -232,15 +231,15 @@
   background-size: 17%;
   background-position: right 50% bottom -8px;
 }
-.category-card3.bg-expert:hover{
+.category-card3.bg-expert:hover {
   transition: transform 0.3s ease-in-out; /* Smooth animation */
   width: 96%;
   height: 99%;
   bottom: 200px !important;
-  
 }
-.category-card3.bg-expert:hover::before {/* Adjust the value as needed */
-  transform: translateX(-30%);/* Move left on hover */
+.category-card3.bg-expert:hover::before {
+  /* Adjust the value as needed */
+  transform: translateX(-30%); /* Move left on hover */
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
 .category-card3.bg-expert::before {
@@ -310,7 +309,7 @@
 .category-description1 {
   position: absolute;
   z-index: 200;
-  font-size: .8rem;
+  font-size: 0.8rem;
   padding: 10px;
   top: 80px;
   left: 45%;
@@ -399,7 +398,6 @@
   top: 23%;
   visibility: visible;
   opacity: 1;
-  
 }
 .category-card1:hover .category-card-RectangelScribble,
 .category-card2:hover .category-card-RectangelScribble2,
@@ -420,7 +418,7 @@
 .category-description2 {
   position: absolute;
   z-index: 200;
-  font-size: .8rem;
+  font-size: 0.8rem;
   padding: 10px;
   top: 40%;
   right: 4%;
@@ -493,13 +491,13 @@
   .category-card2:hover .category-card-title2 {
     transform: translateX(-2%);
   }
-  .category-card3:hover .category-card-title3{
+  .category-card3:hover .category-card-title3 {
     transform: translateX(55%) translateY(-12%);
-  } 
-  .category-card-tronArrow2{
+  }
+  .category-card-tronArrow2 {
     right: 6%;
   }
- .category-description2 {
+  .category-description2 {
     top: 36% !important;
   }
 }
@@ -507,14 +505,14 @@
   .category-card2:hover .category-card-title2 {
     transform: translateX(-5%);
   }
-  .category-card3:hover .category-card-title3{
+  .category-card3:hover .category-card-title3 {
     transform: translateX(53%) translateY(-12%);
-  } 
-  .category-card-tronArrow2{
+  }
+  .category-card-tronArrow2 {
     bottom: 48%;
     right: 8%;
   }
-  .category-card-RectangelScribble2{
+  .category-card-RectangelScribble2 {
     bottom: 15%;
     right: 5%;
   }
@@ -529,23 +527,21 @@
   .category-card2:hover .category-card-title2 {
     transform: translateX(-8%);
   }
-  .category-card3:hover .category-card-title3{
+  .category-card3:hover .category-card-title3 {
     transform: translateX(60%) translateY(-12%);
-  } 
-  .category-card-tronArrow2{
+  }
+  .category-card-tronArrow2 {
     bottom: 50%;
     right: 8%;
   }
-  .category-card-RectangelScribble2{
+  .category-card-RectangelScribble2 {
     bottom: 20%;
     right: 5%;
   }
   .category-description3 {
     right: 31.5% !important;
-
   }
 }
-
 
 /* .category-card2:hover .category-card-RectangelScribble2   {
   visibility: hidden;
@@ -566,7 +562,7 @@
 .category-description3 {
   position: absolute;
   z-index: 200;
-  font-size: .8rem;
+  font-size: 0.8rem;
   padding: 10px;
   text-wrap: wrap;
   width: 30%;
@@ -956,7 +952,7 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   padding: 5px; /* Inner spacing */
   max-width: 100%; /* Max width of the message bubble */
-  margin-left: 18px; /* Space between the tips and the avatar */
+  margin-left: 310px; /* Space between the tips and the avatar */
   position: relative;
 }
 
@@ -992,7 +988,7 @@
 }
 
 .response-indicator::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 50%; /* Center the triangle horizontally */
   bottom: -20px; /* Position it just below the indicator */
@@ -1217,9 +1213,8 @@
   .dashboard-header > p,
   .mock-interview-container-header > p {
     font-size: 12px;
-
   }
-/* 
+  /* 
   .video-area {
     height: 550px !important;
   } */
@@ -1253,5 +1248,3 @@
     padding: 0.75rem;
   }
 }
-
-

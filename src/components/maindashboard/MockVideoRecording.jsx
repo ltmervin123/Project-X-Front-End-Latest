@@ -823,7 +823,7 @@ const VideoRecording = ({ interviewType, category }) => {
                   </Button>
                   {/* Start and Stop record button */}
                   {isIntro ? (
-                      <>
+                    <>
                       <Button
                         id="startButton"
                         className="position-relative pause-indicator"
@@ -844,29 +844,29 @@ const VideoRecording = ({ interviewType, category }) => {
                         </div>
                       )}
                     </>
-                    ) : (
-                      <>
-                        {/* {isResponseIndicatorVisible && (
+                  ) : (
+                    <>
+                      {/* {isResponseIndicatorVisible && (
                           <div className="response-indicator">
                             Click here to respond
                           </div>
                         )} */}
-                        <Button
-                          id="startButton"
-                          className="position-relative pause-indicator"
-                          onClick={isRecording ? stopRecording : startRecording}
-                          disabled={!questions.length || isUploading}
-                        >
-                          {isUploading ? (
-                            <Spinner className="pause-indicator-spinner"></Spinner>
-                          ) : isRecording ? (
-                            <FaPause size={30} />
-                          ) : (
-                            <FaCircle size={30} />
-                          )}
-                        </Button>
-                      </>
-                    )}
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={!questions.length || isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                    </>
+                  )}
                   <Button
                     id="muteButton"
                     className="btn-mute"
