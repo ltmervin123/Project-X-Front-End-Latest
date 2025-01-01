@@ -72,7 +72,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     useState(false);
   const API = process.env.REACT_APP_API_URL;
 
-  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] = useState(false);
+  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
+    useState(false);
 
   const tips = [
     "Know your resume.",
@@ -186,18 +187,18 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
-const userIntroduction = async () => {
-  if (!isIntroShown) {
-    setIsIntro(true);
-    setCurrentGreetingText(firstGreetingText);
-    await speak(firstGreetingText);
-    setCurrentGreetingText(secondGreetingText);
-    await speak(secondGreetingText);
-    
-    // Show the response indicator after speaking the second greeting
-    setIsResponseIndicatorVisible(true);
-  }
-};
+  const userIntroduction = async () => {
+    if (!isIntroShown) {
+      setIsIntro(true);
+      setCurrentGreetingText(firstGreetingText);
+      await speak(firstGreetingText);
+      setCurrentGreetingText(secondGreetingText);
+      await speak(secondGreetingText);
+
+      // Show the response indicator after speaking the second greeting
+      setIsResponseIndicatorVisible(true);
+    }
+  };
 
   // Speak function to convert text to audio
   const speak = async (text) => {
@@ -809,7 +810,7 @@ const userIntroduction = async () => {
                   </Button>
                   {/* Start and Stop record button */}
                   {isIntro ? (
-                      <>
+                    <>
                       <Button
                         id="startButton"
                         className="position-relative pause-indicator"
@@ -830,29 +831,29 @@ const userIntroduction = async () => {
                         </div>
                       )}
                     </>
-                    ) : (
-                      <>
-                        {/* {isResponseIndicatorVisible && (
+                  ) : (
+                    <>
+                      {/* {isResponseIndicatorVisible && (
                           <div className="response-indicator">
                             Click here to respond
                           </div>
                         )} */}
-                        <Button
-                          id="startButton"
-                          className="position-relative pause-indicator"
-                          onClick={isRecording ? stopRecording : startRecording}
-                          disabled={!questions.length || isUploading}
-                        >
-                          {isUploading ? (
-                            <Spinner className="pause-indicator-spinner"></Spinner>
-                          ) : isRecording ? (
-                            <FaPause size={30} />
-                          ) : (
-                            <FaCircle size={30} />
-                          )}
-                        </Button>
-                      </>
-                    )}
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={!questions.length || isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                    </>
+                  )}
                   <Button
                     id="muteButton"
                     className="btn-mute"
@@ -882,22 +883,6 @@ const userIntroduction = async () => {
                     <p>Reattempting access to camera...</p>
                   </div>
                 )}
-              </div>
-
-              {/* Tips container moved below video */}
-              <div
-                id="tipsContainer"
-                className="tips-container d-flex mt-3 gap-2"
-              >
-                <div className="tips">
-                  <p className="tips-header">Tips:</p>
-                  <p className="tips-content">{tips[currentTipIndex]}</p>
-                </div>
-                <img
-                  className="tips-avatar"
-                  src={tipsAvatar}
-                  alt="Tips Avatar"
-                />
               </div>
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-3">
@@ -963,6 +948,30 @@ const userIntroduction = async () => {
             </Col>
           </Row>
 
+          <Row>
+            <Col md={5}>
+              {/* Tips container moved below video */}
+              <div
+                id="tipsContainer"
+                className="tips-container d-flex mt-3 gap-2"
+              >
+                <div className="tips">
+                  <p className="tips-header">Tips:</p>
+                  <p className="tips-content">{tips[currentTipIndex]}</p>
+                </div>
+                <img
+                  className="tips-avatar"
+                  src={tipsAvatar}
+                  alt="Tips Avatar"
+                />
+              </div>
+            </Col>
+          </Row>
+          
+          <Row>
+            <Col md={5}>
+            </Col>
+          </Row>
           {questionError && (
             <ErrorGenerateQuestion
               onRetry={() => {
