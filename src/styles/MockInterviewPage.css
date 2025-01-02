@@ -4,6 +4,7 @@
   --font-white: #fff;
   --card-color: #686868;
   --text-color: #000;
+  --input-bg: #686868;
   --acttivit-card-bg: #d9d9d9;
 }
 
@@ -506,7 +507,7 @@
     transform: translateX(-5%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(53%) translateY(-12%);
+    transform: translateX(53%) translateY(-15%);
   }
   .category-card-tronArrow2 {
     bottom: 48%;
@@ -528,7 +529,7 @@
     transform: translateX(-8%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(60%) translateY(-12%);
+    transform: translateX(60%) translateY(-19%);
   }
   .category-card-tronArrow2 {
     bottom: 50%;
@@ -952,8 +953,8 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   padding: 5px; /* Inner spacing */
   max-width: 100%; /* Max width of the message bubble */
-  margin-left: 310px; /* Space between the tips and the avatar */
   position: relative;
+  
 }
 
 .tips-header {
@@ -1084,7 +1085,7 @@
 }
 .interviewsuccess-modal-width button:hover,
 .interviewsuccess-modal-width button:active {
-  background: var(--acttivit-card-bg) !important;
+  background: var(--input-bg) !important;
 }
 .interviewsuccess-modal-width img {
   width: 90px !important;
