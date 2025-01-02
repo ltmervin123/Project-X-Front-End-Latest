@@ -182,7 +182,7 @@
 }
 
 .result-yellow-bg {
-  background-color: #F8BD00; 
+  background-color: #F8BD00 !important; 
   width: 80px;
   border-radius: 50px;
   text-align: center;
