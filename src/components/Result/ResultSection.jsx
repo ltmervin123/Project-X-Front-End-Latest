@@ -59,14 +59,10 @@ const ResultSection = ({ interviewId }) => {
     if (type === "fillerCount") {
       const score = parseInt(scores, 10);
       let colorClass = '';
-      
       if (score >= 0 && score <= 3) colorClass = "result-green-bg";
       else if (score > 3 && score <= 6) colorClass = "result-yellow-bg";
       else if (score > 6 && score <= 9) colorClass = "result-orange-bg";
       else colorClass = "result-red-bg";
-      
-      console.log(`Filler Count Score: ${score}`);
-      console.log(`Filler Count Color Class: ${colorClass}`);
       return colorClass;
     }
     
@@ -76,9 +72,6 @@ const ResultSection = ({ interviewId }) => {
     else if (scores > 1.5 && scores <= 5.0) resultClass = "result-orange";
     else if (scores > 5.0 && scores <= 7.5) resultClass = "result-yellow";
     else resultClass = "result-green";
-    
-    console.log(`Score: ${scores}`);
-    console.log(`Color Class: ${resultClass}`);
     return resultClass;
   };
 
@@ -178,8 +171,8 @@ const ResultSection = ({ interviewId }) => {
         {/* Filler Count */}
         <div className="d-flex justify-content-center align-items-center flex-column filler-container">
           <p className="rating-name">Filler Count</p>
-          <p className={getResultClass(overallFeedback.fillerCount || 0, "fillerCount")}>
-            {overallFeedback.fillerCount}
+          <p className={getResultClass(overallFeedback.fillers || 0, "fillerCount")}>
+            {overallFeedback.fillers}
           </p>
         </div>
         <div className="interview-container flex-column w-100">
