@@ -59,13 +59,13 @@ const ResultSection = ({ interviewId }) => {
     if (type === "fillerCount") {
       const score = parseInt(scores, 10);
       if (score >= 0 && score <= 3) return "result-green-bg";
-      if (score > 3 && score <= 6) return "result-yellow-bg";
+      if (score > 3 && score <= 6) return "result-yellow-bg"; 
       if (score > 6 && score <= 9) return "result-orange-bg";
       return "result-red"; // for score 10 and above
     }
     if (scores >= 0 && scores <= 1.5) return "result-red";
-    if (scores > 1.5 && scores <= 5.0) return "result-yellow";
-    if (scores > 5.0 && scores <= 7.5) return "result-orange";
+    if (scores > 1.5 && scores <= 5.0) return "result-orange";
+    if (scores > 5.0 && scores <= 7.5) return "result-yellow";
     return "result-green";
   };
 
