@@ -86,7 +86,7 @@ const HeroSection = () => {
               </svg>
 
               {/* Wrap Button in Link */}
-              <Button className="btn-get">
+              <button className="btn-get">
                 <a
                   href="/login"
                   className="d-flex align-items-center justify-content-center"
@@ -125,7 +125,7 @@ const HeroSection = () => {
                   </svg>
                   GET STARTED
                 </a>
-              </Button>
+              </button>
             </Col>
             <Col md={5}>
               <img src={HeroAvatar} className="heroavatar" alt="Hero Avatar" />

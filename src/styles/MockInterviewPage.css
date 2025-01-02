@@ -507,7 +507,7 @@
     transform: translateX(-5%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(53%) translateY(-12%);
+    transform: translateX(53%) translateY(-15%);
   }
   .category-card-tronArrow2 {
     bottom: 48%;
@@ -529,7 +529,7 @@
     transform: translateX(-8%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(60%) translateY(-12%);
+    transform: translateX(60%) translateY(-19%);
   }
   .category-card-tronArrow2 {
     bottom: 50%;
