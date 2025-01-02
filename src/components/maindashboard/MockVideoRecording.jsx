@@ -440,9 +440,11 @@ const VideoRecording = ({ interviewType, category }) => {
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      //Speak the final greeting
-      const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-      await speak(greetingMessage);
+      const outroMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+      //Display the outro message
+      setCurrentGreetingText(outroMessage);
+      //Speak the outro greeting
+      await speak(outroMessage);
       // Create feedback
       await createFeedback();
     } else {
@@ -787,7 +789,7 @@ const VideoRecording = ({ interviewType, category }) => {
         className="video-recording-page align-items-center justify-content-center"
       >
         <div className="video-recording-content">
-        <Row className="video-recording-row">
+          <Row className="video-recording-row">
             <Col md={7} className="d-flex flex-column align-items-center h-100">
               <div
                 id="videoArea"
@@ -909,8 +911,6 @@ const VideoRecording = ({ interviewType, category }) => {
                   </div>
                 )}
               </div>
-
-
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-1">
               <img
@@ -976,7 +976,7 @@ const VideoRecording = ({ interviewType, category }) => {
           </Row>
           <Row className="d-flex justify-content-center tips-row">
             <Col md={7}>
-                          {/* Tips container moved below video */}
+              {/* Tips container moved below video */}
               <div
                 id="tipsContainer"
                 className="tips-container d-flex mt-3 gap-2"
@@ -991,8 +991,8 @@ const VideoRecording = ({ interviewType, category }) => {
                   alt="Tips Avatar"
                 />
               </div>
-              </Col>
-              <Col md={5}></Col>
+            </Col>
+            <Col md={5}></Col>
           </Row>
 
           {/* ... error handling components ... */}
