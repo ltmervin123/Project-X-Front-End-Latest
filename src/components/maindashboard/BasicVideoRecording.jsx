@@ -39,7 +39,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [isIntroShown, setIsIntroShown] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
-  const [transcript, setTranscript] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -71,7 +70,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
   const API = process.env.REACT_APP_API_URL;
-
+  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] = useState(false);
+  const transcriptRef = useRef("");
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -84,6 +84,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
+
+  const setTranscript = (text) => {
+    transcriptRef.current = `${transcriptRef.current}${text}`;
+  };
+
+  const clearTranscript = () => {
+    transcriptRef.current = "";
+  };
 
   //increment the tip index
   const incrementTip = () => {
@@ -184,7 +192,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
-  // User introduction
   const userIntroduction = async () => {
     if (!isIntroShown) {
       setIsIntro(true);
@@ -192,6 +199,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       await speak(firstGreetingText);
       setCurrentGreetingText(secondGreetingText);
       await speak(secondGreetingText);
+
+      // Show the response indicator after speaking the second greeting
+      setIsResponseIndicatorVisible(true);
     }
   };
 
@@ -243,7 +253,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
-      const userResponse = transcript;
+      const userResponse = transcriptRef.current;
 
       if (!userResponse) {
         throw new Error("No transcription data to upload");
@@ -272,7 +282,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       await speak(finalGreeting);
 
       setCurrentGreetingText("");
-      setTranscript("");
+      clearTranscript();
 
       // Wait for a brief moment before starting the guide
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -285,6 +295,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       }
       if (error?.message === "No transcription data to upload") {
         setTranscriptionError(true);
+        clearTranscript();
       }
 
       console.log("Error fetching final response:", error);
@@ -310,6 +321,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to start recording
   const startRecording = () => {
+    setIsResponseIndicatorVisible(false);
     if (streamRef.current) {
       // Clear chunks before new recording
       recordedChunksRef.current = [];
@@ -340,7 +352,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Listen for transcription events
       socket.on("transcription", (data) => {
         if (data.isFinal) {
-          setTranscript((prev) => `${prev}${data.text}`);
+          setTranscript(data.text);
           setRecognizedText("");
         } else {
           setRecognizedText(data.text);
@@ -403,11 +415,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   };
 
   const handleInterviewAnswer = async () => {
-    // Upload transcription
-    await uploadTranscription();
+    // this function return true when transcription is uploaded successfully and false when it fails
+    const isSuccess = await uploadTranscription();
 
-    // Check if there is a transcription error
-    if (transcriptionError) {
+    // Check if transcription upload was successful and exit if not
+    if (!isSuccess) {
       return;
     }
 
@@ -468,9 +480,12 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         setTimer({ minutes, seconds });
 
         // Check if 3 minutes have elapsed and stop recording
-        if (elapsedSeconds === 180) {
-          await stopRecording();
-          clearInterval(interval);
+        if (elapsedSeconds === 179) {
+          //Add a slight delay before stopping the recording
+          setTimeout(async () => {
+            await stopRecording();
+            clearInterval(interval);
+          }, 1000);
         }
       }, 1000);
     } else {
@@ -565,7 +580,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Create a payload object to send the transcription data
       const payload = {
         interviewId,
-        transcript,
+        transcript: transcriptRef.current,
         question,
       };
 
@@ -574,7 +589,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         throw new Error("No transcription data to upload");
       }
 
-      if (!transcript) {
+      if (!transcriptRef.current) {
         throw new Error("No transcription data to upload");
       }
 
@@ -593,12 +608,17 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
-      setTranscript("");
+      clearTranscript();
+      return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
+        // Set transcription error state to pop up the error modal
         setTranscriptionError(true);
+        //Reset the transcript text
+        clearTranscript();
       }
+      return false;
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -699,8 +719,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             intro: "This timer shows the time remaining for your response.",
           },
           {
-            "element": ".mute-indicator",
-            "intro": "Mute and Unmute indicator."
+            element: ".mute-indicator",
+            intro: "Mute and Unmute indicator.",
           },
           {
             element: "#tipsContainer",
@@ -751,8 +771,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         className="video-recording-page align-items-center justify-content-center"
       >
         <div className="video-recording-content">
-          <Row>
-            <Col md={7} className="d-flex flex-column align-items-center">
+          <Row className="video-recording-row">
+            <Col md={7} className="d-flex flex-column align-items-center h-100">
               <div
                 id="videoArea"
                 className="video-area position-relative d-flex align-items-center "
@@ -799,39 +819,49 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                   </Button>
                   {/* Start and Stop record button */}
                   {isIntro ? (
-                    // this button is for the intro
-                    <Button
-                      id="startButton"
-                      className="position-relative  pause-indicator"
-                      onClick={isRecording ? stopRecording : startRecording}
-                      disabled={isUploading}
-                    >
-                      {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                      {isUploading ? (
-                        <Spinner className="pause-indicator-spinner"></Spinner>
-                      ) : isRecording ? (
-                        <FaPause size={30} />
-                      ) : (
-                        <FaCircle size={30} />
+                    <>
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                      {isResponseIndicatorVisible && (
+                        <div className="response-indicator">
+                          Click here to respond
+                        </div>
                       )}
-                    </Button>
+                    </>
                   ) : (
-                    // this button is for the interview
-                    <Button
-                      id="startButton"
-                      className="position-relative  pause-indicator"
-                      onClick={isRecording ? stopRecording : startRecording}
-                      disabled={!questions.length || isUploading}
-                    >
-                      {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                      {isUploading ? (
-                        <Spinner className="pause-indicator-spinner"></Spinner>
-                      ) : isRecording ? (
-                        <FaPause size={30} />
-                      ) : (
-                        <FaCircle size={30} />
-                      )}
-                    </Button>
+                    <>
+                      {/* {isResponseIndicatorVisible && (
+                          <div className="response-indicator">
+                            Click here to respond
+                          </div>
+                        )} */}
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={!questions.length || isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                    </>
                   )}
                   <Button
                     id="muteButton"
@@ -864,23 +894,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                 )}
               </div>
 
-              {/* Tips container moved below video */}
-              <div
-                id="tipsContainer"
-                className="tips-container d-flex mt-3 gap-2"
-              >
-                <div className="tips">
-                  <p className="tips-header">Tips:</p>
-                  <p className="tips-content">{tips[currentTipIndex]}</p>
-                </div>
-                <img
-                  className="tips-avatar"
-                  src={tipsAvatar}
-                  alt="Tips Avatar"
-                />
-              </div>
+
             </Col>
-            <Col md={5} className="d-flex flex-column align-items-center gap-3">
+            <Col md={5} className="d-flex flex-column align-items-center gap-1">
               <img
                 id="talkingAvatar"
                 src={avatarImg}
@@ -941,6 +957,26 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                 )}
               </div>
             </Col>
+          </Row>
+          <Row className="d-flex justify-content-center tips-row">
+            <Col md={7}>
+                          {/* Tips container moved below video */}
+              <div
+                id="tipsContainer"
+                className="tips-container d-flex mt-3 gap-2"
+              >
+                <div className="tips">
+                  <p className="tips-header">Tips:</p>
+                  <p className="tips-content">{tips[currentTipIndex]}</p>
+                </div>
+                <img
+                  className="tips-avatar"
+                  src={tipsAvatar}
+                  alt="Tips Avatar"
+                />
+              </div>
+              </Col>
+              <Col md={5}></Col>
           </Row>
 
           {questionError && (

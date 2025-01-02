@@ -1,8 +1,10 @@
 :root {
   --primary-color: #f46a05;
+  --primary-color-hover: #f46a05c1;
   --secondary-color: #1706ac;
   --font-white: #fff;
   --input-bg: #686868;
+  --input-bg-hover: #686868c1;
   --bg-fade-signup: #d9d9d9;
   --font-black: #000;
 }
@@ -254,9 +256,16 @@
   align-items: center;
   justify-content: center;
 }
-
+.btnReturnAnalytics:hover{
+  background: var(--input-bg-hover);
+  color: var(--font-white);
+}
 .btn-retry {
   background-color: var(--primary-color);
+  color: var(--font-white);
+}
+.btnPractice:hover{
+  background-color: var(--primary-color-hover);
   color: var(--font-white);
 }
 

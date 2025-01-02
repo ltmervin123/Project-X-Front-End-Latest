@@ -14,6 +14,7 @@
     border-radius: 20px;
     height: 90vh;
     padding: 30px 100px 50px 50px;
+    overflow: hidden;
 }
 .user-profile-container > p{
     width: 350px;

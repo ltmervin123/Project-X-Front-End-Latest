@@ -40,7 +40,10 @@
     color: var(--primary-color) !important; /* This will make the active link orange */
     font-weight: bold; /* Optionally, you can make it bold */
   }
-
+.active-link:focus,
+.active-link:active{
+    background: transparent !important;
+}
 /*AiReference Maindashboard*/
 .AiReferenceMaindashboard{
     padding: 30px;

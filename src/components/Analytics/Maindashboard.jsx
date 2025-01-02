@@ -152,7 +152,7 @@ const MainDashboard = () => {
       parseFloat(item.overallFeedback.grammar)
     );
     const skillsScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.gkills)
+      parseFloat(item.overallFeedback.skill)
     ); // Fixed typo from 'gkills' to 'skills'
     const experienceScores = filteredData.map((item) =>
       parseFloat(item.overallFeedback.experience)
@@ -333,7 +333,7 @@ const MainDashboard = () => {
   };
 
   return (
-    <Container className="d-flex flex-column MockMainDashboard-content gap-3">
+    <div className="d-flex flex-column MockMainDashboard-content gap-3">
       <div className="dashboard-header">
         {user ? (
           <>
@@ -504,7 +504,7 @@ const MainDashboard = () => {
                   <th>Topics/Job Description</th>
                   <th>Date</th>
                   <th>Overall Result</th>
-                  <th>Action</th>
+                  <th className="action-t-center-text">Action</th>
                 </tr>
               </thead>
               <tbody className="list">
@@ -530,7 +530,7 @@ const MainDashboard = () => {
                         >
                           {item.overallFeedback.overallPerformance}/10
                         </td>
-                        <td>
+                        <td className="action-t-center">
                           <Button
                             variant="link"
                             onClick={() => handleViewResult(item._id)}
@@ -552,7 +552,7 @@ const MainDashboard = () => {
           </div>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

@@ -34,12 +34,12 @@ function SignUpForm() {
   return (
     <div className="signup-info-container">
       <div className="info-create-acc-container">
-        <img src={logo} alt="Logo" width="80" height="80" />
+        <img src={logo} alt="Logo" width="60" height="60" />
         <div>
-          <div className="logoname">
+          <div className="logoname2">
             HR-<div className="logocolor">HATCH</div>
           </div>
-          <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
+          <small className="sublogoname2">THE TECH BEHIND THE TALENT.</small>
         </div>
         <p>
           Our company offers comprehensive recruitment and talent support for

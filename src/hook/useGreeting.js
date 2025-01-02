@@ -1,5 +1,5 @@
 import { useAuthContext } from "./useAuthContext";
-import AfterGreeting from "../utils/greetings/afternoonGreetings";
+import AfterNoonGreeting from "../utils/greetings/afternoonGreetings";
 import MorningGreeting from "../utils/greetings/morningGreetings";
 import EveningGreeting from "../utils/greetings/eveningGreetings";
 
@@ -29,7 +29,7 @@ export const useGreeting = () => {
         const morningGreeting = new MorningGreeting(name);
         return morningGreeting.getGreeting();
       case "afternoon":
-        const afternoonGreeting = new AfterGreeting(name);
+        const afternoonGreeting = new AfterNoonGreeting(name);
         return afternoonGreeting.getGreeting();
       case "evening":
         const eveningGreeting = new EveningGreeting(name);

@@ -68,24 +68,17 @@
   font-weight: 100 !important;
 }
 
-/* Media Queries for Desktop Responsiveness */
-@media (min-width: 1700px) {
 
-  .avatar-img {
-    width: 5rem; /* Use rem for scalability */
-    height: 5rem; /* Use rem for scalability */
-  
-  }
-  .sidebarnav {
-    font-size: 1.3rem !important; /* Larger font size for better readability */
-  }
-
-  .user-name {
-    font-size: 1.3rem; /* Larger font size for better readability */
-  }
-
-  .user-email {
-    font-size: 1rem; /* Larger font size for better readability */
-  }
+.dropdown-item.active, .dropdown-item:active {
+  text-decoration: none;
+  background-color: var(--primary-color);
+  color: var(--font-white);
+}
+.dropdown-menu-end{
+  padding: 0 !important;
+}
+.dropdown-menu-end .dropdown-item:hover{
+  color: var(--font-white);
+  background: var(--primary-color);
 }
 

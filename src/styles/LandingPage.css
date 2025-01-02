@@ -50,6 +50,11 @@
 .navbar .nav-item:hover {
   color: var(--primary-color) !important;
 }
+.noclickblue:focus,
+.noclickblue:active {
+  background-color: transparent !important; /* Prevent background color change */
+  outline: none; /* Prevent focus outline */
+}
 
 /* Header */
 .landing-header {
@@ -90,6 +95,7 @@
   font-weight: 700;
 }
 
+
 .btn-get {
   background-color: var(--primary-color) !important;
   border: none !important;
@@ -119,12 +125,13 @@
   position: relative;
   height: 100vh;
   padding: 0;
-  background: rgb(255, 255, 255);
+  background: var(--font-white);
+  /* background: rgb(255, 255, 255);
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 1) 58%,
     rgba(244, 106, 5, 1) 130%
-  );
+  ); */
   /* Set height to 100% of the viewport */
 }
 .hero-container > svg {
@@ -142,15 +149,15 @@
   /* Center the container */
 }
 
-h1 {
+.hero-container > h1 {
   font-size: 60px !important;
   font-weight: 700 !important;
   color: var(--font-black) !important;
   margin: 0 !important;
-  padding-top: 30px;
+  padding-top: 16vh;
 }
 
-h2 {
+.hero-container > h2 {
   font-size: 45px !important;
   font-weight: 200 !important;
   margin: 0 !important;
