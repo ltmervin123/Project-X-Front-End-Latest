@@ -61,8 +61,8 @@ const ResultSection = ({ interviewId }) => {
       let colorClass = '';
       
       if (score >= 0 && score <= 3) colorClass = "result-green-bg";
-      else if (score > 3 && score <= 6) colorClass = "result-orange-bg";
-      else if (score > 6 && score <= 9) colorClass = "result-yellow-bg";
+      else if (score > 3 && score <= 6) colorClass = "result-yellow-bg";
+      else if (score > 6 && score <= 9) colorClass = "result-orange-bg";
       else colorClass = "result-red-bg";
       
       console.log(`Filler Count Score: ${score}`);
