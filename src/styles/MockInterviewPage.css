@@ -952,8 +952,8 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   padding: 5px; /* Inner spacing */
   max-width: 100%; /* Max width of the message bubble */
-  margin-left: 310px; /* Space between the tips and the avatar */
   position: relative;
+  
 }
 
 .tips-header {
