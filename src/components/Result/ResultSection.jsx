@@ -58,15 +58,28 @@ const ResultSection = ({ interviewId }) => {
   const getResultClass = (scores, type) => {
     if (type === "fillerCount") {
       const score = parseInt(scores, 10);
-      if (score >= 0 && score <= 3) return "result-green-bg";
-      if (score > 3 && score <= 6) return "result-yellow-bg";
-      if (score > 6 && score <= 9) return "result-orange-bg";
-      return "result-red"; // for score 10 and above
+      let colorClass = '';
+      
+      if (score >= 0 && score <= 3) colorClass = "result-green-bg";
+      else if (score > 3 && score <= 6) colorClass = "result-orange-bg";
+      else if (score > 6 && score <= 9) colorClass = "result-yellow-bg";
+      else colorClass = "result-red-bg";
+      
+      console.log(`Filler Count Score: ${score}`);
+      console.log(`Filler Count Color Class: ${colorClass}`);
+      return colorClass;
     }
-    if (scores >= 0 && scores <= 1.5) return "result-red";
-    if (scores > 1.5 && scores <= 5.0) return "result-yellow";
-    if (scores > 5.0 && scores <= 7.5) return "result-orange";
-    return "result-green";
+    
+    // For other scores
+    let resultClass = '';
+    if (scores >= 0 && scores <= 1.5) resultClass = "result-red";
+    else if (scores > 1.5 && scores <= 5.0) resultClass = "result-orange";
+    else if (scores > 5.0 && scores <= 7.5) resultClass = "result-yellow";
+    else resultClass = "result-green";
+    
+    console.log(`Score: ${scores}`);
+    console.log(`Color Class: ${resultClass}`);
+    return resultClass;
   };
 
   const handlePrev = () => {
@@ -165,8 +178,8 @@ const ResultSection = ({ interviewId }) => {
         {/* Filler Count */}
         <div className="d-flex justify-content-center align-items-center flex-column filler-container">
           <p className="rating-name">Filler Count</p>
-          <p className={getResultClass(overallFeedback.fillers || 0, "fillerCount")}>
-            {overallFeedback.fillers || overallFeedback.fillerCount}
+          <p className={getResultClass(overallFeedback.fillerCount || 0, "fillerCount")}>
+            {overallFeedback.fillerCount}
           </p>
         </div>
         <div className="interview-container flex-column w-100">

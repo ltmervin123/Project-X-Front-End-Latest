@@ -39,8 +39,8 @@ const MainDashboard = () => {
   // Helper function
   const getResultClass = (score) => {
     if (score <= 1.5) return "result-red-analytic";
-    if (score <= 5) return "result-yellow-analytic";
-    if (score <= 7.5) return "result-orange-analytic";
+    if (score <= 5) return "result-orange-analytic" ;
+    if (score <= 7.5) return "result-yellow-analytic";
     return "result-green-analytic";
   };
 
