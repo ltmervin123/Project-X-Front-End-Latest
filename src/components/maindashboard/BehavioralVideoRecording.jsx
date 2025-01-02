@@ -431,9 +431,11 @@ const BehavioralVideoRecording = () => {
 
     // Check if we're at the last question
     if (questionIndex === questions.length - 1 && !isUploading) {
-      //Speak the final greeting
-      const greetingMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
-      await speak(greetingMessage);
+      const outroMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
+      //Display the outro message
+      setCurrentGreetingText(outroMessage);
+      //Speak the outro greeting
+      await speak(outroMessage);
       // Create feedback
       await createFeedback();
     } else {
