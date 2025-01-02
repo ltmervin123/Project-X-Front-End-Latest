@@ -787,11 +787,11 @@ const VideoRecording = ({ interviewType, category }) => {
         className="video-recording-page align-items-center justify-content-center"
       >
         <div className="video-recording-content">
-          <Row className="h-100">
+        <Row className="video-recording-row">
             <Col md={7} className="d-flex flex-column align-items-center h-100">
               <div
                 id="videoArea"
-                className="video-area position-relative d-flex align-items-center"
+                className="video-area position-relative d-flex align-items-center "
               >
                 <video
                   ref={videoRef}
@@ -799,9 +799,11 @@ const VideoRecording = ({ interviewType, category }) => {
                   muted
                   className="video-feed"
                 ></video>
-
-                {/* Add Mute Indicator */}
-                <div className="mute-indicator position-absolute top-0 start-0 m-2">
+                {/* Mute indicator in top left */}
+                <div
+                  id="mute-indicator"
+                  className="mute-indicator position-absolute top-0 start-0 m-2"
+                >
                   {isMuted ? (
                     <div className="d-flex align-items-center gap-2">
                       <FaMicrophoneSlash />
@@ -812,7 +814,6 @@ const VideoRecording = ({ interviewType, category }) => {
                     </div>
                   )}
                 </div>
-
                 <p
                   id="timer"
                   className="timer position-absolute top-0 end-0 m-2"
@@ -822,10 +823,7 @@ const VideoRecording = ({ interviewType, category }) => {
                   ).padStart(2, "0")} / 3:00`}{" "}
                   {/* Change from 2:00 to 3:00 */}
                 </p>
-
-                {/* Add Speech Subtitle Overlay */}
                 <p className="speech-subtitle-overlay">{recognizedText}</p>
-
                 <div className="d-flex align-items-center gap-3 interview-tools">
                   <Button
                     id="cameraButton"
@@ -912,23 +910,9 @@ const VideoRecording = ({ interviewType, category }) => {
                 )}
               </div>
 
-              {/* Move Tips Container here */}
-              <div
-                id="tipsContainer"
-                className="tips-container d-flex mt-3 gap-2"
-              >
-                <div className="tips">
-                  <p className="tips-header">Tips:</p>
-                  <p className="tips-content">{tips[currentTipIndex]}</p>
-                </div>
-                <img
-                  className="tips-avatar"
-                  src={tipsAvatar}
-                  alt="Tips Avatar"
-                />
-              </div>
+
             </Col>
-            <Col md={5} className="d-flex flex-column align-items-center gap-3">
+            <Col md={5} className="d-flex flex-column align-items-center gap-1">
               <img
                 id="talkingAvatar"
                 src={avatarImg}
@@ -980,6 +964,7 @@ const VideoRecording = ({ interviewType, category }) => {
                             fill="white"
                           />
                         </svg>
+
                         <p>Start Interview</p>
                       </Button>
                       <i>Click here to Generate Interview Questions</i>
@@ -988,6 +973,26 @@ const VideoRecording = ({ interviewType, category }) => {
                 )}
               </div>
             </Col>
+          </Row>
+          <Row className="d-flex justify-content-center tips-row">
+            <Col md={7}>
+                          {/* Tips container moved below video */}
+              <div
+                id="tipsContainer"
+                className="tips-container d-flex mt-3 gap-2"
+              >
+                <div className="tips">
+                  <p className="tips-header">Tips:</p>
+                  <p className="tips-content">{tips[currentTipIndex]}</p>
+                </div>
+                <img
+                  className="tips-avatar"
+                  src={tipsAvatar}
+                  alt="Tips Avatar"
+                />
+              </div>
+              </Col>
+              <Col md={5}></Col>
           </Row>
 
           {/* ... error handling components ... */}
