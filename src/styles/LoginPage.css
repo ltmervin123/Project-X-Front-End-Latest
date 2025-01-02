@@ -10,8 +10,13 @@
 .navbar {
     background: none !important;
 }
+.header-login{
+    background: var(--input-bg);
+}
 .login-page-container{
     overflow: hidden;
+    padding: 0 !important;
+    margin: 0;
 }
 .main-login-form {
     padding: 0 !important;
@@ -58,6 +63,7 @@
     bottom: -250px;
 }
 .login-header {
+    /* background: var(--primary-color) !important; */
     margin-bottom: 10px;
 }
 
@@ -142,7 +148,7 @@
 .input-label {
   position: absolute;
   left: 25px;
-  top: 10px;
+  top: 12px;
   transition: all 0.3s ease;
   color: var(--input-bg);
   font-size: 16px;

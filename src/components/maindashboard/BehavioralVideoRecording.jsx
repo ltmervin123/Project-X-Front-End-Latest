@@ -42,7 +42,6 @@ const BehavioralVideoRecording = () => {
   const [isIntroShown, setIsIntroShown] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
-  const [transcript, setTranscript] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const videoRef = useRef(null);
   const mediaRecorderRef = useRef(null);
@@ -74,6 +73,9 @@ const BehavioralVideoRecording = () => {
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
   const API = process.env.REACT_APP_API_URL;
+  const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
+    useState(false);
+  const transcriptRef = useRef("");
 
   const tips = [
     "Know your resume.",
@@ -87,6 +89,14 @@ const BehavioralVideoRecording = () => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
+
+  const setTranscript = (text) => {
+    transcriptRef.current = `${transcriptRef.current}${text}`;
+  };
+
+  const clearTranscript = () => {
+    transcriptRef.current = "";
+  };
 
   //increment the tip index
   const incrementTip = () => {
@@ -195,6 +205,8 @@ const BehavioralVideoRecording = () => {
       await speak(firstGreetingText);
       setCurrentGreetingText(secondGreetingText);
       await speak(secondGreetingText);
+
+      setIsResponseIndicatorVisible(true);
     }
   };
 
@@ -246,7 +258,7 @@ const BehavioralVideoRecording = () => {
 
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
-      const userResponse = transcript;
+      const userResponse = transcriptRef.current;
 
       if (!userResponse) {
         throw new Error("No transcription data to upload");
@@ -275,7 +287,7 @@ const BehavioralVideoRecording = () => {
       await speak(finalGreeting);
 
       setCurrentGreetingText("");
-      setTranscript("");
+      clearTranscript();
 
       // Wait for a brief moment before starting the guide
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -288,9 +300,9 @@ const BehavioralVideoRecording = () => {
       }
       if (error?.message === "No transcription data to upload") {
         setTranscriptionError(true);
+        clearTranscript();
       }
-
-      console.log("Error fetching final response:", error);
+      console.log("Error ", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -313,6 +325,8 @@ const BehavioralVideoRecording = () => {
 
   // Reusable function to start recording
   const startRecording = () => {
+    setIsResponseIndicatorVisible(false);
+
     if (streamRef.current) {
       // Clear chunks before new recording
       recordedChunksRef.current = [];
@@ -343,7 +357,7 @@ const BehavioralVideoRecording = () => {
       // Listen for transcription events
       socket.on("transcription", (data) => {
         if (data.isFinal) {
-          setTranscript((prev) => `${prev}${data.text}`);
+          setTranscript(data.text);
           setRecognizedText("");
         } else {
           setRecognizedText(data.text);
@@ -407,11 +421,11 @@ const BehavioralVideoRecording = () => {
   };
 
   const handleInterviewAnswer = async () => {
-    // Upload transcription
-    await uploadTranscription();
+    //This function return true if there is no transcription error
+    const isSuccess = await uploadTranscription();
 
-    // Check if there is a transcription error
-    if (transcriptionError) {
+    // Check if there is a transcription error and return if there is
+    if (!isSuccess) {
       return;
     }
 
@@ -472,9 +486,12 @@ const BehavioralVideoRecording = () => {
         setTimer({ minutes, seconds });
 
         // Check if 3 minutes have elapsed and stop recording
-        if (elapsedSeconds === 180) {
-          await stopRecording();
-          clearInterval(interval);
+        if (elapsedSeconds === 179) {
+          //Add a slight delay before stopping the recording
+          setTimeout(async () => {
+            await stopRecording();
+            clearInterval(interval);
+          }, 1000);
         }
       }, 1000);
     } else {
@@ -553,8 +570,6 @@ const BehavioralVideoRecording = () => {
   // };
 
   //Function to upload transcription
-
-  //
   const uploadTranscription = async () => {
     try {
       setIsRecording(false);
@@ -569,7 +584,7 @@ const BehavioralVideoRecording = () => {
       // Create a payload object to send the transcription data
       const payload = {
         interviewId,
-        transcript,
+        transcript: transcriptRef.current,
         question,
       };
 
@@ -578,7 +593,7 @@ const BehavioralVideoRecording = () => {
         throw new Error("No transcription data to upload");
       }
 
-      if (!transcript) {
+      if (!transcriptRef.current) {
         throw new Error("No transcription data to upload");
       }
 
@@ -597,11 +612,14 @@ const BehavioralVideoRecording = () => {
           },
         }
       );
-      setTranscript("");
+      clearTranscript();
+      return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
         setTranscriptionError(true);
+        clearTranscript();
+        return false;
       }
     } finally {
       // Clear the recorded chunks after uploading
@@ -638,7 +656,6 @@ const BehavioralVideoRecording = () => {
   }, [isCountdownActive, countdown]);
 
   /* Function below is unique on every recording component*/
-
   // Fetch questions from the backend
   const fetchQuestions = async () => {
     try {
@@ -751,11 +768,11 @@ const BehavioralVideoRecording = () => {
         className="video-recording-page align-items-center justify-content-center"
       >
         <div className="video-recording-content">
-          <Row>
-            <Col md={7} className="d-flex flex-column align-items-center">
+        <Row className="video-recording-row">
+            <Col md={7} className="d-flex flex-column align-items-center h-100">
               <div
                 id="videoArea"
-                className="video-area position-relative d-flex align-items-center"
+                className="video-area position-relative d-flex align-items-center "
               >
                 <video
                   ref={videoRef}
@@ -763,9 +780,11 @@ const BehavioralVideoRecording = () => {
                   muted
                   className="video-feed"
                 ></video>
-
-                {/* Add mute indicator in top left */}
-                <div className="mute-indicator position-absolute top-0 start-0 m-2">
+                {/* Mute indicator in top left */}
+                <div
+                  id="mute-indicator"
+                  className="mute-indicator position-absolute top-0 start-0 m-2"
+                >
                   {isMuted ? (
                     <div className="d-flex align-items-center gap-2">
                       <FaMicrophoneSlash />
@@ -776,7 +795,6 @@ const BehavioralVideoRecording = () => {
                     </div>
                   )}
                 </div>
-
                 <p
                   id="timer"
                   className="timer position-absolute top-0 end-0 m-2"
@@ -786,9 +804,7 @@ const BehavioralVideoRecording = () => {
                   ).padStart(2, "0")} / 3:00`}{" "}
                   {/* Change from 2:00 to 3:00 */}
                 </p>
-
                 <p className="speech-subtitle-overlay">{recognizedText}</p>
-
                 <div className="d-flex align-items-center gap-3 interview-tools">
                   <Button
                     id="cameraButton"
@@ -800,39 +816,49 @@ const BehavioralVideoRecording = () => {
                   </Button>
                   {/* Start and Stop record button */}
                   {isIntro ? (
-                    // this button is for the intro
-                    <Button
-                      id="startButton"
-                      className="position-relative  pause-indicator"
-                      onClick={isRecording ? stopRecording : startRecording}
-                      disabled={isUploading}
-                    >
-                      {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                      {isUploading ? (
-                        <Spinner className="pause-indicator-spinner"></Spinner>
-                      ) : isRecording ? (
-                        <FaPause size={30} />
-                      ) : (
-                        <FaCircle size={30} />
+                    <>
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                      {isResponseIndicatorVisible && (
+                        <div className="response-indicator">
+                          Click here to respond
+                        </div>
                       )}
-                    </Button>
+                    </>
                   ) : (
-                    // this button is for the interview
-                    <Button
-                      id="startButton"
-                      className="position-relative  pause-indicator"
-                      onClick={isRecording ? stopRecording : startRecording}
-                      disabled={!questions.length || isUploading}
-                    >
-                      {/* {isPaused ? <FaCircle size={30} /> : <FaPause size={30} />} */}
-                      {isUploading ? (
-                        <Spinner className="pause-indicator-spinner"></Spinner>
-                      ) : isRecording ? (
-                        <FaPause size={30} />
-                      ) : (
-                        <FaCircle size={30} />
-                      )}
-                    </Button>
+                    <>
+                      {/* {isResponseIndicatorVisible && (
+                          <div className="response-indicator">
+                            Click here to respond
+                          </div>
+                        )} */}
+                      <Button
+                        id="startButton"
+                        className="position-relative pause-indicator"
+                        onClick={isRecording ? stopRecording : startRecording}
+                        disabled={!questions.length || isUploading}
+                      >
+                        {isUploading ? (
+                          <Spinner className="pause-indicator-spinner"></Spinner>
+                        ) : isRecording ? (
+                          <FaPause size={30} />
+                        ) : (
+                          <FaCircle size={30} />
+                        )}
+                      </Button>
+                    </>
                   )}
                   <Button
                     id="muteButton"
@@ -865,23 +891,9 @@ const BehavioralVideoRecording = () => {
                 )}
               </div>
 
-              {/* Move tips container here */}
-              <div
-                id="tipsContainer"
-                className="tips-container d-flex mt-3 gap-2"
-              >
-                <div className="tips">
-                  <p className="tips-header">Tips:</p>
-                  <p className="tips-content">{tips[currentTipIndex]}</p>
-                </div>
-                <img
-                  className="tips-avatar"
-                  src={tipsAvatar}
-                  alt="Tips Avatar"
-                />
-              </div>
+
             </Col>
-            <Col md={5} className="d-flex flex-column align-items-center gap-3">
+            <Col md={5} className="d-flex flex-column align-items-center gap-1">
               <img
                 id="talkingAvatar"
                 src={avatarImg}
@@ -933,6 +945,7 @@ const BehavioralVideoRecording = () => {
                             fill="white"
                           />
                         </svg>
+
                         <p>Start Interview</p>
                       </Button>
                       <i>Click here to Generate Interview Questions</i>
@@ -941,6 +954,26 @@ const BehavioralVideoRecording = () => {
                 )}
               </div>
             </Col>
+          </Row>
+          <Row className="d-flex justify-content-center tips-row">
+            <Col md={7}>
+                          {/* Tips container moved below video */}
+              <div
+                id="tipsContainer"
+                className="tips-container d-flex mt-3 gap-2"
+              >
+                <div className="tips">
+                  <p className="tips-header">Tips:</p>
+                  <p className="tips-content">{tips[currentTipIndex]}</p>
+                </div>
+                <img
+                  className="tips-avatar"
+                  src={tipsAvatar}
+                  alt="Tips Avatar"
+                />
+              </div>
+              </Col>
+              <Col md={5}></Col>
           </Row>
           {questionError && (
             <ErrorGenerateQuestion

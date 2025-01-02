@@ -34,12 +34,36 @@
   z-index: 1;
 
 }
+.logoname2 {
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: 1000;
+  line-height: 0px;
+  padding-top: 20px;
+  display: flex;
+  position: relative;
+  bottom: -4px;
+}
+
+
+
+.sublogoname2 {
+  font-family: Roboto, sans-serif;
+  color: var(--font-black);
+  font-weight: 1000;
+  font-size: 9px;
+  position: relative;
+  bottom: -1px;
+
+}
 .info-create-acc-container > h4 {
   font-weight: 700 !important;
 }
 .info-create-acc-container > img {
   width: 150px;
   height: 150px;
+  position: relative;
+  bottom: -22px;
 }
 .info-create-acc-container {
   padding: 20px;
@@ -53,6 +77,9 @@
   text-align: center;
   position: relative;
   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
+}
+.info-create-acc-container > div{
+  margin-bottom: 12px;
 }
 .info-create-acc-container > p {
   font-size: 11px;
@@ -260,7 +287,7 @@
 .regsuccess-popup-content {
   position: relative; /* Ensure the content has positioning context */
   background: rgba(255, 255, 255, 0.378);
-  border-radius: 50px;
+  border-radius: 20px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   padding: 20px; /* Add padding for better spacing */
@@ -282,13 +309,18 @@
   font-size: 100px;
   width: 100px !important;
   height: 100px !important;
-  color: var(--primary-color);
+  fill: var(--primary-color);
+  position: relative;
+  top: 18px;
+  /* background: var(--input-bg); */
+
 }
 .success-image {
-  width: 320px; /* Adjust size for better responsiveness */
-  height: 320px;
+  width: 280px; /* Adjust size for better responsiveness */
+  height: 280px;
   margin-top: 20px;
   object-fit: contain;
+
 }
 
 .btn-dashboard {

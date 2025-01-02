@@ -39,7 +39,7 @@
   align-items: center; /* Center items vertically */
   justify-content: space-between; /* Space between buttons and carousel */
   height: 100%;
-  
+  width: 85%;
 }
 
 .carousel-controls button {
@@ -75,7 +75,7 @@
   border: 1px solid var(--primary-color);
   border-radius: 50px;
   padding: 20px 30px;
-  width: 470px;
+  width: 100%;
   height: 50vh; /* Adjust height as necessary */
 
 }
@@ -211,7 +211,14 @@ thead::after {
 thead tr{
   position: relative;
 }
-
+.action-t-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.action-t-center-text{
+  text-align: center;
+}
 tbody td {
   padding: 5px;
   border-bottom: none;
