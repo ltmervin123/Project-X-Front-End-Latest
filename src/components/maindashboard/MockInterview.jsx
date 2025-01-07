@@ -1,7 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
 import { useAuthContext } from "../../hook/useAuthContext";
-import InterviewDifficultyCategoryPopup from "./InterviewDifficultyCategoryPopup";
 import UploadPopUp from "./UploadPopUp";
 import JobDescriptionPopup from "./JobDescriptionPopup";
 import VideoRecording from "./MockVideoRecording";
@@ -12,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import CheckedCircle from "../../assets/check.png";
 import Pin from "../../assets/pin.png";
 import TronArrow from "../../assets/tronArrow.png";
-import RectangelScribble from "../../assets/RectangleScribble.png";
 import MagniFyingGlass from "../../assets/MagnifyingGlass.png";
 
 const MainDashboard = () => {

@@ -1,7 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { useAnalytics } from "../../hook/useAnalytics";
-import { useAnalyticsContext } from "../../hook/useAnalyticsContext";
 
 const Summary = () => {
   const { getAnalytics } = useAnalytics();

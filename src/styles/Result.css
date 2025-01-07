@@ -78,12 +78,32 @@
   font-size: 12px;
   width: 100%;
 }
-.interview-data > div > strong {
+.interview-data > div  strong {
   color: var(--input-bg);
 }
 .interview-data > div > p{
   font-weight: 700;
 }
+
+.interview-data ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.interview-data ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.interview-data ul li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #686868;
+}
+
 .score-section {
   display: flex;
   flex-direction: column;
@@ -115,9 +135,10 @@
 }
 .rating-name{
   font-weight: 800;
-  width: 50%;
+  width: 70%;
   font-size: 15px;
   color: var(--font-black);
+  text-align: right;
 }
 .progress-bar-container {
   width: 500px !important;
@@ -215,8 +236,9 @@
   font-size: 25px;
 }
 .question-navigation > h4 {
-  font-size: 30px;
+  font-size: 25px;
   margin: 0;
+  color: var(--font-black);
 }
 .result-container > .row > div {
   margin-top: 20px;

@@ -1,4 +1,4 @@
-import { React, useCallback, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
