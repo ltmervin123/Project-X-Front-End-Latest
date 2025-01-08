@@ -9,6 +9,8 @@ import {
 } from "react-icons/fa";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
+import LoginAvatar from "../../assets/login-img.png";
+import { useGoogleAuth } from "../../hook/useGoogleAuth";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +18,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
+  const { isGoogleLoading, googleError, googleLogin } = useGoogleAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +27,10 @@ const LoginForm = () => {
     if (isLogin) {
       navigate("/maindashboard");
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    googleLogin();
   };
 
   return (
@@ -113,7 +120,7 @@ const LoginForm = () => {
           <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">
-              <FaGoogle className="social-icon" />
+              <FaGoogle className="social-icon" onClick={handleGoogleLogin} />
               <FaFacebook className="social-icon" />
             </div>
             <button
@@ -123,10 +130,10 @@ const LoginForm = () => {
               Continue as Guest
             </button>
             <div className="d-flex flex-column">
-            <p>Don't have an account?</p>
-            <i>Join Us Today</i>
+              <p>Don't have an account?</p>
+              <i>Join Us Today</i>
             </div>
-           
+
             <button
               className="signup-button"
               onClick={() => (window.location.href = "/signup")}
