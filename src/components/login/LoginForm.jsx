@@ -34,17 +34,6 @@ const LoginForm = () => {
     googleLogin();
   };
 
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: (tokenResponse) => {
-  //     console.log("Google login successful", tokenResponse);
-  //     // You can now use the tokenResponse to authenticate the user in your app
-  //   },
-  //   onError: (error) => {
-  //     console.error("Google login failed", error);
-  //     // Handle login errors here
-  //   },
-  // });
-
   return (
     <div className="row main-login justify-content-center position-relative">
       <Col
