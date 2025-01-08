@@ -11,6 +11,7 @@ import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import LoginAvatar from "../../assets/login-img.png";
 import { useGoogleAuth } from "../../hook/useGoogleAuth";
+import ErrorGoogleLogin from "./errors/ErrorGoogleLogin";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +19,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const { isGoogleLoading, googleError, googleLogin } = useGoogleAuth();
+  const { isGoogleLoading, googleError, googleLogin, errorSetter } =
+    useGoogleAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,10 +37,7 @@ const LoginForm = () => {
 
   return (
     <div className="row main-login justify-content-center position-relative">
-
-      <div
-        className="d-flex align-items-center justify-content-center main-login-form"
-      >
+      <div className="d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
             <h2>LOG IN</h2>
@@ -143,6 +142,8 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
+
+      {googleError && <ErrorGoogleLogin onRetry={errorSetter} />}
     </div>
   );
 };

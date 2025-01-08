@@ -57,5 +57,9 @@ export const useGoogleAuth = () => {
     },
   });
 
-  return { isGoogleLoading, googleError, googleLogin };
+  const errorSetter = () => {
+    setGoogleError(null);
+  };
+
+  return { isGoogleLoading, googleError, googleLogin, errorSetter };
 };
