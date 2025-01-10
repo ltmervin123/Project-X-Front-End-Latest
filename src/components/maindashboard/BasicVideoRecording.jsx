@@ -7,7 +7,7 @@ import {
   FaMicrophone,
   FaMicrophoneSlash,
   FaPause,
-  FaCircle,
+  FaPlay,
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
@@ -827,7 +827,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                   ).padStart(2, "0")} / 3:00`}{" "}
                   {/* Change from 2:00 to 3:00 */}
                 </p>
-                <p className="speech-subtitle-overlay">{recognizedText}</p>
                 <div className="d-flex align-items-center gap-3 interview-tools">
                   <Button
                     id="cameraButton"
@@ -851,7 +850,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                         ) : isRecording ? (
                           <FaPause size={30} />
                         ) : (
-                          <FaCircle size={30} />
+                          <FaPlay size={30} />
                         )}
                       </Button>
                       {isResponseIndicatorVisible && (
@@ -878,7 +877,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                         ) : isRecording ? (
                           <FaPause size={30} />
                         ) : (
-                          <FaCircle size={30} />
+                          <FaPlay size={30} />
                         )}
                       </Button>
                     </>
@@ -915,12 +914,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
               </div>
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-1">
-              <img
-                id="talkingAvatar"
-                src={avatarImg}
-                alt="Avatar"
-                className="avatar-interviewer-img"
-              />
+              <div className="speech-subtitle-container">
+                <div className="speech-header">REAL-TIME TRANSCRIPTION HERE</div>
+                <p className="speech-subtitle-overlay">{recognizedText}                </p>
+              </div>
+
               {/* <div className="avatar-interviewer-img"></div> */}
 
               <div className="interview-question-container">
