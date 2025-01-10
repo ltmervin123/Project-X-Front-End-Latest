@@ -249,9 +249,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       setIsPaused(true);
       setRecognizedText("");
 
-      // close the transcription socket
-      socket.emit("stop-transcription");
-
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
       const userResponse = transcriptRef.current;
@@ -349,9 +346,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       });
 
       //Remove the previous event listener
-      socket.off("transcription");
+      socket.off("real-time-transcription");
       // Listen for transcription events
-      socket.on("transcription", (data) => {
+      socket.on("real-time-transcription", (data) => {
         if (data.isFinal) {
           setTranscript(data.text);
           setRecognizedText("");
@@ -359,6 +356,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           setRecognizedText(data.text);
         }
       });
+
       //Remove the previous event listener
       socket.off("transcription-error");
       // Listen for transcription error events
@@ -384,8 +382,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         }
       };
 
-      //Emit the audio every 250ms
-      audioRecorderRef.current.start(250);
+      //Emit the audio every 100ms
+      audioRecorderRef.current.start(100);
     }
   };
 
@@ -400,12 +398,31 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Stop audio recording
       audioRecorderRef.current?.stop();
 
-      // Wait for the audio recorder to stop
-      await new Promise((resolve) => {
-        audioRecorderRef.current.onstop = resolve;
+      // Flush any remaining audio chunks
+      audioRecorderRef.current.onstop = () => {
+        if (socket?.connected) {
+          socket.emit("stop-transcription"); // Notify the backend to finalize transcription
+        }
+      };
+
+      //Finalize the transcription when the recording stops
+      socket.once("final-transcription", (data) => {
+        if (data?.isFinal) {
+          setTranscript(data.text);
+        }
       });
 
-      //Check if intro and execute the final greeting function
+      // Wait for "transcription-complete" signal from backend
+      await new Promise((resolve) => {
+        socket.off("transcription-complete");
+        socket.once("transcription-complete", (data) => {
+          if (data?.message) {
+            socket.off("transcription-complete"); // Cleanup listener to avoid memory leaks
+            resolve(); // Proceed to the next step
+          }
+        });
+      });
+
       if (isIntro) {
         await aiFinalGreeting();
       } else {
@@ -576,7 +593,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       setRecognizedText("");
 
       //Close the transcription socket
-      socket.emit("stop-transcription");
+      // socket.emit("stop-transcription");
 
       const question = questions[questionIndex];
 
