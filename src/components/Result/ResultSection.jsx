@@ -212,6 +212,28 @@ const ResultSection = ({ interviewId }) => {
           ? 0
           : parseInt(interviewDetails.relevance.overAllScore, 10),
     },
+    overallFeedback: {
+      grammar:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails?.grammar?.overAllScore || 0,
+      skills:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails?.skill?.overAllScore || 0,
+      experience:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails?.experience?.overAllScore || 0,
+      relevance:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails?.relevance?.overAllScore || 0,
+      overAllScore:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails?.overAllScore || 0,
+    },
   };
 
   // Modified click handlers for each category
@@ -312,15 +334,20 @@ const ResultSection = ({ interviewId }) => {
         };
       default:
         return {
-          scores:
-            interviewDetails?.recordType === "old record"
-              ? overallFeedback.scores
-              : interviewDetails.overAllScore,
+          scores: {
+            first: viewScores.overallFeedback.grammar,
+            second: viewScores.overallFeedback.experience,
+            third: viewScores.overallFeedback.skills,
+            fourth: viewScores.overallFeedback.relevance,
+            fifth: 0, // Not used in default view
+            overall: viewScores.overallFeedback.overAllScore,
+          },
           labels: {
             first: "Grammar",
             second: "Experience",
             third: "Skills",
             fourth: "Relevance",
+            fifth: "", // Not used in default view
             overall: "Overall Performance",
           },
         };
@@ -469,6 +496,7 @@ const ResultSection = ({ interviewId }) => {
         },
       },
     }),
+
   };
 
   // Modify the getInterviewContent function
@@ -499,59 +527,73 @@ const ResultSection = ({ interviewId }) => {
       case "grammar":
         return (
           <GrammarView
-            question={question}
-            currentIndex={currentIndex}
+
             interviewContent={interviewContent}
           />
         );
       case "skills":
         return (
           <SkillsView
-            question={question}
-            currentIndex={currentIndex}
+
             interviewContent={interviewContent}
           />
         );
       case "experience":
         return (
           <ExperienceView
-            question={question}
-            currentIndex={currentIndex}
+
             interviewContent={interviewContent}
           />
         );
       case "relevance":
         return (
           <RelevanceView
-            question={question}
-            currentIndex={currentIndex}
+
             interviewContent={interviewContent}
           />
         );
       default:
         return (
-          <div className="interview-data">
-            {/* Default view content */}
-            <h5>
-              Question {currentIndex + 1} of {question.length}
-            </h5>
-            <div>
-              <strong>Question:</strong>
-              <p>{question[currentIndex]}</p>
+          <>
+            <div className="interview-data">
+              <h5>
+                Question {currentIndex + 1} of {question.length}
+              </h5>
+              <div>
+                <strong>Question:</strong>
+                <p>{question[currentIndex]}</p>
+              </div>
+              <div>
+                <strong>Your Answer:</strong>
+                <p>{highlightFillerWords(interviewContent.answer)}</p>
+              </div>
+              <div>
+                <strong>Enhanced Answer:</strong>
+                <p>{interviewContent.enhancedAnswer}</p>
+              </div>
+              <div>
+                <strong>Feedback:</strong>
+                <p>{interviewContent.feedback}</p>
+              </div>
             </div>
-            <div>
-              <strong>Your Answer:</strong>
-              <p>{highlightFillerWords(interviewContent.answer)}</p>
+            <div className="d-flex justify-content-center align-items-center question-navigation">
+              <span
+                className="prev"
+                onClick={handlePrev}
+                style={{ cursor: "pointer", marginRight: "10px" }}
+              >
+                &lt;
+              </span>
+              <h4 className="pageNum">{currentIndex + 1}</h4>
+              <span
+                className="next"
+                onClick={handleNext}
+                style={{ cursor: "pointer", marginLeft: "10px" }}
+              >
+                &gt;
+              </span>
             </div>
-            <div>
-              <strong>Enhanced Answer:</strong>
-              <p>{interviewContent.enhancedAnswer}</p>
-            </div>
-            <div>
-              <strong>Feedback:</strong>
-              <p>{interviewContent.feedback}</p>
-            </div>
-          </div>
+          </>
         );
     }
   };
@@ -1103,6 +1145,7 @@ const ResultSection = ({ interviewId }) => {
 
           {/* Only show filler count in default view */}
           {showFillerCount && (
+            <>
             <div className="d-flex justify-content-center align-items-center flex-column filler-container">
               <p className="rating-name text-center">
                 Filler Count
@@ -1133,28 +1176,13 @@ const ResultSection = ({ interviewId }) => {
                   : interviewDetails?.filler.fillerCount}
               </p>
             </div>
+            </>
           )}
+          
         </>
 
         <div className="interview-container flex-column w-100">
           {renderContent()}
-          <div className="d-flex justify-content-center align-items-center question-navigation">
-            <span
-              className="prev"
-              onClick={handlePrev}
-              style={{ cursor: "pointer", marginRight: "10px" }}
-            >
-              &lt;
-            </span>
-            <h4 className="pageNum">{currentIndex + 1}</h4>
-            <span
-              className="next"
-              onClick={handleNext}
-              style={{ cursor: "pointer", marginLeft: "10px" }}
-            >
-              &gt;
-            </span>
-          </div>
         </div>
       </div>
 

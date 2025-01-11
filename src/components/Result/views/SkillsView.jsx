@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-const SkillsView = ({ question, currentIndex, interviewContent }) => {
+const SkillsView = ({  interviewContent }) => {
   const { feedback } = interviewContent;
   
   return (
     <div className="interview-data">
-      <h5>Question {currentIndex + 1} of {question.length}</h5>
+      {/* <h5>Question {currentIndex + 1} of {question.length}</h5> */}
       <Row>
         <Col md={6}>
         <div className="mb-4">
