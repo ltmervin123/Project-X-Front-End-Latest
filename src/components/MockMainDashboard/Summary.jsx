@@ -65,7 +65,10 @@ const Summary = () => {
                       className="result-of-interview d-flex align-items-center"
                       key={index}
                     >
-                      {item.overallFeedback.overallPerformance}/10
+                      {item?.recordType === "old record"
+                        ? item.overallFeedback.overallPerformance
+                        : item.overAllScore}{" "}
+                      /10
                     </p>
                   ))}
               </div>
@@ -84,8 +87,7 @@ const Summary = () => {
               <div className="warning">!</div>
               <p className="sub-reminder-text">Subscription Reminder</p>
               <p className="reminder-note">
-              You have 1 free usage available. 
-              Make the most of it!
+                You have 1 free usage available. Make the most of it!
               </p>
             </div>
           </div>
