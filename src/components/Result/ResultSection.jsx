@@ -314,7 +314,7 @@ const ResultSection = ({ interviewId }) => {
         return {
           scores:
             interviewDetails?.recordType === "old record"
-              ? overallFeedback.scores
+              ? overallFeedback.overallPerformance
               : interviewDetails.overAllScore,
           labels: {
             first: "Grammar",
@@ -406,7 +406,7 @@ const ResultSection = ({ interviewId }) => {
         col1: {
           duration: "Duration",
           durationPoints:
-          interviewDetails?.recordType === "old record"
+            interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.experience.experienceAnalysis.duration],
           progression: "Progression",
@@ -418,7 +418,10 @@ const ResultSection = ({ interviewId }) => {
           achievementsPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : [interviewDetails.experience.experienceAnalysis.achievementFocus],
+              : [
+                  interviewDetails.experience.experienceAnalysis
+                    .achievementFocus,
+                ],
         },
         col2: {
           roleCount: "Role Count",
@@ -430,9 +433,12 @@ const ResultSection = ({ interviewId }) => {
           experienceRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : [interviewDetails.experience.experienceAnalysis.experienceRelevance],
+              : [
+                  interviewDetails.experience.experienceAnalysis
+                    .experienceRelevance,
+                ],
+        },
       },
-    }
     }),
     relevance: (userAnswer) => ({
       answer: userAnswer,
@@ -442,30 +448,44 @@ const ResultSection = ({ interviewId }) => {
           directAnsAlignmentPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : [interviewDetails.relevance.relevanceAnalysis.directAnswerAlignment],
+              : [
+                  interviewDetails.relevance.relevanceAnalysis
+                    .directAnswerAlignment,
+                ],
           precisionOfInformation: "Precision of Information",
           precisionOfInformationPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : [interviewDetails.relevance.relevanceAnalysis.precisionOfInformation],
+              : [
+                  interviewDetails.relevance.relevanceAnalysis
+                    .precisionOfInformation,
+                ],
           comprehensiveness: "Comprehensiveness",
           comprehensivenessPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : [interviewDetails.relevance.relevanceAnalysis.comprehensiveness],
-            
+              : [
+                  interviewDetails.relevance.relevanceAnalysis
+                    .comprehensiveness,
+                ],
         },
         col2: {
           contextualInterpretation: "Contextual Interpretation",
           contextualInterpretationPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : [interviewDetails.relevance.relevanceAnalysis.contextualInterpretation],
+              : [
+                  interviewDetails.relevance.relevanceAnalysis
+                    .contextualInterpretation,
+                ],
           substantiveContentRelevance: "Substantive Content Relevance",
           substantiveContentRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : [interviewDetails.relevance.relevanceAnalysis.substantiveContentRelevance],
+              : [
+                  interviewDetails.relevance.relevanceAnalysis
+                    .substantiveContentRelevance,
+                ],
         },
       },
     }),
