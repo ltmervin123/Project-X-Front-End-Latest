@@ -27,71 +27,12 @@ const ResultSection = ({ interviewId }) => {
   const [currentView, setCurrentView] = useState("default"); // 'default', 'skills', 'grammar', 'experience', 'relevance'
   const [showFillerCount, setShowFillerCount] = useState(true);
 
-  console.log("currentView", currentView);
   // List of filler words
-  const fillerWords = (
-    overallFeedback.list || [
-      "um,",
-      "uh",
-      "hmm",
-      "ah",
-      "um",
-      "like",
-      "you know",
-      "basically",
-      "you see",
-      "kind of",
-      "most likely",
-      "as well as",
-      "actually",
-      "sort of",
-      "I mean",
-      "well",
-      "so",
-      "right",
-      "okay",
-      "just",
-      "literally",
-      "anyway",
-      "probably",
-      "maybe",
-      "in a way",
-      "to be honest",
-      "you know what I mean",
-      "let's say",
-      "for example",
-      "at the end of the day",
-      "like I said",
-      "you know what I'm saying",
-      "erm",
-      "uh-huh",
-      "uh-oh",
-      "like, you know",
-      "I guess",
-      "sorta",
-      "kinda",
-      "right?",
-      "y'know",
-      "basically",
-      "I suppose",
-      "you know what I mean?",
-      "to be fair",
-      "if you will",
-      "I reckon",
-      "you know what I'm talking about",
-      "let me think",
-      "let's see",
-      "I mean, like",
-      "you know what I'm saying",
-      "for real",
-      "honestly",
-      "seriously",
-      "like seriously",
-      "you know what I mean, right?",
-      "I mean, you know",
-      "I mean, honestly",
-    ]
-  ).map((word) => word.toLowerCase());
+  const fillerWords =
+    interviewDetails?.recordType === "old record"
+      ? overallFeedback.list.map((word) => word.toLowerCase())
+      : interviewDetails.filler.fillerList.map((word) => word.toLowerCase());
+
   const highlightFillerWords = (text) => {
     const words = text.split(" ");
     return words.map((word, index) => {
@@ -152,29 +93,86 @@ const ResultSection = ({ interviewId }) => {
   // Add static values for different views
   const viewScores = {
     grammar: {
-      sentenceStructure: 8.5,
-      verbTense: 7.2,
-      prepositionUsage: 6.8, // Added new score
-      wordChoice: 7.8,
-      pronounUsage: 8.5,
-      grammarScore: 5.5, // This is the Grammar Score
+      sentenceStructure:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.grammar.subScore.sentenceStructure,
+      verbTense:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.grammar.subScore.verbTense,
+      prepositionUsage:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.grammar.subScore.prepositionUsage, // Added new score
+      wordChoice:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.grammar.subScore.wordChoice,
+      pronounUsage:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.grammar.subScore.pronounUsage,
+      grammarScore:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.grammar.overAllScore, // This is the Grammar Score
     },
     skills: {
       // Changed from 'technical' to 'skills'
-      technicalSkills: 8.5,
-      softSkills: 7.8,
-      relevance: 9.0,
-      skillDiversity: 8.2,
-      proficiency: 9, // Updated score
-      skillScore: 8.4, // Updated score to match proficiency
+      technicalSkills:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.skill.subScore.technicalSkill,
+      softSkills:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.skill.subScore.softSkill,
+      relevance:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.skill.subScore.skillRelevance,
+      skillDiversity:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.skill.subScore.skillDiversity,
+      proficiency:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.skill.subScore.proficiency,
+      skillScore:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : interviewDetails.skill.overAllScore, // Updated score to match proficiency
     },
     experience: {
-      duration: 8.7,
-      progression: 7.9,
-      achievementsFocus: 8.3,
-      roleCount: 7.6,
-      experienceRelevance: 5.1,
-      experienceScore: 8.1,
+      duration:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(interviewDetails.experience.subScore.duration, 10),
+      progression:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(interviewDetails.experience.subScore.progression, 10),
+      achievementsFocus:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(interviewDetails.experience.subScore.achievementFocus, 10),
+      roleCount:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(interviewDetails.experience.subScore.roleCount, 10),
+      experienceRelevance:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(
+              interviewDetails.experience.subScore.experienceRelevance,
+              10
+            ),
+      experienceScore:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(interviewDetails.experience.overAllScore, 10),
     },
     relevance: {
       directAnsAlignment: 9.1,
@@ -284,7 +282,10 @@ const ResultSection = ({ interviewId }) => {
         };
       default:
         return {
-          scores: overallFeedback,
+          scores:
+            interviewDetails?.recordType === "old record"
+              ? overallFeedback.scores
+              : interviewDetails.overAllScore,
           labels: {
             first: "Grammar",
             second: "Experience",
@@ -309,29 +310,29 @@ const ResultSection = ({ interviewId }) => {
           sentenceStructurePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : ["Text here"],
+              : [interviewDetails.grammar.grammarAnalysis.sentenceStructure],
           verbTense: "Verb Tense",
           verbTensePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : ["Text here"],
+              : [interviewDetails.grammar.grammarAnalysis.verbTense],
           prepositionUsage: "Preposition Usage",
           prepositionUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : ["Text here"],
+              : [interviewDetails.grammar.grammarAnalysis.prepositionUsage],
         },
         col2: {
           wordChoice: "Word Choice",
           wordChoicePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : ["Text here"],
+              : [interviewDetails.grammar.grammarAnalysis.wordChoice],
           pronounUsage: "Pronoun Usage",
           pronounUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
-              : ["Text here"],
+              : [interviewDetails.grammar.grammarAnalysis.pronounUsage],
         },
       },
     }),
@@ -372,12 +373,10 @@ const ResultSection = ({ interviewId }) => {
       answer: userAnswer,
       feedback: {
         experienceAnalysis: "Experience Analysis",
-        points: [
-          "Strong progression shown from developer to team lead",
-          "Clear timeline provided",
-          "Relevant technical experience mentioned",
-          "Leadership experience highlighted",
-        ],
+        points:
+          interviewDetails?.recordType === "old record"
+            ? ["No data available"]
+            : Object.values(interviewDetails.experience.experienceAnalysis),
       },
     }),
     relevance: (userAnswer) => ({
@@ -421,8 +420,14 @@ const ResultSection = ({ interviewId }) => {
 
     return {
       answer: currentAnswer,
-      enhancedAnswer: improvedAnswer[currentIndex],
-      feedback: feedback[currentIndex],
+      enhancedAnswer:
+        interviewDetails?.recordType === "old record"
+          ? improvedAnswer[currentIndex]
+          : interviewDetails.improvedAnswer[currentIndex],
+      feedback:
+        interviewDetails?.recordType === "old record"
+          ? feedback[currentIndex]
+          : interviewDetails.answerFeedback[currentIndex],
     };
   };
 
@@ -1056,11 +1061,15 @@ const ResultSection = ({ interviewId }) => {
               </p>
               <p
                 className={getResultClass(
-                  overallFeedback.fillers || 0,
+                  interviewDetails?.recordType === "old record"
+                    ? overallFeedback.fillers
+                    : interviewDetails?.filler.fillerCount,
                   "fillerCount"
                 )}
               >
-                {overallFeedback.fillers}
+                {interviewDetails?.recordType === "old record"
+                  ? overallFeedback.fillers
+                  : interviewDetails?.filler.fillerCount}
               </p>
             </div>
           )}
