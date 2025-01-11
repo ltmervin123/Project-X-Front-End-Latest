@@ -163,8 +163,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Access camera when the component mounts
   useEffect(() => {
-    enableCameraFeed();
-
     // Cleanup function to stop the camera feed when the component unmounts
     return () => {
       if (streamRef.current) {
@@ -749,22 +747,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     // Start camera access after interviewer is selected
     enableCameraFeed();
   };
-
-  // Modify the useEffect that calls enableCameraFeed to wait for interviewer selection
-  useEffect(() => {
-    // Don't enable camera until interviewer is selected
-    if (selectedInterviewer) {
-      enableCameraFeed();
-    }
-
-    return () => {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-      }
-      recordedChunksRef.current = [];
-      audioRecorderRef.current = null;
-    };
-  }, [selectedInterviewer]); // Add selectedInterviewer as dependency
 
   return (
     <>
