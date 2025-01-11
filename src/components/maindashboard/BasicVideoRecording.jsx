@@ -73,6 +73,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
     useState(false);
   const transcriptRef = useRef("");
+  const [isTranscriptionRunning, setIsTranscriptionRunning] = useState(false);
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -330,6 +331,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   // Reusable function to start recording
   const startRecording = () => {
     setIsResponseIndicatorVisible(false);
+    setIsTranscriptionRunning(true); // Set transcription running to true
     if (streamRef.current) {
       // Clear chunks before new recording
       recordedChunksRef.current = [];
@@ -399,6 +401,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
+    setIsTranscriptionRunning(false); // Set transcription running to false
     // Set uploading state to true
     setIsUploading(true);
     if (
@@ -895,10 +898,13 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                 className="d-flex flex-column align-items-center gap-1"
               >
                 <div className="speech-subtitle-container">
-                  <div className="speech-header">
-                    REAL-TIME TRANSCRIPTION HERE
-                  </div>
-                  <p className="speech-subtitle-overlay">{recognizedText} </p>
+                  {isTranscriptionRunning ? (
+                    <p className="speech-subtitle-overlay">{recognizedText}</p>
+                  ) : (
+                    <div className="speech-header">
+                      REAL-TIME TRANSCRIPTION HERE
+                    </div>
+                  )}
                 </div>
 
                 {/* <div className="avatar-interviewer-img"></div> */}

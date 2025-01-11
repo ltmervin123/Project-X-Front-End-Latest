@@ -835,12 +835,6 @@
   font-size: 2.5em;
   text-align: center;
   font-weight: 800;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 .speech-subtitle-container > .speech-subtitle-overlay{
   width: inherit;
@@ -1295,6 +1289,7 @@
   border: none !important;
   border-radius: 50px !important;
   padding: 10px 30px;
+  width: 200px;
   transition: all 0.3s ease;
 }
 .interviewer-btn:nth-child(2) {
