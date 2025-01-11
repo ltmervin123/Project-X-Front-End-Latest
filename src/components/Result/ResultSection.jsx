@@ -370,71 +370,102 @@ const ResultSection = ({ interviewId }) => {
       answer: userAnswer,
       feedback: {
         col1: {
-          skillsMention: "Skills Mentioned",
-          points: [
-            "React.js (Advanced)",
-            "Node.js (Intermediate)",
-            "Team Leadership",
-            "Project Management",
-            "Problem Solving",
-          ],
-          analysis: {
-            title: "Analysis",
-            points: [
-              "Good mix of technical and soft skills",
-              "Clear indication of proficiency levels",
-              "Relevant to job requirements",
-              "Modern technology stack",
-            ],
-          },
+          technicalSkill: "Technical Skills",
+          technicalSkillPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.skill.skillAnalysis.technicalSkill],
+          softSkill: "Soft Skills",
+          softSkillPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.skill.skillAnalysis.softSkill],
+          skillDiversity: "Skill Diversity",
+          skillDiversityPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.skill.skillAnalysis.skillDiversity],
         },
         col2: {
-          recommendation: "Recommendations",
-          points: [
-            "Add specific certifications if available",
-            "Include examples of skill application",
-            "Mention any specialized training",
-            "Add more detail about leadership experience",
-          ],
+          skillRelevance: "Skill Relevance",
+          skillRelevancePoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.skill.skillAnalysis.skillRelevance],
+          proficiency: "Proficiency",
+          proficiencyPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.skill.skillAnalysis.proficiency],
         },
       },
     }),
     experience: (userAnswer) => ({
       answer: userAnswer,
       feedback: {
-        experienceAnalysis: "Experience Analysis",
-        points:
+        col1: {
+          duration: "Duration",
+          durationPoints:
           interviewDetails?.recordType === "old record"
-            ? ["No data available"]
-            : Object.values(interviewDetails.experience.experienceAnalysis),
+              ? ["No data available"]
+              : [interviewDetails.experience.experienceAnalysis.duration],
+          progression: "Progression",
+          progressionPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.experience.experienceAnalysis.progression],
+          achievements: "Achievements Focus",
+          achievementsPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.experience.experienceAnalysis.achievementFocus],
+        },
+        col2: {
+          roleCount: "Role Count",
+          roleCountPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.experience.experienceAnalysis.roleCount],
+          experienceRelevance: "Experience Relevance",
+          experienceRelevancePoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.experience.experienceAnalysis.experienceRelevance],
       },
+    }
     }),
     relevance: (userAnswer) => ({
       answer: userAnswer,
       feedback: {
         col1: {
-          jobReq: "Job Requirements",
-          requirements: [
-            "5+ years of software development experience",
-            "Team leadership experience",
-            "React.js expertise",
-            "Agile methodology knowledge",
-          ],
-          matches: [
-            "5 years of development experience",
-            "3 years team lead experience",
-            "Advanced React.js skills",
-            "Limited mention of Agile",
-          ],
+          directAnsAlignment: "Direct Answer Alignment",
+          directAnsAlignmentPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.relevance.relevanceAnalysis.directAnswerAlignment],
+          precisionOfInformation: "Precision of Information",
+          precisionOfInformationPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.relevance.relevanceAnalysis.precisionOfInformation],
+          comprehensiveness: "Comprehensiveness",
+          comprehensivenessPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.relevance.relevanceAnalysis.comprehensiveness],
+            
         },
         col2: {
-          recommendation: "Recommendations",
-          points: [
-            "Elaborate on Agile experience",
-            "Highlight specific React.js projects",
-            "Add metrics from team leadership",
-            "Include relevant certifications",
-          ],
+          contextualInterpretation: "Contextual Interpretation",
+          contextualInterpretationPoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.relevance.relevanceAnalysis.contextualInterpretation],
+          substantiveContentRelevance: "Substantive Content Relevance",
+          substantiveContentRelevancePoints:
+            interviewDetails?.recordType === "old record"
+              ? ["No data available"]
+              : [interviewDetails.relevance.relevanceAnalysis.substantiveContentRelevance],
         },
       },
     }),

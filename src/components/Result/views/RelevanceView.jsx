@@ -10,30 +10,48 @@ const RelevanceView = ({ question, currentIndex, interviewContent }) => {
 
       <Row>
         <Col md={6}>
-          <div className="mb-4">
-            <strong>{feedback.col1.jobReq}:</strong>
-            <ul className="mt-2">
-              {feedback.col1.requirements.map((point, index) => (
-                <li key={index}>{point}</li>
-              ))}
-            </ul>
-            <strong>Your Response Match:</strong>
-            <ul className="mt-2">
-              {feedback.col1.matches.map((point, index) => (
-                <li key={index}>{point}</li>
-              ))}
-            </ul>
-          </div>
+          <div>
+            <strong>{feedback?.col1?.directAnsAlignment}</strong>
+              <ul className="mt-2">
+                {feedback?.col1?.directAnsAlignmentPoints?.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+            <strong>{feedback?.col1?.precisionOfInformation}</strong>
+              <ul className="mt-2">
+                {feedback?.col1?.precisionOfInformationPoints?.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+            <strong>{feedback?.col1?.comprehensiveness}</strong>
+              <ul className="mt-2">
+                {feedback?.col1?.comprehensivenessPoints?.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
+              </ul>
+            </div>
         </Col>
         <Col md={6}>
           <div>
-            <strong>{feedback.col2.recommendation}:</strong>
-            <ul className="mt-2">
-              {feedback.col2.points.map((point, index) => (
-                <li key={index}>{point}</li>
-              ))}
-            </ul>
-          </div>
+            <strong>{feedback?.col2?.contextualInterpretation}</strong>
+              <ul className="mt-2">
+                {feedback?.col2?.contextualInterpretationPoints?.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+            <strong>{feedback?.col2?.substantiveContentRelevance}</strong>
+              <ul className="mt-2">
+                {feedback?.col2?.substantiveContentRelevancePoints?.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
+              </ul>
+            </div>
         </Col>
       </Row>
     </div>
