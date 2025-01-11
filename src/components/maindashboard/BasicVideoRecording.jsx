@@ -220,7 +220,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const speak = async (text, voice) => {
     try {
       const voiceType = voice.toLowerCase();
-      console.log("Voice type:", voiceType);
       const response = await axios.post(
         `${API}/api/interview/audio`,
         { text, voiceType },
