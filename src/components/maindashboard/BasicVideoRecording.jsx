@@ -27,7 +27,7 @@ import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
 import { useGreeting } from "../../hook/useGreeting";
-import InterviewerOption from '../maindashboard/InterviewerOption';
+import InterviewerOption from "../maindashboard/InterviewerOption";
 
 const BasicVideoRecording = ({ interviewType, category }) => {
   const recordedChunksRef = useRef([]);
@@ -593,9 +593,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       setIsPaused(true);
       setRecognizedText("");
 
-      //Close the transcription socket
-      // socket.emit("stop-transcription");
-
       const question = questions[questionIndex];
 
       // Create a payload object to send the transcription data
@@ -787,7 +784,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   // Add new state for interviewer selection
   const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
   const [selectedInterviewer, setSelectedInterviewer] = useState(null);
-  
+
   // Add handler for interviewer selection
   const handleInterviewerSelect = (interviewer) => {
     setSelectedInterviewer(interviewer);
@@ -816,12 +813,12 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     <>
       <Header />
       {/* Add InterviewerOption modal at the top level */}
-      <InterviewerOption 
+      <InterviewerOption
         show={showInterviewerSelect}
         onHide={() => setShowInterviewerSelect(false)}
         onSelectInterviewer={handleInterviewerSelect}
       />
-      
+
       <Container
         fluid
         className="video-recording-page align-items-center justify-content-center"
@@ -951,8 +948,10 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-1">
               <div className="speech-subtitle-container">
-                <div className="speech-header">REAL-TIME TRANSCRIPTION HERE</div>
-                <p className="speech-subtitle-overlay">{recognizedText}                </p>
+                <div className="speech-header">
+                  REAL-TIME TRANSCRIPTION HERE
+                </div>
+                <p className="speech-subtitle-overlay">{recognizedText} </p>
               </div>
 
               {/* <div className="avatar-interviewer-img"></div> */}

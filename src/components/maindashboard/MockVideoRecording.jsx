@@ -29,7 +29,7 @@ import io from "socket.io-client";
 import { useGreeting } from "../../hook/useGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
-import InterviewerOption from '../maindashboard/InterviewerOption';
+import InterviewerOption from "../maindashboard/InterviewerOption";
 
 const VideoRecording = ({ interviewType, category }) => {
   const recordedChunksRef = useRef([]);
@@ -263,9 +263,6 @@ const VideoRecording = ({ interviewType, category }) => {
       setIsPaused(true);
       setRecognizedText("");
 
-      //Close the socket connection
-      socket.emit("stop-transcription");
-
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
       const userResponse = transcriptRef.current;
@@ -363,9 +360,9 @@ const VideoRecording = ({ interviewType, category }) => {
       });
 
       //Remove the previous event listener
-      socket.off("transcription");
+      socket.off("real-time-transcription");
       // Listen for transcription events
-      socket.on("transcription", (data) => {
+      socket.on("real-time-transcription", (data) => {
         if (data.isFinal) {
           setTranscript(data.text);
           setRecognizedText("");
@@ -398,8 +395,8 @@ const VideoRecording = ({ interviewType, category }) => {
         }
       };
 
-      //Emit the audio every 250ms
-      audioRecorderRef.current.start(250);
+      //Emit the audio every 100ms
+      audioRecorderRef.current.start(100);
     }
   };
 
@@ -413,11 +410,31 @@ const VideoRecording = ({ interviewType, category }) => {
       mediaRecorderRef.current.state === "recording"
     ) {
       // Stop audio recording
-      audioRecorderRef.current.stop();
+      audioRecorderRef.current?.stop();
 
-      // Wait for the audio recorder to stop
+      // Flush any remaining audio chunks
+      audioRecorderRef.current.onstop = () => {
+        if (socket?.connected) {
+          socket.emit("stop-transcription"); // Notify the backend to finalize transcription
+        }
+      };
+
+      //Finalize the transcription when the recording stops
+      socket.once("final-transcription", (data) => {
+        if (data?.isFinal) {
+          setTranscript(data.text);
+        }
+      });
+
+      // Wait for "transcription-complete" signal from backend
       await new Promise((resolve) => {
-        audioRecorderRef.current.onstop = resolve;
+        socket.off("transcription-complete");
+        socket.once("transcription-complete", (data) => {
+          if (data?.message) {
+            socket.off("transcription-complete"); // Cleanup listener to avoid memory leaks
+            resolve(); // Proceed to the next step
+          }
+        });
       });
 
       //Check if intro and execute the final greeting function
@@ -533,65 +550,12 @@ const VideoRecording = ({ interviewType, category }) => {
     window.location.reload(); // Reload the page
   };
 
-  // Upload video to the server
-  // const uploadVideo = async () => {
-  //   try {
-  //     // Set uploading state to true
-  //     setIsUploading(true);
-
-  //     // Check if there is video data to upload
-  //     if (recordedChunksRef.current.length === 0) {
-  //       throw new Error("No video data to upload");
-  //     }
-
-  //     // Create a Blob from the recorded chunks
-  //     const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
-
-  //     // Create a FormData object to send the video data
-  //     const formData = new FormData();
-
-  //     // Append the video file and question to the FormData
-  //     formData.append("interviewId", interviewId);
-  //     formData.append(
-  //       "videoFile",
-  //       blob,
-  //       `${interviewId}-question${questionIndex + 1}.webm`
-  //     );
-  //     // formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
-  //     formData.append("question", questions[questionIndex]);
-
-  //     // Make a POST request to the server to upload the video
-  //     const response = await axios.post(
-  //       `${API}/api/interview/mock-interview`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //           Authorization: `Bearer ${user.token}`, // JWT token
-  //         },
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.log("Error uploading video:", error);
-  //   } finally {
-  //     // Clear the recorded chunks after uploading
-  //     recordedChunksRef.current = [];
-  //     // Set uploading state to false
-  //     setIsUploading(false);
-  //   }
-  // };
-
-  //Function to upload transcription
-
   //
   const uploadTranscription = async () => {
     try {
       setIsRecording(false);
       setIsPaused(true);
       setRecognizedText("");
-
-      //Close the socket connection
-      socket.emit("stop-transcription");
 
       const question = questions[questionIndex];
 
@@ -782,46 +746,45 @@ const VideoRecording = ({ interviewType, category }) => {
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
   };
-    
-      // Add new state for interviewer selection
-      const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
-      const [selectedInterviewer, setSelectedInterviewer] = useState(null);
-      
-      // Add handler for interviewer selection
-      const handleInterviewerSelect = (interviewer) => {
-        setSelectedInterviewer(interviewer);
-        setShowInterviewerSelect(false);
-        // Start camera access after interviewer is selected
-        enableCameraFeed();
-      };
-    
-      // Modify the useEffect that calls enableCameraFeed to wait for interviewer selection
-      useEffect(() => {
-        // Don't enable camera until interviewer is selected
-        if (selectedInterviewer) {
-          enableCameraFeed();
-        }
-    
-        return () => {
-          if (streamRef.current) {
-            streamRef.current.getTracks().forEach((track) => track.stop());
-          }
-          recordedChunksRef.current = [];
-          audioRecorderRef.current = null;
-        };
-      }, [selectedInterviewer]); // Add selectedInterviewer as dependency
-    
-  
+
+  // Add new state for interviewer selection
+  const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
+  const [selectedInterviewer, setSelectedInterviewer] = useState(null);
+
+  // Add handler for interviewer selection
+  const handleInterviewerSelect = (interviewer) => {
+    setSelectedInterviewer(interviewer);
+    setShowInterviewerSelect(false);
+    // Start camera access after interviewer is selected
+    enableCameraFeed();
+  };
+
+  // Modify the useEffect that calls enableCameraFeed to wait for interviewer selection
+  useEffect(() => {
+    // Don't enable camera until interviewer is selected
+    if (selectedInterviewer) {
+      enableCameraFeed();
+    }
+
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+      recordedChunksRef.current = [];
+      audioRecorderRef.current = null;
+    };
+  }, [selectedInterviewer]); // Add selectedInterviewer as dependency
+
   return (
     <>
       <Header />
-      
-            {/* Add InterviewerOption modal at the top level */}
-            <InterviewerOption 
-              show={showInterviewerSelect}
-              onHide={() => setShowInterviewerSelect(false)}
-              onSelectInterviewer={handleInterviewerSelect}
-            />
+
+      {/* Add InterviewerOption modal at the top level */}
+      <InterviewerOption
+        show={showInterviewerSelect}
+        onHide={() => setShowInterviewerSelect(false)}
+        onSelectInterviewer={handleInterviewerSelect}
+      />
 
       <Container
         fluid
@@ -951,8 +914,10 @@ const VideoRecording = ({ interviewType, category }) => {
               </div>
             </Col>
             <Col md={5} className="d-flex flex-column align-items-center gap-1">
-            <div className="speech-subtitle-container">
-                <div className="speech-header">REAL-TIME TRANSCRIPTION HERE</div>
+              <div className="speech-subtitle-container">
+                <div className="speech-header">
+                  REAL-TIME TRANSCRIPTION HERE
+                </div>
                 <p className="speech-subtitle-overlay">{recognizedText}</p>
               </div>
 
