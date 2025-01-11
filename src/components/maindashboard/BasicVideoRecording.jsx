@@ -27,6 +27,7 @@ import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
 import { useGreeting } from "../../hook/useGreeting";
+import InterviewerOption from '../maindashboard/InterviewerOption';
 
 const BasicVideoRecording = ({ interviewType, category }) => {
   const recordedChunksRef = useRef([]);
@@ -766,9 +767,44 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
+  // Add new state for interviewer selection
+  const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
+  const [selectedInterviewer, setSelectedInterviewer] = useState(null);
+  
+  // Add handler for interviewer selection
+  const handleInterviewerSelect = (interviewer) => {
+    setSelectedInterviewer(interviewer);
+    setShowInterviewerSelect(false);
+    // Start camera access after interviewer is selected
+    enableCameraFeed();
+  };
+
+  // Modify the useEffect that calls enableCameraFeed to wait for interviewer selection
+  useEffect(() => {
+    // Don't enable camera until interviewer is selected
+    if (selectedInterviewer) {
+      enableCameraFeed();
+    }
+
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+      recordedChunksRef.current = [];
+      audioRecorderRef.current = null;
+    };
+  }, [selectedInterviewer]); // Add selectedInterviewer as dependency
+
   return (
     <>
       <Header />
+      {/* Add InterviewerOption modal at the top level */}
+      <InterviewerOption 
+        show={showInterviewerSelect}
+        onHide={() => setShowInterviewerSelect(false)}
+        onSelectInterviewer={handleInterviewerSelect}
+      />
+      
       <Container
         fluid
         className="video-recording-page align-items-center justify-content-center"

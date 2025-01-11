@@ -946,10 +946,11 @@
   width: 1em;
 }
 .pause-indicator-spinner {
-  width: 20px;
-  height: 20px;
+  width: 20px !important;
+  height: 20px !important;
   position: relative;
   top: 3px;
+  right: 2px;
 }
 .btn-startinterview {
   background: var(--primary-color) !important;
@@ -1020,7 +1021,7 @@
   font-size: 14px;
   position: absolute;
   z-index: 1;
-  bottom: 60px; /* Adjust this value as needed */
+  bottom: 55px; /* Adjust this value as needed */
   background: var(--primary-color);
   border: none; /* No border */
   border-radius: 10px; /* Rounded corners */
@@ -1035,7 +1036,7 @@
   content: "";
   position: absolute;
   left: 50%; /* Center the triangle horizontally */
-  bottom: -20px; /* Position it just below the indicator */
+  bottom: -17px; /* Position it just below the indicator */
   margin-left: -10px; /* Adjust to center the triangle */
   border-width: 10px; /* Size of the triangle */
   border-style: solid;
@@ -1280,4 +1281,34 @@
     border-radius: 10px;
     padding: 0.75rem;
   }
+}
+
+/* Interviewer Option Modal Styles */
+.interviewer-option-modal .modal-content {
+  /* border-radius: 20px;
+  border: 2px solid var(--primary-color); */
+  width: 500px !important;
+}
+
+.interviewer-btn {
+  background: var(--secondary-color) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  padding: 10px 30px;
+  transition: all 0.3s ease;
+}
+.interviewer-btn:nth-child(2) {
+  background: var(--primary-color) !important;
+}
+
+.interviewer-btn:hover {
+  background: var(--input-bg) !important;
+
+}
+
+
+.interviewer-image {
+  max-width: 100px;
+  height: auto;
+  border-radius: 10px;
 }

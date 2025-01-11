@@ -182,6 +182,14 @@ const ResultSection = ({ interviewId }) => {
       contextualInterpretation: 8.6,
       substantiveContentRelevance: 8.7,
       relevanceScore: 8.7
+    },
+    overallFeedback: {
+      grammar: overallFeedback.grammar,
+      experience: overallFeedback.experience,
+      skills: overallFeedback.skill,
+      relevance: overallFeedback.relevance,
+      overallPerformance: overallFeedback.overallPerformance,
+      fillercount: overallFeedback.fillercount
     }
   };
 
@@ -268,7 +276,7 @@ const ResultSection = ({ interviewId }) => {
         };
       default:
         return {
-          scores: overallFeedback,
+          scores: viewScores.overallFeedback,
           labels: {
             first: "Grammar",
             second: "Experience",
@@ -733,12 +741,12 @@ const ResultSection = ({ interviewId }) => {
           <div className="progress-bar-container" style={{ width: "100%" }}>
             <div
               className={`progress-bar ${getResultClass(
-                currentViewData.scores[Object.keys(currentViewData.scores)[5]]
+                currentViewData.scores[Object.keys(currentViewData.scores)[4]]
               )}`}
-              style={{ width: `${currentViewData.scores[Object.keys(currentViewData.scores)[5]] * 10}%` }}
+              style={{ width: `${currentViewData.scores[Object.keys(currentViewData.scores)[4]] * 10}%` }}
             >
               <span className="score-text">
-                {currentViewData.scores[Object.keys(currentViewData.scores)[5]]}
+                {currentViewData.scores[Object.keys(currentViewData.scores)[4]]}
               </span>
             </div>
             <p className="score-out-of1">{`${10}`}</p>
