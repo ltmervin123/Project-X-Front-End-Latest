@@ -175,12 +175,42 @@ const ResultSection = ({ interviewId }) => {
           : parseInt(interviewDetails.experience.overAllScore, 10),
     },
     relevance: {
-      directAnsAlignment: 9.1,
-      precisionOfInformation: 8.4,
-      Comprehensiveness: 8.8,
-      contextualInterpretation: 8.6,
-      substantiveContentRelevance: 8.7,
-      relevanceScore: 8.7,
+      directAnsAlignment:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(
+              interviewDetails.relevance.subScore.directAnswerAlignment,
+              10
+            ),
+      precisionOfInformation:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(
+              interviewDetails.relevance.subScore.precisionOfInformation,
+              10
+            ),
+      Comprehensiveness:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(interviewDetails.relevance.subScore.comprehensiveness, 10),
+      contextualInterpretation:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(
+              interviewDetails.relevance.subScore.contextualInterpretation,
+              10
+            ),
+      substantiveContentRelevance:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(
+              interviewDetails.relevance.subScore.substantiveContentRelevance,
+              10
+            ),
+      relevanceScore:
+        interviewDetails?.recordType === "old record"
+          ? 0
+          : parseInt(interviewDetails.relevance.overAllScore, 10),
     },
   };
 
