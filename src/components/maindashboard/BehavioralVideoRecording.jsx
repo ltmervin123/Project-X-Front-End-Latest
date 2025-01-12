@@ -75,7 +75,6 @@ const BehavioralVideoRecording = () => {
   const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
     useState(false);
   const transcriptRef = useRef("");
-  const [isTranscriptionRunning, setIsTranscriptionRunning] = useState(false);
 
   const tips = [
     "Know your resume.",
@@ -332,7 +331,6 @@ const BehavioralVideoRecording = () => {
   // Reusable function to start recording
   const startRecording = () => {
     setIsResponseIndicatorVisible(false);
-    setIsTranscriptionRunning(true); // Set transcription running to true
 
     if (streamRef.current) {
       // Clear chunks before new recording
@@ -365,7 +363,6 @@ const BehavioralVideoRecording = () => {
       socket.on("real-time-transcription", (data) => {
         if (data.isFinal) {
           setTranscript(data.text);
-          setRecognizedText("");
         } else {
           setRecognizedText(data.text);
         }
@@ -403,8 +400,6 @@ const BehavioralVideoRecording = () => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
-    setIsTranscriptionRunning(false); // Set transcription running to false
-
     // Set uploading state to true
     setIsUploading(true);
     if (
@@ -895,7 +890,7 @@ const BehavioralVideoRecording = () => {
                 className="d-flex flex-column align-items-center gap-1"
               >
                 <div className="speech-subtitle-container">
-                  {isTranscriptionRunning ? (
+                  {recognizedText ? (
                     <p className="speech-subtitle-overlay">{recognizedText}</p>
                   ) : (
                     <div className="speech-header">
