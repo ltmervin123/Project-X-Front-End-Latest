@@ -264,12 +264,13 @@ const BehavioralVideoRecording = () => {
       // Create a payload object to send the transcription data
       const greeting = secondGreetingText;
       const userResponse = transcriptRef.current;
+      const interviewer = selectedInterviewer.current;
 
       if (!userResponse) {
         throw new Error("No transcription data to upload");
       }
 
-      const payload = { greeting, userResponse };
+      const payload = { greeting, userResponse, interviewer };
 
       const response = await axios.post(
         `${API}/api/interview/final-greeting`,
@@ -289,7 +290,7 @@ const BehavioralVideoRecording = () => {
       // Set the final greeting text
       setCurrentGreetingText(finalGreeting);
       // Speak the final greeting
-      await speak(finalGreeting);
+      await speak(finalGreeting, selectedInterviewer.current);
 
       setCurrentGreetingText("");
       clearTranscript();
@@ -324,7 +325,7 @@ const BehavioralVideoRecording = () => {
       questions[questionIndex] &&
       !isCountdownActive
     ) {
-      speak(questions[questionIndex]);
+      speak(questions[questionIndex], selectedInterviewer.current);
     }
   }, [questions, isCountdownActive, questionIndex]);
 
@@ -463,7 +464,7 @@ const BehavioralVideoRecording = () => {
       //Display the outro message
       setCurrentGreetingText(outroMessage);
       //Speak the outro greeting
-      await speak(outroMessage);
+      await speak(outroMessage, selectedInterviewer.current);
       // Create feedback
       await createFeedback();
     } else {
@@ -900,7 +901,8 @@ const BehavioralVideoRecording = () => {
                     <div className="speech-header">
                       REAL-TIME TRANSCRIPTION HERE
                     </div>
-                  )}                </div>
+                  )}{" "}
+                </div>
 
                 {/* <div className="avatar-interviewer-img"></div> */}
 
