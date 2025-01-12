@@ -39,7 +39,7 @@ const MainDashboard = () => {
   // Helper function
   const getResultClass = (score) => {
     if (score <= 1.5) return "result-red-analytic";
-    if (score <= 5) return "result-orange-analytic" ;
+    if (score <= 5) return "result-orange-analytic";
     if (score <= 7.5) return "result-yellow-analytic";
     return "result-green-analytic";
   };
@@ -98,7 +98,9 @@ const MainDashboard = () => {
     interviewHistory.forEach((item) => {
       const updatedAt = item.updatedAt; // Accessing the date
       const overallPerformance = parseFloat(
-        item.overallFeedback.overallPerformance
+        item.recordType === "old record"
+          ? item.overallFeedback.overallPerformance
+          : item.overAllScore
       ); // Accessing the score
 
       // console.log(updatedAt);
@@ -137,7 +139,6 @@ const MainDashboard = () => {
   // Example usage
   const categoryScoresWithDate = getCategoryScoresWithDate();
 
-
   // Function to get dynamic chart data from local storage
   const getDynamicChartData = (category) => {
     const filteredData = interviewHistory.filter(
@@ -149,16 +150,33 @@ const MainDashboard = () => {
 
     // Extract scores for each specific feedback category
     const grammarScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.grammar)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.grammar
+          : item.grammar.overAllScore
+      )
     );
+
     const skillsScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.skill)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.skill
+          : item.skill.overAllScore
+      )
     ); // Fixed typo from 'gkills' to 'skills'
     const experienceScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.experience)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.experience
+          : item.experience.overAllScore
+      )
     );
     const relevanceScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.relevance)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.relevance
+          : item.relevance.overAllScore
+      )
     );
 
     // Calculate average scores for each category
@@ -525,10 +543,17 @@ const MainDashboard = () => {
                         <td>{getDate(item.createdAt)}</td>
                         <td
                           className={getResultClass(
-                            parseFloat(item.overallFeedback.overallPerformance)
+                            parseFloat(
+                              item.recordType === "old record"
+                                ? item.overallFeedback.overallPerformance
+                                : item.overAllScore
+                            )
                           )}
                         >
-                          {item.overallFeedback.overallPerformance}/10
+                          {item.recordType === "old record"
+                            ? item.overallFeedback.overallPerformance
+                            : item.overAllScore}
+                          /10
                         </td>
                         <td className="action-t-center">
                           <Button

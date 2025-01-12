@@ -37,7 +37,6 @@ const PremiumPackageSection = () => {
                 </div>
             ))}
             </div>
-            <p className='premium-get-in-touch'>Still have unanswered questions? <a href='#' className='color-orange'> &nbsp; Get in touch</a></p>
         </section>
 
     </>
