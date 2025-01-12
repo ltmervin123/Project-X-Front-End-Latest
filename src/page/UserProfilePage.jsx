@@ -1,7 +1,7 @@
 // src/pages/UserProfilePage.js
 import React from 'react';
 import '../styles/MockInterviewPage.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import Sidebar from "../components/MockMainDashboard/Sidebar";
 import UserProfile from '../components/UserProfile/UserProfile';
 import Header from "../components/Result/Header";

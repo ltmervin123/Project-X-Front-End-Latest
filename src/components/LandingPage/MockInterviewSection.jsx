@@ -3,21 +3,7 @@ import MockAvatar from "../../assets/mock-avatar.png";
 const MockInterviewSection = () => {
   return (
     <section className="mock-interview-container d-flex align-items-center justify-content-center flex-column">
-      <div className="d-flex justify-content-center align-items-center flex-column">
-        <div className="mock-interview-blue-lines_top1"></div>
-        <div className="mock-interview-blue-lines_top2"></div>
-        <div className="mock-interview-blue-lines_top3"></div>
-        <div className="mock-interview-blue-lines_top4"></div>
-        <div className="mock-interview-blue-lines_top5"></div>
-      </div>
 
-      <div className="d-flex justify-content-center align-items-center flex-column">
-        <div className="mock-interview-blue-lines_bottom1"></div>
-        <div className="mock-interview-blue-lines_bottom2"></div>
-        <div className="mock-interview-blue-lines_bottom3"></div>
-        <div className="mock-interview-blue-lines_bottom4"></div>
-        <div className="mock-interview-blue-lines_bottom5"></div>
-      </div>
 
       <div className="navigation-container">
         <nav>

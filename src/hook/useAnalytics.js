@@ -21,7 +21,7 @@ export const useAnalytics = () => {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      const data = await response.data.feedback;
+      const data = await response.data.feedbacks;
       if (response.status === 200) {
         dispatch({ type: "SET_ANALYTICS", payload: data });
       }

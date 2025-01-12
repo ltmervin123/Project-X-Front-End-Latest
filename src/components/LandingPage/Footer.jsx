@@ -6,19 +6,18 @@ const Footer = () => {
   return (
     <footer className="text-center d-flex align-items-center justify-content-center ">
       <div className="footer-container-bg position-relative">
-        <div className="bg-boxbehind-left"></div>
-        <div className="bg-boxbehind-right"></div>
         <div className="container p-4 d-flex align-items-center justify-content-center">
           <div className="row d-flex align-items-start jsutify-content-start w-100">
-            <div className="col-lg-3 col-md-4  footer-logo d-flex align-items-center justify-content-center flex-column">
-              <img src={logo} alt="Logo" />
+            <div className="col-lg-3 col-md-4 d-flex footer-logo align-items-center justify-content-center">
+              <img
+                src={logo}
+                alt="Logo"
+                width="80"
+                height="80"
+              />
               <div>
-                <div className="logoname">
-                  HR-<p className="color-white">HATCH</p>
-                </div>
-                <small className="sublogoname-footer">
-                  The TECH BEHIND TALENT.
-                </small>
+                <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
+                <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
               </div>
             </div>
             <div className="col-lg-3 col-md-4 ">
