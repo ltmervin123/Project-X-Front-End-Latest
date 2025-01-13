@@ -34,18 +34,20 @@ const ResultSection = ({ interviewId }) => {
       : interviewDetails.filler.fillerList.map((word) => word.toLowerCase());
 
   const highlightFillerWords = (text) => {
-    const words = text.split(" ");
-    return words.map((word, index) => {
-      const lowerWord = word.toLowerCase().replace(/[.,!?]/g, "");
-      if (fillerWords.includes(lowerWord)) {
-        return (
-          <span key={index} className="filler-red">
-            {word + " "}
-          </span>
-        );
-      }
-      return <span key={index}>{word + " "}</span>;
+    // Create regex for single and multi-word fillers (case insensitive)
+    const fillerRegex = new RegExp(
+      `\\b(${fillerWords
+        .map((phrase) => phrase.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"))
+        .join("|")})\\b`,
+      "gi"
+    );
+    // Replace filler words with a span for highlighting
+    const highlightedText = text.replace(fillerRegex, (match) => {
+      return `<span class="filler-red">${match}</span>`;
     });
+
+    // Return highlighted text as JSX
+    return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />;
   };
 
   // Utility function to get result color class based on score
