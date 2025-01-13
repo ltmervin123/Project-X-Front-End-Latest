@@ -23,6 +23,7 @@ import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import ErrorTranscription from "./errors/ErrorTranscription";
+import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
@@ -995,10 +996,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             </Row>
 
             {questionError && (
-              <ErrorGenerateQuestion
-                onRetry={() => {
-                  setIsIntroShown(false);
+              <ErrorUploadAnswer
+                onRetry={async () => {
                   setQuestionError(false);
+                  setIsUploading(true);
+                  await handleInterviewAnswer();
                 }}
               />
             )}
