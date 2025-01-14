@@ -4,10 +4,10 @@ import ExclusivePartner from "../../assets/reallinkpartners.png";
 
 const Footer = () => {
   return (
-    <footer className="text-center d-flex align-items-center justify-content-center ">
+    <footer className="text-center d-flex align-items-center justify-content-center">
       <div className="footer-container-bg position-relative">
         <div className="container p-4 d-flex align-items-center justify-content-center">
-          <div className="row d-flex align-items-start jsutify-content-start w-100">
+          <div className="row d-flex align-items-start justify-content-start w-100">
             <div className="col-lg-3 col-md-4 d-flex footer-logo align-items-center justify-content-center">
               <img
                 src={logo}

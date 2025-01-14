@@ -28,6 +28,8 @@ import { useGreeting } from "../../hook/useGreeting";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
 import InterviewerOption from "../maindashboard/InterviewerOption";
+import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
+import InterviewPreview from "./InterviewPreview";
 
 const BehavioralVideoRecording = () => {
   const location = useLocation();
@@ -324,10 +326,13 @@ const BehavioralVideoRecording = () => {
       questions[questionIndex] &&
       !isCountdownActive
     ) {
-      speak(questions[questionIndex], selectedInterviewer.current);
+      speak(questions[questionIndex], selectedInterviewer.current).then(() => {
+        setIsResponseIndicatorVisible(true); // Show the response indicator after speaking the question
+      });
     }
   }, [questions, isCountdownActive, questionIndex]);
 
+  const [recordedVideos, setRecordedVideos] = useState([]); // State to store recorded videos
   // Reusable function to start recording
   const startRecording = () => {
     setIsResponseIndicatorVisible(false);
@@ -393,6 +398,12 @@ const BehavioralVideoRecording = () => {
         }
       };
 
+     // Listen for video data events
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
+        }
+      };
       //Emit the audio every 100ms
       audioRecorderRef.current.start(100);
     }
@@ -434,6 +445,15 @@ const BehavioralVideoRecording = () => {
         });
       });
 
+      // Stop video recording and save the video
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current.onstop = () => {
+        const videoBlob = new Blob(recordedChunksRef.current, {
+          type: "video/webm",
+        });
+        const videoUrl = URL.createObjectURL(videoBlob);
+        setRecordedVideos((prevVideos) => [...prevVideos, videoUrl]);
+      };
       //Check if intro and execute the final greeting function
       if (isIntro) {
         await aiFinalGreeting();
@@ -462,6 +482,8 @@ const BehavioralVideoRecording = () => {
       await speak(outroMessage, selectedInterviewer.current);
       // Create feedback
       await createFeedback();
+      setShowPreviewPopup(true); // Show preview popup after the interview is answered
+
     } else {
       //Set the next question
       setQuestionIndex((prevIndex) => prevIndex + 1);
@@ -743,6 +765,21 @@ const BehavioralVideoRecording = () => {
     enableCameraFeed();
   };
 
+    
+  const [showPreviewPopup, setShowPreviewPopup] = useState(false);
+  const [proceed, setProceed] = useState(false);
+
+  const handlePreview = () => {
+    setShowPreviewPopup(false);
+    setProceed(true);
+    setShowSuccessPopup(false); // Ensure success popup does not show after preview
+  };
+
+  const handleCancelPreview = () => {
+    setShowPreviewPopup(false);
+    setShowSuccessPopup(true);
+  };
+  
   return (
     <>
       <Header />
@@ -769,6 +806,11 @@ const BehavioralVideoRecording = () => {
                   id="videoArea"
                   className="video-area position-relative d-flex align-items-center "
                 >
+                                    {proceed ? (
+                    <InterviewPreview videoSrc={recordedVideos} />
+                  ) : (
+                    <>
+
                   <video
                     ref={videoRef}
                     autoPlay
@@ -852,6 +894,11 @@ const BehavioralVideoRecording = () => {
                             <FaPlay size={30} />
                           )}
                         </Button>
+                        {isResponseIndicatorVisible && (
+                              <div className="response-indicator">
+                                Click here to respond
+                              </div>
+                            )}
                       </>
                     )}
                     <Button
@@ -882,25 +929,19 @@ const BehavioralVideoRecording = () => {
                       />
                       <p>Reattempting access to camera...</p>
                     </div>
+                                          )}
+                    </>
                   )}
                 </div>
               </Col>
+              {!proceed ? (
               <Col
                 md={5}
                 className="d-flex flex-column align-items-center gap-1"
               >
                 <div className="speech-subtitle-container">
-                  {recognizedText ? (
-                    <p className="speech-subtitle-overlay">{recognizedText}</p>
-                  ) : (
-                    <div className="speech-header">
-                      REAL-TIME TRANSCRIPTION HERE
-                    </div>
-                  )}{" "}
+                  <p className="speech-subtitle-overlay">{recognizedText}</p>
                 </div>
-
-                {/* <div className="avatar-interviewer-img"></div> */}
-
                 <div className="interview-question-container">
                   {currentGreetingText ? (
                     <p>{currentGreetingText}</p>
@@ -908,8 +949,7 @@ const BehavioralVideoRecording = () => {
                     <>
                       {countdown > 0 ? (
                         <i>
-                          Hold tight! We’re preparing the perfect questions for
-                          you...
+                          Hold tight! We’re preparing the perfect questions for you...
                         </i>
                       ) : (
                         <>
@@ -946,7 +986,6 @@ const BehavioralVideoRecording = () => {
                               fill="white"
                             />
                           </svg>
-
                           <p>Start Interview</p>
                         </Button>
                         <i>Click here to Generate Interview Questions</i>
@@ -955,6 +994,27 @@ const BehavioralVideoRecording = () => {
                   )}
                 </div>
               </Col>
+            ) : (
+              <Col
+                md={5}
+                className="d-flex flex-column align-items-center justify-content-end"
+              >
+                                <div className="interview-question-container">
+                                <h4>Thank you for proceeding!</h4>
+                <p>Your interview is now in progress. Best of luck!</p>
+                <div className="d-flex justify-content-center">
+                <Button
+                  className="btn-viewresult"
+                  onClick={() => (window.location.href = "/analytics")}
+                >
+                  View your result
+                </Button>
+                  </div>
+                </div>
+
+
+              </Col>
+            )}
             </Row>
             <Row className="d-flex justify-content-center tips-row">
               <Col md={7}>
@@ -1046,10 +1106,16 @@ const BehavioralVideoRecording = () => {
 
             {isGeneratingFeedback && <LoadingScreen />}
 
-            {showSuccessPopup && <InterviewSuccessfulPopup />}
-
-            {/* ... existing error handling components ... */}
-          </div>
+            {showPreviewPopup ? (
+              <InterviewPreviewOptionPopup
+                show={showPreviewPopup}
+                onHide={handleCancelPreview}
+                onPreview={handlePreview}
+              />
+            ) : (
+              showSuccessPopup && !proceed && <InterviewSuccessfulPopup />
+            )}
+        </div>
         </Container>
       )}
     </>

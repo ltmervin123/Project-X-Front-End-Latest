@@ -237,15 +237,7 @@ const MockInterviewSection = () => {
       </div>
       <video src=""></video>
       <i>Play to see video tutorial</i>
-      <svg
-        width="100%"
-        height="55"
-        viewBox="0 0 1917 45"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M955 45L-6.28821 0H1916.29L955 45Z" fill="#D9D9D9" />
-      </svg>
+
     </section>
   );
 };

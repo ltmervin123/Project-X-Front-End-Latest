@@ -16,6 +16,7 @@
   --font-black: #000;
   --acttivit-card-bg: #d9d9d9;
   --exclusive-btn-color: #b90416;
+  --color-brown: #686868;
 }
 
 .main-container {
@@ -187,7 +188,14 @@ h2 > .quote {
 }
 
 /*mock interview section*/
-
+.mock-interview-container{
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background-size:  100% !important; /* Cover the entire area */
+}
+.bundle-mock-interview-container{
+  background: url("/src/assets/bg-bundle.png") no-repeat !important; /* Center the background */
+  background-size:  100% !important; /* Cover the entire area */
+}
 .mock-interview-container,
 .bundle-mock-interview-container {
   position: relative;
@@ -204,7 +212,6 @@ h2 > .quote {
 }
 .navigation-container > nav > ul {
   height: 100px;
-  background: var(--font-white);
 }
 .color-orange {
   color: var(--primary-color) !important;
@@ -214,7 +221,8 @@ h2 > .quote {
 
 .custom-mock-interview-container,
 .custom-bundle-mock-interview-container {
-  width: 70% !important;
+  width: 75% !important;
+  max-width: 900px;
   margin: 0 auto;
   /* Center the container */
   position: relative;
@@ -308,6 +316,9 @@ h2 > .quote {
   font-size: 49px !important;
   margin-bottom: 60px;
 }
+.bundle-mock-bg{
+  width: 100%;
+}
 .bundle-mock-bg > p {
   padding-right: 70px;
 }
@@ -322,17 +333,17 @@ h2 > .quote {
 .bundle-avatar > svg {
   position: absolute;
   z-index: -1; /* Keep SVG behind the image */
-  top: 120px;
-  height: 60%; /* Adjust height for better fit */
-  right: -20px; /* Align SVG to the right as well */
+  top: 160px;
+  height: 120%; /* Adjust height for better fit */
+  right: -15px; /* Align SVG to the right as well */
 }
 
 .bundle-avatar > img {
   position: relative; /* Keep image relative to its container */
-  height: 550px; /* Set height to auto for responsiveness */
+  height: 250px; /* Set height to auto for responsiveness */
   max-height: 50%; /* Ensure it doesn't overflow */
-  bottom: -20px; /* Align to the bottom */
-  right: 40px;
+  top: 180px;
+  right: 100px;
 }
 .bundle-bg2 {
   border: 2px solid var(--primary-color);
@@ -363,6 +374,7 @@ h2 > .quote {
   z-index: 0;
   position: relative;
   margin-bottom: 60px;
+  background: var(--font-white);
 }
 .step-card{
   width: 30%;
@@ -436,73 +448,32 @@ h2 > .quote {
 }
 
 /*Premium Package Section*/
+.bg-orange-gradient{
+  background: rgb(255,108,0);
+  background: linear-gradient(193deg, rgba(255,108,0,1) 28%, rgba(255,255,255,0.5952052696078431) 100%);
+
+}
 .premium-package-container {
   padding: 5em 0em;
-  background: rgb(255,108,0);
-  background: linear-gradient(193deg, rgba(255,108,0,0.614813112745098) 0%, rgba(244,106,5,0.6008075105042017) 100%);
 }
 .premium-package-container > h1 {
-  padding-bottom: 2em !important;
+  padding-bottom: 1em !important;
   font-size: 50px;
+  color: var(--font-white);
+}
+.premium-package-container > h3{
+  color: var(--font-white) !important;
+  padding: 1em;
 }
 .premium-box-container {
-  width: 80%;
-}
-.premium-box-container > .premium-card {
-  width: 30%;
-  height: 450px;
+  width: 90%;
+  max-width: 1500px;
+  height: 40vh;
   background: var(--font-white);
+  border: 10px solid #f469057f;
   border-radius: 50px;
-}
-.premium-card > .premium-card-border {
-  width: 85%;
-  height: 85%;
-  border-radius: 40px;
-  border: 2px solid var(--primary-color);
-  padding: 30px;
 }
 
-.premium-card-title {
-  font-weight: 700;
-  font-size: 30px;
-}
-.premium-card-price {
-  font-weight: 700;
-  font-size: 28px;
-  margin: 0;
-}
-.premium-card-below-price {
-  margin: 0;
-}
-.premium-card-content {
-  width: 70%;
-  font-size: 12px;
-  text-align: center;
-}
-.start-now-btn {
-  width: 80%;
-  height: 40px;
-  background: var(--primary-color);
-  border: none;
-  border-radius: 50px;
-  color: var(--font-white);
-  font-weight: 600;
-}
-.premium-card-border > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 40%;
-}
-.premium-get-in-touch {
-  height: 400px;
-  display: flex;
-  align-items: center;
-  color: var(--font-white);
-  font-size: 20px;
-  font-weight: 600;
-}
 
 /*About Hr hatch*/
 .about-hr-hatch-container {
@@ -581,5 +552,130 @@ footer a {
 }
 footer a:hover {
   text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .main-container {
+    height: auto;
+  }
+
+  .hero-container {
+    height: auto;
+    padding: 20px;
+  }
+
+  .custom-hero-container {
+    width: 90% !important;
+  }
+
+  .hero-container > h1 {
+    font-size: 40px !important;
+    padding-top: 10vh;
+  }
+
+  .hero-container > h2 {
+    font-size: 30px !important;
+  }
+
+  .hero-content {
+    font-size: 16px !important;
+  }
+
+  .mock-interview-container,
+  .bundle-mock-interview-container {
+    padding: 20px;
+  }
+
+  .custom-mock-interview-container,
+  .custom-bundle-mock-interview-container {
+    width: 90% !important;
+  }
+
+  .content-mock-interview-container,
+  .content-bundle-mock {
+    height: auto;
+  }
+
+  .mock-content-bg,
+  .bundle-mock-bg {
+    padding: 20px;
+  }
+
+  .mock-content-bg > p,
+  .bundle-mock-bg > p {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .mock-content-bg > img,
+  .bundle-avatar > img {
+    height: auto;
+    max-height: 300px;
+  }
+
+  .btn-mock {
+    width: 100%;
+    height: 40px;
+    font-size: 18px !important;
+  }
+
+  .premium-box-container > .premium-card {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .premium-card > .premium-card-border {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+
+  .premium-card-title {
+    font-size: 24px;
+  }
+
+  .premium-card-price {
+    font-size: 22px;
+  }
+
+  .premium-card-content {
+    font-size: 14px;
+  }
+
+  .start-now-btn {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .about-content-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .about-main-content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .about-avatar-bg {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .footer-container-bg {
+    padding: 20px;
+  }
+
+  footer h5 {
+    font-size: 16px;
+  }
+
+  footer a {
+    font-size: 14px;
+  }
 }
 
