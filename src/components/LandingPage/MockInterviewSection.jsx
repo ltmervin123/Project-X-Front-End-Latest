@@ -3,31 +3,18 @@ import MockAvatar from "../../assets/mock-avatar.png";
 const MockInterviewSection = () => {
   return (
     <section className="mock-interview-container d-flex align-items-center justify-content-center flex-column">
-      <div className="d-flex justify-content-center align-items-center flex-column">
-        <div className="mock-interview-blue-lines_top1"></div>
-        <div className="mock-interview-blue-lines_top2"></div>
-        <div className="mock-interview-blue-lines_top3"></div>
-        <div className="mock-interview-blue-lines_top4"></div>
-        <div className="mock-interview-blue-lines_top5"></div>
-      </div>
 
-      <div className="d-flex justify-content-center align-items-center flex-column">
-        <div className="mock-interview-blue-lines_bottom1"></div>
-        <div className="mock-interview-blue-lines_bottom2"></div>
-        <div className="mock-interview-blue-lines_bottom3"></div>
-        <div className="mock-interview-blue-lines_bottom4"></div>
-        <div className="mock-interview-blue-lines_bottom5"></div>
-      </div>
-
+<br /><br />
+<br />
       <div className="navigation-container">
         <nav>
-          <ul className="navigation-list d-flex justify-content-center align-items-center gap-3">
+          <ul className="navigation-list d-flex justify-content-center align-items-center gap-5 px-5">
             <li className="nav-item d-flex justify-content-center align-items-center ">
               <a href="/maindashboard">
                 <svg
                   width="39"
-                  height="25"
-                  viewBox="0 0 39 39"
+                  height="27"
+                  viewBox="0 0 40 40"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
@@ -101,8 +88,9 @@ const MockInterviewSection = () => {
       </div>
 
       <div className="custom-mock-interview-container d-flex justify-content-center align-items-center flex-column">
-        <h1 className="d-flex">
-          <p className="color-orange">Mock.AI</p>: Mock Interview
+        <h1 >
+          <p className="color-orange">Mock.AI</p>: AI-Powered English
+          Interview Practice Tool
         </h1>
         <div className="content-mock-interview-container w-100 d-flex flex-column justify-content-center  gap-3">
           <div className="mock-content-bg">
@@ -219,21 +207,15 @@ const MockInterviewSection = () => {
               </svg>
             </div>
             <p>
-              Designed for job seekers looking to enhance their English
-              interview skills, our Mock.AI platform offers personalized mock
-              interviews along with detailed analytics to help you track your
-              progress. It provides insights into areas for improvement, helping
-              you refine your responses, improve fluency, and build confidence.
-              Tailored to your needs, the platform ensures you are well-prepared
-              to successfully secure your ideal job.
+            Designed for job seekers looking to enhance their English interview skills, our Mock.AI platform offers personalized mock interviews along with detailed analytics to help you track your progress. It provides insights into areas for improvement, helping you refine your responses, improve fluency, and build confidence. Tailored to your needs, the platform ensures you are well-prepared to successfully secure your ideal job.
             </p>
             <img src={MockAvatar} alt="" />
           </div>
           <div className="bg-blue-behind"></div>
           <button className="btn-mock d-flex align-items-center justify-content-center">
             <svg
-              width="33"
-              height="33"
+              width="20"
+              height="20"
               viewBox="0 0 33 33"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -251,15 +233,7 @@ const MockInterviewSection = () => {
       </div>
       <video src=""></video>
       <i>Play to see video tutorial</i>
-      <svg
-        width="100%"
-        height="55"
-        viewBox="0 0 1917 45"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M955 45L-6.28821 0H1916.29L955 45Z" fill="#D9D9D9" />
-      </svg>
+
     </section>
   );
 };

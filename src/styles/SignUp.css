@@ -34,32 +34,68 @@
   z-index: 1;
 
 }
+.logoname2 {
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: 1000;
+  line-height: 0px;
+  padding-top: 20px;
+  display: flex;
+  position: relative;
+  bottom: -4px;
+}
+
+
+
+.sublogoname2 {
+  font-family: Roboto, sans-serif;
+  color: var(--font-black);
+  font-weight: 1000;
+  font-size: 9px;
+  position: relative;
+  bottom: -1px;
+
+}
 .info-create-acc-container > h4 {
   font-weight: 700 !important;
 }
 .info-create-acc-container > img {
   width: 150px;
   height: 150px;
+  position: relative;
+  bottom: -22px;
 }
 .info-create-acc-container {
   padding: 20px;
   background-color: var(--bg-fade-signup);
   border-radius: 20px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   width: 520px; /* Adjust as necessary */
+  height: 100% !important;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 20px;
   position: relative;
+  padding: 50px 50px 10px 50px;
   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
 }
-.info-create-acc-container > p {
-  font-size: 11px;
-  word-wrap: break-word;
-  text-align: left;
-  width: 80%;
-  font-weight: 500;
+.info-create-acc-container > div{
+  background: var(--font-white);
+  width: 320px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 30px;
+  border-radius: 50px;
+}
+.info-create-acc-container  p {
+margin: 0 !important;
+font-size: 12px !important;
+text-align: left;
 }
 .already-have-acc {
   margin: 0;
@@ -96,7 +132,7 @@
   );
   color: white;
   padding: 20px;
-  width: 650px;
+  width: 600px;
   border-radius: 50px;
   display: flex;
   justify-content: center;
@@ -260,7 +296,7 @@
 .regsuccess-popup-content {
   position: relative; /* Ensure the content has positioning context */
   background: rgba(255, 255, 255, 0.378);
-  border-radius: 50px;
+  border-radius: 20px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   padding: 20px; /* Add padding for better spacing */
@@ -282,13 +318,18 @@
   font-size: 100px;
   width: 100px !important;
   height: 100px !important;
-  color: var(--primary-color);
+  fill: var(--primary-color);
+  position: relative;
+  top: 18px;
+  /* background: var(--input-bg); */
+
 }
 .success-image {
-  width: 320px; /* Adjust size for better responsiveness */
-  height: 320px;
+  width: 280px; /* Adjust size for better responsiveness */
+  height: 280px;
   margin-top: 20px;
   object-fit: contain;
+
 }
 
 .btn-dashboard {
@@ -315,6 +356,42 @@
 .btn-close1:hover {
   background: none !important;
   color: #000 !important;
+}
+
+.video-wrapper {
+  position: relative;
+}
+
+.video-wrapper .play-pause-button,
+.video-wrapper .video-nav-button {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.video-wrapper .play-pause-button {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.video-wrapper .prev-button {
+  left: 10px;
+}
+
+.video-wrapper .next-button {
+  right: 10px;
+}
+
+.video-wrapper:hover .play-pause-button,
+.video-wrapper:hover .video-nav-button {
+  display: block;
 }
 
 

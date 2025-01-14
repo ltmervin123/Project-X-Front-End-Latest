@@ -7,10 +7,11 @@ import {
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
-import { Container, Row, Col, Button } from "react-bootstrap";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import LoginAvatar from "../../assets/login-img.png";
+import { useGoogleAuth } from "../../hook/useGoogleAuth";
+import ErrorGoogleLogin from "./errors/ErrorGoogleLogin";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -18,6 +19,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
+  const { isGoogleLoading, googleError, googleLogin, errorSetter } =
+    useGoogleAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,18 +31,13 @@ const LoginForm = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    googleLogin();
+  };
+
   return (
     <div className="row main-login justify-content-center position-relative">
-      <Col
-        md={5}
-        className=" d-flex align-items-center justify-content-center login-avatar-container "
-      >
-        <img className="login-avatar" src={LoginAvatar} alt="" />
-      </Col>
-      <Col
-        md={7}
-        className="d-flex align-items-center justify-content-center main-login-form"
-      >
+      <div className="d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
             <h2>LOG IN</h2>
@@ -121,7 +119,7 @@ const LoginForm = () => {
           <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">
-              <FaGoogle className="social-icon" />
+              <FaGoogle className="social-icon" onClick={handleGoogleLogin} />
               <FaFacebook className="social-icon" />
             </div>
             <button
@@ -131,10 +129,10 @@ const LoginForm = () => {
               Continue as Guest
             </button>
             <div className="d-flex flex-column">
-            <p>Don't have an account?</p>
-            <i>Join Us Today</i>
+              <p>Don't have an account?</p>
+              <i>Join Us Today</i>
             </div>
-           
+
             <button
               className="signup-button"
               onClick={() => (window.location.href = "/signup")}
@@ -143,7 +141,9 @@ const LoginForm = () => {
             </button>
           </div>
         </div>
-      </Col>
+      </div>
+
+      {googleError && <ErrorGoogleLogin onRetry={errorSetter} />}
     </div>
   );
 };

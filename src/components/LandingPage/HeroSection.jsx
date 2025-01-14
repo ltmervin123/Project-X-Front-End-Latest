@@ -51,11 +51,9 @@ const HeroSection = () => {
 
         <Container className="custom-hero-container">
           <Row className="d-flex align-items-center justify-content-center">
-            <Col md={5} className="position-relative">
+            <Col md={5} className="position-relative ">
               <p className="hero-content position-relative">
-                HR-Hatch is your one-stop partner for seamless job searching and
-                talent acquisition, empowering candidates and companies to
-                connect and grow through tailored support and expertise.
+              HR Hatch is an innovative HR Tech company revolutionizing the talent landscape with seamless, end-to-end support services for job seekers and employers.
               </p>
               <svg
                 className="arrow-svg-pointing-btn"
@@ -86,7 +84,7 @@ const HeroSection = () => {
               </svg>
 
               {/* Wrap Button in Link */}
-              <Button className="btn-get">
+              <button className="btn-get">
                 <a
                   href="/login"
                   className="d-flex align-items-center justify-content-center"
@@ -125,7 +123,7 @@ const HeroSection = () => {
                   </svg>
                   GET STARTED
                 </a>
-              </Button>
+              </button>
             </Col>
             <Col md={5}>
               <img src={HeroAvatar} className="heroavatar" alt="Hero Avatar" />

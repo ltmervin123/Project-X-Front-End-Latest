@@ -24,16 +24,12 @@ function Header() {
         href="/maindashboard"
         className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
-            <img
+        <img
               src={logo}
               alt="Logo"
-              width="50"
-              height="50"
-            />
-            <div>
-              <div className="logoname1">HR-<div className='logocolor'>HATCH</div></div>
-              <small className="sublogoname1">THE TECH BEHIND THE TALENT.</small>
-            </div>
+              width="125"
+              height="18"
+            />  
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="UserNameNav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">

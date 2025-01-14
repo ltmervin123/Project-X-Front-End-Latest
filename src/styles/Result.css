@@ -1,8 +1,10 @@
 :root {
   --primary-color: #f46a05;
+  --primary-color-hover: #f46a05c1;
   --secondary-color: #1706ac;
   --font-white: #fff;
   --input-bg: #686868;
+  --input-bg-hover: #686868c1;
   --bg-fade-signup: #d9d9d9;
   --font-black: #000;
 }
@@ -26,6 +28,59 @@
   height: 100%;
   padding: 15px 40px;
   margin: 15vh 0vh 10vh 0vh;
+  position: relative;
+
+}
+.view-selector-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  z-index: 100;
+  border-radius: 0 0 0 20px;
+}
+
+.view-selector-btn {
+  padding: 5px 15px;
+  border: 1px solid var(--input-bg);
+  background: var(--font-white);
+  color: var(--font-black);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  width: 120px;
+  background: #68686854;
+}
+.view-selector-btn:nth-child(1){
+  width: 60px;
+  padding: 0;
+  cursor:default;
+}
+.view-selector-btn:nth-child(1):hover{
+  background: #68686854;
+}
+
+.view-selector-btn:nth-child(1),
+.view-selector-btn:nth-child(2),
+.view-selector-btn:nth-child(3),
+.view-selector-btn:nth-child(4),
+.view-selector-btn:nth-child(5){
+  border-right: none;
+}
+.view-selector-btn:nth-child(6){
+  border-radius: 0px 50px 0px 0px ;
+}
+.view-selector-btn:hover {
+  background: var(--input-bg);
+  color: var(--font-white);
+}
+
+.view-selector-btn.active {
+  border-color: var(--font-black);
+  border-bottom: none;
+  color: var(--primary-color);
+  background: var(--font-white);
+  font-weight: 900;
+
 }
 .result-container p{
   margin: 0 !important;
@@ -76,12 +131,32 @@
   font-size: 12px;
   width: 100%;
 }
-.interview-data > div > strong {
+.interview-data > div  strong {
   color: var(--input-bg);
 }
 .interview-data > div > p{
   font-weight: 700;
 }
+
+.interview-data ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.interview-data ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.interview-data ul li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #686868;
+}
+
 .score-section {
   display: flex;
   flex-direction: column;
@@ -113,10 +188,14 @@
 }
 .rating-name{
   font-weight: 800;
-  width: 50%;
+  width: 320px;
   font-size: 15px;
   color: var(--font-black);
+  text-align: right;
+  position: relative;
+  cursor: help;
 }
+
 .progress-bar-container {
   width: 500px !important;
   background-color: #e0e0e0; /* Light gray background for the progress bar */
@@ -180,7 +259,7 @@
 }
 
 .result-yellow-bg {
-  background-color: #F8BD00; 
+  background-color: #F8BD00 !important; 
   width: 80px;
   border-radius: 50px;
   text-align: center;
@@ -213,8 +292,9 @@
   font-size: 25px;
 }
 .question-navigation > h4 {
-  font-size: 30px;
+  font-size: 25px;
   margin: 0;
+  color: var(--font-black);
 }
 .result-container > .row > div {
   margin-top: 20px;
@@ -254,9 +334,17 @@
   align-items: center;
   justify-content: center;
 }
-
+.btnReturnAnalytics:hover{
+  background: var(--input-bg-hover);
+  color: var(--font-white);
+}
 .btn-retry {
   background-color: var(--primary-color);
+  color: var(--font-white);
+  width: 150px;
+}
+.btnPractice:hover{
+  background-color: var(--primary-color-hover);
   color: var(--font-white);
 }
 
@@ -268,6 +356,8 @@
   margin-top: 20px;
   padding: 0 !important;
 }
+
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -310,6 +400,34 @@
     width: 100%; /* Make buttons full width */
     margin-top: 10px; /* Add margin for spacing */
   }
+}
+
+/* Add this at the end of the file */
+.tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: var(--input-bg);
+  color: var(--font-white);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  /* Change from right to left positioning */
+  left: 125%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+  white-space: normal;
+  /* Add margin for spacing from icon */
+  margin-left: 5px;
+}
+
+/* Add arrow for tooltip */
+
+.tooltip-icon:hover + .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 
 

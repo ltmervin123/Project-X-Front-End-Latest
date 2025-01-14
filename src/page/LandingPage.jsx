@@ -16,11 +16,14 @@ const LandingPage = () => {
         <>
             <div className='main-container'>
                 <Header />
+                
                 <HeroSection />
                 <MockInterviewSection />
                 <BundleMockInterviewSection />
+                <div className="bg-orange-gradient">
                 <PremiumPackageSection />
                 <AboutHRHatchSection />
+                </div>
                 <Footer/>
             </div>
         </>

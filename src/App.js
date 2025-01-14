@@ -25,6 +25,7 @@ import { useAuthContext } from "./hook/useAuthContext";
 import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
 import AiRefereneCheckerPage from "./page/AiReferenceCheckerPage.jsx";
 import AiReferenceReportPage from "./page/AiReferenceReportPage.jsx";
+import VideoPlayerPage from "./page/VideoPlayerPage.jsx";
 
 
 
@@ -125,6 +126,11 @@ function App() {
               />
             } 
           />
+        </Route>
+
+        {/* New Video Player route */}
+        <Route element={<RequireAuth />}>
+          <Route path="/video-player" element={<VideoPlayerPage />} />
         </Route>
 
         {/* Catch all un existing routes */}
