@@ -19,8 +19,10 @@ const LandingPage = () => {
                 <HeroSection />
                 <MockInterviewSection />
                 <BundleMockInterviewSection />
+                <div className="bg-orange-gradient">
                 <PremiumPackageSection />
                 <AboutHRHatchSection />
+                </div>
                 <Footer/>
             </div>
         </>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import SuccessAvatar from "../../assets/logo.png";
+import SuccessAvatar from "../../assets/logo1.png";
 import { useNavigate } from "react-router-dom";
 import { useAnalytics } from "../../hook/useAnalytics";
 

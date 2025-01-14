@@ -12,34 +12,37 @@ const Header = () => {
             <img
               src={logo}
               alt="Logo"
-              width="80"
-              height="80"
+              width="250"
+              height="40"
             />
-            <div>
-              <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
-              <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
-            </div>
+
           </Navbar.Brand>
           <div className="d-flex align-items-center">
             <Nav className="me-auto d-flex gap-3">
-              <NavDropdown title="Product/Services" id="nav-dropdown-products">
-                <NavDropdown.Item className='noclickblue' href="/AiReference">AI Reference Checker</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/maindashboard">Mock AI</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Resume Builder</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Talent Acquisition Consulting</NavDropdown.Item>
+              <NavDropdown title="Product" id="nav-dropdown-products">
+                <NavDropdown.Item className='noclickblue' href="/maindashboard">Mock.AI</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Resume Fit Optimizer</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Job Tracker (Coming Soon)</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/AiReference">AI Referee</NavDropdown.Item>
+              </NavDropdown>
+              <NavDropdown title="Services" id="nav-dropdown-services">
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Recruitment Services</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">AI-Powered Job Posting</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Company" id="nav-dropdown-company">
-                <NavDropdown.Item className='noclickblue'href="/comingsoon">About Us</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Our Team</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Careers</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Why HR-Hatch?</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Partners</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">About Us</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Events/News</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Pricing" id="nav-dropdown-pricing">
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Basic Plan</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Pro Plan</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Enterprise Plan</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Mock.AI</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">AI Referee</NavDropdown.Item>
+
+
               </NavDropdown>
             </Nav>
-            <div className="signup-link ms-3">| {/* Added margin start for spacing */}
+            <div className="signup-link ms-3">
               <a href="/login" className="btn-signup">Sign-in</a>
             </div>
           </div>

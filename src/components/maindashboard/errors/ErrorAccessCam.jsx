@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import SuccessAvatar from "../../../assets/logo.png";
+import SuccessAvatar from "../../../assets/logo1.png";
 import '../../../styles/Error.css';
 
 const ErrorAccessCam = ({ onRetry, onClose }) => {

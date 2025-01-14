@@ -51,7 +51,7 @@ const JobDescriptionPopup = ({ show, onClose, onSubmit }) => {
             value={description}
             onChange={handleDescriptionChange}
             rows={7}
-            placeholder="Type your Job Description Here..."
+            placeholder="Ex. I'm a software engineer with 5 years of experience..."
           />
           <p className={`char-count ${isLimitReached ? 'text-danger' : ''}`}>
             {description.length}/{charLimit}
