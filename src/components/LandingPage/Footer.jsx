@@ -6,9 +6,9 @@ const Footer = () => {
   return (
     <footer className="text-center d-flex align-items-center justify-content-center">
       <div className="footer-container-bg position-relative">
-        <div className="container p-4 d-flex align-items-center justify-content-center">
+        <div className=" p-4 d-flex align-items-center justify-content-center">
           <div className="row d-flex align-items-start justify-content-start w-100">
-            <div className="col-lg-3 col-md-4 d-flex footer-logo align-items-center justify-content-center">
+            <div className="col-lg-3 col-md-3 d-flex footer-logo align-items-center justify-content-center">
               <img
                 src={logo}
                 alt="Logo"
@@ -18,7 +18,7 @@ const Footer = () => {
 
             </div>
             <div className="col-lg-3 col-md-4 ">
-              <h5>SERVICES</h5>
+              <h5>PRODUCTS</h5>
 
               <ul className="list-unstyled ">
                 <li>
@@ -38,7 +38,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 4">
-                  Ai Reference Checker
+                  AI Reference Checker
                   </a>
                 </li>
               </ul>
@@ -49,7 +49,7 @@ const Footer = () => {
               <ul className="list-unstyled">
                 <li>
                   <a href="#whyhrhacth" aria-label="Learn 1">
-                    Why Hr-Hatch?
+                    Why HR-Hatch?
                   </a>
                 </li>
                 <li>
@@ -69,7 +69,7 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-lg-3 col-md-4 ">
+            <div className="col-lg-2 col-md-4 ">
               <h5>RESOURCES</h5>
 
               <ul className="list-unstyled">
@@ -94,6 +94,10 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
+            </div>
+            <div className="col-lg-1 col-md-1 d-flex footer-logo align-items-center justify-content-center">
+
+
             </div>
           </div>
         </div>
