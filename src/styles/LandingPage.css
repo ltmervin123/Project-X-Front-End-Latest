@@ -335,7 +335,7 @@ h2 > .quote {
 }
 .content-mock-interview-container,
 .content-bundle-mock {
-  height: 500px;
+  height: 400px;
   position: relative;
   margin-top: 20px;
 }
@@ -428,7 +428,6 @@ h2 > .quote {
 }
 .custom-bundle-mock-interview-container > h3 {
   font-size: 34px !important;
-  margin-bottom: 60px;
   font-weight: 700;
 }
 .bundle-mock-bg{
@@ -706,7 +705,7 @@ h2 > .quote {
 
 /*About Hr hatch*/
 .about-hr-hatch-container {
-  height: 80vh;
+  height: 90vh;
   padding: 30px;
 }
 
@@ -788,3 +787,9 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+/* Responsive styles */
+@media (max-width: 768px) {
+
+}
+

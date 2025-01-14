@@ -338,7 +338,7 @@ const PremiumPackageSection = () => {
 
                 </Row>
             </div>
-            <h3>AI Referee Pricing</h3>
+            <h3>AI Reference Pricing</h3>
             <div  className="premium-box-container1 ">
                 <Row className="justify-content-center align-items-center" >
                     <Col md={2}>

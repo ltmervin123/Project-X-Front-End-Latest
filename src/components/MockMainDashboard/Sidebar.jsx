@@ -66,8 +66,8 @@ const Sidebar = () => {
             fill="#686868"
           />
         </svg>
-        English Resume Builder
-      </NavLink>
+        Resume Fit Optimizer
+              </NavLink>
 
       <NavLink
         className={({ isActive }) =>
