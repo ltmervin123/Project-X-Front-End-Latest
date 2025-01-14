@@ -2,7 +2,6 @@
 import React from 'react';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/logo.png';
-import "./Header.css";
 const Header = () => {
   const isDropdownEnabled = true; // Change this condition as needed
 
@@ -24,7 +23,7 @@ const Header = () => {
                 <NavDropdown.Item className='noclickblue' href="/maindashboard">Mock.AI</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">Resume Fit Optimizer</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">Application Tracker (Coming Soon)</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/AiReference">Ai Reference Checker</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/AiReference">AI Reference Checker</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Services" id="nav-dropdown-services" className="hover-dropdown">
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">Recruitment Services</NavDropdown.Item>
@@ -38,7 +37,7 @@ const Header = () => {
               </NavDropdown>
               <NavDropdown title="Pricing" id="nav-dropdown-pricing" className="hover-dropdown">
                 <NavDropdown.Item className='noclickblue' href="#mockpricing">Mock Interview Pricing</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="#airefereepricing">AI Referee Pricing</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="#airefereepricing">AI Referee Checker</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <div className="signup-link ms-3">

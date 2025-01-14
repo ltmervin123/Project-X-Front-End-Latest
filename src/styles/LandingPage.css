@@ -199,7 +199,6 @@
 .custom-hero-container {
   width: 50% !important;
   margin: 0 auto;
-  height: 65vh;
   margin-bottom: 50px;
   /* Center the container */
 }
@@ -232,13 +231,19 @@ h2 > .quote {
   font-size: 18px !important;
   font-weight: 500 !important;
   margin-top: 90px;
+  height: 1005;
 }
 
 .heroavatar {
-  height: 60%;
+  /* height: 20% !important; */
   max-height: 350px !important;
   margin: 20px;
   bottom: -20px;
+}
+@media (min-width: 1700px) {
+  .heroavatar {
+    height: 800px !important;
+  }
 }
 
 /*mock interview section*/
