@@ -740,11 +740,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             intro:
               "Here are some tips to help you perform better in your interview.",
           },
-          {
-            element: "#talkingAvatar",
-            intro:
-              "This is the talking avatar that guides you during the interview.",
-          },
+
           {
             element: "#startInterviewButton",
             intro: "Click this button to start the interview.",

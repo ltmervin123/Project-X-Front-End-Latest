@@ -53,26 +53,26 @@ const BundleMockInterviewSection = () => {
 
     <div className="step-container d-flex align-items-center justify-content-around ">
         <div className="step-card d-flex align-items-center  justify-content-start  flex-column gap-5">
-        <svg width="53" height="53" viewBox="0 0 73 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="53" height="53" viewBox="0 0 73 73" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M31.9375 54.75V17.5656L20.075 29.4281L13.6875 22.8125L36.5 0L59.3125 22.8125L52.925 29.4281L41.0625 17.5656V54.75H31.9375ZM9.125 73C6.61562 73 4.46821 72.1073 2.68275 70.3218C0.897291 68.5363 0.00304167 66.3874 0 63.875V50.1875H9.125V63.875H63.875V50.1875H73V63.875C73 66.3844 72.1073 68.5333 70.3218 70.3218C68.5364 72.1103 66.3874 73.003 63.875 73H9.125Z" fill="#F46A05"/>
           </svg>
           <div className='text-center'>
           <div className="steps">STEP 1</div>
 
-<b>Upload Documents</b>
-<p>Upload your current resume and the job description you're applying for.</p>
+          <b>Upload Documents</b>
+          <p>Upload your current resume and the job description you're applying for.</p>
 
           </div>
         </div>
         <div className="step-card d-flex align-items-center justify-content-start  flex-column gap-5">
-        <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1"  width="53" height="53" viewBox="0 0 24 24">
+          <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1"  width="53" height="53" viewBox="0 0 24 24">
           <path d="m10,9.261l1.205,4.739h-2.411l1.205-4.739Zm12,1.739v2h1c.552,0,1,.447,1,1s-.448,1-1,1h-1v2h1c.552,0,1,.447,1,1s-.448,1-1,1h-1.418c-.505,1.151-1.431,2.077-2.582,2.582v1.418c0,.553-.448,1-1,1s-1-.447-1-1v-1h-2v1c0,.553-.448,1-1,1s-1-.447-1-1v-1h-2v1c0,.553-.448,1-1,1s-1-.447-1-1v-1h-2v1c0,.553-.448,1-1,1s-1-.447-1-1v-1.418c-1.151-.505-2.077-1.431-2.582-2.582h-1.418c-.552,0-1-.447-1-1s.448-1,1-1h1v-2h-1c-.552,0-1-.447-1-1s.448-1,1-1h1v-2h-1c-.552,0-1-.447-1-1s.448-1,1-1h1v-2h-1c-.552,0-1-.447-1-1s.448-1,1-1h1.418c.505-1.151,1.431-2.077,2.582-2.582v-1.418c0-.553.448-1,1-1s1,.447,1,1v1h2v-1c0-.553.448-1,1-1s1,.447,1,1v1h2v-1c0-.553.448-1,1-1s1,.447,1,1v1h2v-1c0-.553.448-1,1-1s1,.447,1,1v1.418c1.151.505,2.077,1.431,2.582,2.582h1.418c.552,0,1,.447,1,1s-.448,1-1,1h-1v2h1c.552,0,1,.447,1,1s-.448,1-1,1h-1Zm-8.031,5.754l-2.404-9.452c-.182-.777-.811-1.299-1.565-1.299s-1.383.521-1.561,1.28l-2.409,9.471c-.136.535.188,1.079.723,1.215.54.142,1.08-.187,1.216-.723l.317-1.246h3.428l.317,1.246c.115.453.522.754.969.754.082,0,.164-.01.247-.031.535-.136.859-.68.723-1.215Zm3.031-9.754c0-.553-.448-1-1-1s-1,.447-1,1v10c0,.553.448,1,1,1s1-.447,1-1V7Z" fill="#F46A05"/>
           </svg>
           <div className='text-center'>
-          <div className="steps">STEP 2</div>
+            <div className="steps">STEP 2</div>
 
-          <b>AI Analysis</b>
-          <p>Our AI analyzes both documents to identify key requirements and match your skills.</p>
+            <b>AI Analysis</b>
+            <p>Our AI analyzes both documents to identify key requirements and match your skills.</p>
 
           </div>
 
@@ -81,12 +81,12 @@ const BundleMockInterviewSection = () => {
         <svg width="53" height="53" viewBox="0 0 58 73" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 7.3C0 5.36392 0.763837 3.50714 2.12348 2.13812C3.48311 0.769105 5.32718 0 7.25 0H36.25C37.2113 0.000206727 38.1332 0.384895 38.8129 1.06945L56.9379 19.3195C57.6177 20.0038 57.9998 20.932 58 21.9V65.7C58 67.6361 57.2362 69.4929 55.8765 70.8619C54.5169 72.2309 52.6728 73 50.75 73H7.25C5.32718 73 3.48311 72.2309 2.12348 70.8619C0.763837 69.4929 0 67.6361 0 65.7V7.3ZM49.2493 21.9L36.25 8.8111V21.9H49.2493ZM29 7.3H7.25V65.7H50.75V29.2H32.625C31.6636 29.2 30.7416 28.8154 30.0617 28.1309C29.3819 27.4464 29 26.518 29 25.55V7.3ZM14.5 40.15C14.5 39.182 14.8819 38.2536 15.5617 37.5691C16.2416 36.8846 17.1636 36.5 18.125 36.5H39.875C40.8364 36.5 41.7584 36.8846 42.4383 37.5691C43.1181 38.2536 43.5 39.182 43.5 40.15C43.5 41.118 43.1181 42.0464 42.4383 42.7309C41.7584 43.4154 40.8364 43.8 39.875 43.8H18.125C17.1636 43.8 16.2416 43.4154 15.5617 42.7309C14.8819 42.0464 14.5 41.118 14.5 40.15ZM14.5 54.75C14.5 53.782 14.8819 52.8536 15.5617 52.1691C16.2416 51.4846 17.1636 51.1 18.125 51.1H39.875C40.8364 51.1 41.7584 51.4846 42.4383 52.1691C43.1181 52.8536 43.5 53.782 43.5 54.75C43.5 55.718 43.1181 56.6464 42.4383 57.3309C41.7584 58.0155 40.8364 58.4 39.875 58.4H18.125C17.1636 58.4 16.2416 58.0155 15.5617 57.3309C14.8819 56.6464 14.5 55.718 14.5 54.75Z" fill="#F46A05"/>
           </svg>
-<div className='text-center'>
-<div className="steps">STEP 3</div>
-          <b>Optimized Resume</b>
-          <p>Receive a customized resume tailored to highlight your relevant skills for the job</p>
+          <div className='text-center'>
+          <div className="steps">STEP 3</div>
+                    <b>Optimized Resume</b>
+                    <p>Receive a customized resume tailored to highlight your relevant skills for the job</p>
 
-</div>
+          </div>
         </div>
         
         <div className="bg-orange-behindcard"></div>
