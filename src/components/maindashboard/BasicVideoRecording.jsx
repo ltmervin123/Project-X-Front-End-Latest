@@ -23,7 +23,6 @@ import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import ErrorTranscription from "./errors/ErrorTranscription";
-import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
@@ -466,15 +465,15 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   const handleInterviewAnswer = async () => {
     // this function return true when transcription is uploaded successfully and false when it fails
-    const iSuccess = await uploadTranscription();
+    const isSuccess = await uploadTranscription();
 
     // Check if transcription upload was successful and exit if not
-    if (!iSuccess) {
+    if (!isSuccess) {
       return;
     }
 
     // Check if we're at the last question
-    if (questionIndex === 4 && !isUploading) {
+    if (questionIndex === questions.length - 1 && !isUploading) {
       const outroMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
       //Display the outro message
       setCurrentGreetingText(outroMessage);
@@ -599,7 +598,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
-        `${API}/api/interview/basic-interview`,
+        `${API}/api/interview/mock-interview`,
         payload,
         {
           headers: {
@@ -608,18 +607,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
-
-      // Extract the generated question from the response
-      const generatedQuestion = response.data.question;
-
-      if (questionIndex + 1 <= 4) {
-        // Set the current greeting text to the generated question
-        setQuestions((prevItem) => [...prevItem, generatedQuestion]);
-      }
-
-      //Clear the transcript
       clearTranscript();
-
       return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
@@ -628,8 +616,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         setTranscriptionError(true);
         //Reset the transcript text
         clearTranscript();
-      } else {
-        setQuestionError(true);
       }
       return false;
     } finally {
@@ -740,7 +726,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             intro:
               "Here are some tips to help you perform better in your interview.",
           },
-
+          {
+            element: "#talkingAvatar",
+            intro:
+              "This is the talking avatar that guides you during the interview.",
+          },
           {
             element: "#startInterviewButton",
             intro: "Click this button to start the interview.",
@@ -946,22 +936,32 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                   )}
                 </div>
               </Col>
-              {!proceed ? (
               <Col
                 md={5}
                 className="d-flex flex-column align-items-center gap-1"
               >
                 <div className="speech-subtitle-container">
                   <p className="speech-subtitle-overlay">{recognizedText}</p>
+
                 </div>
+                {/* <div className="avatar-interviewer-img"></div> */}
+
                 <div className="interview-question-container">
-                  {currentGreetingText ? (
+                  {showViewResult ? (
+                    <div className="d-flex justify-content-center gap-2 w-100">
+                      <Button className="btn-viewresult" onClick={() => navigate("/analytics")}>
+                        View Your Result
+                      </Button>
+                    </div>
+
+                  ) : currentGreetingText ? (
                     <p>{currentGreetingText}</p>
                   ) : isIntroShown ? (
                     <>
                       {countdown > 0 ? (
                         <i>
-                          Hold tight! We’re preparing the perfect questions for you...
+                          Hold tight! We’re preparing the perfect questions for
+                          you...
                         </i>
                       ) : (
                         <>
@@ -995,9 +995,10 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                           >
                             <path
                               d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z"
-                              fill="white"
-                            />
+                            fill="white"
+                          />
                           </svg>
+
                           <p>Start Interview</p>
                         </Button>
                         <i>Click here to Generate Interview Questions</i>
@@ -1006,28 +1007,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                   )}
                 </div>
               </Col>
-            ) : (
-              <Col
-                md={5}
-                className="d-flex flex-column align-items-center justify-content-end"
-              >
-                                <div className="interview-question-container">
-                                <h4>Thank you for proceeding!</h4>
-                <p>Your interview is now in progress. Best of luck!</p>
-                <div className="d-flex justify-content-center">
-                <Button
-                  className="btn-viewresult"
-                  onClick={() => (window.location.href = "/analytics")}
-                >
-                  View your result
-                </Button>
-</div>
-                </div>
-
-
-              </Col>
-            )}
-
             </Row>
             <Row className="d-flex justify-content-center tips-row">
               <Col md={7}>
@@ -1053,11 +1032,10 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             </Row>
 
             {questionError && (
-              <ErrorUploadAnswer
-                onRetry={async () => {
+              <ErrorGenerateQuestion
+                onRetry={() => {
+                  setIsIntroShown(false);
                   setQuestionError(false);
-                  setIsUploading(true);
-                  await handleInterviewAnswer();
                 }}
               />
             )}

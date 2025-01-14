@@ -11,7 +11,7 @@ const HeroSection = () => {
         id="home"
       >
         <h1>HR-HATCH</h1>
-        <h2>
+        <p>
           <svg
             className="quote"
             width="46"
@@ -47,7 +47,7 @@ const HeroSection = () => {
               fill="black"
             />
           </svg>
-        </h2>
+        </p>
 
         <Container className="custom-hero-container">
           <Row className="d-flex align-items-center justify-content-center">
