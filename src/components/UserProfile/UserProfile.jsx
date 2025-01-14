@@ -47,9 +47,7 @@ const UserProfile = () => {
   return (
     <Container className="user-profile-section">
       <div className="user-profile-container">
-        <br />
-        <br />
-        <br />
+
       <h4>USER PROFILE</h4>
       <p>Manage your account settings and preferences.</p>
       
@@ -58,7 +56,6 @@ const UserProfile = () => {
       <Nav className="mb-4 user-nav d-flex justify-content-center">
         <Nav.Item>
           <Nav.Link 
-            href="#personal-info" 
             onClick={() => handleNavClick("personal-info")} 
             active={activeSection === "personal-info"}
           >
@@ -67,7 +64,6 @@ const UserProfile = () => {
         </Nav.Item>
         <Nav.Item>
           <Nav.Link 
-            href="#security" 
             onClick={() => handleNavClick("security")} 
             active={activeSection === "security"}
           >
@@ -76,7 +72,6 @@ const UserProfile = () => {
         </Nav.Item>
         <Nav.Item>
           <Nav.Link 
-            href="#preferences" 
             onClick={() => handleNavClick("preferences")} 
             active={activeSection === "preferences"}
           >
