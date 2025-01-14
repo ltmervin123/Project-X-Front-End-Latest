@@ -13,8 +13,8 @@ const Header = () => {
           <img
               src={logo}
               alt="Logo"
-              width="296"
-              height="44"
+              width="250"
+              height="40"
             />
           </Navbar.Brand>
         </div>

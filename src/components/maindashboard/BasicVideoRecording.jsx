@@ -23,7 +23,6 @@ import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import ErrorTranscription from "./errors/ErrorTranscription";
-import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
@@ -467,15 +466,15 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   const handleInterviewAnswer = async () => {
     // this function return true when transcription is uploaded successfully and false when it fails
-    const iSuccess = await uploadTranscription();
+    const isSuccess = await uploadTranscription();
 
     // Check if transcription upload was successful and exit if not
-    if (!iSuccess) {
+    if (!isSuccess) {
       return;
     }
 
     // Check if we're at the last question
-    if (questionIndex === 4 && !isUploading) {
+    if (questionIndex === questions.length - 1 && !isUploading) {
       const outroMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
       //Display the outro message
       setCurrentGreetingText(outroMessage);
@@ -600,7 +599,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
-        `${API}/api/interview/basic-interview`,
+        `${API}/api/interview/mock-interview`,
         payload,
         {
           headers: {
@@ -609,18 +608,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
-
-      // Extract the generated question from the response
-      const generatedQuestion = response.data.question;
-
-      if (questionIndex + 1 <= 4) {
-        // Set the current greeting text to the generated question
-        setQuestions((prevItem) => [...prevItem, generatedQuestion]);
-      }
-
-      //Clear the transcript
       clearTranscript();
-
       return true;
     } catch (error) {
       console.log("Error uploading transcription: ", error);
@@ -629,8 +617,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         setTranscriptionError(true);
         //Reset the transcript text
         clearTranscript();
-      } else {
-        setQuestionError(true);
       }
       return false;
     } finally {
@@ -741,7 +727,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             intro:
               "Here are some tips to help you perform better in your interview.",
           },
-
+          {
+            element: "#talkingAvatar",
+            intro:
+              "This is the talking avatar that guides you during the interview.",
+          },
           {
             element: "#startInterviewButton",
             intro: "Click this button to start the interview.",
@@ -1058,11 +1048,10 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             </Row>
 
             {questionError && (
-              <ErrorUploadAnswer
-                onRetry={async () => {
+              <ErrorGenerateQuestion
+                onRetry={() => {
+                  setIsIntroShown(false);
                   setQuestionError(false);
-                  setIsUploading(true);
-                  await handleInterviewAnswer();
                 }}
               />
             )}
