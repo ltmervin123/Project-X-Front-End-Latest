@@ -59,6 +59,9 @@
 #nav-dropdown-products, #nav-dropdown-services , #nav-dropdown-company, #nav-dropdown-pricing{
   color: var(--font-black) !important;
 }
+#nav-dropdown-products:hover, #nav-dropdown-services:hover , #nav-dropdown-company:hover, #nav-dropdown-pricing:hover{
+  color: var(--primary-color) !important;
+}
 .signup-link > a{
   border-left: 3px solid var(--color-brown);
   padding-left: 20px;
@@ -74,6 +77,9 @@
   transition: opacity 0.2s ease-in-out;
 }
 
+.hover-dropdown:hover{
+  color: var(--primary-color) !important;
+}
 .hover-dropdown:hover .dropdown-menu {
   display: block;
   opacity: 1;
@@ -84,6 +90,7 @@
 .nav-dropdown:hover .dropdown-menu {
   display: block !important;
 }
+
 
 .hover-dropdown:hover .dropdown-menu {
   display: block !important;
@@ -260,7 +267,7 @@ h2 > .quote {
 /*mock interview section*/
 .mock-interview-container{
   background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size: 100%  !important; /* Cover the entire area */
+  background-size: cover!important; /* Cover the entire area */
 
 }
 .bundle-mock-interview-container{
