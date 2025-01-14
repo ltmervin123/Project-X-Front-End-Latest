@@ -7,7 +7,7 @@ import ReferenceChecker from "../components/AiReferenceDashboard/ReferencenceChe
 function AiReferenceCheckerPage() {
   return (
     <>
-      <div className="d-flex ">
+      <div className="d-flex aiReferenceContainer">
         <Sidebar />
         <Container className="flex-grow-1 AiReferencebg">
           <Row>
