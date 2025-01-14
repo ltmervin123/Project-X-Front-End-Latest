@@ -129,16 +129,9 @@ const HeroSection = () => {
               <img src={HeroAvatar} className="heroavatar" alt="Hero Avatar" />
             </Col>
           </Row>
+          
         </Container>
-        <svg
-          width="100%"
-          height="55"
-          viewBox="0 0 1917 45"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M955 0L1916.29 44.25H-6.28821L955 0Z" fill="#F46A05" />
-        </svg>
+<div className="border-triangle"></div>
       </section>
     </>
   );

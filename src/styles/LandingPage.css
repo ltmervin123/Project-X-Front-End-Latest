@@ -63,6 +63,43 @@
   border-left: 3px solid var(--color-brown);
   padding-left: 20px;
 }
+
+.hover-dropdown:hover .dropdown-menu {
+  display: block !important;
+  margin-top: 0 !important;
+}
+
+/* Ensure the dropdown menu is displayed on hover */
+.nav-dropdown:hover .dropdown-menu {
+  display: block !important;
+}
+
+.hover-dropdown:hover .dropdown-menu {
+  display: block !important;
+}
+
+.nav-dropdown .noclickblue:hover {
+  background-color: var(--primary-color) !important;
+  color: var(--font-white) !important;
+}
+
+.border-triangle {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  background: var(--primary-color);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.border-triangle1 {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 30px;
+  background: #D9D9D9;
+  clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
+}
+
 /* Header */
 
 .landing-header {
@@ -139,7 +176,7 @@
 /* hero section*/
 .hero-container {
   position: relative;
-  height: 100vh;
+  height: 100vh !important;
   padding: 0;
   background: var(--font-white);
   background: rgb(255, 255, 255);
@@ -227,10 +264,11 @@ h2 > .quote {
 .navigation-container nav ul li > a {
   text-decoration: none;
   color: var(--font-black);
+  font-size: 20px;
 }
 .navigation-container nav ul li > a > svg {
-  height: 25px;
-  width: 25px;
+  height: 28px;
+  width: 28px;
   margin-right: 5px;
   margin-bottom: 5px;
 }
@@ -364,7 +402,7 @@ h2 > .quote {
 .bundle-mock-bg > .bundle-avatar {
   position: absolute; /* Keep it absolute */
   right: -50px; /* Align to the right */
-  top: -150px; /* Adjust the top position as needed */
+  top: -170px; /* Adjust the top position as needed */
   height: auto; /* Set height to auto for responsiveness */
   z-index: 1; /* Ensure it is above the background */
 }
@@ -691,18 +729,20 @@ footer h5 {
   color: var(--font-black);
   height: 10%;
   font-size: 18px;
+  font-weight: 700;
 }
 footer li {
   text-align: left;
+  color: var(--font-black);
 }
 footer a {
-  color: var(--font-black);
+  color: var(--font-black) !important;
   text-decoration: none;
   text-align: left;
   width: 100%;
   line-height: 35px;
   font-size: 16px;
-  font-weight: 100 !important;
+  font-weight: 400 !important;
 }
 footer a:hover {
   text-decoration: underline;

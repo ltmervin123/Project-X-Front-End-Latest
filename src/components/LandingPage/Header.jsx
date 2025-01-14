@@ -2,8 +2,10 @@
 import React from 'react';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import logo from '../../assets/logo.png';
-
+import "./Header.css";
 const Header = () => {
+  const isDropdownEnabled = true; // Change this condition as needed
+
   return (
     <div className="landingHeader">
       <Navbar>
@@ -15,31 +17,28 @@ const Header = () => {
               width="200"
               height="30"
             />
-
           </Navbar.Brand>
           <div className="d-flex align-items-center">
             <Nav className="me-auto d-flex gap-5">
-              <NavDropdown title="Product" id="nav-dropdown-products">
+              <NavDropdown title="Product" id="nav-dropdown-products" className="hover-dropdown">
                 <NavDropdown.Item className='noclickblue' href="/maindashboard">Mock.AI</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">Resume Fit Optimizer</NavDropdown.Item>
-                <NavDropdown.Item className='noclickblue' href="/comingsoon">Job Tracker (Coming Soon)</NavDropdown.Item>
+                <NavDropdown.Item className='noclickblue' href="/comingsoon">Application Tracker (Coming Soon)</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/AiReference">Ai Reference Checker</NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Services" id="nav-dropdown-services">
+              <NavDropdown title="Services" id="nav-dropdown-services" className="hover-dropdown">
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">Recruitment Services</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">AI-Powered Job Posting</NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Company" id="nav-dropdown-company">
+              <NavDropdown title="Company" id="nav-dropdown-company" className="hover-dropdown">
                 <NavDropdown.Item className='noclickblue' href="#whyhrhacth">Why HR-Hatch?</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">Partners</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">About Us</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="/comingsoon">Events/News</NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Pricing" id="nav-dropdown-pricing">
+              <NavDropdown title="Pricing" id="nav-dropdown-pricing" className="hover-dropdown">
                 <NavDropdown.Item className='noclickblue' href="#mockpricing">Mock Interview Pricing</NavDropdown.Item>
                 <NavDropdown.Item className='noclickblue' href="#airefereepricing">AI Referee Pricing</NavDropdown.Item>
-
-
               </NavDropdown>
             </Nav>
             <div className="signup-link ms-3">
@@ -49,7 +48,6 @@ const Header = () => {
         </div>
       </Navbar>
     </div>
-
   );
 };
 
