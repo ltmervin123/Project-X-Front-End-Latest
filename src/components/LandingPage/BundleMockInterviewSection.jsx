@@ -5,21 +5,15 @@ import Bundle2Avatar from "../../assets/bundle-avatar2.png";
 const BundleMockInterviewSection = () => {
   return (
     <section className='bundle-mock-interview-container d-flex align-items-center justify-content-center flex-column gap-3'>
-          <svg
-        width="100%"
-        height="55"
-        viewBox="0 0 1917 45"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M955 45L-6.28821 0H1916.29L955 45Z" fill="#D9D9D9" />
-      </svg>
+    <div className="border-triangle1"></div>
+    <br /> <br /> <br />
     <div className="custom-bundle-mock-interview-container d-flex justify-content-center align-items-center flex-column">
       <h1 className='d-flex'>Bundle it with our </h1>
       <h3 className='color-orange'>Resume Fit Optimizer</h3>
       <div className="content-bundle-mock w-100 d-flex flex-column justify-content-center align-items-center gap-3 position-relative">
         <div className="bundle-mock-bg">
-          <p>An innovative app designed to help you tailor your resume for each job application. Simply upload your current resume along with the job description, and the app will generate a customized version optimized to align with the job's requirements, increasing your chances of passing resume screenings and moving forward in the hiring process.            </p>
+          <p>Resume Fit Optimizer is a smart tool that refines your resume by highlighting relevant strengths and provides detailed insights on how well it aligns with a specific job, boosting your chances of success.
+          </p>
           <div className='bundle-avatar'>
           <svg width="425" height="425" viewBox="0 0 425 425" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="340.457" width="119" height="481.479" transform="rotate(45 340.457 0)" fill="#1706AC"/>
