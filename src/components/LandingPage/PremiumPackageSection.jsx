@@ -45,10 +45,10 @@ const PremiumPackageSection = () => {
                     <Col md={2}>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
-                                <p>Free</p>
+                                <p clas>Free</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 0.00  </p> 
-                                <p>1 Round of Interview</p>
+                                <p className='premium-round'>1 Round of Interview</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
@@ -104,7 +104,7 @@ const PremiumPackageSection = () => {
                                 <p>Weekly Basic</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 500.00  </p> 
-                                <p>10 Round of Interview</p>
+                                <p className='premium-round'>10 Round of Interview</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
@@ -161,7 +161,7 @@ const PremiumPackageSection = () => {
                                 <p>Monthly Basic</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 1,800.00   </p> 
-                                <p>50 Round of Interview</p>
+                                <p className='premium-round'>50 Round of Interview</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
@@ -219,7 +219,7 @@ const PremiumPackageSection = () => {
                                 <p>Monthly Bundle</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 2,000.00   </p> 
-                                <p>Unlimited Rounds</p>
+                                <p className='premium-round'>Unlimited Rounds</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
@@ -279,7 +279,7 @@ const PremiumPackageSection = () => {
                                 <p>Yearly Bundle</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 20,000.00   </p> 
-                                <p>Unlimited Round</p>
+                                <p className='premium-round'>Unlimited Round</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
@@ -348,7 +348,7 @@ const PremiumPackageSection = () => {
                                 <i></i>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 3,000.00   </p> 
-                                <p>3 References</p>
+                                <p className='premium-round'>3 References</p>
                                 </div>
                                     <button className="btn btn-choose-plan">More Info</button>
                             </div>
@@ -362,7 +362,7 @@ const PremiumPackageSection = () => {
                                 <i></i>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 9,000.00   </p> 
-                                <p>10 References</p>
+                                <p className='premium-round'>10 References</p>
                                 </div>
                                     <button className="btn btn-choose-plan">More Info</button>
                             </div>
@@ -376,7 +376,7 @@ const PremiumPackageSection = () => {
                                 <i>Monhtly Premium</i>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 45,000.00   </p> 
-                                <p>Unlimited</p>
+                                <p className='premium-round'>Unlimited</p>
                                 </div>
                                     <button className="btn btn-choose-plan">More Info</button>
                             </div>
@@ -390,7 +390,7 @@ const PremiumPackageSection = () => {
                                 <i>Yearly Premium</i>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 360,000.00   </p> 
-                                <p>Unlimited</p>
+                                <p className='premium-round'>Unlimited</p>
                                 </div>
                                     <button  className="btn btn-choose-plan">More Info</button>
                             </div>

@@ -95,7 +95,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Talent Acquisition Consulting
+                Recruitment Services
               </a>
             </li>
           </ul>

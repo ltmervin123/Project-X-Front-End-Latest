@@ -1,9 +1,17 @@
 import React from 'react';
+import logo from '../../assets/logo.png';
 import AboutAvatar from "../../assets/about-avatar.png";
 const AboutHRHatchSection = () => {
   return (
     <section  className='about-hr-hatch-container d-flex align-items-center flex-column' id="whyhrhacth">
-      <h3 className='d-flex'>Why&nbsp;<p className='color-orange'> HR</p>-HATCH</h3>
+      <h3 className='d-flex align-items-center justify-content-center'>Why
+      <img
+                src={logo}
+                alt="Logo"
+                width="250"
+                height="40"
+                />
+      </h3>
       <h2>
         <svg className='quote' width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M38.663 35.8294C39.5903 35.0517 38.9322 34.3038 37.2869 34.3038C35.522 34.3038 33.2784 30.2355 33.2784 27.1244C33.2784 25.5689 33.4879 25.4792 36.569 25.4792C45.3936 25.4792 48.5346 17.9408 42.2228 11.8982C33.2485 3.28292 20.7445 14.5605 25.1717 27.274C27.4452 33.7055 35.2827 38.6713 38.663 35.8294Z" fill="black"/>

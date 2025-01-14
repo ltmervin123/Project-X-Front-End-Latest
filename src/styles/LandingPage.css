@@ -258,7 +258,6 @@ h2 > .quote {
   font-size: 18px !important;
   font-weight: 500 !important;
   margin-top: 90px;
-  height: 1005;
 }
 
 .heroavatar {
@@ -267,9 +266,14 @@ h2 > .quote {
   margin: 20px;
   bottom: -20px;
 }
-@media (min-width: 1600px) {
+@media (min-width: 1400px) {
   .heroavatar {
-    max-height: 450px !important;
+    max-height: 400px !important;
+  }
+}
+@media (min-width: 1500px) {
+  .heroavatar {
+    max-height: 480px !important;
   }
 }
 
@@ -644,7 +648,7 @@ h2 > .quote {
   margin: 0;
 }
 .premium-card > p{
-  font-size: 25px !important;
+  font-size: 20px !important;
   font-weight: 700 !important;
   color: var(--primary-color);
 }
@@ -653,9 +657,12 @@ h2 > .quote {
   width: 95%;
   border-radius: 10px;
 }
-.premium-card-box > p{
+.premium-card-box > .premium-round{
   font-size: 10px;
   color: var(--color-brown);
+  font-weight: 700;
+  position: relative;
+  bottom: 7px;
 }
 .premium-price{
   font-size: 25px !important;
@@ -695,6 +702,9 @@ h2 > .quote {
   position: relative;
 
 }
+.premium-box-container1 > .row > .col-md-2 > .premium-box-header > .premium-card > .btn-choose-plan{
+  width: 95%;
+}
 
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header  i{
   font-size: 13px !important;
@@ -725,6 +735,10 @@ h2 > .quote {
   width: 60%;
   height: 600px;
   position: relative;
+}
+.about-hr-hatch-container> h3 > img{
+  margin-bottom: 3px;
+  padding-left: 6px;
 }
 
 .about-main-content {
