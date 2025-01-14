@@ -22,6 +22,7 @@ import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
+import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import ErrorTranscription from "./errors/ErrorTranscription";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
@@ -474,7 +475,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
 
     // Check if we're at the last question
-    if (questionIndex === questions.length - 1 && !isUploading) {
+    if (questionIndex === 4 && !isUploading) {
       const outroMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
       //Display the outro message
       setCurrentGreetingText(outroMessage);
@@ -599,7 +600,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
-        `${API}/api/interview/mock-interview`,
+        `${API}/api/interview/basic-interview`,
         payload,
         {
           headers: {
@@ -608,6 +609,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
+
+      // Extract the generated question from the response
+      const generatedQuestion = response.data.question;
+
+      if (questionIndex + 1 <= 4) {
+        // Set the current greeting text to the generated question
+        setQuestions((prevItem) => [...prevItem, generatedQuestion]);
+      }
       clearTranscript();
       return true;
     } catch (error) {
@@ -617,6 +626,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         setTranscriptionError(true);
         //Reset the transcript text
         clearTranscript();
+      } else {
+        setQuestionError(true);
       }
       return false;
     } finally {
@@ -1043,10 +1054,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             </Row>
 
             {questionError && (
-              <ErrorGenerateQuestion
-                onRetry={() => {
-                  setIsIntroShown(false);
+              <ErrorUploadAnswer
+                onRetry={async () => {
                   setQuestionError(false);
+                  setIsUploading(true);
+                  await handleInterviewAnswer();
                 }}
               />
             )}
