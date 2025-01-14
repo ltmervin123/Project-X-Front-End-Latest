@@ -70,7 +70,6 @@ const VideoRecording = ({ interviewType, category }) => {
   const { firstGreeting } = useGreeting();
   const [isIntro, setIsIntro] = useState(false);
   const name = user.name.split(" ")[0];
-  const secondGreetingText = firstGreeting();
   const [transcriptionError, setTranscriptionError] = useState(false);
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
@@ -114,6 +113,14 @@ const VideoRecording = ({ interviewType, category }) => {
 
   const clearTranscript = () => {
     transcriptRef.current = "";
+  };
+
+  const interviewerGreetingText = useRef("");
+
+  const setInterviewerGreetingText = () => {
+    interviewerGreetingText.current = firstGreeting(
+      selectedInterviewer.current
+    );
   };
 
   //increment the tip index
@@ -217,13 +224,8 @@ const VideoRecording = ({ interviewType, category }) => {
   const userIntroduction = async () => {
     if (!isIntroShown) {
       setIsIntro(true);
-      const firstGreetingText = `Welcome to HR Hatch expert interview simulation. Today’s interviewer is ${selectedInterviewer.current}.`;
-
-      setCurrentGreetingText(firstGreetingText);
-      await speak(firstGreetingText, "default");
-
-      setCurrentGreetingText(secondGreetingText);
-      await speak(secondGreetingText, selectedInterviewer.current);
+      setCurrentGreetingText(interviewerGreetingText.current);
+      await speak(interviewerGreetingText.current, selectedInterviewer.current);
 
       setIsResponseIndicatorVisible(true);
     }
@@ -274,7 +276,7 @@ const VideoRecording = ({ interviewType, category }) => {
       setRecognizedText("");
 
       // Create a payload object to send the transcription data
-      const greeting = secondGreetingText;
+      const greeting = interviewerGreetingText.current;
       const userResponse = transcriptRef.current;
       const interviewer = selectedInterviewer.current;
 
@@ -776,8 +778,8 @@ const VideoRecording = ({ interviewType, category }) => {
   // Add handler for interviewer selection
   const handleInterviewerSelect = (interviewer) => {
     setSelectedInterviewer(interviewer);
+    setInterviewerGreetingText(firstGreeting(interviewer));
     setShowInterviewerSelect(false);
-    // Start camera access after interviewer is selected
     enableCameraFeed();
   };
 

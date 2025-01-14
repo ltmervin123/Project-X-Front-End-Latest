@@ -33,6 +33,7 @@ import { use } from "react";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
+
 const BasicVideoRecording = ({ interviewType, category }) => {
   const { getAnalytics } = useAnalytics();
   const recordedChunksRef = useRef([]);
@@ -69,7 +70,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [socket, setSocket] = useState(null);
   const { firstGreeting } = useGreeting();
   const [isIntro, setIsIntro] = useState(false);
-  const secondGreetingText = firstGreeting();
   const [transcriptionError, setTranscriptionError] = useState(false);
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
@@ -108,6 +108,15 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   //increment the tip index
   const incrementTip = () => {
     setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length);
+  };
+
+  // const [interviewerGreetingText, setInterviewerGreetingText] = useState("");
+  const interviewerGreetingText = useRef("");
+
+  const setInterviewerGreetingText = () => {
+    interviewerGreetingText.current = firstGreeting(
+      selectedInterviewer.current
+    );
   };
 
   //Increment the tip index every 20 seconds
@@ -205,13 +214,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const userIntroduction = async () => {
     if (!isIntroShown) {
       setIsIntro(true);
-      const firstGreetingText = `Welcome to HR Hatch basic interview simulation. Today’s interviewer is ${selectedInterviewer.current}.`;
-      setCurrentGreetingText(firstGreetingText);
-
-      await speak(firstGreetingText, "default");
-
-      setCurrentGreetingText(secondGreetingText);
-      await speak(secondGreetingText, selectedInterviewer.current);
+      setCurrentGreetingText(interviewerGreetingText.current);
+      await speak(interviewerGreetingText.current, selectedInterviewer.current);
 
       // Show the response indicator after speaking the second greeting
       setIsResponseIndicatorVisible(true);
@@ -264,7 +268,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       const interviewer = selectedInterviewer.current;
 
       // Create a payload object to send the transcription data
-      const greeting = secondGreetingText;
+      const greeting = interviewerGreetingText.current;
       const userResponse = transcriptRef.current;
 
       if (!userResponse) {
@@ -772,6 +776,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   // Add handler for interviewer selection
   const handleInterviewerSelect = (interviewer) => {
     setSelectedInterviewer(interviewer);
+    setInterviewerGreetingText(firstGreeting(interviewer));
     setShowInterviewerSelect(false);
     // Start camera access after interviewer is selected
     enableCameraFeed();

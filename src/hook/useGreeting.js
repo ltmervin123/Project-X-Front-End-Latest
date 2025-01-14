@@ -21,18 +21,18 @@ export const useGreeting = () => {
     }
   };
 
-  const firstGreeting = () => {
+  const firstGreeting = (interviewer) => {
     const time = getTimePerdiod();
 
     switch (time) {
       case "morning":
-        const morningGreeting = new MorningGreeting(name);
+        const morningGreeting = new MorningGreeting(name, interviewer);
         return morningGreeting.getGreeting();
       case "afternoon":
-        const afternoonGreeting = new AfterNoonGreeting(name);
+        const afternoonGreeting = new AfterNoonGreeting(name, interviewer);
         return afternoonGreeting.getGreeting();
       case "evening":
-        const eveningGreeting = new EveningGreeting(name);
+        const eveningGreeting = new EveningGreeting(name, interviewer);
         return eveningGreeting.getGreeting();
       case "night":
         return `Hello! ${name} Thank you for accommodating this interview time.`;
