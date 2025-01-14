@@ -709,6 +709,7 @@ h2 > .quote {
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header  i{
   font-size: 13px !important;
   height: 20px;
+  font-weight: 400;
   color: var(--primary-color) !important;
 
 }
