@@ -28,17 +28,17 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 2">
-                    Referee.AI
+                  Resume Fit Optimizer
                   </a>
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 3">
-                    Resume Match Builder
+                  Resume Fit Optimizer
                   </a>
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 4">
-                    Talent Acquisition Consulting
+                  Ai Reference Checker
                   </a>
                 </li>
               </ul>
@@ -48,7 +48,7 @@ const Footer = () => {
 
               <ul className="list-unstyled">
                 <li>
-                  <a href="#about" aria-label="Learn 1">
+                  <a href="#whyhrhacth" aria-label="Learn 1">
                     Why Hr-Hatch?
                   </a>
                 </li>

@@ -12,10 +12,15 @@
     height: 100vh !important;
 }
 /*Ai Reference BG*/
-.AiReferencebg{
-    background: url("../assets/image.png");
+/* .AiReferencebg{
     background-size: cover;
+} */
+.aiReferenceContainer{
+    width: 100% !important;
+    height: 100vh !important;
+    background: url("../assets/image.png");
 }
+
 /*Ai Reference Sidebar*/
 .LogoBrand{
     margin: 0 !important;

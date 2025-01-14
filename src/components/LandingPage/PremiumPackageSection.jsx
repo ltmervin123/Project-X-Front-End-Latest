@@ -5,9 +5,9 @@ const PremiumPackageSection = () => {
   return (
     <>
         <section className='premium-package-container d-flex align-items-center flex-column' id="pricing">
-            <h1>Available Premium Packages</h1>
-            <h3>Mock Interview Pricing</h3>
-            <div className="premium-box-container d-flex align-items-center justify-content-center flex-wrap gap-5">
+            <h1 id="mockpricing">Available Premium Packages</h1>
+            <h3 >Mock Interview Pricing</h3>
+            <div  className="premium-box-container d-flex align-items-center justify-content-center flex-wrap gap-5">
                 <Row>
                     <Col md={2}>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
@@ -273,7 +273,7 @@ const PremiumPackageSection = () => {
                                 </div>
                     </Col>
 
-                    <Col md={2}>
+                    <Col  md={2}>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
                                 <p>Yearly Bundle</p>
@@ -327,7 +327,7 @@ const PremiumPackageSection = () => {
                             </div>
 
                                     <div className="d-flex justify-content-center">
-                                    <button className="btn btn-choose-plan">Choose Plan</button>
+                                    <button id="airefereepricing" className="btn btn-choose-plan">Choose Plan</button>
 
                                     </div>
                                 </div>
@@ -339,7 +339,7 @@ const PremiumPackageSection = () => {
                 </Row>
             </div>
             <h3>AI Referee Pricing</h3>
-            <div className="premium-box-container1 ">
+            <div  className="premium-box-container1 ">
                 <Row className="justify-content-center align-items-center" >
                     <Col md={2}>
                     <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
@@ -383,7 +383,7 @@ const PremiumPackageSection = () => {
 
                         </div>
                     </Col>
-                    <Col md={2}>
+                    <Col md={2} >
                     <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
                                 <p>Elite</p>
@@ -392,7 +392,7 @@ const PremiumPackageSection = () => {
                                 <p className='premium-price'>¥ 360,000.00   </p> 
                                 <p>Unlimited</p>
                                 </div>
-                                    <button className="btn btn-choose-plan">More Info.</button>
+                                    <button  className="btn btn-choose-plan">More Info.</button>
                             </div>
 
                         </div>
