@@ -43,7 +43,7 @@ const Header = () => {
                   Resume Fit Optimizer
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  Application Tracker (Coming Soon)
+                  Application Tracker 
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   AI Reference Checker

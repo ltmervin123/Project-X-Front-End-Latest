@@ -52,7 +52,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Resume Fit Checker
+                Resume Fit Optimizer
               </a>
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center">
