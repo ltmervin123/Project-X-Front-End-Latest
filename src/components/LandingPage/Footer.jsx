@@ -49,7 +49,7 @@ const Footer = () => {
               <ul className="list-unstyled">
                 <li>
                   <a href="#whyhrhacth" aria-label="Learn 1">
-                    Why Hr-Hatch?
+                    Why HR-Hatch?
                   </a>
                 </li>
                 <li>

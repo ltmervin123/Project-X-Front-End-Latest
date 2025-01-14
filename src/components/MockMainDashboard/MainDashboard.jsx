@@ -110,7 +110,7 @@ function MainDashboard() {
 
           <div className="d-flex flex-column justify-content-center">
             <b>Prepare for success </b>
-            <p>Ready to ace your interview?, Let’s get started!</p>
+            <p>Ready to ace your interview? Let’s get started!</p>
           </div>
           </div>
 

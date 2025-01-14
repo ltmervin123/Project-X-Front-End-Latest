@@ -10,7 +10,7 @@ const AboutHRHatchSection = () => {
                 alt="Logo"
                 width="250"
                 height="40"
-                />
+                /> ?
       </h3>
       <h2>
         <svg className='quote' width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">

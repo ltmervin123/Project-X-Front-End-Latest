@@ -101,7 +101,7 @@ const Header = () => {
                   Mock Interview Pricing
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="#airefereepricing">
-                  AI Reference Checker
+                  AI Reference Checker Pricing
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
