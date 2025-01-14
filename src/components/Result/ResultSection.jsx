@@ -118,7 +118,7 @@ const ResultSection = ({ interviewId }) => {
       grammarScore:
         interviewDetails?.recordType === "old record"
           ? 0
-          : interviewDetails.grammar.overAllScore, // This is the Efficacy
+          : interviewDetails.grammar.overAllScore, // This is the Grammar Score
     },
     skills: {
       // Changed from 'technical' to 'skills'
@@ -245,15 +245,15 @@ const ResultSection = ({ interviewId }) => {
             // Grammar related
             "Clarity",
             "Precision",
-            "Formality",
             "Coherence",
             "Efficacy",
+            "Grammar Score",
       // Skills related
       "Mastery",
       "Articulation",
-      "Prowess",
+      "Prowes",
       "Acumen",
-      "Adaptability",
+      "Skill Score",
 
       // Experience related
       "Portfolio",
@@ -292,10 +292,10 @@ const ResultSection = ({ interviewId }) => {
           labels: {
             first: "Clarity",
             second: "Precision",
-            third: "Preposition Usage", // Updated to include preposition
-            fourth: "Formality",
-            fifth: "Coherence",
-            overall: "Efficacy",
+            third: "Formality", // Updated to include preposition
+            fourth: "Coherence",
+            fifth: "Efficacy",
+            overall: "Grammar Score",
           },
         };
       case "skills":
@@ -304,10 +304,10 @@ const ResultSection = ({ interviewId }) => {
           labels: {
             first: "Mastery",
             second: "Articulation",
-            third: "Acumen",
-            fourth: "Prowess",
-            fifth: "Proficiency",
-            overall: "Adaptability",
+            third: "Prowes",
+            fourth: "Acumen",
+            fifth: "Adaptability",
+            overall: "Skill Score",
           },
         };
       case "experience":
@@ -376,19 +376,19 @@ const ResultSection = ({ interviewId }) => {
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.verbTense],
-          prepositionUsage: "Preposition Usage",
+          prepositionUsage: "Formality",
           prepositionUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.prepositionUsage],
         },
         col2: {
-          wordChoice: "Formality",
+          wordChoice: "Coherence",
           wordChoicePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.wordChoice],
-          pronounUsage: "Coherence",
+          pronounUsage: "Efficacy",
           pronounUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -410,19 +410,19 @@ const ResultSection = ({ interviewId }) => {
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.softSkill],
-          skillDiversity: "Acumen",
+          skillDiversity: "Prowes",
           skillDiversityPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.skillDiversity],
         },
         col2: {
-          skillRelevance: "Prowess",
+          skillRelevance: "Acumen",
           skillRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.skillRelevance],
-          proficiency: "Proficiency",
+          proficiency: "Adaptability",
           proficiencyPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -600,6 +600,38 @@ const ResultSection = ({ interviewId }) => {
     }
   };
 
+  const meanings = {
+    Clarity: "The degree to which ideas are expressed understandably, allowing the reader to grasp the intended message without confusion.",
+    Precision: "The accuracy and appropriateness of terminology used, ensuring words convey the exact intended meaning.",
+    Formality: "The level of professionalism in language and style, appropriate for the intended audience and context.",
+    Coherence: "The logical flow and connectivity of ideas throughout the text, facilitating easy comprehension of the overall argument.",
+    Efficacy: "The effectiveness of the text in achieving its intended purpose and impacting the audience's understanding or actions.",
+    "Grammar Score": "Overall grammar proficiency.",
+    Mastery: "The level of expertise in technical skills required for writing or data analysis, reflecting effective application in practice.",
+    Articulation: "The ability to express complex ideas clearly and effectively, ensuring reader comprehension of intricate concepts.",
+    Acumen: "Sharp insight and quick assessment of problems, enabling effective identification and addressing of key issues.",
+    Prowes: "Demonstrated competence in a specific field, showcasing the ability to produce high-quality work.",
+    Adaptability: "The ability to adjust writing style and content to suit different audiences and contexts.",
+    "Skill Score": "Overall skill proficiency.",
+    Portfolio: "A collection of past work examples that showcase the writer's skills, style, and range of experience.",
+    Results: "Measurable outcomes of past efforts, demonstrating the effectiveness and value of the writer's work.",
+    Scope: "The breadth of topics and responsibilities covered, indicating versatility in handling diverse subjects.",
+    Insight: " A deep understanding of sector dynamics, reflecting the ability to analyze and interpret information meaningfully.",
+    "Contextual Relevance": "The pertinence of experiences and examples to the topic, enhancing the credibility of the content.",
+    "Experience Score": "Overall experience proficiency.",
+    Grasp: "The extent of understanding of the question's requirements, ensuring the response is on point.",
+    Coverage: "The thoroughness in addressing all aspects of the question, ensuring no critical elements are overlooked.",
+    Merit: "The value and relevance of examples presented, assessing their support for the overall thesis.",
+    Utility: "The practicality of the information provided, evaluating its actionable insights for the reader.",
+    Aptness: "The appropriateness of the content in relation to the specific situation and audience needs.",
+    "Relevance Score": "Overall relevance proficiency.",
+    Grammar: "Your grammar proficiency.",
+    Experience: "Your experience proficiency.",
+    Skills: "Your skill proficiency.",
+    Relevance: "Your relevance proficiency.",
+    "Overall Performance": "Your overall performance score."
+  };
+
   return interviewDetails ? (
     <Container className="result-container shadow-sm d-flex flex-column">
       <h4>
@@ -695,6 +727,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.first]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -743,6 +776,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.second]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -792,6 +826,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.third]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -840,6 +875,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.fourth]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -896,6 +932,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.fifth]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -951,6 +988,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.fifth]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -1006,6 +1044,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.fifth]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -1061,6 +1100,7 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.fifth]}</span>
                 </p>
                 <div
                   className="progress-bar-container"
@@ -1116,6 +1156,7 @@ const ResultSection = ({ interviewId }) => {
                     fill="#686868"
                   />
                 </svg>
+                <span className="tooltip-text">{meanings[currentViewData.labels.overall]}</span>
               </p>
               <div className="progress-bar-container" style={{ width: "100%" }}>
                 <div
