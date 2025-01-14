@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button, Card } from "react-bootstrap";
 import "../../styles/BehavioralCategoryPopup.css"; // Import the CSS file
-import BH1 from "../../assets/behavioral-img.png"; // Import your images
+import BH1 from "../../assets/teamwork-img.png"; // Import your images
 import BH2 from "../../assets/adaptability-img.png"; // Import adaptability image
 import BH3 from "../../assets/communication-img.png"; // Import communication image
 import BH4 from "../../assets/stress-management-img.png"; // Import stress management image
@@ -45,11 +45,18 @@ const BehavioralCategoryPopup = ({
       image: BH4,
     },
     {
-      title: "Time Management",
+      title: "Dealing with Mistakes",
       description:
-        "It focuses on your ability to prioritize tasks, meet deadlines, and handle multiple responsibilities effectively. It often asks questions designed to understand how you've demonstrated time management skills in past situations.",
-      color: "#E33629",
-      image: BH8,
+        "It focuses on how to evaluate your accountability, problem-solving skills, and ability to learn and grow. This is a behavioral question designed to see how you handle challenges under pressure.",
+      color: "#9747FF",
+      image: BH5,
+    },
+    {
+      title: "Decision Making",
+      description:
+        "Decision-making is the process of identifying and choosing among alternative courses of action to address a problem or opportunity.",
+      color: "#F46A05",
+      image: BH6,
     },
     {
       title: "Ethics and Integrity",
@@ -59,20 +66,15 @@ const BehavioralCategoryPopup = ({
       image: BH7,
     },
     {
-      title: "Decision Making",
+      title: "Time Management",
       description:
-        "Decision-making is the process of identifying and choosing among alternative courses of action to address a problem or opportunity.",
-      color: "#F46A05",
-      image: BH6,
+        "It focuses on your ability to prioritize tasks, meet deadlines, and handle multiple responsibilities effectively. It often asks questions designed to understand how you've demonstrated time management skills in past situations.",
+      color: "#E33629",
+      image: BH8,
     },
 
-    {
-      title: "Dealing with Mistakes",
-      description:
-        "It focuses on how to evaluate your accountability, problem-solving skills, and ability to learn and grow. This is a behavioral question designed to see how you handle challenges under pressure.",
-      color: "#9747FF",
-      image: BH5,
-    },
+
+
   ];
 
   const handleCategorySelect = (category) => {

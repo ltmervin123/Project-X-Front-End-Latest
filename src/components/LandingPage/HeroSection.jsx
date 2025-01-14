@@ -11,7 +11,7 @@ const HeroSection = () => {
         id="home"
       >
         <h1>HR-HATCH</h1>
-        <p>
+        <h2>
           <svg
             className="quote"
             width="46"
@@ -47,15 +47,13 @@ const HeroSection = () => {
               fill="black"
             />
           </svg>
-        </p>
+        </h2>
 
         <Container className="custom-hero-container">
           <Row className="d-flex align-items-center justify-content-center">
-            <Col md={5} className="position-relative">
+            <Col md={5} className="position-relative ">
               <p className="hero-content position-relative">
-                HR-Hatch is your one-stop partner for seamless job searching and
-                talent acquisition, empowering candidates and companies to
-                connect and grow through tailored support and expertise.
+              HR Hatch is an innovative HR Tech company revolutionizing the talent landscape with seamless, end-to-end support services for job seekers and employers.
               </p>
               <svg
                 className="arrow-svg-pointing-btn"

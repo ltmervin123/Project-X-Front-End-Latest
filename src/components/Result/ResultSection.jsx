@@ -118,7 +118,7 @@ const ResultSection = ({ interviewId }) => {
       grammarScore:
         interviewDetails?.recordType === "old record"
           ? 0
-          : interviewDetails.grammar.overAllScore, // This is the Grammar Score
+          : interviewDetails.grammar.overAllScore, // This is the Efficacy
     },
     skills: {
       // Changed from 'technical' to 'skills'
@@ -242,23 +242,24 @@ const ResultSection = ({ interviewId }) => {
   const handleViewClick = (view) => {
     // List of all detail views that should return to default
     const detailViews = [
+            // Grammar related
+            "Clarity",
+            "Precision",
+            "Formality",
+            "Coherence",
+            "Efficacy",
       // Skills related
-      "technical skills",
-      "soft skills",
-      "skill relevance",
-      "skill diversity",
-      "skill score",
-      // Grammar related
-      "sentence structure",
-      "verb tense",
-      "word choice",
-      "pronoun usage",
-      "grammar score",
+      "Mastery",
+      "Articulation",
+      "Prowess",
+      "Acumen",
+      "Adaptability",
+
       // Experience related
-      "duration",
-      "progression",
-      "achievements",
-      "role count",
+      "Portfolio",
+      "Results",
+      "Scope",
+      "Insight",
       "experience score",
       // Relevance related
       "industry alignment",
@@ -289,35 +290,35 @@ const ResultSection = ({ interviewId }) => {
         return {
           scores: viewScores.grammar,
           labels: {
-            first: "Sentence Structure",
-            second: "Verb Tense",
+            first: "Clarity",
+            second: "Precision",
             third: "Preposition Usage", // Updated to include preposition
-            fourth: "Word Choice",
-            fifth: "Pronoun Usage",
-            overall: "Grammar Score",
+            fourth: "Formality",
+            fifth: "Coherence",
+            overall: "Efficacy",
           },
         };
       case "skills":
         return {
           scores: viewScores.skills,
           labels: {
-            first: "Technical Skills",
-            second: "Soft Skills",
-            third: "Skill Diversity",
-            fourth: "Skill Relevance",
+            first: "Mastery",
+            second: "Articulation",
+            third: "Acumen",
+            fourth: "Prowess",
             fifth: "Proficiency",
-            overall: "Skill Score",
+            overall: "Adaptability",
           },
         };
       case "experience":
         return {
           scores: viewScores.experience,
           labels: {
-            first: "Duration",
-            second: "Progression",
-            third: "Achievements Focus",
-            fourth: "Role Count",
-            fifth: "Experience Relevance",
+            first: "Portfolio",
+            second: "Results",
+            third: "Scope",
+            fourth: "Insight",
+            fifth: "Contextual Relevance",
             overall: "Experience Score",
           },
         };
@@ -326,11 +327,11 @@ const ResultSection = ({ interviewId }) => {
         return {
           scores: viewScores.relevance,
           labels: {
-            first: "Direct Answer Alignment",
-            second: "Precision of Information",
-            third: "Comprehensiveness",
-            fourth: "Contextual Interpretation",
-            fifth: "Substantive Content Relevance",
+            first: "Grasp",
+            second: "Coverage",
+            third: "Merit",
+            fourth: "Utility",
+            fifth: "Aptness",
             overall: "Relevance Score",
           },
         };
@@ -365,12 +366,12 @@ const ResultSection = ({ interviewId }) => {
       answer: userAnswer,
       feedback: {
         col1: {
-          sentenceStructure: "Sentence Structure",
+          sentenceStructure: "Clarity",
           sentenceStructurePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.sentenceStructure],
-          verbTense: "Verb Tense",
+          verbTense: "Precision",
           verbTensePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -382,12 +383,12 @@ const ResultSection = ({ interviewId }) => {
               : [interviewDetails.grammar.grammarAnalysis.prepositionUsage],
         },
         col2: {
-          wordChoice: "Word Choice",
+          wordChoice: "Formality",
           wordChoicePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.wordChoice],
-          pronounUsage: "Pronoun Usage",
+          pronounUsage: "Coherence",
           pronounUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -399,24 +400,24 @@ const ResultSection = ({ interviewId }) => {
       answer: userAnswer,
       feedback: {
         col1: {
-          technicalSkill: "Technical Skills",
+          technicalSkill: "Mastery",
           technicalSkillPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.technicalSkill],
-          softSkill: "Soft Skills",
+          softSkill: "Articulation",
           softSkillPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.softSkill],
-          skillDiversity: "Skill Diversity",
+          skillDiversity: "Acumen",
           skillDiversityPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.skillDiversity],
         },
         col2: {
-          skillRelevance: "Skill Relevance",
+          skillRelevance: "Prowess",
           skillRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -433,17 +434,17 @@ const ResultSection = ({ interviewId }) => {
       answer: userAnswer,
       feedback: {
         col1: {
-          duration: "Duration",
+          duration: "Portfolio",
           durationPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.experience.experienceAnalysis.duration],
-          progression: "Progression",
+          progression: "Results",
           progressionPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.experience.experienceAnalysis.progression],
-          achievements: "Achievements Focus",
+          achievements: "Scope",
           achievementsPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -453,12 +454,12 @@ const ResultSection = ({ interviewId }) => {
                 ],
         },
         col2: {
-          roleCount: "Role Count",
+          roleCount: "Insight",
           roleCountPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.experience.experienceAnalysis.roleCount],
-          experienceRelevance: "Experience Relevance",
+          experienceRelevance: "Contextual Relevance",
           experienceRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -473,7 +474,7 @@ const ResultSection = ({ interviewId }) => {
       answer: userAnswer,
       feedback: {
         col1: {
-          directAnsAlignment: "Direct Answer Alignment",
+          directAnsAlignment: "Grasp",
           directAnsAlignmentPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -481,7 +482,7 @@ const ResultSection = ({ interviewId }) => {
                   interviewDetails.relevance.relevanceAnalysis
                     .directAnswerAlignment,
                 ],
-          precisionOfInformation: "Precision of Information",
+          precisionOfInformation: "Coverage",
           precisionOfInformationPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -489,7 +490,7 @@ const ResultSection = ({ interviewId }) => {
                   interviewDetails.relevance.relevanceAnalysis
                     .precisionOfInformation,
                 ],
-          comprehensiveness: "Comprehensiveness",
+          comprehensiveness: "Merit",
           comprehensivenessPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -499,7 +500,7 @@ const ResultSection = ({ interviewId }) => {
                 ],
         },
         col2: {
-          contextualInterpretation: "Contextual Interpretation",
+          contextualInterpretation: "Utility",
           contextualInterpretationPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -507,7 +508,7 @@ const ResultSection = ({ interviewId }) => {
                   interviewDetails.relevance.relevanceAnalysis
                     .contextualInterpretation,
                 ],
-          substantiveContentRelevance: "Substantive Content Relevance",
+          substantiveContentRelevance: "Aptness",
           substantiveContentRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
