@@ -22,6 +22,7 @@ import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup"
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
+import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import ErrorTranscription from "./errors/ErrorTranscription";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
@@ -32,6 +33,7 @@ import { use } from "react";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
+
 const BasicVideoRecording = ({ interviewType, category }) => {
   const { getAnalytics } = useAnalytics();
   const recordedChunksRef = useRef([]);
@@ -68,7 +70,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [socket, setSocket] = useState(null);
   const { firstGreeting } = useGreeting();
   const [isIntro, setIsIntro] = useState(false);
-  const secondGreetingText = firstGreeting();
   const [transcriptionError, setTranscriptionError] = useState(false);
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
@@ -107,6 +108,15 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   //increment the tip index
   const incrementTip = () => {
     setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length);
+  };
+
+  // const [interviewerGreetingText, setInterviewerGreetingText] = useState("");
+  const interviewerGreetingText = useRef("");
+
+  const setInterviewerGreetingText = () => {
+    interviewerGreetingText.current = firstGreeting(
+      selectedInterviewer.current
+    );
   };
 
   //Increment the tip index every 20 seconds
@@ -204,13 +214,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const userIntroduction = async () => {
     if (!isIntroShown) {
       setIsIntro(true);
-      const firstGreetingText = `Welcome to HR Hatch basic interview simulation. Today’s interviewer is ${selectedInterviewer.current}.`;
-      setCurrentGreetingText(firstGreetingText);
-
-      await speak(firstGreetingText, "default");
-
-      setCurrentGreetingText(secondGreetingText);
-      await speak(secondGreetingText, selectedInterviewer.current);
+      setCurrentGreetingText(interviewerGreetingText.current);
+      await speak(interviewerGreetingText.current, selectedInterviewer.current);
 
       // Show the response indicator after speaking the second greeting
       setIsResponseIndicatorVisible(true);
@@ -263,7 +268,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       const interviewer = selectedInterviewer.current;
 
       // Create a payload object to send the transcription data
-      const greeting = secondGreetingText;
+      const greeting = interviewerGreetingText.current;
       const userResponse = transcriptRef.current;
 
       if (!userResponse) {
@@ -474,7 +479,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
 
     // Check if we're at the last question
-    if (questionIndex === questions.length - 1 && !isUploading) {
+    if (questionIndex === 4 && !isUploading) {
       const outroMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
       //Display the outro message
       setCurrentGreetingText(outroMessage);
@@ -482,7 +487,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       await speak(outroMessage, selectedInterviewer.current);
       // Create feedback
       await createFeedback();
-      setShowPreviewPopup(true); // Show preview popup after the interview is answered
     } else {
       //Set the next question
       setQuestionIndex((prevIndex) => prevIndex + 1);
@@ -506,10 +510,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
-      // Set generating feedback state to false
-      setFeedbackError(false);
       setIsGeneratingFeedback(false);
-      setShowSuccessPopup(true);
+      setShowPreviewPopup(true);
       setInterviewId("");
     } catch (err) {
       console.log(err.response ? err.response.data.error : err.message);
@@ -599,7 +601,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
-        `${API}/api/interview/mock-interview`,
+        `${API}/api/interview/basic-interview`,
         payload,
         {
           headers: {
@@ -608,6 +610,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
+
+      // Extract the generated question from the response
+      const generatedQuestion = response.data.question;
+
+      if (questionIndex + 1 <= 4) {
+        // Set the current greeting text to the generated question
+        setQuestions((prevItem) => [...prevItem, generatedQuestion]);
+      }
       clearTranscript();
       return true;
     } catch (error) {
@@ -617,6 +627,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         setTranscriptionError(true);
         //Reset the transcript text
         clearTranscript();
+      } else {
+        setQuestionError(true);
       }
       return false;
     } finally {
@@ -761,6 +773,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   // Add handler for interviewer selection
   const handleInterviewerSelect = (interviewer) => {
     setSelectedInterviewer(interviewer);
+    setInterviewerGreetingText(firstGreeting(interviewer));
     setShowInterviewerSelect(false);
     // Start camera access after interviewer is selected
     enableCameraFeed();
@@ -1043,10 +1056,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             </Row>
 
             {questionError && (
-              <ErrorGenerateQuestion
-                onRetry={() => {
-                  setIsIntroShown(false);
+              <ErrorUploadAnswer
+                onRetry={async () => {
                   setQuestionError(false);
+                  setIsUploading(true);
+                  await handleInterviewAnswer();
                 }}
               />
             )}
