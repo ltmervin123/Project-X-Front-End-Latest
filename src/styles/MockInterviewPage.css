@@ -8,8 +8,8 @@
   --acttivit-card-bg: #d9d9d9;
 }
 .custom-modal-width {
-  max-width: 90% !important; 
-  /* width:  !important;  */
+  max-width: 1400px !important; 
+  width: 90% !important; 
   /* height: 80% !important; */
   max-height: 80% !important;
 }
@@ -197,7 +197,7 @@
 .category-card1.bg-behavioral::before {
   background-image: url(../assets/basic.png); /* Replace with your actual image path */
   background-size: 28%;
-  background-position: right 40% bottom 30%;
+  background-position: right 40% bottom 25%;
 }
 .category-card1.bg-behavioral:hover {
   transition: transform 0.5s ease-in-out;
@@ -213,14 +213,15 @@
   background-color: transparent;
 }
 .category-card1.bg-behavioral::before {
+
   transition: transform 0.4s ease-in-out; /* Smooth animation on unhover */
 }
 .category-card2.bg-basic::before {
   background-image: url(../assets/expert1.png); /* Replace with your actual image path */
   background-size: 45%;
-  background-position: right 5% bottom 65%;
-  transform: scaleX(-1);
+  background-position: left 1% bottom 75%;
   transition: transform 0.3s ease;
+  
 }
 .category-card2.bg-basic:hover {
   /* width: 43%; */
@@ -230,12 +231,13 @@
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
 .category-card2.bg-basic:hover::before {
-  transform: scaleX(-1); /* Adjust the value as needed */
+  transform: translateX(5%); /* Move left on hover */
+  scale: 1.2;
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
 .category-card3.bg-expert::before {
   background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
-  background-size: 17%;
+  background-size: 15%;
   background-position: right 50% bottom -8px;
 }
 .category-card3.bg-expert:hover {
@@ -246,6 +248,7 @@
 }
 .category-card3.bg-expert:hover::before {
   /* Adjust the value as needed */
+  scale: 1.1;
   transform: translateX(-30%); /* Move left on hover */
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }

@@ -207,21 +207,15 @@ const MockInterviewSection = () => {
               </svg>
             </div>
             <p>
-              Designed for job seekers looking to enhance their English
-              interview skills, our Mock.AI platform offers personalized mock
-              interviews along with detailed analytics to help you track your
-              progress. It provides insights into areas for improvement, helping
-              you refine your responses, improve fluency, and build confidence.
-              Tailored to your needs, the platform ensures you are well-prepared
-              to successfully secure your ideal job.
+            Designed for job seekers looking to enhance their English interview skills, our Mock.AI platform offers personalized mock interviews along with detailed analytics to help you track your progress. It provides insights into areas for improvement, helping you refine your responses, improve fluency, and build confidence. Tailored to your needs, the platform ensures you are well-prepared to successfully secure your ideal job.
             </p>
             <img src={MockAvatar} alt="" />
           </div>
           <div className="bg-blue-behind"></div>
           <button className="btn-mock d-flex align-items-center justify-content-center">
             <svg
-              width="33"
-              height="33"
+              width="20"
+              height="20"
               viewBox="0 0 33 33"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

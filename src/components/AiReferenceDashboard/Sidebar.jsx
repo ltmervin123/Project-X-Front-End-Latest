@@ -14,13 +14,9 @@ const Sidebar = () => {
             <img
               src={logo}
               alt="Logo"
-              width="80"
-              height="80"
-            />
-            <div>
-              <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
-              <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
-            </div>      
+              width="200"
+              height="30"
+            /> 
         </Navbar.Brand>
 
       <Nav className="flex-column justify-content-start ai-reference-sidebar">

@@ -1,6 +1,5 @@
 /* Import Roboto font from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;400;700&display=swap");
 /* Global styles */
 * {
   box-sizing: border-box;
@@ -57,8 +56,15 @@
   background-color: transparent !important; /* Prevent background color change */
   outline: none; /* Prevent focus outline */
 }
-
+#nav-dropdown-products, #nav-dropdown-services , #nav-dropdown-company, #nav-dropdown-pricing{
+  color: var(--font-black) !important;
+}
+.signup-link > a{
+  border-left: 3px solid var(--color-brown);
+  padding-left: 20px;
+}
 /* Header */
+
 .landing-header {
   padding: 0px 5%;
 }
@@ -87,6 +93,7 @@
   position: relative;
   bottom: -1px;
 }
+
 /* Button styles using the primary color */
 .btn-signup {
   width: 200px;
@@ -110,6 +117,8 @@
   border-radius: 50px !important;
   font-size: 22px !important;
   font-weight: 400;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
+
 }
 .btn-get > a {
   text-decoration: none;
@@ -133,12 +142,12 @@
   height: 100vh;
   padding: 0;
   background: var(--font-white);
-  /* background: rgb(255, 255, 255);
+  background: rgb(255, 255, 255);
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 1) 58%,
+    rgba(255, 255, 255, 1) 48%,
     rgba(244, 106, 5, 1) 130%
-  ); */
+  );
   /* Set height to 100% of the viewport */
 }
 .hero-container > svg {
@@ -153,6 +162,8 @@
 .custom-hero-container {
   width: 50% !important;
   margin: 0 auto;
+  height: 65vh;
+  margin-bottom: 50px;
   /* Center the container */
 }
 
@@ -164,9 +175,10 @@
   padding-top: 16vh;
 }
 
-.hero-container > p {
-  font-size: 45px !important;
-  font-weight: 100 !important;
+.hero-container > h2 {
+  font-size: 40px !important;
+  font-weight: 200 !important;
+  /* font-family: 'Roboto', sans-serif; */
   margin: 0 !important;
   color: var(--font-black) !important;
 }
@@ -182,21 +194,25 @@ h2 > .quote {
   color: var(--font-black) !important;
   font-size: 18px !important;
   font-weight: 500 !important;
+  margin-top: 90px;
 }
 
 .heroavatar {
-  width: 90% !important;
+  height: 60%;
+  max-height: 350px !important;
   margin: 20px;
+  bottom: -20px;
 }
 
 /*mock interview section*/
 .mock-interview-container{
   background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size:  100% !important; /* Cover the entire area */
+  background-size: 100%  !important; /* Cover the entire area */
+
 }
 .bundle-mock-interview-container{
-  background: url("/src/assets/bg-bundle.png") no-repeat !important; /* Center the background */
-  background-size:  100% !important; /* Cover the entire area */
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background-size:  cover !important; /* Cover the entire area */
 }
 .mock-interview-container,
 .bundle-mock-interview-container {
@@ -230,7 +246,7 @@ h2 > .quote {
 .custom-mock-interview-container,
 .custom-bundle-mock-interview-container {
   width: 75% !important;
-  max-width: 900px;
+  max-width: 740px;
   margin: 0 auto;
   /* Center the container */
   position: relative;
@@ -264,15 +280,15 @@ h2 > .quote {
 .bundle-mock-bg > p {
   text-align: left;
   width: 78%;
-  font-size: 22px;
+
 }
 
 .mock-content-bg > img {
   position: absolute;
   z-index: 1;
-  right: 0;
-  top: -90px;
-  min-height: 400px;
+  right: 10px;
+  top: -60px;
+  min-height: 300px;
   height: 100%;
 }
 
@@ -291,12 +307,12 @@ h2 > .quote {
 .bg-blue-behind {
   position: absolute;
   z-index: 0;
-  right: -80px;
-  bottom: 80px;
+  right: -30px;
+  bottom: 110px;
   background: var(--secondary-color);
-  width: 60%;
-  height: 150px;
-  border-radius: 50px;
+  width: 370px;
+  height: 100px;
+  border-radius: 20px;
 }
 
 
@@ -304,11 +320,11 @@ h2 > .quote {
 .btn-mock {
   background-color: var(--primary-color) !important;
   border: none !important;
-  width: 320px;
-  height: 50px;
+  width: 230px;
+  height: 30px;
   margin-left: 10%;
   border-radius: 50px !important;
-  font-size: 20px !important;
+  font-size: 15px !important;
   font-weight: 200;
   color: var(--font-white);
 }
@@ -321,7 +337,7 @@ h2 > .quote {
 .mock-interview-container > i {
   color: var(--primary-color);
   padding-top: 10px;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 100;
   margin-bottom: 50px;
 }
@@ -349,16 +365,16 @@ h2 > .quote {
 .bundle-avatar > svg {
   position: absolute;
   z-index: -1; /* Keep SVG behind the image */
-  top: 160px;
-  height: 120%; /* Adjust height for better fit */
-  right: -15px; /* Align SVG to the right as well */
+  top: 140px;
+  height: 100%; /* Adjust height for better fit */
+  right: -20px; /* Align SVG to the right as well */
 }
 
 .bundle-avatar > img {
   position: relative; /* Keep image relative to its container */
   height: 250px; /* Set height to auto for responsiveness */
   max-height: 50%; /* Ensure it doesn't overflow */
-  top: 180px;
+  top: 120px;
   right: 100px;
 }
 .bundle-bg2 {
@@ -367,19 +383,17 @@ h2 > .quote {
   position: relative;
   z-index: 1;
   width: 70%;
-  max-width: 900px;
-  padding: 30px 30px 30px 110px;
+  max-width: 800px;
+  padding: 20px 20px 20px 110px;
   margin: 100px 0px;
 }
-.bundle-bg2 > p {
-  font-size: 23px;
-}
+
 .bundle-bg2 > img {
   position: absolute;
-  left: -100px;
+  left: -80px;
   z-index: 1;
-  top: -60px;
-  height: 140%;
+  top: -90px;
+  height: 250px;
 }
 
 .step-container{
@@ -391,7 +405,6 @@ h2 > .quote {
   border-radius: 50px;
   z-index: 0;
   position: relative;
-  margin-bottom: 60px;
   background: var(--font-white);
 }
 .step-card{
@@ -435,6 +448,7 @@ h2 > .quote {
 .step-card > div > b {
   font-size: 30px !important;
   padding-bottom: 30px;
+  font-weight: 700 !important;
 }
 .step-card> div > p {
   width: 80%;
@@ -467,8 +481,8 @@ h2 > .quote {
 
 /*Premium Package Section*/
 .bg-orange-gradient{
-  background: rgb(255,108,0);
-  background: linear-gradient(193deg, rgba(255,108,0,1) 28%, rgba(255,255,255,0.5952052696078431) 100%);
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background-size:  cover!important; /* Cover the entire area */
 
 }
 .premium-package-container {
@@ -477,10 +491,10 @@ h2 > .quote {
 .premium-package-container > h1 {
   padding-bottom: 1em !important;
   font-size: 50px;
-  color: var(--font-white);
+  color: var(--primary-color);
 }
 .premium-package-container > h3{
-  color: var(--font-white) !important;
+  color: var(--primary-color) !important;
   padding: 1em;
 }
 .premium-box-container {
@@ -523,11 +537,16 @@ h2 > .quote {
   display: flex;
   align-items: center;
 }
-.premium-box-header .premium-box-title b, .premium-box-header .premium-box-data p{
+.premium-box-header .premium-box-title b{
   padding-left: 20px !important;
   margin-bottom: 0 !important;
   color: var(--font-black);
-  font-weight: 500;
+  font-weight: 700;
+}
+.premium-box-header .premium-box-data p{
+  color: var(--font-black);
+  padding-left: 20px !important;
+  margin: 0;
 }
 
 .premium-card{
@@ -614,6 +633,7 @@ h2 > .quote {
 .about-hr-hatch-container > h2 {
   width: 70%;
   text-align: center;
+  font-weight: 200; 
   font-size: 30px !important;
 }
 
