@@ -30,10 +30,10 @@ const InterviewerOption = ({ show, onSelectInterviewer }) => {
             <Button
               className="interviewer-btn"
               onClick={() => {
-                onSelectInterviewer("Stela");
+                onSelectInterviewer("Stella");
               }}
             >
-              Stela
+              Stella
             </Button>
           </Col>
           <Col
