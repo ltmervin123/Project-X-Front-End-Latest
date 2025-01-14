@@ -11,7 +11,7 @@ const MockInterviewSection = () => {
   return (
     <section className="mock-interview-container d-flex align-items-center justify-content-center flex-column">
 
-<br /><br />
+<br />
       <div className="navigation-container">
         <nav>
           <ul className="navigation-list d-flex justify-content-center align-items-center gap-3 px-5">
@@ -29,7 +29,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Mock.Ai
+                Mock.AI
               </a>
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center">
@@ -78,7 +78,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Ai Reference
+                AI Reference Checker
               </a>
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center ">
