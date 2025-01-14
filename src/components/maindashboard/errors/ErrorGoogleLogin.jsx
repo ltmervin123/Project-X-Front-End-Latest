@@ -14,7 +14,10 @@ const ErrorGoogleLogin = ({ onRetry }) => {
           <Col md={7}>
             <h4>ERROR: Email Already in Use</h4>
             <p>
-              The email address you used to log in with Google is already associated with another account. Please try logging in with a different Google account or use the email and password login option.
+              The email address you used to log in with Google is already
+              associated with another account. Please try logging in with a
+              different Google account or use the email and password login
+              option.
             </p>
             <div className="d-flex justify-content-center">
               <Button className="btn-retry" onClick={onRetry}>

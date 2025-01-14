@@ -71,7 +71,6 @@ const BehavioralVideoRecording = () => {
   const { firstGreeting } = useGreeting();
   const [isIntro, setIsIntro] = useState(false);
   const name = user.name.split(" ")[0];
-  const secondGreetingText = firstGreeting();
   const [transcriptionError, setTranscriptionError] = useState(false);
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
@@ -105,6 +104,14 @@ const BehavioralVideoRecording = () => {
 
   const clearTranscript = () => {
     transcriptRef.current = "";
+  };
+
+  const interviewerGreetingText = useRef("");
+
+  const setInterviewerGreetingText = () => {
+    interviewerGreetingText.current = firstGreeting(
+      selectedInterviewer.current
+    );
   };
 
   //increment the tip index
@@ -208,13 +215,8 @@ const BehavioralVideoRecording = () => {
   const userIntroduction = async () => {
     if (!isIntroShown) {
       setIsIntro(true);
-      const firstGreetingText = `Welcome to HR Hatch behavioral interview simulation. Today’s interviewer is ${selectedInterviewer.current}.`;
-
-      setCurrentGreetingText(firstGreetingText);
-      await speak(firstGreetingText, "default");
-
-      setCurrentGreetingText(secondGreetingText);
-      await speak(secondGreetingText, selectedInterviewer.current);
+      setCurrentGreetingText(interviewerGreetingText.current);
+      await speak(interviewerGreetingText.current, selectedInterviewer.current);
 
       setIsResponseIndicatorVisible(true);
     }
@@ -265,7 +267,7 @@ const BehavioralVideoRecording = () => {
       setRecognizedText("");
 
       // Create a payload object to send the transcription data
-      const greeting = secondGreetingText;
+      const greeting = interviewerGreetingText.current;
       const userResponse = transcriptRef.current;
       const interviewer = selectedInterviewer.current;
 
@@ -484,7 +486,6 @@ const BehavioralVideoRecording = () => {
       await speak(outroMessage, selectedInterviewer.current);
       // Create feedback
       await createFeedback();
-      setShowPreviewPopup(true); // Show preview popup after the interview is answered
     } else {
       //Set the next question
       setQuestionIndex((prevIndex) => prevIndex + 1);
@@ -508,10 +509,8 @@ const BehavioralVideoRecording = () => {
           },
         }
       );
-      // Set generating feedback state to false
-      setFeedbackError(false);
       setIsGeneratingFeedback(false);
-      setShowSuccessPopup(true);
+      setShowPreviewPopup(true);
       setInterviewId("");
     } catch (err) {
       console.log(err.response ? err.response.data.error : err.message);
@@ -757,8 +756,8 @@ const BehavioralVideoRecording = () => {
   // Add handler for interviewer selection
   const handleInterviewerSelect = (interviewer) => {
     setSelectedInterviewer(interviewer);
+    setInterviewerGreetingText(firstGreeting(interviewer));
     setShowInterviewerSelect(false);
-    // Start camera access after interviewer is selected
     enableCameraFeed();
   };
 
