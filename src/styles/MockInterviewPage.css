@@ -238,7 +238,7 @@
 .category-card3.bg-expert::before {
   background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
   background-size: 15%;
-  background-position: right 50% bottom -8px;
+  background-position: right 50% bottom -12px;
 }
 .category-card3.bg-expert:hover {
   transition: transform 0.3s ease-in-out; /* Smooth animation */

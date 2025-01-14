@@ -1,6 +1,13 @@
 import React from "react";
 import MockAvatar from "../../assets/mock-avatar.png";
+import { useNavigate } from "react-router-dom";
+
 const MockInterviewSection = () => {
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate("/MainDashboard"); // Redirects to the MainDashboard route
+  };
   return (
     <section className="mock-interview-container d-flex align-items-center justify-content-center flex-column">
 
@@ -212,7 +219,10 @@ const MockInterviewSection = () => {
             <img src={MockAvatar} alt="" />
           </div>
           <div className="bg-blue-behind"></div>
-          <button className="btn-mock d-flex align-items-center justify-content-center">
+          <button
+            className="btn-mock d-flex align-items-center justify-content-center"
+            onClick={handleRedirect}
+          >
             <svg
               width="20"
               height="20"
@@ -221,8 +231,8 @@ const MockInterviewSection = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M8.76562 6.18739L11.1705 4.90039L27.6705 15.8997V18.4737L11.1705 29.4751L8.76562 28.1881V6.18739ZM11.8594 9.07695V25.2965L24.024 17.1867L11.8594 9.07695Z"
                 fill="white"
               />
