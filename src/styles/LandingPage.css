@@ -252,9 +252,12 @@ h2 > .quote {
   position: relative;
 }
 .custom-mock-interview-container > h1 {
-  width: 600px;
+  width: 650px;
   display: inline;
   text-align: center;
+  font-weight: 700;
+    font-size: 46px !important;
+
 }
 .custom-mock-interview-container > h1 > p{
   display: inline;
@@ -343,10 +346,14 @@ h2 > .quote {
 }
 
 /*Bundle Mock Interview*/
-
+.custom-bundle-mock-interview-container > h1 {
+  font-size: 46px !important;
+  font-weight: 700;
+}
 .custom-bundle-mock-interview-container > h3 {
-  font-size: 49px !important;
+  font-size: 33px !important;
   margin-bottom: 60px;
+  font-weight: 700;
 }
 .bundle-mock-bg{
   width: 100%;
@@ -490,7 +497,7 @@ h2 > .quote {
 }
 .premium-package-container > h1 {
   padding-bottom: 1em !important;
-  font-size: 50px;
+  font-size: 46px;
   color: var(--primary-color);
 }
 .premium-package-container > h3{
@@ -627,7 +634,7 @@ h2 > .quote {
 }
 
 .about-hr-hatch-container > h3 {
-  font-size: 49px !important;
+  font-size: 46px !important;
 }
 
 .about-hr-hatch-container > h2 {

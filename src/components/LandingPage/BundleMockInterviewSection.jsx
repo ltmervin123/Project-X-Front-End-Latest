@@ -15,8 +15,8 @@ const BundleMockInterviewSection = () => {
         <path d="M955 45L-6.28821 0H1916.29L955 45Z" fill="#D9D9D9" />
       </svg>
     <div className="custom-bundle-mock-interview-container d-flex justify-content-center align-items-center flex-column">
-      <h1 className='d-flex'>Bundle with <p className='color-orange'> &nbsp;Mock.AI </p> </h1>
-      <h3 className='color-orange'>Resume Match Builder</h3>
+      <h1 className='d-flex'>Bundle it with our </h1>
+      <h3 className='color-orange'>Resume Fit Optimizer</h3>
       <div className="content-bundle-mock w-100 d-flex flex-column justify-content-center align-items-center gap-3 position-relative">
         <div className="bundle-mock-bg">
           <p>An innovative app designed to help you tailor your resume for each job application. Simply upload your current resume along with the job description, and the app will generate a customized version optimized to align with the job's requirements, increasing your chances of passing resume screenings and moving forward in the hiring process.            </p>
@@ -44,7 +44,7 @@ const BundleMockInterviewSection = () => {
       </div>
       
     </div>
-    <h1>Here's how our AI Resume Builder works</h1>
+    <h1>Here's how our Resume Fit Optimizer works!</h1>
     <div className="bundle-bg2">
       <img src={Bundle2Avatar} alt="" />
       <p>Simply upload your current resume along with the job description, and the app will generate a customized version optimized to align with the job's requirements, increasing your chances of passing resume screenings and moving forward in the hiring process.</p>
