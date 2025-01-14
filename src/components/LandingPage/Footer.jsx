@@ -33,7 +33,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 3">
-                  Job Tracker (Coming Soon)
+                  Application Tracker 
                   </a>
                 </li>
                 <li>
