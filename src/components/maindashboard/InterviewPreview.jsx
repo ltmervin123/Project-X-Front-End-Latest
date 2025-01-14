@@ -1,20 +1,13 @@
 import React, { useRef, useState } from "react";
 import { FaPlay, FaPause, FaStepBackward, FaStepForward } from "react-icons/fa";
 
-import "../../styles/VideoPlayerPage.css"; // Import CSS for additional styling
+import "../../styles/VideoPlayerPage.css";
 
-const InterviewPreview = () => {
+const InterviewPreview = ({ videoSrc }) => {
   const videoRef = useRef(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const videos = [
-    { title: "Interview 1", src: "https://www.w3schools.com/html/movie.mp4" },
-    { title: "Interview 2", src: "https://www.w3schools.com/html/mov_bbb.mp4" },
-    { title: "Interview 3", src: "https://www.w3schools.com/html/horse.mp4" },
-  ];
 
   const togglePlayPause = () => {
     if (videoRef.current.paused) {
@@ -40,21 +33,15 @@ const InterviewPreview = () => {
   };
 
   const handleNext = () => {
-    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videoSrc.length);
     setIsPlaying(false);
-    setIsLoading(true);
   };
 
   const handlePrev = () => {
     setCurrentVideoIndex(
-      (prevIndex) => (prevIndex - 1 + videos.length) % videos.length
+      (prevIndex) => (prevIndex - 1 + videoSrc.length) % videoSrc.length
     );
     setIsPlaying(false);
-    setIsLoading(true);
-  };
-
-  const handleLoadedData = () => {
-    setIsLoading(false);
   };
 
   return (
@@ -63,30 +50,21 @@ const InterviewPreview = () => {
         <video
           ref={videoRef}
           className="video-feed-invert"
-          src={videos[currentVideoIndex].src}
+          src={videoSrc[currentVideoIndex]}
           onTimeUpdate={handleProgress}
-          onLoadedData={handleLoadedData}
           controls
         ></video>
-        {!isLoading && (
-          <>
-            <button onClick={togglePlayPause} className="play-pause-button">
-              {isPlaying ? <FaPause /> : <FaPlay />}
-            </button>
-            <button
-              onClick={handlePrev}
-              className="video-nav-button prev-button"
-            >
-              <FaStepBackward />
-            </button>
-            <button
-              onClick={handleNext}
-              className="video-nav-button next-button"
-            >
-              <FaStepForward />
-            </button>
-          </>
-        )}
+        <div className="controls">
+          <button onClick={togglePlayPause} className="play-pause-button">
+            {isPlaying ? <FaPause /> : <FaPlay />}
+          </button>
+          <button onClick={handlePrev} className="video-nav-button prev-button">
+            <FaStepBackward />
+          </button>
+          <button onClick={handleNext} className="video-nav-button next-button">
+            <FaStepForward />
+          </button>
+        </div>
       </div>
       <div className="video-player-progress" onClick={handleProgressClick}>
         <div

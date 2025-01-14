@@ -14,11 +14,13 @@ const InterviewerOption = ({ show, onSelectInterviewer }) => {
       <Modal.Body className="p-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h4>Choose Your Interviewer</h4>
-
         </div>
 
         <Row>
-          <Col md={7} className="d-flex align-items-center justify-content-center flex-column gap-3">
+          <Col
+            md={7}
+            className="d-flex align-items-center justify-content-center flex-column gap-3"
+          >
             <Button
               className="interviewer-btn "
               onClick={() => {
