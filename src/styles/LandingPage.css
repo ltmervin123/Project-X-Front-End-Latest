@@ -210,6 +210,12 @@ h2 > .quote {
   text-decoration: none;
   color: var(--font-black);
 }
+.navigation-container nav ul li > a > svg {
+  height: 25px;
+  width: 25px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
 .navigation-container > nav > ul {
   height: 100px;
 }
@@ -227,7 +233,15 @@ h2 > .quote {
   /* Center the container */
   position: relative;
 }
+.custom-mock-interview-container > h1 {
+  width: 600px;
+  display: inline;
+  text-align: center;
+}
+.custom-mock-interview-container > h1 > p{
+  display: inline;
 
+}
 .content-mock-interview-container,
 .content-bundle-mock {
   height: 500px;
@@ -351,7 +365,8 @@ h2 > .quote {
   position: relative;
   z-index: 1;
   width: 70%;
-  padding: 30px 30px 30px 90px;
+  max-width: 900px;
+  padding: 30px 30px 30px 110px;
   margin: 100px 0px;
 }
 .bundle-bg2 > p {
@@ -368,6 +383,7 @@ h2 > .quote {
 .step-container{
   border: 2px solid var(--primary-color);
   width: 95%;
+  max-width: 1300px;
   padding: 50px;
   gap: 50px;
   border-radius: 50px;
@@ -377,7 +393,7 @@ h2 > .quote {
   background: var(--font-white);
 }
 .step-card{
-  width: 30%;
+  width: 28%;
   height: 500px;
 
 }
@@ -468,13 +484,44 @@ h2 > .quote {
 .premium-box-container {
   width: 90%;
   max-width: 1500px;
-  height: 40vh;
+  height: 70vh;
   background: var(--font-white);
   border: 10px solid #f469057f;
   border-radius: 50px;
 }
+.premium-box-container > .row{
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+.premium-box-container > .row > .col-md-2{
+  background: var(--primary-color) !important;
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.premium-box-header {
+  color: var(--font-white);
+  font-size: 15px;
+}
+.premium-box-header div{
+  margin: 0;
+  width: 100%;
+  border-bottom: 1px solid var(--color-brown);
+  height: 40px !important;
+  background: var(--exclusive-btn-color);
+  display: flex;
+  align-items: center;
+}
+.premium-box-header div p b{
+  margin: 0;
+}
 
-
+.premium-card{
+  width: 100%;
+  height: 100px !important;
+  background: var(--font-black) !important;
+}
 /*About Hr hatch*/
 .about-hr-hatch-container {
   height: 100vh;
