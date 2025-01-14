@@ -45,7 +45,7 @@ const Header = () => {
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   Application Tracker (Coming Soon)
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/AiReference">
+                <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   AI Reference Checker
                 </NavDropdown.Item>
               </NavDropdown>
@@ -62,9 +62,7 @@ const Header = () => {
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   Recruitment Services
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  AI-Powered Job Posting
-                </NavDropdown.Item>
+
               </NavDropdown>
 
               <NavDropdown
@@ -103,7 +101,7 @@ const Header = () => {
                   Mock Interview Pricing
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="#airefereepricing">
-                  AI Referee Checker
+                  AI Reference Checker
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
