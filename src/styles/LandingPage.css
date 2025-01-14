@@ -540,6 +540,10 @@ h2 > .quote {
   width: 80%;
   text-align: center;
 }
+.step-card > img{
+  width: 53px !important;
+  height: 53px !important;
+}
 .steps {
   position: absolute;
   top: -20px;
@@ -700,7 +704,7 @@ h2 > .quote {
 }
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header > .premium-card {
   position: relative;
-  
+
 }
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header > .premium-card > .btn-choose-plan{
   width: 95%;
