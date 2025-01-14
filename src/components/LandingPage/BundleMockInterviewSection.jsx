@@ -78,7 +78,7 @@ const BundleMockInterviewSection = () => {
           <div className='text-center'>
           <div className="steps">STEP 3</div>
                     <b>Optimized Resume</b>
-                    <p>Receive a customized resume tailored to highlight your relevant skills for the job</p>
+                    <p>Receive a customized resume tailored to highlight your relevant skills for the job.</p>
 
           </div>
         </div>

@@ -338,7 +338,7 @@ const PremiumPackageSection = () => {
 
                 </Row>
             </div>
-            <h3>AI Reference Pricing</h3>
+            <h3>AI Reference Checker Pricing</h3>
             <div  className="premium-box-container1 ">
                 <Row className="justify-content-center align-items-center" >
                     <Col md={2}>
@@ -372,7 +372,7 @@ const PremiumPackageSection = () => {
                     <Col md={2}>
                     <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
-                                <p>Pro</p>
+                                <p className='premium-sub1'>Pro</p>
                                 <i>Monhtly Premium</i>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 45,000.00   </p> 
