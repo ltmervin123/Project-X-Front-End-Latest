@@ -537,11 +537,16 @@ h2 > .quote {
   display: flex;
   align-items: center;
 }
-.premium-box-header .premium-box-title b, .premium-box-header .premium-box-data p{
+.premium-box-header .premium-box-title b{
   padding-left: 20px !important;
   margin-bottom: 0 !important;
   color: var(--font-black);
-  font-weight: 500;
+  font-weight: 700;
+}
+.premium-box-header .premium-box-data p{
+  color: var(--font-black);
+  padding-left: 20px !important;
+  margin: 0;
 }
 
 .premium-card{
