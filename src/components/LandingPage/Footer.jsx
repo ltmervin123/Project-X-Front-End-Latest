@@ -33,7 +33,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 3">
-                  Resume Fit Optimizer
+                  Job Tracker (Coming Soon)
                   </a>
                 </li>
                 <li>
