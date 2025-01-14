@@ -427,7 +427,7 @@ h2 > .quote {
   font-weight: 700;
 }
 .custom-bundle-mock-interview-container > h3 {
-  font-size: 33px !important;
+  font-size: 34px !important;
   margin-bottom: 60px;
   font-weight: 700;
 }
@@ -575,10 +575,14 @@ h2 > .quote {
   padding-bottom: 1em !important;
   font-size: 46px;
   color: var(--primary-color);
+  font-weight: 700;
+
 }
 .premium-package-container > h3{
   color: var(--primary-color) !important;
   padding: 1em;
+  font-weight: 700;
+
 }
 .premium-box-container {
   width: 90%;
@@ -586,7 +590,7 @@ h2 > .quote {
   height: 500px;
   background: var(--font-white);
   border: 10px solid #f469057f;
-  border-radius: 50px;
+  border-radius: 30px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 .premium-box-container1 {
@@ -595,7 +599,7 @@ h2 > .quote {
   height: 300px;
   background: var(--font-white);
   border: 10px solid #f469057f;
-  border-radius: 50px;
+  border-radius: 30px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 .premium-box-container > .row{
@@ -702,12 +706,13 @@ h2 > .quote {
 
 /*About Hr hatch*/
 .about-hr-hatch-container {
-  height: 100vh;
+  height: 80vh;
   padding: 30px;
 }
 
 .about-hr-hatch-container > h3 {
   font-size: 46px !important;
+  font-weight: 700;
 }
 
 .about-hr-hatch-container > h2 {
@@ -750,6 +755,7 @@ h2 > .quote {
   background-size:  100% !important; /* Cover the entire area */
   box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);  color: var(--font-black);
   padding: 1.5em 0;
+
 }
 .footer-logo {
   height: 170px !important;
@@ -782,129 +788,3 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  .main-container {
-    height: auto;
-  }
-
-  .hero-container {
-    height: auto;
-    padding: 20px;
-  }
-
-  .custom-hero-container {
-    width: 90% !important;
-  }
-
-  .hero-container > h1 {
-    font-size: 40px !important;
-    padding-top: 10vh;
-  }
-
-  .hero-container > h2 {
-    font-size: 30px !important;
-  }
-
-  .hero-content {
-    font-size: 16px !important;
-  }
-
-  .mock-interview-container,
-  .bundle-mock-interview-container {
-    padding: 20px;
-  }
-
-  .custom-mock-interview-container,
-  .custom-bundle-mock-interview-container {
-    width: 90% !important;
-  }
-
-  .content-mock-interview-container,
-  .content-bundle-mock {
-    height: auto;
-  }
-
-  .mock-content-bg,
-  .bundle-mock-bg {
-    padding: 20px;
-  }
-
-  .mock-content-bg > p,
-  .bundle-mock-bg > p {
-    width: 100%;
-    font-size: 18px;
-  }
-
-  .mock-content-bg > img,
-  .bundle-avatar > img {
-    height: auto;
-    max-height: 300px;
-  }
-
-  .btn-mock {
-    width: 100%;
-    height: 40px;
-    font-size: 18px !important;
-  }
-
-  .premium-box-container > .premium-card {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-  }
-
-  .premium-card > .premium-card-border {
-    width: 100%;
-    height: auto;
-    padding: 20px;
-  }
-
-  .premium-card-title {
-    font-size: 24px;
-  }
-
-  .premium-card-price {
-    font-size: 22px;
-  }
-
-  .premium-card-content {
-    font-size: 14px;
-  }
-
-  .start-now-btn {
-    width: 100%;
-    height: 40px;
-    font-size: 18px;
-  }
-
-  .about-content-container {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .about-main-content {
-    width: 100%;
-    text-align: center;
-  }
-
-  .about-avatar-bg {
-    width: 100%;
-    height: auto;
-    margin-top: 20px;
-  }
-
-  .footer-container-bg {
-    padding: 20px;
-  }
-
-  footer h5 {
-    font-size: 16px;
-  }
-
-  footer a {
-    font-size: 14px;
-  }
-}
-

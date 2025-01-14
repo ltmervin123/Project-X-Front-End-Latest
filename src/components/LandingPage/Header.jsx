@@ -28,7 +28,7 @@ const Header = () => {
           <div className="d-flex align-items-center">
             <Nav className="me-auto d-flex gap-5">
               <NavDropdown
-                title="Product"
+                title="Products"
                 id="nav-dropdown-products"
                 className="hover-dropdown"
                 show={showDropdown.product}

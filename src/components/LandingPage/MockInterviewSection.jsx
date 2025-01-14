@@ -79,7 +79,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Ai Referee
+                Ai Reference
               </a>
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center ">

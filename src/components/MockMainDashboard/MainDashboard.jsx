@@ -20,7 +20,7 @@ function MainDashboard() {
       <div>
         <h4>Welcome to your Dashboard!</h4>
         <span>
-          Unlock the power of <span className="color-orange">HR-HATCH</span> to
+          Unlock the power of <span className="color-orange">HR</span>-HATCH to
           enhance your interview skills and craft the perfect resume. Let’s take
           your career to the next level!
         </span>
