@@ -313,7 +313,7 @@ const BehavioralVideoRecording = () => {
         setTranscriptionError(true);
         clearTranscript();
       }
-      console.log("Error ", error);
+      console.error("Error ", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -513,7 +513,7 @@ const BehavioralVideoRecording = () => {
       setShowPreviewPopup(true);
       setInterviewId("");
     } catch (err) {
-      console.log(err.response ? err.response.data.error : err.message);
+      console.error(err.response ? err.response.data.error : err.message);
       setFeedbackError(true); // Set feedback error state
     }
   };
@@ -612,7 +612,7 @@ const BehavioralVideoRecording = () => {
       clearTranscript();
       return true;
     } catch (error) {
-      console.log("Error uploading transcription: ", error);
+      console.error("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
         setTranscriptionError(true);
         clearTranscript();

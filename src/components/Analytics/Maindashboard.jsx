@@ -103,7 +103,6 @@ const MainDashboard = () => {
           : item.overAllScore
       ); // Accessing the score
 
-      // console.log(updatedAt);
       // Get the category and type from the interview details
       const category = item.interviewDetails[0].category.toLowerCase();
       const type = item.interviewDetails[0].type.toLowerCase();

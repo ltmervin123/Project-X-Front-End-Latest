@@ -323,7 +323,7 @@ const VideoRecording = ({ interviewType, category }) => {
         clearTranscript();
       }
 
-      console.log("Error fetching final response:", error);
+      console.error("Error fetching final response:", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -523,7 +523,7 @@ const VideoRecording = ({ interviewType, category }) => {
       setShowPreviewPopup(true);
       setInterviewId("");
     } catch (err) {
-      console.log(err.response ? err.response.data.error : err.message);
+      console.error(err.response ? err.response.data.error : err.message);
       setFeedbackError(true); // Set feedback error state
     }
   };
@@ -622,7 +622,7 @@ const VideoRecording = ({ interviewType, category }) => {
       clearTranscript();
       return true;
     } catch (error) {
-      console.log("Error uploading transcription: ", error);
+      console.error("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
         setTranscriptionError(true);
         clearTranscript();
