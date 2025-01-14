@@ -16,8 +16,8 @@ const AboutHRHatchSection = () => {
           <path d="M43.5928 17.2009C41.1099 11.9659 32.9434 7.38905 29.6229 9.33346C28.6956 9.87191 29.0545 10.3805 31.328 11.8163C35.6954 14.5983 37.0416 19.1752 33.4818 19.1752C23.4905 19.1752 21.0376 33.2946 30.5203 36.2262C41.8876 39.7262 49.2465 29.0169 43.5928 17.2009Z" fill="black"/>
         </svg>
       </h2>
-      <div className="about-content-container d-flex align-items-center">
-        <div className="about-main-content">
+      <div className="about-content-container d-flex align-items-center flex-column flex-md-row">
+        <div className="about-main-content mb-4 mb-md-0">
           <p>HR-Hatch is your trusted partner in unlocking hiring potential, helping job seekers prepare for their job search journey while optimizing recruitment processes for companies to achieve more efficient talent acquisition. Our mission is to empower both job seekers and employers by bridging the gap between talent and opportunity. We offer personalized support and innovative solutions that build confidence, streamline hiring, and drive sustainable growth for all.
           </p>
         </div>
@@ -25,8 +25,6 @@ const AboutHRHatchSection = () => {
           <img src={AboutAvatar} alt="" />
         </div>
       </div>
-
-
     </section>
   );
 };

@@ -4,7 +4,8 @@ const MockInterviewSection = () => {
   return (
     <section className="mock-interview-container d-flex align-items-center justify-content-center flex-column">
 
-
+<br /><br />
+<br />
       <div className="navigation-container">
         <nav>
           <ul className="navigation-list d-flex justify-content-center align-items-center gap-5 px-5">
@@ -87,8 +88,9 @@ const MockInterviewSection = () => {
       </div>
 
       <div className="custom-mock-interview-container d-flex justify-content-center align-items-center flex-column">
-        <h1 className="d-flex">
-          <p className="color-orange">Mock.AI</p>: Mock Interview
+        <h1 >
+          <p className="color-orange">Mock.AI</p>: AI-Powered English
+          Interview Practice Tool
         </h1>
         <div className="content-mock-interview-container w-100 d-flex flex-column justify-content-center  gap-3">
           <div className="mock-content-bg">
@@ -237,15 +239,7 @@ const MockInterviewSection = () => {
       </div>
       <video src=""></video>
       <i>Play to see video tutorial</i>
-      <svg
-        width="100%"
-        height="55"
-        viewBox="0 0 1917 45"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M955 45L-6.28821 0H1916.29L955 45Z" fill="#D9D9D9" />
-      </svg>
+
     </section>
   );
 };

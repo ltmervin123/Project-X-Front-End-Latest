@@ -4,21 +4,18 @@ import ExclusivePartner from "../../assets/reallinkpartners.png";
 
 const Footer = () => {
   return (
-    <footer className="text-center d-flex align-items-center justify-content-center ">
+    <footer className="text-center d-flex align-items-center justify-content-center">
       <div className="footer-container-bg position-relative">
         <div className="container p-4 d-flex align-items-center justify-content-center">
-          <div className="row d-flex align-items-start jsutify-content-start w-100">
+          <div className="row d-flex align-items-start justify-content-start w-100">
             <div className="col-lg-3 col-md-4 d-flex footer-logo align-items-center justify-content-center">
               <img
                 src={logo}
                 alt="Logo"
-                width="80"
-                height="80"
-              />
-              <div>
-                <div className="logoname">HR-<div className='logocolor'>HATCH</div></div>
-                <small className="sublogoname">THE TECH BEHIND THE TALENT.</small>
-              </div>
+                width="200"
+                height="30"
+                />
+
             </div>
             <div className="col-lg-3 col-md-4 ">
               <h5>SERVICES</h5>

@@ -28,8 +28,12 @@ import { useGreeting } from "../../hook/useGreeting";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
 import InterviewerOption from "../maindashboard/InterviewerOption";
+import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
+import InterviewPreview from "./InterviewPreview";
+import { useAnalytics } from "../../hook/useAnalytics";
 
 const BehavioralVideoRecording = () => {
+  const { getAnalytics } = useAnalytics();
   const location = useLocation();
   const category = location.state?.category || "";
   const interviewType = "Behavioral";
@@ -324,10 +328,13 @@ const BehavioralVideoRecording = () => {
       questions[questionIndex] &&
       !isCountdownActive
     ) {
-      speak(questions[questionIndex], selectedInterviewer.current);
+      speak(questions[questionIndex], selectedInterviewer.current).then(() => {
+        setIsResponseIndicatorVisible(true); // Show the response indicator after speaking the question
+      });
     }
   }, [questions, isCountdownActive, questionIndex]);
 
+  const [recordedVideos, setRecordedVideos] = useState([]); // State to store recorded videos
   // Reusable function to start recording
   const startRecording = () => {
     setIsResponseIndicatorVisible(false);
@@ -393,6 +400,12 @@ const BehavioralVideoRecording = () => {
         }
       };
 
+      // Listen for video data events
+      mediaRecorderRef.current.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
+        }
+      };
       //Emit the audio every 100ms
       audioRecorderRef.current.start(100);
     }
@@ -434,6 +447,15 @@ const BehavioralVideoRecording = () => {
         });
       });
 
+      // Stop video recording and save the video
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current.onstop = () => {
+        const videoBlob = new Blob(recordedChunksRef.current, {
+          type: "video/webm",
+        });
+        const videoUrl = URL.createObjectURL(videoBlob);
+        setRecordedVideos((prevVideos) => [...prevVideos, videoUrl]);
+      };
       //Check if intro and execute the final greeting function
       if (isIntro) {
         await aiFinalGreeting();
@@ -462,6 +484,7 @@ const BehavioralVideoRecording = () => {
       await speak(outroMessage, selectedInterviewer.current);
       // Create feedback
       await createFeedback();
+      setShowPreviewPopup(true); // Show preview popup after the interview is answered
     } else {
       //Set the next question
       setQuestionIndex((prevIndex) => prevIndex + 1);
@@ -700,11 +723,7 @@ const BehavioralVideoRecording = () => {
             intro:
               "Here are some tips to help you perform better in your interview.",
           },
-          {
-            element: "#talkingAvatar",
-            intro:
-              "This is the talking avatar that guides you during the interview.",
-          },
+
           {
             element: "#startInterviewButton",
             intro: "Click this button to start the interview.",
@@ -743,6 +762,22 @@ const BehavioralVideoRecording = () => {
     enableCameraFeed();
   };
 
+  const [showPreviewPopup, setShowPreviewPopup] = useState(false);
+  const [proceed, setProceed] = useState(false);
+
+  const handlePreview = async () => {
+    await getAnalytics();
+    setShowPreviewPopup(false);
+    setProceed(true);
+    setShowSuccessPopup(false); // Ensure success popup does not show after preview
+  };
+
+  const handleCancelPreview = async () => {
+    await getAnalytics();
+    setShowPreviewPopup(false);
+    setShowSuccessPopup(true);
+  };
+
   return (
     <>
       <Header />
@@ -769,192 +804,217 @@ const BehavioralVideoRecording = () => {
                   id="videoArea"
                   className="video-area position-relative d-flex align-items-center "
                 >
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    muted
-                    className="video-feed"
-                  ></video>
-                  {/* Mute indicator in top left */}
-                  <div
-                    id="mute-indicator"
-                    className="mute-indicator position-absolute top-0 start-0 m-2"
-                  >
-                    {isMuted ? (
-                      <div className="d-flex align-items-center gap-2">
-                        <FaMicrophoneSlash />
-                      </div>
-                    ) : (
-                      <div className="d-flex align-items-center gap-2">
-                        <FaMicrophone />
-                      </div>
-                    )}
-                  </div>
-                  <p
-                    id="timer"
-                    className="timer position-absolute top-0 end-0 m-2"
-                  >
-                    {`${String(timer.minutes).padStart(2, "0")}:${String(
-                      timer.seconds
-                    ).padStart(2, "0")} / 3:00`}{" "}
-                    {/* Change from 2:00 to 3:00 */}
-                  </p>
-                  <div className="d-flex align-items-center gap-3 interview-tools">
-                    <Button
-                      id="cameraButton"
-                      className="btn-videorecord"
-                      onClick={toggleCamera}
-                      variant={isCameraOn ? "success" : "secondary"}
-                    >
-                      {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
-                    </Button>
-                    {/* Start and Stop record button */}
-                    {isIntro ? (
-                      <>
-                        <Button
-                          id="startButton"
-                          className="position-relative pause-indicator"
-                          onClick={isRecording ? stopRecording : startRecording}
-                          disabled={isUploading}
-                        >
-                          {isUploading ? (
-                            <Spinner className="pause-indicator-spinner"></Spinner>
-                          ) : isRecording ? (
-                            <FaPause size={30} />
-                          ) : (
-                            <FaPlay size={30} />
-                          )}
-                        </Button>
-                        {isResponseIndicatorVisible && (
-                          <div className="response-indicator">
-                            Click here to respond
+                  {proceed ? (
+                    <InterviewPreview videoSrc={recordedVideos} />
+                  ) : (
+                    <>
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        muted
+                        className="video-feed"
+                      ></video>
+                      {/* Mute indicator in top left */}
+                      <div
+                        id="mute-indicator"
+                        className="mute-indicator position-absolute top-0 start-0 m-2"
+                      >
+                        {isMuted ? (
+                          <div className="d-flex align-items-center gap-2">
+                            <FaMicrophoneSlash />
+                          </div>
+                        ) : (
+                          <div className="d-flex align-items-center gap-2">
+                            <FaMicrophone />
                           </div>
                         )}
-                      </>
-                    ) : (
-                      <>
-                        {/* {isResponseIndicatorVisible && (
+                      </div>
+                      <p
+                        id="timer"
+                        className="timer position-absolute top-0 end-0 m-2"
+                      >
+                        {`${String(timer.minutes).padStart(2, "0")}:${String(
+                          timer.seconds
+                        ).padStart(2, "0")} / 3:00`}{" "}
+                        {/* Change from 2:00 to 3:00 */}
+                      </p>
+                      <div className="d-flex align-items-center gap-3 interview-tools">
+                        <Button
+                          id="cameraButton"
+                          className="btn-videorecord"
+                          onClick={toggleCamera}
+                          variant={isCameraOn ? "success" : "secondary"}
+                        >
+                          {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
+                        </Button>
+                        {/* Start and Stop record button */}
+                        {isIntro ? (
+                          <>
+                            <Button
+                              id="startButton"
+                              className="position-relative pause-indicator"
+                              onClick={
+                                isRecording ? stopRecording : startRecording
+                              }
+                              disabled={isUploading}
+                            >
+                              {isUploading ? (
+                                <Spinner className="pause-indicator-spinner"></Spinner>
+                              ) : isRecording ? (
+                                <FaPause size={30} />
+                              ) : (
+                                <FaPlay size={30} />
+                              )}
+                            </Button>
+                            {isResponseIndicatorVisible && (
+                              <div className="response-indicator">
+                                Click here to respond
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {/* {isResponseIndicatorVisible && (
                           <div className="response-indicator">
                             Click here to respond
                           </div>
                         )} */}
+                            <Button
+                              id="startButton"
+                              className="position-relative pause-indicator"
+                              onClick={
+                                isRecording ? stopRecording : startRecording
+                              }
+                              disabled={!questions.length || isUploading}
+                            >
+                              {isUploading ? (
+                                <Spinner className="pause-indicator-spinner"></Spinner>
+                              ) : isRecording ? (
+                                <FaPause size={30} />
+                              ) : (
+                                <FaPlay size={30} />
+                              )}
+                            </Button>
+                            {isResponseIndicatorVisible && (
+                              <div className="response-indicator">
+                                Click here to respond
+                              </div>
+                            )}
+                          </>
+                        )}
                         <Button
-                          id="startButton"
-                          className="position-relative pause-indicator"
-                          onClick={isRecording ? stopRecording : startRecording}
-                          disabled={!questions.length || isUploading}
+                          id="muteButton"
+                          className="btn-mute"
+                          onClick={toggleMute}
                         >
-                          {isUploading ? (
-                            <Spinner className="pause-indicator-spinner"></Spinner>
-                          ) : isRecording ? (
-                            <FaPause size={30} />
-                          ) : (
-                            <FaPlay size={30} />
-                          )}
+                          {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
                         </Button>
-                      </>
-                    )}
-                    <Button
-                      id="muteButton"
-                      className="btn-mute"
-                      onClick={toggleMute}
-                    >
-                      {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                    </Button>
-                  </div>
+                      </div>
 
-                  {/* Countdown Overlay */}
-                  {isCountdownActive && countdown > 0 && (
-                    <div className="countdown-overlay">
-                      <h6>Interview will Start in</h6>
-                      <h2>{countdown}</h2>
-                    </div>
-                  )}
-                  {/* Overlay for reattempting access to camera */}
-                  {isReattemptingCamera && (
-                    <div className="camera-retry-overlay">
-                      {/* <Spinner animation="border" role="status" /> */}
-                      <img
-                        className="loadinganimation"
-                        animation="border"
-                        role="status"
-                        src={loading}
-                      />
-                      <p>Reattempting access to camera...</p>
-                    </div>
-                  )}
-                </div>
-              </Col>
-              <Col
-                md={5}
-                className="d-flex flex-column align-items-center gap-1"
-              >
-                <div className="speech-subtitle-container">
-                  {recognizedText ? (
-                    <p className="speech-subtitle-overlay">{recognizedText}</p>
-                  ) : (
-                    <div className="speech-header">
-                      REAL-TIME TRANSCRIPTION HERE
-                    </div>
-                  )}{" "}
-                </div>
-
-                {/* <div className="avatar-interviewer-img"></div> */}
-
-                <div className="interview-question-container">
-                  {currentGreetingText ? (
-                    <p>{currentGreetingText}</p>
-                  ) : isIntroShown ? (
-                    <>
-                      {countdown > 0 ? (
-                        <i>
-                          Hold tight! We’re preparing the perfect questions for
-                          you...
-                        </i>
-                      ) : (
-                        <>
-                          <h4>Question:</h4>
-                          <p className="question-text">
-                            {questions[questionIndex]}
-                          </p>
-                        </>
+                      {/* Countdown Overlay */}
+                      {isCountdownActive && countdown > 0 && (
+                        <div className="countdown-overlay">
+                          <h6>Interview will Start in</h6>
+                          <h2>{countdown}</h2>
+                        </div>
+                      )}
+                      {/* Overlay for reattempting access to camera */}
+                      {isReattemptingCamera && (
+                        <div className="camera-retry-overlay">
+                          {/* <Spinner animation="border" role="status" /> */}
+                          <img
+                            className="loadinganimation"
+                            animation="border"
+                            role="status"
+                            src={loading}
+                          />
+                          <p>Reattempting access to camera...</p>
+                        </div>
                       )}
                     </>
-                  ) : (
-                    <>
-                      <h4>Welcome to the Interview!</h4>
-                      <p>
-                        We will start when you are ready. Please be prepared.
-                      </p>
-                      <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
-                        <Button
-                          id="startInterviewButton"
-                          className="btn-startinterview d-flex align-items-center"
-                          variant="link"
-                          disabled={isReattemptingCamera}
-                          onClick={handleIntroFinish}
-                        >
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 19 25"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z"
-                              fill="white"
-                            />
-                          </svg>
-
-                          <p>Start Interview</p>
-                        </Button>
-                        <i>Click here to Generate Interview Questions</i>
-                      </div>
-                    </>
                   )}
                 </div>
               </Col>
+              {!proceed ? (
+                <Col
+                  md={5}
+                  className="d-flex flex-column align-items-center gap-1"
+                >
+                  <div className="speech-subtitle-container">
+                    <p className="speech-subtitle-overlay">{recognizedText}</p>
+                  </div>
+                  <div className="interview-question-container">
+                    {currentGreetingText ? (
+                      <p>{currentGreetingText}</p>
+                    ) : isIntroShown ? (
+                      <>
+                        {countdown > 0 ? (
+                          <i>
+                            Hold tight! We’re preparing the perfect questions
+                            for you...
+                          </i>
+                        ) : (
+                          <>
+                            <h4>Question:</h4>
+                            <p className="question-text">
+                              {questions[questionIndex]}
+                            </p>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <h4>Welcome to the Interview!</h4>
+                        <p>
+                          We will start when you are ready. Please be prepared.
+                        </p>
+                        <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
+                          <Button
+                            id="startInterviewButton"
+                            className="btn-startinterview d-flex align-items-center"
+                            variant="link"
+                            disabled={isReattemptingCamera}
+                            onClick={handleIntroFinish}
+                          >
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 19 25"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z"
+                                fill="white"
+                              />
+                            </svg>
+                            <p>Start Interview</p>
+                          </Button>
+                          <i>Click here to Generate Interview Questions</i>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </Col>
+              ) : (
+                <Col
+                  md={5}
+                  className="d-flex flex-column align-items-center justify-content-end"
+                >
+                  <div className="interview-question-container">
+                    <h4>Thank you for proceeding!</h4>
+                    <p>Your interview is now in progress. Best of luck!</p>
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        className="btn-viewresult"
+                        onClick={() => (window.location.href = "/analytics")}
+                      >
+                        View your result
+                      </Button>
+                    </div>
+                  </div>
+                </Col>
+              )}
             </Row>
             <Row className="d-flex justify-content-center tips-row">
               <Col md={7}>
@@ -1046,9 +1106,15 @@ const BehavioralVideoRecording = () => {
 
             {isGeneratingFeedback && <LoadingScreen />}
 
-            {showSuccessPopup && <InterviewSuccessfulPopup />}
-
-            {/* ... existing error handling components ... */}
+            {showPreviewPopup ? (
+              <InterviewPreviewOptionPopup
+                show={showPreviewPopup}
+                onHide={handleCancelPreview}
+                onPreview={handlePreview}
+              />
+            ) : (
+              showSuccessPopup && !proceed && <InterviewSuccessfulPopup />
+            )}
           </div>
         </Container>
       )}

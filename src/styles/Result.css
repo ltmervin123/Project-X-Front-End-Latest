@@ -341,6 +341,7 @@
 .btn-retry {
   background-color: var(--primary-color);
   color: var(--font-white);
+  width: 150px;
 }
 .btnPractice:hover{
   background-color: var(--primary-color-hover);
