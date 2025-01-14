@@ -350,7 +350,7 @@ const PremiumPackageSection = () => {
                                 <p className='premium-price'>¥ 3,000.00   </p> 
                                 <p>3 References</p>
                                 </div>
-                                    <button className="btn btn-choose-plan">More Info.</button>
+                                    <button className="btn btn-choose-plan">More Info</button>
                             </div>
 
                         </div>
@@ -364,7 +364,7 @@ const PremiumPackageSection = () => {
                                 <p className='premium-price'>¥ 9,000.00   </p> 
                                 <p>10 References</p>
                                 </div>
-                                    <button className="btn btn-choose-plan">More Info.</button>
+                                    <button className="btn btn-choose-plan">More Info</button>
                             </div>
 
                         </div>
@@ -378,7 +378,7 @@ const PremiumPackageSection = () => {
                                 <p className='premium-price'>¥ 45,000.00   </p> 
                                 <p>Unlimited</p>
                                 </div>
-                                    <button className="btn btn-choose-plan">More Info.</button>
+                                    <button className="btn btn-choose-plan">More Info</button>
                             </div>
 
                         </div>
@@ -392,7 +392,7 @@ const PremiumPackageSection = () => {
                                 <p className='premium-price'>¥ 360,000.00   </p> 
                                 <p>Unlimited</p>
                                 </div>
-                                    <button  className="btn btn-choose-plan">More Info.</button>
+                                    <button  className="btn btn-choose-plan">More Info</button>
                             </div>
 
                         </div>
