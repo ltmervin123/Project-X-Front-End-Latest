@@ -487,7 +487,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       await speak(outroMessage, selectedInterviewer.current);
       // Create feedback
       await createFeedback();
-      setShowPreviewPopup(true); // Show preview popup after the interview is answered
     } else {
       //Set the next question
       setQuestionIndex((prevIndex) => prevIndex + 1);
@@ -511,10 +510,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
-      // Set generating feedback state to false
-      setFeedbackError(false);
       setIsGeneratingFeedback(false);
-      setShowSuccessPopup(true);
+      setShowPreviewPopup(true);
       setInterviewId("");
     } catch (err) {
       console.log(err.response ? err.response.data.error : err.message);
