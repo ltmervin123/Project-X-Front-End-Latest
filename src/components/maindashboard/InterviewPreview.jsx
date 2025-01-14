@@ -46,7 +46,9 @@ const InterviewPreview = () => {
   };
 
   const handlePrev = () => {
-    setCurrentVideoIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length);
+    setCurrentVideoIndex(
+      (prevIndex) => (prevIndex - 1 + videos.length) % videos.length
+    );
     setIsPlaying(false);
     setIsLoading(true);
   };
@@ -71,24 +73,26 @@ const InterviewPreview = () => {
             <button onClick={togglePlayPause} className="play-pause-button">
               {isPlaying ? <FaPause /> : <FaPlay />}
             </button>
-            <button onClick={handlePrev} className="video-nav-button prev-button">
+            <button
+              onClick={handlePrev}
+              className="video-nav-button prev-button"
+            >
               <FaStepBackward />
             </button>
-            <button onClick={handleNext} className="video-nav-button next-button">
+            <button
+              onClick={handleNext}
+              className="video-nav-button next-button"
+            >
               <FaStepForward />
             </button>
           </>
         )}
       </div>
-      <div
-        className="video-player-progress"
-        onClick={handleProgressClick}
-      >
+      <div className="video-player-progress" onClick={handleProgressClick}>
         <div
           className="video-player-progress-filled"
           style={{ width: `${progress}%` }}
         ></div>
-
       </div>
     </div>
   );
