@@ -143,6 +143,9 @@ const VideoRecording = ({ interviewType, category }) => {
     const newSocket = io(API, {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
+      auth: {
+        token: user.token,
+      },
     });
 
     newSocket.on("connect", () => {
@@ -508,24 +511,43 @@ const VideoRecording = ({ interviewType, category }) => {
     setIsGeneratingFeedback(true);
     setFeedbackError(false);
 
-    try {
-      const response = await axios.post(
-        `${API}/api/interview/create-feedback`,
-        { interviewId },
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      setIsGeneratingFeedback(false);
-      setShowPreviewPopup(true);
-      setInterviewId("");
-    } catch (err) {
-      console.error(err.response ? err.response.data.error : err.message);
-      setFeedbackError(true); // Set feedback error state
-    }
+    socket.emit("generateFeedback", { interviewId });
+
+    socket.off("feedbackGenerated");
+
+    socket.on("feedbackGenerated", (data) => {
+      if (data?.feedback) {
+        setIsGeneratingFeedback(false);
+        setShowPreviewPopup(true);
+        setInterviewId("");
+      }
+    });
+
+    socket.once("error", (error) => {
+      if (error?.message) {
+        console.error("Error generating feedback: ", error);
+        setFeedbackError(true);
+      }
+    });
+
+    // try {
+    //   const response = await axios.post(
+    //     `${API}/api/interview/create-feedback`,
+    //     { interviewId },
+    //     {
+    //       headers: {
+    //         "Content-Type": "Application/json",
+    //         Authorization: `Bearer ${user.token}`,
+    //       },
+    //     }
+    //   );
+    //   setIsGeneratingFeedback(false);
+    //   setShowPreviewPopup(true);
+    //   setInterviewId("");
+    // } catch (err) {
+    //   console.error(err.response ? err.response.data.error : err.message);
+    //   setFeedbackError(true); // Set feedback error state
+    // }
   };
 
   // Timer Effect
