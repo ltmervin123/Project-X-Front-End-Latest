@@ -18,8 +18,7 @@ const HeroSection = () => {
         <h2>
           <svg
             className="quote"
-            width="46"
-            height="46"
+            width="30" height="30"
             viewBox="0 0 46 46"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -36,8 +35,7 @@ const HeroSection = () => {
           Your AI-powered support companion
           <svg
             className="quote"
-            width="46"
-            height="46"
+            width="30" height="30"
             viewBox="0 0 46 46"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

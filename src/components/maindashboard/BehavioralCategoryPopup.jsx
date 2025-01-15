@@ -93,7 +93,7 @@ const BehavioralCategoryPopup = ({
     >
       <Modal.Body className="custom-modal">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="m-0">Behavioral Interview Category</h5>
+          <h5 className="m-0"></h5>
           <Button
             className="closebtn"
             variant="link"
@@ -107,14 +107,6 @@ const BehavioralCategoryPopup = ({
         <div className="behavioral-cards justify-content-between d-flex flex-wrap ">
           {categories.map((behavioral, index) => (
             <>
-              <div className="rectangle-bg-behavioral-card1top "></div>
-              <div className="rectangle-bg-behavioral-card2top "></div>
-              <div className="rectangle-bg-behavioral-card3bottom "></div>
-              <div className="rectangle-bg-behavioral-card4bottom "></div>
-              <div className="rectangle-bg-behavioral-card5bottom "></div>
-              <div className="rectangle-bg-behavioral-card6bottom "></div>
-              <div className="rectangle-bg-behavioral-card7top "></div>
-              <div className="rectangle-bg-behavioral-card8top "></div>
 
               <Card
                 key={index}
@@ -145,10 +137,8 @@ const BehavioralCategoryPopup = ({
             </>
           ))}
         </div>
-        <br />
-        <p className="text-center">
-          Please select your category for the behavioral interview.
-        </p>
+
+
       </Modal.Body>
     </Modal>
   );
