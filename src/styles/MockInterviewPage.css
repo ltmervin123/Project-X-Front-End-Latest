@@ -224,7 +224,6 @@
 
   filter: grayscale(0%);
 
-  width: 55.6%;
 }
 .category-card1.bg-behavioral:hover::before {
   transform: scaleX(1) translateX(-25%) translateY(-6px);
