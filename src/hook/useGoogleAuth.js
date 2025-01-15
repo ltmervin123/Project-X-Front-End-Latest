@@ -27,7 +27,6 @@ export const useGoogleAuth = () => {
         });
 
         const data = await response.data;
-        console.log("data", data);
         const user = {
           name: data.user.name,
           email: data.user.email,
@@ -44,7 +43,7 @@ export const useGoogleAuth = () => {
           ? err.response.data.message
           : "Login failed";
 
-        console.log("error :", err.response);
+        console.error("error :", err.response);
         setGoogleError(responseError);
         return false;
       } finally {

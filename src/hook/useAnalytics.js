@@ -26,7 +26,7 @@ export const useAnalytics = () => {
         dispatch({ type: "SET_ANALYTICS", payload: data });
       }
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +47,7 @@ export const useAnalytics = () => {
         dispatch({ type: "CREATE_ANALYTICS", payload: data });
       }
     } catch (err) {
-      console.log(err.response.data.error);
+      console.error(err.response.data.error);
     } finally {
       setIsLoading(false);
     }

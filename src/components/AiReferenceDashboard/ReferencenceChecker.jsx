@@ -11,9 +11,6 @@ const ReferenceChecker = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can add form submission logic here
-    console.log('Form submitted');
-    console.log({ fullname, email, companyName, jobTitle, referenceQuestionFormat });
   };
 
   return (

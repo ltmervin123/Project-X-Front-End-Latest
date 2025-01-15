@@ -34,7 +34,7 @@ const VideoPlayerPage = () => {
   };
 
   const handleVideoChange = (index) => {
-    console.log(`Changing video source to: ${videos[index].src}`);
+    console.error(`Changing video source to: ${videos[index].src}`);
     setCurrentVideoIndex(index);
     setIsPlaying(false);
   };

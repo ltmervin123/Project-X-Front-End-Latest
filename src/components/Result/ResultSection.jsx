@@ -231,6 +231,10 @@ const ResultSection = ({ interviewId }) => {
         interviewDetails?.recordType === "old record"
           ? overallFeedback.relevance
           : interviewDetails?.relevance?.overAllScore,
+      filler:
+        interviewDetails?.recordType === "old record"
+          ? overallFeedback.filler
+          : interviewDetails?.relevance?.filler,
       overAllScore:
         interviewDetails?.recordType === "old record"
           ? overallFeedback.overallPerformance
@@ -342,7 +346,7 @@ const ResultSection = ({ interviewId }) => {
             second: viewScores.overallFeedback.experience,
             third: viewScores.overallFeedback.skills,
             fourth: viewScores.overallFeedback.relevance,
-            fifth: 0, // Not used in default view
+            fifth: viewScores.overallFeedback.filler, // Not used in default view
             overall: viewScores.overallFeedback.overAllScore,
           },
           labels: {
@@ -350,7 +354,7 @@ const ResultSection = ({ interviewId }) => {
             second: "Experience",
             third: "Skills",
             fourth: "Relevance",
-            fifth: "", // Not used in default view
+            fifth: "Filler Count",
             overall: "Overall Performance",
           },
         };
@@ -376,19 +380,19 @@ const ResultSection = ({ interviewId }) => {
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.verbTense],
-          prepositionUsage: "Formality",
+          prepositionUsage: "Efficacy",
           prepositionUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.prepositionUsage],
         },
         col2: {
-          wordChoice: "Coherence",
+          wordChoice: "Formality",
           wordChoicePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.wordChoice],
-          pronounUsage: "Efficacy",
+          pronounUsage: "Coherence",
           pronounUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -410,19 +414,19 @@ const ResultSection = ({ interviewId }) => {
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.softSkill],
-          skillDiversity: "Prowes",
+          skillDiversity: "Adaptability",
           skillDiversityPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.skillDiversity],
         },
         col2: {
-          skillRelevance: "Acumen",
+          skillRelevance: "Prowes",
           skillRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.skillRelevance],
-          proficiency: "Adaptability",
+          proficiency: "Acumen",
           proficiencyPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -454,12 +458,12 @@ const ResultSection = ({ interviewId }) => {
                 ],
         },
         col2: {
-          roleCount: "Insight",
+          roleCount: "Contextual Relevance",
           roleCountPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.experience.experienceAnalysis.roleCount],
-          experienceRelevance: "Contextual Relevance",
+          experienceRelevance: "Insight",
           experienceRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -625,11 +629,12 @@ const ResultSection = ({ interviewId }) => {
     Utility: "The practicality of the information provided, evaluating its actionable insights for the reader.",
     Aptness: "The appropriateness of the content in relation to the specific situation and audience needs.",
     "Relevance Score": "Overall relevance proficiency.",
-    Grammar: "Your grammar proficiency.",
-    Experience: "Your experience proficiency.",
-    Skills: "Your skill proficiency.",
-    Relevance: "Your relevance proficiency.",
-    "Overall Performance": "Your overall performance score."
+    Grammar: "Assesses your grammar proficiency.",
+    Experience: "Evaluates your experience proficiency.",
+    Skills: "Rates your skill proficiency.",
+    Relevance: "Measures your relevance proficiency.",
+    "Overall Performance": "Indicates your overall performance score.",
+    "Filler Count": "Tracks the number of filler words used (e.g., 'uhm,' 'ahh,' etc.)."
   };
 
   return interviewDetails ? (
@@ -1191,8 +1196,8 @@ const ResultSection = ({ interviewId }) => {
             <>
               <div className="d-flex justify-content-center align-items-center flex-column filler-container">
                 <p className="rating-name text-center">
-                  Filler Count
-                  <svg
+                {currentViewData.labels.fifth}
+                <svg
                     className="tooltip-icon"
                     width="15"
                     height="15"
@@ -1205,6 +1210,8 @@ const ResultSection = ({ interviewId }) => {
                       fill="#686868"
                     />
                   </svg>
+                  <span className="tooltip-text">{meanings[currentViewData.labels.fifth]}</span>
+
                 </p>
                 <p
                   className={getResultClass(
