@@ -1,5 +1,5 @@
 /* Import Roboto font from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;700&display=swap");
 /* Global styles */
 * {
   box-sizing: border-box;
@@ -736,12 +736,16 @@ h2 > .quote {
   width: 95%;
 }
 
+.premium-box-container1 > .row > .col-md-2 > .premium-box-header > .premium-card >  p{
+  padding-bottom: 12px;
+}
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header  i{
   font-size: 13px !important;
   height: 20px;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--primary-color) !important;
-
+  position: absolute;
+  top: -1px;
 }
 
 /*About Hr hatch*/
@@ -754,7 +758,12 @@ h2 > .quote {
   font-size: 46px !important;
   font-weight: 700;
 }
-
+.about-hr-hatch-container > h3 > p {
+  font-size: 60px !important;
+  color: var(--font-black);
+  position: relative;
+  bottom: -2px;
+}
 .about-hr-hatch-container > h2 {
   width: 45%;
   text-align: center;

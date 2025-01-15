@@ -5,13 +5,16 @@ const AboutHRHatchSection = () => {
   return (
     <section  className='about-hr-hatch-container d-flex align-items-center flex-column' id="whyhrhacth">
 
-      <h3 className='d-flex align-items-center justify-content-center'>Why
+      <h3 className='d-flex align-items-center justify-content-center'>
+      Why
       <img
                 src={logo}
                 alt="Logo"
                 width="250"
                 height="40"
-                /> ?
+                /> 
+              <p> ? </p> 
+
       </h3>
       <h2>
         <svg className='quote' width="30" height="30" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
