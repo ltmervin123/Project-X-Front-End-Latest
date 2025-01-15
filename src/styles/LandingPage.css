@@ -492,6 +492,7 @@ h2 > .quote {
   z-index: 0;
   position: relative;
   background: var(--font-white);
+  margin-bottom: 20px;
 }
 .step-card{
   width: 28%;
@@ -575,6 +576,11 @@ h2 > .quote {
   background-size:  cover!important; /* Cover the entire area */
 
 }
+.horizontal-line{
+  border-bottom: 3px solid var(--color-brown);
+  height: 20px;
+  width: 90%;
+}
 .premium-package-container {
   padding: 5em 0em;
 }
@@ -583,8 +589,12 @@ h2 > .quote {
   font-size: 46px;
   color: var(--primary-color);
   font-weight: 700;
-
 }
+.premium-package-container > h1 > svg{
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
 .premium-package-container > h3{
   color: var(--primary-color) !important;
   padding: 1em;
@@ -596,7 +606,6 @@ h2 > .quote {
   max-width: 1400px;
   height: 500px;
   background: var(--font-white);
-  border: 10px solid #f469057f;
   border-radius: 30px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
@@ -605,7 +614,6 @@ h2 > .quote {
   max-width: 1400px;
   height: 300px;
   background: var(--font-white);
-  border: 10px solid #f469057f;
   border-radius: 30px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }

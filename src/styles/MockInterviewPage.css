@@ -10,8 +10,15 @@
 .custom-modal-width {
   max-width: 1400px !important; 
   width: 90% !important; 
-  /* height: 80% !important; */
-  max-height: 80% !important;
+  height: 80% !important;
+  max-height: 90vh !important;
+  border: none !important;
+}
+.custom-modal-width > .modal-content{
+  background: url("../assets/bg-pop-up.png") no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+  border: none;
 }
 
 .main-container {
@@ -61,7 +68,7 @@
 }
 .dashboard-header > p,
 .mock-interview-container-header > p {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--card-color);
 }
@@ -123,16 +130,15 @@
   align-items: center;
   padding: 0px;
   width: 55%;
-  height: 62%;
+  height: 58%;
   left: 20px;
+  background-color: var(--input-bg);
 
   position: absolute;
-  background: rgb(244,106,5);
-  background: linear-gradient(167deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 73%);
   filter: grayscale(100%);
   overflow: hidden;
   transition: box-shadow 0.3s ease;
-  clip-path: polygon(0 1%, 100% 0%, 91% 72%, 0% 100%);
+  clip-path: polygon(0 0, 100% 0%, 91% 72%, 0% 100%);
 }
 
 .category-card2 {
@@ -143,19 +149,18 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 47%;
+  width: 46.7%;
   /* max-width: 500px; */
   height: 100%;
   position: absolute;
   right: 0;
   bottom: 0;
   top: 0;
-  background: rgb(244,106,5);
-  background: linear-gradient(209deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
+  background-color: var(--input-bg);
 
   overflow: hidden;
   transition: box-shadow 0.3s ease;
-  clip-path: polygon(11% 0, 100% 0%, 100% 100%, 0 45%);
+  clip-path: polygon(11% 0, 100% 0%, 100% 100%, 1% 42.4%);
 }
 .category-card3 {
   color: var(--font-white) !important;
@@ -172,15 +177,14 @@
   /* max-width: 500px; */
   height: 100%;
   position: absolute;
-  background: rgb(244,106,5);
-  background: linear-gradient(120deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
   filter: grayscale(100%);
+  background-color: var(--input-bg);
 
   overflow: hidden;
   transition: box-shadow 0.3s ease;
   bottom: 0;
   z-index: 1;
-  clip-path: polygon(0 64%, 52.5% 46.5%, 100% 100%, 0 100%);
+  clip-path: polygon(0 60%, 52.5% 44.5%, 100% 100%, 0 100%);
 }
 .category-card1::before,
 .category-card2::before,
@@ -194,7 +198,6 @@
   background-size: contain;
   background-position: bottom center;
   background-repeat: no-repeat;
-  /* background-color: var(--primary-color); */
   filter: grayscale(100%);
   z-index: 20;
   transition: filter 0.3s ease;
@@ -203,20 +206,25 @@
 /* Specific background images for each card */
 .category-card1.bg-behavioral::before {
   background-image: url(../assets/basic.png); /* Replace with your actual image path */
-  background-size: 35%;
-  background-position: right 40% bottom 25%;
+  background-size: 25%;
+  background-position: right 40% bottom -30%;
     transition: transform 0.3s ease-in-out;
+  transform: rotate(-10deg);
 
 }
 .category-card1.bg-behavioral:hover {
   transition: transform 0.5s ease-in-out;
   clip-path: polygon(0 1%, 100% 0%, 91% 72%, 0% 100%);
+  /* clip-path: polygon(0 0, 100% 0%, 91% 72%, 0% 100%); */
+
   /* width: 61%; */
-  height: 63%;
+  height: 59% !important;
+  background: rgb(244,106,5);
+  background: linear-gradient(167deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 73%);
 
   filter: grayscale(0%);
 
-  width: 55.5%;
+  width: 55.6%;
 }
 .category-card1.bg-behavioral:hover::before {
   transform: scaleX(1) translateX(-25%) translateY(-6px);
@@ -238,7 +246,10 @@
 }
 .category-card2.bg-basic:hover {
   /* width: 43%; */
-  width: 47.5%;
+  background: rgb(244,106,5);
+  background: linear-gradient(209deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
+
+  width: 47.4%;
   filter: grayscale(0%);
   height: 100%;
   transition: transform 0.3s ease-in-out; /* Smooth animation */
@@ -253,13 +264,15 @@
 }
 .category-card3.bg-expert::before {
   background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
-  background-size: 12%;
-  background-position: right 50% bottom -12px;
+  background-size: 14%;
+  background-position: right 50% bottom -30px;
 }
 .category-card3.bg-expert:hover {
   transition: transform 0.3s ease-in-out; /* Smooth animation */
-  width: 97%;
-  clip-path: polygon(0 63%, 52.5% 46%, 100% 100%, 0 100%);
+  width: 97.5%;
+  clip-path: polygon(0 58.5%, 52% 42.5%, 100% 100%, 0 100%);
+  background: rgb(244,106,5);
+  background: linear-gradient(120deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
 
   filter: grayscale(0%);
   /* bottom: 12px !important; */
@@ -393,8 +406,8 @@
   opacity: 0;
 }
 .category-card-checkCircle img {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -478,15 +491,15 @@
 .category-card-pin {
   position: absolute;
   z-index: 200;
-  right: 17px;
-  top: 5px;
+  right: 20px;
+  top: 10px;
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 .category-card-pin img {
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 80px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -519,6 +532,9 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 @media (min-width: 1500px) {
+  .category-container{
+    min-height: 70vh;
+  }
   .category-card2:hover .category-card-title2 {
     transform: translateX(-2%);
   }
@@ -533,11 +549,15 @@
   }
 }
 @media (min-width: 1600px) {
+  .category-container{
+    min-height: 70vh;
+  }
   .category-card2:hover .category-card-title2 {
     transform: translateX(-5%);
+
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(53%) translateY(-15%);
+    transform: translateX(53%) translateY(-20%);
   }
   .category-card-tronArrow2 {
     bottom: 48%;
@@ -557,6 +577,7 @@
 @media (min-width: 1700px) {
   .category-card2:hover .category-card-title2 {
     transform: translateX(-8%);
+    
   }
   .category-card3:hover .category-card-title3 {
     transform: translateX(60%) translateY(-28%);
