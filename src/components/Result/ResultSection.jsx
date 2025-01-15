@@ -380,19 +380,19 @@ const ResultSection = ({ interviewId }) => {
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.verbTense],
-          prepositionUsage: "Formality",
+          prepositionUsage: "Efficacy",
           prepositionUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.prepositionUsage],
         },
         col2: {
-          wordChoice: "Coherence",
+          wordChoice: "Formality",
           wordChoicePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.grammar.grammarAnalysis.wordChoice],
-          pronounUsage: "Efficacy",
+          pronounUsage: "Coherence",
           pronounUsagePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -414,19 +414,19 @@ const ResultSection = ({ interviewId }) => {
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.softSkill],
-          skillDiversity: "Prowes",
+          skillDiversity: "Adaptability",
           skillDiversityPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.skillDiversity],
         },
         col2: {
-          skillRelevance: "Acumen",
+          skillRelevance: "Prowes",
           skillRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.skill.skillAnalysis.skillRelevance],
-          proficiency: "Adaptability",
+          proficiency: "Acumen",
           proficiencyPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
@@ -458,12 +458,12 @@ const ResultSection = ({ interviewId }) => {
                 ],
         },
         col2: {
-          roleCount: "Insight",
+          roleCount: "Contextual Relevance",
           roleCountPoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
               : [interviewDetails.experience.experienceAnalysis.roleCount],
-          experienceRelevance: "Contextual Relevance",
+          experienceRelevance: "Insight",
           experienceRelevancePoints:
             interviewDetails?.recordType === "old record"
               ? ["No data available"]
