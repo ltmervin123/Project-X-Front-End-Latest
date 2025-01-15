@@ -404,7 +404,11 @@ const PremiumPackageSection = () => {
                     </Col>
                 </Row>
             </div>
+            <div className="border-triangle2"></div>
+
         </section>
+        
+  
 
     </>
 

@@ -4,6 +4,7 @@ import AboutAvatar from "../../assets/about-avatar.png";
 const AboutHRHatchSection = () => {
   return (
     <section  className='about-hr-hatch-container d-flex align-items-center flex-column' id="whyhrhacth">
+
       <h3 className='d-flex align-items-center justify-content-center'>Why
       <img
                 src={logo}
