@@ -127,7 +127,8 @@
   left: 20px;
 
   position: absolute;
-  background: var(--primary-color);
+  background: rgb(244,106,5);
+  background: linear-gradient(167deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 73%);
   filter: grayscale(100%);
   overflow: hidden;
   transition: box-shadow 0.3s ease;
@@ -149,8 +150,8 @@
   right: 0;
   bottom: 0;
   top: 0;
-  background: var(--primary-color);
-  filter: grayscale(100%);
+  background: rgb(244,106,5);
+  background: linear-gradient(209deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
 
   overflow: hidden;
   transition: box-shadow 0.3s ease;
@@ -171,14 +172,15 @@
   /* max-width: 500px; */
   height: 100%;
   position: absolute;
-  background: var(--primary-color);
+  background: rgb(244,106,5);
+  background: linear-gradient(120deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
   filter: grayscale(100%);
 
   overflow: hidden;
   transition: box-shadow 0.3s ease;
   bottom: 0;
   z-index: 1;
-  clip-path: polygon(0 65%, 52.5% 48%, 100% 100%, 0 100%);
+  clip-path: polygon(0 64%, 52.5% 46.5%, 100% 100%, 0 100%);
 }
 .category-card1::before,
 .category-card2::before,
@@ -192,7 +194,7 @@
   background-size: contain;
   background-position: bottom center;
   background-repeat: no-repeat;
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color); */
   filter: grayscale(100%);
   z-index: 20;
   transition: filter 0.3s ease;
@@ -211,7 +213,7 @@
   clip-path: polygon(0 1%, 100% 0%, 91% 72%, 0% 100%);
   /* width: 61%; */
   height: 63%;
-  background: var(--primary-color);
+
   filter: grayscale(0%);
 
   width: 55.5%;
@@ -231,14 +233,14 @@
   background-size: 45%;
   background-position: left 1% bottom 75%;
   transition: transform 0.3s ease-in-out;
-  
+  clip-path: polygon(11% 0, 100% 100%, 100% 100%, 0 50%);
+
 }
 .category-card2.bg-basic:hover {
   /* width: 43%; */
   width: 47.5%;
-  background: var(--primary-color);
   filter: grayscale(0%);
-  height: 102%;
+  height: 100%;
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
 .category-card2.bg-basic:hover::before {
@@ -253,16 +255,16 @@
 }
 .category-card3.bg-expert:hover {
   transition: transform 0.3s ease-in-out; /* Smooth animation */
-  width: 96%;
-  height: 99%;
-  background: var(--primary-color);
+  width: 97%;
+  clip-path: polygon(0 63%, 52.5% 46%, 100% 100%, 0 100%);
+
   filter: grayscale(0%);
-  /* bottom: 200px !important; */
+  /* bottom: 12px !important; */
 }
 .category-card3.bg-expert:hover::before {
   /* Adjust the value as needed */
   scale: 1.1;
-  transform: translateX(-30%); /* Move left on hover */
+  transform: translateX(-28%); /* Move left on hover */
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
 .category-card3.bg-expert::before {
