@@ -28,7 +28,7 @@ const Header = () => {
           <div className="d-flex align-items-center">
             <Nav className="me-auto d-flex gap-5">
               <NavDropdown
-                title="Product"
+                title="Products"
                 id="nav-dropdown-products"
                 className="hover-dropdown"
                 show={showDropdown.product}
@@ -43,9 +43,9 @@ const Header = () => {
                   Resume Fit Optimizer
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  Application Tracker (Coming Soon)
+                  Application Tracker 
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/AiReference">
+                <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   AI Reference Checker
                 </NavDropdown.Item>
               </NavDropdown>
@@ -62,9 +62,7 @@ const Header = () => {
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   Recruitment Services
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  AI-Powered Job Posting
-                </NavDropdown.Item>
+
               </NavDropdown>
 
               <NavDropdown
@@ -103,7 +101,7 @@ const Header = () => {
                   Mock Interview Pricing
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="#airefereepricing">
-                  AI Referee Checker
+                  AI Reference Checker Pricing
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>

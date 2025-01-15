@@ -188,14 +188,17 @@
 }
 .rating-name{
   font-weight: 800;
-  width: 320px;
+  width: 80%;
   font-size: 15px;
   color: var(--font-black);
   text-align: right;
   position: relative;
-  cursor: help;
 }
+.rating-name > svg{
+  margin-left: 3px;
+  cursor: help;
 
+}
 .progress-bar-container {
   width: 500px !important;
   background-color: #e0e0e0; /* Light gray background for the progress bar */

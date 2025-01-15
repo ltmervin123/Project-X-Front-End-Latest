@@ -11,7 +11,6 @@ const MockInterviewSection = () => {
   return (
     <section className="mock-interview-container d-flex align-items-center justify-content-center flex-column">
 
-<br /><br />
 <br />
       <div className="navigation-container">
         <nav>
@@ -30,7 +29,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Mock.Ai
+                Mock.AI
               </a>
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center">
@@ -53,7 +52,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Resume Match Builder
+                Resume Fit Optimizer
               </a>
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center">
@@ -79,7 +78,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Ai Referee
+                AI Reference Checker
               </a>
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center ">
@@ -96,7 +95,7 @@ const MockInterviewSection = () => {
                     fill="black"
                   />
                 </svg>
-                Talent Acquisition Consulting
+                Recruitment Services
               </a>
             </li>
           </ul>

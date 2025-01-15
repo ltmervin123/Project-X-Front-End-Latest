@@ -2,15 +2,19 @@ import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import HeroAvatar from "../../assets/hero-avatar.png";
+import logo from '../../assets/logo.png';
 
 const HeroSection = () => {
   return (
     <>
       <section
-        className="hero-container d-flex align-items-center justify-content-center flex-column "
+        className="hero-container d-flex align-items-center  flex-column "
         id="home"
       >
-        <h1>HR-HATCH</h1>
+        <h1 className="d-flex">
+        <img src={logo} alt="Logo" width="400" height="60" />
+
+</h1>
         <h2>
           <svg
             className="quote"
@@ -29,7 +33,7 @@ const HeroSection = () => {
               fill="black"
             />
           </svg>
-          Your Support AI Companion
+          Your AI-powered support companion
           <svg
             className="quote"
             width="46"

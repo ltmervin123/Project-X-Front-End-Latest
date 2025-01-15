@@ -20,7 +20,7 @@ function MainDashboard() {
       <div>
         <h4>Welcome to your Dashboard!</h4>
         <span>
-          Unlock the power of <span className="color-orange">HR-HATCH</span> to
+          Unlock the power of <span className="color-orange">HR</span>-HATCH to
           enhance your interview skills and craft the perfect resume. Let’s take
           your career to the next level!
         </span>
@@ -66,7 +66,7 @@ function MainDashboard() {
           </svg>
           <div className="d-flex flex-column justify-content-center">
             <b>Create a standout resume </b>
-            <p>to boost your chances of landing your dream job</p>
+            <p>To boost your chances of landing your dream job!</p>
           </div>
           </div>
 
@@ -110,7 +110,7 @@ function MainDashboard() {
 
           <div className="d-flex flex-column justify-content-center">
             <b>Prepare for success </b>
-            <p>Ready to ace your interview?, Let’s get started</p>
+            <p>Ready to ace your interview? Let’s get started!</p>
           </div>
           </div>
 
