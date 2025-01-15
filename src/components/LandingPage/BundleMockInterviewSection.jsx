@@ -10,7 +10,7 @@ const BundleMockInterviewSection = () => {
     <br /> <br /> <br />
     <div className="custom-bundle-mock-interview-container d-flex justify-content-center align-items-center flex-column">
       <h1 className='d-flex'>Bundle it with our </h1>
-      <h3 className='color-orange'>Resume Fit Optimizer</h3>
+      <h3 className='color-orange'>Resume Fit Optimizer & Application Tracker</h3>
       <div className="content-bundle-mock w-100 d-flex flex-column justify-content-center align-items-center gap-3 position-relative">
         <div className="bundle-mock-bg">
           <p>Resume Fit Optimizer is a smart tool that refines your resume by highlighting relevant strengths and provides detailed insights on how well it aligns with a specific job, boosting your chances of success.

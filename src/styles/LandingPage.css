@@ -445,6 +445,7 @@ h2 > .quote {
 .custom-bundle-mock-interview-container > h3 {
   font-size: 34px !important;
   font-weight: 700;
+  margin-bottom: 30px;
 }
 .bundle-mock-bg{
   width: 100%;
@@ -552,6 +553,7 @@ h2 > .quote {
 .step-card> div > p {
   width: 80%;
   text-align: center;
+  color: #686868 !important;
 }
 .step-card > img{
   width: 53px !important;
@@ -589,7 +591,7 @@ h2 > .quote {
 
 }
 .horizontal-line{
-  border-bottom: 3px solid var(--color-brown);
+  border-bottom: 2px solid var(--color-brown);
   height: 20px;
   width: 90%;
 }
@@ -617,9 +619,10 @@ h2 > .quote {
 .premium-box-container {
   width: 90%;
   max-width: 1400px;
-  height: 500px;
+  height: 490px;
   background: var(--font-white);
   border-radius: 30px;
+  padding: 20px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 .premium-box-container1 {
@@ -702,6 +705,7 @@ h2 > .quote {
   color: var(--font-white) !important;
   width: 90%;
   font-size: 16px;
+  border-radius: 10px !important;
   margin-top: 20px;
 }
 .premium-box-container1 > .row{
@@ -755,7 +759,6 @@ h2 > .quote {
   width: 45%;
   text-align: center;
   font-weight: 200; 
-  font-size: 30px !important;
 }
 .about-hr-hatch-container > h2 > svg{
 position: relative;
