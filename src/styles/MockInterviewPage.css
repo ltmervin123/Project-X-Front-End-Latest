@@ -207,7 +207,7 @@
 /* Specific background images for each card */
 .category-card1.bg-behavioral::before {
   background-image: url(../assets/basic.png); /* Replace with your actual image path */
-  background-size: 25% ;
+  background-size: 23% ;
   background-position: right 30% bottom -40px !important;
     transition: transform 0.3s ease-in-out;
   transform: rotate(-10deg);
@@ -344,7 +344,7 @@
   margin: 0;
   position: absolute;
   bottom: 23%;
-  right: 58%;
+  right: 59%;
   font-weight: 500;
   z-index: 30;
   transition: transform 0.3s ease;
@@ -374,7 +374,7 @@
 .description1 {
   position: absolute;
   z-index: 200;
-  font-size: 1rem;
+  font-size: 1.2rem;
   padding: 10px;
   top: 178px;
   left: 75px;
@@ -648,7 +648,7 @@
 .description3 {
   position: absolute;
   z-index: 200;
-  font-size: 1rem;
+  font-size: 1.2rem;
   padding: 10px;
   bottom: -8px;
   left: 240px;

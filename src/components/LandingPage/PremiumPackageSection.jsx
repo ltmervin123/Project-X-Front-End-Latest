@@ -343,8 +343,10 @@ const PremiumPackageSection = () => {
 
                 </Row>
             </div>
-            <h3>AI Reference Checker Pricing</h3>
-            <div  className="premium-box-container1 ">
+            
+            <div  className="premium-box-container1 d-flex-align-items-center flex-column">
+                        <h3>AI Reference Checker Pricing</h3>
+
                 <Row className="justify-content-center align-items-center" >
                     <Col md={2}>
                     <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
