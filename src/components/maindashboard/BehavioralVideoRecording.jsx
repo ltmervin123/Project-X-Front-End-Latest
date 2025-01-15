@@ -134,6 +134,9 @@ const BehavioralVideoRecording = () => {
     const newSocket = io(API, {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
+      auth: {
+        token: user.token,
+      },
     });
 
     newSocket.on("connect", () => {
@@ -313,7 +316,7 @@ const BehavioralVideoRecording = () => {
         setTranscriptionError(true);
         clearTranscript();
       }
-      console.log("Error ", error);
+      console.error("Error ", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -498,24 +501,43 @@ const BehavioralVideoRecording = () => {
     setIsGeneratingFeedback(true);
     setFeedbackError(false);
 
-    try {
-      const response = await axios.post(
-        `${API}/api/interview/create-feedback`,
-        { interviewId },
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      setIsGeneratingFeedback(false);
-      setShowPreviewPopup(true);
-      setInterviewId("");
-    } catch (err) {
-      console.log(err.response ? err.response.data.error : err.message);
-      setFeedbackError(true); // Set feedback error state
-    }
+    socket.emit("generateFeedback", { interviewId });
+
+    socket.off("feedbackGenerated");
+
+    socket.on("feedbackGenerated", (data) => {
+      if (data?.feedback) {
+        setIsGeneratingFeedback(false);
+        setShowPreviewPopup(true);
+        setInterviewId("");
+      }
+    });
+
+    socket.once("error", (error) => {
+      if (error?.message) {
+        console.error("Error generating feedback: ", error);
+        setFeedbackError(true);
+      }
+    });
+
+    // try {
+    //   const response = await axios.post(
+    //     `${API}/api/interview/create-feedback`,
+    //     { interviewId },
+    //     {
+    //       headers: {
+    //         "Content-Type": "Application/json",
+    //         Authorization: `Bearer ${user.token}`,
+    //       },
+    //     }
+    //   );
+    //   setIsGeneratingFeedback(false);
+    //   setShowPreviewPopup(true);
+    //   setInterviewId("");
+    // } catch (err) {
+    //   console.error(err.response ? err.response.data.error : err.message);
+    //   setFeedbackError(true); // Set feedback error state
+    // }
   };
 
   // Timer Effect
@@ -612,7 +634,7 @@ const BehavioralVideoRecording = () => {
       clearTranscript();
       return true;
     } catch (error) {
-      console.log("Error uploading transcription: ", error);
+      console.error("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
         setTranscriptionError(true);
         clearTranscript();

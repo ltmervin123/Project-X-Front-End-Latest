@@ -38,7 +38,7 @@ export const useLogin = () => {
         ? err.response.data.message
         : "Login failed";
 
-      console.log("error :", err.response);
+      console.error("error :", err.response);
       setError(responseError);
       return false;
     } finally {
