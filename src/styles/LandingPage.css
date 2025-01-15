@@ -221,6 +221,11 @@
   );
   /* Set height to 100% of the viewport */
 }
+.hero-container > h2 > svg{
+  position: relative;
+  top: -15px;
+  height: 25px;
+}
 .hero-container > svg {
   position: absolute;
   z-index: 1;
@@ -751,6 +756,11 @@ h2 > .quote {
   text-align: center;
   font-weight: 200; 
   font-size: 30px !important;
+}
+.about-hr-hatch-container > h2 > svg{
+position: relative;
+top: -15px;
+height: 25px;
 }
 
 .about-content-container {
