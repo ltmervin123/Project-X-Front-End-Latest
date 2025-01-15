@@ -109,7 +109,7 @@ const PremiumPackageSection = () => {
                                 <p>Weekly Basic</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 500.00  </p> 
-                                <p className='premium-round'>10 Round of Interview</p>
+                                <p className='premium-round'>10 Rounds of Interview</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
@@ -166,7 +166,7 @@ const PremiumPackageSection = () => {
                                 <p>Monthly Basic</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 1,800.00   </p> 
-                                <p className='premium-round'>50 Round of Interview</p>
+                                <p className='premium-round'>50 Rounds of Interview</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
@@ -284,7 +284,7 @@ const PremiumPackageSection = () => {
                                 <p>Yearly Bundle</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
                                 <p className='premium-price'>¥ 20,000.00   </p> 
-                                <p className='premium-round'>Unlimited Round</p>
+                                <p className='premium-round'>Unlimited Rounds</p>
                                 </div>
                             </div>
                             <div className="premium-box-title">
