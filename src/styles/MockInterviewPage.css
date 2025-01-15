@@ -203,7 +203,7 @@
 /* Specific background images for each card */
 .category-card1.bg-behavioral::before {
   background-image: url(../assets/basic.png); /* Replace with your actual image path */
-  background-size: 28%;
+  background-size: 35%;
   background-position: right 40% bottom 25%;
     transition: transform 0.3s ease-in-out;
 
@@ -219,9 +219,9 @@
   width: 55.5%;
 }
 .category-card1.bg-behavioral:hover::before {
-  transform: scaleX(1) translateX(-25%) translateY(-10px);
+  transform: scaleX(1) translateX(-25%) translateY(-6px);
   transition: transform 0.3s ease-in-out; /* Smooth animation */
-  scale: 1.5;
+  scale: 1.3;
   background-color: transparent;
 }
 .category-card1.bg-behavioral::before {
@@ -230,10 +230,10 @@
 }
 .category-card2.bg-basic::before {
   background-image: url(../assets/expert1.png); /* Replace with your actual image path */
-  background-size: 45%;
-  background-position: left 1% bottom 75%;
+  background-size: 32%;
+  background-position: left 10% bottom 32%;
   transition: transform 0.3s ease-in-out;
-  clip-path: polygon(11% 0, 100% 100%, 100% 100%, 0 50%);
+  transform: rotate(27deg) !important;
 
 }
 .category-card2.bg-basic:hover {
@@ -242,15 +242,18 @@
   filter: grayscale(0%);
   height: 100%;
   transition: transform 0.3s ease-in-out; /* Smooth animation */
+
 }
 .category-card2.bg-basic:hover::before {
-  transform: translateX(5%); /* Move left on hover */
+  transform: translateX(5%) rotate(13deg) !important; /* Move left on hover */
   scale: 1.2;
+  background-position: left 10% bottom 60% !important;
+
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
 .category-card3.bg-expert::before {
   background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
-  background-size: 15%;
+  background-size: 12%;
   background-position: right 50% bottom -12px;
 }
 .category-card3.bg-expert:hover {
@@ -263,11 +266,14 @@
 }
 .category-card3.bg-expert:hover::before {
   /* Adjust the value as needed */
-  scale: 1.1;
-  transform: translateX(-28%); /* Move left on hover */
+  scale: 1.3;
+  transform: translateX(-18%); /* Move left on hover */
   transition: transform 0.3s ease-in-out; /* Smooth animation */
+  background-position: right 50% bottom 1px;
+
 }
 .category-card3.bg-expert::before {
+
   transition: transform 0.4s ease-in-out; /* Smooth animation on unhover */
 }
 
@@ -553,7 +559,7 @@
     transform: translateX(-8%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(60%) translateY(-19%);
+    transform: translateX(60%) translateY(-28%);
   }
   .category-card-tronArrow2 {
     bottom: 50%;
