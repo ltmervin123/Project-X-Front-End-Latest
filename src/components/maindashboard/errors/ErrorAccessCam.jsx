@@ -11,14 +11,7 @@ const ErrorAccessCam = ({ onRetry, onClose }) => {
       <Modal.Body className="custom-modal">
       <div className="d-flex justify-content-end align-items-center mb-3">
 
-          <Button
-            className='closebtn'
-            variant="link"
-            onClick={onClose}
-            style={{ fontSize: "1.5rem", textDecoration: "none" }}
-          >
-            &times;
-          </Button>
+
         </div>
         <div className="d-flex align-items-center justify-content-center flex-column">
           <img src={SuccessAvatar} alt="" />

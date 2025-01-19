@@ -14,7 +14,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup";
-import tipsAvatar from "../../assets/summary-img.png";
+import tipsAvatar from "../../assets/expert.png";
 import LoadingScreen from "./loadingScreen";
 import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
@@ -30,7 +30,7 @@ import InterviewerOption from "../maindashboard/InterviewerOption";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
-import PopupGuide from "./PopupGuide";
+import { popupGuide } from "./PopupGuide";
 
 const VideoRecording = ({ interviewType, category }) => {
   const { getAnalytics } = useAnalytics();
@@ -719,56 +719,6 @@ const VideoRecording = ({ interviewType, category }) => {
   }, [file, jobDescription]);
 
   //Function to initialize Intro.js
-  const popupGuide = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click this button to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro: "This timer shows the time remaining for your response.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-
-          {
-            element: "#startInterviewButton",
-            intro: "Click this button to start the interview.",
-          },
-          {
-            element: ".mute-indicator",
-            intro: "Mute and Unmute indicator.",
-          },
-          {
-            intro: "Goodluck to your interview!",
-          },
-        ],
-      })
-      .start();
-  };
-
-  // Initialize the intro shown state
   const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
@@ -781,6 +731,7 @@ const VideoRecording = ({ interviewType, category }) => {
         ...isIntroShown, // Preserve other fields
         expert: true, // Update behavioral
       };
+
       // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
@@ -1158,3 +1109,4 @@ const VideoRecording = ({ interviewType, category }) => {
 };
 
 export default VideoRecording;
+
