@@ -8,7 +8,7 @@ const PopupGuide = ({ steps, introKey }) => {
 
     if (!isIntroShown[introKey]) {
       introJs()
-        .setOptions({ steps })
+        .setOptions({ steps, disableInteraction: true }) // Added disableInteraction option
         .start();
 
       const updatedIntroShown = {
@@ -66,6 +66,7 @@ export const popupGuide = () => {
           intro: "Goodluck to your interview!",
         },
       ],
+      disableInteraction: true // Added disableInteraction option
     })
     .start();
 };
