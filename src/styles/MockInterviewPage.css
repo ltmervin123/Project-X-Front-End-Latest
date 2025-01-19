@@ -886,7 +886,8 @@
 
 .speech-subtitle-container {
   width: 100% !important;
-  height: 200px !important;
+  min-height: 100px !important;
+  max-height: 300px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1318,9 +1319,7 @@
     height: 450px !important;
   } */
 
-  .speech-subtitle-container {
-    height: 250px !important;
-  }
+
 }
 
 @media (min-width: 1600px) {
@@ -1337,9 +1336,7 @@
     height: 550px !important;
   } */
 
-  .speech-subtitle-container {
-    height: 300px !important;
-  }
+
 }
 
 /* Add responsive styles */
