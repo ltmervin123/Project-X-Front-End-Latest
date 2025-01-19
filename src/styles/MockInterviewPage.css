@@ -1026,7 +1026,7 @@
   background: var(--primary-color) !important;
   color: var(--font-white) !important;
   text-decoration: none !important;
-  width: 200px;
+  width: 180px;
   height: 40px;
   border-radius: 50px !important;
 }
@@ -1236,6 +1236,7 @@
   background: var(--primary-color) !important;
 }
 /*Custom Intro*/
+
 .introjs-tooltip {
   max-width: 800px;
   width: auto;
@@ -1262,7 +1263,8 @@
 .introjs-nextbutton {
   background: var(--primary-color) !important;
   color: var(--font-white) !important;
-  border: none;
+  border: none !important;
+  text-shadow: none !important;
 }
 
 .introjs-arrow {
