@@ -871,6 +871,9 @@
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.423);
   font-size: 13px;
 }
+.interview-question-container > p {
+  margin: 0;
+}
 .interview-question-container > div > i {
   font-size: 9px !important;
   text-align: center;
@@ -886,32 +889,35 @@
 
 .speech-subtitle-container {
   width: 100% !important;
-  min-height: 100px !important;
-  max-height: 300px !important;
+  min-height: 50px !important;
+  max-height: 250px !important;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   border-radius: 10px;
-  padding: 15px;
+  padding: 20px !important;
   border: 1px solid var(--primary-color);
-  background: var(--font-white);
+  background: var(--primary-white) !important;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.423);
   margin-bottom: 1rem;  /* Add space between avatar and question container */
 }
-.speech-subtitle-container > .speech-header {
-  font-size: 2.5em;
-  text-align: center;
-  font-weight: 800;
+.speech-subtitle-container > p{
+  margin: 0;
+  font-size: 13px;
+  text-align: left;
+  width: 100%;
 }
 .speech-subtitle-container > .speech-subtitle-overlay{
-  width: inherit;
-  height: 98%;
+  height: 100%;
+  font-size: 13px;
   margin: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: none;
   display: flex;
-  align-items: flex-end; 
+  overflow-y: auto !important;
+  overflow-x: hidden;
+
+  align-items: start;
 }
 /* .speech-subtitle-container > .speech-subtitle-overlay {
   position: relative;
@@ -1072,7 +1078,7 @@
 }
 
 .tips-header {
-  font-size: 10px;
+  font-size: 15px;
   font-weight: bold; /* Bold header */
   margin-bottom: 0px; /* Space below the header */
   color: var(--primary-color); /* Darker color for the header */
@@ -1080,15 +1086,15 @@
 
 .tips-content {
   margin: 0px 0; /* Space above and below the content */
-  font-size: 9px; /* Font size for the message content */
+  font-size: 12px; /* Font size for the message content */
   color: #333; /* Dark color for the text */
 }
 .tips-avatar {
-  width: 40px; /* Width of the avatar */
-  height: 40px; /* Height of the avatar */
+  width: 50px; /* Width of the avatar */
+  height: 50px; /* Height of the avatar */
 }
 .response-indicator {
-  font-size: 16px;
+  font-size: 17px;
   position: absolute;
   z-index: 1;
   bottom: 55px; /* Adjust this value as needed */
