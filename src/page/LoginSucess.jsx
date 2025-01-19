@@ -1,13 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/Error.css";
-import ErrorSection from "../components/maindashboard/ErrorGenerateFeedback";
-import Header from "../components/Error/Header";
+import SuccessSection from "../components/LoginSuccess/MessageSection";
+import Header from "../components/LoginFailed/Header";
+import { useAuthContext } from "../hook/useAuthContext";
 
-function ErrorPage() {
+function SuccessPage() {
+  const { dispatch } = useAuthContext();
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const extractedInfo = {
+      token: urlParams.get("token"),
+      name: urlParams.get("name"),
+      id: urlParams.get("_id"),
+      email: urlParams.get("email"),
+    };
+
+    if (
+      extractedInfo.token &&
+      extractedInfo.name &&
+      extractedInfo.id &&
+      extractedInfo.email
+    ) {
+      dispatch({ type: "LOGIN", payload: extractedInfo });
+    }
+
+    // Remove query parameters from the URL
+    const newURL = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, newURL);
+  }, []);
+
   return (
     <>
       <Header />
-      <ErrorSection />
+      <SuccessSection />
 
       <svg
         preserveAspectRatio="none"
@@ -41,4 +67,4 @@ function ErrorPage() {
     </>
   );
 }
-export default ErrorPage;
+export default SuccessPage;

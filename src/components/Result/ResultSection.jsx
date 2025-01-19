@@ -1236,10 +1236,10 @@ const ResultSection = ({ interviewId }) => {
       </div>
 
       <div className="w-100 d-flex justify-content-center gap-3 button-container">
-        <button className="btn btnPractice" onClick={handlePractice}>
+        <button className="btnPractice" onClick={handlePractice}>
           Practice Again
         </button>
-        <button className="btn btnReturnAnalytics" onClick={handleReturn}>
+        <button className="btnReturnAnalytics" onClick={handleReturn}>
           Back to analytics
         </button>
       </div>

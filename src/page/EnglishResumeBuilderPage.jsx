@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/EnglishResumeBuilder.css";
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Header from "../components/EnglishResumeBuilder/Header";
 import Sidebar from "../components/EnglishResumeBuilder/Sidebar";
 // import Maindashboard from "../components/EnglishResumeBuilder/Maindashboard";

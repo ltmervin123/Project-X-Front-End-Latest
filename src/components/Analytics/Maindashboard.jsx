@@ -1,6 +1,5 @@
-import { React, useEffect, useState, useRef } from "react";
-import { Container, Form, Button, Row, Col, Carousel } from "react-bootstrap";
-import { FaSearch, FaChevronDown } from "react-icons/fa";
+import { React, useEffect, useState} from "react";
+import {   Row, Col, Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
 import { useAnalytics } from "../../hook/useAnalytics";
@@ -27,13 +26,12 @@ Chart.register(ArcElement);
 Chart.register(LineElement, PointElement, LinearScale, CategoryScale, Legend);
 
 const MainDashboard = () => {
-  const { getAnalytics, isLoading, error } = useAnalytics();
+  const { getAnalytics, isLoading } = useAnalytics();
   const navigate = useNavigate();
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const { user } = useAuthContext();
-  const carouselRef = useRef(null);
   const [selectedChart, setSelectedChart] = useState("overall"); // Default to overall
 
   // Helper function
@@ -65,10 +63,7 @@ const MainDashboard = () => {
     navigate(`/result/${interviewId}`);
   };
 
-  // Handle search input change
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+
 
   // Fetch analytics if there are no interviews
   useEffect(() => {
@@ -367,38 +362,38 @@ const MainDashboard = () => {
 
       {/* New button container */}
       <Row className="button-container-analytics d-flex justify-content-end gap-3">
-        <Button
+        <button
           className={`btn-overall-analytics ${
             selectedChart === "overall" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("overall")}
         >
           Overall Performance
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-behavioral-analytics ${
             selectedChart === "behavioral" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("behavioral")}
         >
           Behavioral
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-basic-analytics ${
             selectedChart === "basic" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("basic")}
         >
           Basic
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-expert-analytics ${
             selectedChart === "expert" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("expert")}
         >
           Expert
-        </Button>
+        </button>
       </Row>
 
       <Row className="chart-container justify-content-center align-items-center">
@@ -555,12 +550,12 @@ const MainDashboard = () => {
                           /10
                         </td>
                         <td className="action-t-center">
-                          <Button
+                          <button
                             variant="link"
                             onClick={() => handleViewResult(item._id)}
                           >
                             Full Summary
-                          </Button>
+                          </button>
                         </td>
                       </tr>
                     ))

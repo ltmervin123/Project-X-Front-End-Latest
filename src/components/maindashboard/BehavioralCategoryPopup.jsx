@@ -92,8 +92,7 @@ const BehavioralCategoryPopup = ({
       backdrop="static"
     >
       <Modal.Body className="custom-modal">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="m-0"></h5>
+        <div className="d-flex justify-content-end align-items-center mb-3">
           <Button
             className="closebtn"
             variant="link"
