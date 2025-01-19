@@ -938,9 +938,13 @@ const VideoRecording = ({ interviewType, category }) => {
                   className="d-flex flex-column align-items-center gap-1"
                 >
                   <div className="speech-subtitle-container">
-                    <p className="speech-subtitle-overlay">
+                  {transcriptRef.current ? (
+                       <p className="speech-subtitle-overlay">
                       {transcriptRef.current}
-                    </p>
+                      </p>
+                      ) : (
+                        <p >No response yet  </p>
+                      )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (
