@@ -9,7 +9,6 @@ import {
 } from "react-icons/fa";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
-import LoginAvatar from "../../assets/login-img.png";
 import { useGoogleAuth } from "../../hook/useGoogleAuth";
 import ErrorGoogleLogin from "./errors/ErrorGoogleLogin";
 
@@ -19,7 +18,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const { isGoogleLoading, googleError, googleLogin, errorSetter } =
+  const { googleError, googleLogin, errorSetter } =
     useGoogleAuth();
 
   const handleSubmit = async (e) => {

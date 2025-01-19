@@ -9,7 +9,6 @@ function SignUpForm() {
   const [showSuccessPopUp, setShowSuccessPopUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [isBoxChecked, setIsBoxChecked] = useState(false);
   const { signup, isLoading, error } = useSignup();
   const [showPassword, setShowPassword] = useState(false);

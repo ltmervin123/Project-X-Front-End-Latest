@@ -13,14 +13,13 @@ import {
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
 import CancelInterviewAlert from "../maindashboard/CancelInterviewModal";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import LoadingScreen from "./loadingScreen";
-import tipsAvatar from "../../assets/basic.png";
+import tipsAvatar from "../../assets/summary-img.png";
 import loading from "../../assets/loading.gif";
 import Header from "../../components/Result/Header";
 import io from "socket.io-client";

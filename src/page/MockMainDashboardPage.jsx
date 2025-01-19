@@ -5,7 +5,7 @@ import Header from "../components/Result/Header";
 import Sidebar from "../components/MockMainDashboard/Sidebar";
 import MainDashboard from "../components/MockMainDashboard/MainDashboard";
 import Summary from "../components/MockMainDashboard/Summary";
-import { Container, Row, Col } from "react-bootstrap";
+import {Row, Col } from "react-bootstrap";
 
 // MockMainDashboardPage.js
 function MockMainDashboardPage() {

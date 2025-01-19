@@ -1,6 +1,5 @@
 // RegistrationSuccessPopUp.js
 import React from 'react';
-import { FaEnvelope } from 'react-icons/fa';
 import successfullImg from '../../assets/teamwork-img.png'; // Make sure the image path is correct
 import { Button } from 'react-bootstrap';
 

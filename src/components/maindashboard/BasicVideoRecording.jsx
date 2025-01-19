@@ -11,7 +11,6 @@ import {
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
 import CancelInterviewAlert from "../maindashboard/CancelInterviewModal";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
@@ -21,7 +20,6 @@ import tipsAvatar from "../../assets/basic.png";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
-import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import ErrorTranscription from "./errors/ErrorTranscription";
 import loading from "../../assets/loading.gif";
@@ -29,7 +27,6 @@ import io from "socket.io-client";
 import Header from "../../components/Result/Header";
 import { useGreeting } from "../../hook/useGreeting";
 import InterviewerOption from "../maindashboard/InterviewerOption";
-import { use } from "react";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
@@ -662,13 +659,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
-  // Cancel close handler
-  const handleCancelClose = () => {
-    setShowConfirm(false);
-    setIsRecording(false); // Reset recording state
-    setIsPaused(true); // Reset pause state
-    setTimer({ minutes: 0, seconds: 0 }); // Reset timer
-  };
+
 
   //Countdown effect
   useEffect(() => {

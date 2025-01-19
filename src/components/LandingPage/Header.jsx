@@ -98,7 +98,7 @@ const Header = () => {
                 onToggle={(isOpen) => setShowDropdown((prev) => ({ ...prev, pricing: isOpen }))}
               >
                 <NavDropdown.Item className="noclickblue" href="#mockpricing">
-                  Mock Interview Pricing
+                  Subscription Pricing
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="#airefereepricing">
                   AI Reference Checker Pricing

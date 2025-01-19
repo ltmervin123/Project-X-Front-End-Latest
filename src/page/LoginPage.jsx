@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/LoginPage.css";
 import Header from "../components/login/Header";
 import LoginForm from "../components/login/LoginForm";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function LoginPage() {
   return (
