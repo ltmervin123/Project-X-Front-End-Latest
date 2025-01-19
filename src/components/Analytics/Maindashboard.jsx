@@ -1,6 +1,5 @@
-import { React, useEffect, useState, useRef } from "react";
-import { Container, Form, Button, Row, Col, Carousel } from "react-bootstrap";
-import { FaSearch, FaChevronDown } from "react-icons/fa";
+import { React, useEffect, useState} from "react";
+import {  Button, Row, Col, Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
 import { useAnalytics } from "../../hook/useAnalytics";
@@ -27,13 +26,12 @@ Chart.register(ArcElement);
 Chart.register(LineElement, PointElement, LinearScale, CategoryScale, Legend);
 
 const MainDashboard = () => {
-  const { getAnalytics, isLoading, error } = useAnalytics();
+  const { getAnalytics, isLoading } = useAnalytics();
   const navigate = useNavigate();
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const { user } = useAuthContext();
-  const carouselRef = useRef(null);
   const [selectedChart, setSelectedChart] = useState("overall"); // Default to overall
 
   // Helper function
@@ -65,10 +63,7 @@ const MainDashboard = () => {
     navigate(`/result/${interviewId}`);
   };
 
-  // Handle search input change
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+
 
   // Fetch analytics if there are no interviews
   useEffect(() => {

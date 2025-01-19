@@ -1,5 +1,5 @@
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -27,7 +27,6 @@ import SuccessPage from "./page/LoginSucess.jsx";
 import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
 import AiRefereneCheckerPage from "./page/AiReferenceCheckerPage.jsx";
 import AiReferenceReportPage from "./page/AiReferenceReportPage.jsx";
-import VideoPlayerPage from "./page/VideoPlayerPage.jsx";
 
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
@@ -120,10 +119,6 @@ function App() {
           />
         </Route>
 
-        {/* New Video Player route */}
-        <Route element={<RequireAuth />}>
-          <Route path="/video-player" element={<VideoPlayerPage />} />
-        </Route>
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

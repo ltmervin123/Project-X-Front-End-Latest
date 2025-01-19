@@ -9,8 +9,8 @@ const ErrorAccessCam = ({ onRetry, onClose }) => {
     dialogClassName="custom-modal-width1"
     >
       <Modal.Body className="custom-modal">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="m-0"></h5>
+      <div className="d-flex justify-content-end align-items-center mb-3">
+
           <Button
             className='closebtn'
             variant="link"
@@ -22,7 +22,6 @@ const ErrorAccessCam = ({ onRetry, onClose }) => {
         </div>
         <div className="d-flex align-items-center justify-content-center flex-column">
           <img src={SuccessAvatar} alt="" />
-          {/* <h4>Error: Unable to Detect Camera</h4> */}
           <p>
             Camera access failed. Please review your camera settings and
             permissions, then try again.

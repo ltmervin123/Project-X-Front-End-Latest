@@ -1,6 +1,5 @@
 import React from "react";
 import logo from "../../assets/logo.png";
-import ExclusivePartner from "../../assets/reallinkpartners.png";
 
 const Footer = () => {
   return (
@@ -17,7 +16,7 @@ const Footer = () => {
                 />
 
             </div>
-            
+
             <div className="col-lg-3 col-md-4 ">
               <h5>PRODUCTS</h5>
 

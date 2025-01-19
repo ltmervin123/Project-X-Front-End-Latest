@@ -1,4 +1,4 @@
-import { React, useCallback, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
 import Header from "../../components/Result/Header";
 import {
@@ -6,18 +6,15 @@ import {
   FaMicrophoneSlash,
   FaPause,
   FaPlay,
-  FaMagic,
   FaVideo,
   FaVideoSlash,
-  FaAudioDescription,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
 import CancelInterviewAlert from "./CancelInterviewModal";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup";
-import tipsAvatar from "../../assets/basic.png";
+import tipsAvatar from "../../assets/summary-img.png";
 import LoadingScreen from "./loadingScreen";
 import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
@@ -33,6 +30,7 @@ import InterviewerOption from "../maindashboard/InterviewerOption";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
+import PopupGuide from "./PopupGuide";
 
 const VideoRecording = ({ interviewType, category }) => {
   const { getAnalytics } = useAnalytics();
@@ -659,13 +657,7 @@ const VideoRecording = ({ interviewType, category }) => {
     }
   };
 
-  // Cancel close handler
-  const handleCancelClose = () => {
-    setShowConfirm(false);
-    setIsRecording(false); // Reset recording state
-    setIsPaused(true); // Reset pause state
-    setTimer({ minutes: 0, seconds: 0 }); // Reset timer
-  };
+
 
   //Countdown effect
   useEffect(() => {
