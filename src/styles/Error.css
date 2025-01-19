@@ -99,12 +99,16 @@
   border-radius: 50px;
   border: none;
   width: 180px;
+  color: var(--font-white) !important;
+
 }
 .custom-modal-width1 .btn-return-maindashboard{
   background: var(--secondary-color);
   border-radius: 50px;
   border: none;
   width: 180px;
+  color: var(--font-white) !important;
+
 }
 .custom-modal-width1 img {
   width: 90px !important;

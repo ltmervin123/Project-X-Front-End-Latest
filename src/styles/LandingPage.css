@@ -250,7 +250,7 @@
   font-weight: 700 !important;
   color: var(--font-black) !important;
   margin: 0 !important;
-  padding-top: 10% !important;
+  padding-top: 8% !important;
 }
 
 .hero-container > h2 {
@@ -277,18 +277,25 @@ h2 > .quote {
 
 .heroavatar {
   /* height: 20% !important; */
-  max-height: 300px !important;
+  max-height: 350px !important;
   margin: 20px;
   bottom: -20px;
 }
-@media (min-width: 1400px) {
+@media (min-width: 1300px ) {
   .heroavatar {
-    max-height: 300px !important;
+    max-height: 350px !important;
   }
 }
+@media (min-width: 1400px ) {
+  .heroavatar {
+    max-height: 360px !important;
+  }
+}
+
+
 @media (min-width: 1500px) {
   .heroavatar {
-    max-height: 380px !important;
+    max-height: 420px !important;
   }
 }
 
