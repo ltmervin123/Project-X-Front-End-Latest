@@ -514,8 +514,9 @@ const BehavioralVideoRecording = () => {
 
     socket.off("feedbackGenerated");
 
-    socket.on("feedbackGenerated", (data) => {
+    socket.on("feedbackGenerated", async (data) => {
       if (data?.feedback) {
+        await getAnalytics();
         setIsGeneratingFeedback(false);
         setShowPreviewPopup(true);
         setInterviewId("");
@@ -746,14 +747,12 @@ const BehavioralVideoRecording = () => {
   const [proceed, setProceed] = useState(false);
 
   const handlePreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setProceed(true);
     setShowSuccessPopup(false); // Ensure success popup does not show after preview
   };
 
   const handleCancelPreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setShowSuccessPopup(true);
   };

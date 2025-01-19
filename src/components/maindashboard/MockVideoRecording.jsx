@@ -522,8 +522,9 @@ const VideoRecording = ({ interviewType, category }) => {
 
     socket.off("feedbackGenerated");
 
-    socket.on("feedbackGenerated", (data) => {
+    socket.on("feedbackGenerated", async (data) => {
       if (data?.feedback) {
+        await getAnalytics();
         setIsGeneratingFeedback(false);
         setShowPreviewPopup(true);
         setInterviewId("");
@@ -757,7 +758,6 @@ const VideoRecording = ({ interviewType, category }) => {
   const [showTips, setShowTips] = useState(true); // State to control the visibility of tips
 
   const handlePreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setProceed(true);
     setShowTips(false); // Hide tips container
@@ -765,7 +765,6 @@ const VideoRecording = ({ interviewType, category }) => {
   };
 
   const handleCancelPreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setShowSuccessPopup(true);
   };
@@ -1127,4 +1126,3 @@ const VideoRecording = ({ interviewType, category }) => {
 };
 
 export default VideoRecording;
-

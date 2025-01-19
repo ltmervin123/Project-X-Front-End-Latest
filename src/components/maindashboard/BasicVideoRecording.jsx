@@ -513,8 +513,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
     socket.off("feedbackGenerated");
 
-    socket.on("feedbackGenerated", (data) => {
+    socket.on("feedbackGenerated", async (data) => {
       if (data?.feedback) {
+        await getAnalytics();
         setIsGeneratingFeedback(false);
         setShowPreviewPopup(true);
         setInterviewId("");
@@ -757,7 +758,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [showViewResult, setShowViewResult] = useState(false); // State to control the visibility of the "View Result" button
 
   const handlePreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setProceed(true);
     setShowSuccessPopup(false); // Ensure success popup does not show after preview
@@ -766,7 +766,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   };
 
   const handleCancelPreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setShowSuccessPopup(true);
   };
