@@ -963,7 +963,7 @@
 .btn-mute,
 .btn-videorecord {
   color: var(--text-color) !important;
-  background: var(--acttivit-card-bg) !important;
+  background: var(--font-white) !important;
   height: auto;
   border-radius: 10px;
   font-size: 40px;

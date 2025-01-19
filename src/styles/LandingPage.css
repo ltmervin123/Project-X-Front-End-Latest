@@ -238,7 +238,7 @@
 .custom-hero-container {
   width: 50% !important;
   margin: 0 auto;
-  margin-bottom: 50px;
+  margin-bottom: 30vh;
   /* Center the container */
 }
 
@@ -274,18 +274,18 @@ h2 > .quote {
 
 .heroavatar {
   /* height: 20% !important; */
-  max-height: 350px !important;
+  max-height: 300px !important;
   margin: 20px;
   bottom: -20px;
 }
 @media (min-width: 1400px) {
   .heroavatar {
-    max-height: 400px !important;
+    max-height: 300px !important;
   }
 }
 @media (min-width: 1500px) {
   .heroavatar {
-    max-height: 480px !important;
+    max-height: 380px !important;
   }
 }
 
