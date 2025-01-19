@@ -1,5 +1,5 @@
 // src/pages/MockMainDashboardPage.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/MockMainDashboardPage.css";
 import Header from "../components/Result/Header";
 import Sidebar from "../components/MockMainDashboard/Sidebar";
@@ -18,15 +18,15 @@ function MockMainDashboardPage() {
   return (
     <>
       <Header />
-      <button 
-        className="mobile-menu-toggle" 
-        onClick={toggleMobileMenu}
-      >
+      <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
         ☰
       </button>
       <div className="MockMaindashboard-container">
         <Row className="h-100">
-          <Col md={2} className={`p-0 MockSidebar ${isMobileMenuOpen ? 'active' : ''}`}>
+          <Col
+            md={2}
+            className={`p-0 MockSidebar ${isMobileMenuOpen ? "active" : ""}`}
+          >
             <Sidebar />
           </Col>
           <Col md={7} className="d-flex flex-column">
