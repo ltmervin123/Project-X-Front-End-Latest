@@ -1127,3 +1127,4 @@ const VideoRecording = ({ interviewType, category }) => {
 };
 
 export default VideoRecording;
+
