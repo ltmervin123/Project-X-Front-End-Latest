@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import LoadingScreen from "./loadingScreen";
-import tipsAvatar from "../../assets/basic.png";
+import tipsAvatar from "../../assets/expert.png";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
@@ -30,6 +30,7 @@ import InterviewerOption from "../maindashboard/InterviewerOption";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
+import { popupGuide } from "./PopupGuide";
 
 const BasicVideoRecording = ({ interviewType, category }) => {
   const { getAnalytics } = useAnalytics();
@@ -716,55 +717,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   };
 
   //Function to initialize Intro.js
-  const popupGuide = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click this button to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro: "This timer shows the time remaining for your response.",
-          },
-          {
-            element: ".mute-indicator",
-            intro: "Mute and Unmute indicator.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-          {
-            element: "#startInterviewButton",
-            intro: "Click this button to start the interview.",
-          },
-          {
-            intro: "Goodluck to your interview!",
-          },
-        ],
-      })
-      .start();
-  };
-
-  // Pop up guide function
   const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));

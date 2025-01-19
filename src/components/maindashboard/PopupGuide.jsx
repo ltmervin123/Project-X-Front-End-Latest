@@ -1,7 +1,29 @@
+import {React, useEffect } from "react";
 import introJs from "intro.js";
 import "intro.js/introjs.css";
 
-const PopupGuide = () => {
+const PopupGuide = ({ steps, introKey }) => {
+  useEffect(() => {
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
+
+    if (!isIntroShown[introKey]) {
+      introJs()
+        .setOptions({ steps })
+        .start();
+
+      const updatedIntroShown = {
+        ...isIntroShown,
+        [introKey]: true,
+      };
+
+      sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
+    }
+  }, [steps, introKey]);
+
+  return null;
+};
+
+export const popupGuide = () => {
   introJs()
     .setOptions({
       steps: [
