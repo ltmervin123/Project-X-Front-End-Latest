@@ -1,4 +1,4 @@
-import {React, useEffect } from "react";
+import {useEffect } from "react";
 import introJs from "intro.js";
 import "intro.js/introjs.css";
 

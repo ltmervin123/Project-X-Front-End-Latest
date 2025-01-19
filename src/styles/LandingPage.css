@@ -55,7 +55,10 @@
 .noclickblue:active {
   background-color: none !important; /* Prevent background color change */
   outline: none; /* Prevent focus outline */
-  
+}
+.btn:focus, .btn:active{
+  background-color: none !important; /* Prevent background color change */
+  outline: none !important; /* Prevent focus outline */
 }
 .noclickblue:hover{
   color: var(--primary-color) !important;

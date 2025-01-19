@@ -1087,7 +1087,7 @@
   height: 40px; /* Height of the avatar */
 }
 .response-indicator {
-  font-size: 14px;
+  font-size: 16px;
   position: absolute;
   z-index: 1;
   bottom: 55px; /* Adjust this value as needed */

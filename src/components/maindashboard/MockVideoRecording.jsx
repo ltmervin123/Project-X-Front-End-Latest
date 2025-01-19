@@ -78,6 +78,8 @@ const VideoRecording = ({ interviewType, category }) => {
   const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
     useState(false);
   const transcriptRef = useRef("");
+  const [isTranscriptionSpeaking, setIsTranscriptionSpeaking] = useState(false);
+  const [isQuestionTranscribing, setIsQuestionTranscribing] = useState(false);
 
   // Add validation
   useEffect(() => {
@@ -234,6 +236,7 @@ const VideoRecording = ({ interviewType, category }) => {
 
   // Speak function to convert text to audio
   const speak = async (text, voice) => {
+    setIsTranscriptionSpeaking(true); // Disable the button before speaking
     try {
       const voiceType = voice.toLowerCase();
       const response = await axios.post(
@@ -259,12 +262,16 @@ const VideoRecording = ({ interviewType, category }) => {
 
       // Return a promise that resolves when the audio ends
       return new Promise((resolve, reject) => {
-        audioElement.onended = resolve;
+        audioElement.onended = () => {
+          setIsTranscriptionSpeaking(false); // Enable the button after speaking
+          resolve();
+        };
         audioElement.onerror = reject;
         audioElement.play().catch(reject);
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
+      setIsTranscriptionSpeaking(false); // Enable the button in case of error
     }
   };
 
@@ -341,8 +348,10 @@ const VideoRecording = ({ interviewType, category }) => {
       questions[questionIndex] &&
       !isCountdownActive
     ) {
+      setIsQuestionTranscribing(true); // Disable the button before transcribing
       speak(questions[questionIndex], selectedInterviewer.current).then(() => {
         setIsResponseIndicatorVisible(true); // Show the response indicator after speaking the question
+        setIsQuestionTranscribing(false); // Enable the button after transcribing
       });
     }
   }, [questions, isCountdownActive, questionIndex]);
@@ -842,7 +851,7 @@ const VideoRecording = ({ interviewType, category }) => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={isUploading}
+                              disabled={isUploading || isTranscriptionSpeaking || isQuestionTranscribing}
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>
@@ -866,7 +875,11 @@ const VideoRecording = ({ interviewType, category }) => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={!questions.length || isUploading}
+                              disabled={
+                                !questions.length ||
+                                isUploading ||
+                                isTranscriptionSpeaking || isQuestionTranscribing
+                              }
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>

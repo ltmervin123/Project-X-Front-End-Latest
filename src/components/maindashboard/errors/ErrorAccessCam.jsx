@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal} from "react-bootstrap";
 import SuccessAvatar from "../../../assets/logo1.png";
 import '../../../styles/Error.css';
 
@@ -20,9 +20,9 @@ const ErrorAccessCam = ({ onRetry, onClose }) => {
             permissions, then try again.
           </p>
           <div className="d-flex justify-content-center gap-3 error">
-            <Button className="btn-analytics" onClick={onRetry}>
+            <button className="btn-analytics" onClick={onRetry}>
               Try Again
-            </Button>
+            </button>
           </div>
         </div>
         

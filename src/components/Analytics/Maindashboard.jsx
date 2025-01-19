@@ -1,5 +1,5 @@
 import { React, useEffect, useState} from "react";
-import {  Button, Row, Col, Carousel } from "react-bootstrap";
+import {   Row, Col, Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
 import { useAnalytics } from "../../hook/useAnalytics";
@@ -362,38 +362,38 @@ const MainDashboard = () => {
 
       {/* New button container */}
       <Row className="button-container-analytics d-flex justify-content-end gap-3">
-        <Button
+        <button
           className={`btn-overall-analytics ${
             selectedChart === "overall" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("overall")}
         >
           Overall Performance
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-behavioral-analytics ${
             selectedChart === "behavioral" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("behavioral")}
         >
           Behavioral
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-basic-analytics ${
             selectedChart === "basic" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("basic")}
         >
           Basic
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-expert-analytics ${
             selectedChart === "expert" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("expert")}
         >
           Expert
-        </Button>
+        </button>
       </Row>
 
       <Row className="chart-container justify-content-center align-items-center">
@@ -550,12 +550,12 @@ const MainDashboard = () => {
                           /10
                         </td>
                         <td className="action-t-center">
-                          <Button
+                          <button
                             variant="link"
                             onClick={() => handleViewResult(item._id)}
                           >
                             Full Summary
-                          </Button>
+                          </button>
                         </td>
                       </tr>
                     ))
