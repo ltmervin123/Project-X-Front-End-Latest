@@ -836,7 +836,11 @@ const BehavioralVideoRecording = () => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={isUploading || isTranscriptionSpeaking || isQuestionTranscribing}
+                              disabled={
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>
@@ -868,7 +872,8 @@ const BehavioralVideoRecording = () => {
                               disabled={
                                 !questions.length ||
                                 isUploading ||
-                                isTranscriptionSpeaking || isQuestionTranscribing
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
                               }
                             >
                               {isUploading ? (
@@ -925,7 +930,9 @@ const BehavioralVideoRecording = () => {
                   className="d-flex flex-column align-items-center gap-1"
                 >
                   <div className="speech-subtitle-container">
-                    <p className="speech-subtitle-overlay">{recognizedText}</p>
+                    <p className="speech-subtitle-overlay">
+                      {transcriptRef.current}
+                    </p>
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (

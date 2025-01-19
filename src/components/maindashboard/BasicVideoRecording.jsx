@@ -512,7 +512,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     socket.emit("generateFeedback", { interviewId });
 
     socket.off("feedbackGenerated");
-    
+
     socket.on("feedbackGenerated", (data) => {
       if (data?.feedback) {
         setIsGeneratingFeedback(false);
@@ -668,8 +668,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       setIsUploading(false);
     }
   };
-
-
 
   //Countdown effect
   useEffect(() => {
@@ -851,7 +849,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={isUploading || isTranscriptionSpeaking || isQuestionTranscribing}
+                              disabled={
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>
@@ -878,7 +880,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                               disabled={
                                 !questions.length ||
                                 isUploading ||
-                                isTranscriptionSpeaking || isQuestionTranscribing
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
                               }
                             >
                               {isUploading ? (
@@ -935,7 +938,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                   className="d-flex flex-column align-items-center gap-1"
                 >
                   <div className="speech-subtitle-container">
-                    <p className="speech-subtitle-overlay">{recognizedText}</p>
+                    <p className="speech-subtitle-overlay">
+                      {transcriptRef.current}
+                    </p>
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (
