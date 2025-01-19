@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import "../styles/Result.css";
-import { Container, Row, Col } from "react-bootstrap";
 import Header from "../components/Result/Header";
 import ResultSection from "../components/Result/ResultSection";
 

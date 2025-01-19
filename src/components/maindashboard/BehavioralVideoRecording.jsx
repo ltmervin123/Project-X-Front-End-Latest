@@ -13,14 +13,13 @@ import {
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
 import CancelInterviewAlert from "../maindashboard/CancelInterviewModal";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import LoadingScreen from "./loadingScreen";
-import tipsAvatar from "../../assets/basic.png";
+import tipsAvatar from "../../assets/expert.png";
 import loading from "../../assets/loading.gif";
 import Header from "../../components/Result/Header";
 import io from "socket.io-client";
@@ -31,6 +30,7 @@ import InterviewerOption from "../maindashboard/InterviewerOption";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
+import { popupGuide } from "./PopupGuide";
 
 const BehavioralVideoRecording = () => {
   const { getAnalytics } = useAnalytics();
@@ -78,6 +78,8 @@ const BehavioralVideoRecording = () => {
   const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
     useState(false);
   const transcriptRef = useRef("");
+  const [isTranscriptionSpeaking, setIsTranscriptionSpeaking] = useState(false);
+  const [isQuestionTranscribing, setIsQuestionTranscribing] = useState(false);
 
   const tips = [
     "Know your resume.",
@@ -227,6 +229,7 @@ const BehavioralVideoRecording = () => {
 
   // Speak function to convert text to audio
   const speak = async (text, voice) => {
+    setIsTranscriptionSpeaking(true); // Disable the button before speaking
     try {
       const voiceType = voice.toLowerCase();
       const response = await axios.post(
@@ -252,12 +255,16 @@ const BehavioralVideoRecording = () => {
 
       // Return a promise that resolves when the audio ends
       return new Promise((resolve, reject) => {
-        audioElement.onended = resolve;
+        audioElement.onended = () => {
+          setIsTranscriptionSpeaking(false); // Enable the button after speaking
+          resolve();
+        };
         audioElement.onerror = reject;
         audioElement.play().catch(reject);
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
+      setIsTranscriptionSpeaking(false); // Enable the button in case of error
     }
   };
 
@@ -333,8 +340,10 @@ const BehavioralVideoRecording = () => {
       questions[questionIndex] &&
       !isCountdownActive
     ) {
+      setIsQuestionTranscribing(true); // Disable the button before transcribing
       speak(questions[questionIndex], selectedInterviewer.current).then(() => {
         setIsResponseIndicatorVisible(true); // Show the response indicator after speaking the question
+        setIsQuestionTranscribing(false); // Enable the button after transcribing
       });
     }
   }, [questions, isCountdownActive, questionIndex]);
@@ -505,8 +514,9 @@ const BehavioralVideoRecording = () => {
 
     socket.off("feedbackGenerated");
 
-    socket.on("feedbackGenerated", (data) => {
+    socket.on("feedbackGenerated", async (data) => {
       if (data?.feedback) {
+        await getAnalytics();
         setIsGeneratingFeedback(false);
         setShowPreviewPopup(true);
         setInterviewId("");
@@ -707,56 +717,6 @@ const BehavioralVideoRecording = () => {
     }
   };
 
-  //Function to initialize Intro.js
-  const popupGuide = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click this button to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro: "This timer shows the time remaining for your response.",
-          },
-          {
-            element: ".mute-indicator",
-            intro: "Mute and Unmute indicator.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-
-          {
-            element: "#startInterviewButton",
-            intro: "Click this button to start the interview.",
-          },
-          {
-            intro: "Goodluck to your interview!",
-          },
-        ],
-      })
-      .start();
-  };
-
   const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
@@ -787,14 +747,12 @@ const BehavioralVideoRecording = () => {
   const [proceed, setProceed] = useState(false);
 
   const handlePreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setProceed(true);
     setShowSuccessPopup(false); // Ensure success popup does not show after preview
   };
 
   const handleCancelPreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setShowSuccessPopup(true);
   };
@@ -877,7 +835,11 @@ const BehavioralVideoRecording = () => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={isUploading}
+                              disabled={
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>
@@ -906,7 +868,12 @@ const BehavioralVideoRecording = () => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={!questions.length || isUploading}
+                              disabled={
+                                !questions.length ||
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>
@@ -962,7 +929,13 @@ const BehavioralVideoRecording = () => {
                   className="d-flex flex-column align-items-center gap-1"
                 >
                   <div className="speech-subtitle-container">
-                    <p className="speech-subtitle-overlay">{recognizedText}</p>
+                    {transcriptRef.current ? (
+                       <p className="speech-subtitle-overlay">
+                      {transcriptRef.current}
+                      </p>
+                      ) : (
+                        <p >No response yet  </p>
+                      )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (

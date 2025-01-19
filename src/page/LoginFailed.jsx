@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/Error.css";
-import ErrorSection from "../components/maindashboard/ErrorGenerateFeedback";
-import Header from "../components/Error/Header";
+import FailedSection from "../components/LoginFailed/MessageSection";
+import Header from "../components/LoginFailed/Header";
 
-function ErrorPage() {
+function FailedPage() {
+  useEffect(() => {
+    // Remove #_=_ from the URL
+    if (window.location.href.indexOf("#_=_") > 0) {
+      window.location = window.location.href.replace(/#.*/, "");
+    }
+  }, []);
+
   return (
     <>
       <Header />
-      <ErrorSection />
+      <FailedSection />
 
       <svg
         preserveAspectRatio="none"
@@ -41,4 +48,4 @@ function ErrorPage() {
     </>
   );
 }
-export default ErrorPage;
+export default FailedPage;

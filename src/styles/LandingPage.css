@@ -1,5 +1,5 @@
 /* Import Roboto font from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;700&display=swap");
 /* Global styles */
 * {
   box-sizing: border-box;
@@ -55,7 +55,10 @@
 .noclickblue:active {
   background-color: none !important; /* Prevent background color change */
   outline: none; /* Prevent focus outline */
-  
+}
+.btn:focus, .btn:active{
+  background-color: none !important; /* Prevent background color change */
+  outline: none !important; /* Prevent focus outline */
 }
 .noclickblue:hover{
   color: var(--primary-color) !important;
@@ -238,7 +241,7 @@
 .custom-hero-container {
   width: 50% !important;
   margin: 0 auto;
-  margin-bottom: 50px;
+  margin-bottom: 30vh;
   /* Center the container */
 }
 
@@ -247,7 +250,7 @@
   font-weight: 700 !important;
   color: var(--font-black) !important;
   margin: 0 !important;
-  padding-top: 10% !important;
+  padding-top: 8% !important;
 }
 
 .hero-container > h2 {
@@ -278,14 +281,21 @@ h2 > .quote {
   margin: 20px;
   bottom: -20px;
 }
-@media (min-width: 1400px) {
+@media (min-width: 1300px ) {
   .heroavatar {
-    max-height: 400px !important;
+    max-height: 350px !important;
   }
 }
+@media (min-width: 1400px ) {
+  .heroavatar {
+    max-height: 360px !important;
+  }
+}
+
+
 @media (min-width: 1500px) {
   .heroavatar {
-    max-height: 480px !important;
+    max-height: 420px !important;
   }
 }
 
@@ -736,12 +746,16 @@ h2 > .quote {
   width: 95%;
 }
 
+.premium-box-container1 > .row > .col-md-2 > .premium-box-header > .premium-card >  p{
+  padding-bottom: 12px;
+}
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header  i{
   font-size: 13px !important;
   height: 20px;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--primary-color) !important;
-
+  position: absolute;
+  top: -1px;
 }
 
 /*About Hr hatch*/
@@ -754,7 +768,12 @@ h2 > .quote {
   font-size: 46px !important;
   font-weight: 700;
 }
-
+.about-hr-hatch-container > h3 > p {
+  font-size: 60px !important;
+  color: var(--font-black);
+  position: relative;
+  bottom: -2px;
+}
 .about-hr-hatch-container > h2 {
   width: 45%;
   text-align: center;

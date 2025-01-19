@@ -1,6 +1,6 @@
 // src/components/LandingPage/Header.jsx
 import React from "react";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 
 

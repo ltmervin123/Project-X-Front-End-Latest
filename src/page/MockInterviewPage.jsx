@@ -2,7 +2,7 @@
 import React from "react";
 import "../styles/MockInterviewPage.css";
 import Header from "../components/Result/Header";
-import { Container, Row, Col } from "react-bootstrap";
+import {  Row, Col } from "react-bootstrap";
 import Sidebar from "../components/MockMainDashboard/Sidebar";
 import MainDashboard from "../components/maindashboard/MockInterview";
 

@@ -1,14 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaSignOutAlt } from "react-icons/fa";
-import { useLogout } from "../../hook/useLogout";
 
 const Sidebar = () => {
-  const { logout } = useLogout();
 
-  const handleLogout = () => {
-    logout();
-  };
+
 
   return (
     <div className="MockMain-sidebar d-flex flex-column gap-4">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaEnvelope,
   FaLock,
@@ -9,17 +9,19 @@ import {
 } from "react-icons/fa";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
-import LoginAvatar from "../../assets/login-img.png";
 import { useGoogleAuth } from "../../hook/useGoogleAuth";
 import ErrorGoogleLogin from "./errors/ErrorGoogleLogin";
-
+import { useAuthContext } from "../../hook/useAuthContext";
 const LoginForm = () => {
+  const { dispatch } = useAuthContext();
+  const { user } = useAuthContext();
+  const API = process.env.REACT_APP_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const { isGoogleLoading, googleError, googleLogin, errorSetter } =
+  const { googleError, googleLogin, errorSetter } =
     useGoogleAuth();
 
   const handleSubmit = async (e) => {
@@ -31,7 +33,12 @@ const LoginForm = () => {
   };
 
   const handleGoogleLogin = async () => {
-    googleLogin();
+    // googleLogin();
+    window.location.href = `${API}/api/user/auth/google`;
+  };
+
+  const handleFacebookLogin = async () => {
+    window.location.href = `${API}/api/user/auth/facebook`;
   };
 
   return (
@@ -119,7 +126,14 @@ const LoginForm = () => {
             <p>Or sign up using</p>
             <div className="social-icons">
               <FaGoogle className="social-icon" onClick={handleGoogleLogin} />
-              <FaFacebook className="social-icon" />
+              {/* <a href={`${API}/api/user/auth/google`}>
+                <FaGoogle className="social-icon" />
+              </a> */}
+
+              <FaFacebook
+                className="social-icon"
+                onClick={handleFacebookLogin}
+              />
             </div>
             <button
               className="guest-button"

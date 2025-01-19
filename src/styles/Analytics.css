@@ -22,10 +22,13 @@
   border: none;
   border-radius: 50px;
   width: 120px;
+  padding: 5px;
   font-size: 10px;
+  color: var(--font-white);
 }
 .button-container-analytics > button:hover{
   background: var(--input-bg);
+  color: var(--font-white);
 }
 
 /* chart */
@@ -226,17 +229,18 @@ tbody td {
   font-size: 11px;
 }
 
-table tbody td .btn-link {
+table tbody td button {
   background: var(--primary-color);
   text-decoration: none;
-  height: 30px;
   color: var(--font-white);
   width: 100px;
+  padding: 5px;
   border-radius: 50px;
   font-size: 11px;
+  border: none !important;
 }
 
-table tbody td .btn-link:hover {
+table tbody td button:hover {
   color: var(--font-white);
   background: var(--input-bg);
 }

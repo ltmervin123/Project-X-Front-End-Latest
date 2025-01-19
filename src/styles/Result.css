@@ -337,7 +337,7 @@
   align-items: center;
   justify-content: center;
 }
-.btnReturnAnalytics:hover{
+.btnReturnAnalytics:hover, .btnReturnAnalytics:focus{
   background: var(--input-bg-hover);
   color: var(--font-white);
 }
@@ -346,7 +346,7 @@
   color: var(--font-white);
   width: 150px;
 }
-.btnPractice:hover{
+.btnPractice:hover, .btnPractice:focus, .btnPractice:active{
   background-color: var(--primary-color-hover);
   color: var(--font-white);
 }

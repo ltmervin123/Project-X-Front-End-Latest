@@ -1,4 +1,4 @@
-import { React, useCallback, useState, useEffect, useRef } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
 import Header from "../../components/Result/Header";
 import {
@@ -6,18 +6,15 @@ import {
   FaMicrophoneSlash,
   FaPause,
   FaPlay,
-  FaMagic,
   FaVideo,
   FaVideoSlash,
-  FaAudioDescription,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
 import CancelInterviewAlert from "./CancelInterviewModal";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup";
-import tipsAvatar from "../../assets/basic.png";
+import tipsAvatar from "../../assets/expert.png";
 import LoadingScreen from "./loadingScreen";
 import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
@@ -33,6 +30,7 @@ import InterviewerOption from "../maindashboard/InterviewerOption";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
 import { useAnalytics } from "../../hook/useAnalytics";
+import { popupGuide } from "./PopupGuide";
 
 const VideoRecording = ({ interviewType, category }) => {
   const { getAnalytics } = useAnalytics();
@@ -80,6 +78,8 @@ const VideoRecording = ({ interviewType, category }) => {
   const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
     useState(false);
   const transcriptRef = useRef("");
+  const [isTranscriptionSpeaking, setIsTranscriptionSpeaking] = useState(false);
+  const [isQuestionTranscribing, setIsQuestionTranscribing] = useState(false);
 
   // Add validation
   useEffect(() => {
@@ -236,6 +236,7 @@ const VideoRecording = ({ interviewType, category }) => {
 
   // Speak function to convert text to audio
   const speak = async (text, voice) => {
+    setIsTranscriptionSpeaking(true); // Disable the button before speaking
     try {
       const voiceType = voice.toLowerCase();
       const response = await axios.post(
@@ -261,12 +262,16 @@ const VideoRecording = ({ interviewType, category }) => {
 
       // Return a promise that resolves when the audio ends
       return new Promise((resolve, reject) => {
-        audioElement.onended = resolve;
+        audioElement.onended = () => {
+          setIsTranscriptionSpeaking(false); // Enable the button after speaking
+          resolve();
+        };
         audioElement.onerror = reject;
         audioElement.play().catch(reject);
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
+      setIsTranscriptionSpeaking(false); // Enable the button in case of error
     }
   };
 
@@ -343,8 +348,10 @@ const VideoRecording = ({ interviewType, category }) => {
       questions[questionIndex] &&
       !isCountdownActive
     ) {
+      setIsQuestionTranscribing(true); // Disable the button before transcribing
       speak(questions[questionIndex], selectedInterviewer.current).then(() => {
         setIsResponseIndicatorVisible(true); // Show the response indicator after speaking the question
+        setIsQuestionTranscribing(false); // Enable the button after transcribing
       });
     }
   }, [questions, isCountdownActive, questionIndex]);
@@ -515,8 +522,9 @@ const VideoRecording = ({ interviewType, category }) => {
 
     socket.off("feedbackGenerated");
 
-    socket.on("feedbackGenerated", (data) => {
+    socket.on("feedbackGenerated", async (data) => {
       if (data?.feedback) {
+        await getAnalytics();
         setIsGeneratingFeedback(false);
         setShowPreviewPopup(true);
         setInterviewId("");
@@ -659,14 +667,6 @@ const VideoRecording = ({ interviewType, category }) => {
     }
   };
 
-  // Cancel close handler
-  const handleCancelClose = () => {
-    setShowConfirm(false);
-    setIsRecording(false); // Reset recording state
-    setIsPaused(true); // Reset pause state
-    setTimer({ minutes: 0, seconds: 0 }); // Reset timer
-  };
-
   //Countdown effect
   useEffect(() => {
     if (isCountdownActive && countdown > 0) {
@@ -727,56 +727,6 @@ const VideoRecording = ({ interviewType, category }) => {
   }, [file, jobDescription]);
 
   //Function to initialize Intro.js
-  const popupGuide = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click this button to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro: "This timer shows the time remaining for your response.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-
-          {
-            element: "#startInterviewButton",
-            intro: "Click this button to start the interview.",
-          },
-          {
-            element: ".mute-indicator",
-            intro: "Mute and Unmute indicator.",
-          },
-          {
-            intro: "Goodluck to your interview!",
-          },
-        ],
-      })
-      .start();
-  };
-
-  // Initialize the intro shown state
   const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
@@ -789,6 +739,7 @@ const VideoRecording = ({ interviewType, category }) => {
         ...isIntroShown, // Preserve other fields
         expert: true, // Update behavioral
       };
+
       // Save and override the prevous value with the updated object back to sessionStorage
       sessionStorage.setItem("isIntroShown", JSON.stringify(updatedIntroShown));
     }
@@ -807,7 +758,6 @@ const VideoRecording = ({ interviewType, category }) => {
   const [showTips, setShowTips] = useState(true); // State to control the visibility of tips
 
   const handlePreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setProceed(true);
     setShowTips(false); // Hide tips container
@@ -815,7 +765,6 @@ const VideoRecording = ({ interviewType, category }) => {
   };
 
   const handleCancelPreview = async () => {
-    await getAnalytics();
     setShowPreviewPopup(false);
     setShowSuccessPopup(true);
   };
@@ -899,7 +848,11 @@ const VideoRecording = ({ interviewType, category }) => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={isUploading}
+                              disabled={
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>
@@ -923,7 +876,12 @@ const VideoRecording = ({ interviewType, category }) => {
                               onClick={
                                 isRecording ? stopRecording : startRecording
                               }
-                              disabled={!questions.length || isUploading}
+                              disabled={
+                                !questions.length ||
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
                             >
                               {isUploading ? (
                                 <Spinner className="pause-indicator-spinner"></Spinner>
@@ -979,7 +937,13 @@ const VideoRecording = ({ interviewType, category }) => {
                   className="d-flex flex-column align-items-center gap-1"
                 >
                   <div className="speech-subtitle-container">
-                    <p className="speech-subtitle-overlay">{recognizedText}</p>
+                  {transcriptRef.current ? (
+                       <p className="speech-subtitle-overlay">
+                      {transcriptRef.current}
+                      </p>
+                      ) : (
+                        <p >No response yet  </p>
+                      )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (

@@ -7,16 +7,16 @@ import { useSignup } from "../../hook/useSignup";
 
 function SignUpForm() {
   const [showSuccessPopUp, setShowSuccessPopUp] = useState(false);
+  const [name, setName] = useState(""); // Added name state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [isBoxChecked, setIsBoxChecked] = useState(false);
   const { signup, isLoading, error } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isSignin = await signup(name, email, password);
+    const isSignin = await signup(name, email, password); // Use name state
 
     if (isSignin) {
       setShowSuccessPopUp(true);
@@ -89,9 +89,9 @@ function SignUpForm() {
                   placeholder=""
                   required
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setName(e.target.value); // Use setName
                   }}
-                  value={name}
+                  value={name} // Use name state
                 />
                 <label className="input-label">Name</label>
               </div>

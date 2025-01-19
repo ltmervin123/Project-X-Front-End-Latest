@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button, Row, Col } from "react-bootstrap";
+import { Modal, Row, Col } from "react-bootstrap";
 import errorImage from "../../../assets/error-image.png"; // Replace with the actual path to your error image
 import "../../../styles/Error.css";
 
@@ -21,9 +21,9 @@ const ErrorTranscription = ({ onRetry }) => {
               until the end, and verify that your microphone is not muted.
             </p>
             <div className="d-flex justify-content-center">
-              <Button className="btn-retry" onClick={onRetry}>
+              <button className="btn-retry" onClick={onRetry}>
                 Retry
-              </Button>
+              </button>
             </div>
           </Col>
         </Row>
