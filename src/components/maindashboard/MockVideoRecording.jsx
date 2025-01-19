@@ -942,8 +942,12 @@ const VideoRecording = ({ interviewType, category }) => {
                       {transcriptRef.current}
                       </p>
                       ) : (
-                        <p >No response yet  </p>
-                      )}
+                        <div className="speech-default-subtitle">
+                          <p>
+                          REAL-TIME TRANSCRIPTION HERE 
+
+                          </p>
+                          </div>                      )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (

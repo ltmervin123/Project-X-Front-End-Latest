@@ -360,6 +360,7 @@ const MainDashboard = () => {
         )}
       </div>
 
+        <div>
       {/* New button container */}
       <Row className="button-container-analytics d-flex justify-content-end gap-3">
         <button
@@ -395,10 +396,11 @@ const MainDashboard = () => {
           Expert
         </button>
       </Row>
+        </div>
 
-      <Row className="chart-container justify-content-center align-items-center">
-        <Col md={9}>
-          <Row className="justify-content-center">
+        <div className="chart-container d-flex">
+
+          <Row className="justify-content-center align-items-end">
             {chartData[selectedChart].map(
               (
                 item // Use selectedChart to get the right data
@@ -437,23 +439,23 @@ const MainDashboard = () => {
               )
             )}
           </Row>
-        </Col>
-        <Col md={3} className="overall-performance">
-          <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>
-            {Math.max(
+ 
+          <div className="chart-overall">
+            <h3>          {Math.max(
               ...chartData[selectedChart].map((item) => item.score)
-            ).toFixed(1)}{" "}
+            ).toFixed(1)}{" "}</h3>
+  
             {/* Update to reflect max score */}
+            <p>Overall Performance</p>
           </div>
-          <h5>Overall Performance</h5>
-        </Col>
-      </Row>
-      {/* New Area Chart Slider Section */}
-      <Row className="chart-area-container ">
-        {/* Area Chart Container */}
-        <Col
-          md={6}
-          className="area-chart-container d-flex justify-content-center align-items-center"
+
+
+        </div>
+
+      <div className="chart-area-container ">
+              {/* New Area Chart Slider Section */}
+      <div 
+          className="area-chart-container d-flex justify-content-start align-items-center gap-5"
         >
           <div className="carousel-controls">
             <Carousel
@@ -502,10 +504,8 @@ const MainDashboard = () => {
               )}
             </Carousel>
           </div>
-        </Col>
-
-        {/* Analytics Container */}
-        <Col md={6} className="analytics-container">
+                  {/* Analytics Container */}
+        <div className="analytics-container">
           {" "}
           {/* 40% width */}
           <div className="table-responsive">
@@ -569,8 +569,12 @@ const MainDashboard = () => {
               </tbody>
             </table>
           </div>
-        </Col>
-      </Row>
+        </div>
+   
+          </div>
+
+      </div>
+
     </div>
   );
 };
