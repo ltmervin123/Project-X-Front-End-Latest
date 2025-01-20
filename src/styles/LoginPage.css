@@ -248,6 +248,16 @@
     border-color: red !important;
     box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
 }
+
+.input-group.error .input-container input {
+    border-color: red !important;
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+.input-group.error .input-label {
+    color: red !important;
+}
+
 .forgot {
     justify-content: flex-end;
     font-size: 12px;
@@ -401,9 +411,9 @@
     background: rgb(244,106,5);
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
-    padding: 10px;
-    width: 500px;
-    height: 70vh;
+    padding: 40px !important;
+    width: 540px !important;
+    height: 510px !important;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -427,12 +437,12 @@
 .forgotpass-form > .input-group > .input-container {
     width: 80% !important;
 }
-.forgot-password-container > a{
+.forgot-password-container > form > a{
     text-decoration: none;
     color: var(--font-white);
     font-style: italic;
 }
-.forgot-password-container > a > svg{
+.forgot-password-container > form > a > svg{
     margin:0px 5px 2% 0px;
 }
 .btn-send-email{
@@ -444,14 +454,30 @@
     border: none;
     
 }
+.forgot-header {
+    /* background: var(--primary-color) !important; */
+    margin-bottom: 10px;
+}
+
+.forgot-header > h2 {
+    font-size: 30px !important;
+    color: var(--font-white) !important;
+}
+
+.forgot-header > p {
+    font-size: 15px !important;
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+}
 
 .check-email-container {
     background: rgb(244,106,5);
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
-    padding: 20px;
-    width: 500px;
-    height: 70vh;
+    padding: 40px !important;
+    width: 540px !important;
+    height: 510px !important;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -464,8 +490,7 @@
 }
 
 .btn-proceed-reset-pass {
-    width: 180px;
-    height: 40px;
+    padding: 10px 30px;
     border-radius: 50px;
     background: var(--secondary-color);
     color: var(--font-white) !important;
@@ -482,9 +507,9 @@
     background: rgb(244,106,5);
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
-    padding: 20px;
-    width: 500px;
-    height: 70vh;
+    padding: 40px !important;
+    width: 540px !important;
+    height: 510px !important;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -497,8 +522,7 @@
 }
 
 .btn-reset-password {
-    width: 180px;
-    height: 40px;
+    padding: 10px 30px;
     border-radius: 50px;
     background: var(--secondary-color);
     color: var(--font-white) !important;
@@ -521,4 +545,50 @@
     gap: 20px;
     z-index: 0;
     padding: 20px;
+}
+.invalid-feedback1 {
+    font-size: 12px;
+    animation: fadeIn 0.3s ease;
+    position: absolute;
+    z-index: 100;
+    bottom: 10px; /* Adjust this value to create space for the error message */
+    left: 25px; /* Adjust this value as necessary */
+    color: red; /* Set the text color */
+    display: block; /* Ensure it is visible */
+  }
+  .invalid-feedback2 {
+    font-size: 12px;
+    animation: fadeIn 0.3s ease;
+    position: absolute;
+    z-index: 100;
+    bottom: 10px; /* Adjust this value to create space for the error message */
+    left: 63px; /* Adjust this value as necessary */
+    color: red; /* Set the text color */
+    display: block; /* Ensure it is visible */
+  }
+  
+
+.expired-link-container{
+    background: rgb(244,106,5);
+    background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
+    color: white;
+    padding: 40px !important;
+    width: 540px !important;
+    height: 510px !important;
+    position: relative;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 0;
+    padding: 20px;
+}
+.btn-return-to-login {
+    padding: 10px 30px;
+    border-radius: 50px;
+    background: var(--secondary-color) !important;
+    color: var(--font-white) !important;
+    border: none;
 }

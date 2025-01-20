@@ -34,13 +34,13 @@ const CheckEmailForm = () => {
               </filter>
             </defs>
           </svg>
-          <div className="login-header text-center">
-            <h3>Check your email</h3>
+          <div className="forgot-header text-center">
+            <h3>Check your email!</h3>
             <p className="text-center"> Thank you for confirming your email. We appreciate you taking the time to verify your email address. Your account security is important to us.</p>
 
           </div>
           <button className="btn-proceed-reset-pass" onClick={handleProceed}>
-            Reset Password
+          Proceed to Reset Password
           </button>
           <p> Didn't receive the email? <a href="#" className="resend-confirmation-link">
             Resend confirmation
