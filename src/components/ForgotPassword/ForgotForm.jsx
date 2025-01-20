@@ -1,0 +1,70 @@
+import React, { useState } from "react";
+import { FaEnvelope } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import CheckEmailForm from "./CheckEmailForm"; // Import the new component
+
+const ForgotForm = () => {
+  const [email, setEmail] = useState("");
+  const [emailSent, setEmailSent] = useState(false); // State to toggle form
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Handle forgot password logic here
+    setEmailSent(true); // Set emailSent to true after form submission
+  };
+
+  const handleBackToLogin = (e) => {
+    e.preventDefault();
+    navigate("/login");
+  };
+
+  return (
+    <div className="row main-login justify-content-center position-relative">
+      <div className="d-flex align-items-center justify-content-center main-login-form">
+        {emailSent ? (
+          <CheckEmailForm /> // Render CheckEmailForm if emailSent is true
+        ) : (
+          <div className="forgot-password-container">
+            <svg width="46" height="57" viewBox="0 0 66 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M33 0C27.5299 0 22.2839 2.18239 18.4159 6.06707C14.548 9.95176 12.375 15.2205 12.375 20.7143V29H8.25C6.06196 29 3.96354 29.873 2.41637 31.4268C0.869194 32.9807 0 35.0882 0 37.2857V78.7143C0 80.9118 0.869194 83.0193 2.41637 84.5732C3.96354 86.127 6.06196 87 8.25 87H57.75C59.938 87 62.0365 86.127 63.5836 84.5732C65.1308 83.0193 66 80.9118 66 78.7143V37.2857C66 35.0882 65.1308 32.9807 63.5836 31.4268C62.0365 29.873 59.938 29 57.75 29H53.625V20.7143C53.625 17.994 53.0915 15.3004 52.055 12.7873C51.0185 10.2741 49.4993 7.99057 47.5841 6.06707C45.6689 4.14357 43.3952 2.61777 40.8928 1.57678C38.3905 0.535791 35.7085 0 33 0ZM33 7.87143C40.0538 7.87143 45.7875 13.63 45.7875 20.7143V29H20.2125V20.7143C20.2125 13.63 25.9462 7.87143 33 7.87143ZM33.7837 39.3571C37.6612 39.3571 40.755 40.2271 42.9825 41.9257C45.21 43.6657 46.3237 45.9857 46.3237 48.8857C46.3237 50.7086 45.705 52.3243 44.5088 53.8571C43.3125 55.3486 41.745 56.5086 39.8475 57.3786C38.775 58 38.0738 58.6214 37.7025 59.3257C37.3313 60.0714 37.125 60.9829 37.125 62.1429H28.875C28.875 60.0714 29.2875 58.6629 30.0712 57.6686C30.9375 56.6743 32.34 55.5143 34.485 54.1886C35.5575 53.6086 36.4237 52.8629 37.125 51.9514C37.7025 51.0814 38.0325 50.0457 38.0325 48.8857C38.0325 47.6429 37.6613 46.7314 36.9188 46.0271C36.1763 45.2814 35.0625 44.95 33.7837 44.95C32.67 44.95 31.7625 45.24 30.9375 45.82C30.2775 46.4 29.865 47.27 29.865 48.43H21.7388C21.5325 45.5714 22.6875 43.0857 24.9563 41.5943C27.1838 40.1029 30.1125 39.3571 33.7837 39.3571ZM28.875 66.2857H37.125V74.5714H28.875V66.2857Z" fill="white"/>
+            </svg>
+            <div className="d-flex align-items-center justify-content-center flex-column">
+              <h3>Forgot your Password?</h3>
+              <p>Enter your email so we can send you a password reset link</p>
+            </div>
+            <form className="forgotpass-form d-flex align-items-center justify-content-center flex-column" onSubmit={handleSubmit}>
+              <div className="input-group mb-3 d-flex">
+                <span className="input-group-text">
+                  <FaEnvelope />
+                </span>
+                <div className="input-container">
+                  <input
+                    type="email"
+                    className="form-control"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder=" "
+                  />
+                  <label className="input-label">Email</label>
+                </div>
+              </div>
+              <button type="submit" className="btn-send-email">
+                Send Email
+              </button>
+            </form>
+            <a className="d-flex align-items-center mt-3" href="/login" onClick={handleBackToLogin}>
+            <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0.427752 5.66135L6.19185 0.113508L7.57856 1.55428L2.53485 6.40876L7.38933 11.4525L5.94856 12.8392L0.400725 7.07509C0.216873 6.88401 0.116437 6.62774 0.121505 6.36262C0.126574 6.09751 0.236731 5.84526 0.427752 5.66135Z" fill="white"/>
+</svg>
+
+              Back to Login
+            </a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ForgotForm;

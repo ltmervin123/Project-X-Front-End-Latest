@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import {
   FaEnvelope,
   FaLock,
-  FaGoogle,
-  FaFacebook,
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
+
+import google from "../../assets/google-icon.png";
+import fb from "../../assets/fb-icon.png";
+
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import { useGoogleAuth } from "../../hook/useGoogleAuth";
@@ -105,7 +107,7 @@ const LoginForm = () => {
                 </div>
                 <div className="forgot d-flex">
                   Forgot your password?
-                  <a href="/forgot" className="forgot-password">
+                  <a href="/forgotpassword" className="forgot-password">
                     {" "}
                     Click here to reset
                   </a>
@@ -125,12 +127,15 @@ const LoginForm = () => {
           <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">
-              <FaGoogle className="social-icon" onClick={handleGoogleLogin} />
-              {/* <a href={`${API}/api/user/auth/google`}>
-                <FaGoogle className="social-icon" />
-              </a> */}
-
-              <FaFacebook
+              <img
+                src={google}
+                alt="Google"
+                className="social-icon"
+                onClick={handleGoogleLogin}
+              />
+              <img
+                src={fb}
+                alt="Facebook"
                 className="social-icon"
                 onClick={handleFacebookLogin}
               />
@@ -141,7 +146,7 @@ const LoginForm = () => {
             >
               Continue as Guest
             </button>
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column dont-have-acc-container">
               <p>Don't have an account?</p>
               <i>Join Us Today</i>
             </div>

@@ -33,6 +33,10 @@ import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording"
 import BehavioralVideoRecording from "./components/maindashboard/BehavioralVideoRecording";
 import VideoRecording from "./components/maindashboard/MockVideoRecording";
 
+
+/*Forgot page*/
+import Forgotpassword from "./page/ForgotPassPage.jsx";
+
 function App() {
   const { user } = useAuthContext();
 
@@ -119,6 +123,9 @@ function App() {
           />
         </Route>
 
+
+        {/* Forgot pass */}
+        <Route path="/forgotpassword" element={<Forgotpassword />} />
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
