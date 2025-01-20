@@ -711,7 +711,7 @@ const ResultSection = ({ interviewId }) => {
       </div>
 
       {/* Remove onClick handlers from rating names */}
-      <div className="score-section gap-2">
+      <div className="score-section align-items-center justify-content-center gap-2">
         <>
           <Row className="d-flex align-items-center justify-content-center subcategory-container">
             <Col md={6} xs={12}>
@@ -721,8 +721,8 @@ const ResultSection = ({ interviewId }) => {
                   {currentViewData.labels.first}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -770,8 +770,8 @@ const ResultSection = ({ interviewId }) => {
                   {currentViewData.labels.second}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -820,8 +820,8 @@ const ResultSection = ({ interviewId }) => {
                   {currentViewData.labels.third}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -869,8 +869,8 @@ const ResultSection = ({ interviewId }) => {
                   {currentViewData.labels.fourth}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -916,18 +916,18 @@ const ResultSection = ({ interviewId }) => {
 
           {/* Fifth Score (Only for Grammar View) */}
           {currentView === "grammar" && (
-            <Row className="d-flex align-items-center justify-content-center">
+            <Row className="d-flex align-items-center justify-content-center gap-1">
               <Col
-                md={6}
+                md={7}
                 xs={12}
                 className="d-flex justify-content-between align-items-center gap-1"
               >
-                <p className="rating-name">
+                <p className="rating-name1">
                   {currentViewData.labels.fifth}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -972,18 +972,18 @@ const ResultSection = ({ interviewId }) => {
           )}
           {/* Fifth Score (Only for Skills View) */}
           {currentView === "skills" && (
-            <Row className="d-flex align-items-center justify-content-center">
+            <Row className="d-flex align-items-center justify-content-center gap-1">
               <Col
-                md={6}
+                md={7}
                 xs={12}
                 className="d-flex justify-content-between align-items-center gap-1"
               >
-                <p className="rating-name">
+                <p className="rating-name1">
                   {currentViewData.labels.fifth}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -1030,16 +1030,16 @@ const ResultSection = ({ interviewId }) => {
           {currentView === "experience" && (
             <Row className="d-flex align-items-center justify-content-center">
               <Col
-                md={6}
+                md={7}
                 xs={12}
                 className="d-flex justify-content-between align-items-center gap-1"
               >
-                <p className="rating-name">
+                <p className="rating-name1">
                   {currentViewData.labels.fifth}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -1084,18 +1084,18 @@ const ResultSection = ({ interviewId }) => {
           )}
           {/* Fifth Score (Only for Relevance View) */}
           {currentView === "relevance" && (
-            <Row className="d-flex align-items-center justify-content-center">
+            <Row className="d-flex align-items-center justify-content-center gap-1">
               <Col
-                md={6}
+                md={7}
                 xs={12}
                 className="d-flex justify-content-between align-items-center gap-1"
               >
-                <p className="rating-name">
+                <p className="rating-name1">
                   {currentViewData.labels.fifth}
                   <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -1140,14 +1140,17 @@ const ResultSection = ({ interviewId }) => {
           )}
           {/* Only show filler count in default view */}
           {showFillerCount && (
-            <>
-              <div className="d-flex justify-content-center align-items-center filler-container">
+            <Row>
+              <Col                
+                md={7}
+                xs={12} 
+                className="d-flex justify-content-center align-items-center gap-1 filler-container">
                 <p className="rating-name text-center">
                 {currentViewData.labels.fifth}
                 <svg
                     className="tooltip-icon"
-                    width="15"
-                    height="15"
+                    width="13"
+                    height="13"
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -1172,23 +1175,23 @@ const ResultSection = ({ interviewId }) => {
                     ? overallFeedback.fillers
                     : interviewDetails?.filler.fillerCount}
                 </p>
-              </div>
-            </>
+              </Col>
+            </Row>
           )}
         </>
           {/* Overall Score */}
-          <Row className="d-flex align-items-center justify-content-center">
+          <Row >
             <Col
-              md={6}
+              md={7}
               xs={12}
-              className="d-flex justify-content-between align-items-center gap-1"
+              className="d-flex justify-content-center align-items-center gap-1"
             >
-              <p className="rating-name">
+              <p className="rating-name1">
                 {currentViewData.labels.overall}
                 <svg
                   className="tooltip-icon"
-                  width="15"
-                  height="15"
+                  width="13"
+                  height="13"
                   viewBox="0 0 15 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

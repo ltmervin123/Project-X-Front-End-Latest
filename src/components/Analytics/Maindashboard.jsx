@@ -360,9 +360,9 @@ const MainDashboard = () => {
         )}
       </div>
 
-        <div>
+
       {/* New button container */}
-      <Row className="button-container-analytics d-flex justify-content-end gap-3">
+      <div className="button-container-analytics d-flex justify-content-end gap-3">
         <button
           className={`btn-overall-analytics ${
             selectedChart === "overall" ? "btn-active" : ""
@@ -395,8 +395,8 @@ const MainDashboard = () => {
         >
           Expert
         </button>
-      </Row>
-        </div>
+      </div>
+
 
         <div className="chart-container d-flex">
 

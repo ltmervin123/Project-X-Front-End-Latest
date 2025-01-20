@@ -168,22 +168,18 @@
   height: 100%;
 }
 .score-section > .subcategory-container{
-  width: 90% !important;
+  width: 100% !important;
   height: auto !important;
 }
-.score-section > .row {
-  width: 90% !important;
-  height: 30px;
 
-}
 .score-section > .filler-container{
   height: 30px;
 }
 .score-section > div {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70%;
 }
 .overall-performance-container{
   width: 65% !important;
@@ -196,7 +192,7 @@
 }
 .rating-name{
   font-weight: 800;
-  width: 80%;
+  width: 120px;
   font-size: 15px;
   color: var(--font-black);
   text-align: right;
@@ -207,13 +203,26 @@
   cursor: help;
 
 }
+.rating-name1{
+  font-weight: 800;
+  width: 240px;
+  font-size: 15px;
+  color: var(--font-black);
+  text-align: right;
+  position: relative;
+}
+.rating-name1 > svg{
+  margin-left: 3px;
+  cursor: help;
+
+}
 .progress-bar-container {
-  width: 500px !important;
+  width: 420px !important;
   background-color: #e0e0e0; /* Light gray background for the progress bar */
   border-radius: 10px; /* Rounded corners */
   overflow: hidden; /* Ensure the inner bar doesn't overflow */
+  position: relative;
   margin: 5px;
-  position: relative; /* Position relative for absolute children */
   right: 0;
 }
 
@@ -241,7 +250,8 @@
   color: var(--input-bg);
 }
 .filler-container{
-  width: 18% !important;
+  width: 100% !important;
+  height: 30px;
   text-align: center;
 }
 
