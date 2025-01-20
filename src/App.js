@@ -36,7 +36,7 @@ import VideoRecording from "./components/maindashboard/MockVideoRecording";
 
 /*Forgot page*/
 import Forgotpassword from "./page/ForgotPassPage.jsx";
-import ExpiredLink from "./page/ExpiredLinkPage.jsx";
+import Resetpassword from "./page/ResetPassPage.jsx";
 
 function App() {
   const { user } = useAuthContext();
@@ -128,7 +128,7 @@ function App() {
         {/* Forgot pass */}
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* ExpiredLink pass */}
-        <Route path="/expiredlink" element={<ExpiredLink />} />
+        <Route path="/reset-password" element={<Resetpassword />} />
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

@@ -9,8 +9,6 @@ const ExpiredLink = () => {
   };
 
   return (
-    <div className="row main-login justify-content-center position-relative">
-        <div className="d-flex align-items-center justify-content-center main-login-form">
 
             <div className="expired-link-container d-flex flex-column align-items-center justify-content-center">
                 <svg width="66" height="66" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,8 +30,7 @@ const ExpiredLink = () => {
                 Return to Log in
             </button>
             </div>
-        </div>
-    </div>
+
   );
 };
 

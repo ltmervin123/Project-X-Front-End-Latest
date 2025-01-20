@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "../styles/LoginPage.css";
-import Header from "../components/ForgotPassword/Header";
-import ExpiredContainer from "../components/ForgotPassword/ExpiredLink";
+import Header from "../components/ResetPassword/Header";
+import ResetContainer from "../components/ResetPassword/ResetPasswordForm";
 
 function ExpiredLinkPage() {
   useEffect(() => {
@@ -15,7 +15,7 @@ function ExpiredLinkPage() {
     <>
       <div className="container-fluid main-container login-page-container">
         <Header />
-          <ExpiredContainer />
+          <ResetContainer />
       </div>
     </>
   );
