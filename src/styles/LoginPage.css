@@ -500,10 +500,21 @@
 .resend-confirmation-link {
     color: #6251FB;
     text-decoration: underline;
-    margin-top: 10px;   
-}
-
-
+    margin-top: 10px;
+    background: none !important;
+    border: none !important;
+    cursor: pointer;  /* Show pointer cursor when enabled */
+  }
+  
+  .resend-confirmation-link-disabled {
+    background: none !important;
+    border: none !important;
+    margin-top: 10px;
+    color: #6251FB !important; /* Gray out the text when disabled */
+    text-decoration: none !important; /* Optionally remove the underline when disabled */
+    cursor: not-allowed !important; /* Change the cursor to indicate it's disabled */
+  }
+  
 
 .reset-pass-container {
     background: rgb(244,106,5);

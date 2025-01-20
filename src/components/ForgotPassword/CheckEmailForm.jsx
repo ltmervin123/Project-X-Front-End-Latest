@@ -31,7 +31,11 @@ const CheckEmailForm = ({ email }) => {
     }
 
     console.log("Resend email link ", email);
-    // await sendEmail();
+      
+    // Reset the timer
+    setTimeLeft(30);  // Reset the countdown timer
+    
+    // await sendEmail(); 
   };
 
   return (
@@ -99,40 +103,42 @@ const CheckEmailForm = ({ email }) => {
           us.
         </p>
       </div>
-      {timeLeft > 0 ? (
-        <p className="text-center">
-          Please wait for {timeLeft} seconds
-          <br />
-          <p>
-            Didn't recieve the email?{" "}
-            <a
-              href=""
-              className={`resend-confirmation-link ${
-                timeLeft > 0 ? "disabled" : ""
-              }`}
-              onClick={(e) => timeLeft > 0 && e.preventDefault()}
-            >
-              Resend confirmation
-            </a>
+        {timeLeft > 0 ? (
+          <p className="text-center">
+            Please wait for {timeLeft} seconds
+            <br />
+            <p>
+              Didn't receive the email?{" "}
+              <button
+                className={`resend-confirmation-link-disabled ${timeLeft > 0 ? "disabled" : ""}`}
+                onClick={(e) => {
+                  if (timeLeft > 0) {
+                    e.preventDefault(); // Prevent click when disabled
+                  } else {
+                    handleResendLink(e); // Resend email if allowed
+                  }
+                }}
+              >
+                Resend confirmation
+              </button>
+            </p>
           </p>
-        </p>
-      ) : (
-        <p className="text-center">
-          <br />
-          <p>
-            Didn't recieve the email?{" "}
-            <a
-              href=""
-              className={`resend-confirmation-link ${
-                timeLeft > 0 ? "disabled" : ""
-              }`}
-              onClick={handleResendLink}
-            >
-              Resend confirmation
-            </a>
+        ) : (
+          <p className="text-center">
+            <br />
+            <p>
+              Didn't receive the email?{" "}
+              <button
+                className="resend-confirmation-link"
+                onClick={handleResendLink}
+                disabled={timeLeft > 0} // Disable the button based on the timer state
+              >
+                Resend confirmation
+              </button>
+            </p>
           </p>
-        </p>
-      )}
+        )}
+
     </div>
   );
 };
