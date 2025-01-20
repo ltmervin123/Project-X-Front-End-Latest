@@ -1,19 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const CheckEmailForm = () => {
+const CheckEmailForm = ({ email }) => {
   const [timeLeft, setTimeLeft] = useState(30); // Timer state
-  const navigate = useNavigate();
 
+  //Timer effect
   useEffect(() => {
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer); // Cleanup timeout
-    } else {
-      // Redirect to /reset-password after the timer ends
-      navigate("/reset-password");
     }
-  }, [timeLeft, navigate]);
+  }, [timeLeft]);
+
+  const sendEmail = async () => {
+    try {
+      setTimeLeft(30);
+      const requestBody = { email };
+      const response = await axios.post(URL, requestBody, {
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleResendLink = async (e) => {
+    if (timeLeft > 0) {
+      e.preventDefault();
+      return;
+    }
+
+    console.log("Resend email link ", email);
+    // await sendEmail();
+  };
 
   return (
     <div className="check-email-container">
@@ -63,29 +82,57 @@ const CheckEmailForm = () => {
               in2="BackgroundImageFix"
               result="effect1_dropShadow_0_1"
             />
-            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape" />
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="effect1_dropShadow_0_1"
+              result="shape"
+            />
           </filter>
         </defs>
       </svg>
       <div className="forgot-header text-center">
         <h3>Check your email!</h3>
         <p>
-          Thank you for confirming your email. We appreciate you taking the time to verify your
-          email address. Your account security is important to us.
+          Thank you for confirming your email. We appreciate you taking the time
+          to verify your email address. Your account security is important to
+          us.
         </p>
       </div>
-      <p className="text-center">
-        Please wait for {timeLeft} seconds
-        <br />
-        <p>Didn't recieve the email?        <a
-          href="#"
-          className={`resend-confirmation-link ${timeLeft > 0 ? "disabled" : ""}`}
-          onClick={(e) => timeLeft > 0 && e.preventDefault()}
-        >
-          Resend confirmation
-        </a></p>
-
-      </p>
+      {timeLeft > 0 ? (
+        <p className="text-center">
+          Please wait for {timeLeft} seconds
+          <br />
+          <p>
+            Didn't recieve the email?{" "}
+            <a
+              href=""
+              className={`resend-confirmation-link ${
+                timeLeft > 0 ? "disabled" : ""
+              }`}
+              onClick={(e) => timeLeft > 0 && e.preventDefault()}
+            >
+              Resend confirmation
+            </a>
+          </p>
+        </p>
+      ) : (
+        <p className="text-center">
+          <br />
+          <p>
+            Didn't recieve the email?{" "}
+            <a
+              href=""
+              className={`resend-confirmation-link ${
+                timeLeft > 0 ? "disabled" : ""
+              }`}
+              onClick={handleResendLink}
+            >
+              Resend confirmation
+            </a>
+          </p>
+        </p>
+      )}
     </div>
   );
 };

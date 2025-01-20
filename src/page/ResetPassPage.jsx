@@ -10,12 +10,12 @@ function ExpiredLinkPage() {
       window.location = window.location.href.replace(/#.*/, "");
     }
   }, []);
-  
+
   return (
     <>
       <div className="container-fluid main-container login-page-container">
         <Header />
-          <ResetContainer />
+        <ResetContainer />
       </div>
     </>
   );

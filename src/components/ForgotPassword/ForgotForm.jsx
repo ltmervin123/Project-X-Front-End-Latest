@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import CheckEmailForm from "./CheckEmailForm";
+import axios from "axios";
 
 const ForgotForm = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(""); // State to store error messages
   const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
+  const API = process.env.REACT_APP_API_URL;
+  const URL = `${API}/api/user/auth/forgot-password`;
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email validation
@@ -20,8 +23,7 @@ const ForgotForm = () => {
       setError("Please enter a valid email address."); // Set error if email is invalid
       return;
     }
-    setError(""); // Clear error if email is valid
-    setEmailSent(true); // Set emailSent to true after form submission
+    await sendEmail();
   };
 
   const handleBackToLogin = (e) => {
@@ -29,15 +31,35 @@ const ForgotForm = () => {
     navigate("/login");
   };
 
+  const sendEmail = async () => {
+    try {
+      setError("");
+      const requestBody = { email };
+      const response = await axios.post(URL, requestBody, {
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.status === 200) {
+        setEmailSent(true);
+      }
+    } catch (error) {
+      if (error.response.status === 500) {
+        setError(error.response.data.error);
+      } else {
+        setError(error.response.data.message);
+      }
+    }
+  };
+
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
-        {emailSent ? (
-          <CheckEmailForm />
+        {true ? (
+          <CheckEmailForm email={email} />
         ) : (
           <div className="forgot-password-container">
             <svg
-              width="66" height="77"
+              width="66"
+              height="77"
               viewBox="0 0 66 87"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +71,9 @@ const ForgotForm = () => {
             </svg>
             <div className="forgot-header d-flex align-items-center justify-content-center flex-column">
               <h3>Forgot your Password?</h3>
-              <p className="text-center">Enter your email so we can send you a password reset link</p>
+              <p className="text-center">
+                Enter your email so we can send you a password reset link
+              </p>
             </div>
             <form
               className={`forgotpass-form d-flex align-items-center justify-content-center flex-column ${
@@ -78,36 +102,35 @@ const ForgotForm = () => {
                   </label>
                 </div>
                 {error && (
-                <div className="invalid-feedback2">{error}</div> // Styled error message
-              )}
+                  <div className="invalid-feedback2">{error}</div> // Styled error message
+                )}
               </div>
 
               <button type="submit" className="btn-send-email">
                 Send Email
               </button>
               <a
-              className="d-flex align-items-center mt-3"
-              href="/login"
-              onClick={handleBackToLogin}
-            >
-              <svg
-                width="8"
-                height="13"
-                viewBox="0 0 8 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+                className="d-flex align-items-center mt-3"
+                href="/login"
+                onClick={handleBackToLogin}
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M0.427752 5.66135L6.19185 0.113508L7.57856 1.55428L2.53485 6.40876L7.38933 11.4525L5.94856 12.8392L0.400725 7.07509C0.216873 6.88401 0.116437 6.62774 0.121505 6.36262C0.126574 6.09751 0.236731 5.84526 0.427752 5.66135Z"
-                  fill="white"
-                />
-              </svg>
-              Back to Login
-            </a>
+                <svg
+                  width="8"
+                  height="13"
+                  viewBox="0 0 8 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M0.427752 5.66135L6.19185 0.113508L7.57856 1.55428L2.53485 6.40876L7.38933 11.4525L5.94856 12.8392L0.400725 7.07509C0.216873 6.88401 0.116437 6.62774 0.121505 6.36262C0.126574 6.09751 0.236731 5.84526 0.427752 5.66135Z"
+                    fill="white"
+                  />
+                </svg>
+                Back to Login
+              </a>
             </form>
-
           </div>
         )}
       </div>
