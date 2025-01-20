@@ -3,6 +3,8 @@ import axios from "axios";
 
 const CheckEmailForm = ({ email }) => {
   const [timeLeft, setTimeLeft] = useState(30); // Timer state
+  const API = process.env.REACT_APP_API_URL;
+  const URL = `${API}/api/user/auth/forgot-password`;
 
   //Timer effect
   useEffect(() => {
@@ -14,7 +16,6 @@ const CheckEmailForm = ({ email }) => {
 
   const sendEmail = async () => {
     try {
-      setTimeLeft(30);
       const requestBody = { email };
       const response = await axios.post(URL, requestBody, {
         headers: { "Content-Type": "application/json" },
@@ -24,18 +25,9 @@ const CheckEmailForm = ({ email }) => {
     }
   };
 
-  const handleResendLink = async (e) => {
-    if (timeLeft > 0) {
-      e.preventDefault();
-      return;
-    }
-
-    console.log("Resend email link ", email);
-      
-    // Reset the timer
-    setTimeLeft(30);  // Reset the countdown timer
-    
-    // await sendEmail(); 
+  const handleResendLink = async () => {
+    setTimeLeft(30);
+    await sendEmail();
   };
 
   return (
@@ -103,42 +95,38 @@ const CheckEmailForm = ({ email }) => {
           us.
         </p>
       </div>
-        {timeLeft > 0 ? (
-          <p className="text-center">
-            Please wait for {timeLeft} seconds
-            <br />
-            <p>
-              Didn't receive the email?{" "}
-              <button
-                className={`resend-confirmation-link-disabled ${timeLeft > 0 ? "disabled" : ""}`}
-                onClick={(e) => {
-                  if (timeLeft > 0) {
-                    e.preventDefault(); // Prevent click when disabled
-                  } else {
-                    handleResendLink(e); // Resend email if allowed
-                  }
-                }}
-              >
-                Resend confirmation
-              </button>
-            </p>
+      {timeLeft > 0 ? (
+        <p className="text-center">
+          Please wait for {timeLeft} seconds
+          <br />
+          <p>
+            Didn't receive the email?{" "}
+            <button
+              className={`resend-confirmation-link-disabled ${
+                timeLeft > 0 ? "disabled" : ""
+              }`}
+              disabled={timeLeft > 0} // Disable the button based on the timer state
+              onClick={handleResendLink}
+            >
+              Resend confirmation
+            </button>
           </p>
-        ) : (
-          <p className="text-center">
-            <br />
-            <p>
-              Didn't receive the email?{" "}
-              <button
-                className="resend-confirmation-link"
-                onClick={handleResendLink}
-                disabled={timeLeft > 0} // Disable the button based on the timer state
-              >
-                Resend confirmation
-              </button>
-            </p>
+        </p>
+      ) : (
+        <p className="text-center">
+          <br />
+          <p>
+            Didn't receive the email?{" "}
+            <button
+              className="resend-confirmation-link"
+              onClick={handleResendLink}
+              disabled={timeLeft > 0} // Disable the button based on the timer state
+            >
+              Resend confirmation
+            </button>
           </p>
-        )}
-
+        </p>
+      )}
     </div>
   );
 };

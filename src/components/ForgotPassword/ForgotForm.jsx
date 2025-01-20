@@ -11,6 +11,7 @@ const ForgotForm = () => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const URL = `${API}/api/user/auth/forgot-password`;
+  const [isSending, setIsSending] = useState(false);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email validation
@@ -34,6 +35,7 @@ const ForgotForm = () => {
   const sendEmail = async () => {
     try {
       setError("");
+      setIsSending(true);
       const requestBody = { email };
       const response = await axios.post(URL, requestBody, {
         headers: { "Content-Type": "application/json" },
@@ -47,13 +49,15 @@ const ForgotForm = () => {
       } else {
         setError(error.response.data.message);
       }
+    } finally {
+      setIsSending(false);
     }
   };
 
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
-        {true ? (
+        {emailSent ? (
           <CheckEmailForm email={email} />
         ) : (
           <div className="forgot-password-container">
@@ -107,7 +111,7 @@ const ForgotForm = () => {
               </div>
 
               <button type="submit" className="btn-send-email">
-                Send Email
+                {isSending ? "Sending..." : "Send Email"}
               </button>
               <a
                 className="d-flex align-items-center mt-3"
