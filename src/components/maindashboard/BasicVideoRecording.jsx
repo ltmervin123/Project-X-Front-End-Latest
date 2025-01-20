@@ -782,14 +782,13 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           onSelectInterviewer={handleInterviewerSelect}
         />
       ) : (
-        <Container
+        <div
           fluid
           className="video-recording-page align-items-center justify-content-center"
         >
           <div className="video-recording-content">
             <Row className="video-recording-row">
-              <Col
-                md={7}
+              <Col md={7}
                 className="d-flex flex-column align-items-center h-100"
               >
                 <div
@@ -943,10 +942,10 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                       </p>
                       ) : (
                         <div className="speech-default-subtitle">
-                          <p>
+                          {/* <p>
                           REAL-TIME TRANSCRIPTION HERE 
 
-                          </p>
+                          </p> */}
                           </div>
                       )}
   
@@ -972,11 +971,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                       </>
                     ) : (
                       <>
-                        <h4>Welcome to the Interview!</h4>
-                        <p>
-                          We will start when you are ready. Please be prepared.
-                        </p>
-                        <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
+                        <div className="interview-content">
+                          <h4>Welcome to the Interview!</h4>
+                          <p>
+                            We will start when you are ready. Please be prepared.
+                          </p>
+
+                        </div>
+                        <div className="container-startinterview d-flex justify-content-around align-items-center flex-column w-100">
                           <Button
                             id="startInterviewButton"
                             className="btn-startinterview d-flex align-items-center"
@@ -1005,8 +1007,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                   </div>
                 </Col>
               ) : (
-                <Col
-                  md={5}
+                <Col md={5}
                   className="d-flex flex-column align-items-center justify-content-end"
                 >
                   <div className="interview-question-container">
@@ -1127,7 +1128,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
               showSuccessPopup && !proceed && <InterviewSuccessfulPopup />
             )}
           </div>
-        </Container>
+        </div>
       )}
     </>
   );

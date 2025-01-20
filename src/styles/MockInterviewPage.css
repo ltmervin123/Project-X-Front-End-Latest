@@ -866,19 +866,41 @@
   border-radius: 10px;
   padding: 20px;
   width: 100%;
+  height: 45%;
   border: 1px solid var(--primary-color);
-  position: relative;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.423);
-  font-size: 13px;
+  font-size: 16px;
 }
 .interview-question-container > p {
   margin: 0;
+  font-size: 16px;
+}
+.interview-question-container > .interview-content{
+  height: 40%;
+}
+.interview-question-container > .container-startinterview {
+  height: 60%;
 }
 .interview-question-container > div > i {
-  font-size: 9px !important;
+  font-size: 12px !important;
   text-align: center;
   width: 100% !important;
-  font-weight: 100;
+  font-weight: 200;
+  color: var(--text-color) !important;
+}
+@media (min-width: 1500px) {
+  .interview-question-container,
+  .speech-subtitle-overlay {
+    font-size: 19px !important;
+  }
+  .interview-question-container > p {
+    font-size: 19px;
+  }
+  .btn-startinterview {
+    width: 200px !important;
+    height: 40px;
+  }
+
 }
 .timer {
   color: var(--font-white) !important; /* Keep the text color */
@@ -889,7 +911,7 @@
 
 .speech-subtitle-container {
   width: 100% !important;
-  height: 250px !important;
+  height: 55% !important;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -911,22 +933,10 @@
   width: 100%;
 
 }
-.speech-default-subtitle > p{
-  font-size: 1.9rem;
-  font-weight: 800;
-  text-align: center;
-  width: 75%;
-  margin: 0;
-}
-@media (min-width: 1600px) {
-  .speech-default-subtitle > p{
-    font-size: 2.5rem;
 
-  }
-}
 .speech-subtitle-container > .speech-subtitle-overlay{
   height: 100%;
-  font-size: 13px;
+  font-size: 16px;
   margin: 0;
   overflow: none;
   display: flex;
@@ -1048,16 +1058,18 @@
   background: var(--primary-color) !important;
   color: var(--font-white) !important;
   text-decoration: none !important;
-  width: 180px;
+  width: 190px;
   height: 40px;
   border-radius: 50px !important;
+
+  justify-content: center;
 }
 .btn-startinterview > svg {
   width: 18%;
   height: 65%;
 }
 .btn-startinterview > p {
-  width: 80%;
+  width: 75%;
   font-size: 18px;
   margin: 0;
   text-align: left;
@@ -1313,18 +1325,20 @@
 
 .video-recording-page {
   min-height: 100vh;
-  padding: 4rem 1em 0em 1em;
+  width: 100%;  
+  padding: 4rem 3em 0em 3em;
   background: #fff;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
 }
 
 .video-recording-content {
-  max-width: 1800px;
+  max-width: 1500px !important;
   width: 95% !important;
   margin: 0 auto !important;
-  /* background: var(--primary-color); */
   height: 85vh;
+  max-height: 650px !important;
   border: 2px solid var(--primary-color);
   border-radius: 20px;
   padding: 2rem;
