@@ -782,7 +782,7 @@ const VideoRecording = ({ interviewType, category }) => {
           onSelectInterviewer={handleInterviewerSelect}
         />
       ) : (
-        <Container
+        <div
           fluid
           className="video-recording-page align-items-center justify-content-center"
         >
@@ -942,8 +942,12 @@ const VideoRecording = ({ interviewType, category }) => {
                       {transcriptRef.current}
                       </p>
                       ) : (
-                        <p >No response yet  </p>
-                      )}
+                        <div className="speech-default-subtitle">
+                          {/* <p>
+                          REAL-TIME TRANSCRIPTION HERE 
+
+                          </p> */}
+                          </div>                      )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (
@@ -966,11 +970,13 @@ const VideoRecording = ({ interviewType, category }) => {
                       </>
                     ) : (
                       <>
-                        <h4>Welcome to the Interview!</h4>
-                        <p>
-                          We will start when you are ready. Please be prepared.
-                        </p>
-                        <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
+                        <div className="interview-content">
+                          <h4>Welcome to the Interview!</h4>
+                          <p>
+                            We will start when you are ready. Please be prepared.
+                          </p>
+                        </div>
+                        <div className="container-startinterview d-flex justify-content-around align-items-center flex-column gap-2 w-100">
                           <Button
                             id="startInterviewButton"
                             className="btn-startinterview d-flex align-items-center"
@@ -1123,7 +1129,7 @@ const VideoRecording = ({ interviewType, category }) => {
               showSuccessPopup && !proceed && <InterviewSuccessfulPopup />
             )}
           </div>
-        </Container>
+        </div>
       )}
     </>
   );

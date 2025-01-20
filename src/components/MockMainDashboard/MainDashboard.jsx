@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuthContext } from "../../hook/useAuthContext";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.png";
 
 function MainDashboard() {
   const { user } = useAuthContext();
@@ -16,11 +17,18 @@ function MainDashboard() {
   };
 
   return (
-    <div className="MockMainDashboard-content d-flex flex-column gap-2">
+    <div className="MockMainDashboard-content1 d-flex flex-column gap-2">
       <div>
         <h4>Welcome to your Dashboard!</h4>
         <span>
-          Unlock the power of <span className="color-orange">HR</span>-HATCH to
+          Unlock the power of 
+                  <img
+                        src={logo}
+                        alt="Logo"
+                        width="95"
+                        height="14"
+                      />  
+                       to
           enhance your interview skills and craft the perfect resume. Let’s take
           your career to the next level!
         </span>

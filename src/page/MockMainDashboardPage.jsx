@@ -29,11 +29,14 @@ function MockMainDashboardPage() {
           >
             <Sidebar />
           </Col>
-          <Col md={7} className="d-flex flex-column">
-            <MainDashboard />
-          </Col>
-          <Col md={3} className="d-flex justify-content-center">
-            <Summary />
+          <Col md={10} className="d-flex ">
+            <div className="mock-interview-maindashboard">
+              <MainDashboard />
+            </div>
+            <div className="mock-interview-summary">
+              <Summary />
+
+            </div>
           </Col>
         </Row>
       </div>
