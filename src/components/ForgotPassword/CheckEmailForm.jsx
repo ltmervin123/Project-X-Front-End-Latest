@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CheckEmailForm = ({ email }) => {
   const [timeLeft, setTimeLeft] = useState(30); // Timer state
   const API = process.env.REACT_APP_API_URL;
   const URL = `${API}/api/user/auth/forgot-password`;
+  const useremail = email;
+  
+  const navigate = useNavigate(); // Initialize navigate hook
 
   //Timer effect
   useEffect(() => {
@@ -28,6 +32,9 @@ const CheckEmailForm = ({ email }) => {
   const handleResendLink = async () => {
     setTimeLeft(30);
     await sendEmail();
+  };
+  const handleRedirectToLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -90,9 +97,8 @@ const CheckEmailForm = ({ email }) => {
       <div className="forgot-header text-center">
         <h3>Check your email!</h3>
         <p>
-          Thank you for confirming your email. We appreciate you taking the time
-          to verify your email address. Your account security is important to
-          us.
+          We sent an email to <b>{useremail}.</b>  Continue 
+          password recovery using the link via email.
         </p>
       </div>
       {timeLeft > 0 ? (
@@ -127,6 +133,12 @@ const CheckEmailForm = ({ email }) => {
           </p>
         </p>
       )}
+      <button
+        className="redirect-to-login"
+        onClick={handleRedirectToLogin}
+      >
+        Go to Login
+      </button>
     </div>
   );
 };
