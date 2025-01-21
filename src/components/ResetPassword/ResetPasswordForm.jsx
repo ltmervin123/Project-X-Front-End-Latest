@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import PasswordResetSuccess from "./PasswordResetSuccess"; // Import the new component
-import ExpireLink from "./ExpiredLink"; // Import the new component
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from "axios";
+import ExpiredLink from "./ExpiredLink";
 
 const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordChanged, setPasswordChanged] = useState(false); // State to toggle form
   const [error, setError] = useState(""); // State to handle error
+  const [showPassword, setShowPassword] = useState(false);
+  const API = process.env.REACT_APP_API_URL;
+  const { token } = useParams();
+  const resetPasswordURL = `${API}/api/user/auth//reset-password/${token}`;
+  const [isReseting, setIsReseting] = useState(false);
 
   const handleNewPasswordChange = (e) => {
     setNewPassword(e.target.value);
@@ -18,14 +26,38 @@ const ResetPasswordForm = () => {
     setError(""); // Reset error message when input changes
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match."); // Set error message
       return;
     }
     // Handle reset password logic here
-    setPasswordChanged(true); // Set passwordChanged to true after form submission
+    //setPasswordChanged(true); // Set passwordChanged to true after form submission
+    await resetPassword();
+  };
+
+  const resetPassword = async () => {
+    try {
+      setError("");
+      setIsReseting(true);
+      const password = newPassword;
+      const requestBody = { password };
+      const response = await axios.post(resetPasswordURL, requestBody, {
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.status === 200) {
+        setPasswordChanged(true);
+      }
+    } catch (error) {
+      if (error?.response?.status === 500) {
+        setError(error.response.data.error);
+      } else {
+        setError(error.response.data.message);
+      }
+    } finally {
+      setIsReseting(false);
+    }
   };
 
   return (
@@ -35,7 +67,6 @@ const ResetPasswordForm = () => {
           {passwordChanged ? (
             <PasswordResetSuccess />
           ) : (
-            // <ExpireLink />   render sa expired link
             <>
               <svg
                 width="79"
@@ -108,7 +139,7 @@ const ResetPasswordForm = () => {
                 >
                   <div className="input-container">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       className={`form-control ${error ? "is-invalid" : ""}`}
                       onChange={handleNewPasswordChange}
                       required
@@ -122,20 +153,30 @@ const ResetPasswordForm = () => {
                 >
                   <div className="input-container">
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       className={`form-control ${error ? "is-invalid" : ""}`}
                       onChange={handleConfirmPasswordChange}
                       required
                       placeholder=" "
                     />
                     <label className="input-label">Re-enter Password</label>
+                    <span
+                      className="position-absolute end-0 top-50 translate-middle-y me-3 toggle-password"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        cursor: "pointer",
+                        zIndex: 10,
+                      }}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
                   </div>
                   {error && (
                     <div className="invalid-feedback1">{error}</div> // Ensure this is styled
                   )}
                 </div>
                 <button type="submit" className="btn-reset-password">
-                  Reset Password
+                  {isReseting ? "Resetting..." : "Reset Password"}
                 </button>
               </form>
             </>

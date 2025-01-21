@@ -61,7 +61,7 @@ const ForgotForm = () => {
           <CheckEmailForm email={email} />
         ) : (
           <div className="forgot-password-container">
-            <svg
+            <svg  
               width="66"
               height="77"
               viewBox="0 0 66 87"

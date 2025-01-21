@@ -127,8 +127,8 @@ function App() {
 
         {/* Forgot pass */}
         <Route path="/forgotpassword" element={<Forgotpassword />} />
-        {/* ExpiredLink pass */}
-        <Route path="/reset-password" element={<Resetpassword />} />
+        {/* Use token as param */}
+        <Route path="/reset-password/:token" element={<Resetpassword />} />
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

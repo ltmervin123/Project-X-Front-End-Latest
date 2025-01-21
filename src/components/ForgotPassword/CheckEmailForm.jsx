@@ -15,7 +15,7 @@ const CheckEmailForm = ({ email }) => {
   }, [timeLeft]);
 
   const sendEmail = async () => {
-    try {
+    try {  
       const requestBody = { email };
       const response = await axios.post(URL, requestBody, {
         headers: { "Content-Type": "application/json" },
