@@ -365,8 +365,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-          // Reset timer
-          setTimer({ minutes: 0, seconds: 0 });
+
         }
 
         // Set up audio streaming
@@ -426,7 +425,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
-    try {
+    try {          
+      // Reset timer
+      setTimer({ minutes: 0, seconds: 0 });
       // Set uploading state to true
       setIsUploading(true);
       if (

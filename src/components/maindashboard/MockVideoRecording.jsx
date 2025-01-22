@@ -383,8 +383,7 @@ const VideoRecording = ({ interviewType, category }) => {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-          // Reset timer
-          setTimer({ minutes: 0, seconds: 0 });
+
         }
 
         // Set up audio streaming

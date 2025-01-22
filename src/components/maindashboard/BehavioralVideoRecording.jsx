@@ -366,8 +366,7 @@ const BehavioralVideoRecording = () => {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-          // Reset timer
-          setTimer({ minutes: 0, seconds: 0 });
+
         }
 
         // Set up audio streaming
@@ -427,6 +426,8 @@ const BehavioralVideoRecording = () => {
   // Reusable function to stop recording
   const stopRecording = async () => {
     try {
+      // Reset timer
+      setTimer({ minutes: 0, seconds: 0 });
       // Set uploading state to true
       setIsUploading(true);
       if (
