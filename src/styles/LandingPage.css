@@ -515,7 +515,6 @@ h2 > .quote {
   z-index: 0;
   position: relative;
   background: var(--font-white);
-  margin-bottom: 20px;
 }
 .step-card{
   width: 28%;
@@ -600,11 +599,7 @@ h2 > .quote {
   background-size:  cover!important; /* Cover the entire area */
 
 }
-.horizontal-line{
-  border-bottom: 2px solid var(--color-brown);
-  height: 20px;
-  width: 90%;
-}
+
 .premium-package-container {
   padding: 5em 0em;
 }

@@ -45,6 +45,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
+
     z-index: 0;
 }
 .login-avatar-container{
@@ -67,6 +69,7 @@
 .login-header > h2 {
     font-size: 30px !important;
     color: var(--font-white) !important;
+    margin: 0;
 }
 
 .login-header > p {
@@ -205,6 +208,7 @@
 .input-group > div > input.is-invalid + .input-label {
   color: var(--font-black); /* Change label color if input is invalid */
 }
+
 .invalid-feedback {
     font-size: 12px;
     width: calc(100% - 30px);
@@ -212,7 +216,7 @@
     animation: fadeIn 0.3s ease;
     position: absolute;
     z-index: 1;
-    bottom: -20px; /* Adjust this value to create space for the error message */
+    bottom: -18px; /* Adjust this value to create space for the error message */
     left: 25px; /* Adjust this value as necessary */
 }
 .error-message{
@@ -225,7 +229,10 @@
     font-size: 20px;
     color: var(--input-bg);
     transition: color 0.3s ease;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
+    position: absolute;
+    transform: translateY(-50%);
+    right: 4px;
 }
 
 .toggle-password > svg:hover {
@@ -254,9 +261,11 @@
     box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
 }
 
-.input-group.error .input-label {
-    color: red !important;
+.toggle-password.is-invalid > svg {
+    color: red; /* Changes the SVG's color to red. */
+    fill: red; /* If the SVG supports the 'fill' attribute, this will color its fill. */
 }
+
 
 .forgot {
     justify-content: flex-end;
@@ -283,7 +292,7 @@
 
 }
 
-.remember-box {
+.remember-box-check {
     width: 60%;
 }
 
@@ -294,12 +303,17 @@
     margin-bottom: 15px;
 }
 
-.remeber-box-check > input[type="checkbox"] {
-    width: 15px;
-    height: 15px;
+.remember-box-check > input[type="checkbox"] {
+    background-color: transparent !important;
+    appearance: none; /* Remove default browser styles */
+    cursor: pointer;
+    outline: none; /* Remove default focus outline */
+    box-shadow: none; /* Remove box-shadow effect */
     border: 1px solid var(--font-white);
 }
-
+.remeber-box-check > input[type="checkbox"]:checked{
+    background-color: transparent !important;
+}
 .remeber-box-check > i {
     color: var(--font-white);
 }
@@ -315,6 +329,7 @@
     bottom: -23px; 
     left: 50%; 
     transform: translateX(-50%); 
+    
 }
 
 .account-details h3 {
@@ -326,13 +341,16 @@
     background-color: var(--primary-color);
 }
 
-.account-details > p {
-    margin-left: 1em;
-    padding: 0 ;
-    margin-bottom: 0;
-    font-size: 15px !important;
-}
 
+
+.account-details p {
+    margin-left: 1em;
+    padding: 0 10px;
+    font-size: 12px;
+    word-wrap: break-word;
+    width: 80%;
+    font-weight: 600;
+  }
 
 .social-icons {
     display: flex;
@@ -358,6 +376,8 @@
 }
 .dont-have-acc-container > p{
     margin: 0;
+    font-size: 13px;
+
 }
 .signup-container > p{
     font-size: 13px;
@@ -412,8 +432,8 @@
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
     padding: 40px !important;
-    width: 540px !important;
-    height: 510px !important;
+    width: 500px !important;
+    height: 480px !important;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -465,7 +485,6 @@
 
 .forgot-header > p {
     font-size: 14px !important;
-    font-weight: 300;
     padding: 0;
     margin: 0;
 }
@@ -475,8 +494,8 @@
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
     padding: 40px !important;
-    width: 540px !important;
-    height: 510px !important;
+    width: 500px !important;
+    height: 480px !important;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -487,7 +506,15 @@
     z-index: 0;
     padding: 20px;
 }
-
+.check-email-container p{
+    font-size: 14px !important;
+    padding: 0;
+    margin: 0;
+}
+.check-email-container b{
+    font-size: 14px !important;
+    font-weight: 600;
+}
 .btn-proceed-reset-pass {
     padding: 10px 25px;
     border-radius: 50px;
@@ -526,8 +553,8 @@
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
     padding: 40px !important;
-    width: 540px !important;
-    height: 510px !important;
+    width: 500px !important;
+    height: 480px !important;
     position: relative;
     border-radius: 50px;
     display: flex;
@@ -591,8 +618,8 @@
     background: linear-gradient(128deg, rgba(244,106,5,1) 32%, rgba(245,199,121,1) 95%, rgba(245,199,121,1) 95%);
     color: white;
     padding: 40px !important;
-    width: 540px !important;
-    height: 510px !important;
+    width: 500px !important;
+    height: 480px !important;
     position: relative;
     border-radius: 50px;
     display: flex;

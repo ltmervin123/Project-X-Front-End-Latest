@@ -91,7 +91,24 @@ const ForgotForm = () => {
                 }`}
               >
                 <span className="input-group-text">
-                  <FaEnvelope />
+                <svg width="50" height="41" viewBox="0 0 50 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter0_d_2750_1703)">
+                <path d="M41.8 0H8.2C5.89 0 4.021 1.85625 4.021 4.125L4 28.875C4 31.1437 5.89 33 8.2 33H41.8C44.11 33 46 31.1437 46 28.875V4.125C46 1.85625 44.11 0 41.8 0ZM40.96 8.76562L26.113 17.8819C25.441 18.2944 24.559 18.2944 23.887 17.8819L9.04 8.76562C8.82943 8.64953 8.64503 8.49268 8.49797 8.30456C8.3509 8.11645 8.24423 7.90098 8.18441 7.6712C8.12459 7.44142 8.11286 7.20212 8.14993 6.96776C8.187 6.7334 8.27211 6.50887 8.40009 6.30775C8.52808 6.10663 8.69628 5.9331 8.89452 5.79768C9.09277 5.66225 9.31693 5.56774 9.55344 5.51987C9.78995 5.47199 10.0339 5.47174 10.2705 5.51914C10.5071 5.56654 10.7315 5.6606 10.93 5.79562L25 14.4375L39.07 5.79562C39.2685 5.6606 39.4929 5.56654 39.7295 5.51914C39.9661 5.47174 40.21 5.47199 40.4466 5.51987C40.6831 5.56774 40.9072 5.66225 41.1055 5.79768C41.3037 5.9331 41.4719 6.10663 41.5999 6.30775C41.7279 6.50887 41.813 6.7334 41.8501 6.96776C41.8871 7.20212 41.8754 7.44142 41.8156 7.6712C41.7558 7.90098 41.6491 8.11645 41.502 8.30456C41.355 8.49268 41.1706 8.64953 40.96 8.76562Z" fill="white"/>
+                </g>
+                <defs>
+                <filter id="filter0_d_2750_1703" x="0" y="0" width="50" height="41" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dy="4"/>
+                <feGaussianBlur stdDeviation="2"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2750_1703"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2750_1703" result="shape"/>
+                </filter>
+                </defs>
+                </svg>
+
                 </span>
                 <div className={`input-container ${error ? "is-invalid" : ""}`}>
                   <input
