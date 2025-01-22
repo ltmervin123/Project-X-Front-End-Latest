@@ -78,7 +78,7 @@
   text-align: center;
   gap: 20px;
   position: relative;
-  padding: 50px 50px 10px 50px;
+  padding: 50px 50px 20px 50px;
   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
 }
 .info-create-acc-container > div{
@@ -96,15 +96,28 @@
 margin: 0 !important;
 font-size: 12px !important;
 text-align: left;
+font-weight: 500;
+}
+.already-have-slash-login-container{
+  margin: 0 !important;
+  background: transparent !important;
+  height: auto!important;
+
+}
+.already-have-slash-login-container > svg{
+  position: absolute;
+  bottom: 15px;
+  left: 44px;
 }
 .already-have-acc {
   margin: 0;
   padding: 0;
   font-size: 10px;
+  
 }
 .already-have-acc > small {
-  font-size: 8px;
-  color: var(--input-bg);
+  font-size: 9px;
+  margin-bottom: 2px;
 }
 .logo {
   width: 20%; /* Adjust as necessary */
@@ -171,8 +184,8 @@ text-align: left;
 }
 .required-asterisk {
     position: absolute;
-    top: -2px;
-    right: 25px;
+    top: -6px;
+    right: 20px;
     color: red !important;
     font-size: 20px !important;
     z-index: 10;
@@ -189,7 +202,13 @@ text-align: left;
   background: none;
   border: none;
   color: var(--font-white);
-  font-size: 35px;
+  padding: 5px;
+}
+.input-group > span > svg{
+  width: 40px;
+  height: 40px;
+  position: relative;
+  bottom: -1px;
 }
 .note {
   justify-content: flex-end;
@@ -206,7 +225,7 @@ text-align: left;
   border: none;
   position: absolute;
   right: 30%;
-  bottom: -24px;
+  bottom: -20px;
 }
 .account-details h3 {
   position: absolute;
@@ -216,13 +235,7 @@ text-align: left;
   margin-left: 1em;
   background-color: var(--primary-color);
 }
-.account-details p {
-  margin-left: 1em;
-  padding: 0 10px;
-  font-size: 12px;
-  word-wrap: break-word;
-  width: 80%;
-}
+
 
 .privacy {
   display: flex !important;
@@ -241,9 +254,31 @@ text-align: left;
 .privacy > .checkbox-container > input[type="checkbox"] {
   width: 15px;
   height: 15px;
-  /* appearance: none; */
+  background-color: transparent;
+  cursor: pointer;
+  outline: none; /* Remove default focus outline */
+  box-shadow: none; /* Remove box-shadow effect */
   border: 1px solid var(--font-white);
-  background: transparent;
+  appearance: none; /* Remove default browser styles */
+  position: relative;
+}
+
+/* When checkbox is checked */
+.privacy > .checkbox-container > input[type="checkbox"]:checked {
+  background-color: transparent;
+}
+
+/* Add a custom checkmark using a pseudo-element */
+.privacy > .checkbox-container > input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--font-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 .privacy-content {
   padding: 5px 0px;
@@ -275,10 +310,12 @@ text-align: left;
   color: var(--font-white);
   background: var(--primary-color) !important;
   text-decoration: none;
-  width: 150px;
-  height: 40px;
+  width: 150px !important;
+  height: 40px !important;
   border: none !important;
   border-radius: 50px !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.339);
+
 }
 
 .custom-regsuccess-container {
