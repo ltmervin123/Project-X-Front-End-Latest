@@ -126,7 +126,7 @@ const HeroSection = () => {
                 </a>
               </button>
             </Col>
-            <Col md={5}>
+            <Col md={4}>
               <img src={HeroAvatar} className="heroavatar" alt="Hero Avatar" />
             </Col>
           </Row>

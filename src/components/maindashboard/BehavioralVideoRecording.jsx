@@ -366,8 +366,7 @@ const BehavioralVideoRecording = () => {
         mediaRecorderRef.current.start();
         setIsRecording(true);
         setIsPaused(false);
-        // Reset timer
-        setTimer({ minutes: 0, seconds: 0 });
+
       }
 
       // Set up audio streaming
@@ -427,6 +426,10 @@ const BehavioralVideoRecording = () => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
+    // Reset timer
+    setTimer({ minutes: 0, seconds: 0 });
+    console.log("Timer Reset")
+    
     // Set uploading state to true
     setIsUploading(true);
     if (
@@ -440,6 +443,8 @@ const BehavioralVideoRecording = () => {
       audioRecorderRef.current.onstop = () => {
         if (socket?.connected) {
           socket.emit("stop-transcription"); // Notify the backend to finalize transcription
+          console.log("Notify the backend to finalize Stop Transcript")
+
         }
       };
 
@@ -457,6 +462,8 @@ const BehavioralVideoRecording = () => {
           if (data?.message) {
             socket.off("transcription-complete"); // Cleanup listener to avoid memory leaks
             resolve(); // Proceed to the next step
+            console.log("Clean-up Transcript")
+
           }
         });
       });
@@ -657,14 +664,6 @@ const BehavioralVideoRecording = () => {
       // Set uploading state to false
       setIsUploading(false);
     }
-  };
-
-  // Cancel close handler
-  const handleCancelClose = () => {
-    setShowConfirm(false);
-    setIsRecording(false); // Reset recording state
-    setIsPaused(true); // Reset pause state
-    setTimer({ minutes: 0, seconds: 0 }); // Reset timer
   };
 
   //Countdown effect
@@ -934,12 +933,10 @@ const BehavioralVideoRecording = () => {
                       {transcriptRef.current}
                       </p>
                       ) : (
-                        <div className="speech-default-subtitle">
-                          {/* <p>
-                          REAL-TIME TRANSCRIPTION HERE 
+                        <p className="speech-subtitle-overlay">
 
-                          </p> */}
-                          </div>                      )}
+                        </p>
+                        )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (
@@ -1000,12 +997,18 @@ const BehavioralVideoRecording = () => {
               ) : (
                 <Col
                   md={5}
-                  className="d-flex flex-column align-items-center justify-content-end"
+                  className="d-flex flex-column align-items-center justify-content-end position-relative"
                 >
-                  <div className="interview-question-container">
+                  <div className="interview-preview-avatar"></div>
+                  <div className="orange-box-avatar-sitting"></div>
+
+                  <div className="interview-question-container1">
+                    <div className="outro-text-container">
                     <h4>Thank you for proceeding!</h4>
                     <p>Your interview is now in progress. Best of luck!</p>
-                    <div className="d-flex justify-content-center">
+
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button
                         className="btn-viewresult"
                         onClick={() => (window.location.href = "/analytics")}

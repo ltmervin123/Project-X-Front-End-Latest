@@ -85,9 +85,9 @@ const InterviewPreview = ({ videoSrc }) => {
           <button onClick={handleNext} className="video-nav-button next-button">
             <FaStepForward />
           </button>
-          <strong>
-            Preview {currentVideoIndex + 1} of {filteredVideos.length}
-          </strong>
+          <p className="preview-title">
+            Your Inteview Preview {currentVideoIndex + 1} of {filteredVideos.length}
+          </p>
         </div>
       </div>
       <div className="video-player-progress" onClick={handleProgressClick}>

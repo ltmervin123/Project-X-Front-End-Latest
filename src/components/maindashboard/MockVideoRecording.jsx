@@ -375,8 +375,7 @@ const VideoRecording = ({ interviewType, category }) => {
         mediaRecorderRef.current.start();
         setIsRecording(true);
         setIsPaused(false);
-        // Reset timer
-        setTimer({ minutes: 0, seconds: 0 });
+
       }
 
       // Set up audio streaming
@@ -435,6 +434,10 @@ const VideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
+    // Reset timer
+    setTimer({ minutes: 0, seconds: 0 });
+    console.log("Timer Reset")
+
     // Set uploading state to true
     setIsUploading(true);
 
@@ -449,6 +452,7 @@ const VideoRecording = ({ interviewType, category }) => {
       audioRecorderRef.current.onstop = () => {
         if (socket?.connected) {
           socket.emit("stop-transcription"); // Notify the backend to finalize transcription
+          console.log("Notify the backend to finalize Stop Transcript")
         }
       };
 
@@ -456,6 +460,8 @@ const VideoRecording = ({ interviewType, category }) => {
       socket.once("final-transcription", (data) => {
         if (data?.isFinal) {
           setTranscript(data.text);
+          console.log("Final Transcript")
+
         }
       });
 
@@ -466,6 +472,8 @@ const VideoRecording = ({ interviewType, category }) => {
           if (data?.message) {
             socket.off("transcription-complete"); // Cleanup listener to avoid memory leaks
             resolve(); // Proceed to the next step
+            console.log("Clean-up Transcript")
+
           }
         });
       });
@@ -942,12 +950,10 @@ const VideoRecording = ({ interviewType, category }) => {
                       {transcriptRef.current}
                       </p>
                       ) : (
-                        <div className="speech-default-subtitle">
-                          {/* <p>
-                          REAL-TIME TRANSCRIPTION HERE 
+                        <p className="speech-subtitle-overlay">
 
-                          </p> */}
-                          </div>                      )}
+                        </p>
+                                        )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (
@@ -1007,12 +1013,18 @@ const VideoRecording = ({ interviewType, category }) => {
               ) : (
                 <Col
                   md={5}
-                  className="d-flex flex-column align-items-center justify-content-end"
+                  className="d-flex flex-column align-items-center justify-content-end position-relative"
                 >
-                  <div className="interview-question-container">
+                  <div className="interview-preview-avatar"></div>
+                  <div className="orange-box-avatar-sitting"></div>
+
+                  <div className="interview-question-container1">
+                    <div className="outro-text-container">
                     <h4>Thank you for proceeding!</h4>
                     <p>Your interview is now in progress. Best of luck!</p>
-                    <div className="d-flex justify-content-center">
+
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button
                         className="btn-viewresult"
                         onClick={() => (window.location.href = "/analytics")}
