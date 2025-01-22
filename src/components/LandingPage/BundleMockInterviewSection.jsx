@@ -60,7 +60,7 @@ const BundleMockInterviewSection = () => {
           </div>
         </div>
         <div className="step-card d-flex align-items-center justify-content-start  flex-column gap-5">
-    <img src={ai} alt="" />
+          <img src={ai} alt="" />
           <div className='text-center'>
             <div className="steps">STEP 2</div>
 
@@ -84,7 +84,6 @@ const BundleMockInterviewSection = () => {
         
         <div className="bg-orange-behindcard"></div>
     </div>
-    <div className="horizontal-line"></div>
 
   </section>
   );
