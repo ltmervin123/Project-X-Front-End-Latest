@@ -137,7 +137,7 @@ const LoginForm = () => {
                 src={fb}
                 alt="Facebook"
                 className="social-icon"
-                onClick={handleFacebookLogin}
+                // onClick={handleFacebookLogin}
               />
             </div>
             <button
