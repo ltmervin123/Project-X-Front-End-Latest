@@ -615,6 +615,15 @@ h2 > .quote {
   padding: 20px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
+.premium-box-container > div{
+  width: 100% !important;
+  height: 100%;
+
+}
+.choose-plan-card{
+  width: 20%;
+
+}
 .premium-box-container1 {
   width: 90%;
   max-width: 1400px;
@@ -638,6 +647,9 @@ h2 > .quote {
 .premium-box-header {
   color: var(--font-white);
   font-size: 15px;
+    display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .premium-box-header .premium-box-title , .premium-box-header .premium-box-data{
   margin: 0;
@@ -660,12 +672,28 @@ h2 > .quote {
 }
 
 .premium-card{
-  width: 100%;
+  width: 200px;
+  padding: 5px;
   height: 100px !important;
   color: var(--font-black);
 }
 .premium-card p{
   margin: 0;
+}
+.premium-card-box{
+  padding: 5px;
+  position: relative;
+}
+.premium-recommended{
+  font-size: 10px;
+  font-style: italic;
+  background: #319F43;
+  padding: 1px 4px;
+  border-radius: 4px;
+  position: absolute;
+  color: var(--font-white);
+  top: -5px;
+  z-index: 1;
 }
 .premium-card > p{
   font-size: 20px !important;
@@ -693,7 +721,7 @@ h2 > .quote {
   background: var(--primary-color) !important;
   border: none !important;
   color: var(--font-white) !important;
-  width: 90%;
+  width: 180px !important;
   font-size: 16px;
   border-radius: 10px !important;
   margin-top: 20px;
@@ -730,7 +758,7 @@ h2 > .quote {
 }
 
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header > .premium-card >  p{
-  padding-bottom: 12px;
+  padding-bottom: 15px;
 }
 .premium-box-container1 > .row > .col-md-2 > .premium-box-header  i{
   font-size: 13px !important;
@@ -738,7 +766,7 @@ h2 > .quote {
   font-weight: 300;
   color: var(--primary-color) !important;
   position: absolute;
-  top: -1px;
+  top: -6px;
 }
 
 /*About Hr hatch*/

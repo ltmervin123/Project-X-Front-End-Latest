@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import CheckEmailForm from "./CheckEmailForm";
+import LoadingScreen from "./LoadingScreen";
+
 import axios from "axios";
 
 const ForgotForm = () => {
@@ -128,7 +130,7 @@ const ForgotForm = () => {
               </div>
 
               <button type="submit" className="btn-send-email">
-                {isSending ? "Sending..." : "Send Email"}
+                {isSending ? <LoadingScreen /> : "Send Email"}
               </button>
               <a
                 className="d-flex align-items-center mt-3"

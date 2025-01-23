@@ -13,8 +13,8 @@ const PremiumPackageSection = () => {
 
             </h1>
             <div  className="premium-box-container d-flex align-items-center justify-content-center flex-wrap gap-5">
-                <Row>
-                    <Col md={2}>
+                <div className='d-flex justify-content-center'>
+                    <div className='choose-plan-card'>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card">
 
@@ -46,8 +46,8 @@ const PremiumPackageSection = () => {
 
                             {/* <button className="btn btn-primary">Choose Plan</button> */}
                         </div>
-                    </Col>
-                    <Col md={2}>
+                    </div>
+                    <div className='choose-plan-card'>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
                                 <p clas>Free</p>
@@ -102,8 +102,8 @@ const PremiumPackageSection = () => {
 
                                     </div>
                                 </div>
-                    </Col>
-                    <Col md={2}>
+                    </div>
+                    <div className='choose-plan-card'>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
                                 <p>Weekly Basic</p>
@@ -158,13 +158,13 @@ const PremiumPackageSection = () => {
 
                                     </div>
                                 </div>
-                    </Col>
-
-                    <Col md={2}>
+                    </div>
+                    <div className='choose-plan-card'>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
                                 <p>Monthly Basic</p>
                                 <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
+                                <p className="premium-recommended">Recommendable</p>
                                 <p className='premium-price'>¥ 1,800.00   </p> 
                                 <p className='premium-round'>50 Rounds of Interview</p>
                                 </div>
@@ -216,69 +216,8 @@ const PremiumPackageSection = () => {
 
                                     </div>
                                 </div>
-                    </Col>
-
-                    <Col md={2}>
-                        <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
-                            <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
-                                <p>Monthly Bundle</p>
-                                <div className="premium-card-box d-flex flex-column justify-content-center align-items-center">
-                                <p className='premium-price'>¥ 2,000.00   </p> 
-                                <p className='premium-round'>Unlimited Rounds</p>
-                                </div>
-                            </div>
-                            <div className="premium-box-title">
-
-</div>
-                            <div className="premium-box-data d-flex justify-content-center align-items-center">
-                                <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M15 30C16.9698 30 18.9204 29.612 20.7403 28.8582C22.5601 28.1044 24.2137 26.9995 25.6066 25.6066C26.9995 24.2137 28.1044 22.5601 28.8582 20.7403C29.612 18.9204 30 16.9698 30 15C30 13.0302 29.612 11.0796 28.8582 9.25975C28.1044 7.43986 26.9995 5.78628 25.6066 4.3934C24.2137 3.00052 22.5601 1.89563 20.7403 1.14181C18.9204 0.387986 16.9698 -2.93527e-08 15 0C11.0218 5.92805e-08 7.20644 1.58035 4.3934 4.3934C1.58035 7.20644 0 11.0218 0 15C0 18.9782 1.58035 22.7936 4.3934 25.6066C7.20644 28.4196 11.0218 30 15 30ZM14.6133 21.0667L22.9467 11.0667L20.3867 8.93333L13.22 17.5317L9.51167 13.8217L7.155 16.1783L12.155 21.1783L13.445 22.4683L14.6133 21.0667Z" fill="#319F43"/>
-</svg>
-
-
-                            </div>
-                            <div className="premium-box-data d-flex justify-content-center align-items-center">
-                            <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M15 30C16.9698 30 18.9204 29.612 20.7403 28.8582C22.5601 28.1044 24.2137 26.9995 25.6066 25.6066C26.9995 24.2137 28.1044 22.5601 28.8582 20.7403C29.612 18.9204 30 16.9698 30 15C30 13.0302 29.612 11.0796 28.8582 9.25975C28.1044 7.43986 26.9995 5.78628 25.6066 4.3934C24.2137 3.00052 22.5601 1.89563 20.7403 1.14181C18.9204 0.387986 16.9698 -2.93527e-08 15 0C11.0218 5.92805e-08 7.20644 1.58035 4.3934 4.3934C1.58035 7.20644 0 11.0218 0 15C0 18.9782 1.58035 22.7936 4.3934 25.6066C7.20644 28.4196 11.0218 30 15 30ZM14.6133 21.0667L22.9467 11.0667L20.3867 8.93333L13.22 17.5317L9.51167 13.8217L7.155 16.1783L12.155 21.1783L13.445 22.4683L14.6133 21.0667Z" fill="#319F43"/>
-</svg>
-
-
-
-                            </div>
-                            <div className="premium-box-data d-flex justify-content-center align-items-center">
-                            <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M15 30C16.9698 30 18.9204 29.612 20.7403 28.8582C22.5601 28.1044 24.2137 26.9995 25.6066 25.6066C26.9995 24.2137 28.1044 22.5601 28.8582 20.7403C29.612 18.9204 30 16.9698 30 15C30 13.0302 29.612 11.0796 28.8582 9.25975C28.1044 7.43986 26.9995 5.78628 25.6066 4.3934C24.2137 3.00052 22.5601 1.89563 20.7403 1.14181C18.9204 0.387986 16.9698 -2.93527e-08 15 0C11.0218 5.92805e-08 7.20644 1.58035 4.3934 4.3934C1.58035 7.20644 0 11.0218 0 15C0 18.9782 1.58035 22.7936 4.3934 25.6066C7.20644 28.4196 11.0218 30 15 30ZM14.6133 21.0667L22.9467 11.0667L20.3867 8.93333L13.22 17.5317L9.51167 13.8217L7.155 16.1783L12.155 21.1783L13.445 22.4683L14.6133 21.0667Z" fill="#319F43"/>
-</svg>
-
-
-
-                            </div>
-                            <div className="premium-box-data d-flex justify-content-center align-items-center">
-                            <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M15 30C16.9698 30 18.9204 29.612 20.7403 28.8582C22.5601 28.1044 24.2137 26.9995 25.6066 25.6066C26.9995 24.2137 28.1044 22.5601 28.8582 20.7403C29.612 18.9204 30 16.9698 30 15C30 13.0302 29.612 11.0796 28.8582 9.25975C28.1044 7.43986 26.9995 5.78628 25.6066 4.3934C24.2137 3.00052 22.5601 1.89563 20.7403 1.14181C18.9204 0.387986 16.9698 -2.93527e-08 15 0C11.0218 5.92805e-08 7.20644 1.58035 4.3934 4.3934C1.58035 7.20644 0 11.0218 0 15C0 18.9782 1.58035 22.7936 4.3934 25.6066C7.20644 28.4196 11.0218 30 15 30ZM14.6133 21.0667L22.9467 11.0667L20.3867 8.93333L13.22 17.5317L9.51167 13.8217L7.155 16.1783L12.155 21.1783L13.445 22.4683L14.6133 21.0667Z" fill="#319F43"/>
-</svg>
-
-
-
-
-                            </div>
-                            <div className="premium-box-data d-flex justify-content-center align-items-center">
-                            <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M15 30C16.9698 30 18.9204 29.612 20.7403 28.8582C22.5601 28.1044 24.2137 26.9995 25.6066 25.6066C26.9995 24.2137 28.1044 22.5601 28.8582 20.7403C29.612 18.9204 30 16.9698 30 15C30 13.0302 29.612 11.0796 28.8582 9.25975C28.1044 7.43986 26.9995 5.78628 25.6066 4.3934C24.2137 3.00052 22.5601 1.89563 20.7403 1.14181C18.9204 0.387986 16.9698 -2.93527e-08 15 0C11.0218 5.92805e-08 7.20644 1.58035 4.3934 4.3934C1.58035 7.20644 0 11.0218 0 15C0 18.9782 1.58035 22.7936 4.3934 25.6066C7.20644 28.4196 11.0218 30 15 30ZM14.6133 21.0667L22.9467 11.0667L20.3867 8.93333L13.22 17.5317L9.51167 13.8217L7.155 16.1783L12.155 21.1783L13.445 22.4683L14.6133 21.0667Z" fill="#319F43"/>
-</svg>
-
-
-
-                            </div>
-
-                                    <div className="d-flex justify-content-center">
-                                    <button className="btn btn-choose-plan">Choose Plan</button>
-
-                                    </div>
-                                </div>
-                    </Col>
-
-                    <Col  md={2}>
+                    </div>
+                    <div className='choose-plan-card'>
                         <div className="premium-box-header justify-content-center flex-column  align-items-center"> 
                             <div className="premium-card d-flex flex-column justify-content-center align-items-center "> 
                                 <p>Yearly Bundle</p>
@@ -336,12 +275,8 @@ const PremiumPackageSection = () => {
 
                                     </div>
                                 </div>
-                    </Col>
-
-
-
-
-                </Row>
+                    </div>
+                </div>
             </div>
             
             <div  className="premium-box-container1 d-flex-align-items-center flex-column">

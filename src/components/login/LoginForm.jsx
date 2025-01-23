@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleAuth } from "../../hook/useGoogleAuth";
 import ErrorGoogleLogin from "./errors/ErrorGoogleLogin";
 import { useAuthContext } from "../../hook/useAuthContext";
+import LoadingScreen from "./LoadingScreen";
 const LoginForm = () => {
   const { dispatch } = useAuthContext();
   const { user } = useAuthContext();
@@ -177,7 +178,7 @@ const LoginForm = () => {
                 className="login-button"
                 disabled={isLoading}
               >
-                {isLoading ? "Logging in...." : "Log in"}
+                {isLoading ? <LoadingScreen /> : "Log in"}  
               </button>
             </form>
           </div>
