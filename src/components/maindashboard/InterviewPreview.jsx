@@ -73,11 +73,11 @@ const InterviewPreview = ({ videoSrc }) => {
           className="video-feed-invert"
           src={filteredVideos[currentVideoIndex]}
           onTimeUpdate={handleProgress}
-          // controls
+          controls
         ></video>
         <div className="controls">
-          <button onClick={togglePlayPause} className="play-pause-button">
-            {isPlaying ? <FaPause /> : <FaPlay />}
+          <button onClick={togglePlayPause} className="video-nav-button play-pause-button">
+            {isPlaying ? <FaPause /> : <FaPlay className="play"/>}
           </button>
           <button onClick={handlePrev} className="video-nav-button prev-button">
             <FaStepBackward />
@@ -85,9 +85,9 @@ const InterviewPreview = ({ videoSrc }) => {
           <button onClick={handleNext} className="video-nav-button next-button">
             <FaStepForward />
           </button>
-          <strong>
-            Preview {currentVideoIndex + 1} of {filteredVideos.length}
-          </strong>
+          <p className="preview-title">
+            Your Inteview Preview {currentVideoIndex + 1} of {filteredVideos.length}
+          </p>
         </div>
       </div>
       <div className="video-player-progress" onClick={handleProgressClick}>

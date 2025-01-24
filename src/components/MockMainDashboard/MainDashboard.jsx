@@ -21,16 +21,14 @@ function MainDashboard() {
       <div>
         <h4>Welcome to your Dashboard!</h4>
         <span>
-          Unlock the power of 
+
                   <img
                         src={logo}
                         alt="Logo"
                         width="95"
                         height="14"
                       />  
-                       to
-          enhance your interview skills and craft the perfect resume. Let’s take
-          your career to the next level!
+ is your AI-powered job search partner, designed to make your journey smoother and smarter. Master your interview skills with Mock.AI, perfect your resume with our Resume Fit Optimizer, and stay ahead of the game with our Application Tracker. Let us help you unlock the door to your dream job!
         </span>
       </div>
 

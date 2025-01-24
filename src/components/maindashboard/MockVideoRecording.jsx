@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useRef } from "react";
-import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
+import { Button, Row, Col, Spinner } from "react-bootstrap";
 import Header from "../../components/Result/Header";
 import {
   FaMicrophone,
@@ -20,8 +20,7 @@ import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
-import introJs from "intro.js";
-import "intro.js/minified/introjs.min.css";
+
 import io from "socket.io-client";
 import { useGreeting } from "../../hook/useGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
@@ -61,7 +60,6 @@ const VideoRecording = ({ interviewType, category }) => {
   const [cameraError, setCameraError] = useState(false);
   const [feedbackError, setFeedbackError] = useState(false);
   const [questionError, setQuestionError] = useState(false);
-  const [recognizedText, setRecognizedText] = useState("");
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
@@ -281,7 +279,6 @@ const VideoRecording = ({ interviewType, category }) => {
       // Set uploading state to true
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
 
       // Create a payload object to send the transcription data
       const greeting = interviewerGreetingText.current;
@@ -360,131 +357,148 @@ const VideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to start recording
   const startRecording = () => {
-    setIsResponseIndicatorVisible(false);
+    try {
+      setIsResponseIndicatorVisible(false);
 
-    if (streamRef.current) {
-      // Clear chunks before new recording
-      recordedChunksRef.current = [];
-      // Use the reference
-      const stream = streamRef.current;
-      // Initialize MediaRecorder with stream
-      mediaRecorderRef.current = new MediaRecorder(streamRef.current);
+      if (streamRef.current) {
+        // Clear chunks before new recording
+        recordedChunksRef.current = [];
+        // Use the reference
+        const stream = streamRef.current;
+        // Initialize MediaRecorder with stream
+        mediaRecorderRef.current = new MediaRecorder(streamRef.current);
 
-      // Start recording if MediaRecorder is inactive
-      if (mediaRecorderRef.current.state === "inactive") {
-        mediaRecorderRef.current.start();
-        setIsRecording(true);
-        setIsPaused(false);
-        // Reset timer
-        setTimer({ minutes: 0, seconds: 0 });
-      }
-
-      // Set up audio streaming
-      const audioTrack = stream.getAudioTracks()[0];
-      const audioStream = new MediaStream([audioTrack]);
-
-      audioRecorderRef.current = new MediaRecorder(audioStream, {
-        mimeType: "audio/webm;codecs=opus",
-      });
-
-      //Remove the previous event listener
-      socket.off("real-time-transcription");
-      // Listen for transcription events
-      socket.on("real-time-transcription", (data) => {
-        if (data.isFinal) {
-          setTranscript(data.text);
-        } else {
-          setRecognizedText(data.text);
+        // Start recording if MediaRecorder is inactive
+        if (mediaRecorderRef.current.state === "inactive") {
+          mediaRecorderRef.current.start();
+          setIsRecording(true);
+          setIsPaused(false);
         }
-      });
-      //Remove the previous event listener
-      socket.off("transcription-error");
-      // Listen for transcription error events
-      socket.on("transcription-error", (error) => {
-        console.error("Transcription error:", error);
-      });
+        // Start recording if MediaRecorder is inactive
+        if (mediaRecorderRef.current.state === "inactive") {
+          mediaRecorderRef.current.start();
+          setIsRecording(true);
+          setIsPaused(false);
+        }
 
-      // Listen for audio data events
-      audioRecorderRef.current.ondataavailable = async (event) => {
-        if (
-          event.data.size > 0 &&
-          socket?.connected &&
-          audioRecorderRef.current?.state === "recording"
-        ) {
-          try {
-            // Convert the audio chunk to a buffer
-            const buffer = await event.data.arrayBuffer();
-            // Emit the audio stream to the server
-            socket.emit("audio-stream", buffer);
-          } catch (error) {
-            console.error("Error processing audio chunk:", error);
+        // Set up audio streaming
+        const audioTrack = stream.getAudioTracks()[0];
+        const audioStream = new MediaStream([audioTrack]);
+
+        audioRecorderRef.current = new MediaRecorder(audioStream, {
+          mimeType: "audio/webm;codecs=opus",
+        });
+
+        //Remove the previous event listener
+        socket.off("real-time-transcription");
+        // Listen for transcription events
+        socket.on("real-time-transcription", (data) => {
+          if (data.isFinal) {
+            setTranscript(data.text);
+          } else {
           }
-        }
-      };
+        });
+        //Remove the previous event listener
+        socket.off("transcription-error");
+        // Listen for transcription error events
+        socket.on("transcription-error", (error) => {
+          console.error("Transcription error:", error);
+        });
 
-      // Listen for video data events
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunksRef.current.push(event.data);
-        }
-      };
-      //Emit the audio every 100ms
-      audioRecorderRef.current.start(100);
+        // Listen for audio data events
+        audioRecorderRef.current.ondataavailable = async (event) => {
+          if (
+            event.data.size > 0 &&
+            socket?.connected &&
+            audioRecorderRef.current?.state === "recording"
+          ) {
+            try {
+              // Convert the audio chunk to a buffer
+              const buffer = await event.data.arrayBuffer();
+              // Emit the audio stream to the server
+              socket.emit("audio-stream", buffer);
+            } catch (error) {
+              console.error("Error processing audio chunk:", error);
+            }
+          }
+        };
+
+        // Listen for video data events
+        mediaRecorderRef.current.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            recordedChunksRef.current.push(event.data);
+          }
+        };
+        //Emit the audio every 100ms
+        audioRecorderRef.current.start(100);
+      }
+    } catch (error) {
+      console.error("Error starting recording:", error);
     }
   };
 
   // Reusable function to stop recording
   const stopRecording = async () => {
+    // // Reset timer
+    setTimer({ minutes: 0, seconds: 0 });
+    console.log("Timer Reset");
+
     // Set uploading state to true
     setIsUploading(true);
+    try {
+      // Set uploading state to true
+      setIsUploading(true);
 
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
-      // Stop audio recording
-      audioRecorderRef.current?.stop();
+      if (
+        mediaRecorderRef.current &&
+        mediaRecorderRef.current.state === "recording"
+      ) {
+        // Stop audio recording
+        audioRecorderRef.current?.stop();
 
-      // Flush any remaining audio chunks
-      audioRecorderRef.current.onstop = () => {
-        if (socket?.connected) {
-          socket.emit("stop-transcription"); // Notify the backend to finalize transcription
-        }
-      };
+        // Flush any remaining audio chunks
+        audioRecorderRef.current.onstop = () => {
+          if (socket?.connected) {
+            socket.emit("stop-transcription"); // Notify the backend to finalize transcription
+          }
+        };
 
-      //Finalize the transcription when the recording stops
-      socket.once("final-transcription", (data) => {
-        if (data?.isFinal) {
-          setTranscript(data.text);
-        }
-      });
-
-      // Wait for "transcription-complete" signal from backend
-      await new Promise((resolve) => {
-        socket.off("transcription-complete");
-        socket.once("transcription-complete", (data) => {
-          if (data?.message) {
-            socket.off("transcription-complete"); // Cleanup listener to avoid memory leaks
-            resolve(); // Proceed to the next step
+        //Finalize the transcription when the recording stops
+        socket.once("final-transcription", (data) => {
+          if (data?.isFinal) {
+            setTranscript(data.text);
           }
         });
-      });
-      // Stop video recording and save the video
-      mediaRecorderRef.current.stop();
-      mediaRecorderRef.current.onstop = () => {
-        const videoBlob = new Blob(recordedChunksRef.current, {
-          type: "video/webm",
+
+        // Wait for "transcription-complete" signal from backend
+        await new Promise((resolve) => {
+          socket.off("transcription-complete");
+          socket.once("transcription-complete", (data) => {
+            if (data?.message) {
+              socket.off("transcription-complete"); // Cleanup listener to avoid memory leaks
+              resolve(); // Proceed to the next step
+            }
+          });
         });
-        const videoUrl = URL.createObjectURL(videoBlob);
-        setRecordedVideos((prevVideos) => [...prevVideos, videoUrl]);
-      };
-      //Check if intro and execute the final greeting function
-      if (isIntro) {
-        await aiFinalGreeting();
-      } else {
-        /* Interview simulation here if not intro */
-        await handleInterviewAnswer();
+        // Stop video recording and save the video
+        mediaRecorderRef.current.stop();
+        mediaRecorderRef.current.onstop = () => {
+          const videoBlob = new Blob(recordedChunksRef.current, {
+            type: "video/webm",
+          });
+          const videoUrl = URL.createObjectURL(videoBlob);
+          setRecordedVideos((prevVideos) => [...prevVideos, videoUrl]);
+        };
+        //Check if intro and execute the final greeting function
+        if (isIntro) {
+          await aiFinalGreeting();
+        } else {
+          /* Interview simulation here if not intro */
+          await handleInterviewAnswer();
+        }
       }
+    } catch (error) {
+      console.error("Error stopping recording:", error);
     }
   };
 
@@ -538,24 +552,7 @@ const VideoRecording = ({ interviewType, category }) => {
       }
     });
 
-    // try {
-    //   const response = await axios.post(
-    //     `${API}/api/interview/create-feedback`,
-    //     { interviewId },
-    //     {
-    //       headers: {
-    //         "Content-Type": "Application/json",
-    //         Authorization: `Bearer ${user.token}`,
-    //       },
-    //     }
-    //   );
-    //   setIsGeneratingFeedback(false);
-    //   setShowPreviewPopup(true);
-    //   setInterviewId("");
-    // } catch (err) {
-    //   console.error(err.response ? err.response.data.error : err.message);
-    //   setFeedbackError(true); // Set feedback error state
-    // }
+
   };
 
   // Timer Effect
@@ -614,7 +611,6 @@ const VideoRecording = ({ interviewType, category }) => {
     try {
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
 
       const question = questions[questionIndex];
 
@@ -923,6 +919,8 @@ const VideoRecording = ({ interviewType, category }) => {
                             animation="border"
                             role="status"
                             src={loading}
+                            alt="loading..."
+
                           />
                           <p>Reattempting access to camera...</p>
                         </div>
@@ -937,17 +935,18 @@ const VideoRecording = ({ interviewType, category }) => {
                   className="d-flex flex-column align-items-center gap-1"
                 >
                   <div className="speech-subtitle-container">
-                  {transcriptRef.current ? (
-                       <p className="speech-subtitle-overlay">
-                      {transcriptRef.current}
+                    {transcriptRef.current ? (
+                      <p className="speech-subtitle-overlay">
+                        {transcriptRef.current}
                       </p>
-                      ) : (
-                        <div className="speech-default-subtitle">
-                          {/* <p>
+                    ) : (
+                      <div className="speech-default-subtitle">
+                        {/* <p>
                           REAL-TIME TRANSCRIPTION HERE 
 
                           </p> */}
-                          </div>                      )}
+                      </div>
+                    )}
                   </div>
                   <div className="interview-question-container">
                     {currentGreetingText ? (
@@ -973,7 +972,8 @@ const VideoRecording = ({ interviewType, category }) => {
                         <div className="interview-content">
                           <h4>Welcome to the Interview!</h4>
                           <p>
-                            We will start when you are ready. Please be prepared.
+                            We will start when you are ready. Please be
+                            prepared.
                           </p>
                         </div>
                         <div className="container-startinterview d-flex justify-content-around align-items-center flex-column gap-2 w-100">
@@ -1007,12 +1007,17 @@ const VideoRecording = ({ interviewType, category }) => {
               ) : (
                 <Col
                   md={5}
-                  className="d-flex flex-column align-items-center justify-content-end"
+                  className="d-flex flex-column align-items-center justify-content-end position-relative"
                 >
-                  <div className="interview-question-container">
-                    <h4>Thank you for proceeding!</h4>
-                    <p>Your interview is now in progress. Best of luck!</p>
-                    <div className="d-flex justify-content-center">
+                  <div className="interview-preview-avatar"></div>
+                  <div className="orange-box-avatar-sitting"></div>
+
+                  <div className="interview-question-container1">
+                    <div className="outro-text-container">
+                      <h4>Thank you for proceeding!</h4>
+                      <p>Your interview is now in progress. Best of luck!</p>
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button
                         className="btn-viewresult"
                         onClick={() => (window.location.href = "/analytics")}

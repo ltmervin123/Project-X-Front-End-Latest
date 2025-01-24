@@ -8,13 +8,7 @@ const Footer = () => {
         <div className=" p-4 d-flex align-items-center justify-content-center">
           <div className="row d-flex align-items-start justify-content-start w-100">
             <div className="col-lg-3 col-md-3 d-flex footer-logo align-items-center justify-content-center">
-              <img
-                src={logo}
-                alt="Logo"
-                width="200"
-                height="30"
-                />
-
+              <img src={logo} alt="Logo" width="200" height="30" />
             </div>
 
             <div className="col-lg-3 col-md-4 ">
@@ -28,17 +22,17 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 2">
-                  Resume Fit Optimizer
+                    Resume Fit Optimizer
                   </a>
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 3">
-                  Application Tracker 
+                    Application Tracker
                   </a>
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 4">
-                  AI Reference Checker
+                    AI Reference Checker
                   </a>
                 </li>
               </ul>
@@ -95,15 +89,11 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-lg-1 col-md-1 d-flex footer-logo align-items-center justify-content-center">
-
-
-            </div>
+            <div className="col-lg-1 col-md-1 d-flex footer-logo align-items-center justify-content-center"></div>
           </div>
         </div>
       </div>
     </footer>
-    
   );
 };
 

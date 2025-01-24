@@ -7,7 +7,7 @@ const CheckEmailForm = ({ email }) => {
   const API = process.env.REACT_APP_API_URL;
   const URL = `${API}/api/user/auth/forgot-password`;
   const useremail = email;
-  
+
   const navigate = useNavigate(); // Initialize navigate hook
 
   //Timer effect
@@ -19,7 +19,7 @@ const CheckEmailForm = ({ email }) => {
   }, [timeLeft]);
 
   const sendEmail = async () => {
-    try {  
+    try {
       const requestBody = { email };
       const response = await axios.post(URL, requestBody, {
         headers: { "Content-Type": "application/json" },
@@ -97,8 +97,8 @@ const CheckEmailForm = ({ email }) => {
       <div className="forgot-header text-center">
         <h3>Check your email!</h3>
         <p>
-          We sent an email to <b>{useremail}.</b>  Continue 
-          password recovery using the link via email.
+          We sent an email to <b>{useremail}.</b> Continue password recovery
+          using the link via email.
         </p>
       </div>
       {timeLeft > 0 ? (
@@ -133,10 +133,7 @@ const CheckEmailForm = ({ email }) => {
           </p>
         </p>
       )}
-      <button
-        className="redirect-to-login"
-        onClick={handleRedirectToLogin}
-      >
+      <button className="redirect-to-login" onClick={handleRedirectToLogin}>
         Go to Login
       </button>
     </div>
