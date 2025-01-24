@@ -8,13 +8,13 @@
   --acttivit-card-bg: #d9d9d9;
 }
 .custom-modal-width {
-  max-width: 1200px !important; 
-  width: 90% !important; 
+  max-width: 1200px !important;
+  width: 90% !important;
   /* height: 90% !important; */
   max-height: 90vh !important;
   border: none !important;
 }
-.custom-modal-width > .modal-content{
+.custom-modal-width > .modal-content {
   background: url("../assets/bg-pop-up.png") no-repeat;
   background-size: cover;
   border-radius: 20px;
@@ -94,8 +94,7 @@
   width: 100%;
   height: 70vh;
   position: relative;
-  }
-
+}
 
 .category-card1 {
   color: var(--font-white) !important;
@@ -180,9 +179,9 @@
 /* Specific background images for each card */
 .category-card1.bg-behavioral::before {
   background-image: url(../assets/basic.png); /* Replace with your actual image path */
-  background-size: 23% ;
+  background-size: 23%;
   background-position: right 30% bottom -40px !important;
-    transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   transform: rotate(-10deg);
 }
 .category-card1.bg-behavioral:hover {
@@ -192,11 +191,14 @@
 
   width: 55.5%;
   height: 59% !important;
-  background: rgb(244,106,5);
-  background: linear-gradient(167deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 73%);
+  background: rgb(244, 106, 5);
+  background: linear-gradient(
+    167deg,
+    rgba(244, 106, 5, 1) 0%,
+    rgba(255, 157, 85, 1) 73%
+  );
 
   filter: grayscale(0%);
-
 }
 .category-card1.bg-behavioral:hover::before {
   transform: scaleX(1) translateX(-35%) translateY(-6px);
@@ -205,7 +207,6 @@
   background-color: transparent;
 }
 .category-card1.bg-behavioral::before {
-
   transition: transform 0.4s ease-in-out; /* Smooth animation on unhover */
 }
 .category-card2.bg-basic::before {
@@ -216,19 +217,22 @@
   background-position: left 4% bottom 62%;
   transition: transform 0.3s ease-in-out;
   transform: rotate(-4deg) !important;
-
 }
 .category-card2.bg-basic:hover {
   /* width: 43%; */
-  background: rgb(244,106,5);
-  background: linear-gradient(209deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
+  background: rgb(244, 106, 5);
+  background: linear-gradient(
+    209deg,
+    rgba(244, 106, 5, 1) 0%,
+    rgba(255, 157, 85, 1) 82%
+  );
+  filter: grayscale(100%);
   clip-path: polygon(11% 0, 100% 0%, 100% 100%, 1% 43%);
 
-  width:50%;
+  width: 50%;
   filter: grayscale(0%);
   height: 100.9%;
   transition: transform 0.3s ease-in-out; /* Smooth animation */
-
 }
 .category-card2.bg-basic:hover::before {
   transform: translateX(5%) rotate(13deg) !important; /* Move left on hover */
@@ -247,8 +251,13 @@
   transition: transform 0.3s ease-in-out; /* Smooth animation */
   width: 98.9%;
   clip-path: polygon(0 58.5%, 51% 42.5%, 100% 100%, 0 100%);
-  background: rgb(244,106,5);
-  background: linear-gradient(120deg, rgba(244,106,5,1) 0%, rgba(255,157,85,1) 82%);  filter: grayscale(100%);
+  background: rgb(244, 106, 5);
+  background: linear-gradient(
+    120deg,
+    rgba(244, 106, 5, 1) 0%,
+    rgba(255, 157, 85, 1) 82%
+  );
+  filter: grayscale(100%);
 
   filter: grayscale(0%);
   /* bottom: 12px !important; */
@@ -259,10 +268,8 @@
   transform: translateX(-18%); /* Move left on hover */
   transition: transform 0.3s ease-in-out; /* Smooth animation */
   background-position: right 50% bottom 1px;
-
 }
 .category-card3.bg-expert::before {
-
   transition: transform 0.4s ease-in-out; /* Smooth animation on unhover */
 }
 
@@ -507,7 +514,7 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 @media (min-width: 1500px) {
-  .category-container{
+  .category-container {
     min-height: 70vh;
   }
   .category-card2:hover .category-card-title2 {
@@ -522,8 +529,8 @@
   .category-description2 {
     top: 36% !important;
   }
-  .category-card-tronArrow2{
-    top:34%;
+  .category-card-tronArrow2 {
+    top: 34%;
   }
   .category-card-RectangelScribble {
     bottom: 15%;
@@ -532,15 +539,13 @@
   .category-card-RectangelScribble2 {
     top: 29%;
   }
-
 }
 @media (min-width: 1600px) {
-  .category-container{
+  .category-container {
     min-height: 70vh;
   }
   .category-card2:hover .category-card-title2 {
     transform: translateX(-5%);
-
   }
   .category-card3:hover .category-card-title3 {
     transform: translateX(53%) translateY(-20%);
@@ -566,7 +571,6 @@
 @media (min-width: 1700px) {
   .category-card2:hover .category-card-title2 {
     transform: translateX(-8%) translateY(17%);
-    
   }
   .category-card3:hover .category-card-title3 {
     transform: translateX(60%) translateY(-28%);
@@ -764,16 +768,14 @@
   border-color: var(--text-color);
 }
 
-
-.upload-area > p{
+.upload-area > p {
   color: var(--text-color);
   font-weight: 800;
   margin: 0 !important;
 }
-.upload-area > i{
+.upload-area > i {
   font-weight: 200;
   color: var(--card-color);
-
 }
 .upload-area > button {
   background: var(--primary-color) !important;
@@ -827,16 +829,15 @@
   border: 2px solid var(--primary-color);
   border-radius: 20px;
   height: 100% !important;
-
 }
-.video-recording-row{
+.video-recording-row {
   height: 90% !important;
 }
-.video-recording-row > .col-md-7 , .video-recording-row > .col-md-5{
+.video-recording-row > .col-md-7,
+.video-recording-row > .col-md-5 {
   height: 100% !important;
-
 }
-.tips-row{
+.tips-row {
   height: 10% !important;
 }
 .interview-question-container {
@@ -854,9 +855,8 @@
 .interview-question-container > p {
   margin: 0;
   position: relative;
-
 }
-.interview-question-container > .interview-content{
+.interview-question-container > .interview-content {
   height: 50%;
 }
 .interview-question-container > .container-startinterview {
@@ -882,7 +882,6 @@
     width: 200px !important;
     height: 40px;
   }
-
 }
 .timer {
   color: var(--font-white) !important; /* Keep the text color */
@@ -903,9 +902,9 @@
   border: 1px solid var(--primary-color);
   background: var(--primary-white) !important;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.423);
-  margin-bottom: 1rem;  /* Add space between avatar and question container */
+  margin-bottom: 1rem; /* Add space between avatar and question container */
 }
-.speech-subtitle-container > .speech-default-subtitle{
+.speech-subtitle-container > .speech-default-subtitle {
   margin: 0;
   /* font-size: 13px; */
   display: flex;
@@ -913,10 +912,9 @@
   justify-content: center;
   height: inherit;
   width: 100%;
-
 }
 
-.speech-subtitle-container > .speech-subtitle-overlay{
+.speech-subtitle-container > .speech-subtitle-overlay {
   height: 100%;
   font-size: 16px;
   margin: 0;
@@ -1024,16 +1022,14 @@
   position: relative;
   bottom: 0;
 }
-.pause-indicator > svg{
+.pause-indicator > svg {
   height: 1em;
   width: 1em;
 }
 .pause-indicator-spinner {
   width: 20px !important;
   height: 20px !important;
-  position: relative;
-  top: 3px;
-  right: 2px;
+  position: absolute; /* Change to absolute positioning */
 }
 .btn-startinterview {
   background: var(--primary-color) !important;
@@ -1042,7 +1038,6 @@
   width: 190px;
   height: 40px;
   border-radius: 50px !important;
-
   justify-content: center;
 }
 .btn-startinterview > svg {
@@ -1055,24 +1050,14 @@
   margin: 0;
   text-align: left;
 }
-/* .feedback-user-area {
-    background: var(--acttivit-card-bg);
-    border-radius: 50px;
-    height: 100px;
-    padding: 20px;
-    width: 100%;
-} */
+
 .tips-container {
-  display: flex; /* Use flexbox to align items */
+  display: flex;
   justify-content: center;
-  align-items: center; /* Center items vertically */
-  /* position: absolute; 
-  top: 10px; 
-  left: 10px; 
-  gap: 0;
-  z-index: 1000;  */
+  align-items: center;
+
   width: 100%;
-  margin-top: 0 !important;  /* Remove top margin since we're in a new column */
+  margin-top: 10px !important;
 }
 
 .tips {
@@ -1083,7 +1068,6 @@
   padding: 5px; /* Inner spacing */
   max-width: 100%; /* Max width of the message bubble */
   position: relative;
-  
 }
 
 .tips-header {
@@ -1172,7 +1156,6 @@
   align-items: center;
 }
 
-
 /* InterviewSuccesspopup */
 .interviewsuccess-modal-width {
   width: 800px !important;
@@ -1235,19 +1218,18 @@
   background-color: transparent !important;
 }
 /*Interview preview option*/
-.interviewpreview-modal-width  .modal-body{
+.interviewpreview-modal-width .modal-body {
   border-radius: 20px;
 }
-.interviewpreview-modal-width button{
+.interviewpreview-modal-width button {
   width: 200px;
   border-radius: 50px;
   border: none;
-
 }
-.interviewpreview-modal-width button:nth-child(1){
+.interviewpreview-modal-width button:nth-child(1) {
   background: var(--input-bg) !important;
 }
-.interviewpreview-modal-width button:nth-child(2){
+.interviewpreview-modal-width button:nth-child(2) {
   background: var(--primary-color) !important;
 }
 /*Custom Intro*/
@@ -1278,7 +1260,7 @@
 .introjs-nextbutton {
   background: var(--primary-color) !important;
   color: var(--font-white) !important;
-  border: var(--primary-color)  !important;
+  border: var(--primary-color) !important;
   text-shadow: none !important;
   box-shadow: none !important;
 }
@@ -1310,7 +1292,7 @@
 
 .video-recording-page {
   min-height: 100vh;
-  width: 100%;  
+  width: 100%;
   padding: 4rem 3em 0em 3em;
   background: #fff;
   display: flex;
@@ -1341,8 +1323,6 @@
   /* .video-area {
     height: 450px !important;
   } */
-
-
 }
 
 @media (min-width: 1600px) {
@@ -1358,8 +1338,6 @@
   .video-area {
     height: 550px !important;
   } */
-
-
 }
 
 /* Add responsive styles */
@@ -1392,7 +1370,6 @@
   /* border-radius: 20px;
   border: 2px solid var(--primary-color); */
   width: 500px !important;
-  
 }
 
 .interviewer-btn {
@@ -1409,9 +1386,7 @@
 
 .interviewer-btn:hover {
   background: var(--input-bg) !important;
-
 }
-
 
 .interviewer-image {
   max-width: 100px;
@@ -1428,13 +1403,13 @@
   height: 100%;
   background: var(--text-color) !important;
 }
-.view-result-container{
+.view-result-container {
   height: 30% !important;
 }
-.outro-text-container{
+.outro-text-container {
   height: 70%;
 }
-.interview-question-container1{
+.interview-question-container1 {
   background: var(--font-white);
   border-radius: 10px;
   padding: 20px;
@@ -1463,20 +1438,20 @@
   background: var(--primary-color);
   border-radius: 10px;
   width: 35%;
-  height: 60px;
+  height: 12% !important;
   position: absolute;
   bottom: 30%;
   z-index: 5; /* Lower z-index ensures it's behind */
   right: 80px;
 }
 
-.btn-viewresult{
+.btn-viewresult {
   background: var(--secondary-color) !important;
   border-radius: 50px !important;
   border: none !important;
   width: 200px;
 }
-.preview-title{
+.preview-title {
   position: absolute;
   top: 30px;
   left: 30px;

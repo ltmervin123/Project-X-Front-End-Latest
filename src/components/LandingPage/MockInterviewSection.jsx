@@ -10,8 +10,7 @@ const MockInterviewSection = () => {
   };
   return (
     <section className="mock-interview-container d-flex align-items-center justify-content-center flex-column">
-
-<br />
+      <br />
       <div className="navigation-container">
         <nav>
           <ul className="navigation-list d-flex justify-content-center align-items-center gap-3 px-5">
@@ -57,10 +56,18 @@ const MockInterviewSection = () => {
             </li>
             <li className="nav-item d-flex justify-content-center align-items-center">
               <a href="/comingsoon">
-              <svg width="28" height="40" viewBox="0 0 28 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M28 5V40H0V5H9.33333C9.33333 4.3099 9.45486 3.66536 9.69792 3.06641C9.94097 2.46745 10.2752 1.93359 10.7005 1.46484C11.1259 0.996094 11.6181 0.638021 12.1771 0.390625C12.7361 0.143229 13.3438 0.0130208 14 0C14.6441 0 15.2457 0.130208 15.8047 0.390625C16.3637 0.651042 16.862 1.00911 17.2995 1.46484C17.737 1.92057 18.0712 2.44792 18.3021 3.04688C18.533 3.64583 18.6545 4.29688 18.6667 5H28ZM7 10H21V7.5H16.3333V5C16.3333 4.64844 16.2726 4.32292 16.151 4.02344C16.0295 3.72396 15.8655 3.46354 15.6589 3.24219C15.4523 3.02083 15.2031 2.83854 14.9115 2.69531C14.6198 2.55208 14.316 2.48698 14 2.5C13.6719 2.5 13.3681 2.5651 13.0885 2.69531C12.809 2.82552 12.566 3.0013 12.3594 3.22266C12.1528 3.44401 11.9826 3.71094 11.849 4.02344C11.7153 4.33594 11.6545 4.66146 11.6667 5V7.5H7V10ZM25.6667 7.5H23.3333V12.5H4.66667V7.5H2.33333V37.5H25.6667V7.5ZM14 17.5H23.3333V20H14V17.5ZM14 25H23.3333V27.5H14V25ZM14 32.5H23.3333V35H14V32.5ZM10.8464 14.1211L12.487 15.8789L8.16667 20.5078L5.01302 17.1289L6.65365 15.3711L8.16667 16.9922L10.8464 14.1211ZM10.8464 21.6211L12.487 23.3789L8.16667 28.0078L5.01302 24.6289L6.65365 22.8711L8.16667 24.4922L10.8464 21.6211ZM10.8464 29.1211L12.487 30.8789L8.16667 35.5078L5.01302 32.1289L6.65365 30.3711L8.16667 31.9922L10.8464 29.1211Z" fill="black"/>
-              </svg>
-
+                <svg
+                  width="28"
+                  height="40"
+                  viewBox="0 0 28 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M28 5V40H0V5H9.33333C9.33333 4.3099 9.45486 3.66536 9.69792 3.06641C9.94097 2.46745 10.2752 1.93359 10.7005 1.46484C11.1259 0.996094 11.6181 0.638021 12.1771 0.390625C12.7361 0.143229 13.3438 0.0130208 14 0C14.6441 0 15.2457 0.130208 15.8047 0.390625C16.3637 0.651042 16.862 1.00911 17.2995 1.46484C17.737 1.92057 18.0712 2.44792 18.3021 3.04688C18.533 3.64583 18.6545 4.29688 18.6667 5H28ZM7 10H21V7.5H16.3333V5C16.3333 4.64844 16.2726 4.32292 16.151 4.02344C16.0295 3.72396 15.8655 3.46354 15.6589 3.24219C15.4523 3.02083 15.2031 2.83854 14.9115 2.69531C14.6198 2.55208 14.316 2.48698 14 2.5C13.6719 2.5 13.3681 2.5651 13.0885 2.69531C12.809 2.82552 12.566 3.0013 12.3594 3.22266C12.1528 3.44401 11.9826 3.71094 11.849 4.02344C11.7153 4.33594 11.6545 4.66146 11.6667 5V7.5H7V10ZM25.6667 7.5H23.3333V12.5H4.66667V7.5H2.33333V37.5H25.6667V7.5ZM14 17.5H23.3333V20H14V17.5ZM14 25H23.3333V27.5H14V25ZM14 32.5H23.3333V35H14V32.5ZM10.8464 14.1211L12.487 15.8789L8.16667 20.5078L5.01302 17.1289L6.65365 15.3711L8.16667 16.9922L10.8464 14.1211ZM10.8464 21.6211L12.487 23.3789L8.16667 28.0078L5.01302 24.6289L6.65365 22.8711L8.16667 24.4922L10.8464 21.6211ZM10.8464 29.1211L12.487 30.8789L8.16667 35.5078L5.01302 32.1289L6.65365 30.3711L8.16667 31.9922L10.8464 29.1211Z"
+                    fill="black"
+                  />
+                </svg>
                 Application Tracker
               </a>
             </li>
@@ -103,9 +110,9 @@ const MockInterviewSection = () => {
       </div>
 
       <div className="custom-mock-interview-container d-flex justify-content-center align-items-center flex-column">
-        <h1 >
-          <p className="color-orange">Mock.AI</p>: AI-Powered English
-          Interview Practice Tool
+        <h1>
+          <p className="color-orange">Mock.AI</p>: AI-Powered English Interview
+          Practice Tool
         </h1>
         <div className="content-mock-interview-container w-100 d-flex flex-column justify-content-center  gap-3">
           <div className="mock-content-bg">
@@ -222,7 +229,13 @@ const MockInterviewSection = () => {
               </svg>
             </div>
             <p>
-            Designed for job seekers looking to enhance their English interview skills, our Mock.AI platform offers personalized mock interviews along with detailed analytics to help you track your progress. It provides insights into areas for improvement, helping you refine your responses, improve fluency, and build confidence. Tailored to your needs, the platform ensures you are well-prepared to successfully secure your ideal job.
+              Designed for job seekers looking to enhance their English
+              interview skills, our Mock.AI platform offers personalized mock
+              interviews along with detailed analytics to help you track your
+              progress. It provides insights into areas for improvement, helping
+              you refine your responses, improve fluency, and build confidence.
+              Tailored to your needs, the platform ensures you are well-prepared
+              to successfully secure your ideal job.
             </p>
             <img src={MockAvatar} alt="" />
           </div>
@@ -251,7 +264,6 @@ const MockInterviewSection = () => {
       </div>
       <video src=""></video>
       <i>Play to see video tutorial</i>
-
     </section>
   );
 };

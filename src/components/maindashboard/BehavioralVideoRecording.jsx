@@ -1,10 +1,9 @@
 import { React, useState, useEffect, useRef } from "react";
-import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
+import { Button, Row, Col, Spinner } from "react-bootstrap";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
-import "intro.js/introjs.css";
-import introJs from "intro.js";
+
 import {
   FaMicrophone,
   FaMicrophoneSlash,
@@ -64,7 +63,6 @@ const BehavioralVideoRecording = () => {
   const [cameraError, setCameraError] = useState(false);
   const [feedbackError, setFeedbackError] = useState(false);
   const [questionError, setQuestionError] = useState(false);
-  const [recognizedText, setRecognizedText] = useState("");
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
@@ -274,7 +272,6 @@ const BehavioralVideoRecording = () => {
       // Set uploading state to true
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
 
       // Create a payload object to send the transcription data
       const greeting = interviewerGreetingText.current;
@@ -366,7 +363,6 @@ const BehavioralVideoRecording = () => {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-
         }
 
         // Set up audio streaming
@@ -384,7 +380,6 @@ const BehavioralVideoRecording = () => {
           if (data.isFinal) {
             setTranscript(data.text);
           } else {
-            setRecognizedText(data.text);
           }
         });
 
@@ -534,24 +529,7 @@ const BehavioralVideoRecording = () => {
       }
     });
 
-    // try {
-    //   const response = await axios.post(
-    //     `${API}/api/interview/create-feedback`,
-    //     { interviewId },
-    //     {
-    //       headers: {
-    //         "Content-Type": "Application/json",
-    //         Authorization: `Bearer ${user.token}`,
-    //       },
-    //     }
-    //   );
-    //   setIsGeneratingFeedback(false);
-    //   setShowPreviewPopup(true);
-    //   setInterviewId("");
-    // } catch (err) {
-    //   console.error(err.response ? err.response.data.error : err.message);
-    //   setFeedbackError(true); // Set feedback error state
-    // }
+
   };
 
   // Timer Effect
@@ -610,7 +588,6 @@ const BehavioralVideoRecording = () => {
     try {
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
 
       const question = questions[questionIndex];
 
@@ -911,6 +888,8 @@ const BehavioralVideoRecording = () => {
                             animation="border"
                             role="status"
                             src={loading}
+                            alt="loading..."
+
                           />
                           <p>Reattempting access to camera...</p>
                         </div>
@@ -1004,9 +983,8 @@ const BehavioralVideoRecording = () => {
 
                   <div className="interview-question-container1">
                     <div className="outro-text-container">
-                    <h4>Thank you for proceeding!</h4>
-                    <p>Your interview is now in progress. Best of luck!</p>
-
+                      <h4>Thank you for proceeding!</h4>
+                      <p>Your interview is now in progress. Best of luck!</p>
                     </div>
                     <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button

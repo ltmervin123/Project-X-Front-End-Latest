@@ -1,19 +1,23 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import HeroAvatar from "../../assets/hero-avatar.png";
-import logo from '../../assets/logo.png';
+import React from "react";  // Importing React library
+import { Row, Col } from "react-bootstrap";  // Importing Bootstrap components
+import HeroAvatar from "../../assets/hero-avatar.png";  // Importing Hero Avatar image
+import logo from '../../assets/logo.png';  // Importing Logo image
 
+// HeroSection functional component
 const HeroSection = () => {
   return (
     <>
+      {/* Hero Section Container */}
       <section
-        className="hero-container d-flex align-items-center  flex-column "
+        className="hero-container d-flex align-items-center flex-column"
         id="home"
       >
+        {/* Logo */}
         <h1 className="d-flex">
-        <img src={logo} alt="Logo" width="400" height="60" />
+          <img src={logo} alt="Logo" width="400" height="60" />
+        </h1>
 
-</h1>
+        {/* Subtitle with Quotes */}
         <h2>
           <svg
             className="quote"
@@ -44,18 +48,22 @@ const HeroSection = () => {
               fill="black"
             />
             <path
-              d="M43.5928 17.2009C41.1099 11.9659 32.9434 7.38905 29.6229 9.33346C28.6956 9.87191 29.0545 10.3805 31.328 11.8163C35.6954 14.5983 37.0416 19.1752 33.4818 19.1752C23.4905 19.1752 21.0376 33.2946 30.5203 36.2262C41.8876 39.7262 49.2465 29.0169 43.5928 17.2009Z"
+              d="M43.5928 17.2009C41.1099 11.9659 32.9434 7.38905 29.6229 9.33346C28.6956 9.87191 29.0545 10.3805 31.328 11.8163C35.6954 14.5983 37.0416 19.1752 33.4818 19.1752C23.4905 19.1752 21.0376 33.2946 30.5203 36.2262C41.8876 39.7262 49.2465 29.0169 43.592 8 17.2009Z"
               fill="black"
             />
           </svg>
         </h2>
 
-        <Container className="custom-hero-container">
+        {/* Custom Hero Container */}
+        <div className="custom-hero-container">
           <Row className="d-flex align-items-center justify-content-center">
-            <Col md={5} className="position-relative ">
+            <Col md={5} className="position-relative">
+              {/* Hero Content Description */}
               <p className="hero-content position-relative">
-              HR Hatch is an innovative HR Tech company revolutionizing the talent landscape with seamless, end-to-end support services for job seekers and employers.
+                HR Hatch is an innovative HR Tech company revolutionizing the talent landscape with seamless, end-to-end support services for job seekers and employers.
               </p>
+
+              {/* Arrow SVG Button */}
               <svg
                 className="arrow-svg-pointing-btn"
                 width="80"
@@ -68,7 +76,7 @@ const HeroSection = () => {
                   <path
                     fillRule="evenodd"
                     clipRule="evenodd"
-                    d="M68.6205 10.0867C66.7621 8.61234 56.448 15.8195 57.9124 17.5659C58.9887 18.8908 59.7141 18.6773 63.3733 16.0647C69.3177 11.8457 69.9411 11.1568 68.6205 10.0867ZM52.9691 20.5193C51.8811 20.2077 45.1143 25.4828 43.2499 28.1199C42.0025 29.8716 42.2651 30.9541 43.9172 30.8188C45.1992 30.7092 51.1138 26.1661 53.9393 23.0951C54.711 22.2463 54.1764 20.8634 52.9691 20.5193ZM37.6849 34.0589C35.6428 34.0039 29.0837 41.0313 29.9834 42.3346C30.6415 43.2877 31.0773 43.2166 32.8942 41.9621C37.9291 38.486 40.5563 34.1445 37.6849 34.0589ZM65.0896 82.6946C62.77 81.395 65.0945 90.8485 68.2101 95.3611C69.1904 96.7811 68.4726 96.4437 66.1676 94.416C63.3905 91.9388 58.2883 88.4817 57.5615 88.5527C55.7865 88.7442 57.1414 90.5661 61.0721 93.3097C65.3624 96.2932 65.3963 96.1549 60.5256 95.4678C54.2018 94.5488 52.376 94.9477 53.7408 96.8777C54.4526 97.9086 56.0534 98.3544 62.3384 99.3576C64.9133 99.7628 67.9354 100.348 69.1158 100.653C74.4834 102.06 74.5272 102.029 71.4077 96.7151C68.8537 92.3604 67.6397 89.6657 67.0346 87.0101C66.5817 84.9962 65.7148 83.0384 65.0896 82.6946ZM53.9483 84.958C53.2022 84.4392 49.2386 82.3503 46.5932 80.6725C43.3663 78.6206 42.0256 78.5984 43.2104 80.5953C44.1753 82.2269 53.7569 88.1923 54.9484 87.8579C55.8672 87.5969 55.2809 85.905 53.9483 84.958ZM26.4353 47.1682C23.5078 46.3459 18.9774 56.8268 21.0053 59.7639C21.0993 59.9001 21.4528 60.8336 21.7761 61.8168C23.1461 65.9549 25.3245 65.9731 24.1749 61.8265C23.1575 58.1056 23.613 56.0965 26.7259 50.9601C28.0395 48.7894 27.9521 47.5859 26.4353 47.1682ZM38.7487 75.1163C37.8902 74.3878 35.0358 72.9691 33.3789 71.7865C29.1811 68.7966 27.0032 68.4045 28.749 70.9332C29.8502 72.5282 38.3812 77.955 39.317 77.6249C40.2881 77.2991 40.0341 76.182 38.7487 75.1163Z"
+                    d="M68.6205 10.0867C66.7621 8.61234 56.448 15.8195 57.9124 17.5659C58.9887 18.8908 59.7141 18.6773 63.3733 16.0647C69.3177 11.8457 69.9411 11.1568 68.6205 10.0867ZM52.9691 20.5193C51.8811 20.2077 45.1143 25.4828 43.2499 28.1199C42.0025 29.8716 42.2651 30.9541 43.9172 30.8188C45.1992 30.7092 51.1138 26.1661 53.9393 23.0951C54.711 22.2463 54.1764 20.8634 52.9691 20.5193ZM37.6849 34.0589C35.6428 34.0039 29.0837 41.0313 29.9834 42.3346C30.6415 43.2877 31.0773 43.2166 32.8942 41.9621C37.9291 38.486 40.5563 34.1445 37.6849 34.0589ZM65.0896 82.6946C62.77 81.395 65.0945 90.8485 68.2101 95.3611C69.1904 96.7811 68.4726 96.4437 66.1676 94.416C63.3905 91.9388 58.2883 88.4817 57.5615 88.5527C55.7865 88.7442 57.1414 90.5661 61.0721 93.3097C65.3624 96.2932 65.3963 96.1549 60.5256 95.4678C54.2018 94.5488 52.376 94.9477 53.7408 96.8777C54.4526 97.9086 56.0534 98.3544 62.3384 99.3576C64.9133 99.7628 67.9354 100.348 69.1158 100.653C74.4834 102.06 74.5272 102.029 71.4077 96.7151C68.8537 92.3604 67.6397 89.6657 67.0346 87.0101C66.5817 84.9962 65.7148 83.0384 65.0896 82.6946ZM53.9483 84.958C53.2022 84.4392 49.2386 82.3503 46.5932 80.6725C43.3663 78.6206 42.0256 78.5984 43.2104 80.5953C44.1753 82.2269 53.7569 88.1923 54.9484 87.8579C55.8672 87.5969 55.2809 85.905 53.9483 84.958ZM26.4353 47.1682C23.5078 46.3459 18 .9774 56.8268 21.0053 59.7639C21.0993 59.9001 21.4528 60.8336 21.7761 61.8168C23.1461 65.9549 25.3245 65.9731 24.1749 61.8265C23.1575 58.1056 23.613 56.0965 26.7259 50.9601C28.0395 48.7894 27.9521 47.5859 26.4353 47.1682ZM38.7487 75.1163C37.8902 74.3878 35.0358 72.9691 33.3789 71.7865C29.1811 68.7966 27.0032 68.4045 28.749 70.9332C29.8502 72.5282 38.3812 77.955 39.317 77.6249C40.2881 77.2991 40.0341 76.182 38.7487 75.1163Z"
                     fill="black"
                   />
                 </g>
@@ -84,12 +92,13 @@ const HeroSection = () => {
                 </defs>
               </svg>
 
-              {/* Wrap Button in Link */}
+              {/* Button to Get Started */}
               <button className="btn-get">
                 <a
                   href="/login"
                   className="d-flex align-items-center justify-content-center"
                 >
+                  {/* Rocket Icon */}
                   <svg
                     className="rocket-icon"
                     width="30"
@@ -118,7 +127,7 @@ const HeroSection = () => {
                       fill="white"
                       stroke="white"
                       strokeWidth="1.5"
-                      strokeLinecap="round"
+                      strokeLinecap ="round"
                       strokeLinejoin="round"
                     />
                   </svg>
@@ -127,15 +136,17 @@ const HeroSection = () => {
               </button>
             </Col>
             <Col md={4}>
+              {/* Hero Avatar Image */}
               <img src={HeroAvatar} className="heroavatar" alt="Hero Avatar" />
             </Col>
           </Row>
-          
-        </Container>
-<div className="border-triangle"></div>
+        </div>
+        {/* Decorative Triangle Border */}
+        <div className="border-triangle"></div>
       </section>
     </>
   );
 };
 
+// Exporting HeroSection component
 export default HeroSection;

@@ -4,18 +4,15 @@ import AboutAvatar from "../../assets/about-avatar.png";
 const AboutHRHatchSection = () => {
   return (
     <section  className='about-hr-hatch-container d-flex align-items-center flex-column' id="whyhrhacth">
-
+      
+      {/* Section Title */}
       <h3 className='d-flex align-items-center justify-content-center'>
-      Why
-      <img
-                src={logo}
-                alt="Logo"
-                width="250"
-                height="40"
-                /> 
-              <p> ? </p> 
-
+        Why
+        <img src={logo} alt="Logo" width="250" height="40"/> 
+        <p> ? </p> 
       </h3>
+
+      {/* Subtitle with Quotes */}
       <h2>
         <svg className='quote' width="30" height="30" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M38.663 35.8294C39.5903 35.0517 38.9322 34.3038 37.2869 34.3038C35.522 34.3038 33.2784 30.2355 33.2784 27.1244C33.2784 25.5689 33.4879 25.4792 36.569 25.4792C45.3936 25.4792 48.5346 17.9408 42.2228 11.8982C33.2485 3.28292 20.7445 14.5605 25.1717 27.274C27.4452 33.7055 35.2827 38.6713 38.663 35.8294Z" fill="black"/>
@@ -27,12 +24,16 @@ const AboutHRHatchSection = () => {
           <path d="M43.5928 17.2009C41.1099 11.9659 32.9434 7.38905 29.6229 9.33346C28.6956 9.87191 29.0545 10.3805 31.328 11.8163C35.6954 14.5983 37.0416 19.1752 33.4818 19.1752C23.4905 19.1752 21.0376 33.2946 30.5203 36.2262C41.8876 39.7262 49.2465 29.0169 43.5928 17.2009Z" fill="black"/>
         </svg>
       </h2>
+
+      {/* About Content Container */}
       <div className="about-content-container d-flex align-items-center flex-column flex-md-row">
         <div className="about-main-content mb-4 mb-md-0">
+          {/* Main Content Description */}
           <p>HR-Hatch is your trusted partner in unlocking hiring potential, helping job seekers prepare for their job search journey while optimizing recruitment processes for companies to achieve more efficient talent acquisition. Our mission is to empower both job seekers and employers by bridging the gap between talent and opportunity. We offer personalized support and innovative solutions that build confidence, streamline hiring, and drive sustainable growth for all.
           </p>
         </div>
         <div className="about-avatar-bg d-flex align-items-center justify-content-center">
+          {/* About Avatar Image */}
           <img src={AboutAvatar} alt="" />
         </div>
       </div>

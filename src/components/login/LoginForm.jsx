@@ -25,9 +25,9 @@ const LoginForm = () => {
     window.location.href = `${API}/api/user/auth/google`;
   };
 
-  const handleFacebookLogin = async () => {
-    window.location.href = `${API}/api/user/auth/facebook`;
-  };
+  // const handleFacebookLogin = async () => {
+  //   window.location.href = `${API}/api/user/auth/facebook`;
+  // };
 
   return (
     <div className="row main-login justify-content-center position-relative">
