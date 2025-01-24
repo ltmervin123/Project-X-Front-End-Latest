@@ -6,11 +6,12 @@
     --input-bg: #686868;
     --bg-fade-signup: #D9D9D9;
 }
-
-.navbar {
-    background: none !important;
+.loginHeader{
+    padding: 20px 0px 0px 0px;
 }
-.header-login{
+
+
+.login{
     background: var(--input-bg);
 }
 .login-page-container{

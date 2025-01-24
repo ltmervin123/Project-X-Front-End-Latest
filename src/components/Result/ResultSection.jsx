@@ -565,19 +565,19 @@ const ResultSection = ({ interviewId }) => {
               <h5>
                 Question {currentIndex + 1} of {question.length}
               </h5>
-              <div>
+              <div className="mb-4">
                 <strong>Question:</strong>
                 <p>{question[currentIndex]}</p>
               </div>
-              <div>
+              <div className="mb-4">
                 <strong>Your Answer:</strong>
                 <p>{highlightFillerWords(interviewContent.answer)}</p>
               </div>
-              <div>
+              <div className="mb-4">
                 <strong>Enhanced Answer:</strong>
                 <p>{interviewContent.enhancedAnswer}</p>
               </div>
-              <div>
+              <div className="mb-4">
                 <strong>Feedback:</strong>
                 <p>{interviewContent.feedback}</p>
               </div>

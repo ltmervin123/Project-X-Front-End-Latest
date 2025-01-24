@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import logo from '../../assets/logo.png';
+import React, { useState } from "react";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import logo from "../../assets/logo.png";
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState({
@@ -32,9 +32,11 @@ const Header = () => {
                 id="nav-dropdown-products"
                 className="hover-dropdown"
                 show={showDropdown.product}
-                onMouseEnter={() => handleMouseEnter('product')}
-                onMouseLeave={() => handleMouseLeave('product')}
-                onToggle={(isOpen) => setShowDropdown((prev) => ({ ...prev, product: isOpen }))}
+                onMouseEnter={() => handleMouseEnter("product")}
+                onMouseLeave={() => handleMouseLeave("product")}
+                onToggle={(isOpen) =>
+                  setShowDropdown((prev) => ({ ...prev, product: isOpen }))
+                }
               >
                 <NavDropdown.Item className="noclickblue" href="/maindashboard">
                   Mock.AI
@@ -43,7 +45,7 @@ const Header = () => {
                   Resume Fit Optimizer
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  Application Tracker 
+                  Application Tracker
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   AI Reference Checker
@@ -55,14 +57,15 @@ const Header = () => {
                 id="nav-dropdown-services"
                 className="hover-dropdown"
                 show={showDropdown.services}
-                onMouseEnter={() => handleMouseEnter('services')}
-                onMouseLeave={() => handleMouseLeave('services')}
-                onToggle={(isOpen) => setShowDropdown((prev) => ({ ...prev, services: isOpen }))}
+                onMouseEnter={() => handleMouseEnter("services")}
+                onMouseLeave={() => handleMouseLeave("services")}
+                onToggle={(isOpen) =>
+                  setShowDropdown((prev) => ({ ...prev, services: isOpen }))
+                }
               >
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   Recruitment Services
                 </NavDropdown.Item>
-
               </NavDropdown>
 
               <NavDropdown
@@ -70,9 +73,11 @@ const Header = () => {
                 id="nav-dropdown-company"
                 className="hover-dropdown"
                 show={showDropdown.company}
-                onMouseEnter={() => handleMouseEnter('company')}
-                onMouseLeave={() => handleMouseLeave('company')}
-                onToggle={(isOpen) => setShowDropdown((prev) => ({ ...prev, company: isOpen }))}
+                onMouseEnter={() => handleMouseEnter("company")}
+                onMouseLeave={() => handleMouseLeave("company")}
+                onToggle={(isOpen) =>
+                  setShowDropdown((prev) => ({ ...prev, company: isOpen }))
+                }
               >
                 <NavDropdown.Item className="noclickblue" href="#whyhrhacth">
                   Why HR-Hatch?
@@ -93,14 +98,19 @@ const Header = () => {
                 id="nav-dropdown-pricing"
                 className="hover-dropdown"
                 show={showDropdown.pricing}
-                onMouseEnter={() => handleMouseEnter('pricing')}
-                onMouseLeave={() => handleMouseLeave('pricing')}
-                onToggle={(isOpen) => setShowDropdown((prev) => ({ ...prev, pricing: isOpen }))}
+                onMouseEnter={() => handleMouseEnter("pricing")}
+                onMouseLeave={() => handleMouseLeave("pricing")}
+                onToggle={(isOpen) =>
+                  setShowDropdown((prev) => ({ ...prev, pricing: isOpen }))
+                }
               >
                 <NavDropdown.Item className="noclickblue" href="#mockpricing">
                   Subscription Pricing
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="#airefereepricing">
+                <NavDropdown.Item
+                  className="noclickblue"
+                  href="#airefereepricing"
+                >
                   AI Reference Checker Pricing
                 </NavDropdown.Item>
               </NavDropdown>
