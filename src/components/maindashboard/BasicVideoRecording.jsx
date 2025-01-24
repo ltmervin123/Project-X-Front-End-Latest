@@ -365,7 +365,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-
         }
 
         // Set up audio streaming
@@ -425,7 +424,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
-    try {          
+    try {
       // Reset timer
       setTimer({ minutes: 0, seconds: 0 });
       // Set uploading state to true
@@ -970,7 +969,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                             <h4>Question:</h4>
                             <p className="question-text">
                               {questions[questionIndex]}
-    
                             </p>
                           </>
                         )}
@@ -1022,9 +1020,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
                   <div className="interview-question-container1">
                     <div className="outro-text-container">
-                    <h4>Thank you for proceeding!</h4>
-                    <p>Your interview is now in progress. Best of luck!</p>
-
+                      <h4>Thank you for proceeding!</h4>
+                      <p>Your interview is now in progress. Best of luck!</p>
                     </div>
                     <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button

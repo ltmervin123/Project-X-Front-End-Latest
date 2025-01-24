@@ -371,19 +371,17 @@ const VideoRecording = ({ interviewType, category }) => {
         // Initialize MediaRecorder with stream
         mediaRecorderRef.current = new MediaRecorder(streamRef.current);
 
-      // Start recording if MediaRecorder is inactive
-      if (mediaRecorderRef.current.state === "inactive") {
-        mediaRecorderRef.current.start();
-        setIsRecording(true);
-        setIsPaused(false);
-
-      }
         // Start recording if MediaRecorder is inactive
         if (mediaRecorderRef.current.state === "inactive") {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-
+        }
+        // Start recording if MediaRecorder is inactive
+        if (mediaRecorderRef.current.state === "inactive") {
+          mediaRecorderRef.current.start();
+          setIsRecording(true);
+          setIsPaused(false);
         }
 
         // Set up audio streaming
@@ -445,9 +443,9 @@ const VideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
-    // Reset timer
+    // // Reset timer
     setTimer({ minutes: 0, seconds: 0 });
-    console.log("Timer Reset")
+    console.log("Timer Reset");
 
     // Set uploading state to true
     setIsUploading(true);
@@ -1036,9 +1034,8 @@ const VideoRecording = ({ interviewType, category }) => {
 
                   <div className="interview-question-container1">
                     <div className="outro-text-container">
-                    <h4>Thank you for proceeding!</h4>
-                    <p>Your interview is now in progress. Best of luck!</p>
-
+                      <h4>Thank you for proceeding!</h4>
+                      <p>Your interview is now in progress. Best of luck!</p>
                     </div>
                     <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button
