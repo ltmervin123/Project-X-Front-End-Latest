@@ -1,7 +1,5 @@
 import { React, useState, useEffect, useRef } from "react";
-import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
-import "intro.js/introjs.css";
-import introJs from "intro.js";
+import { Button, Row, Col, Spinner } from "react-bootstrap";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import {
   FaMicrophone,
@@ -61,7 +59,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [cameraError, setCameraError] = useState(false);
   const [feedbackError, setFeedbackError] = useState(false);
   const [questionError, setQuestionError] = useState(false);
-  const [recognizedText, setRecognizedText] = useState("");
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const name = user.name.split(" ")[0];
   const audioRecorderRef = useRef(null);
@@ -272,7 +269,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Set uploading state to true
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
       const interviewer = selectedInterviewer.current;
 
       // Create a payload object to send the transcription data
@@ -365,7 +361,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-
         }
 
         // Set up audio streaming
@@ -383,7 +378,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           if (data.isFinal) {
             setTranscript(data.text);
           } else {
-            setRecognizedText(data.text);
           }
         });
 
@@ -425,7 +419,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to stop recording
   const stopRecording = async () => {
-    try {          
+    try {
       // Reset timer
       setTimer({ minutes: 0, seconds: 0 });
       // Set uploading state to true
@@ -533,25 +527,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         setFeedbackError(true);
       }
     });
-
-    // try {
-    //   const response = await axios.post(
-    //     `${API}/api/interview/create-feedback`,
-    //     { interviewId },
-    //     {
-    //       headers: {
-    //         "Content-Type": "Application/json",
-    //         Authorization: `Bearer ${user.token}`,
-    //       },
-    //     }
-    //   );
-    //   setIsGeneratingFeedback(false);
-    //   setShowPreviewPopup(true);
-    //   setInterviewId("");
-    // } catch (err) {
-    //   console.error(err.response ? err.response.data.error : err.message);
-    //   setFeedbackError(true); // Set feedback error state
-    // }
   };
 
   // Timer Effect
@@ -610,7 +585,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     try {
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
 
       const question = questions[questionIndex];
 
@@ -760,14 +734,12 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [showPreviewPopup, setShowPreviewPopup] = useState(false);
   const [proceed, setProceed] = useState(false);
   const [showTips, setShowTips] = useState(true); // State to control the visibility of tips
-  const [showViewResult, setShowViewResult] = useState(false); // State to control the visibility of the "View Result" button
 
   const handlePreview = async () => {
     setShowPreviewPopup(false);
     setProceed(true);
     setShowSuccessPopup(false); // Ensure success popup does not show after preview
     setShowTips(false); // Hide tips container
-    setShowViewResult(true); // Show "View Result" button
   };
 
   const handleCancelPreview = async () => {
@@ -928,6 +900,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                             animation="border"
                             role="status"
                             src={loading}
+                            alt="loading..."
                           />
                           <p>Reattempting access to camera...</p>
                         </div>
@@ -970,7 +943,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                             <h4>Question:</h4>
                             <p className="question-text">
                               {questions[questionIndex]}
-    
                             </p>
                           </>
                         )}
@@ -1015,16 +987,15 @@ const BasicVideoRecording = ({ interviewType, category }) => {
               ) : (
                 <Col
                   md={5}
-                  className="d-flex flex-column align-items-center justify-content-end"
+                  className="d-flex flex-column align-items-center justify-content-end position-relative"
                 >
                   <div className="interview-preview-avatar"></div>
                   <div className="orange-box-avatar-sitting"></div>
 
                   <div className="interview-question-container1">
                     <div className="outro-text-container">
-                    <h4>Thank you for proceeding!</h4>
-                    <p>Your interview is now in progress. Best of luck!</p>
-
+                      <h4>Thank you for proceeding!</h4>
+                      <p>Your interview is now in progress. Best of luck!</p>
                     </div>
                     <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button

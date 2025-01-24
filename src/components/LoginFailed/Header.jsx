@@ -12,12 +12,7 @@ const Header = () => {
           href="/maindashboard"
           className="d-flex align-items-center"
         >
-          <img
-              src={logo}
-              alt="Logo"
-              width="200"
-              height="30"
-            />
+          <img src={logo} alt="Logo" width="200" height="30" />
         </Navbar.Brand>
       </Container>
     </Navbar>

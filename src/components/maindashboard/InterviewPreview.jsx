@@ -73,11 +73,11 @@ const InterviewPreview = ({ videoSrc }) => {
           className="video-feed-invert"
           src={filteredVideos[currentVideoIndex]}
           onTimeUpdate={handleProgress}
-          // controls
+          controls
         ></video>
         <div className="controls">
-          <button onClick={togglePlayPause} className="play-pause-button">
-            {isPlaying ? <FaPause /> : <FaPlay />}
+          <button onClick={togglePlayPause} className="video-nav-button play-pause-button">
+            {isPlaying ? <FaPause /> : <FaPlay className="play"/>}
           </button>
           <button onClick={handlePrev} className="video-nav-button prev-button">
             <FaStepBackward />

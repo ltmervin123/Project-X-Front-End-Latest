@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useRef } from "react";
-import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
+import { Button, Row, Col, Spinner } from "react-bootstrap";
 import Header from "../../components/Result/Header";
 import {
   FaMicrophone,
@@ -20,8 +20,7 @@ import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
-import introJs from "intro.js";
-import "intro.js/minified/introjs.min.css";
+
 import io from "socket.io-client";
 import { useGreeting } from "../../hook/useGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
@@ -61,7 +60,6 @@ const VideoRecording = ({ interviewType, category }) => {
   const [cameraError, setCameraError] = useState(false);
   const [feedbackError, setFeedbackError] = useState(false);
   const [questionError, setQuestionError] = useState(false);
-  const [recognizedText, setRecognizedText] = useState("");
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
@@ -281,7 +279,6 @@ const VideoRecording = ({ interviewType, category }) => {
       // Set uploading state to true
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
 
       // Create a payload object to send the transcription data
       const greeting = interviewerGreetingText.current;
@@ -371,19 +368,17 @@ const VideoRecording = ({ interviewType, category }) => {
         // Initialize MediaRecorder with stream
         mediaRecorderRef.current = new MediaRecorder(streamRef.current);
 
-      // Start recording if MediaRecorder is inactive
-      if (mediaRecorderRef.current.state === "inactive") {
-        mediaRecorderRef.current.start();
-        setIsRecording(true);
-        setIsPaused(false);
-
-      }
         // Start recording if MediaRecorder is inactive
         if (mediaRecorderRef.current.state === "inactive") {
           mediaRecorderRef.current.start();
           setIsRecording(true);
           setIsPaused(false);
-
+        }
+        // Start recording if MediaRecorder is inactive
+        if (mediaRecorderRef.current.state === "inactive") {
+          mediaRecorderRef.current.start();
+          setIsRecording(true);
+          setIsPaused(false);
         }
 
         // Set up audio streaming
@@ -401,7 +396,6 @@ const VideoRecording = ({ interviewType, category }) => {
           if (data.isFinal) {
             setTranscript(data.text);
           } else {
-            setRecognizedText(data.text);
           }
         });
         //Remove the previous event listener
@@ -447,7 +441,7 @@ const VideoRecording = ({ interviewType, category }) => {
   const stopRecording = async () => {
     // Reset timer
     setTimer({ minutes: 0, seconds: 0 });
-    console.log("Timer Reset")
+    console.log("Timer Reset");
 
     // Set uploading state to true
     setIsUploading(true);
@@ -558,24 +552,7 @@ const VideoRecording = ({ interviewType, category }) => {
       }
     });
 
-    // try {
-    //   const response = await axios.post(
-    //     `${API}/api/interview/create-feedback`,
-    //     { interviewId },
-    //     {
-    //       headers: {
-    //         "Content-Type": "Application/json",
-    //         Authorization: `Bearer ${user.token}`,
-    //       },
-    //     }
-    //   );
-    //   setIsGeneratingFeedback(false);
-    //   setShowPreviewPopup(true);
-    //   setInterviewId("");
-    // } catch (err) {
-    //   console.error(err.response ? err.response.data.error : err.message);
-    //   setFeedbackError(true); // Set feedback error state
-    // }
+
   };
 
   // Timer Effect
@@ -634,7 +611,6 @@ const VideoRecording = ({ interviewType, category }) => {
     try {
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
 
       const question = questions[questionIndex];
 
@@ -943,6 +919,8 @@ const VideoRecording = ({ interviewType, category }) => {
                             animation="border"
                             role="status"
                             src={loading}
+                            alt="loading..."
+
                           />
                           <p>Reattempting access to camera...</p>
                         </div>
@@ -1036,9 +1014,8 @@ const VideoRecording = ({ interviewType, category }) => {
 
                   <div className="interview-question-container1">
                     <div className="outro-text-container">
-                    <h4>Thank you for proceeding!</h4>
-                    <p>Your interview is now in progress. Best of luck!</p>
-
+                      <h4>Thank you for proceeding!</h4>
+                      <p>Your interview is now in progress. Best of luck!</p>
                     </div>
                     <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button
