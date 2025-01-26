@@ -40,7 +40,11 @@ function ExpiredLinkPage() {
         <Header />
         {isVerifying ? (
           <div className="d-flex align-items-center justify-content-center main-login-form">
-            <img src={loading} alt="loading" />
+            <div className="loading-screen-container d-flex align-items-center justify-content-center">
+              <img src={loading} alt="loading" />
+              <p>Loading please wait...</p>
+            </div>
+
           </div>
         ) : isTokenExpired ? (
           <ExpiredLink />

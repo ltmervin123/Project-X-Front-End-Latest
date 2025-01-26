@@ -107,7 +107,6 @@
   width: 55%;
   height: 58%;
   background-color: var(--input-bg);
-
   position: absolute;
   filter: grayscale(100%);
   overflow: hidden;
@@ -214,9 +213,9 @@
   background-image: url(../assets/stress-management-img.png); /* Replace with your actual image path */
 
   background-size: 40%;
-  background-position: left 4% bottom 62%;
+  background-position: left 4% bottom 47%;
   transition: transform 0.3s ease-in-out;
-  transform: rotate(-4deg) !important;
+  transform: rotate(12deg) !important;
 }
 .category-card2.bg-basic:hover {
   /* width: 43%; */
@@ -238,7 +237,7 @@
   transform: translateX(5%) rotate(13deg) !important; /* Move left on hover */
   scale: 1.2;
   background-position: left 15% bottom 70% !important;
-  transform: rotate(-10deg) !important;
+  transform: rotate(0deg) !important;
 
   transition: transform 0.3s ease-in-out; /* Smooth animation */
 }
@@ -264,8 +263,8 @@
 }
 .category-card3.bg-expert:hover::before {
   /* Adjust the value as needed */
-  scale: 1.3;
-  transform: translateX(-18%); /* Move left on hover */
+  scale: 1.2;
+  transform: translateX(-18%) translateY(20px); /* Move left on hover */
   transition: transform 0.3s ease-in-out; /* Smooth animation */
   background-position: right 50% bottom 1px;
 }
@@ -281,32 +280,33 @@
 
 .category-card-title1 {
   width: 30%;
-  font-size: 3.5em;
+  font-size: 3.6em;
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
   margin: 0;
   position: absolute;
   top: 10px;
-  left: 30%;
+  left: 20%;
   font-weight: 500;
   z-index: 20;
   transition: transform 0.3s ease;
 }
 
 .category-card1:hover .category-card-title1 {
-  transform: translateX(55%) translateY(25%); /* Adjust the value as needed */
+  font-size: 2.8em;
+  transform: translateX(90.5%) translateY(25%); /* Adjust the value as needed */
 }
 .category-card-title2 {
   width: 35%;
-  font-size: 3.5em;
+  font-size: 3.6em;
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
   margin: 0;
   position: absolute;
-  top: 22%;
-  right: 18%;
+  top: 15%;
+  right: 20.4%;
   font-weight: 500;
   z-index: 30;
   transition: transform 0.3s ease;
@@ -314,31 +314,43 @@
 }
 .category-card2:hover .category-card-title2 {
   transform: translateY(19%);
+  font-size: 2.8em;
 }
 
 .category-card-title3 {
   width: 30%;
-  font-size: 3.5em;
+  font-size: 3.6em;
   text-align: center;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   white-space: nowrap;
   margin: 0;
   position: absolute;
   bottom: 23%;
-  right: 59%;
+  right: 64%;
   font-weight: 500;
   z-index: 30;
   transition: transform 0.3s ease;
 }
 .category-card3:hover .category-card-title3 {
-  transform: translateX(60%) translateY(-24%);
+  transform: translateX(80.5%) translateY(-24%);
+  font-size: 2.8em;
+
+}
+.category-before-content{
+  height: 90%;
+  width: 100%;
+  background: var(--secondary-color);
+}
+.category-before-content > svg{
+  height: 100%;
+
 }
 .category-description1 {
   position: absolute;
   z-index: 200;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   padding: 10px;
-  top: 80px;
+  top: 50px;
   left: 45%;
   text-align: left;
   width: 40%;
@@ -399,7 +411,7 @@
 .category-card-tronArrow {
   position: absolute;
   z-index: 200;
-  left: 35%;
+  left: 26%;
   top: 29%;
   visibility: visible;
   opacity: 1;
@@ -445,9 +457,9 @@
 .category-description2 {
   position: absolute;
   z-index: 200;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   padding: 10px;
-  top: 40%;
+  top: 28%;
   right: 4%;
   width: 46%;
   text-align: left;
@@ -481,8 +493,8 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 .category-card-pin img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -492,7 +504,7 @@
   position: absolute;
   z-index: 200;
   right: -1%;
-  bottom: 50%;
+  bottom: 55%;
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
@@ -508,47 +520,48 @@
   position: absolute;
   z-index: 200;
   right: -1%;
-  bottom: 15%;
+  bottom: 20%;
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 @media (min-width: 1500px) {
-  .category-container {
-    min-height: 70vh;
-  }
+
   .category-card2:hover .category-card-title2 {
     transform: translateX(-2%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(55%) translateY(-12%);
+    transform: translateX(77.5%) translateY(-32%);
   }
   .category-card-tronArrow2 {
     right: 6%;
   }
   .category-description2 {
-    top: 36% !important;
+    top: 24% !important;
+
   }
   .category-card-tronArrow2 {
-    top: 34%;
+    top: 30%;
+  }
+  .category-card-tronArrow3 {
+    bottom: 16% !important;
   }
   .category-card-RectangelScribble {
     bottom: 15%;
-    left: 25%;
+    left: 15%;
   }
   .category-card-RectangelScribble2 {
-    top: 29%;
+    top: 25%;
+    right: 10%;
   }
 }
 @media (min-width: 1600px) {
-  .category-container {
-    min-height: 70vh;
-  }
+
   .category-card2:hover .category-card-title2 {
     transform: translateX(-5%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(53%) translateY(-20%);
+    transform: translateX(-50%) translateY(-35%);
   }
   .category-card-tronArrow2 {
     bottom: 48%;
@@ -558,8 +571,13 @@
     bottom: 15%;
     right: 5%;
   }
+  .category-description1 {
+
+    left: 46% !important;
+  }
   .category-description2 {
-    top: 33% !important;
+    top: 25% !important;
+
   }
   .category-card3.bg-expert::before {
     background-position: right 50% bottom -8px;
@@ -573,7 +591,7 @@
     transform: translateX(-8%) translateY(17%);
   }
   .category-card3:hover .category-card-title3 {
-    transform: translateX(60%) translateY(-28%);
+    transform: translateX(76.5%) translateY(-38%);
   }
   .category-card-tronArrow2 {
     bottom: 50%;
@@ -607,12 +625,12 @@
 .category-description3 {
   position: absolute;
   z-index: 200;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   padding: 10px;
   text-wrap: wrap;
   width: 30%;
-  top: 70%;
-  right: 34%;
+  top: 68%;
+  right: 32%;
   text-align: left;
   visibility: hidden;
   opacity: 0;
@@ -640,7 +658,7 @@
   position: absolute;
   z-index: 200;
   left: 5%;
-  bottom: 18%;
+  bottom: 22%;
   visibility: visible;
   opacity: 1;
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
@@ -656,7 +674,7 @@
 .category-card-tronArrow3 {
   position: absolute;
   z-index: 200;
-  left: 25%;
+  left: 20%;
   bottom: 14%;
   visibility: visible;
   opacity: 1;
@@ -674,7 +692,7 @@
 .category-card-RectangelScribble3 {
   position: absolute;
   z-index: 200;
-  left: 20%;
+  left: 15%;
   bottom: -60px;
   visibility: visible;
   opacity: 1;

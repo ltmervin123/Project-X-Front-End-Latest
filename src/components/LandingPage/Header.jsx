@@ -64,7 +64,10 @@ const Header = () => {
                 }
               >
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  Recruitment Services
+                  Our Recruitment Partners
+                </NavDropdown.Item>
+                <NavDropdown.Item className="noclickblue" href="/comingsoon">
+                  For Colleges & Universities
                 </NavDropdown.Item>
               </NavDropdown>
 
@@ -79,17 +82,12 @@ const Header = () => {
                   setShowDropdown((prev) => ({ ...prev, company: isOpen }))
                 }
               >
-                <NavDropdown.Item className="noclickblue" href="#whyhrhacth">
-                  Why HR-Hatch?
-                </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  Partners
-                </NavDropdown.Item>
+
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   About Us
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
-                  Events/News
+                <NavDropdown.Item className="noclickblue" href="#whyhrhacth">
+                  Contact Us
                 </NavDropdown.Item>
               </NavDropdown>
 
