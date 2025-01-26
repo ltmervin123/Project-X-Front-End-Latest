@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import PasswordResetSuccess from "./PasswordResetSuccess"; // Import the new component
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
-import ExpiredLink from "./ExpiredLink";
 
 const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -13,7 +12,7 @@ const ResetPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const API = process.env.REACT_APP_API_URL;
   const { token } = useParams();
-  const resetPasswordURL = `${API}/api/user/auth//reset-password/${token}`;
+  const resetPasswordURL = `${API}/api/user/auth/reset-password/${token}`;
   const [isReseting, setIsReseting] = useState(false);
 
   const handleNewPasswordChange = (e) => {
