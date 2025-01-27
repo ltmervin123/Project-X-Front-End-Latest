@@ -1,108 +1,173 @@
 :root {
-    --primary-color: #f46a05;
-    --secondary-color: #1706ac;
-    --font-white: #fff;
-    --card-color: #686868;
-    --avatar-bg: #68686882;
-    --text-color: #000;
-    --sidebar-bg: #F2F3F7;
-    
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --sidebar-bg: #f2f3f7;
 }
-.AiReferecenceContent{
-    height: 100vh !important;
+.AiReferecenceContent {
+  height: 100vh !important;
 }
 /*Ai Reference BG*/
 /* .AiReferencebg{
     background-size: cover;
 } */
-.aiReferenceContainer{
-    width: 100% !important;
-    height: 100vh !important;
-    background: url("../assets/image.png");
+.aiReferenceContainer {
+  width: 100% !important;
+  height: 100vh !important;
+  background: url("../assets/image.png");
 }
 
 /*Ai Reference Sidebar*/
-.LogoBrand{
-    margin: 0 !important;
-    width: 211px;
-    height: 75px;
-
+.LogoBrand {
+  margin: 0 !important;
+  width: 211px;
+  height: 75px;
 }
-.ai-reference-sidebar-container{
-    width: 355px;
-    /* height: 100vh; */
-    background: var(--sidebar-bg) !important;
-    padding: 30px !important;
+.ai-reference-sidebar-container {
+  width: 355px;
+  /* height: 100vh; */
+  background: var(--sidebar-bg) !important;
+  padding: 30px !important;
 }
-.ai-reference-sidebar{
-    width: 100%;
-
+.ai-reference-sidebar {
+  width: 100%;
 }
-.company-name{
-    border-bottom: 3px solid var(--primary-color);
+.company-name {
+  border-bottom: 3px solid var(--primary-color);
 }
 .active-link {
-    color: var(--primary-color) !important; /* This will make the active link orange */
-    font-weight: bold; /* Optionally, you can make it bold */
-  }
+  color: var(
+    --primary-color
+  ) !important; /* This will make the active link orange */
+  font-weight: bold; /* Optionally, you can make it bold */
+}
 .active-link:focus,
-.active-link:active{
-    background: transparent !important;
+.active-link:active {
+  background: transparent !important;
 }
 /*AiReference Maindashboard*/
-.AiReferenceMaindashboard{
-    padding: 30px;
+.AiReferenceMaindashboard {
+  padding: 30px;
 }
-.AiReferenceMaindashboard > h3{
-    color: var(--primary-color);
+.AiReferenceMaindashboard > h3 {
+  color: var(--primary-color);
 }
 .AiReferenceMaindashboard p {
-    margin-bottom: 20px;
-}
-  
-.AiReferenceCards {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Space between cards */
-}
-  
-.AiReferenceCard {
-    padding: 20px;
-    border-radius: 8px;
-    color: var(--font-white);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-  
-.AiReferenceCard > p {
-    margin-bottom: 10px !important;
-    font-weight: 100 !important;
-    font-size: 14px;
-}
-  
-.AiReferenceCard .count {
-    font-size: 24px !important;
-    font-weight: bold !important;
-    margin-bottom: 5px;
-}
-  
-.AiReferenceCard .description {
-    font-size: 14px;
-    color: var(--font-white);
+  margin-bottom: 20px;
 }
 
-/*AI Reference Recent Check*/
-.CheckContainer{
-    border: 3px solid var(--primary-color);
-    border-radius: 50px;
-    padding: 30px;
-    background: var(--font-white);
+.AiReferenceCards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between cards */
 }
-.CheckContainer > table{
-    text-align: left;
+
+.AiReferenceCard {
+  padding: 20px;
+  border-radius: 8px;
+  color: var(--font-white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.CheckContainer > table > thead{
-    border: transparent!important;
+
+.AiReferenceCard > p {
+  margin-bottom: 10px !important;
+  font-weight: 100 !important;
+  font-size: 14px;
 }
-.CheckContainer > table > thead tr th{
-    font-weight: 500 !important;
+
+.AiReferenceCard .count {
+  font-size: 24px !important;
+  font-weight: bold !important;
+  margin-bottom: 5px;
+}
+
+.AiReferenceCard .description {
+  font-size: 14px;
+  color: var(--font-white);
+}
+
+/*Pie/Bar Chart*/
+.pie-bar-chart-container {
+  width: 100%;
+  height: 40vh;
+  background: #b8c4ce;
+  border-radius: 10px;
+}
+.pie-chart,
+.bar-chart {
+  height: 70% !important;
+  width: 80%;
+  background: var(--font-white);
+  border-radius: 10px;
+  border-radius: 10px;
+  position: relative;
+  padding: 20px;
+}
+
+.pie-title-overlay,
+.bar-title-overlay {
+  background: var(--primary-color);
+  color: var(--font-white);
+  position: absolute;
+  /* width: 50%; */
+  padding: 5px 20px;
+  border-radius: 10px 50px 50px 0px;
+  top: -1px;
+  left: -1px;
+}
+/* Ensure the canvas takes full width */
+.bar-chart > canvas {
+  width: 100% !important; /* Ensure the canvas takes full width */
+  height: auto !important; /* Maintain aspect ratio */
+}
+.status-labels {
+  padding: 20px;
+  background: #b8c4ce;
+  border-radius: 10px;
+}
+
+.pie-labels {
+  position: absolute;
+  z-index: 1;
+  right: 20%;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pie-labels ul {
+  padding: 0; /* Remove padding */
+  margin: 0;
+}
+.pie-labels p {
+  margin: 0;
+  color: var(--text-color) !important;
+}
+
+.LogContainer {
+  background: var(--font-white);
+  border: 1ps solid var(--card-color);
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+}
+.LogContainer > div > a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+.list-log-container {
+  padding: 10px; /* Optional: Add padding */
+  border-radius: 5px; /* Optional: Rounded corners */
+}
+
+.log-item img {
+  width: 40px; /* Set a fixed width for images */
+  height: 40px; /* Set a fixed height for images */
+  border-radius: 50%; /* Make images circular */
+  background: var(--card-color);
 }
