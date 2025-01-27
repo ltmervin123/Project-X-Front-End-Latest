@@ -42,8 +42,8 @@ const Footer = () => {
 
               <ul className="list-unstyled">
                 <li>
-                  <a href="#whyhrhacth" aria-label="Learn 1">
-                    Why HR-Hatch?
+                  <a href="#home" aria-label="Learn 3">
+                    About Us
                   </a>
                 </li>
                 <li>
@@ -51,14 +51,10 @@ const Footer = () => {
                     Partners
                   </a>
                 </li>
-                <li>
-                  <a href="#home" aria-label="Learn 3">
-                    About Us
-                  </a>
-                </li>
+
                 <li>
                   <a href="/comingsoon" aria-label="Learn 4">
-                    Events/News
+                    Contact Us
                   </a>
                 </li>
               </ul>

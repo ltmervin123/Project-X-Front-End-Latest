@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Pie, Bar } from "react-chartjs-2"; // Import chart components
 import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
+import default_avatar_img from "../../assets/default.png"; // Import default avatar image
 
 // Register all necessary components
 Chart.register(...registerables);
@@ -27,6 +28,37 @@ const AiReferenceCard = ({ title, count, description, bgColor }) => {
       </div>
       <p className="count">{count}</p>
       <p className="description">{description}</p>
+    </div>
+  );
+};
+
+const LogContainer = ({ logData }) => {
+  const [showAll, setShowAll] = useState(false);
+  const displayedLogs = showAll ? logData : logData.slice(0, 4);
+
+  return (
+    <div className="LogContainer my-4">
+      <div className="d-flex justify-content-between align-items-center">
+        <b className="mb-3">Recent Activities</b>
+        <a href="#" onClick={() => setShowAll(!showAll)}>
+          {showAll ? "Show Less" : "View All"}
+        </a>
+      </div>
+      <div className="list-log-container">
+        {displayedLogs.map((log) => (
+          <div
+            key={log.id}
+            className="log-item d-flex align-items-center mb-3 gap-3"
+          >
+            <img src={log.avatar} alt={log.name} className="me-2" />
+            <div>
+              <strong>{log.name}</strong> completed a reference check for{" "}
+              <strong>{log.referenceFor}</strong>
+              <div className="text-muted">{log.time}</div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
@@ -91,6 +123,51 @@ const MainDashboard = () => {
     ],
   };
 
+  const logData = [
+    {
+      id: 1,
+      name: "John Doe",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 2,
+      name: "Kirk Delagente",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 3,
+      name: "John Doe",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+ {
+      id: 4,
+      name: "Kirk Delagente",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 5,
+      name: "John Doe",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 6,
+      name: "Kirk Delagente",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+  ];
+
   return (
     <div className="MockMainDashboard-content">
       <h3 className="mb-3">Dashboard</h3>
@@ -133,9 +210,7 @@ const MainDashboard = () => {
         <Col md="6">
           <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">
             <p className="mb-3 pie-title-overlay">Reference Check Status</p>
-
             <div className="pie-chart">
-              {/* Pass the options to the Pie chart */}
               <Pie data={pieData} options={pieOptions} />
               <div className="pie-labels ms-3">
                 <ul>
@@ -166,40 +241,7 @@ const MainDashboard = () => {
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col md={10}>
-          <div className="CheckContainer my-4">
-            <h3 className="mb-3">Recent Reference Checks</h3>
-            <p>Overview of the latest reference check requests</p>
-            <table className="table">
-              <thead className="no-border">
-                <tr>
-                  <th>Candidate</th>
-                  <th>Position</th>
-                  <th>Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Levi Mella</td>
-                  <td>Graphic Designer</td>
-                  <td>Basic</td>
-                </tr>
-                <tr>
-                  <td>Kirk Delagente</td>
-                  <td>Prompt Eng.</td>
-                  <td>Customized</td>
-                </tr>
-                <tr>
-                  <td>Aivan Sumalinog</td>
-                  <td>Web Developer</td>
-                  <td>Manage Focus</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </Col>
-      </Row>
+      <LogContainer logData={logData} />
     </div>
   );
 };
