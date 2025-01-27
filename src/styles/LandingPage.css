@@ -1,6 +1,5 @@
 /* Import Roboto font from Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;700&display=swap");
 /* Global styles */
 * {
   box-sizing: border-box;
@@ -16,6 +15,8 @@
   --font-black: #000;
   --acttivit-card-bg: #d9d9d9;
   --exclusive-btn-color: #b90416;
+  --color-brown: #686868;
+  --subcription-card-color: #F8F8F9;
 }
 
 .main-container {
@@ -29,7 +30,8 @@
   width: 100%;
   position: fixed;
   z-index: 100;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 }
 
 .navbar > .container {
@@ -52,11 +54,92 @@
 }
 .noclickblue:focus,
 .noclickblue:active {
-  background-color: transparent !important; /* Prevent background color change */
+  background-color: none !important; /* Prevent background color change */
   outline: none; /* Prevent focus outline */
 }
+.btn:focus, .btn:active{
+  background-color: none !important; /* Prevent background color change */
+  outline: none !important; /* Prevent focus outline */
+}
+.noclickblue:hover{
+  color: var(--primary-color) !important;
+  background: none !important;
+}
+#nav-dropdown-products, #nav-dropdown-services , #nav-dropdown-company, #nav-dropdown-pricing{
+  color: var(--font-black) !important;
+}
+#nav-dropdown-products:hover, #nav-dropdown-services:hover , #nav-dropdown-company:hover, #nav-dropdown-pricing:hover{
+  color: var(--primary-color) !important;
+}
+.signup-link > a{
+  border-left: 3px solid var(--color-brown);
+  padding-left: 20px;
+}
 
+.hover-dropdown {
+  position: relative;
+}
+
+.hover-dropdown .dropdown-menu {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.hover-dropdown:hover{
+  color: var(--primary-color) !important;
+}
+.hover-dropdown .dropdown-menu{
+  color: var(--primary-color) !important;
+
+}
+.hover-dropdown:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ensure the dropdown menu is displayed on hover */
+.nav-dropdown:hover .dropdown-menu {
+  display: block !important;
+}
+
+
+.hover-dropdown:hover .dropdown-menu {
+  display: block !important;
+}
+
+.nav-dropdown .noclickblue:hover {
+  background-color: var(--primary-color) !important;
+  color: var(--font-white) !important;
+}
+
+.border-triangle {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  background: var(--primary-color);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.border-triangle1 {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 30px;
+  background: #D9D9D9;
+  clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
+}
+.border-triangle2 {
+  width: 100% !important;
+  position: relative;
+  top: 0;
+  height: 30px;
+  background: #D9D9D9;
+  clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
+}
 /* Header */
+
 .landing-header {
   padding: 0px 5%;
 }
@@ -85,6 +168,7 @@
   position: relative;
   bottom: -1px;
 }
+
 /* Button styles using the primary color */
 .btn-signup {
   width: 200px;
@@ -101,9 +185,15 @@
   border: none !important;
   width: 240px;
   height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   border-radius: 50px !important;
   font-size: 22px !important;
-  font-weight: 800;
+  font-weight: 400;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
+
 }
 .btn-get > a {
   text-decoration: none;
@@ -113,6 +203,7 @@
   height: 30px;
   width: 30px;
   margin: 2px;
+  margin-bottom: 3px;
 }
 .arrow-svg-pointing-btn {
   position: absolute;
@@ -123,16 +214,21 @@
 /* hero section*/
 .hero-container {
   position: relative;
-  height: 100vh;
+  height: 100vh !important;
   padding: 0;
   background: var(--font-white);
-  /* background: rgb(255, 255, 255);
+  background: rgb(255, 255, 255);
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 1) 58%,
+    rgba(255, 255, 255, 1) 48%,
     rgba(244, 106, 5, 1) 130%
-  ); */
+  );
   /* Set height to 100% of the viewport */
+}
+.hero-container > h2 > svg{
+  position: relative;
+  top: -15px;
+  height: 25px;
 }
 .hero-container > svg {
   position: absolute;
@@ -146,6 +242,7 @@
 .custom-hero-container {
   width: 50% !important;
   margin: 0 auto;
+  margin-bottom: 30vh;
   /* Center the container */
 }
 
@@ -154,12 +251,13 @@
   font-weight: 700 !important;
   color: var(--font-black) !important;
   margin: 0 !important;
-  padding-top: 16vh;
+  padding-top: 8% !important;
 }
 
 .hero-container > h2 {
-  font-size: 45px !important;
+  font-size: 35px !important;
   font-weight: 200 !important;
+  /* font-family: 'Roboto', sans-serif; */
   margin: 0 !important;
   color: var(--font-black) !important;
 }
@@ -175,18 +273,26 @@ h2 > .quote {
   color: var(--font-black) !important;
   font-size: 18px !important;
   font-weight: 500 !important;
+  margin-top: 90px;
 }
 
 .heroavatar {
-  width: 100%;
+  /* height: 20% !important; */
+  max-height: 100% !important;
+  width: 100% !important;
+  margin: 20px;
+  bottom: -20px;
 }
 
 /*mock interview section*/
-.mock-interview-container {
-  overflow-x: hidden;
-  background: url("../assets/bg-mockinterviewsection.png") !important;
-  background-size: cover;
-  background-repeat: no-repeat;
+.mock-interview-container{
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background-size: cover!important; /* Cover the entire area */
+
+}
+.bundle-mock-interview-container{
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background-size:  cover !important; /* Cover the entire area */
 }
 .mock-interview-container,
 .bundle-mock-interview-container {
@@ -201,10 +307,16 @@ h2 > .quote {
 .navigation-container nav ul li > a {
   text-decoration: none;
   color: var(--font-black);
+  font-size: 20px;
+}
+.navigation-container nav ul li > a > svg {
+  height: 28px;
+  width: 28px;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 .navigation-container > nav > ul {
   height: 100px;
-  background: var(--font-white);
 }
 .color-orange {
   color: var(--primary-color) !important;
@@ -214,24 +326,42 @@ h2 > .quote {
 
 .custom-mock-interview-container,
 .custom-bundle-mock-interview-container {
-  width: 70% !important;
+  width: 75% !important;
+  max-width: 740px;
   margin: 0 auto;
   /* Center the container */
   position: relative;
 }
+.custom-mock-interview-container > h1 {
+  width: 650px;
+  display: inline;
+  text-align: center;
+  font-weight: 700;
+    font-size: 46px !important;
 
+}
+.custom-mock-interview-container > h1 > p{
+  display: inline;
+
+}
 .content-mock-interview-container,
 .content-bundle-mock {
-  height: 500px;
+  height: 400px;
   position: relative;
   margin-top: 20px;
 }
 
-.mock-content-bg,
+.mock-content-bg{
+  background: var(--acttivit-card-bg);
+  border-radius: 30px;
+  padding: 30px 30px;
+  position: relative;
+  z-index: 1;
+}
 .bundle-mock-bg {
   background: var(--acttivit-card-bg);
-  border-radius: 50px;
-  padding: 30px 50px;
+  border-radius: 30px;
+  padding: 20px 20px;
   position: relative;
   z-index: 1;
 }
@@ -240,17 +370,18 @@ h2 > .quote {
 .bundle-mock-bg > p {
   text-align: left;
   width: 78%;
-  font-size: 22px;
+
 }
 
 .mock-content-bg > img {
   position: absolute;
   z-index: 1;
-  right: 0;
-  top: -90px;
-  min-height: 400px;
+  right: 20px;
+  top: -63px;
+  min-height: 280px;
   height: 100%;
 }
+
 
 .overlayed-icons {
   position: absolute;
@@ -266,145 +397,24 @@ h2 > .quote {
 .bg-blue-behind {
   position: absolute;
   z-index: 0;
-  right: -80px;
-  bottom: 80px;
+  right: -30px;
+  bottom: 60px;
   background: var(--secondary-color);
-  width: 60%;
-  height: 150px;
-  border-radius: 50px;
+  width: 370px;
+  height: 100px;
+  border-radius: 20px;
 }
 
-/*blue lines top left side*/
-.mock-interview-blue-lines_top1 {
-  position: absolute;
-  z-index: 0;
-  left: -25px;
-  top: 190px;
-  background: var(--secondary-color);
-  width: 10%;
-  height: 10px;
-  transform: rotate(90deg); /* Rotate the element by 70 degrees */
-}
-.mock-interview-blue-lines_top2 {
-  position: absolute;
-  z-index: 0;
-  left: -140px;
-  top: 400px;
-  background: var(--secondary-color);
-  width: 25%;
-  height: 10px;
-  transform: rotate(80deg); /* Rotate the element by 70 degrees */
-}
-.mock-interview-blue-lines_top3 {
-  position: absolute;
-  z-index: 0;
-  left: -144px;
-  top: 510px;
-  background: var(--secondary-color);
-  width: 20%;
-  height: 10px;
-  transform: rotate(110deg); /* Rotate the element by 70 degrees */
-}
-/*blue lines top right side*/
-.mock-interview-blue-lines_top4 {
-  position: absolute;
-  z-index: 0;
-  right: -40px;
-  top: 250px;
-  background: var(--secondary-color);
-  width: 10%;
-  height: 10px;
-  transform: rotate(-30deg); /* Rotate the element by 70 degrees */
-}
-.mock-interview-blue-lines_top5 {
-  position: absolute;
-  z-index: 0;
-  right: -110px;
-  top: 200px;
-  background: var(--secondary-color);
-  width: 20%;
-  height: 10px;
-  transform: rotate(110deg); /* Rotate the element by 70 degrees */
-}
 
-/*blue lines bottom right side*/
-.mock-interview-blue-lines_bottom1 {
-  position: absolute;
-  z-index: 0;
-  right: 25px;
-  bottom: 310px;
-  background: var(--secondary-color);
-  width: 10%;
-  height: 10px;
-  transform: rotate(90deg); /* Rotate the element by 70 degrees */
-}
-.mock-interview-blue-lines_bottom2 {
-  position: absolute;
-  z-index: 0;
-  right: -170px;
-  bottom: 270px;
-  background: var(--secondary-color);
-  width: 25%;
-  height: 10px;
-  transform: rotate(80deg); /* Rotate the element by 70 degrees */
-}
-.mock-interview-blue-lines_bottom3 {
-  position: absolute;
-  z-index: 0;
-  right: -170px;
-  bottom: 340px;
-  background: var(--secondary-color);
-  width: 25%;
-  height: 10px;
-  transform: rotate(100deg); /* Rotate the element by 70 degrees */
-}
-
-/*blue lines bottom left side*/
-.mock-interview-blue-lines_bottom4 {
-  position: absolute;
-  z-index: 0;
-  left: -40px;
-  bottom: 190px;
-  background: var(--secondary-color);
-  width: 10%;
-  height: 10px;
-  transform: rotate(80deg); /* Rotate the element by 70 degrees */
-}
-.mock-interview-blue-lines_bottom5 {
-  position: absolute;
-  z-index: 0;
-  left: -80px;
-  bottom: 200px;
-  background: var(--secondary-color);
-  width: 15%;
-  height: 10px;
-  transform: rotate(110deg); /* Rotate the element by 70 degrees */
-}
-
-@media (max-width: 768px) {
-  .mock-interview-blue-lines_top1,
-  .mock-interview-blue-lines_top2,
-  .mock-interview-blue-lines_top3,
-  .mock-interview-blue-lines_top4,
-  .mock-interview-blue-lines_top5,
-  .mock-interview-blue-lines_bottom1,
-  .mock-interview-blue-lines_bottom2,
-  .mock-interview-blue-lines_bottom3,
-  .mock-interview-blue-lines_bottom4,
-  .mock-interview-blue-lines_bottom5 {
-    width: 50px; /* Adjust width for smaller screens */
-    height: 5px; /* Adjust height for smaller screens */
-  }
-}
 
 .btn-mock {
   background-color: var(--primary-color) !important;
   border: none !important;
-  width: 320px;
-  height: 50px;
+  width: 230px;
+  height: 30px;
   margin-left: 10%;
   border-radius: 50px !important;
-  font-size: 20px !important;
+  font-size: 15px !important;
   font-weight: 200;
   color: var(--font-white);
 }
@@ -417,16 +427,23 @@ h2 > .quote {
 .mock-interview-container > i {
   color: var(--primary-color);
   padding-top: 10px;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 100;
   margin-bottom: 50px;
 }
 
 /*Bundle Mock Interview*/
-
+.custom-bundle-mock-interview-container > h1 {
+  font-size: 46px !important;
+  font-weight: 700;
+}
 .custom-bundle-mock-interview-container > h3 {
-  font-size: 49px !important;
-  margin-bottom: 60px;
+  font-size: 34px !important;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+.bundle-mock-bg{
+  width: 100%;
 }
 .bundle-mock-bg > p {
   padding-right: 70px;
@@ -434,7 +451,7 @@ h2 > .quote {
 .bundle-mock-bg > .bundle-avatar {
   position: absolute; /* Keep it absolute */
   right: -50px; /* Align to the right */
-  top: -150px; /* Adjust the top position as needed */
+  top: -170px; /* Adjust the top position as needed */
   height: auto; /* Set height to auto for responsiveness */
   z-index: 1; /* Ensure it is above the background */
 }
@@ -443,37 +460,64 @@ h2 > .quote {
   position: absolute;
   z-index: -1; /* Keep SVG behind the image */
   top: 120px;
-  height: 60%; /* Adjust height for better fit */
+  max-height: 240px !important; /* Set height to auto for responsiveness */
+  height: 100%; /* Adjust height for better fit */
   right: -20px; /* Align SVG to the right as well */
 }
 
 .bundle-avatar > img {
   position: relative; /* Keep image relative to its container */
-  height: 550px; /* Set height to auto for responsiveness */
+  height: 250px; /* Set height to auto for responsiveness */
   max-height: 50%; /* Ensure it doesn't overflow */
-  bottom: -20px; /* Align to the bottom */
-  right: 40px;
+  top: 120px;
+  right: 100px;
 }
 .bundle-bg2 {
   border: 2px solid var(--primary-color);
   border-radius: 20px;
   position: relative;
   z-index: 1;
-  width: 70%;
-  padding: 30px 30px 30px 90px;
-  margin: 100px 0px;
-}
-.bundle-bg2 > p {
-  font-size: 23px;
-}
-.bundle-bg2 > img {
-  position: absolute;
-  left: -100px;
-  z-index: 1;
-  top: -60px;
-  height: 140%;
+  width: 68%;
+  max-width: 800px;
+  padding: 20px 20px 20px 100px;
+  margin: 40px 0px;
 }
 
+.bundle-bg2 > img {
+  position: absolute;
+  left: -70px;
+  z-index: 1;
+  top: -50px;
+  height: 250px;
+}
+
+.step-container{
+  border: 2px solid var(--primary-color);
+  width: 95%;
+  max-width: 1300px;
+  padding: 50px;
+  gap: 50px;
+  border-radius: 50px;
+  z-index: 0;
+  position: relative;
+  background: var(--font-white);
+}
+.step-card{
+  width: 28%;
+  height: 500px;
+
+}
+.step-card > div{
+  background: var(--acttivit-card-bg);
+  height: 400px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  z-index: 0;
+}
 .bundle-box {
   height: 70vh;
   border: 3px solid var(--primary-color);
@@ -496,20 +540,26 @@ h2 > .quote {
 .bundle-card > svg {
   height: 30%;
 }
-.bundle-card > b {
-  font-size: 30px;
+.step-card > div > b {
+  font-size: 30px !important;
   padding-bottom: 30px;
+  font-weight: 700 !important;
 }
-.bundle-card > p {
+.step-card> div > p {
   width: 80%;
   text-align: center;
+  color: #686868 !important;
+}
+.step-card > img{
+  width: 53px !important;
+  height: 53px !important;
 }
 .steps {
   position: absolute;
   top: -20px;
   z-index: 1;
   width: 50%;
-  height: 50px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -523,99 +573,157 @@ h2 > .quote {
 .bg-orange-behindcard {
   position: absolute;
   z-index: -1;
+  top: 45%;
   height: 150px;
   width: 70%;
   background: var(--primary-color);
 }
 
 /*Premium Package Section*/
+.bg-orange-gradient{
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background-size:  cover!important; /* Cover the entire area */
+
+}
+
 .premium-package-container {
-  background: url("../assets/premium-bg.png");
-  background-size: contain 100%;
-  background-position: center; /* Center the background image */
+  padding: 5em 0em;
 }
 .premium-package-container > h1 {
-  padding: 90px 0px;
+  padding-bottom: 1em !important;
+  font-size: 46px;
+  color: var(--secondary-color);
+  font-weight: 700;
 }
-.premium-box-container {
-  width: 80%;
+.subcription-pricing-container{
+  width: 1200px;
+  height: auto;
+  gap: 8px;
+  row-gap: 50px;
 }
-.premium-box-container > .premium-card {
-  width: 30%;
-  height: 450px;
+.subscription-card{
+  background: var(--subcription-card-color);
+  height: 380px;
+  width: 24.5%;
+  max-width: 320px !important;
+  border-radius: 20px;
+  border: 1px solid var(--color-brown);
+  padding: 3px;
+}
+.subscription-card-bg{
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
   background: var(--font-white);
-  border-radius: 50px;
-}
-.premium-card > .premium-card-border {
-  width: 85%;
-  height: 85%;
-  border-radius: 40px;
-  border: 2px solid var(--primary-color);
   padding: 30px;
+  position: relative;
 }
-
-.premium-card-title {
-  font-weight: 700;
-  font-size: 30px;
-}
-.premium-card-price {
-  font-weight: 700;
-  font-size: 28px;
+.subscription-card-bg > .subscription-title{
+  color: var(--primary-color);
+  font-size: 23px;
   margin: 0;
+  font-weight: 500;
 }
-.premium-card-below-price {
+.subscription-list-container{
+  height: 50%;
+  width: 100%;
+}
+.subscription-list-container > p {
   margin: 0;
-}
-.premium-card-content {
-  width: 70%;
   font-size: 12px;
+}
+.subscription-list-container > p > svg{
+  margin: 0px 18px 0px 0px;
+}
+.subcription-pricing{
+  font-size: 8px;
+  height: 10%;
+}
+.yen-price{
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0; 
+  position: relative;
+  bottom: -10px;
+}
+.subscription-button-container{
+  height: 20%;
+  width: 100%;
+}
+.btn-choose-plan{
+  background: var(--subcription-card-color);
+  border: none;
+  height: 40px;
+  width: 180px;
+  font-weight: 500;
+  border-radius: 10px;
+}
+.most-popular-overlay{
+  background: var(--primary-color);
+  font-size: 12px;
+  position: absolute;
+  top: 3px;
+  transform: translate(38%);
+  padding: 5px 20px;
+  color: var(--font-white);
+  border-radius: 0px 0px 20px 20px;
+}
+.subscription-card:hover{
+  border: 1px solid var(--primary-color);
+
+}
+.subscription-card.active{
+  border: 1px solid var(--primary-color);
+}
+.btn-choose-plan:hover{
+  background: var(--primary-color);
+  color: var(--font-white);
+
+}
+.btn-choose-plan.active{
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+.subscription-list-content{
+  font-size: 20px !important;
   text-align: center;
 }
-.start-now-btn {
-  width: 80%;
-  height: 40px;
-  background: var(--primary-color);
-  border: none;
-  border-radius: 50px;
-  color: var(--font-white);
-  font-weight: 600;
-}
-.premium-card-border > div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 40%;
-}
-.premium-get-in-touch {
-  height: 400px;
-  display: flex;
-  align-items: center;
-  color: var(--font-white);
-  font-size: 20px;
-  font-weight: 600;
-}
-
 /*About Hr hatch*/
 .about-hr-hatch-container {
-  height: 100vh;
-  padding: 30px;
+  height: 90vh;
+  padding:  0px;
 }
 
 .about-hr-hatch-container > h3 {
-  font-size: 49px !important;
+  font-size: 46px !important;
+  font-weight: 700;
 }
-
+.about-hr-hatch-container > h3 > p {
+  font-size: 60px !important;
+  color: var(--font-black);
+  position: relative;
+  bottom: -2px;
+}
 .about-hr-hatch-container > h2 {
-  width: 70%;
+  width: 45%;
   text-align: center;
-  font-size: 30px !important;
+  font-weight: 200; 
+}
+.about-hr-hatch-container > h2 > svg{
+position: relative;
+top: -15px;
+height: 25px;
 }
 
 .about-content-container {
-  width: 70%;
+  width: 60%;
   height: 600px;
   position: relative;
+}
+.about-hr-hatch-container> h3 > img{
+  margin-bottom: 3px;
+  padding-left: 6px;
 }
 
 .about-main-content {
@@ -638,71 +746,49 @@ h2 > .quote {
 }
 
 /*footer*/
-footer {
-  padding: 10px 0;
-}
+
 .footer-container-bg {
-  width: 85%; /* Use full width for better distribution */
-  background: var(--primary-color);
-  border-radius: 20px; /* Adjusted for a more subtle curve */
+  width: 100%; /* Use full width for better distribution */
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background-size:  100% !important; /* Cover the entire area */
+  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);  color: var(--font-black);
+  padding: 1.5em 0;
+
 }
 .footer-logo {
-  height: 100%;
+  height: 170px !important;
 }
-.footer-logo > img {
-  width: 40%;
+.footer-logo .logoname{
+  line-height: 10px;
 }
+
 footer h5 {
   margin-bottom: 15px;
   text-align: left;
-  color: var(--font-white);
+  color: var(--font-black);
   height: 10%;
   font-size: 18px;
+  font-weight: 700;
 }
 footer li {
   text-align: left;
+  color: var(--font-black);
 }
 footer a {
-  color: var(--font-white);
+  color: var(--font-black) !important;
   text-decoration: none;
   text-align: left;
   width: 100%;
   line-height: 35px;
   font-size: 16px;
-  font-weight: 100 !important;
+  font-weight: 400 !important;
 }
 footer a:hover {
   text-decoration: underline;
 }
-.footer-partner-logo > img {
-  width: 70%; /* Responsive width for partner logo */
+
+/* Responsive styles */
+@media (max-width: 768px) {
+
 }
-.img-partner {
-  height: 100% !important;
-}
-.color-white,
-.sublogoname-footer {
-  color: var(--font-white);
-}
-.bg-boxbehind-left {
-  width: 500px;
-  height: 250px;
-  border-radius: 50px;
-  background: var(--secondary-color);
-  transform: rotate(10deg);
-  position: absolute;
-  z-index: -1;
-  left: -50px;
-  top: -30px;
-}
-.bg-boxbehind-right {
-  width: 500px;
-  height: 250px;
-  border-radius: 50px;
-  background: var(--secondary-color);
-  transform: rotate(-10deg);
-  position: absolute;
-  z-index: -1;
-  right: -50px;
-  top: 20px;
-}
+

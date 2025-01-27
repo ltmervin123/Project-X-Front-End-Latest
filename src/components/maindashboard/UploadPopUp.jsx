@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { FaUpload } from "react-icons/fa";
 
 const UploadPopUp = ({ show, onClose, onUploadComplete }) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,9 +19,7 @@ const UploadPopUp = ({ show, onClose, onUploadComplete }) => {
       setErrorMessage("Only DOC, DOCX, and PDF files are allowed.");
     } else {
       setErrorMessage("");
-
-      console.log("Uploaded Files (via Drag and Drop):", validFiles); // Log files to console
-      onUploadComplete(validFiles[0]);// Trigger to close UploadPopUp and open JobDescriptionPopup
+      onUploadComplete(validFiles[0]); // Trigger to close UploadPopUp and open JobDescriptionPopup
     }
   };
 
@@ -40,7 +37,7 @@ const UploadPopUp = ({ show, onClose, onUploadComplete }) => {
       setErrorMessage("Only DOC, DOCX, and PDF files are allowed.");
     } else {
       setErrorMessage("");
-      onUploadComplete(validFiles[0]);//Pass the files to the parent component
+      onUploadComplete(validFiles[0]); //Pass the files to the parent component
     }
   };
 
@@ -56,7 +53,7 @@ const UploadPopUp = ({ show, onClose, onUploadComplete }) => {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5 className="m-0">Upload Resume File</h5>
           <Button
-          className='closebtn'
+            className="closebtn"
             variant="link"
             onClick={onClose}
             style={{ fontSize: "1.5rem", textDecoration: "none" }}
@@ -70,7 +67,19 @@ const UploadPopUp = ({ show, onClose, onUploadComplete }) => {
           onDrop={handleFileDrop}
           onDragOver={(event) => event.preventDefault()}
         >
-          <FaUpload size={24} />
+          <svg
+            width="47"
+            height="47"
+            viewBox="0 0 47 47"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21.5413 31.3333V15.3728L16.4497 20.4645L13.708 17.6249L23.4997 7.83325L33.2913 17.6249L30.5497 20.4645L25.458 15.3728V31.3333H21.5413ZM11.7497 39.1666C10.6726 39.1666 9.75087 38.7834 8.98451 38.017C8.21815 37.2507 7.83431 36.3283 7.83301 35.2499V29.3749H11.7497V35.2499H35.2497V29.3749H39.1663V35.2499C39.1663 36.327 38.7832 37.2494 38.0168 38.017C37.2504 38.7847 36.3281 39.1679 35.2497 39.1666H11.7497Z"
+              fill="#F46A05"
+            />
+          </svg>
+
           <p>Drag and Drop files to upload</p>
           <p>or</p>
           <Button
@@ -87,7 +96,7 @@ const UploadPopUp = ({ show, onClose, onUploadComplete }) => {
             accept=".doc, .docx, .pdf"
             multiple
           />
-          <p>Supported Files: DOC, DOCX, PDF</p>
+          <i>Supported Files: DOC, DOCX, PDF</i>
           {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </div>
       </Modal.Body>

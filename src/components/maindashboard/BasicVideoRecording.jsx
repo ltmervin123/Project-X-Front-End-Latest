@@ -1,34 +1,37 @@
-import { React, useCallback, useState, useEffect, useRef } from "react";
-import { Button, Row, Col, Spinner, Container } from "react-bootstrap";
-import "intro.js/introjs.css";
-import introJs from "intro.js";
+import { React, useState, useEffect, useRef } from "react";
+import { Button, Row, Col, Spinner } from "react-bootstrap";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import {
   FaMicrophone,
   FaMicrophoneSlash,
   FaPause,
-  FaCircle,
+  FaPlay,
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
-import avatarImg from "../../assets/expert.png";
 import CancelInterviewAlert from "../maindashboard/CancelInterviewModal";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import LoadingScreen from "./loadingScreen";
-import tipsAvatar from "../../assets/basic.png";
+import tipsAvatar from "../../assets/expert.png";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
-import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
+import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import ErrorTranscription from "./errors/ErrorTranscription";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
 import { useGreeting } from "../../hook/useGreeting";
+import InterviewerOption from "../maindashboard/InterviewerOption";
+import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
+import InterviewPreview from "./InterviewPreview";
+import { useAnalytics } from "../../hook/useAnalytics";
+import { popupGuide } from "./PopupGuide";
 
 const BasicVideoRecording = ({ interviewType, category }) => {
+  const { getAnalytics } = useAnalytics();
   const recordedChunksRef = useRef([]);
   const [isRecording, setIsRecording] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -56,16 +59,12 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [cameraError, setCameraError] = useState(false);
   const [feedbackError, setFeedbackError] = useState(false);
   const [questionError, setQuestionError] = useState(false);
-  const [recognizedText, setRecognizedText] = useState("");
   const [currentGreetingText, setCurrentGreetingText] = useState("");
   const name = user.name.split(" ")[0];
   const audioRecorderRef = useRef(null);
   const [socket, setSocket] = useState(null);
   const { firstGreeting } = useGreeting();
   const [isIntro, setIsIntro] = useState(false);
-  const firstGreetingText =
-    "Welcome to HR Hatch basic interview simulation. Today’s interviewer is Steve.";
-  const secondGreetingText = firstGreeting();
   const [transcriptionError, setTranscriptionError] = useState(false);
   const [generateFinalGreetingError, setGenerateFinalGreetingError] =
     useState(false);
@@ -73,6 +72,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const [isResponseIndicatorVisible, setIsResponseIndicatorVisible] =
     useState(false);
   const transcriptRef = useRef("");
+  const [isTranscriptionSpeaking, setIsTranscriptionSpeaking] = useState(false);
+  const [isQuestionTranscribing, setIsQuestionTranscribing] = useState(false);
   const tips = [
     "Know your resume.",
     "Stay confident and positive.",
@@ -86,6 +87,13 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     "Express gratitude at the end.",
   ];
 
+  // Add new state for interviewer selection
+  const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
+  const selectedInterviewer = useRef(null);
+  const setSelectedInterviewer = (interviewer) => {
+    selectedInterviewer.current = interviewer;
+  };
+
   const setTranscript = (text) => {
     transcriptRef.current = `${transcriptRef.current}${text}`;
   };
@@ -97,6 +105,15 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   //increment the tip index
   const incrementTip = () => {
     setCurrentTipIndex((prevIndex) => (prevIndex + 1) % tips.length);
+  };
+
+  // const [interviewerGreetingText, setInterviewerGreetingText] = useState("");
+  const interviewerGreetingText = useRef("");
+
+  const setInterviewerGreetingText = () => {
+    interviewerGreetingText.current = firstGreeting(
+      selectedInterviewer.current
+    );
   };
 
   //Increment the tip index every 20 seconds
@@ -114,6 +131,9 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     const newSocket = io(API, {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
+      auth: {
+        token: user.token,
+      },
     });
 
     newSocket.on("connect", () => {
@@ -156,8 +176,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Access camera when the component mounts
   useEffect(() => {
-    enableCameraFeed();
-
     // Cleanup function to stop the camera feed when the component unmounts
     return () => {
       if (streamRef.current) {
@@ -196,10 +214,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   const userIntroduction = async () => {
     if (!isIntroShown) {
       setIsIntro(true);
-      setCurrentGreetingText(firstGreetingText);
-      await speak(firstGreetingText);
-      setCurrentGreetingText(secondGreetingText);
-      await speak(secondGreetingText);
+      setCurrentGreetingText(interviewerGreetingText.current);
+      await speak(interviewerGreetingText.current, selectedInterviewer.current);
 
       // Show the response indicator after speaking the second greeting
       setIsResponseIndicatorVisible(true);
@@ -207,11 +223,13 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   };
 
   // Speak function to convert text to audio
-  const speak = async (text) => {
+  const speak = async (text, voice) => {
+    setIsTranscriptionSpeaking(true); // Disable the button before speaking
     try {
+      const voiceType = voice.toLowerCase();
       const response = await axios.post(
         `${API}/api/interview/audio`,
-        { text },
+        { text, voiceType },
         {
           headers: {
             "Content-Type": "application/json",
@@ -232,12 +250,16 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       // Return a promise that resolves when the audio ends
       return new Promise((resolve, reject) => {
-        audioElement.onended = resolve;
+        audioElement.onended = () => {
+          setIsTranscriptionSpeaking(false); // Enable the button after speaking
+          resolve();
+        };
         audioElement.onerror = reject;
         audioElement.play().catch(reject);
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
+      setIsTranscriptionSpeaking(false); // Enable the button in case of error
     }
   };
 
@@ -247,20 +269,17 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Set uploading state to true
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
-
-      // close the transcription socket
-      socket.emit("stop-transcription");
+      const interviewer = selectedInterviewer.current;
 
       // Create a payload object to send the transcription data
-      const greeting = secondGreetingText;
+      const greeting = interviewerGreetingText.current;
       const userResponse = transcriptRef.current;
 
       if (!userResponse) {
         throw new Error("No transcription data to upload");
       }
 
-      const payload = { greeting, userResponse };
+      const payload = { greeting, userResponse, interviewer };
 
       const response = await axios.post(
         `${API}/api/interview/final-greeting`,
@@ -280,7 +299,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Set the final greeting text
       setCurrentGreetingText(finalGreeting);
       // Speak the final greeting
-      await speak(finalGreeting);
+      await speak(finalGreeting, selectedInterviewer.current);
 
       setCurrentGreetingText("");
       clearTranscript();
@@ -299,7 +318,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         clearTranscript();
       }
 
-      console.log("Error fetching final response:", error);
+      console.error("Error fetching final response:", error);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -309,109 +328,153 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
-  // Speak the current question when the component mounts
+  // Show the response indicator after speaking the question
   useEffect(() => {
     if (
       questions.length > 0 &&
       questions[questionIndex] &&
       !isCountdownActive
     ) {
-      speak(questions[questionIndex]);
+      setIsQuestionTranscribing(true); // Disable the button before transcribing
+      speak(questions[questionIndex], selectedInterviewer.current).then(() => {
+        setIsResponseIndicatorVisible(true); // Show the response indicator after speaking the question
+        setIsQuestionTranscribing(false); // Enable the button after transcribing
+      });
     }
   }, [questions, isCountdownActive, questionIndex]);
 
   // Reusable function to start recording
+  const [recordedVideos, setRecordedVideos] = useState([]); // State to store recorded videos
   const startRecording = () => {
-    setIsResponseIndicatorVisible(false);
-    if (streamRef.current) {
-      // Clear chunks before new recording
-      recordedChunksRef.current = [];
-      // Use the reference
-      const stream = streamRef.current;
-      // Initialize MediaRecorder with stream
-      mediaRecorderRef.current = new MediaRecorder(streamRef.current);
+    try {
+      setIsResponseIndicatorVisible(false);
+      if (streamRef.current) {
+        // Clear chunks before new recording
+        recordedChunksRef.current = [];
+        // Use the reference
+        const stream = streamRef.current;
+        // Initialize MediaRecorder with stream
+        mediaRecorderRef.current = new MediaRecorder(streamRef.current);
 
-      // Start recording if MediaRecorder is inactive
-      if (mediaRecorderRef.current.state === "inactive") {
-        mediaRecorderRef.current.start();
-        setIsRecording(true);
-        setIsPaused(false);
-        // Reset timer
-        setTimer({ minutes: 0, seconds: 0 });
-      }
-
-      // Set up audio streaming
-      const audioTrack = stream.getAudioTracks()[0];
-      const audioStream = new MediaStream([audioTrack]);
-
-      audioRecorderRef.current = new MediaRecorder(audioStream, {
-        mimeType: "audio/webm;codecs=opus",
-      });
-
-      //Remove the previous event listener
-      socket.off("transcription");
-      // Listen for transcription events
-      socket.on("transcription", (data) => {
-        if (data.isFinal) {
-          setTranscript(data.text);
-          setRecognizedText("");
-        } else {
-          setRecognizedText(data.text);
+        // Start recording if MediaRecorder is inactive
+        if (mediaRecorderRef.current.state === "inactive") {
+          mediaRecorderRef.current.start();
+          setIsRecording(true);
+          setIsPaused(false);
         }
-      });
-      //Remove the previous event listener
-      socket.off("transcription-error");
-      // Listen for transcription error events
-      socket.on("transcription-error", (error) => {
-        console.error("Transcription error:", error);
-      });
 
-      // Listen for audio data events
-      audioRecorderRef.current.ondataavailable = async (event) => {
-        if (
-          event.data.size > 0 &&
-          socket?.connected &&
-          audioRecorderRef.current?.state === "recording"
-        ) {
-          try {
+        // Set up audio streaming
+        const audioTrack = stream.getAudioTracks()[0];
+        const audioStream = new MediaStream([audioTrack]);
+
+        audioRecorderRef.current = new MediaRecorder(audioStream, {
+          mimeType: "audio/webm;codecs=opus",
+        });
+
+        //Remove the previous event listener
+        socket.off("real-time-transcription");
+        // Listen for transcription events
+        socket.on("real-time-transcription", (data) => {
+          if (data.isFinal) {
+            setTranscript(data.text);
+          } else {
+          }
+        });
+
+        //Remove the previous event listener
+        socket.off("transcription-error");
+        // Listen for transcription error events
+        socket.on("transcription-error", (error) => {
+          console.error("Transcription error:", error);
+        });
+
+        // Listen for audio data events
+        audioRecorderRef.current.ondataavailable = async (event) => {
+          if (
+            event.data.size > 0 &&
+            socket?.connected &&
+            audioRecorderRef.current?.state === "recording"
+          ) {
             // Convert the audio chunk to a buffer
             const buffer = await event.data.arrayBuffer();
             // Emit the audio stream to the server
             socket.emit("audio-stream", buffer);
-          } catch (error) {
-            console.error("Error processing audio chunk:", error);
           }
-        }
-      };
+        };
 
-      //Emit the audio every 250ms
-      audioRecorderRef.current.start(250);
+        // Listen for video data events
+        mediaRecorderRef.current.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            recordedChunksRef.current.push(event.data);
+          }
+        };
+
+        //Emit the audio every 100ms
+        audioRecorderRef.current.start(100);
+      }
+    } catch (error) {
+      console.error("Error starting recording:", error);
     }
   };
 
   // Reusable function to stop recording
   const stopRecording = async () => {
-    // Set uploading state to true
-    setIsUploading(true);
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state === "recording"
-    ) {
-      // Stop audio recording
-      audioRecorderRef.current?.stop();
+    try {
+      // Reset timer
+      setTimer({ minutes: 0, seconds: 0 });
+      // Set uploading state to true
+      setIsUploading(true);
+      if (
+        mediaRecorderRef.current &&
+        mediaRecorderRef.current.state === "recording"
+      ) {
+        // Stop audio recording
+        audioRecorderRef.current?.stop();
 
-      // Wait for the audio recorder to stop
-      await new Promise((resolve) => {
-        audioRecorderRef.current.onstop = resolve;
-      });
+        // Flush any remaining audio chunks
+        audioRecorderRef.current.onstop = () => {
+          if (socket?.connected) {
+            socket.emit("stop-transcription"); // Notify the backend to finalize transcription
+          }
+        };
 
-      //Check if intro and execute the final greeting function
-      if (isIntro) {
-        await aiFinalGreeting();
-      } else {
-        /* Interview simulation here if not intro */
-        await handleInterviewAnswer();
+        //Finalize the transcription when the recording stops
+        socket.once("final-transcription", (data) => {
+          if (data?.isFinal) {
+            setTranscript(data.text);
+          }
+        });
+
+        // Wait for "transcription-complete" signal from backend
+        await new Promise((resolve) => {
+          socket.off("transcription-complete");
+          socket.once("transcription-complete", (data) => {
+            if (data?.message) {
+              socket.off("transcription-complete"); // Cleanup listener to avoid memory leaks
+              resolve(); // Proceed to the next step
+            }
+          });
+        });
+
+        // Stop video recording and save the video
+        mediaRecorderRef.current.stop();
+        mediaRecorderRef.current.onstop = () => {
+          const videoBlob = new Blob(recordedChunksRef.current, {
+            type: "video/webm",
+          });
+          const videoUrl = URL.createObjectURL(videoBlob);
+          setRecordedVideos((prevVideos) => [...prevVideos, videoUrl]);
+        };
+
+        if (isIntro) {
+          await aiFinalGreeting();
+        } else {
+          /* Interview simulation here if not intro */
+          await handleInterviewAnswer();
+        }
       }
+    } catch (error) {
+      console.error("Error stopping recording:", error);
     }
   };
 
@@ -425,12 +488,12 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
 
     // Check if we're at the last question
-    if (questionIndex === questions.length - 1 && !isUploading) {
+    if (questionIndex === 4 && !isUploading) {
       const outroMessage = `Thanks ${name}, and I hope you enjoyed your interview with us.`;
       //Display the outro message
       setCurrentGreetingText(outroMessage);
       //Speak the outro greeting
-      await speak(outroMessage);
+      await speak(outroMessage, selectedInterviewer.current);
       // Create feedback
       await createFeedback();
     } else {
@@ -445,26 +508,25 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     setIsGeneratingFeedback(true);
     setFeedbackError(false);
 
-    try {
-      const response = await axios.post(
-        `${API}/api/interview/create-feedback`,
-        { interviewId },
-        {
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      // Set generating feedback state to false
-      setFeedbackError(false);
-      setIsGeneratingFeedback(false);
-      setShowSuccessPopup(true);
-      setInterviewId("");
-    } catch (err) {
-      console.log(err.response ? err.response.data.error : err.message);
-      setFeedbackError(true); // Set feedback error state
-    }
+    socket.emit("generateFeedback", { interviewId });
+
+    socket.off("feedbackGenerated");
+
+    socket.on("feedbackGenerated", async (data) => {
+      if (data?.feedback) {
+        await getAnalytics();
+        setIsGeneratingFeedback(false);
+        setShowPreviewPopup(true);
+        setInterviewId("");
+      }
+    });
+
+    socket.once("error", (error) => {
+      if (error?.message) {
+        console.error("Error generating feedback: ", error);
+        setFeedbackError(true);
+      }
+    });
   };
 
   // Timer Effect
@@ -518,65 +580,11 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     window.location.reload(); // Reload the page
   };
 
-  // Upload video to the server
-  // const uploadVideo = async () => {
-  //   try {
-  //     // Set uploading state to true
-  //     setIsUploading(true);
-
-  //     // Check if there is video data to upload
-  //     if (recordedChunksRef.current.length === 0) {
-  //       throw new Error("No video data to upload");
-  //     }
-
-  //     // Create a Blob from the recorded chunks
-  //     const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
-
-  //     // Create a FormData object to send the video data
-  //     const formData = new FormData();
-
-  //     // Append the video file and question to the FormData
-  //     formData.append("interviewId", interviewId);
-  //     formData.append(
-  //       "videoFile",
-  //       blob,
-  //       `${interviewId}-question${questionIndex + 1}.webm`
-  //     );
-  //     // formData.append("videoFile", blob, `question${questionIndex + 1}.webm`);
-  //     formData.append("question", questions[questionIndex]);
-
-  //     // Make a POST request to the server to upload the video
-  //     const response = await axios.post(
-  //       `${API}/api/interview/mock-interview`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //           Authorization: `Bearer ${user.token}`, // JWT token
-  //         },
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.log("Error uploading video:", error);
-  //   } finally {
-  //     // Clear the recorded chunks after uploading
-  //     recordedChunksRef.current = [];
-  //     // Set uploading state to false
-  //     setIsUploading(false);
-  //   }
-  // };
-
-  //Function to upload transcription
-
   //
   const uploadTranscription = async () => {
     try {
       setIsRecording(false);
       setIsPaused(true);
-      setRecognizedText("");
-
-      //Close the transcription socket
-      socket.emit("stop-transcription");
 
       const question = questions[questionIndex];
 
@@ -602,7 +610,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
       // Make a POST request to the server to upload the video
       const response = await axios.post(
-        `${API}/api/interview/mock-interview`,
+        `${API}/api/interview/basic-interview`,
         payload,
         {
           headers: {
@@ -611,15 +619,25 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           },
         }
       );
+
+      // Extract the generated question from the response
+      const generatedQuestion = response.data.question;
+
+      if (questionIndex + 1 <= 4) {
+        // Set the current greeting text to the generated question
+        setQuestions((prevItem) => [...prevItem, generatedQuestion]);
+      }
       clearTranscript();
       return true;
     } catch (error) {
-      console.log("Error uploading transcription: ", error);
+      console.error("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
         // Set transcription error state to pop up the error modal
         setTranscriptionError(true);
         //Reset the transcript text
         clearTranscript();
+      } else {
+        setQuestionError(true);
       }
       return false;
     } finally {
@@ -629,14 +647,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       // Set uploading state to false
       setIsUploading(false);
     }
-  };
-
-  // Cancel close handler
-  const handleCancelClose = () => {
-    setShowConfirm(false);
-    setIsRecording(false); // Reset recording state
-    setIsPaused(true); // Reset pause state
-    setTimer({ minutes: 0, seconds: 0 }); // Reset timer
   };
 
   //Countdown effect
@@ -694,60 +704,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
   };
 
   //Function to initialize Intro.js
-  const popupGuide = () => {
-    introJs()
-      .setOptions({
-        steps: [
-          {
-            intro: "Welcome to the Video Recording Interface!",
-          },
-          {
-            element: "#videoArea",
-            intro: "This is where you will see yourself while recording.",
-          },
-          {
-            element: "#startButton",
-            intro: "Click this button to start recording your responses.",
-          },
-          {
-            element: "#muteButton",
-            intro: "Use this button to mute or unmute your microphone.",
-          },
-          {
-            element: "#cameraButton",
-            intro: "Toggle your camera on or off using this button.",
-          },
-          {
-            element: "#timer",
-            intro: "This timer shows the time remaining for your response.",
-          },
-          {
-            element: ".mute-indicator",
-            intro: "Mute and Unmute indicator.",
-          },
-          {
-            element: "#tipsContainer",
-            intro:
-              "Here are some tips to help you perform better in your interview.",
-          },
-          {
-            element: "#talkingAvatar",
-            intro:
-              "This is the talking avatar that guides you during the interview.",
-          },
-          {
-            element: "#startInterviewButton",
-            intro: "Click this button to start the interview.",
-          },
-          {
-            intro: "Goodluck to your interview!",
-          },
-        ],
-      })
-      .start();
-  };
-
-  // Pop up guide function
   const startGuide = () => {
     // Check if the intro has already been shown
     const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown"));
@@ -766,292 +722,398 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
+  // Add handler for interviewer selection
+  const handleInterviewerSelect = (interviewer) => {
+    setSelectedInterviewer(interviewer);
+    setInterviewerGreetingText(firstGreeting(interviewer));
+    setShowInterviewerSelect(false);
+    // Start camera access after interviewer is selected
+    enableCameraFeed();
+  };
+
+  const [showPreviewPopup, setShowPreviewPopup] = useState(false);
+  const [proceed, setProceed] = useState(false);
+  const [showTips, setShowTips] = useState(true); // State to control the visibility of tips
+
+  const handlePreview = async () => {
+    setShowPreviewPopup(false);
+    setProceed(true);
+    setShowSuccessPopup(false); // Ensure success popup does not show after preview
+    setShowTips(false); // Hide tips container
+  };
+
+  const handleCancelPreview = async () => {
+    setShowPreviewPopup(false);
+    setShowSuccessPopup(true);
+  };
+
   return (
     <>
       <Header />
-      <Container
-        fluid
-        className="video-recording-page align-items-center justify-content-center"
-      >
-        <div className="video-recording-content">
-          <Row className="video-recording-row">
-            <Col md={7} className="d-flex flex-column align-items-center h-100">
-              <div
-                id="videoArea"
-                className="video-area position-relative d-flex align-items-center "
+      {/* Add InterviewerOption modal at the top level */}
+
+      {!selectedInterviewer.current ? (
+        <InterviewerOption
+          show={showInterviewerSelect}
+          onHide={() => setShowInterviewerSelect(false)}
+          onSelectInterviewer={handleInterviewerSelect}
+        />
+      ) : (
+        <div
+          fluid
+          className="video-recording-page align-items-center justify-content-center"
+        >
+          <div className="video-recording-content">
+            <Row className="video-recording-row">
+              <Col
+                md={7}
+                className="d-flex flex-column align-items-center h-100"
               >
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  muted
-                  className="video-feed"
-                ></video>
-                {/* Mute indicator in top left */}
                 <div
-                  id="mute-indicator"
-                  className="mute-indicator position-absolute top-0 start-0 m-2"
+                  id="videoArea"
+                  className="video-area video-area position-relative d-flex align-items-center "
                 >
-                  {isMuted ? (
-                    <div className="d-flex align-items-center gap-2">
-                      <FaMicrophoneSlash />
-                    </div>
+                  {proceed ? (
+                    <InterviewPreview videoSrc={recordedVideos} />
                   ) : (
-                    <div className="d-flex align-items-center gap-2">
-                      <FaMicrophone />
-                    </div>
-                  )}
-                </div>
-                <p
-                  id="timer"
-                  className="timer position-absolute top-0 end-0 m-2"
-                >
-                  {`${String(timer.minutes).padStart(2, "0")}:${String(
-                    timer.seconds
-                  ).padStart(2, "0")} / 3:00`}{" "}
-                  {/* Change from 2:00 to 3:00 */}
-                </p>
-                <p className="speech-subtitle-overlay">{recognizedText}</p>
-                <div className="d-flex align-items-center gap-3 interview-tools">
-                  <Button
-                    id="cameraButton"
-                    className="btn-videorecord"
-                    onClick={toggleCamera}
-                    variant={isCameraOn ? "success" : "secondary"}
-                  >
-                    {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
-                  </Button>
-                  {/* Start and Stop record button */}
-                  {isIntro ? (
                     <>
-                      <Button
-                        id="startButton"
-                        className="position-relative pause-indicator"
-                        onClick={isRecording ? stopRecording : startRecording}
-                        disabled={isUploading}
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        muted
+                        className="video-feed"
+                      ></video>
+                      {/* Mute indicator in top left */}
+                      <div
+                        id="mute-indicator"
+                        className="mute-indicator position-absolute top-0 start-0 m-2"
                       >
-                        {isUploading ? (
-                          <Spinner className="pause-indicator-spinner"></Spinner>
-                        ) : isRecording ? (
-                          <FaPause size={30} />
+                        {isMuted ? (
+                          <div className="d-flex align-items-center gap-2">
+                            <FaMicrophoneSlash />
+                          </div>
                         ) : (
-                          <FaCircle size={30} />
+                          <div className="d-flex align-items-center gap-2">
+                            <FaMicrophone />
+                          </div>
                         )}
-                      </Button>
-                      {isResponseIndicatorVisible && (
-                        <div className="response-indicator">
-                          Click here to respond
+                      </div>
+                      <p
+                        id="timer"
+                        className="timer position-absolute top-0 end-0 m-2"
+                      >
+                        {`${String(timer.minutes).padStart(2, "0")}:${String(
+                          timer.seconds
+                        ).padStart(2, "0")} / 3:00`}{" "}
+                        {/* Change from 2:00 to 3:00 */}
+                      </p>
+                      <div className="d-flex align-items-center gap-3 interview-tools">
+                        <Button
+                          id="cameraButton"
+                          className="btn-videorecord"
+                          onClick={toggleCamera}
+                          variant={isCameraOn ? "success" : "secondary"}
+                        >
+                          {isCameraOn ? <FaVideo /> : <FaVideoSlash />}
+                        </Button>
+                        {/* Start and Stop record button */}
+                        {isIntro ? (
+                          <>
+                            <Button
+                              id="startButton"
+                              className="position-relative pause-indicator"
+                              onClick={
+                                isRecording ? stopRecording : startRecording
+                              }
+                              disabled={
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
+                            >
+                              {isUploading ? (
+                                <Spinner className="pause-indicator-spinner"></Spinner>
+                              ) : isRecording ? (
+                                <FaPause size={30} />
+                              ) : (
+                                <FaPlay size={30} />
+                              )}
+                            </Button>
+                            {isResponseIndicatorVisible && (
+                              <div className="response-indicator">
+                                Click here to respond
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              id="startButton"
+                              className="position-relative pause-indicator"
+                              onClick={
+                                isRecording ? stopRecording : startRecording
+                              }
+                              disabled={
+                                !questions.length ||
+                                isUploading ||
+                                isTranscriptionSpeaking ||
+                                isQuestionTranscribing
+                              }
+                            >
+                              {isUploading ? (
+                                <Spinner className="pause-indicator-spinner"></Spinner>
+                              ) : isRecording ? (
+                                <FaPause size={30} />
+                              ) : (
+                                <FaPlay size={30} />
+                              )}
+                            </Button>
+                            {isResponseIndicatorVisible && (
+                              <div className="response-indicator">
+                                Click here to respond
+                              </div>
+                            )}
+                          </>
+                        )}
+                        <Button
+                          id="muteButton"
+                          className="btn-mute"
+                          onClick={toggleMute}
+                        >
+                          {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                        </Button>
+                      </div>
+
+                      {/* Countdown Overlay */}
+                      {isCountdownActive && countdown > 0 && (
+                        <div className="countdown-overlay">
+                          <h6>Interview will Start in</h6>
+                          <h2>{countdown}</h2>
+                        </div>
+                      )}
+                      {/* Overlay for reattempting access to camera */}
+                      {isReattemptingCamera && (
+                        <div className="camera-retry-overlay">
+                          {/* <Spinner animation="border" role="status" /> */}
+                          <img
+                            className="loadinganimation"
+                            animation="border"
+                            role="status"
+                            src={loading}
+                            alt="loading..."
+                          />
+                          <p>Reattempting access to camera...</p>
                         </div>
                       )}
                     </>
-                  ) : (
-                    <>
-                      {/* {isResponseIndicatorVisible && (
-                          <div className="response-indicator">
-                            Click here to respond
-                          </div>
-                        )} */}
-                      <Button
-                        id="startButton"
-                        className="position-relative pause-indicator"
-                        onClick={isRecording ? stopRecording : startRecording}
-                        disabled={!questions.length || isUploading}
-                      >
-                        {isUploading ? (
-                          <Spinner className="pause-indicator-spinner"></Spinner>
-                        ) : isRecording ? (
-                          <FaPause size={30} />
-                        ) : (
-                          <FaCircle size={30} />
-                        )}
-                      </Button>
-                    </>
                   )}
-                  <Button
-                    id="muteButton"
-                    className="btn-mute"
-                    onClick={toggleMute}
-                  >
-                    {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                  </Button>
                 </div>
+              </Col>
+              {!proceed ? (
+                <Col
+                  md={5}
+                  className="d-flex flex-column align-items-center gap-1"
+                >
+                  <div className="speech-subtitle-container">
+                    {transcriptRef.current ? (
+                      <p className="speech-subtitle-overlay">
+                        {transcriptRef.current}
+                      </p>
+                    ) : (
+                      <div className="speech-default-subtitle">
+                        {/* <p>
+                          REAL-TIME TRANSCRIPTION HERE 
 
-                {/* Countdown Overlay */}
-                {isCountdownActive && countdown > 0 && (
-                  <div className="countdown-overlay">
-                    <h6>Interview will Start in</h6>
-                    <h2>{countdown}</h2>
+                          </p> */}
+                      </div>
+                    )}
                   </div>
-                )}
-                {/* Overlay for reattempting access to camera */}
-                {isReattemptingCamera && (
-                  <div className="camera-retry-overlay">
-                    {/* <Spinner animation="border" role="status" /> */}
-                    <img
-                      className="loadinganimation"
-                      animation="border"
-                      role="status"
-                      src={loading}
-                    />
-                    <p>Reattempting access to camera...</p>
-                  </div>
-                )}
-              </div>
-            </Col>
-            <Col md={5} className="d-flex flex-column align-items-center gap-1">
-              <img
-                id="talkingAvatar"
-                src={avatarImg}
-                alt="Avatar"
-                className="avatar-interviewer-img"
-              />
-              {/* <div className="avatar-interviewer-img"></div> */}
-
-              <div className="interview-question-container">
-                {currentGreetingText ? (
-                  <p>{currentGreetingText}</p>
-                ) : isIntroShown ? (
-                  <>
-                    {countdown > 0 ? (
-                      <i>
-                        Hold tight! We’re preparing the perfect questions for
-                        you...
-                      </i>
+                  <div className="interview-question-container">
+                    {currentGreetingText ? (
+                      <p>{currentGreetingText}</p>
+                    ) : isIntroShown ? (
+                      <>
+                        {countdown > 0 ? (
+                          <i>
+                            Hold tight! We’re preparing the perfect questions
+                            for you...
+                          </i>
+                        ) : (
+                          <>
+                            <h4>Question:</h4>
+                            <p className="question-text">
+                              {questions[questionIndex]}
+                            </p>
+                          </>
+                        )}
+                      </>
                     ) : (
                       <>
-                        <h4>Question:</h4>
-                        <p className="question-text">
-                          {questions[questionIndex]}
-                        </p>
+                        <div className="interview-content">
+                          <h4>Welcome to the Interview!</h4>
+                          <p>
+                            We will start when you are ready. Please be
+                            prepared.
+                          </p>
+                        </div>
+                        <div className="container-startinterview d-flex justify-content-around align-items-center flex-column w-100">
+                          <Button
+                            id="startInterviewButton"
+                            className="btn-startinterview d-flex align-items-center"
+                            variant="link"
+                            disabled={isReattemptingCamera}
+                            onClick={handleIntroFinish}
+                          >
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 19 25"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z"
+                                fill="white"
+                              />
+                            </svg>
+                            <p>Start Interview</p>
+                          </Button>
+                          <i>Click here to Generate Interview Questions</i>
+                        </div>
                       </>
                     )}
-                  </>
-                ) : (
-                  <>
-                    <h4>Welcome to the Interview!</h4>
-                    <p>We will start when you are ready. Please be prepared.</p>
-                    <div className="d-flex justify-content-center align-items-center flex-column gap-2 w-100">
-                      <Button
-                        id="startInterviewButton"
-                        className="btn-startinterview d-flex align-items-center"
-                        variant="link"
-                        disabled={isReattemptingCamera}
-                        onClick={handleIntroFinish}
-                      >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 19 25"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M3.76003e-06 1.25075L2.77649e-06 23.7514C0.000727559 23.9792 0.0645093 24.2025 0.184478 24.3973C0.304446 24.592 0.476062 24.7508 0.68085 24.8567C0.88564 24.9625 1.11585 25.0113 1.3467 24.9978C1.57754 24.9843 1.80029 24.9091 1.99095 24.7802L18.487 13.5299C19.171 13.0636 19.171 11.9411 18.487 11.4735L1.99096 0.223223C1.80069 0.0930001 1.57783 0.0166346 1.3466 0.00242295C1.11537 -0.0117887 0.884603 0.0366973 0.67938 0.142613C0.474157 0.248528 0.302322 0.407823 0.182547 0.603189C0.0627727 0.798555 -0.000360534 1.02252 3.76003e-06 1.25075ZM15.5355 12.5011L2.53786 21.3663L2.53786 3.63582L15.5355 12.5011Z"
-                            fill="white"
-                          />
-                        </svg>
+                  </div>
+                </Col>
+              ) : (
+                <Col
+                  md={5}
+                  className="d-flex flex-column align-items-center justify-content-end position-relative"
+                >
+                  <div className="interview-preview-avatar"></div>
+                  <div className="orange-box-avatar-sitting"></div>
 
-                        <p>Start Interview</p>
-                      </Button>
-                      <i>Click here to Generate Interview Questions</i>
+                  <div className="interview-question-container1">
+                    <div className="outro-text-container">
+                      <h4>Thank you for proceeding!</h4>
+                      <p>Your interview is now in progress. Best of luck!</p>
                     </div>
-                  </>
+                    <div className="d-flex justify-content-center align-items-center view-result-container">
+                      <Button
+                        className="btn-viewresult"
+                        onClick={() => (window.location.href = "/analytics")}
+                      >
+                        View your result
+                      </Button>
+                    </div>
+                  </div>
+                </Col>
+              )}
+            </Row>
+            <Row className="d-flex justify-content-center tips-row">
+              <Col md={7}>
+                {/* Tips container moved below video */}
+                {showTips && (
+                  <div
+                    id="tipsContainer"
+                    className="tips-container d-flex mt-3 gap-2"
+                  >
+                    <div className="tips">
+                      <p className="tips-header">Tips:</p>
+                      <p className="tips-content">{tips[currentTipIndex]}</p>
+                    </div>
+                    <img
+                      className="tips-avatar"
+                      src={tipsAvatar}
+                      alt="Tips Avatar"
+                    />
+                  </div>
                 )}
-              </div>
-            </Col>
-          </Row>
-          <Row className="d-flex justify-content-center tips-row">
-            <Col md={7}>
-              {/* Tips container moved below video */}
+              </Col>
+              <Col md={5}></Col>
+            </Row>
+
+            {questionError && (
+              <ErrorUploadAnswer
+                onRetry={async () => {
+                  setQuestionError(false);
+                  setIsUploading(true);
+                  await handleInterviewAnswer();
+                }}
+              />
+            )}
+            {feedbackError ? (
+              <ErrorGenerateFeedback
+                onRetry={() => {
+                  createFeedback();
+                }}
+              />
+            ) : (
               <div
-                id="tipsContainer"
-                className="tips-container d-flex mt-3 gap-2"
-              >
-                <div className="tips">
-                  <p className="tips-header">Tips:</p>
-                  <p className="tips-content">{tips[currentTipIndex]}</p>
-                </div>
-                <img
-                  className="tips-avatar"
-                  src={tipsAvatar}
-                  alt="Tips Avatar"
-                />
-              </div>
-            </Col>
-            <Col md={5}></Col>
-          </Row>
+                show={true}
+                onHide={handleClose}
+                centered
+                dialogClassName="custom-video-record-modal-width"
+                backdrop={false}
+              ></div>
+            )}
+            {cameraError ? (
+              <ErrorAccessCam
+                onClose={() => setCameraError(false)}
+                onRetry={() => {
+                  // setCameraError(false);
+                  enableCameraFeed();
+                }}
+              />
+            ) : (
+              <div
+                show={true}
+                onHide={handleClose}
+                centered
+                dialogClassName="custom-video-record-modal-width"
+                backdrop={false}
+              ></div>
+            )}
+            {showConfirm && (
+              <CancelInterviewAlert
+                show={showConfirm} // Control visibility with show prop
+                onHide={() => setShowConfirm(false)} // Close the modal when needed
+                onConfirm={handleConfirmClose}
+                onClose={() => setShowConfirm(false)}
+                message="Are you sure you want to cancel the interview?"
+              />
+            )}
+            {transcriptionError && (
+              <ErrorTranscription
+                onRetry={() => {
+                  setTranscriptionError(false);
+                }}
+              />
+            )}
 
-          {questionError && (
-            <ErrorGenerateQuestion
-              onRetry={() => {
-                setIsIntroShown(false);
-                setQuestionError(false);
-              }}
-            />
-          )}
-          {feedbackError ? (
-            <ErrorGenerateFeedback
-              onRetry={() => {
-                createFeedback();
-              }}
-            />
-          ) : (
-            <div
-              show={true}
-              onHide={handleClose}
-              centered
-              dialogClassName="custom-video-record-modal-width"
-              backdrop={false}
-            ></div>
-          )}
-          {cameraError ? (
-            <ErrorAccessCam
-              onClose={() => setCameraError(false)}
-              onRetry={() => {
-                // setCameraError(false);
-                enableCameraFeed();
-              }}
-            />
-          ) : (
-            <div
-              show={true}
-              onHide={handleClose}
-              centered
-              dialogClassName="custom-video-record-modal-width"
-              backdrop={false}
-            ></div>
-          )}
-          {showConfirm && (
-            <CancelInterviewAlert
-              show={showConfirm} // Control visibility with show prop
-              onHide={() => setShowConfirm(false)} // Close the modal when needed
-              onConfirm={handleConfirmClose}
-              onClose={() => setShowConfirm(false)}
-              message="Are you sure you want to cancel the interview?"
-            />
-          )}
-          {transcriptionError && (
-            <ErrorTranscription
-              onRetry={() => {
-                setTranscriptionError(false);
-              }}
-            />
-          )}
+            {generateFinalGreetingError && (
+              <ErrorGenerateFinalGreeting
+                onRetry={async () => {
+                  setGenerateFinalGreetingError(false);
+                  setIsUploading(true);
+                  await aiFinalGreeting();
+                }}
+              />
+            )}
 
-          {generateFinalGreetingError && (
-            <ErrorGenerateFinalGreeting
-              onRetry={async () => {
-                setGenerateFinalGreetingError(false);
-                setIsUploading(true);
-                await aiFinalGreeting();
-              }}
-            />
-          )}
+            {isGeneratingFeedback && <LoadingScreen />}
 
-          {isGeneratingFeedback && <LoadingScreen />}
-
-          {showSuccessPopup && <InterviewSuccessfulPopup />}
+            {showPreviewPopup ? (
+              <InterviewPreviewOptionPopup
+                show={showPreviewPopup}
+                onHide={handleCancelPreview}
+                onPreview={handlePreview}
+              />
+            ) : (
+              showSuccessPopup && !proceed && <InterviewSuccessfulPopup />
+            )}
+          </div>
         </div>
-      </Container>
+      )}
     </>
   );
 };

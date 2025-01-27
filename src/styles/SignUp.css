@@ -69,33 +69,55 @@
   padding: 20px;
   background-color: var(--bg-fade-signup);
   border-radius: 20px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   width: 520px; /* Adjust as necessary */
+  height: 100% !important;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 20px;
   position: relative;
+  padding: 50px 50px 20px 50px;
   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
 }
 .info-create-acc-container > div{
-  margin-bottom: 12px;
+  background: var(--font-white);
+  width: 320px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 30px;
+  border-radius: 50px;
 }
-.info-create-acc-container > p {
-  font-size: 11px;
-  word-wrap: break-word;
-  text-align: left;
-  width: 80%;
-  font-weight: 500;
+.info-create-acc-container  p {
+margin: 0 !important;
+font-size: 12px !important;
+text-align: left;
+font-weight: 500;
+}
+.already-have-slash-login-container{
+  margin: 0 !important;
+  background: transparent !important;
+  height: auto!important;
+
+}
+.already-have-slash-login-container > svg{
+  position: absolute;
+  bottom: 15px;
+  left: 44px;
 }
 .already-have-acc {
   margin: 0;
   padding: 0;
   font-size: 10px;
+  
 }
 .already-have-acc > small {
-  font-size: 8px;
-  color: var(--input-bg);
+  font-size: 9px;
+  margin-bottom: 2px;
 }
 .logo {
   width: 20%; /* Adjust as necessary */
@@ -123,7 +145,7 @@
   );
   color: white;
   padding: 20px;
-  width: 650px;
+  width: 600px;
   border-radius: 50px;
   display: flex;
   justify-content: center;
@@ -162,8 +184,8 @@
 }
 .required-asterisk {
     position: absolute;
-    top: -5px;
-    right: 25px;
+    top: -6px;
+    right: 20px;
     color: red !important;
     font-size: 20px !important;
     z-index: 10;
@@ -180,7 +202,13 @@
   background: none;
   border: none;
   color: var(--font-white);
-  font-size: 35px;
+  padding: 5px;
+}
+.input-group > span > svg{
+  width: 40px;
+  height: 40px;
+  position: relative;
+  bottom: -1px;
 }
 .note {
   justify-content: flex-end;
@@ -197,7 +225,7 @@
   border: none;
   position: absolute;
   right: 30%;
-  bottom: -24px;
+  bottom: -20px;
 }
 .account-details h3 {
   position: absolute;
@@ -207,13 +235,7 @@
   margin-left: 1em;
   background-color: var(--primary-color);
 }
-.account-details p {
-  margin-left: 1em;
-  padding: 0 10px;
-  font-size: 12px;
-  word-wrap: break-word;
-  width: 80%;
-}
+
 
 .privacy {
   display: flex !important;
@@ -232,9 +254,31 @@
 .privacy > .checkbox-container > input[type="checkbox"] {
   width: 15px;
   height: 15px;
-  /* appearance: none; */
+  background-color: transparent;
+  cursor: pointer;
+  outline: none; /* Remove default focus outline */
+  box-shadow: none; /* Remove box-shadow effect */
   border: 1px solid var(--font-white);
-  background: transparent;
+  appearance: none; /* Remove default browser styles */
+  position: relative;
+}
+
+/* When checkbox is checked */
+.privacy > .checkbox-container > input[type="checkbox"]:checked {
+  background-color: transparent;
+}
+
+/* Add a custom checkmark using a pseudo-element */
+.privacy > .checkbox-container > input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--font-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 .privacy-content {
   padding: 5px 0px;
@@ -266,10 +310,12 @@
   color: var(--font-white);
   background: var(--primary-color) !important;
   text-decoration: none;
-  width: 150px;
-  height: 40px;
+  width: 150px !important;
+  height: 40px !important;
   border: none !important;
   border-radius: 50px !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.339);
+
 }
 
 .custom-regsuccess-container {
@@ -347,6 +393,42 @@
 .btn-close1:hover {
   background: none !important;
   color: #000 !important;
+}
+
+.video-wrapper {
+  position: relative;
+}
+
+.video-wrapper .play-pause-button,
+.video-wrapper .video-nav-button {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.video-wrapper .play-pause-button {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.video-wrapper .prev-button {
+  left: 10px;
+}
+
+.video-wrapper .next-button {
+  right: 10px;
+}
+
+.video-wrapper:hover .play-pause-button,
+.video-wrapper:hover .video-nav-button {
+  display: block;
 }
 
 

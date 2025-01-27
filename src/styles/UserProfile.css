@@ -16,6 +16,7 @@
     padding: 30px 100px 50px 50px;
     overflow: hidden;
 }
+
 .user-profile-container > p{
     width: 350px;
     border-bottom: 5px solid var(--primary-color) !important;

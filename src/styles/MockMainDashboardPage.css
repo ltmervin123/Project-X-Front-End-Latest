@@ -7,207 +7,224 @@
     --text-color: #000;
     --sidebar-bg: #F2F3F7;
 }
-.MockMaindashboard-container{
-    padding: 0 !important;  
+.mock-interview-maindashboard{
+  width: 70%;
+  padding-right: 30px;
+}
+.mock-interview-summary{
+  width: 30%;
+}
+.MockMaindashboard-container {
+    padding: 0 !important;
     width: 100%;
     min-height: 80vh;
     margin-top: 12vh;
     padding: 20px;
     overflow-x: hidden;
 }
-.MockMaindashboard-container > .row{
+
+.MockMaindashboard-container > .row {
     margin: 0;
     height: 100%;
     width: 100%;
 }
-.MockMaindashboard-container > .row > div{
+
+.MockMaindashboard-container > .row > div {
     padding: 0 !important;
 }
-/* .MockMaindashboard-container > .row > .sidebar{
-    padding: 0;
-    width: 250px;
-} */
-.MockMain-Header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: var(--primary-color) !important;
-  background: linear-gradient(264deg, rgba(244,106,5,1) 19%, rgb(255, 156, 85) 74%) !important;
-  padding: 10px 3%;
-  margin: 0 !important;
-  z-index: 1000; /* Ensure it's above other elements */
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 
+.MockMain-Header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--primary-color) !important;
+    background: linear-gradient(264deg, rgba(244,106,5,1) 19%, rgb(255, 156, 85) 74%) !important;
+    padding: 10px 3%;
+    margin: 0 !important;
+    z-index: 1000;
 }
-.MockMain-LogoBrand{
+
+.MockMain-LogoBrand {
     background: var(--font-white);
     border-radius: 50px;
     margin: 0 !important;
-    /* width: 291px; */
-    height: 50px;
+    height: 40px;
     padding: 0px 10px;
     position: relative;
-    
-}
-.MockMain-LogoBrand >  img{
-    margin: 0 !important;
-}
-.MockMain-LogoBrand >div> .logoname1{
-  font-size: 16px;
-  font-weight: 1000;
-  line-height: 0px;
-  padding-top: 20px;
-  display: flex !important;
-  position: relative;
-  bottom: -6px;
-}
-.MockMain-LogoBrand > div > .sublogoname1 {
-  color: var(--font-black);
-  font-weight: 1000;
-  font-size: 5.7px;
-  position: relative;
-  bottom: 4px;
-}
-#basic-navbar-nav > .navbar-nav{
-  width: auto;
-}
-/* Ensure the hover effect only affects the dropdown items */
-.dropdown-header {
-  border-radius: 50px;
-  background: var(--font-white) !important;
-  border: none;
-  height: 40px;
-  color: var(--primary-color) !important;
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  width: auto;
+    display: flex;
+    align-items: center;
 }
 
-.dropdown-header >img{
+.MockMain-LogoBrand > img {
+    margin: 0 !important;
+}
+
+.MockMain-LogoBrand > div > .logoname1 {
+    font-size: 16px;
+    font-weight: 1000;
+    line-height: 0px;
+    padding-top: 20px;
+    display: flex !important;
+    position: relative;
+    bottom: -6px;
+}
+
+.MockMain-LogoBrand > div > .sublogoname1 {
+    color: var(--font-black);
+    font-weight: 1000;
+    font-size: 5.7px;
+    position: relative;
+    bottom: 4px;
+}
+
+#basic-navbar-nav > .navbar-nav {
+    width: auto;
+}
+
+.dropdown-header {
+    border-radius: 50px;
+    background: var(--font-white) !important;
+    border: none;
+    height: 40px;
+    color: var(--primary-color) !important;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    width: auto;
+}
+
+.dropdown-header > img {
     width: 31px;
     background: var(--avatar-bg);
     border-radius: 50%;
     padding: 2px;
 }
-.dropdown-header >p{
+
+.dropdown-header > p {
     margin: 0;
     font-weight: 700;
 }
+
 .dropdown-header:hover > p {
-  color: var(--primary-color); 
+    color: var(--primary-color);
 }
 
 .dropdown-item:hover {
-  color: var(--text-color);
+    color: var(--text-color);
 }
 
 .dropdown-toggle:focus, .dropdown-toggle:active {
-  color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
 }
 
 .dropdown-toggle:focus > p, .dropdown-toggle:active > p {
-  color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
 }
+
 .dropdown-item.active-link {
-  color: var(--primary-color) !important;
-  border-left: 3px solid var(--primary-color);
-  font-weight: bold;  /* Make the active profile link bold */
+    color: var(--primary-color) !important;
+    border-left: 3px solid var(--primary-color);
+    font-weight: bold;
 }
 
 .dropdown-header.active > img {
-  border: 2px solid var(--primary-color); /* Optional: add a border to the avatar when profile is active */
+    border: 2px solid var(--primary-color);
 }
 
 .dropdown-header.active > p {
-  color: var(--primary-color);  /* Change text color for the username when profile is active */
+    color: var(--primary-color);
 }
-/*Sidebar*/
 
 .MockMain-sidebar {
-  position: fixed;
-  top: 60px; /* Adjust this based on your header's height */
-  left: 0;
-  background: var(--sidebar-bg);
-  padding: 8vh 0px 10px 10px;
-  height: calc(100vh - 60px); /* Full height minus header */
-  overflow-y: auto; /* Add scrolling if content overflows */
-  z-index: 999;
-  width: 16.5%;
-  min-width: 210px;
-  /* max-width: 240px; */
-  /* transition: all 0.3s ease; */
+    position: fixed;
+    top: 60px;
+    left: 0;
+    background: var(--sidebar-bg);
+    padding: 8vh 0px 10px 10px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    z-index: 999;
+    width: 16.5%;
+    min-width: 210px;
 }
-/* .MockSidebar{
-  width: 250px;
-} */
-.MockMain-sidebar > a{
+
+.MockMain-sidebar > a {
     text-decoration: none;
-    padding-left: 10px  ;
+    padding-left: 10px;
     border-left: 3px solid var(--sidebar-bg);
     font-size: 15px;
 }
+
 .MockMain-sidebar > button {
     border: none;
     background: none;
 }
+
 .MockMain-sidebar > a.active-link {
-    color: var(--primary-color) !important; 
+    color: var(--primary-color) !important;
     border-left: 3px solid var(--primary-color);
 }
-.MockMain-sidebar > a.active-link svg{
+
+.MockMain-sidebar > a.active-link svg {
     fill: var(--primary-color) !important;
 }
 
-/*Maindashboard Content*/
-.MockMainDashboard-content{
-    padding: 10px 40px;
+.MockMainDashboard-content {
+    padding: 10px 50px;
     width: 100% !important;
-    /* margin: 0px 3%; */
-    /* margin: ; */
-    /* background-color: var(--card-color); */
+}
+.MockMainDashboard-content1 {
+  padding: 10px 0px 10px 50px;
+  width: 100% !important;
+}
+.MockMainDashboard-content1 > div > span > img{
+  position: relative;
+  bottom: 2px !important;
+  left: -2px;
+  padding: 0px 2px 0px 0px;
 }
 .MockMainDashboard-content h4 {
-    font-weight: 500 !important;
+    font-weight: 700 !important;
 }
-.MockMainDashboard-content span{
-    font-weight: 500 !important;
+
+.MockMainDashboard-content span {
+    font-weight: 700 !important;
     font-size: 12px;
 }
-.MockMainDashboard-content i{
+
+.MockMainDashboard-content i {
     font-weight: 400;
 }
-.MockGuide-container{
+
+.MockGuide-container {
     width: 100%;
 }
-.MockGuide-container > div{
+
+.MockGuide-container > div {
     width: 100%;
     height: 70px;
     padding: 0px 25px;
-    border-radius: 50px;
+    border-radius: 20px;
     display: flex;
     flex-wrap: wrap;
     border: 2px solid var(--primary-color);
 }
-/* .MockGuide-container > div > svg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 10%;
-} */
+
 .MockGuide-container > div > div {
     color: var(--primary-color);
     width: 66%;
     padding-left: 10px;
     font-size: 12px;
-  }
-.MockGuide-container > div > div > p{
+}
+
+.MockGuide-container > div > div > div > p {
     margin: 0 !important;
     font-size: 14px;
 }
-.MockGuide-container > div > button{
-    background: var(--primary-color) ;
+
+.MockGuide-container > div > button {
+    background: var(--primary-color);
     border-radius: 50px;
     border: none;
     color: var(--font-white);
@@ -216,159 +233,169 @@
     padding: 0 20px;
     font-size: 12px;
 }
-.MockGuide-container >svg{
+
+.MockGuide-container > svg {
     width: 80%;
 }
 
-/*Mock Video Tutorial*/
-.MockVideo-container{
+.MockVideo-container {
     padding: 10px;
 }
-.MockVideo-container >video{
+
+.MockVideo-container > video {
     margin-bottom: 20px;
-    width: 100%;
+    width: 70%;
     max-width: 600px;
 }
-.MockVideo-container> button{
+
+.MockVideo-container > button {
     background: var(--primary-color);
-    width: 100%;
-    max-width: 700px;
-    height: 55px;
+    width: 90%;
+    max-width: 600px;
+    height: 50px;
     border-radius: 50px;
     color: var(--font-white);
     border: none;
 }
-
-/* Summary */
-
+.summary-container{
+  padding: 10px 50px 10px 0px;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
 .summary-card-wrapper {
-  position: relative;
-  /* min-width: 200px; */
-  margin-top: 1vh;
-  width: 90%;
-  max-width: 350px;
-  border: 2px solid var(--primary-color);
-  border-radius: 50px !important;
-  background: var(--font-white) !important;
-  height: auto;
-  min-height: 80vh;
+    position: relative;
+    width: 95%;
+    max-width: 320px !important;
+    border: 2px solid var(--primary-color);
+    border-radius: 30px !important;
+    background: var(--font-white) !important;
+    height: auto;
+    min-height: 80vh;
 }
 
 .summary-card {
-  width: 100%;
-  border: none !important;
-  color: var(--secondary-color) !important;
-  flex-direction: column;
-  gap: 0px;
-  padding: 10px;
-  background-color: transparent !important;
-  position: relative;
-  height: 100%;
+    width: 100%;
+    border: none !important;
+    color: var(--secondary-color) !important;
+    flex-direction: column;
+    gap: 0px;
+    padding: 10px;
+    background-color: transparent !important;
+    position: relative;
+    height: 100%;
 }
 
 .summary-card > .card-title {
-  text-align: left;
-  padding: 10px 20px 0px 20px;
-  font-weight: 700;
-  font-size: 25px;
-  height: 5%;
-}
-.summary-card > .card-text {
-  color: var(--secondary-color) !important;
-  font-weight: 500;
-  padding: 0px 20px;
-  margin: 0;
-  font-size: 18px;
-  height: 5%;
-}
-.background-svg2 {
-  position: absolute;
-  bottom: 0;
-  /* margin-left: 10px; */
-  left: 3px;
-  width: 100%;
-  height: auto;
-  bottom: 0px;
-  z-index: 1; /* Ensure the SVG is behind the card */
+    text-align: left;
+    padding: 10px 20px 0px 20px;
+    font-weight: 700;
+    font-size: 25px;
+    height: 5%;
 }
 
+.summary-card > .card-text {
+    color: var(--secondary-color) !important;
+    font-weight: 500;
+    padding: 0px 20px;
+    margin: 0;
+    font-size: 18px;
+    height: 5%;
+}
+
+.background-svg2 {
+    position: absolute;
+    bottom: 0;
+    left: 3px;
+    width: 100%;
+    height: auto;
+    bottom: 0px;
+    z-index: 1;
+}
 
 .activity-results-container {
-  display: flex;
-  gap: 15px;
-  padding: 10px;
-  height: 30%;
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+    height: 30%;
 }
 
 .activity-container,
 .results-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .activity-container {
-  width: 70%;
-  gap: 5px;
+    width: 70%;
+    gap: 5px;
 }
 
 .activity-card,
 .result-of-interview {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100%;
-  margin: 2px 0;
-  font-weight: 900 !important;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    margin: 2px 0;
+    font-weight: 900 !important;
 }
 
 .activity-card {
-  min-height: 40px;
-  background: var(--acttivit-card-bg) !important;
-  border-radius: 50px;
+    min-height: 40px;
+    background: var(--acttivit-card-bg) !important;
+    border-radius: 50px;
 }
 
 .result-of-interview {
-  min-height: 0px;
+    min-height: 0px;
 }
+
 .activity-card > .category-name {
-  font-size: 10px;
-  color: var(--text-color);
-  margin: 0;
-  text-transform: uppercase;
+    font-size: 10px;
+    color: var(--text-color);
+    margin: 0;
+    text-transform: uppercase;
 }
 
 .activity-card > .type-of-interview {
-  font-size: 9px;
-  color: var(--primary-color);
-  margin: 0;
-  text-transform: uppercase;
+    font-size: 9px;
+    color: var(--primary-color);
+    margin: 0;
+    text-transform: uppercase;
 }
 
 .activity-card > .date-of-interview {
-  font-size: 8px;
-  color: var(--card-color);
-  margin: 0;
-  text-transform: uppercase;
+    font-size: 8px;
+    color: var(--card-color);
+    margin: 0;
+    text-transform: uppercase;
 }
 
-
-.results-container > p,
-.activity-container > p {
-  margin: 0 !important;
-  color: var(--text-color);
-  font-size: 11px;
-  font-weight: 100;
+.results-container > .act-result,
+.activity-container > .act-result {
+    margin: 0 !important;
+    color: var(--text-color);
+    font-size: 13px !important;
+    font-weight: 400;
 }
 
-.activity-card,
-.result-of-interview {
+.activity-card{
   height: 40px;
   justify-content: center;
   color: var(--text-color);
   font-weight: 500;
+font-size: 18px;
+}
+.result-of-interview {
+    height: 40px;
+    justify-content: center;
+    color: var(--text-color);
+    font-weight: 400 !important;
+  font-size: 18px !important;
 }
 
 .subcription-reminder-container {
@@ -378,11 +405,11 @@
 }
 
 .line-color-orange {
-  background-color: var(--primary-color);
-  width: 65%;
-  height: 2px;
-  margin-bottom: 30px;
-  margin-top: 10px;
+    background-color: var(--primary-color);
+    width: 65%;
+    height: 2px;
+    margin-bottom: 30px;
+    margin-top: 10px;
 }
 
 .subcription-reminder {
@@ -394,95 +421,93 @@
     box-shadow: 0px 4px 5px 0px rgba(135, 135, 135, 0.686);
     align-items: center;
 }
+
 .subcription-reminder > .reminder-note {
-  width: 80%;
-  text-align: center;
-  font-size: 10px !important;
-  font-weight: 100 !important;
-  color: var(--text-color);
-  margin: 0;
+    width: 80%;
+    text-align: center;
+    font-size: 10px !important;
+    font-weight: 100 !important;
+    color: var(--text-color);
+    margin: 0;
 }
+
 .subcription-reminder > .sub-reminder-text {
-  font-size: 16px !important;
-  text-align: center;
-  color: var(--primary-color);
-  font-weight: 700 !important;
-  margin: 0;
+    font-size: 16px !important;
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: 700 !important;
+    margin: 0;
 }
 
 .warning {
-  color: red;
-  font-size: 30px;
-  font-weight: 900;
-  width: 20px;
-  height: 30px;
-  background: var(--acttivit-card-bg);
-  position: absolute;
-  top: -23px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    color: red;
+    font-size: 30px;
+    font-weight: 900;
+    width: 20px;
+    height: 30px;
+    background: var(--acttivit-card-bg);
+    position: absolute;
+    top: -23px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .summary-avatar-img-bg {
     background-image: url('../assets/summary-img.png');
-    background-position: bottom center; 
-    background-repeat: no-repeat; 
-    background-size: contain ; 
-    height: 300px; 
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 300px;
     width: 90%;
     position: relative;
-    top: 0; 
+    top: 0;
     left: 5%;
     bottom: 0px !important;
-    z-index: 2; /* Ensure this is above the SVG */ 
-
+    z-index: 2;
 }
+
 @media (min-width: 1500px) {
-  .MockMain-sidebar > svg{
-    height: 20px;
-    color: var(-);
+    .MockMain-sidebar > svg {
+        height: 20px;
+        color: var(-);
+    }
 
-  }
-  .MockMain-sidebar > a {
-    font-size: 18px;
-
-  }
-  
+    .MockMain-sidebar > a {
+        font-size: 18px;
+    }
 }
+
 @media (min-width: 1600px) {
-  .MockMain-sidebar > a svg{
-    font-size: 35px;
-    height: 25px;
-  }
-  .MockMain-sidebar > a {
-    font-size: 19px;
+    .MockMain-sidebar > a svg {
+        font-size: 35px;
+        height: 25px;
+    }
 
-  }
-  
+    .MockMain-sidebar > a {
+        font-size: 19px;
+    }
 }
+
 @media (min-width: 1700px) {
-  .MockMain-sidebar > a svg{
-    font-size: 30px;
-    height: 20px;
-  }
-  .MockMain-sidebar > a {
-    font-size: 20px;
+    .MockMain-sidebar > a svg {
+        font-size: 30px;
+        height: 20px;
+    }
 
-  }
+    .MockMain-sidebar > a {
+        font-size: 20px;
+    }
 }
-/* 
 
-/* Add media queries for different screen sizes */
 @media (max-width: 768px) {
     .MockMaindashboard-container {
         margin-top: 10vh;
     }
 
-    /* Collapse sidebar on mobile */
     .MockMain-sidebar {
         transform: translateX(-100%);
         width: 200px;
@@ -492,14 +517,12 @@
         transform: translateX(0);
     }
 
-    /* Adjust columns for mobile */
     .MockMaindashboard-container > .row > div[class*='col-'] {
         width: 100%;
         max-width: 100%;
         flex: 0 0 100%;
     }
 
-    /* Adjust guide container for mobile */
     .MockGuide-container > div {
         flex-direction: column;
         align-items: center;
@@ -511,7 +534,6 @@
         width: 40px;
     }
 
-    /* Center text content on mobile */
     .MockMainDashboard-content h4,
     .MockMainDashboard-content span,
     .MockMainDashboard-content i {
@@ -539,7 +561,6 @@
     }
 }
 
-/* Add a hamburger menu button for mobile */
 .mobile-menu-toggle {
     display: none;
     position: fixed;

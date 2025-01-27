@@ -12,10 +12,15 @@
     height: 100vh !important;
 }
 /*Ai Reference BG*/
-.AiReferencebg{
-    background: url("../assets/image.png");
+/* .AiReferencebg{
     background-size: cover;
+} */
+.aiReferenceContainer{
+    width: 100% !important;
+    height: 100vh !important;
+    background: url("../assets/image.png");
 }
+
 /*Ai Reference Sidebar*/
 .LogoBrand{
     margin: 0 !important;
@@ -68,13 +73,15 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
   
-.AiReferenceCard h4 {
-    margin-bottom: 10px;
+.AiReferenceCard > p {
+    margin-bottom: 10px !important;
+    font-weight: 100 !important;
+    font-size: 14px;
 }
   
 .AiReferenceCard .count {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 24px !important;
+    font-weight: bold !important;
     margin-bottom: 5px;
 }
   

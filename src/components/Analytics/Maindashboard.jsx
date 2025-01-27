@@ -1,6 +1,5 @@
-import { React, useEffect, useState, useRef } from "react";
-import { Container, Form, Button, Row, Col, Carousel } from "react-bootstrap";
-import { FaSearch, FaChevronDown } from "react-icons/fa";
+import { React, useEffect, useState} from "react";
+import {   Row, Col, Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
 import { useAnalytics } from "../../hook/useAnalytics";
@@ -27,19 +26,18 @@ Chart.register(ArcElement);
 Chart.register(LineElement, PointElement, LinearScale, CategoryScale, Legend);
 
 const MainDashboard = () => {
-  const { getAnalytics, isLoading, error } = useAnalytics();
+  const { getAnalytics, isLoading } = useAnalytics();
   const navigate = useNavigate();
   const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const { user } = useAuthContext();
-  const carouselRef = useRef(null);
   const [selectedChart, setSelectedChart] = useState("overall"); // Default to overall
 
   // Helper function
   const getResultClass = (score) => {
     if (score <= 1.5) return "result-red-analytic";
-    if (score <= 5) return "result-orange-analytic" ;
+    if (score <= 5) return "result-orange-analytic";
     if (score <= 7.5) return "result-yellow-analytic";
     return "result-green-analytic";
   };
@@ -65,10 +63,7 @@ const MainDashboard = () => {
     navigate(`/result/${interviewId}`);
   };
 
-  // Handle search input change
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+
 
   // Fetch analytics if there are no interviews
   useEffect(() => {
@@ -98,10 +93,11 @@ const MainDashboard = () => {
     interviewHistory.forEach((item) => {
       const updatedAt = item.updatedAt; // Accessing the date
       const overallPerformance = parseFloat(
-        item.overallFeedback.overallPerformance
+        item.recordType === "old record"
+          ? item.overallFeedback.overallPerformance
+          : item.overAllScore
       ); // Accessing the score
 
-      // console.log(updatedAt);
       // Get the category and type from the interview details
       const category = item.interviewDetails[0].category.toLowerCase();
       const type = item.interviewDetails[0].type.toLowerCase();
@@ -137,7 +133,6 @@ const MainDashboard = () => {
   // Example usage
   const categoryScoresWithDate = getCategoryScoresWithDate();
 
-
   // Function to get dynamic chart data from local storage
   const getDynamicChartData = (category) => {
     const filteredData = interviewHistory.filter(
@@ -149,16 +144,33 @@ const MainDashboard = () => {
 
     // Extract scores for each specific feedback category
     const grammarScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.grammar)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.grammar
+          : item.grammar.overAllScore
+      )
     );
+
     const skillsScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.skill)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.skill
+          : item.skill.overAllScore
+      )
     ); // Fixed typo from 'gkills' to 'skills'
     const experienceScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.experience)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.experience
+          : item.experience.overAllScore
+      )
     );
     const relevanceScores = filteredData.map((item) =>
-      parseFloat(item.overallFeedback.relevance)
+      parseFloat(
+        item.recordType === "old record"
+          ? item.overallFeedback.relevance
+          : item.relevance.overAllScore
+      )
     );
 
     // Calculate average scores for each category
@@ -348,45 +360,47 @@ const MainDashboard = () => {
         )}
       </div>
 
+
       {/* New button container */}
-      <Row className="button-container-analytics d-flex justify-content-end gap-3">
-        <Button
+      <div className="button-container-analytics d-flex justify-content-end gap-3">
+        <button
           className={`btn-overall-analytics ${
             selectedChart === "overall" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("overall")}
         >
           Overall Performance
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-behavioral-analytics ${
             selectedChart === "behavioral" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("behavioral")}
         >
           Behavioral
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-basic-analytics ${
             selectedChart === "basic" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("basic")}
         >
           Basic
-        </Button>
-        <Button
+        </button>
+        <button
           className={`btn-expert-analytics ${
             selectedChart === "expert" ? "btn-active" : ""
           }`}
           onClick={() => setSelectedChart("expert")}
         >
           Expert
-        </Button>
-      </Row>
+        </button>
+      </div>
 
-      <Row className="chart-container justify-content-center align-items-center">
-        <Col md={9}>
-          <Row className="justify-content-center">
+
+        <div className="chart-container d-flex">
+
+          <Row className="justify-content-center align-items-end">
             {chartData[selectedChart].map(
               (
                 item // Use selectedChart to get the right data
@@ -425,23 +439,23 @@ const MainDashboard = () => {
               )
             )}
           </Row>
-        </Col>
-        <Col md={3} className="overall-performance">
-          <div style={{ fontSize: "2.5rem", fontWeight: "bold" }}>
-            {Math.max(
+ 
+          <div className="chart-overall">
+            <h3>          {Math.max(
               ...chartData[selectedChart].map((item) => item.score)
-            ).toFixed(1)}{" "}
+            ).toFixed(1)}{" "}</h3>
+  
             {/* Update to reflect max score */}
+            <p>Overall Performance</p>
           </div>
-          <h5>Overall Performance</h5>
-        </Col>
-      </Row>
-      {/* New Area Chart Slider Section */}
-      <Row className="chart-area-container ">
-        {/* Area Chart Container */}
-        <Col
-          md={6}
-          className="area-chart-container d-flex justify-content-center align-items-center"
+
+
+        </div>
+
+      <div className="chart-area-container ">
+              {/* New Area Chart Slider Section */}
+      <div 
+          className="area-chart-container d-flex justify-content-start align-items-center gap-5"
         >
           <div className="carousel-controls">
             <Carousel
@@ -490,10 +504,8 @@ const MainDashboard = () => {
               )}
             </Carousel>
           </div>
-        </Col>
-
-        {/* Analytics Container */}
-        <Col md={6} className="analytics-container">
+                  {/* Analytics Container */}
+        <div className="analytics-container">
           {" "}
           {/* 40% width */}
           <div className="table-responsive">
@@ -525,18 +537,25 @@ const MainDashboard = () => {
                         <td>{getDate(item.createdAt)}</td>
                         <td
                           className={getResultClass(
-                            parseFloat(item.overallFeedback.overallPerformance)
+                            parseFloat(
+                              item.recordType === "old record"
+                                ? item.overallFeedback.overallPerformance
+                                : item.overAllScore
+                            )
                           )}
                         >
-                          {item.overallFeedback.overallPerformance}/10
+                          {item.recordType === "old record"
+                            ? item.overallFeedback.overallPerformance
+                            : item.overAllScore}
+                          /10
                         </td>
                         <td className="action-t-center">
-                          <Button
+                          <button
                             variant="link"
                             onClick={() => handleViewResult(item._id)}
                           >
                             Full Summary
-                          </Button>
+                          </button>
                         </td>
                       </tr>
                     ))
@@ -550,8 +569,12 @@ const MainDashboard = () => {
               </tbody>
             </table>
           </div>
-        </Col>
-      </Row>
+        </div>
+   
+          </div>
+
+      </div>
+
     </div>
   );
 };

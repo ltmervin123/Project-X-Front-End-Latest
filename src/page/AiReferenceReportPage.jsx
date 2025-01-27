@@ -7,7 +7,7 @@ import Report from "../components/AiReferenceDashboard/Report";
 function AiReferenceReportPage() {
   return (
     <>
-      <div className="d-flex ">
+      <div className="d-flex aiReferenceContainer">
         <Sidebar />
         <Container className="flex-grow-1  AiReferencebg">
           <Row>

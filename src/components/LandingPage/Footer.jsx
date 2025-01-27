@@ -1,28 +1,18 @@
 import React from "react";
 import logo from "../../assets/logo.png";
-import ExclusivePartner from "../../assets/reallinkpartners.png";
 
 const Footer = () => {
   return (
-    <footer className="text-center d-flex align-items-center justify-content-center ">
+    <footer className="text-center d-flex align-items-center justify-content-center">
       <div className="footer-container-bg position-relative">
-        <div className="bg-boxbehind-left"></div>
-        <div className="bg-boxbehind-right"></div>
-        <div className="container p-4 d-flex align-items-center justify-content-center">
-          <div className="row d-flex align-items-start jsutify-content-start w-100">
-            <div className="col-lg-3 col-md-4  footer-logo d-flex align-items-center justify-content-center flex-column">
-              <img src={logo} alt="Logo" />
-              <div>
-                <div className="logoname">
-                  HR-<p className="color-white">HATCH</p>
-                </div>
-                <small className="sublogoname-footer">
-                  The TECH BEHIND TALENT.
-                </small>
-              </div>
+        <div className=" p-4 d-flex align-items-center justify-content-center">
+          <div className="row d-flex align-items-start justify-content-start w-100">
+            <div className="col-lg-3 col-md-3 d-flex footer-logo align-items-center justify-content-center">
+              <img src={logo} alt="Logo" width="200" height="30" />
             </div>
+
             <div className="col-lg-3 col-md-4 ">
-              <h5>SERVICES</h5>
+              <h5>PRODUCTS</h5>
 
               <ul className="list-unstyled ">
                 <li>
@@ -32,17 +22,17 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 2">
-                    Referee.AI
+                    Resume Fit Optimizer
                   </a>
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 3">
-                    Resume Match Builder
+                    Application Tracker
                   </a>
                 </li>
                 <li>
                   <a href="/comingsoon" aria-label="Service 4">
-                    Talent Acquisition Consulting
+                    AI Reference Checker
                   </a>
                 </li>
               </ul>
@@ -52,8 +42,8 @@ const Footer = () => {
 
               <ul className="list-unstyled">
                 <li>
-                  <a href="#about" aria-label="Learn 1">
-                    Why Hr-Hatch?
+                  <a href="#whyhrhacth" aria-label="Learn 1">
+                    Why HR-Hatch?
                   </a>
                 </li>
                 <li>
@@ -73,7 +63,7 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-lg-3 col-md-4 ">
+            <div className="col-lg-2 col-md-4 ">
               <h5>RESOURCES</h5>
 
               <ul className="list-unstyled">
@@ -99,11 +89,11 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
+            <div className="col-lg-1 col-md-1 d-flex footer-logo align-items-center justify-content-center"></div>
           </div>
         </div>
       </div>
     </footer>
-    
   );
 };
 
