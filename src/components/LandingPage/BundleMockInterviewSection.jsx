@@ -141,7 +141,6 @@ const BundleMockInterviewSection = () => {
           </div>
         </div>
 
-        <div className="bg-orange-behindcard"></div>
       </div>
     </section>
   );

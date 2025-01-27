@@ -214,6 +214,7 @@
 /* hero section*/
 .hero-container {
   position: relative;
+  width: 100% !important;
   height: 100vh !important;
   padding: 0;
   background: var(--font-white);
@@ -236,9 +237,7 @@
   bottom: -12px;
 }
 
-.hero-container {
-  height: 100vh;
-}
+
 .custom-hero-container {
   width: 50% !important;
   margin: 0 auto;
@@ -286,6 +285,7 @@ h2 > .quote {
 
 /*mock interview section*/
 .mock-interview-container{
+  width: 100%;
   background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
   background-size: cover!important; /* Cover the entire area */
 
@@ -569,14 +569,6 @@ h2 > .quote {
   color: var(--font-white);
   font-weight: 200;
   font-size: 25px;
-}
-.bg-orange-behindcard {
-  position: absolute;
-  z-index: -1;
-  top: 45%;
-  height: 150px;
-  width: 70%;
-  background: var(--primary-color);
 }
 
 /*Premium Package Section*/

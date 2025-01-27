@@ -2,8 +2,12 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Pie, Bar } from "react-chartjs-2"; // Import chart components
+import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
 
-const AiReferenceCard = ({ title, count, description, bgColor, icon }) => {
+// Register all necessary components
+Chart.register(...registerables);
+
+const AiReferenceCard = ({ title, count, description, bgColor }) => {
   return (
     <div
       className="AiReferenceCard"
@@ -28,20 +32,6 @@ const AiReferenceCard = ({ title, count, description, bgColor, icon }) => {
 };
 
 const MainDashboard = () => {
-  // Function to determine the status color based on the status
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Completed":
-        return { color: "green", fontWeight: "300" };
-      case "Pending":
-        return { color: "#F8BD00", fontWeight: "300" };
-      case "In Progress":
-        return { color: "blue", fontWeight: "300" }; // you can change blue if needed
-      default:
-        return { color: "black" }; // Default color if the status is unknown
-    }
-  };
-
   // Data for the pie chart
   const pieData = {
     labels: ["Completed", "Pending", "In Progress"],
@@ -54,23 +44,49 @@ const MainDashboard = () => {
     ],
   };
 
+  // Options for the pie chart to hide labels
+  const pieOptions = {
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+      },
+      tooltip: {
+        enabled: true, // Disable tooltips if you want to hide them as well
+      },
+    },
+  };
+
   // Data for the column chart
   const barData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: ["December", "January"], // Updated to represent only November to March
     datasets: [
       {
-        label: "Completed References",
-        backgroundColor: "rgba(75,192,192,1)",
-        borderColor: "rgba(0,0,0,1)",
+        label: "Week 1",
+        backgroundColor: "#319F43",
+        borderColor: "transparent",
         borderWidth: 2,
-        data: [65, 59, 80, 81, 56, 55, 40], // Example data
+        data: [110, 100], // Example data for November to March
       },
       {
-        label: "Pending References",
-        backgroundColor: "rgba(255,99,132,1)",
-        borderColor: "rgba(0,0,0,1)",
+        label: "Week 2",
+        backgroundColor: "#1877F2",
+        borderColor: "transparent",
         borderWidth: 2,
-        data: [28, 48, 40, 19, 86, 27, 90], // Example data
+        data: [90, 80], // Example data for November to March
+      },
+      {
+        label: "Week 3",
+        backgroundColor: "#F8BD00",
+        borderColor: "transparent",
+        borderWidth: 2,
+        data: [150, 140], // Example data for November to March
+      },
+      {
+        label: "Week 4",
+        backgroundColor: "#686868",
+        borderColor: "transparent",
+        borderWidth: 2,
+        data: [130, 120], // Example data for November to March
       },
     ],
   };
@@ -79,7 +95,7 @@ const MainDashboard = () => {
     <div className="MockMainDashboard-content">
       <h3 className="mb-3">Dashboard</h3>
       <p>Manage and track your reference check processes.</p>
-      <Row>
+      <Row className="mb-3">
         <Col md={3}>
           <AiReferenceCard
             title="Active Jobs"
@@ -115,12 +131,39 @@ const MainDashboard = () => {
       </Row>
       <Row>
         <Col md="6">
-          <h3 className="mb-3">Reference Status Distribution</h3>
-          <Pie data={pieData} />
+          <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">
+            <p className="mb-3 pie-title-overlay">Reference Check Status</p>
+
+            <div className="pie-chart">
+              {/* Pass the options to the Pie chart */}
+              <Pie data={pieData} options={pieOptions} />
+              <div className="pie-labels ms-3">
+                <ul>
+                  {pieData.labels.map((label, index) => (
+                    <li
+                      key={index}
+                      style={{
+                        color: pieData.datasets[0].backgroundColor[index],
+                      }}
+                    >
+                      <p> {label}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
         </Col>
         <Col md="6">
-          <h3 className="mb-3">Monthly Reference Checks</h3>
-          <Bar data={barData} />
+          <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">
+            <p className="mb-3 bar-title-overlay">Overview of Active Jobs</p>
+            <div className="bar-chart">
+              <Bar
+                data={barData}
+                options={{ responsive: true, maintainAspectRatio: false }}
+              />
+            </div>
+          </div>
         </Col>
       </Row>
       <Row>
@@ -134,7 +177,6 @@ const MainDashboard = () => {
                   <th>Candidate</th>
                   <th>Position</th>
                   <th>Type</th>
-                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,19 +184,16 @@ const MainDashboard = () => {
                   <td>Levi Mella</td>
                   <td>Graphic Designer</td>
                   <td>Basic</td>
-                  <td style={getStatusColor("Completed")}>Completed</td>
                 </tr>
                 <tr>
                   <td>Kirk Delagente</td>
                   <td>Prompt Eng.</td>
                   <td>Customized</td>
-                  <td style={getStatusColor("Pending")}>Pending</td>
                 </tr>
                 <tr>
                   <td>Aivan Sumalinog</td>
                   <td>Web Developer</td>
                   <td>Manage Focus</td>
-                  <td style={getStatusColor("In Progress")}>In Progress</td>
                 </tr>
               </tbody>
             </table>

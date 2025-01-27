@@ -37,6 +37,12 @@ import VideoRecording from "./components/maindashboard/MockVideoRecording";
 import Forgotpassword from "./page/ForgotPassPage.jsx";
 import Resetpassword from "./page/ResetPassPage.jsx";
 
+
+/* Our Partners Page */
+import OurParternersPage from "./page/OurPartnersPage.jsx";
+
+
+
 function App() {
   const { user } = useAuthContext();
 
@@ -143,6 +149,10 @@ function App() {
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* Use token as param */}
         <Route path="/reset-password/:token" element={<Resetpassword />} />
+
+        {/* OUr Partners */}
+        <Route path="/ourpartners" element={<OurParternersPage />} />
+
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
