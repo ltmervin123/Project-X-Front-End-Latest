@@ -16,7 +16,7 @@
   --acttivit-card-bg: #d9d9d9;
   --exclusive-btn-color: #b90416;
   --color-brown: #686868;
-  --subcription-card-color: #F8F8F9;
+  --subcription-card-color: #f8f8f9;
 }
 
 .main-container {
@@ -58,21 +58,28 @@
   background-color: none !important; /* Prevent background color change */
   outline: none; /* Prevent focus outline */
 }
-.btn:focus, .btn:active{
+.btn:focus,
+.btn:active {
   background-color: none !important; /* Prevent background color change */
   outline: none !important; /* Prevent focus outline */
 }
-.noclickblue:hover{
+.noclickblue:hover {
   color: var(--primary-color) !important;
   background: none !important;
 }
-#nav-dropdown-products, #nav-dropdown-services , #nav-dropdown-company, #nav-dropdown-pricing{
+#nav-dropdown-products,
+#nav-dropdown-services,
+#nav-dropdown-company,
+#nav-dropdown-pricing {
   color: var(--font-black) !important;
 }
-#nav-dropdown-products:hover, #nav-dropdown-services:hover , #nav-dropdown-company:hover, #nav-dropdown-pricing:hover{
+#nav-dropdown-products:hover,
+#nav-dropdown-services:hover,
+#nav-dropdown-company:hover,
+#nav-dropdown-pricing:hover {
   color: var(--primary-color) !important;
 }
-.signup-link > a{
+.signup-link > a {
   border-left: 3px solid var(--color-brown);
   padding-left: 20px;
 }
@@ -87,12 +94,11 @@
   transition: opacity 0.2s ease-in-out;
 }
 
-.hover-dropdown:hover{
+.hover-dropdown:hover {
   color: var(--primary-color) !important;
 }
-.hover-dropdown .dropdown-menu{
+.hover-dropdown .dropdown-menu {
   color: var(--primary-color) !important;
-
 }
 .hover-dropdown:hover .dropdown-menu {
   display: block;
@@ -104,7 +110,6 @@
 .nav-dropdown:hover .dropdown-menu {
   display: block !important;
 }
-
 
 .hover-dropdown:hover .dropdown-menu {
   display: block !important;
@@ -128,7 +133,7 @@
   position: absolute;
   top: 0;
   height: 30px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
 }
 .border-triangle2 {
@@ -136,7 +141,7 @@
   position: relative;
   top: 0;
   height: 30px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
 }
 /* Header */
@@ -180,7 +185,6 @@
   font-weight: 700;
 }
 
-
 .btn-get {
   background-color: var(--primary-color) !important;
   border: none !important;
@@ -194,7 +198,6 @@
   font-size: 22px !important;
   font-weight: 400;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
-
 }
 .btn-get > a {
   text-decoration: none;
@@ -208,7 +211,7 @@
 }
 .arrow-svg-pointing-btn {
   position: absolute;
-  left: -50px;
+  left: -55px;
   z-index: 1;
   bottom: 20px;
 }
@@ -227,17 +230,15 @@
   );
   /* Set height to 100% of the viewport */
 }
-.hero-container > h2 > svg{
+.hero-container > h2 > svg {
   position: relative;
   top: -15px;
-  height: 25px;
 }
 .hero-container > svg {
   position: absolute;
   z-index: 1;
   bottom: -12px;
 }
-
 
 .custom-hero-container {
   width: 50% !important;
@@ -285,15 +286,14 @@ h2 > .quote {
 }
 
 /*mock interview section*/
-.mock-interview-container{
+.mock-interview-container {
   width: 100%;
   background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size: cover!important; /* Cover the entire area */
-
+  background-size: cover !important; /* Cover the entire area */
 }
-.bundle-mock-interview-container{
+.bundle-mock-interview-container {
   background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size:  cover !important; /* Cover the entire area */
+  background-size: cover !important; /* Cover the entire area */
 }
 .mock-interview-container,
 .bundle-mock-interview-container {
@@ -338,12 +338,10 @@ h2 > .quote {
   display: inline;
   text-align: center;
   font-weight: 700;
-    font-size: 46px !important;
-
+  font-size: 46px !important;
 }
-.custom-mock-interview-container > h1 > p{
+.custom-mock-interview-container > h1 > p {
   display: inline;
-
 }
 .content-mock-interview-container,
 .content-bundle-mock {
@@ -352,7 +350,7 @@ h2 > .quote {
   margin-top: 20px;
 }
 
-.mock-content-bg{
+.mock-content-bg {
   background: var(--acttivit-card-bg);
   border-radius: 30px;
   padding: 30px 30px;
@@ -371,7 +369,6 @@ h2 > .quote {
 .bundle-mock-bg > p {
   text-align: left;
   width: 78%;
-
 }
 
 .mock-content-bg > img {
@@ -382,7 +379,6 @@ h2 > .quote {
   min-height: 280px;
   height: 100%;
 }
-
 
 .overlayed-icons {
   position: absolute;
@@ -405,8 +401,6 @@ h2 > .quote {
   height: 100px;
   border-radius: 20px;
 }
-
-
 
 .btn-mock {
   background-color: var(--primary-color) !important;
@@ -443,7 +437,7 @@ h2 > .quote {
   font-weight: 700;
   margin-bottom: 30px;
 }
-.bundle-mock-bg{
+.bundle-mock-bg {
   width: 100%;
 }
 .bundle-mock-bg > p {
@@ -492,7 +486,7 @@ h2 > .quote {
   height: 250px;
 }
 
-.step-container{
+.step-container {
   border: 2px solid var(--primary-color);
   width: 95%;
   max-width: 1300px;
@@ -503,12 +497,11 @@ h2 > .quote {
   position: relative;
   background: var(--font-white);
 }
-.step-card{
+.step-card {
   width: 28%;
   height: 500px;
-
 }
-.step-card > div{
+.step-card > div {
   background: var(--acttivit-card-bg);
   height: 400px;
   border-radius: 50px;
@@ -546,12 +539,12 @@ h2 > .quote {
   padding-bottom: 30px;
   font-weight: 700 !important;
 }
-.step-card> div > p {
+.step-card > div > p {
   width: 80%;
   text-align: center;
   color: #686868 !important;
 }
-.step-card > img{
+.step-card > img {
   width: 53px !important;
   height: 53px !important;
 }
@@ -573,10 +566,9 @@ h2 > .quote {
 }
 
 /*Premium Package Section*/
-.bg-orange-gradient{
+.bg-orange-gradient {
   background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size:  cover!important; /* Cover the entire area */
-
+  background-size: cover !important; /* Cover the entire area */
 }
 
 .premium-package-container {
@@ -588,13 +580,13 @@ h2 > .quote {
   color: var(--secondary-color);
   font-weight: 700;
 }
-.subcription-pricing-container{
+.subcription-pricing-container {
   width: 1200px;
   height: auto;
   gap: 8px;
   row-gap: 50px;
 }
-.subscription-card{
+.subscription-card {
   background: var(--subcription-card-color);
   height: 380px;
   width: 24.5%;
@@ -603,7 +595,7 @@ h2 > .quote {
   border: 1px solid var(--color-brown);
   padding: 3px;
 }
-.subscription-card-bg{
+.subscription-card-bg {
   width: 100%;
   height: 100%;
   border-radius: 20px;
@@ -611,13 +603,13 @@ h2 > .quote {
   padding: 30px;
   position: relative;
 }
-.subscription-card-bg > .subscription-title{
+.subscription-card-bg > .subscription-title {
   color: var(--primary-color);
   font-size: 23px;
   margin: 0;
   font-weight: 500;
 }
-.subscription-list-container{
+.subscription-list-container {
   height: 50%;
   width: 100%;
 }
@@ -625,26 +617,26 @@ h2 > .quote {
   margin: 0;
   font-size: 12px;
 }
-.subscription-list-container > p > svg{
+.subscription-list-container > p > svg {
   margin: 0px 18px 0px 0px;
 }
-.subcription-pricing{
+.subcription-pricing {
   font-size: 8px;
   height: 10%;
 }
-.yen-price{
+.yen-price {
   font-size: 26px;
   font-weight: 600;
   margin: 0;
-  padding: 0; 
+  padding: 0;
   position: relative;
   bottom: -10px;
 }
-.subscription-button-container{
+.subscription-button-container {
   height: 20%;
   width: 100%;
 }
-.btn-choose-plan{
+.btn-choose-plan {
   background: var(--subcription-card-color);
   border: none;
   height: 40px;
@@ -652,7 +644,7 @@ h2 > .quote {
   font-weight: 500;
   border-radius: 10px;
 }
-.most-popular-overlay{
+.most-popular-overlay {
   background: var(--primary-color);
   font-size: 12px;
   position: absolute;
@@ -662,30 +654,28 @@ h2 > .quote {
   color: var(--font-white);
   border-radius: 0px 0px 20px 20px;
 }
-.subscription-card:hover{
-  border: 1px solid var(--primary-color);
-
-}
-.subscription-card.active{
+.subscription-card:hover {
   border: 1px solid var(--primary-color);
 }
-.btn-choose-plan:hover{
-  background: var(--primary-color);
-  color: var(--font-white);
-
+.subscription-card.active {
+  border: 1px solid var(--primary-color);
 }
-.btn-choose-plan.active{
+.btn-choose-plan:hover {
   background: var(--primary-color);
   color: var(--font-white);
 }
-.subscription-list-content{
+.btn-choose-plan.active {
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+.subscription-list-content {
   font-size: 20px !important;
   text-align: center;
 }
 /*About Hr hatch*/
 .about-hr-hatch-container {
   height: 90vh;
-  padding:  0px;
+  padding: 0px;
 }
 
 .about-hr-hatch-container > h3 {
@@ -701,12 +691,12 @@ h2 > .quote {
 .about-hr-hatch-container > h2 {
   width: 45%;
   text-align: center;
-  font-weight: 200; 
+  font-weight: 200;
 }
-.about-hr-hatch-container > h2 > svg{
-position: relative;
-top: -15px;
-height: 25px;
+.about-hr-hatch-container > h2 > svg {
+  position: relative;
+  top: -15px;
+  height: 25px;
 }
 
 .about-content-container {
@@ -714,7 +704,7 @@ height: 25px;
   height: 600px;
   position: relative;
 }
-.about-hr-hatch-container> h3 > img{
+.about-hr-hatch-container > h3 > img {
   margin-bottom: 3px;
   padding-left: 6px;
 }
@@ -743,15 +733,15 @@ height: 25px;
 .footer-container-bg {
   width: 100%; /* Use full width for better distribution */
   background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size:  100% !important; /* Cover the entire area */
-  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);  color: var(--font-black);
+  background-size: 100% !important; /* Cover the entire area */
+  box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);
+  color: var(--font-black);
   padding: 1.5em 0;
-
 }
 .footer-logo {
   height: 170px !important;
 }
-.footer-logo .logoname{
+.footer-logo .logoname {
   line-height: 10px;
 }
 
@@ -782,6 +772,4 @@ footer a:hover {
 
 /* Responsive styles */
 @media (max-width: 768px) {
-
 }
-

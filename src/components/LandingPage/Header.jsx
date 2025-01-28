@@ -63,7 +63,7 @@ const Header = () => {
                   setShowDropdown((prev) => ({ ...prev, services: isOpen }))
                 }
               >
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
+                <NavDropdown.Item className="noclickblue" href="/ourpartners">
                   Our Recruitment Partners
                 </NavDropdown.Item>
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
