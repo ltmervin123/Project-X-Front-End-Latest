@@ -25,9 +25,10 @@ import SuccessPage from "./page/LoginSucess.jsx";
 
 /*Ai Reference */
 import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
-import AiRefereneCheckerPage from "./page/AiReferenceCheckerPage.jsx";
-import AiReferenceReportPage from "./page/AiReferenceReportPage.jsx";
+import AiRefereneJobsPage from "./page/AiReferenceJobsPage.jsx";
+import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
 
+/*Mock Ai */
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
 import BehavioralVideoRecording from "./components/maindashboard/BehavioralVideoRecording";
@@ -116,12 +117,12 @@ function App() {
         {/* </Route> */}
 
         {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReferenceChecker" element={<AiRefereneCheckerPage />} />
+        <Route path="/AiReferenceJobs" element={<AiRefereneJobsPage />} />
+        {/* </Route> */}
+        {/* <Route element={<RequireAuth />}> */}
+        <Route path="/AiReferenceCandidates" element={<AiReferenceCandidatesPage />} />
         {/* </Route> */}
 
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReferenceReport" element={<AiReferenceReportPage />} />
-        {/* </Route> */}
 
         <Route element={<RequireAuth />}>
           <Route

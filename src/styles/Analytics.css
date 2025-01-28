@@ -205,14 +205,14 @@
   width: 60%;
 }
 
-.table-responsive {
+.analytics-container .table-responsive {
   /* padding: 20px; */
   height: 97%; /* Full height */
   padding: 0px 10px;
   overflow-y: auto; /* Enable vertical scrolling */
 }
 
-table {
+.analytics-container table {
   text-align: left;
   width: 100%;
   border-collapse: collapse;
@@ -220,7 +220,7 @@ table {
   background-color: transparent !important;
 }
 
-thead{
+.analytics-container thead{
   height: 50px;
   position: sticky; /* Make the header sticky */
   top: 0; /* Stick to the top */
@@ -229,7 +229,7 @@ thead{
   font-size: 12px;
 }
 
-thead::after {
+.analytics-container thead::after {
   content: '';
   display: block;
   height: 2px; /* Height of the border */
@@ -241,25 +241,25 @@ thead::after {
   z-index: -1; /* Ensure it is behind the thead */
 }
 
-thead tr{
+.analytics-container thead tr{
   position: relative;
 }
-.action-t-center{
+.analytics-container .action-t-center{
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.action-t-center-text{
+.analytics-container .action-t-center-text{
   text-align: center;
 }
-tbody td {
+.analytics-container tbody td {
   padding: 5px;
   border-bottom: none;
   font-size: 0.95rem;
   font-size: 11px;
 }
 
-table tbody td button {
+.analytics-container table tbody td button {
   background: var(--primary-color);
   text-decoration: none;
   color: var(--font-white);
@@ -270,7 +270,7 @@ table tbody td button {
   border: none !important;
 }
 
-table tbody td button:hover {
+.analytics-container table tbody td button:hover {
   color: var(--font-white);
   background: var(--input-bg);
 }
