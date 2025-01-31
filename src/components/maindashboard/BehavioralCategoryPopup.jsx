@@ -1,145 +1,99 @@
-import React from "react";
-import { Modal, Button, Card } from "react-bootstrap";
-import "../../styles/BehavioralCategoryPopup.css"; // Import the CSS file
-import BH1 from "../../assets/teamwork-img.png"; // Import your images
-import BH2 from "../../assets/adaptability-img.png"; // Import adaptability image
-import BH3 from "../../assets/communication-img.png"; // Import communication image
-import BH4 from "../../assets/stress-management-img.png"; // Import stress management image
-import BH5 from "../../assets/dealingwithmistakes-avatar.png"; // Import stress management image
-import BH6 from "../../assets/decision-avatar.png"; // Import stress management image
-import BH7 from "../../assets/ethics-avatar.png"; // Import stress management image
-import BH8 from "../../assets/time-avatar.png"; // Import stress management image
+// BasicInterviewQuestionSelectorPopUp.jsx
+import React, { useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 
-const BehavioralCategoryPopup = ({
-  show,
-  onClose,
-  handleSelectBehavioralCategory,
-}) => {
-  const categories = [
-    {
-      title: "Teamwork",
-      description:
-        "A teamwork interview is all about understanding how well you work with others. It's not just about your skills, but how you communicate, collaborate, and contribute in a group setting.",
-      color: "#9747FF",
-      image: BH1,
-    },
-    {
-      title: "Adaptability",
-      description:
-        "It is about showing how flexible you are when things change. It's not just about sticking to a plan, but how you adjust when faced with new challenges or unexpected situations.",
-      color: "#F46A05",
-      image: BH2,
-    },
-    {
-      title: "Communication",
-      description:
-        "It is all about how effectively you share ideas, listen to others, and work through problems together. It’s not just about talking—it's about being clear, respectful, and making sure everyone is on the same page.",
-      color: "#319F43",
-      image: BH3,
-    },
-    {
-      title: "Stress Management",
-      description:
-        "It focuses on how you handle pressure and stay calm in tough situations. It’s about showing that you can keep your cool, prioritize tasks, and maintain a positive mindset when things get hectic.",
-      color: "#E33629",
-      image: BH4,
-    },
-    {
-      title: "Dealing with Mistakes",
-      description:
-        "It focuses on how to evaluate your accountability, problem-solving skills, and ability to learn and grow. This is a behavioral question designed to see how you handle challenges under pressure.",
-      color: "#9747FF",
-      image: BH5,
-    },
-    {
-      title: "Decision Making",
-      description:
-        "Decision-making is the process of identifying and choosing among alternative courses of action to address a problem or opportunity.",
-      color: "#F46A05",
-      image: BH6,
-    },
-    {
-      title: "Ethics and Integrity",
-      description:
-        "Ethics refers to the principles and moral values that guide an individual or organization's behavior in determining what is right or wrong. Integrity is the quality of being honest and transparent.",
-      color: "#319F43",
-      image: BH7,
-    },
-    {
-      title: "Time Management",
-      description:
-        "It focuses on your ability to prioritize tasks, meet deadlines, and handle multiple responsibilities effectively. It often asks questions designed to understand how you've demonstrated time management skills in past situations.",
-      color: "#E33629",
-      image: BH8,
-    },
+const BasicInterviewQuestionSelectorPopUp = ({ show, onClose, onSelectQuestions }) => {
+  const [selectedQuestions, setSelectedQuestions] = useState([]);
 
+  const questions = {
+    general: [
+      "Can you tell me about yourself?",
+      "Why are you interested in this role?",
+      "What do you know about our company?",
+      "Why are you leaving your current job?",
+      "What are your salary expectations?"
+    ],
+    skills: [
+      "What are your greatest strengths?",
+      "What are your biggest weaknesses?",
+      "Can you describe a successful project you worked on?",
+      "What skills do you bring to this role?",
+      "What tools or software are you proficient in?"
+    ],
+    roleSpecific: [
+      "How would you approach [specific task or responsibility] in this role?",
+      "If hired, what would you prioritize in your first 90 days?",
+      "What motivates you in your work?",
+      "How do you stay updated on industry trends?",
+      "Where do you see yourself in five years?"
+    ]
+  };
 
+  const handleCheckboxChange = (question) => {
+    setSelectedQuestions((prev) => {
+      if (prev.includes(question)) {
+        return prev.filter(q => q !== question);
+      } else {
+        return [...prev, question];
+      }
+    });
+  };
 
-  ];
-
-  const handleCategorySelect = (category) => {
-    handleSelectBehavioralCategory(category);
+  const handleSubmit = () => {
+    onSelectQuestions(selectedQuestions);
     onClose();
   };
 
-
   return (
-    <Modal
-      show={show}
-      onHide={onClose}
-      centered
-      dialogClassName="custom-modal-width"
-      backdrop="static"
-    >
-      <Modal.Body className="custom-modal">
-        <div className="d-flex justify-content-end align-items-center mb-3">
-          <Button
-            className="closebtn"
-            variant="link"
-            onClick={onClose}
-            style={{ fontSize: "1.5rem", textDecoration: "none" }}
-          >
-            &times;
-          </Button>
-        </div>
-
-        <div className="behavioral-cards justify-content-between d-flex flex-wrap ">
-          {categories.map((behavioral, index) => (
-            <>
-
-              <Card
-                key={index}
-                className="behavioral-card m-2"
-                onClick={() => handleCategorySelect(behavioral.title)}
-                style={{
-                  position: "relative",
-                  // overflow: "hidden",
-                }}
-              >
-                <img
-                  src={behavioral.image}
-                  alt={behavioral.title}
-                  className="behavioral-image"
-                />
-
-                <Card.Body>
-                  <div className="behavioral-title ">{behavioral.title}</div>
-                  <div
-                    className="behavioral-description"
-                    style={{ backgroundColor: behavioral.color }}
-                  >
-                    <div className="behavioral-title1">{behavioral.title}</div>
-                    <p>{behavioral.description}</p>
-                  </div>
-                </Card.Body>
-              </Card>
-            </>
+    <Modal show={show} onHide={onClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Interview Question Selector</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>Select up to 4 questions</p>
+        <Form>
+          <h5>General Questions</h5>
+          {questions.general.map((q, index) => (
+            <Form.Check
+              key={index}
+              type="checkbox"
+              label={q}
+              checked={selectedQuestions.includes(q)}
+              onChange={() => handleCheckboxChange(q)}
+            />
           ))}
-        </div>
-
-
+          <h5>Skills and Experience</h5>
+          {questions.skills.map((q, index) => (
+            <Form.Check
+              key={index}
+              type="checkbox"
+              label={q}
+              checked={selectedQuestions.includes(q)}
+              onChange={() => handleCheckboxChange(q)}
+            />
+          ))}
+          <h5>Role-Specific or Hypothetical Questions</h5>
+          {questions.roleSpecific.map((q, index) => (
+            <Form.Check
+              key={index}
+              type="checkbox"
+              label={q}
+              checked={selectedQuestions.includes(q)}
+              onChange={() => handleCheckboxChange(q)}
+            />
+          ))}
+        </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={handleSubmit} disabled={selectedQuestions.length > 4}>
+          Start Interview
+        </Button>
+        <Button variant="secondary" onClick={onClose}>
+          Cancel
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };
-export default BehavioralCategoryPopup;
+
+export default BasicInterviewQuestionSelectorPopUp;
