@@ -50,6 +50,7 @@ const MainDashboard = () => {
         setShowBehavioralCategoryPopup(true);
         break;
       case "BASIC":
+        
         setShowBasicQuestionSelector(true);
         break;
       case "EXPERT":

@@ -1,10 +1,19 @@
-import React from "react"; // Importing React library
-import { Row, Col } from "react-bootstrap"; // Importing Bootstrap components
+import React, { useState } from "react";
+import { Row, Col, Carousel } from "react-bootstrap";
 import HeroAvatar from "../../assets/hero-avatar.png"; // Importing Hero Avatar image
 import logo from "../../assets/logo.png"; // Importing Logo image
-
+import img1 from "../../assets/hero-img1.png"; // Importing Hero Avatar image
+import img2 from "../../assets/hero-img2.png"; // Importing Hero Avatar image
+import img3 from "../../assets/hero-img3.png"; // Importing Hero Avatar image
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 // HeroSection functional component
 const HeroSection = () => {
+  const [index, setIndex] = useState(0); // State to track the current slide
+
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex); // Update the current slide index
+  };
+
   return (
     <>
       {/* Hero Section Container */}
@@ -12,140 +21,494 @@ const HeroSection = () => {
         className="hero-container d-flex align-items-center flex-column"
         id="home"
       >
-        {/* Logo */}
-        <h1 className="d-flex">
-          <img src={logo} alt="Logo" width="400" height="60" />
-        </h1>
+        {/* Image Slider */}
+        <Carousel
+          className="d-flex content-slide-container h-100 align-items-center justify-content-center"
+          activeIndex={index}
+          onSelect={handleSelect}
+          indicators={true}
+          controls={false}
+        >
+          <Carousel.Item>
+            <div className="custom-hero-container d-flex align-items-center justify-content-center h-100">
+              <Row className="d-flex align-items-center justify-content-center">
+                <Col md={6} className="position-relative">
+                  {/* Logo */}
+                  <img src={logo} alt="Logo" width="400" height="60" />
 
-        {/* Subtitle with Quotes */}
-        <h2>
-          <svg
-            className="quote"
-            width="30"
-            height="30"
-            viewBox="0 0 46 46"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M38.663 35.8294C39.5903 35.0517 38.9322 34.3038 37.2869 34.3038C35.522 34.3038 33.2784 30.2355 33.2784 27.1244C33.2784 25.5689 33.4879 25.4792 36.569 25.4792C45.3936 25.4792 48.5346 17.9408 42.2228 11.8982C33.2485 3.28292 20.7445 14.5605 25.1717 27.274C27.4452 33.7055 35.2827 38.6713 38.663 35.8294Z"
-              fill="black"
-            />
-            <path
-              d="M2.40725 28.7991C4.89012 34.0341 13.0566 38.6109 16.3771 36.6665C17.3044 36.1281 16.9455 35.6195 14.672 34.1837C10.3046 31.4017 8.95843 26.8248 12.5182 26.8248C22.5095 26.8248 24.9625 12.7054 15.4797 9.7738C4.11235 6.27384 -3.24651 16.9831 2.40725 28.7991Z"
-              fill="black"
-            />
-          </svg>
-          Your AI-powered support companion
-          <svg
-            className="quote"
-            width="30"
-            height="30"
-            viewBox="0 0 46 46"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M7.3369 10.1706C6.40956 10.9483 7.06768 11.6962 8.71294 11.6962C10.4779 11.6962 12.7214 15.7645 12.7214 18.8756C12.7214 20.4311 12.512 20.5208 9.43089 20.5208C0.606239 20.5208 -2.53474 28.0592 3.77712 34.1018C12.7513 42.7171 25.2554 31.4395 20.8282 18.726C18.5547 12.2945 10.7172 7.32874 7.3369 10.1706Z"
-              fill="black"
-            />
-            <path
-              d="M43.5928 17.2009C41.1099 11.9659 32.9434 7.38905 29.6229 9.33346C28.6956 9.87191 29.0545 10.3805 31.328 11.8163C35.6954 14.5983 37.0416 19.1752 33.4818 19.1752C23.4905 19.1752 21.0376 33.2946 30.5203 36.2262C41.8876 39.7262 49.2465 29.0169 43.592 8 17.2009Z"
-              fill="black"
-            />
-          </svg>
-        </h2>
+                  {/* Subtitle with Quotes */}
+                  <p className="hero-subtitle">
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.4492 13.6788L20.1505 13.6624C27.832 13.532 25.2715 2.24625 17.0518 5.23077C10.985 7.43246 12.1103 17.5603 18.6012 19.2238C21.4715 19.9577 24.6681 19.4358 22.287 18.6203C20.2484 17.9354 18.6012 15.962 18.7154 14.3474C18.748 13.9886 19.0578 13.6788 19.4492 13.6788Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M4.4616 4.82281C-2.92631 7.66054 0.0745192 20.0553 8.27787 20.5935C10.4143 20.7402 10.9688 20.2347 9.35425 19.6312C7.7886 19.0441 5.81523 16.2716 5.60322 14.3961C5.55429 14.021 5.84785 13.7111 6.22296 13.7111C8.37572 13.7111 9.27271 13.7111 10.5285 11.9824C13.6109 7.70948 9.51734 2.88206 4.4616 4.82281Z"
+                        fill="black"
+                      />
+                    </svg>
+                    Your AI-powered support companion
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.9876 5.52715C3.48361 5.94985 3.84128 6.35629 4.73545 6.35629C5.69465 6.35629 6.91398 8.56733 6.91398 10.2581C6.91398 11.1035 6.80017 11.1523 5.12564 11.1523C0.329632 11.1523 -1.37742 15.2492 2.05294 18.5333C6.93023 23.2155 13.7259 17.0863 11.3198 10.1768C10.0842 6.68144 5.82471 3.98267 3.9876 5.52715Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M23.6918 9.34808C22.3424 6.503 17.9041 4.01558 16.0995 5.07232C15.5955 5.36496 15.7906 5.64134 17.0262 6.42171C19.3998 7.93366 20.1314 10.4211 18.1967 10.4211C12.7667 10.4211 11.4336 18.0947 16.5872 19.6879C22.7651 21.5901 26.7645 15.7699 23.6918 9.34808Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </p>
 
-        {/* Custom Hero Container */}
-        <div className="custom-hero-container">
-          <Row className="d-flex align-items-center justify-content-center">
-            <Col md={5} className="position-relative">
-              {/* Hero Content Description */}
-              <p className="hero-content position-relative">
-                HR Hatch is an innovative HR Tech company revolutionizing the
-                talent landscape with seamless, end-to-end support services for
-                job seekers and employers.
-              </p>
+                  {/* Hero Content Description */}
+                  <p className="hero-content position-relative">
+                    HR Hatch is an innovative HR Tech company revolutionizing
+                    the talent landscape with seamless, end-to-end support
+                    services for job seekers and employers.
+                  </p>
 
-              {/* Arrow SVG Button */}
-              <svg
-                className="arrow-svg-pointing-btn"
-                width="80"
-                height="80"
-                viewBox="0 0 124 122"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_1739_1216)">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M68.6205 10.0867C66.7621 8.61234 56.448 15.8195 57.9124 17.5659C58.9887 18.8908 59.7141 18.6773 63.3733 16.0647C69.3177 11.8457 69.9411 11.1568 68.6205 10.0867ZM52.9691 20.5193C51.8811 20.2077 45.1143 25.4828 43.2499 28.1199C42.0025 29.8716 42.2651 30.9541 43.9172 30.8188C45.1992 30.7092 51.1138 26.1661 53.9393 23.0951C54.711 22.2463 54.1764 20.8634 52.9691 20.5193ZM37.6849 34.0589C35.6428 34.0039 29.0837 41.0313 29.9834 42.3346C30.6415 43.2877 31.0773 43.2166 32.8942 41.9621C37.9291 38.486 40.5563 34.1445 37.6849 34.0589ZM65.0896 82.6946C62.77 81.395 65.0945 90.8485 68.2101 95.3611C69.1904 96.7811 68.4726 96.4437 66.1676 94.416C63.3905 91.9388 58.2883 88.4817 57.5615 88.5527C55.7865 88.7442 57.1414 90.5661 61.0721 93.3097C65.3624 96.2932 65.3963 96.1549 60.5256 95.4678C54.2018 94.5488 52.376 94.9477 53.7408 96.8777C54.4526 97.9086 56.0534 98.3544 62.3384 99.3576C64.9133 99.7628 67.9354 100.348 69.1158 100.653C74.4834 102.06 74.5272 102.029 71.4077 96.7151C68.8537 92.3604 67.6397 89.6657 67.0346 87.0101C66.5817 84.9962 65.7148 83.0384 65.0896 82.6946ZM53.9483 84.958C53.2022 84.4392 49.2386 82.3503 46.5932 80.6725C43.3663 78.6206 42.0256 78.5984 43.2104 80.5953C44.1753 82.2269 53.7569 88.1923 54.9484 87.8579C55.8672 87.5969 55.2809 85.905 53.9483 84.958ZM26.4353 47.1682C23.5078 46.3459 18.9774 56.8268 21.0053 59.7639C21.0993 59.9001 21.4528 60.8336 21.7761 61.8168C23.1461 65.9549 25.3245 65.9731 24.1749 61.8265C23.1575 58.1056 23.613 56.0965 26.7259 50.9601C28.0395 48.7894 27.9521 47.5859 26.4353 47.1682ZM38.7487 75.1163C37.8902 74.3878 35.0358 72.9691 33.3789 71.7865C29.1811 68.7966 27.0032 68.4045 28.749 70.9332C29.8502 72.5282 38.3812 77.955 39.317 77.6249C40.2881 77.2991 40.0341 76.182 38.7487 75.1163Z"
-                    fill="black"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_1739_1216">
-                    <rect
-                      width="82.7283"
-                      height="93.105"
-                      fill="white"
-                      transform="translate(77 0.265137) rotate(55.3782)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
+                  {/* Arrow SVG Button */}
 
-              {/* Button to Get Started */}
-              <button className="btn-get">
-                <a
-                  href="/login"
-                  className="d-flex align-items-center justify-content-center"
-                >
-                  {/* Rocket Icon */}
                   <svg
-                    className="rocket-icon"
-                    width="30"
-                    height="30"
-                    viewBox="0 0 41 42"
+                    className="arrow-svg-pointing-btn"
+                    width="70"
+                    height="80"
+                    viewBox="0 0 90 84"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      d="M8.58912 26.2823L2.34912 24.7223C2.34912 24.7223 2.34912 20.0423 3.90912 15.3623C5.46912 10.6823 16.3891 10.6823 16.3891 10.6823M8.58912 26.2823L14.8291 32.5223M8.58912 26.2823C8.58912 26.2823 14.8291 10.6823 22.6291 6.00227C30.4291 1.32227 39.7891 1.32227 39.7891 1.32227C39.7891 1.32227 39.7891 10.6823 35.1091 18.4823C30.4291 26.2823 14.8291 32.5223 14.8291 32.5223M14.8291 32.5223L16.3891 38.7623C16.3891 38.7623 21.0691 38.7623 25.7491 37.2023C30.4291 35.6423 30.4291 24.7223 30.4291 24.7223"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M0.789062 40.322L7.02906 37.202L3.90906 34.082L0.789062 40.322Z"
-                      fill="white"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M27.309 15.3622C28.1706 15.3622 28.869 14.6638 28.869 13.8022C28.869 12.9406 28.1706 12.2422 27.309 12.2422C26.4475 12.2422 25.749 12.9406 25.749 13.8022C25.749 14.6638 26.4475 15.3622 27.309 15.3622Z"
-                      fill="white"
-                      stroke="white"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <g clip-path="url(#clip0_2533_1699)">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M10.3954 19.3866C10.4605 17.4776 20.2614 14.9106 20.5687 16.7197C20.82 18.0711 20.3106 18.4046 16.7993 19.2863C11.1107 20.7318 10.3629 20.7548 10.3954 19.3866ZM24.9589 15.2282C25.3352 14.3983 32.1007 12.9993 34.6908 13.2313C36.4159 13.3799 36.943 14.1056 35.9982 15.0484C35.2622 15.7776 29.3903 17.0357 26.0327 17.1669C25.1096 17.1975 24.5401 16.1482 24.9589 15.2282ZM41.2366 12.9157C42.2681 11.6345 50 11.2769 50.3301 12.5086C50.5714 13.4094 50.3005 13.6396 48.5833 14.0998C43.8247 15.3748 39.7912 14.7217 41.2366 12.9157ZM56.7739 55.0952C57.1867 52.9945 61.7728 59.3515 62.9156 63.6165C63.2752 64.9585 63.4427 64.3423 63.4014 61.8707C63.3305 58.8751 63.8714 53.9422 64.2941 53.5334C65.3374 52.5445 65.7482 54.3259 65.3807 58.1681C64.9728 62.356 64.8703 62.3046 66.9895 58.9586C69.7245 54.6003 70.9216 53.6885 71.3935 55.5324C71.6545 56.5067 71.093 57.7212 68.4299 62.0996C67.3353 63.8904 66.1176 66.0491 65.689 66.9324C63.752 70.9586 63.7106 70.9697 62.0782 66.2842C60.7393 62.4461 59.7196 60.2958 58.4064 58.5394C57.4074 57.2111 56.6586 55.6581 56.7739 55.0952ZM63.9739 49.442C64.0448 48.7137 64.8311 45.1928 65.1818 42.695C65.6065 39.6454 66.2922 38.8114 66.8991 40.5798C67.3966 42.0227 66.0576 51.0116 65.231 51.5681C64.5916 51.9956 63.8596 50.7534 63.9739 49.442ZM55.1458 12.8536C56.1684 10.629 64.9604 13.3172 65.7042 16.0932C65.7387 16.2219 66.1269 16.9257 66.5614 17.6368C68.385 20.6357 67.2598 21.9815 65.316 19.1133C63.5644 16.5483 62.0944 15.7797 57.3201 15.0098C55.3034 14.6832 54.6108 14.0019 55.1458 12.8536ZM65.8656 34.985C65.8666 34.0784 66.4854 31.5876 66.6243 29.9544C66.98 25.8198 67.8756 24.2794 68.5159 26.6693C68.9199 28.1768 67.7986 36.2404 67.108 36.6422C66.4016 37.0679 65.8489 36.3293 65.8656 34.985Z"
+                        fill="black"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2533_1699">
+                        <rect
+                          width="66.6125"
+                          height="74.9677"
+                          fill="white"
+                          transform="matrix(0.258819 0.965926 0.965926 -0.258819 0 19.4033)"
+                        />
+                      </clipPath>
+                    </defs>
                   </svg>
-                  GET STARTED
-                </a>
-              </button>
-            </Col>
-            <Col md={4}>
-              {/* Hero Avatar Image */}
-              <img src={HeroAvatar} className="heroavatar" alt="Hero Avatar" />
-            </Col>
-          </Row>
-        </div>
+
+                  {/* Button to Get Started */}
+                  <button className="btn-get">
+                    <a
+                      href="/login"
+                      className="d-flex align-items-center justify-content-center"
+                    >
+                      {/* Rocket Icon */}
+                      <svg
+                        className="rocket-icon"
+                        width="30"
+                        height="30"
+                        viewBox="0 0 41 42"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.58912 26.2823L2.34912 24.7223C2.34912 24.7223 2.34912 20.0423 3.90912 15.3623C5.46912 10.6823 16.3891 10.6823 16.3891 10.6823M8.58912 26.2823L14.8291 32.5223M8.58912 26.2823C8.58912 26.2823 14.8291 10.6823 22.6291 6.00227C30.4291 1.32227 39.7891 1.32227 39.7891 1.32227C39.7891 1.32227 39.7891 10.6823 35.1091 18.4823C30.4291 26.2823 14.8291 32.5223 14.8291 32.5223M14.8291 32.5223L16.3891 38.7623C16.3891 38.7623 21.0691 38.7623 25.7491 37.2023C30.4291 35.6423 30.4291 24.7223 30.4291 24.7223"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M0.789062 40.322L7.02906 37.202L3.90906 34.082L0.789062 40.322Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M27.309 15.3622C28.1706 15.3622 28.869 14.6638 28.869 13.8022C28.869 12.9406 28.1706 12.2422 27.309 12.2422C26.4475 12.2422 25.749 12.9406 25.749 13.8022C25.749 14.6638 26.4475 15.3622 27.309 15.3622Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      GET STARTED
+                    </a>
+                  </button>
+                </Col>
+                <Col md={4} className="hero-avatar-bg">
+                  {/* Hero Avatar Image */}
+                  <img
+                    src={HeroAvatar}
+                    className="heroavatar"
+                    alt="Hero Avatar"
+                  />
+
+                  {/* Images around the Hero Avatar */}
+                  <div className="image-grid">
+                    <img
+                      src={img1}
+                      className="grid-image top-center"
+                      alt="Image 3"
+                    />
+                    <img
+                      src={img2}
+                      className="grid-image bottom-right"
+                      alt="Image 1"
+                    />
+                    <img
+                      src={img3}
+                      className="grid-image bottom-left"
+                      alt="Image 2"
+                    />
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className="custom-hero-container d-flex align-items-center justify-content-center h-100">
+              <Row className="d-flex align-items-center justify-content-center">
+                <Col md={6} className="position-relative">
+                  {/* Logo */}
+                  <img src={logo} alt="Logo" width="400" height="60" />
+
+                  {/* Subtitle with Quotes */}
+                  <p className="hero-subtitle">
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.4492 13.6788L20.1505 13.6624C27.832 13.532 25.2715 2.24625 17.0518 5.23077C10.985 7.43246 12.1103 17.5603 18.6012 19.2238C21.4715 19.9577 24.6681 19.4358 22.287 18.6203C20.2484 17.9354 18.6012 15.962 18.7154 14.3474C18.748 13.9886 19.0578 13.6788 19.4492 13.6788Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M4.4616 4.82281C-2.92631 7.66054 0.0745192 20.0553 8.27787 20.5935C10.4143 20.7402 10.9688 20.2347 9.35425 19.6312C7.7886 19.0441 5.81523 16.2716 5.60322 14.3961C5.55429 14.021 5.84785 13.7111 6.22296 13.7111C8.37572 13.7111 9.27271 13.7111 10.5285 11.9824C13.6109 7.70948 9.51734 2.88206 4.4616 4.82281Z"
+                        fill="black"
+                      />
+                    </svg>
+                    Your AI-powered support companion
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.9876 5.52715C3.48361 5.94985 3.84128 6.35629 4.73545 6.35629C5.69465 6.35629 6.91398 8.56733 6.91398 10.2581C6.91398 11.1035 6.80017 11.1523 5.12564 11.1523C0.329632 11.1523 -1.37742 15.2492 2.05294 18.5333C6.93023 23.2155 13.7259 17.0863 11.3198 10.1768C10.0842 6.68144 5.82471 3.98267 3.9876 5.52715Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M23.6918 9.34808C22.3424 6.503 17.9041 4.01558 16.0995 5.07232C15.5955 5.36496 15.7906 5.64134 17.0262 6.42171C19.3998 7.93366 20.1314 10.4211 18.1967 10.4211C12.7667 10.4211 11.4336 18.0947 16.5872 19.6879C22.7651 21.5901 26.7645 15.7699 23.6918 9.34808Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </p>
+
+                  {/* Hero Content Description */}
+                  <p className="hero-content position-relative">
+                    HR Hatch is an innovative HR Tech company revolutionizing
+                    the talent landscape with seamless, end-to-end support
+                    services for job seekers and employers.
+                  </p>
+
+                  {/* Arrow SVG Button */}
+
+                  <svg
+                    className="arrow-svg-pointing-btn"
+                    width="70"
+                    height="80"
+                    viewBox="0 0 90 84"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_2533_1699)">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M10.3954 19.3866C10.4605 17.4776 20.2614 14.9106 20.5687 16.7197C20.82 18.0711 20.3106 18.4046 16.7993 19.2863C11.1107 20.7318 10.3629 20.7548 10.3954 19.3866ZM24.9589 15.2282C25.3352 14.3983 32.1007 12.9993 34.6908 13.2313C36.4159 13.3799 36.943 14.1056 35.9982 15.0484C35.2622 15.7776 29.3903 17.0357 26.0327 17.1669C25.1096 17.1975 24.5401 16.1482 24.9589 15.2282ZM41.2366 12.9157C42.2681 11.6345 50 11.2769 50.3301 12.5086C50.5714 13.4094 50.3005 13.6396 48.5833 14.0998C43.8247 15.3748 39.7912 14.7217 41.2366 12.9157ZM56.7739 55.0952C57.1867 52.9945 61.7728 59.3515 62.9156 63.6165C63.2752 64.9585 63.4427 64.3423 63.4014 61.8707C63.3305 58.8751 63.8714 53.9422 64.2941 53.5334C65.3374 52.5445 65.7482 54.3259 65.3807 58.1681C64.9728 62.356 64.8703 62.3046 66.9895 58.9586C69.7245 54.6003 70.9216 53.6885 71.3935 55.5324C71.6545 56.5067 71.093 57.7212 68.4299 62.0996C67.3353 63.8904 66.1176 66.0491 65.689 66.9324C63.752 70.9586 63.7106 70.9697 62.0782 66.2842C60.7393 62.4461 59.7196 60.2958 58.4064 58.5394C57.4074 57.2111 56.6586 55.6581 56.7739 55.0952ZM63.9739 49.442C64.0448 48.7137 64.8311 45.1928 65.1818 42.695C65.6065 39.6454 66.2922 38.8114 66.8991 40.5798C67.3966 42.0227 66.0576 51.0116 65.231 51.5681C64.5916 51.9956 63.8596 50.7534 63.9739 49.442ZM55.1458 12.8536C56.1684 10.629 64.9604 13.3172 65.7042 16.0932C65.7387 16.2219 66.1269 16.9257 66.5614 17.6368C68.385 20.6357 67.2598 21.9815 65.316 19.1133C63.5644 16.5483 62.0944 15.7797 57.3201 15.0098C55.3034 14.6832 54.6108 14.0019 55.1458 12.8536ZM65.8656 34.985C65.8666 34.0784 66.4854 31.5876 66.6243 29.9544C66.98 25.8198 67.8756 24.2794 68.5159 26.6693C68.9199 28.1768 67.7986 36.2404 67.108 36.6422C66.4016 37.0679 65.8489 36.3293 65.8656 34.985Z"
+                        fill="black"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2533_1699">
+                        <rect
+                          width="66.6125"
+                          height="74.9677"
+                          fill="white"
+                          transform="matrix(0.258819 0.965926 0.965926 -0.258819 0 19.4033)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+
+                  {/* Button to Get Started */}
+                  <button className="btn-get">
+                    <a
+                      href="/login"
+                      className="d-flex align-items-center justify-content-center"
+                    >
+                      {/* Rocket Icon */}
+                      <svg
+                        className="rocket-icon"
+                        width="30"
+                        height="30"
+                        viewBox="0 0 41 42"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.58912 26.2823L2.34912 24.7223C2.34912 24.7223 2.34912 20.0423 3.90912 15.3623C5.46912 10.6823 16.3891 10.6823 16.3891 10.6823M8.58912 26.2823L14.8291 32.5223M8.58912 26.2823C8.58912 26.2823 14.8291 10.6823 22.6291 6.00227C30.4291 1.32227 39.7891 1.32227 39.7891 1.32227C39.7891 1.32227 39.7891 10.6823 35.1091 18.4823C30.4291 26.2823 14.8291 32.5223 14.8291 32.5223M14.8291 32.5223L16.3891 38.7623C16.3891 38.7623 21.0691 38.7623 25.7491 37.2023C30.4291 35.6423 30.4291 24.7223 30.4291 24.7223"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M0.789062 40.322L7.02906 37.202L3.90906 34.082L0.789062 40.322Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M27.309 15.3622C28.1706 15.3622 28.869 14.6638 28.869 13.8022C28.869 12.9406 28.1706 12.2422 27.309 12.2422C26.4475 12.2422 25.749 12.9406 25.749 13.8022C25.749 14.6638 26.4475 15.3622 27.309 15.3622Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      GET STARTED
+                    </a>
+                  </button>
+                </Col>
+                <Col md={4} className="hero-avatar-bg">
+                  {/* Hero Avatar Image */}
+                  <img
+                    src={HeroAvatar}
+                    className="heroavatar"
+                    alt="Hero Avatar"
+                  />
+
+                  {/* Images around the Hero Avatar */}
+                  <div className="image-grid">
+                    <img
+                      src={img1}
+                      className="grid-image top-center"
+                      alt="Image 3"
+                    />
+                    <img
+                      src={img2}
+                      className="grid-image bottom-right"
+                      alt="Image 1"
+                    />
+                    <img
+                      src={img3}
+                      className="grid-image bottom-left"
+                      alt="Image 2"
+                    />
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Carousel.Item>
+          <Carousel.Item>
+            <div className="custom-hero-container d-flex align-items-center justify-content-center h-100">
+              <Row className="d-flex align-items-center justify-content-center">
+                <Col md={6} className="position-relative">
+                  {/* Logo */}
+                  <img src={logo} alt="Logo" width="400" height="60" />
+
+                  {/* Subtitle with Quotes */}
+                  <p className="hero-subtitle">
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.4492 13.6788L20.1505 13.6624C27.832 13.532 25.2715 2.24625 17.0518 5.23077C10.985 7.43246 12.1103 17.5603 18.6012 19.2238C21.4715 19.9577 24.6681 19.4358 22.287 18.6203C20.2484 17.9354 18.6012 15.962 18.7154 14.3474C18.748 13.9886 19.0578 13.6788 19.4492 13.6788Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M4.4616 4.82281C-2.92631 7.66054 0.0745192 20.0553 8.27787 20.5935C10.4143 20.7402 10.9688 20.2347 9.35425 19.6312C7.7886 19.0441 5.81523 16.2716 5.60322 14.3961C5.55429 14.021 5.84785 13.7111 6.22296 13.7111C8.37572 13.7111 9.27271 13.7111 10.5285 11.9824C13.6109 7.70948 9.51734 2.88206 4.4616 4.82281Z"
+                        fill="black"
+                      />
+                    </svg>
+                    Your AI-powered support companion
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.9876 5.52715C3.48361 5.94985 3.84128 6.35629 4.73545 6.35629C5.69465 6.35629 6.91398 8.56733 6.91398 10.2581C6.91398 11.1035 6.80017 11.1523 5.12564 11.1523C0.329632 11.1523 -1.37742 15.2492 2.05294 18.5333C6.93023 23.2155 13.7259 17.0863 11.3198 10.1768C10.0842 6.68144 5.82471 3.98267 3.9876 5.52715Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M23.6918 9.34808C22.3424 6.503 17.9041 4.01558 16.0995 5.07232C15.5955 5.36496 15.7906 5.64134 17.0262 6.42171C19.3998 7.93366 20.1314 10.4211 18.1967 10.4211C12.7667 10.4211 11.4336 18.0947 16.5872 19.6879C22.7651 21.5901 26.7645 15.7699 23.6918 9.34808Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </p>
+
+                  {/* Hero Content Description */}
+                  <p className="hero-content position-relative">
+                    HR Hatch is an innovative HR Tech company revolutionizing
+                    the talent landscape with seamless, end-to-end support
+                    services for job seekers and employers.
+                  </p>
+
+                  {/* Arrow SVG Button */}
+
+                  <svg
+                    className="arrow-svg-pointing-btn"
+                    width="70"
+                    height="80"
+                    viewBox="0 0 90 84"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_2533_1699)">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M10.3954 19.3866C10.4605 17.4776 20.2614 14.9106 20.5687 16.7197C20.82 18.0711 20.3106 18.4046 16.7993 19.2863C11.1107 20.7318 10.3629 20.7548 10.3954 19.3866ZM24.9589 15.2282C25.3352 14.3983 32.1007 12.9993 34.6908 13.2313C36.4159 13.3799 36.943 14.1056 35.9982 15.0484C35.2622 15.7776 29.3903 17.0357 26.0327 17.1669C25.1096 17.1975 24.5401 16.1482 24.9589 15.2282ZM41.2366 12.9157C42.2681 11.6345 50 11.2769 50.3301 12.5086C50.5714 13.4094 50.3005 13.6396 48.5833 14.0998C43.8247 15.3748 39.7912 14.7217 41.2366 12.9157ZM56.7739 55.0952C57.1867 52.9945 61.7728 59.3515 62.9156 63.6165C63.2752 64.9585 63.4427 64.3423 63.4014 61.8707C63.3305 58.8751 63.8714 53.9422 64.2941 53.5334C65.3374 52.5445 65.7482 54.3259 65.3807 58.1681C64.9728 62.356 64.8703 62.3046 66.9895 58.9586C69.7245 54.6003 70.9216 53.6885 71.3935 55.5324C71.6545 56.5067 71.093 57.7212 68.4299 62.0996C67.3353 63.8904 66.1176 66.0491 65.689 66.9324C63.752 70.9586 63.7106 70.9697 62.0782 66.2842C60.7393 62.4461 59.7196 60.2958 58.4064 58.5394C57.4074 57.2111 56.6586 55.6581 56.7739 55.0952ZM63.9739 49.442C64.0448 48.7137 64.8311 45.1928 65.1818 42.695C65.6065 39.6454 66.2922 38.8114 66.8991 40.5798C67.3966 42.0227 66.0576 51.0116 65.231 51.5681C64.5916 51.9956 63.8596 50.7534 63.9739 49.442ZM55.1458 12.8536C56.1684 10.629 64.9604 13.3172 65.7042 16.0932C65.7387 16.2219 66.1269 16.9257 66.5614 17.6368C68.385 20.6357 67.2598 21.9815 65.316 19.1133C63.5644 16.5483 62.0944 15.7797 57.3201 15.0098C55.3034 14.6832 54.6108 14.0019 55.1458 12.8536ZM65.8656 34.985C65.8666 34.0784 66.4854 31.5876 66.6243 29.9544C66.98 25.8198 67.8756 24.2794 68.5159 26.6693C68.9199 28.1768 67.7986 36.2404 67.108 36.6422C66.4016 37.0679 65.8489 36.3293 65.8656 34.985Z"
+                        fill="black"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_2533_1699">
+                        <rect
+                          width="66.6125"
+                          height="74.9677"
+                          fill="white"
+                          transform="matrix(0.258819 0.965926 0.965926 -0.258819 0 19.4033)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+
+                  {/* Button to Get Started */}
+                  <button className="btn-get">
+                    <a
+                      href="/login"
+                      className="d-flex align-items-center justify-content-center"
+                    >
+                      {/* Rocket Icon */}
+                      <svg
+                        className="rocket-icon"
+                        width="30"
+                        height="30"
+                        viewBox="0 0 41 42"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.58912 26.2823L2.34912 24.7223C2.34912 24.7223 2.34912 20.0423 3.90912 15.3623C5.46912 10.6823 16.3891 10.6823 16.3891 10.6823M8.58912 26.2823L14.8291 32.5223M8.58912 26.2823C8.58912 26.2823 14.8291 10.6823 22.6291 6.00227C30.4291 1.32227 39.7891 1.32227 39.7891 1.32227C39.7891 1.32227 39.7891 10.6823 35.1091 18.4823C30.4291 26.2823 14.8291 32.5223 14.8291 32.5223M14.8291 32.5223L16.3891 38.7623C16.3891 38.7623 21.0691 38.7623 25.7491 37.2023C30.4291 35.6423 30.4291 24.7223 30.4291 24.7223"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M0.789062 40.322L7.02906 37.202L3.90906 34.082L0.789062 40.322Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M27.309 15.3622C28.1706 15.3622 28.869 14.6638 28.869 13.8022C28.869 12.9406 28.1706 12.2422 27.309 12.2422C26.4475 12.2422 25.749 12.9406 25.749 13.8022C25.749 14.6638 26.4475 15.3622 27.309 15.3622Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      GET STARTED
+                    </a>
+                  </button>
+                </Col>
+                <Col md={4} className="hero-avatar-bg">
+                  {/* Hero Avatar Image */}
+                  <img
+                    src={HeroAvatar}
+                    className="heroavatar"
+                    alt="Hero Avatar"
+                  />
+
+                  {/* Images around the Hero Avatar */}
+                  <div className="image-grid">
+                    <img
+                      src={img1}
+                      className="grid-image top-center"
+                      alt="Image 3"
+                    />
+                    <img
+                      src={img2}
+                      className="grid-image bottom-right"
+                      alt="Image 1"
+                    />
+                    <img
+                      src={img3}
+                      className="grid-image bottom-left"
+                      alt="Image 2"
+                    />
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Carousel.Item>
+        </Carousel>
+        {/* Custom controls */}
+        <button
+          className="carousel-control-prev"
+          onClick={() => handleSelect(index === 0 ? 2 : index - 1)} // Adjust the number based on your items
+          style={{ position: "absolute", left: "10px", zIndex: 1 }}
+        >
+          <FaChevronLeft />
+        </button>
+        <button
+          className="carousel-control-next"
+          onClick={() => handleSelect(index === 2 ? 0 : index + 1)} // Adjust the number based on your items
+          style={{ position: "absolute", right: "10px", zIndex: 1 }}
+        >
+          <FaChevronRight />
+        </button>
         {/* Decorative Triangle Border */}
+
         <div className="border-triangle"></div>
       </section>
     </>
