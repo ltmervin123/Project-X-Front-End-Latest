@@ -35,9 +35,11 @@ const PremiumPackageSection = () => {
                 <p className="subscription-title">Free</p>
                 <div className="subscription-list-container flex-column d-flex gap-1">
                   <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Basic Interview</p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
@@ -55,19 +57,25 @@ const PremiumPackageSection = () => {
                 <p className="subscription-title">Weekly Basic</p>
                 <div className="subscription-list-container d-flex flex-column gap-1">
                   <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Basic Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Behavioral Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Expert Interview</p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
@@ -86,29 +94,39 @@ const PremiumPackageSection = () => {
                 <p className="subscription-title">Monthly Bundle</p>
                 <div className="subscription-list-container d-flex flex-column gap-1">
                   <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Basic Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Behavioral Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Expert Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Resume Fit Optimizer</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Application Tracker (Coming soon) </p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
@@ -126,29 +144,38 @@ const PremiumPackageSection = () => {
                 <p className="subscription-title">Yearly Bundle</p>
                 <div className="subscription-list-container d-flex flex-column gap-1">
                   <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                    <svg width="17" height="13"></svg>
                     Basic Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Behavioral Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Expert Interview</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Resume Fit Optimizer</p>
                     <p>
-                    <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5.94479 13L0 6.83784L1.4862 5.2973L5.94479 9.91892L15.5138 0L17 1.54054L5.94479 13Z" fill="#319F43"/>
-                    </svg>
+                    </svg> */}
+                                        <svg width="17" height="13"></svg>
+
                     Application Tracker (Coming soon) </p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
@@ -163,10 +190,9 @@ const PremiumPackageSection = () => {
           </div>
           <div className="subscription-card active">
             <div className="subscription-card-bg d-flex flex-column gap-4">
-                <p className="subscription-title">Company Plan </p>
+                <p className="subscription-title">Institutional Plan </p>
                 <div className="subscription-list-container d-flex flex-column gap-1">
-                  <p className="subscription-list-content">Kindly send us an email regarding AI Reference Checker Pricing</p>
-
+                  <p className="subscription-list-content">Kindly send us an email regarding Mock <a href="/commingsoon" className="color-blue">AI Interview </a> Pricing</p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
 
@@ -179,9 +205,10 @@ const PremiumPackageSection = () => {
           </div>
           <div className="subscription-card active">
             <div className="subscription-card-bg d-flex flex-column gap-4">
-                <p className="subscription-title">Institutional Plan </p>
+                <p className="subscription-title">Company Plan </p>
                 <div className="subscription-list-container d-flex flex-column gap-1">
-                  <p className="subscription-list-content">Kindly send us an email regarding Mock AI Interview Pricing</p>
+                  <p className="subscription-list-content">Kindly send us an email regarding <a href="/aiReference" className="color-blue">AI Reference Checker </a> Pricing </p>
+
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
 
@@ -192,6 +219,7 @@ const PremiumPackageSection = () => {
                 </div>
             </div>
           </div>
+
         </div>
       </section>
     </>

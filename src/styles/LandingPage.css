@@ -18,6 +18,11 @@
   --color-brown: #686868;
   --subcription-card-color: #f8f8f9;
 }
+.bg-white-gray-gradient{
+  background: rgb(255,255,255);
+  background: linear-gradient(180deg, #ffffff 100%, #EEEEEF 100%);
+  height: max-content;
+}
 
 .main-container {
   position: relative;
@@ -197,6 +202,7 @@
   border-radius: 50px !important;
   font-size: 22px !important;
   font-weight: 400;
+  margin-top: 40px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
 }
 .btn-get > a {
@@ -211,40 +217,77 @@
 }
 .arrow-svg-pointing-btn {
   position: absolute;
-  left: -55px;
+  left: 22%;
+  bottom: 30px !important;
   z-index: 1;
   bottom: 20px;
+  /* transform: scaleX(-1) !important; */
+
 }
 /* hero section*/
+.content-slide-container {
+  width: 95%;
+}
+.content-slide-container > .carousel-inner {
+  height: 100%;
+}
+.content-slide-container > .carousel-inner > .carousel-item {
+  height: 100%;
+}
+.custom-hero-container {
+  width: 70% !important;
+  height: 100% !important;
+  margin: 0 auto;
+  height: 100% !important;
+}
+.carousel-control-next,
+.carousel-control-prev {
+  color: var(--primary-color) !important;
+  fill: var(--primary-color) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: start !important;
+}
+.carousel-control-prev {
+  color: var(--primary-color) !important;
+  fill: var(--primary-color) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: end !important;
+}
+.carousel-indicators {
+  gap: 30px;
+  position: absolute !important;
+  z-index: 12;
+  bottom: 5% !important;
+}
+.carousel-indicators > button {
+  border-radius: 50px !important;
+  width: 25px !important;
+  background: var(--primary-color) !important;
+  padding: -15px !important;
+}
+
 .hero-container {
   position: relative;
   width: 100% !important;
   height: 100vh !important;
   padding: 0;
-  background: var(--font-white);
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 1) 48%,
-    rgba(244, 106, 5, 1) 130%
-  );
-  /* Set height to 100% of the viewport */
 }
-.hero-container > h2 > svg {
+.hero-container .hero-subtitle {
+  font-size: 1.46em;
+  font-weight: 200;
+}
+.hero-subtitle > svg {
   position: relative;
-  top: -15px;
+  top: -5px;
+  margin: 0px 5px;
+  width: 15px;
 }
 .hero-container > svg {
   position: absolute;
   z-index: 1;
   bottom: -12px;
-}
-
-.custom-hero-container {
-  width: 50% !important;
-  margin: 0 auto;
-  margin-bottom: 30vh;
-  /* Center the container */
 }
 
 .hero-container > h1 {
@@ -272,19 +315,237 @@ h2 > .quote {
 
 .hero-content {
   color: var(--font-black) !important;
-  font-size: 18px !important;
-  font-weight: 500 !important;
-  margin-top: 90px;
+  font-size: 20px !important;
+  font-weight: 200 !important;
 }
 
 .heroavatar {
   /* height: 20% !important; */
   max-height: 100% !important;
-  width: 100% !important;
+  width: 70% !important;
   margin: 20px;
+  bottom: -20px;
+  display: block; /* Ensures the image is treated as a block element */
+  margin: 0 auto; /* Center the hero avatar */
+  position: relative; /* Position relative to allow absolute positioning of child elements */
+  z-index: 20;
+}
+.hero-avatar-bg {
+  margin-left: 40px;
+  position: relative; /* Position relative to allow absolute positioning of child elements */
+}
+
+.hero-avatar-bg .image-grid {
+  display: grid;
+  grid-template-areas:
+    "top-center top-center"
+    "bottom-left bottom-right"; /* Adjusted to span the bottom-center across both columns */
+  gap: 10px; /* Adjust the gap between images as needed */
+  position: absolute; /* Position the grid absolutely within the parent */
+  top: 0; /* Adjust as needed */
+  left: 0; /* Adjust as needed */
+  width: 100%; /* Full width of the parent */
+  height: 100%; /* Full height of the parent */
+  z-index: 0; /* Ensure it is behind the hero avatar */
+}
+
+.hero-avatar-bg .grid-image {
+  width: 100%; /* Make images responsive */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.hero-avatar-bg .top-center {
+  width: 100% !important;
+  grid-area: top-center; /* This will span the entire width of the bottom row */
+}
+.hero-avatar-bg .bottom-left {
+  grid-area: bottom-left;
+  position: relative;
   bottom: -20px;
 }
 
+.hero-avatar-bg .bottom-right {
+  grid-area: bottom-right; /* Corrected selector */
+  position: relative;
+  top: -20px;
+}
+/*Did you know section*/
+.did-you-know-container {
+  width: 100%;
+  padding: 5em 0em;
+}
+
+.did-you-know-container > div {
+  position: relative; /* Set the parent div to relative */
+}
+
+.did-you-know-container > div > img {
+  width: 90px !important;
+  position: absolute; /* Change to absolute */
+  z-index: 1;
+  left: -120px; /* Adjust as needed */
+  top: -50px; /* Adjust as needed */
+}
+
+.did-you-know-container > div > h1 {
+  font-size: 46px;
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+.didyouknow-card-container{
+  width: 65%;
+  margin-top: 40px;
+  margin-bottom: 90px;
+}
+.card-didyouknow:nth-child(1),
+.card-didyouknow:nth-child(2),
+.card-didyouknow:nth-child(3) {
+  width: 30%;
+  max-width: 290px;
+  height: 250px;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 12px 11px 0px rgb(244, 244, 244);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.card-didyouknow:nth-child(4){
+  width: 49%;
+  max-width: 500px !important;
+  height: 250px;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 12px 11px 0px rgb(244, 244, 244);
+  padding: 20px;
+
+}
+.horizontal-gray-line{
+  width: 70%;
+  max-width: 900px;
+  height: 2px;
+  background: #68686857;
+}
+/*Join Community*/
+.join-community-container {
+  width: 100%;
+  padding: 5em 0em;
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+.join-community-card-container.animating {
+  transform: translateX(-10px); /* Slide effect */
+}
+
+.join-community-container > div {
+  position: relative; /* Set the parent div to relative */
+}
+
+.join-community-container > div > img {
+  width: 90px !important;
+  position: absolute; /* Change to absolute */
+  z-index: 1;
+  right: -120px; /* Adjust as needed */
+  top: -50px; /* Adjust as needed */
+}
+
+.join-community-container > div > h2 {
+  color: var(--secondary-color);
+  font-weight: 500;
+  text-align: center; /* Center the heading */
+  margin-bottom: 1em; /* Add some space below the heading */
+}
+.join-community-container .content-slide-container{
+  margin-top: 40px;
+}
+.join-community-card-container {
+  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em; /* Space between cards */
+  margin-top: 50px;
+}
+
+.card-join-community {
+  background-color: var(--font-white); /* Card background color */
+  border-radius: 30px; /* Rounded corners */
+  box-shadow: 2px 12px 11px 0px rgb(244, 244, 244);
+  width: 340px; /* Fixed width for cards */
+  transition: transform 0.2s; /* Smooth hover effect */
+  padding: 5px 20px 20px 20px;
+  
+}
+.card-join-community > div > div{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.card-join-community > div > div >svg{
+  position: relative;
+  right: -10px !important;
+  top: 0;
+}
+.join-community-card-container .card-join-community:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.card-join-community .card-body {
+  position: relative;
+  padding: 1.5em; /* Padding inside the card */
+
+}
+
+.card-join-community .card-text {
+  font-size: 1em; /* Font size for the text */
+  color: var(--font-black); /* Text color */
+  width: 87%;
+  font-weight: 300;
+  height: 90px !important;
+}
+
+.card-join-community .card-author {
+  font-style: italic; /* Italic style for author */
+  margin-top: 0.5em; /* Space above author text */
+  color: var(--font-black); /* Author text color */
+  font-weight: 500;
+}
+.join-community-container  .button-controller{
+  background: var(--exclusive-btn-color) !important;
+  position: absolute;
+  z-index: 10;
+  width: 1059px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.join-community-container .carousel-inner{
+  width: 1120px;
+  padding: 20px 0px;
+}
+.join-community-container .button-controller {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for centering */
+  width: 100%; /* Full width */
+  display: flex;
+  justify-content: space-between; /* Space buttons to the ends */
+  z-index: 10; /* Ensure it is above other elements */
+}
+
+.join-community-container .carousel-button {
+  background-color: #D9D9D9; /* Button background color */
+  color: var(--font-black); /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 50%; /* Rounded corners */
+  width: 40px;
+  height: 40px;
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.join-community-container .carousel-button:hover {
+  background-color: #d9d9d9aa; /* Change color on hover */
+}
 /*mock interview section*/
 .mock-interview-container {
   width: 100%;
@@ -321,6 +582,11 @@ h2 > .quote {
 }
 .color-orange {
   color: var(--primary-color) !important;
+  margin: 0;
+  text-decoration: none;
+}
+.color-blue {
+  color: var(--secondary-color) !important;
   margin: 0;
   text-decoration: none;
 }
@@ -567,9 +833,10 @@ h2 > .quote {
 
 /*Premium Package Section*/
 .bg-orange-gradient {
-  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
+  background: url("/src/assets/bg-pricing-about.png") no-repeat !important; /* Center the background */
   background-size: cover !important; /* Cover the entire area */
 }
+
 
 .premium-package-container {
   padding: 5em 0em;

@@ -1,9 +1,12 @@
 // src/pages/LandingPage.jsx
-import React, { use, useEffect } from "react";
+import React from "react";
 import Header from "../components/LandingPage/Header";
 import HeroSection from "../components/LandingPage/HeroSection";
-import MockInterviewSection from "../components/LandingPage/MockInterviewSection";
-import BundleMockInterviewSection from "../components/LandingPage/BundleMockInterviewSection";
+import DidYouKnowSection from "../components/LandingPage/DidYouKnowSection";
+import JoinCommunitySection from "../components/LandingPage/JoinCommunitySection";
+
+// import MockInterviewSection from "../components/LandingPage/MockInterviewSection";
+// import BundleMockInterviewSection from "../components/LandingPage/BundleMockInterviewSection";
 import PremiumPackageSection from "../components/LandingPage/PremiumPackageSection";
 import AboutHRHatchSection from "../components/LandingPage/AboutHRHatchSection";
 import Footer from "../components/LandingPage/Footer";
@@ -15,10 +18,15 @@ const LandingPage = () => {
   return (
     <>
       <div className="main-container">
-        <Header />
-        <HeroSection />
-        <MockInterviewSection />
-        <BundleMockInterviewSection />
+      <Header />
+        <div className="bg-white-gray-gradient">
+         
+          <HeroSection />
+          <DidYouKnowSection />
+          <JoinCommunitySection />
+        </div>
+        {/* <MockInterviewSection />
+        <BundleMockInterviewSection /> */}
         <div className="bg-orange-gradient">
           <PremiumPackageSection />
           <AboutHRHatchSection />
