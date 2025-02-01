@@ -217,13 +217,14 @@
 }
 .arrow-svg-pointing-btn {
   position: absolute;
-  left: 22%;
+  left: -10%;
   bottom: 30px !important;
   z-index: 1;
   bottom: 20px;
   /* transform: scaleX(-1) !important; */
 
 }
+
 /* hero section*/
 .content-slide-container {
   width: 95%;
@@ -262,8 +263,9 @@
   bottom: 5% !important;
 }
 .carousel-indicators > button {
-  border-radius: 50px !important;
-  width: 25px !important;
+  border-radius: 50% !important;
+  width: 20px !important;
+  height: auto !important;
   background: var(--primary-color) !important;
   padding: -15px !important;
 }
@@ -369,6 +371,7 @@ h2 > .quote {
   position: relative;
   top: -20px;
 }
+
 /*Did you know section*/
 .did-you-know-container {
   width: 100%;
@@ -600,8 +603,8 @@ h2 > .quote {
   /* Center the container */
   position: relative;
 }
-.custom-mock-interview-container > h1 {
-  width: 650px;
+.custom-mock-interview-container h1 {
+  width: 250px !important;
   display: inline;
   text-align: center;
   font-weight: 700;
@@ -611,10 +614,13 @@ h2 > .quote {
   display: inline;
 }
 .content-mock-interview-container{
-  height: 80% !important;
+  height: 70% !important;
   max-width: 800px;
 }
-.content-mock-interview-container,
+/* .content-mock-interview-container > h1{
+  background: var(--color-brown);
+} */
+
 .content-bundle-mock {
   height: 300px !important;
   position: relative;
@@ -700,8 +706,9 @@ h2 > .quote {
 
 /*Bundle Mock Interview*/
 .custom-bundle-mock-interview-container {
-  height: 80% !important;
+  height: 70% !important;
   max-width: 800px;
+
 }
 .custom-bundle-mock-interview-container > h1 {
   font-size: 46px !important;
@@ -711,6 +718,7 @@ h2 > .quote {
 .custom-bundle-mock-interview-container > h3 {
   font-size: 34px !important;
   font-weight: 700;
+
 }
 .bundle-mock-bg {
   width: 100%;
@@ -1046,8 +1054,4 @@ footer a {
 }
 footer a:hover {
   text-decoration: underline;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
 }

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import LoadingScreen from "./loadingScreen";
-import tipsAvatar from "../../assets/expert.png";
+import tipsAvatar from "../../assets/tips-avatar.png";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
