@@ -145,7 +145,7 @@ const MainDashboard = () => {
       time: "2 hours ago",
       avatar: default_avatar_img,
     },
- {
+    {
       id: 4,
       name: "Kirk Delagente",
       referenceFor: "Jane Smith",
@@ -169,43 +169,48 @@ const MainDashboard = () => {
   ];
 
   return (
-    <div className="MockMainDashboard-content">
-      <h3 className="mb-3">Dashboard</h3>
-      <p>Manage and track your reference check processes.</p>
-      <Row className="mb-3">
-        <Col md={3}>
-          <AiReferenceCard
-            title="Active Jobs"
-            count="257"
-            description="+2 from last week"
-            bgColor="#319F43"
-          />
-        </Col>
-        <Col md={3}>
-          <AiReferenceCard
-            title="Pending References"
-            count="12"
-            description="-3 from last week"
-            bgColor="#1877F2"
-          />
-        </Col>
-        <Col md={3}>
-          <AiReferenceCard
-            title="Completed References"
-            count="159"
-            description="+15 from last week"
-            bgColor="#F8BD00"
-          />
-        </Col>
-        <Col md={3}>
-          <AiReferenceCard
-            title="Total Candidates"
-            count="7"
-            description="+28 from last month"
-            bgColor="#686868"
-          />
-        </Col>
-      </Row>
+    <div className="MockMainDashboard-content d-flex flex-column gap-2">
+      <div>
+        <h3 className="mb-3">Dashboard</h3>
+        <p>Manage and track your reference check processes.</p>
+      </div>
+      <div>
+        <Row className="mb-3">
+          <Col md={3}>
+            <AiReferenceCard
+              title="Active Jobs"
+              count="257"
+              description="+2 from last week"
+              bgColor="#319F43"
+            />
+          </Col>
+          <Col md={3}>
+            <AiReferenceCard
+              title="Pending References"
+              count="12"
+              description="-3 from last week"
+              bgColor="#1877F2"
+            />
+          </Col>
+          <Col md={3}>
+            <AiReferenceCard
+              title="Completed References"
+              count="159"
+              description="+15 from last week"
+              bgColor="#F8BD00"
+            />
+          </Col>
+          <Col md={3}>
+            <AiReferenceCard
+              title="Total Candidates"
+              count="7"
+              description="+28 from last month"
+              bgColor="#686868"
+            />
+          </Col>
+        </Row>
+      </div>
+
       <Row>
         <Col md="6">
           <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">

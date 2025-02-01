@@ -86,7 +86,7 @@ const Header = () => {
                 <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   About Us
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="#whyhrhacth">
+                <NavDropdown.Item className="noclickblue" href="/comingsoon">
                   Contact Us
                 </NavDropdown.Item>
               </NavDropdown>

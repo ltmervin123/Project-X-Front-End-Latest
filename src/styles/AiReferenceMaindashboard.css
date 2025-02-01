@@ -151,7 +151,7 @@
 
 .LogContainer {
   background: var(--font-white);
-  border: 1ps solid var(--card-color);
+  border: 1px solid var(--font-black) !important;
   width: 100%;
   padding: 20px;
   border-radius: 10px;

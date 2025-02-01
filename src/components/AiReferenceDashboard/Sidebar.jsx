@@ -11,7 +11,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/maindashboard"
+        to="/AiReference"
       >
         <svg
           width="15"
@@ -29,7 +29,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/mockInterview"
+        to="/AiReferenceJobs"
       >
         <svg
           width="15"
@@ -47,7 +47,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/comingsoon"
+        to="/AiReferenceCandidates"
       >
         <svg
           width="15"
