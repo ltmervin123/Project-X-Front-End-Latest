@@ -16,7 +16,7 @@ const DidYouKnowSection = () => {
                 <img src={Bundle2Avatar} alt="Did You Know Avatar" />
                 <h1>DID YOU KNOW?</h1>
             </div>
-            <div className="didyouknow-card-container d-flex flex-wrap justify-content-center gap-3">
+            <div className="didyouknow-card-container d-flex flex-wrap justify-content-center gap-4">
                 {cardsData.map((card, index) => (
                     <div
                         key={index}

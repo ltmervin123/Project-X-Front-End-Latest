@@ -140,7 +140,7 @@ const MainDashboard = () => {
         <p>Select Professional Career Interview</p>
       </div>
       {/* Combined Categories */}
-      <div className="category-container d-flex justify-content-center align-items-center gap-5">
+      <div className="category-container d-flex justify-content-center align-items-center gap-3">
         {/* <div className="category-card-checkCircle">
             <img src={CheckedCircle} alt="Check Circle" />
           </div> 
@@ -156,7 +156,10 @@ const MainDashboard = () => {
           className="category-card1 bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}
         >
-          <div className="category-card-title1">Behavioral</div>
+          <div className="category-card-title1 d-flex">          <div className="category-card-checkCircle">
+            <img src={CheckedCircle} alt="Check Circle" />
+          </div> Behavioral</div>
+
           <p className="category-description">
             Our behavioral interview simulation replicates real-life behavioral
             interview questions, helping candidates prepare with realistic
@@ -193,7 +196,10 @@ const MainDashboard = () => {
           className="category-card2 bg-basic"
           onClick={() => handleInterviewType("BASIC")}
         >
-          <div className="category-card-title2">Basic</div>
+          <div className="category-card-title2 d-flex">                              <div className="category-card-pin">
+            <img src={Pin} alt="pin" />
+          </div>Basic</div>
+
           <p className="category-description">
             Our basic interview simulation offers an interactive and
             straightforward experience, where follow-up questions are tailored
@@ -230,7 +236,11 @@ const MainDashboard = () => {
           className="category-card3 bg-expert"
           onClick={() => handleInterviewType("EXPERT")}
         >
-          <div className="category-card-title3">Expert</div>
+          <div className="category-card-title3 d-flex">
+          <div className="category-card-magnifyingGlass">
+            <img src={MagniFyingGlass} alt="Magnifying Glass" />
+          </div>Expert</div>
+
           <p className="category-description">
             Our expert interview simulation is a tailored practice session
             designed around the user’s resume and the job description of their

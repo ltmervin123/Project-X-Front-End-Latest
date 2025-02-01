@@ -37,9 +37,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    background: var(--primary-color) !important;
-    background: linear-gradient(264deg, rgba(244,106,5,1) 19%, rgb(255, 156, 85) 74%) !important;
+    width: 100%;/* Rectangle 248 */
+    background: linear-gradient(270.01deg, #F46A05 10.36%, #FFDCC2 98.98%) !important;
     padding: 10px 3%;
     margin: 0 !important;
     z-index: 1000;

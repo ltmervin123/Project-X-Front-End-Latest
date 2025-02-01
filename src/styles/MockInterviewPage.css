@@ -105,9 +105,9 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 32%;
+  width: 33%;
   height: 100%;
-  max-width: 380px;
+  max-width: 350px;
   max-height: 470px;
   background: #ACABAB;
   filter: grayscale(100%);
@@ -127,9 +127,9 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 32%;
+  width: 33%;
   height: 100%;
-  max-width: 380px;
+  max-width: 350px;
   max-height: 470px;
   background: #ACABAB;
   filter: grayscale(100%);
@@ -148,9 +148,9 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 32%;
+  width: 33%;
   height: 100%;
-  max-width: 380px;
+  max-width: 350px;
   max-height: 470px;
   background: #ACABAB;
   filter: grayscale(100%);
@@ -327,26 +327,31 @@
   visibility: hidden;
   opacity: 0;
 }
+.category-card1.bg-behavioral:hover .category-card-checkCircle,
+.category-card2.bg-basic:hover .category-card-pin,
+.category-card3.bg-expert:hover .category-card-magnifyingGlass {
+  display: block; /* Show on hover */
+}
 /* element style */
 .category-card-checkCircle {
-  position: absolute;
-  z-index: 200;
-  left: 5%;
-  top: 5%;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  display: none;
+  position: relative;
+  margin: 5px;
+  bottom: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ,opacity 0.1s linear;
 }
 
 .category-card1:hover .category-card-checkCircle,
 .category-card2:hover .category-card-pin,
 .category-card3:hover .category-card-magnifyingGlass {
-  visibility: hidden;
-  opacity: 0;
+  visibility: visible;
+  opacity: 1;
 }
 .category-card-checkCircle img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -418,17 +423,18 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 .category-card-pin {
-  position: absolute;
-  z-index: 200;
-  right: 20px;
-  top: 10px;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  display: none;
+
+  position: relative;
+  margin: 5px;
+  bottom: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ,opacity 0.1s linear;
 }
 .category-card-pin img {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -454,21 +460,23 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 .category-card-magnifyingGlass {
-  position: absolute;
-  z-index: 200;
-  left: 5%;
-  bottom: 22%;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  position: relative;
+  display: none;
+  margin: 5px;
+  bottom: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ,opacity 0.1s linear;
 }
 .category-card-magnifyingGlass img {
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   border: none;
   background: none;
   color: var(--font-white);
   transition: transform 0.3s ease;
+  transform: scaleX(-1); /* Flip vertically */
+
 }
 
 
