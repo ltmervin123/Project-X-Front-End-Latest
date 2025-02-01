@@ -18,7 +18,7 @@ import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import LoadingScreen from "./loadingScreen";
-import tipsAvatar from "../../assets/expert.png";
+import tipsAvatar from "../../assets/tips-avatar.png";
 import loading from "../../assets/loading.gif";
 import Header from "../../components/Result/Header";
 import io from "socket.io-client";

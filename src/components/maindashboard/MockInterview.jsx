@@ -156,9 +156,13 @@ const MainDashboard = () => {
           className="category-card1 bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}
         >
-          <div className="category-card-title1 d-flex">          <div className="category-card-checkCircle">
-            <img src={CheckedCircle} alt="Check Circle" />
-          </div> Behavioral</div>
+          <div className="category-card-title1 d-flex">
+            {" "}
+            <div className="category-card-checkCircle">
+              <img src={CheckedCircle} alt="Check Circle" />
+            </div>{" "}
+            Behavioral
+          </div>
 
           <p className="category-description">
             Our behavioral interview simulation replicates real-life behavioral
@@ -196,9 +200,13 @@ const MainDashboard = () => {
           className="category-card2 bg-basic"
           onClick={() => handleInterviewType("BASIC")}
         >
-          <div className="category-card-title2 d-flex">                              <div className="category-card-pin">
-            <img src={Pin} alt="pin" />
-          </div>Basic</div>
+          <div className="category-card-title2 d-flex">
+            {" "}
+            <div className="category-card-pin">
+              <img src={Pin} alt="pin" />
+            </div>
+            Basic
+          </div>
 
           <p className="category-description">
             Our basic interview simulation offers an interactive and
@@ -237,9 +245,11 @@ const MainDashboard = () => {
           onClick={() => handleInterviewType("EXPERT")}
         >
           <div className="category-card-title3 d-flex">
-          <div className="category-card-magnifyingGlass">
-            <img src={MagniFyingGlass} alt="Magnifying Glass" />
-          </div>Expert</div>
+            <div className="category-card-magnifyingGlass">
+              <img src={MagniFyingGlass} alt="Magnifying Glass" />
+            </div>
+            Expert
+          </div>
 
           <p className="category-description">
             Our expert interview simulation is a tailored practice session
@@ -275,7 +285,7 @@ const MainDashboard = () => {
           </div>
         </div>
       </div>
-      <p className="text-center w-100">
+      <p className="text-center w-100" style={{ color: "#686868" }}>
         "Choose your interview type and start preparing with AI-driven
         insights!"
       </p>

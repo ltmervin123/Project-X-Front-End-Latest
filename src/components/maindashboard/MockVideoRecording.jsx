@@ -14,13 +14,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup";
-import tipsAvatar from "../../assets/expert.png";
+import tipsAvatar from "../../assets/tips-avatar.png";
 import LoadingScreen from "./loadingScreen";
 import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
-
 import io from "socket.io-client";
 import { useGreeting } from "../../hook/useGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
