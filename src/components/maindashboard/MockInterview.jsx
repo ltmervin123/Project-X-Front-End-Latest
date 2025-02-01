@@ -6,6 +6,7 @@ import VideoRecording from "./MockVideoRecording";
 import BehavioralVideoRecording from "./BehavioralVideoRecording";
 import BasicVideoRecording from "./BasicVideoRecording";
 import BehavioralCategoryPopup from "./BehavioralCategoryPopup";
+import BasicTypeOfQuestionPopUp from "./BasicTypeOfQuestionPopUp";
 import BasicInterviewQuestionSelectorPopUp from "./BasicInterviewQuestionSelectorPopUp";
 import { useNavigate } from "react-router-dom";
 import CheckedCircle from "../../assets/check.png";
@@ -21,6 +22,8 @@ const MainDashboard = () => {
     useState(false);
   const [showBasicVideoRecording, setShowBasicVideoRecording] = useState(false);
   const [showBehavioralCategoryPopup, setShowBehavioralCategoryPopup] =
+    useState(false);
+  const [showBasicTypeOfQuestionPopup, setShowBasicTypeOfQuestionPopup] =
     useState(false);
   const [showBasicQuestionSelector, setShowBasicQuestionSelector] =
     useState(false);
@@ -50,8 +53,7 @@ const MainDashboard = () => {
         setShowBehavioralCategoryPopup(true);
         break;
       case "BASIC":
-        
-        setShowBasicQuestionSelector(true);
+        setShowBasicTypeOfQuestionPopup(true); // Show BasicTypeOfQuestionPopUp
         break;
       case "EXPERT":
         setShowUploadModal(true);
@@ -305,6 +307,16 @@ const MainDashboard = () => {
           category={category}
           file={file}
           jobDescription={jobDescription}
+        />
+      )}
+      {showBasicTypeOfQuestionPopup && (
+        <BasicTypeOfQuestionPopUp
+          show={showBasicTypeOfQuestionPopup}
+          onClose={() => setShowBasicTypeOfQuestionPopup(false)}
+          onSelectType={(selectedType) => {
+            setShowBasicTypeOfQuestionPopup(false);
+            setShowBasicQuestionSelector(true); // Show the question selector after selecting type
+          }}
         />
       )}
       {/* Basic Interview Question Selector Popup */}

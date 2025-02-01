@@ -1,0 +1,45 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --text-color: #000;
+  --input-bg: #686868;
+  --acttivit-card-bg: #d9d9d9;
+}
+.custom-modal-width-basic {
+  max-width: 800px !important;
+  width: 90% !important;
+  /* height: 90% !important; */
+  max-height: 90vh !important;
+  border: none !important;
+}
+.custom-modal-width-basic > .modal-content {
+  background: url("../assets/bg-pop-up.png") no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+  border: none;
+  height: 100%;
+}
+.custom-modal-width-basic h5 {
+  position: relative;
+  width: 100%;
+}
+.custom-modal-width-basic button {
+  position: absolute;
+}
+.custom-modal-width-basic > .modal-content .question-type-card {
+  border-radius: 20px;
+  width: 250px;
+  text-align: center;
+  color: var(--font-white);
+  padding: 12px 0px;
+  border: none;
+  font-size: 20px;
+}
+.question-type-card:nth-child(1) {
+  background: var(--primary-color) !important;
+}
+.question-type-card:nth-child(2) {
+  background: var(--secondary-color) !important;
+}

@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-// import { useHistory } from "react-router-dom"; // Import useHistory for redirection
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import "../../styles/BasicInterviewQuestionSelectorPopUp.css"; // Import the CSS file
 
 const BasicInterviewQuestionSelectorPopUp = ({
   show,
   onClose,
   onSelectQuestions,
 }) => {
-  const [selectedQuestions, setSelectedQuestions] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("general"); // Default to 'general'
-  // const history = useHistory(); // Initialize useHistory
-
+  const defaultQuestion = "Can you tell me about yourself?";
+  const [selectedQuestions, setSelectedQuestions] = useState([defaultQuestion]);
+  const [activeCategory, setActiveCategory] = useState("general");
+  const navigate = useNavigate(); // Initialize useNavigate
   const questions = {
     general: [
-      "Can you tell me about yourself?",
+      defaultQuestion,
       "Why are you interested in this role?",
       "What do you know about our company?",
       "Why are you leaving your current job?",
@@ -35,45 +36,59 @@ const BasicInterviewQuestionSelectorPopUp = ({
     ],
   };
 
+  useEffect(() => {
+    // Reset selected questions when modal opens
+    if (show) {
+      setSelectedQuestions([defaultQuestion]);
+    }
+  }, [show]);
+
   const handleCheckboxChange = (question) => {
+    // Prevent changing the default question
+    if (question === defaultQuestion) return;
+
     setSelectedQuestions((prev) => {
       if (prev.includes(question)) {
         return prev.filter((q) => q !== question);
       } else {
-        return [...prev, question];
+        if (prev.length < 5) {
+          return [...prev, question];
+        }
+        return prev; // Prevent adding more than 5 questions
       }
     });
   };
-
   const handleSubmit = () => {
+    console.log("Selected questions:", selectedQuestions); // Log the selected questions
     onSelectQuestions(selectedQuestions);
-    onClose();
+    navigate("/basic-interview"); // Navigate to /basic-interview
   };
-
   const handleCategoryClick = (category) => {
     setActiveCategory(activeCategory === category ? "general" : category);
-    console.log(category);
   };
 
   const handleGenerateQuestions = () => {
-    const availableQuestions = questions[activeCategory];
+    const allQuestions = [
+      ...questions.general,
+      ...questions.skills,
+      ...questions.roleSpecific,
+    ];
+
     const randomQuestions = [];
 
     while (
-      randomQuestions.length < 5 &&
-      randomQuestions.length < availableQuestions.length
+      randomQuestions.length < 4 && // Allow 4 random questions
+      randomQuestions.length < allQuestions.length
     ) {
-      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-      const question = availableQuestions[randomIndex];
+      const randomIndex = Math.floor(Math.random() * allQuestions.length);
+      const question = allQuestions[randomIndex];
 
-      if (!randomQuestions.includes(question)) {
+      if (!randomQuestions.includes(question) && question !== defaultQuestion) {
         randomQuestions.push(question);
       }
     }
 
-    console.log(randomQuestions); // Log the selected questions
-    setSelectedQuestions(randomQuestions); // Store the selected questions
-    // history.push("/basic"); // Redirect to /basic
+    setSelectedQuestions([defaultQuestion, ...randomQuestions]); // Include the default question
   };
 
   return (
@@ -100,41 +115,18 @@ const BasicInterviewQuestionSelectorPopUp = ({
         </div>
         <div className="basic-category-select-container">
           <p className="color-orange highlight-orange">
-            <svg
-              width="26"
-              height="26"
-              viewBox="0 0 26 26"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clip-path="url(#clip0_3072_1959)">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M13 22.75C14.2804 22.75 15.5482 22.4978 16.7312 22.0078C17.9141 21.5178 18.9889 20.7997 19.8943 19.8943C20.7997 18.9889 21.5178 17.9141 22.0078 16.7312C22.4978 15.5482 22.75 14.2804 22.75 13C22.75 11.7196 22.4978 10.4518 22.0078 9.26884C21.5178 8.08591  20.7997 7.01108 19.8943 6.10571C18.9889 5.20034 17.9141 4.48216 16.7312 3.99217C15.5482 3.50219 14.2804 3.25 13 3.25C10.4141 3.25 7.93419 4.27723 6.10571 6.10571C4.27723 7.93419 3.25 10.4141 3.25 13C3.25 15.5859 4.27723 18.0658 6.10571 19.8943C7.93419 21.7228 10.4141 22.75 13 22.75ZM12.7487 16.9433L18.1653 10.4433L16.5013 9.05667L11.843 14.6456L9.43258 12.2341L7.90075 13.7659L11.1508 17.0159L11.9893 17.8544L12.7487 16.9433Z"
-                  fill="#F46A05"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_3072_1959">
-                  <rect width="26" height="26" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
             Select up to 5 questions
           </p>
           <p>Choose the questions you'd like to ask in your interview.</p>
           <div className="basic-catergory-container">
             <button
               className={activeCategory === "general" ? "active-button" : ""}
-              variant="outline-primary"
               onClick={() => handleCategoryClick("general")}
             >
               General Questions
             </button>
             <button
               className={activeCategory === "skills" ? "active-button" : ""}
-              variant="outline-primary"
               onClick={() => handleCategoryClick("skills")}
             >
               Skills and Experience
@@ -143,7 +135,6 @@ const BasicInterviewQuestionSelectorPopUp = ({
               className={
                 activeCategory === "roleSpecific" ? "active-button" : ""
               }
-              variant="outline-primary"
               onClick={() => handleCategoryClick("roleSpecific")}
             >
               Role-Specific or Hypothetical Questions
@@ -157,62 +148,37 @@ const BasicInterviewQuestionSelectorPopUp = ({
                     label={q}
                     checked={selectedQuestions.includes(q)}
                     onChange={() => handleCheckboxChange(q)}
+                    style={{
+                      color: selectedQuestions.length > 5 ? "red" : "inherit",
+                    }}
                   />
                 ))}
               </Form>
             )}
           </div>
           <br />
-          <br />
-          <p className="m-0 color-orange highlight-orange">
-            <svg
-              width="26"
-              height="26"
-              viewBox="0 0 26 26"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clip-path="url(#clip0_3072_1959)">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M13 22.75C14.2804 22.75 15.5482 22.4978 16.7312 22.0078C17.9141 21.5178 18.9889 20.7997 19.8943 19.8943C20.7997 18.9889 21.5178 17.9141 22.0078 16.7312C22.4978 15.5482 22.75 14.2804 22.75 13C22.75 11.7196 22.4978 10.4518 22.0078 9.26884C21.5178 8.08591 20.7997 7.01108 19.8943 6.10571C18.9889 5.20034 17.9141 4.48216 16.7312 3.99217C15.5482 3.50219 14.2804 3.25 13 3.25C10.4141 3.25 7.93419 4.27723 6.10571 6.10571C4.27723 7.93419 3.25 10.4141 3.25 13C3.25 15.5859 4.27723 18.0658 6.10571 19.8943C7.93419 21.7228 10.4141 22.75 13 22.75ZM12.7487 16.9433L18.1653  10.4433L16.5013 9.05667L11.843 14.6456L9.43258 12.2341L7.90075 13.7659L11.1508 17.0159L11.9893 17.8544L12.7487 16.9433Z"
-                  fill="#F46A05"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_3072_1959">
-                  <rect width="26" height="26" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-            Random questions
-          </p>
-          <p>Generate 5 random questions in your interview.</p>
+          <p className="m-0 color-orange highlight-orange">Random questions</p>
+          <p>Generate 4 random questions in your interview.</p>
           <div className="d-flex justify-content-between button-controller">
-            
             <button
-            className="btn-generate-question"
-              onClick={handleGenerateQuestions} // Call the new function
+              className="btn-generate-question"
+              onClick={handleGenerateQuestions}
             >
               Generate Questions
             </button>
             <div className="d-flex justify-content-end gap-4">
             <button
               onClick={handleSubmit}
-              disabled={selectedQuestions.length !== 5} // Change this condition
+              disabled={selectedQuestions.length !== 5}
+              className={selectedQuestions.length !== 5 ? 'btn-disabled' : ''}
             >
               Start Interview
             </button>
-            <button  onClick={onClose}>
-              Cancel
-            </button>
+              <button onClick={onClose}>Cancel</button>
             </div>
-
           </div>
         </div>
       </Modal.Body>
-      <Modal.Footer></Modal.Footer>
     </Modal>
   );
 };
