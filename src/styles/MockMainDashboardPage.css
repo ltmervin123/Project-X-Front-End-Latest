@@ -38,11 +38,23 @@
     top: 0;
     left: 0;
     width: 100%;/* Rectangle 248 */
-    background: linear-gradient(270.01deg, #F46A05 10.36%, #FFDCC2 98.98%) !important;
+    background: linear-gradient(270deg, #F46A05 23.78%, #FF9D55 61.54%) !important;
     padding: 10px 3%;
     margin: 0 !important;
     z-index: 1000;
+
+
 }
+.wave {
+    height: 60px;
+    position: absolute;
+    z-index: 0;
+    left: -3%;
+    bottom: -3.5px;
+    fill:linear-gradient(90deg, #FFDCC2 10.36%, #F46A05 94.4%) ;
+
+
+  }
 
 .MockMain-LogoBrand {
     background: var(--font-white);

@@ -180,7 +180,7 @@
 /* Specific background images for each card */
 .category-card1.bg-behavioral::before {
   background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
-  background-size: 60%;
+  background-size: 55%;
   background-position: center bottom 0 !important;
 
 }
@@ -206,7 +206,7 @@
 }
 .category-card2.bg-basic::before {
   background-image: url(../assets/basic.png); /* Replace with your actual image path */
-  background-size: 70%;
+  background-size: 65%;
   background-position: center bottom 0 !important;
 
 }
@@ -230,7 +230,7 @@
 }
 .category-card3.bg-expert::before {
   background-image: url(../assets/expert.png); /* Replace with your actual image path */
-  background-size: 65%;
+  background-size: 60%;
   background-position: center bottom 0 !important;
 }
 .category-card3.bg-expert:hover {
