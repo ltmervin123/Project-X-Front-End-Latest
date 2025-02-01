@@ -18,7 +18,7 @@ const BasicTypeOfQuestionPopUp = ({ show, onClose, onSelectType }) => {
     console.log(`Selected question type: ${type}`); // Log the selected type
     onSelectType(type); // Call the function passed from the parent component
 
-    if (type === "Procedural Questions") {
+    if (type === "Dynamic Questioning") {
       navigate("/basic-interview"); // Redirect to /basic-interview
     } else {
       onClose(); // Close the modal for other types
