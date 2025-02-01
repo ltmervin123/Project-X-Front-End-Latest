@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import JoinIMG from "../../assets/join-img.png";
+import JoinIMG from "../../assets/mock-avatar.png";
 import { Carousel } from "react-bootstrap";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -58,11 +58,12 @@ const JoinCommunitySection = () => {
     setIndex(selectedIndex);
   };
 
-  // Function to get the current set of cards to display
-  const getCurrentCards = () => {
-    const start = index * cardsToShow;
-    return cardsData.slice(start, start + cardsToShow);
-  };
+// Function to get the current set of cards to display
+const getCurrentCards = () => {
+  const start = index * cardsToShow;
+  const end = start + cardsToShow;
+  return cardsData.slice(start, end); // Slice the data based on current index and cards to show
+};
 
   return (
     <div className="join-community-container d-flex align-items-center justify-content-center flex-column gap-3">

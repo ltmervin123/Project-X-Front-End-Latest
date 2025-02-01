@@ -80,17 +80,28 @@ const BehavioralVideoRecording = () => {
   const [isQuestionTranscribing, setIsQuestionTranscribing] = useState(false);
 
   const tips = [
-    "Know your resume.",
-    "Stay confident and positive.",
-    "Prepare for common questions.",
-    "Understand questions before answering.",
-    "Greet with a smile.",
-    "Speak with confidence.",
-    "Maintain eye contact with the interviewer.",
-    "Avoid negative topics.",
-    "Don’t forget to smile.",
-    "Express gratitude at the end.",
+    "Take deep breaths.",
+    "Sit up straight.",
+    "Smile naturally.",
+    "Make eye contact.",
+    "Speak slowly and clearly.",
+    "Pause before answering.",
+    "Stay positive.",
+    "Use a strong voice.",
+    "Dress professionally.",
+    "Visualize success.",
+    "Prepare key points.",
+    "Practice power poses.",
+    "Keep a glass of water nearby.",
+    "Engage actively.",
+    "Avoid fidgeting.",
+    "Stay hydrated and eat well.",
+    "Think of it as a conversation.",
+    "Have a backup plan.",
+    "End with a strong closing.",
   ];
+  
+  
   // Add new state for interviewer selection
   const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
   const selectedInterviewer = useRef(null);
