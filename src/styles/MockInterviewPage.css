@@ -105,9 +105,9 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 32%;
+  width: 33%;
   height: 100%;
-  max-width: 380px;
+  max-width: 350px;
   max-height: 470px;
   background: #ACABAB;
   filter: grayscale(100%);
@@ -127,9 +127,9 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 32%;
+  width: 33%;
   height: 100%;
-  max-width: 380px;
+  max-width: 350px;
   max-height: 470px;
   background: #ACABAB;
   filter: grayscale(100%);
@@ -148,9 +148,9 @@
   justify-content: center;
   align-items: center;
   padding: 0px;
-  width: 32%;
+  width: 33%;
   height: 100%;
-  max-width: 380px;
+  max-width: 350px;
   max-height: 470px;
   background: #ACABAB;
   filter: grayscale(100%);
@@ -180,7 +180,7 @@
 /* Specific background images for each card */
 .category-card1.bg-behavioral::before {
   background-image: url(../assets/behavioral.png); /* Replace with your actual image path */
-  background-size: 60%;
+  background-size: 55%;
   background-position: center bottom 0 !important;
 
 }
@@ -206,7 +206,7 @@
 }
 .category-card2.bg-basic::before {
   background-image: url(../assets/basic.png); /* Replace with your actual image path */
-  background-size: 70%;
+  background-size: 65%;
   background-position: center bottom 0 !important;
 
 }
@@ -230,7 +230,7 @@
 }
 .category-card3.bg-expert::before {
   background-image: url(../assets/expert.png); /* Replace with your actual image path */
-  background-size: 65%;
+  background-size: 60%;
   background-position: center bottom 0 !important;
 }
 .category-card3.bg-expert:hover {
@@ -327,26 +327,31 @@
   visibility: hidden;
   opacity: 0;
 }
+.category-card1.bg-behavioral:hover .category-card-checkCircle,
+.category-card2.bg-basic:hover .category-card-pin,
+.category-card3.bg-expert:hover .category-card-magnifyingGlass {
+  display: block; /* Show on hover */
+}
 /* element style */
 .category-card-checkCircle {
-  position: absolute;
-  z-index: 200;
-  left: 5%;
-  top: 5%;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  display: none;
+  position: relative;
+  margin: 5px;
+  bottom: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ,opacity 0.1s linear;
 }
 
 .category-card1:hover .category-card-checkCircle,
 .category-card2:hover .category-card-pin,
 .category-card3:hover .category-card-magnifyingGlass {
-  visibility: hidden;
-  opacity: 0;
+  visibility: visible;
+  opacity: 1;
 }
 .category-card-checkCircle img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -418,17 +423,18 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 .category-card-pin {
-  position: absolute;
-  z-index: 200;
-  right: 20px;
-  top: 10px;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  display: none;
+
+  position: relative;
+  margin: 5px;
+  bottom: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ,opacity 0.1s linear;
 }
 .category-card-pin img {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   border: none;
   background: none;
   color: var(--font-white);
@@ -454,21 +460,23 @@
   transition: visibility 0s linear 0.3s, opacity 0.3s linear;
 }
 .category-card-magnifyingGlass {
-  position: absolute;
-  z-index: 200;
-  left: 5%;
-  bottom: 22%;
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0.3s, opacity 0.3s linear;
+  position: relative;
+  display: none;
+  margin: 5px;
+  bottom: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ,opacity 0.1s linear;
 }
 .category-card-magnifyingGlass img {
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   border: none;
   background: none;
   color: var(--font-white);
   transition: transform 0.3s ease;
+  transform: scaleX(-1); /* Flip vertically */
+
 }
 
 
@@ -1245,67 +1253,3 @@
   color: var(--font-white);
 }
 
-
-/*basic category select*/
-.basic-category-select-container{
-  padding: 0px 30px;
-}
-.basic-catergory-container{
-  width: 100%;
-  background: var(--font-white);
-  height: 300px;
-  border-radius: 20px;
-}
-.basic-catergory-container > button{
-  background: var(--primary-color);
-  width: 33.33%;
-  padding: 5px;
-  font-weight: 500;
-  color: var(--font-white);
-  border: 1px solid var(--text-color) !important;
-}
-.basic-catergory-container > button.active-button {
-  background: #D9D9D9; /* Active background color */
-  color: var(--text-color);
-}
-.basic-catergory-container > button:nth-child(1){
-  border-radius: 20px 0px 0px 0px;
-}
-.basic-catergory-container > button:nth-child(3){
-  border-radius: 0px 20px 0px 0px;
-  width: 33.34%;
-}
-.basic-catergory-container > form{
-  padding: 0px 20px;
-}
-.highlight-orange{
-  font-size: 18px;
-  font-weight: 500 !important;
-}
-.basic-category-select-container .button-controller  button{
-  background: var(--secondary-color) !important;
-  color: var(--font-white);
-  border: none;
-  padding: 10px;
-  width: 180px;
-  border-radius: 50px;
-}
-
-.basic-category-select-container .button-controller > div{
-  width: 40%;
-}
-.basic-category-select-container .button-controller > div button:nth-child(1){
-  background: var(--primary-color) !important ;
-}
-.basic-category-select-container .button-controller > div button:nth-child(2){
-  background: var(--card-color) !important ;
-}
-.basic-catergory-container button:disabled {
-  background-color: #D9D9D9; /* Light gray background for disabled state */
-  color: #A9A9A9; /* Gray text color */
-  cursor: not-allowed; /* Change cursor to indicate it's not clickable */
-}
-.highlight-orange > svg{
-  position: relative;
-  top: -2.5px;
-}

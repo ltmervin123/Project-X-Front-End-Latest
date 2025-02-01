@@ -20,7 +20,7 @@
 }
 .bg-white-gray-gradient{
   background: rgb(255,255,255);
-  background: linear-gradient(180deg, #ffffff 100%, #EEEEEF 100%);
+  background: linear-gradient(180deg, #ffffff 97%, #EEEEEF 100%);
   height: max-content;
 }
 
@@ -393,16 +393,15 @@ h2 > .quote {
   font-weight: 500;
 }
 .didyouknow-card-container{
-  width: 65%;
+  max-width: 1120px;
   margin-top: 40px;
   margin-bottom: 90px;
 }
 .card-didyouknow:nth-child(1),
 .card-didyouknow:nth-child(2),
 .card-didyouknow:nth-child(3) {
-  width: 30%;
-  max-width: 290px;
-  height: 250px;
+  width: 33%;
+  max-width: 350px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   box-shadow: 0px 12px 11px 0px rgb(244, 244, 244);
@@ -412,16 +411,18 @@ h2 > .quote {
 .card-didyouknow:nth-child(4){
   width: 49%;
   max-width: 500px !important;
-  height: 250px;
   border: 1px solid #ffffff;
   border-radius: 8px;
   box-shadow: 0px 12px 11px 0px rgb(244, 244, 244);
   padding: 20px;
 
 }
+.card-didyouknow .card-text{
+  font-size: 19px;
+}
 .horizontal-gray-line{
   width: 70%;
-  max-width: 900px;
+  max-width: 1120px;
   height: 2px;
   background: #68686857;
 }
@@ -609,9 +610,13 @@ h2 > .quote {
 .custom-mock-interview-container > h1 > p {
   display: inline;
 }
+.content-mock-interview-container{
+  height: 80% !important;
+  max-width: 800px;
+}
 .content-mock-interview-container,
 .content-bundle-mock {
-  height: 400px;
+  height: 300px !important;
   position: relative;
   margin-top: 20px;
 }
@@ -661,8 +666,8 @@ h2 > .quote {
   position: absolute;
   z-index: 0;
   right: -30px;
-  bottom: 60px;
-  background: var(--secondary-color);
+  bottom: -50px;
+  background: var(--secondary-color) !important;
   width: 370px;
   height: 100px;
   border-radius: 20px;
@@ -694,14 +699,18 @@ h2 > .quote {
 }
 
 /*Bundle Mock Interview*/
+.custom-bundle-mock-interview-container {
+  height: 80% !important;
+  max-width: 800px;
+}
 .custom-bundle-mock-interview-container > h1 {
   font-size: 46px !important;
   font-weight: 700;
+  margin: 0;
 }
 .custom-bundle-mock-interview-container > h3 {
   font-size: 34px !important;
   font-weight: 700;
-  margin-bottom: 30px;
 }
 .bundle-mock-bg {
   width: 100%;
@@ -738,8 +747,8 @@ h2 > .quote {
   border-radius: 20px;
   position: relative;
   z-index: 1;
-  width: 68%;
-  max-width: 800px;
+  width: 80%;
+  max-width: 900px !important;
   padding: 20px 20px 20px 100px;
   margin: 40px 0px;
 }
@@ -936,8 +945,10 @@ h2 > .quote {
   color: var(--font-white);
 }
 .subscription-list-content {
-  font-size: 20px !important;
-  text-align: center;
+  font-size: 22px !important;
+  text-align: left;
+  height: 100% !important;
+  padding-top: 40px;
 }
 /*About Hr hatch*/
 .about-hr-hatch-container {
