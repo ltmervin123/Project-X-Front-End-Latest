@@ -3,7 +3,12 @@ import { Modal, Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "../../styles/BasicTypeOfQuestionPopUp.css"; // Import the CSS file
 
-const BasicTypeOfQuestionPopUp = ({ show, onClose, onSelectType }) => {
+const BasicTypeOfQuestionPopUp = ({
+  show,
+  onClose,
+  onSelectType,
+  setBasicInterviewType,
+}) => {
   const navigate = useNavigate(); // Initialize useNavigate
   const questionTypes = [
     {
@@ -15,9 +20,8 @@ const BasicTypeOfQuestionPopUp = ({ show, onClose, onSelectType }) => {
   ];
 
   const handleTypeSelect = (type) => {
-    console.log(`Selected question type: ${type}`); // Log the selected type
-    onSelectType(type); // Call the function passed from the parent component
-
+    onSelectType(); // Call the function passed from the parent component
+    setBasicInterviewType(type); // Set the selected type in the parent component
     if (type === "Procedural Questions") {
       navigate("/basic-interview"); // Redirect to /basic-interview
     } else {
@@ -35,7 +39,9 @@ const BasicTypeOfQuestionPopUp = ({ show, onClose, onSelectType }) => {
     >
       <Modal.Body className="custom-modal">
         <div className="d-flex justify-content-end align-items-center mb-3">
-          <h5 className="m-0 w-100 text-center">Select Type of Basic Questions</h5>
+          <h5 className="m-0 w-100 text-center">
+            Select Type of Basic Questions
+          </h5>
 
           <Button
             className="closebtn"

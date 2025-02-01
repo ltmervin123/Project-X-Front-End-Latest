@@ -6,10 +6,13 @@ import "../../styles/BasicInterviewQuestionSelectorPopUp.css"; // Import the CSS
 const BasicInterviewQuestionSelectorPopUp = ({
   show,
   onClose,
-  onSelectQuestions,
+  defaultQuestion,
+  setSelectedQuestions,
+  selectedQuestions,
+  handleSaveInterviewTypeAndQuestions,
 }) => {
-  const defaultQuestion = "Can you tell me about yourself?";
-  const [selectedQuestions, setSelectedQuestions] = useState([defaultQuestion]);
+  // const defaultQuestion = "Can you tell me about yourself?";
+  // const [selectedQuestions, setSelectedQuestions] = useState([defaultQuestion]);
   const [activeCategory, setActiveCategory] = useState("general");
   const navigate = useNavigate(); // Initialize useNavigate
   const questions = {
@@ -59,10 +62,11 @@ const BasicInterviewQuestionSelectorPopUp = ({
     });
   };
   const handleSubmit = () => {
-    console.log("Selected questions:", selectedQuestions); // Log the selected questions
-    onSelectQuestions(selectedQuestions);
+
+    handleSaveInterviewTypeAndQuestions();
     navigate("/basic-interview"); // Navigate to /basic-interview
   };
+
   const handleCategoryClick = (category) => {
     setActiveCategory(activeCategory === category ? "general" : category);
   };
@@ -167,13 +171,13 @@ const BasicInterviewQuestionSelectorPopUp = ({
               Generate Questions
             </button>
             <div className="d-flex justify-content-end gap-4">
-            <button
-              onClick={handleSubmit}
-              disabled={selectedQuestions.length !== 5}
-              className={selectedQuestions.length !== 5 ? 'btn-disabled' : ''}
-            >
-              Start Interview
-            </button>
+              <button
+                onClick={handleSubmit}
+                disabled={selectedQuestions.length !== 5}
+                className={selectedQuestions.length !== 5 ? "btn-disabled" : ""}
+              >
+                Start Interview
+              </button>
               <button onClick={onClose}>Cancel</button>
             </div>
           </div>

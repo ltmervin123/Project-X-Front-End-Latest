@@ -17,6 +17,7 @@ import LoadingScreen from "./loadingScreen";
 import tipsAvatar from "../../assets/expert.png";
 import InterviewSuccessfulPopup from "../maindashboard/InterviewSuccessfulPopup";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
+import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import ErrorTranscription from "./errors/ErrorTranscription";
@@ -31,6 +32,7 @@ import { useAnalytics } from "../../hook/useAnalytics";
 import { popupGuide } from "./PopupGuide";
 
 const BasicVideoRecording = ({ interviewType, category }) => {
+  const [uploadingError, setUploadingError] = useState(false);
   const { getAnalytics } = useAnalytics();
   const recordedChunksRef = useRef([]);
   const [isRecording, setIsRecording] = useState(false);
@@ -86,6 +88,25 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     "Don’t forget to smile.",
     "Express gratitude at the end.",
   ];
+  const [basicInterviewType, setBasicInterviewType] = useState(
+    sessionStorage.getItem("basicInterviewType")
+  );
+  const [selectedQuestions, setSelectedQuestions] = useState(
+    JSON.parse(sessionStorage.getItem("selectedQuestions"))
+  );
+
+  //Function that remove selected question and interview type from session storage when page is unmount
+  useEffect(() => {
+    return () => {
+      removeBasicInterviewTypeAndSelectedQuestions();
+    };
+  }, []);
+
+  //Handle remove basic interview type and selected questions from session storage
+  const removeBasicInterviewTypeAndSelectedQuestions = () => {
+    sessionStorage.removeItem("basicInterviewType");
+    sessionStorage.removeItem("selectedQuestions");
+  };
 
   // Add new state for interviewer selection
   const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
@@ -515,6 +536,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     socket.on("feedbackGenerated", async (data) => {
       if (data?.feedback) {
         await getAnalytics();
+        removeBasicInterviewTypeAndSelectedQuestions();
         setIsGeneratingFeedback(false);
         setShowPreviewPopup(true);
         setInterviewId("");
@@ -565,7 +587,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     await fetchQuestions();
   };
 
-  // Close handler
+  // Close  await fetchQuestions();
   const handleClose = () => {
     navigate("/maindashboard"); // Navigate back to dashboard instead of closing modal
   };
@@ -608,25 +630,39 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         throw new Error("No transcription data to upload");
       }
 
-      // Make a POST request to the server to upload the video
-      const response = await axios.post(
-        `${API}/api/interview/basic-interview`,
-        payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`, // JWT token
-          },
+      if (basicInterviewType === "Procedural Questions") {
+        // Make a POST request to the server to upload the video
+        const response = await axios.post(
+          `${API}/api/interview/basic-interview`,
+          payload,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`, // JWT token
+            },
+          }
+        );
+
+        // Extract the generated question from the response
+        const generatedQuestion = response.data.question;
+
+        if (questionIndex + 1 <= 4) {
+          // Set the current greeting text to the generated question
+          setQuestions((prevItem) => [...prevItem, generatedQuestion]);
         }
-      );
-
-      // Extract the generated question from the response
-      const generatedQuestion = response.data.question;
-
-      if (questionIndex + 1 <= 4) {
-        // Set the current greeting text to the generated question
-        setQuestions((prevItem) => [...prevItem, generatedQuestion]);
+      } else {
+        const response = await axios.post(
+          `${API}/api/interview/mock-interview`,
+          payload,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`, // JWT token
+            },
+          }
+        );
       }
+
       clearTranscript();
       return true;
     } catch (error) {
@@ -637,7 +673,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         //Reset the transcript text
         clearTranscript();
       } else {
-        setQuestionError(true);
+        setUploadingError(true);
+        // setUploading(true);
       }
       return false;
     } finally {
@@ -680,6 +717,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       const formData = new FormData();
       formData.append("type", interviewType);
       formData.append("category", category);
+      formData.append("basicInterviewType", basicInterviewType);
 
       const response = await axios.post(
         `${API}/api/interview/generate-questions`,
@@ -693,8 +731,12 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       );
 
       // Check if questions are returned
-      if (response.data.questions && response.data.questions.length > 0) {
+      if (response?.data?.questions && response?.data?.questions.length > 0) {
         setQuestions(response.data.questions);
+        setIsCountdownActive(true);
+        setInterviewId(response.data.interviewId);
+      } else {
+        setQuestions(selectedQuestions);
         setIsCountdownActive(true);
         setInterviewId(response.data.interviewId);
       }
@@ -1033,9 +1075,17 @@ const BasicVideoRecording = ({ interviewType, category }) => {
             </Row>
 
             {questionError && (
+              <ErrorGenerateQuestion
+                onRetry={async () => {
+                  await fetchQuestions();
+                }}
+              />
+            )}
+
+            {uploadingError && (
               <ErrorUploadAnswer
                 onRetry={async () => {
-                  setQuestionError(false);
+                  setUploadingError(false);
                   setIsUploading(true);
                   await handleInterviewAnswer();
                 }}

@@ -34,6 +34,9 @@ const MainDashboard = () => {
   const [currentDate, setCurrentDate] = useState("");
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const defaultQuestion = "Can you tell me about yourself?";
+  const [selectedQuestions, setSelectedQuestions] = useState([defaultQuestion]);
+  const [basicInterviewType, setBasicInterviewType] = useState("");
 
   useEffect(() => {
     const today = new Date();
@@ -85,10 +88,17 @@ const MainDashboard = () => {
     }
   }, []);
 
-  const handleSelectQuestions = (selectedQuestions) => {
+  const handleSelectQuestions = () => {
     // Handle the selected questions and start the BasicVideoRecording
-    setShowBasicVideoRecording(true);
+    //setShowBasicVideoRecording(true);
     // You can pass the selected questions to the BasicVideoRecording component if needed
+
+    //Save intervuew type and selected questions in sessionStorage if available
+    sessionStorage.setItem("basicInterviewType", basicInterviewType);
+    sessionStorage.setItem(
+      "selectedQuestions",
+      JSON.stringify(selectedQuestions)
+    );
   };
 
   //Close Model
@@ -119,6 +129,16 @@ const MainDashboard = () => {
       },
     });
   };
+
+  //For debugging
+
+  useEffect(() => {
+    console.log("Basic interview type: ", basicInterviewType);
+  }, [basicInterviewType]);
+
+  useEffect(() => {
+    console.log("Selected questions: ", selectedQuestions);
+  }, [selectedQuestions]);
 
   return (
     <div className=" d-flex align-items-start flex-column MockMainDashboard-content">
@@ -156,9 +176,13 @@ const MainDashboard = () => {
           className="category-card1 bg-behavioral"
           onClick={() => handleInterviewType("BEHAVIORAL")}
         >
-          <div className="category-card-title1 d-flex">          <div className="category-card-checkCircle">
-            <img src={CheckedCircle} alt="Check Circle" />
-          </div> Behavioral</div>
+          <div className="category-card-title1 d-flex">
+            {" "}
+            <div className="category-card-checkCircle">
+              <img src={CheckedCircle} alt="Check Circle" />
+            </div>{" "}
+            Behavioral
+          </div>
 
           <p className="category-description">
             Our behavioral interview simulation replicates real-life behavioral
@@ -196,9 +220,13 @@ const MainDashboard = () => {
           className="category-card2 bg-basic"
           onClick={() => handleInterviewType("BASIC")}
         >
-          <div className="category-card-title2 d-flex">                              <div className="category-card-pin">
-            <img src={Pin} alt="pin" />
-          </div>Basic</div>
+          <div className="category-card-title2 d-flex">
+            {" "}
+            <div className="category-card-pin">
+              <img src={Pin} alt="pin" />
+            </div>
+            Basic
+          </div>
 
           <p className="category-description">
             Our basic interview simulation offers an interactive and
@@ -237,9 +265,11 @@ const MainDashboard = () => {
           onClick={() => handleInterviewType("EXPERT")}
         >
           <div className="category-card-title3 d-flex">
-          <div className="category-card-magnifyingGlass">
-            <img src={MagniFyingGlass} alt="Magnifying Glass" />
-          </div>Expert</div>
+            <div className="category-card-magnifyingGlass">
+              <img src={MagniFyingGlass} alt="Magnifying Glass" />
+            </div>
+            Expert
+          </div>
 
           <p className="category-description">
             Our expert interview simulation is a tailored practice session
@@ -327,22 +357,28 @@ const MainDashboard = () => {
             setShowBasicTypeOfQuestionPopup(false);
             setShowBasicQuestionSelector(true); // Show the question selector after selecting type
           }}
+          setBasicInterviewType={setBasicInterviewType}
         />
       )}
       {/* Basic Interview Question Selector Popup */}
       <BasicInterviewQuestionSelectorPopUp
         show={showBasicQuestionSelector}
         onClose={handleClose}
-        onSelectQuestions={handleSelectQuestions}
+        defaultQuestion={defaultQuestion}
+        setSelectedQuestions={setSelectedQuestions}
+        selectedQuestions={selectedQuestions}
+        handleSaveInterviewTypeAndQuestions={handleSelectQuestions}
       />
       {/* Basic Video Recording */}
-      {showBasicVideoRecording && (
+      {/* {showBasicVideoRecording && (
         <BasicVideoRecording
           onClose={handleClose}
           interviewType={interviewType}
           category={category}
+          selectedQuestions={selectedQuestions}
+          basicInterviewType={basicInterviewType}
         />
-      )}
+      )} */}
     </div>
   );
 };
