@@ -877,8 +877,7 @@
   color: #333; /* Dark color for the text */
 }
 .tips-avatar {
-  width: 50px; /* Width of the avatar */
-  height: 50px; /* Height of the avatar */
+  width: 35px; /* Width of the avatar */
 }
 .response-indicator {
   font-size: 17px;

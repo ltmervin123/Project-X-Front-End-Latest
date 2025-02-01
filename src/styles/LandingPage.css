@@ -449,7 +449,7 @@ h2 > .quote {
   position: absolute; /* Change to absolute */
   z-index: 1;
   right: -120px; /* Adjust as needed */
-  top: -50px; /* Adjust as needed */
+  top: -90px; /* Adjust as needed */
 }
 
 .join-community-container > div > h2 {
