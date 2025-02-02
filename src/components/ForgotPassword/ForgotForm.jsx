@@ -165,7 +165,7 @@ const ForgotForm = () => {
               </div>
 
               <button type="submit" className="btn-send-email">
-                {isSending ? <LoadingScreen /> : "Send Email"}
+                {isSending ? "Sending Email.." : "Send Email"}
               </button>
               <a
                 className="d-flex align-items-center mt-3"
@@ -189,6 +189,7 @@ const ForgotForm = () => {
                 Back to Login
               </a>
             </form>
+            {isSending && <LoadingScreen />}
           </div>
         )}
       </div>

@@ -504,73 +504,65 @@ const MainDashboard = () => {
               )}
             </Carousel>
           </div>
-                  {/* Analytics Container */}
-        <div className="analytics-container">
-          {" "}
-          {/* 40% width */}
-          <div className="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>Activity</th>
-                  <th>Topics/Job Description</th>
-                  <th>Date</th>
-                  <th>Overall Result</th>
-                  <th className="action-t-center-text">Action</th>
-                </tr>
-              </thead>
-              <tbody className="list">
-                {isLoading ? (
+          <div className="analytics-container">
+            <div className="table-responsive">
+              <table>
+                <thead>
                   <tr>
-                    <td colSpan="6" className="text-center">
-                      Fetching interview history...
-                    </td>
+                    <th>Activity</th>
+                    <th>Topics/Job Description</th>
+                    <th>Date</th>
+                    <th>Overall Result</th>
+                    <th className="action-t-center-text">Action</th>
                   </tr>
-                ) : filteredInterviewHistory.length > 0 ? (
-                  filteredInterviewHistory
-                    .slice()
-                    .reverse()
-                    .map((item) => (
-                      <tr key={item._id}>
-                        <td>{item.interviewDetails[0].type}</td>
-                        <td>{item.interviewDetails[0].category}</td>
-                        <td>{getDate(item.createdAt)}</td>
-                        <td
-                          className={getResultClass(
-                            parseFloat(
-                              item.recordType === "old record"
-                                ? item.overallFeedback.overallPerformance
-                                : item.overAllScore
-                            )
-                          )}
-                        >
-                          {item.recordType === "old record"
-                            ? item.overallFeedback.overallPerformance
-                            : item.overAllScore}
-                          /10
-                        </td>
-                        <td className="action-t-center">
-                          <button
-                            variant="link"
-                            onClick={() => handleViewResult(item._id)}
+                </thead>
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="5" className="text-center">
+                        Fetching interview history...
+                      </td>
+                    </tr>
+                  ) : filteredInterviewHistory.length > 0 ? (
+                    filteredInterviewHistory
+                      .slice()
+                      .reverse()
+                      .map((item) => (
+                        <tr key={item._id}>
+                          <td>{item.interviewDetails[0].type}</td>
+                          <td>{item.interviewDetails[0].category}</td>
+                          <td>{getDate(item.createdAt)}</td>
+                          <td
+                            className={getResultClass(
+                              parseFloat(
+                                item.recordType === "old record"
+                                  ? item.overallFeedback.overallPerformance
+                                  : item.overAllScore
+                              )
+                            )}
                           >
-                            Full Summary
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                ) : (
-                  <tr>
-                    <td colSpan="6" className="text-center">
-                      No data available
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                            {item.recordType === "old record"
+                              ? item.overallFeedback.overallPerformance
+                              : item.overAllScore}
+                            /10
+                          </td>
+                          <td className="action-t-center">
+                            <button variant="link" onClick={() => handleViewResult(item._id)}>
+                              Full Summary
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center">No data available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-   
+
           </div>
 
       </div>

@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
+import { Pie, Bar } from "react-chartjs-2"; // Import chart components
+import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
+import default_avatar_img from "../../assets/default.png"; // Import default avatar image
 
-const AiReferenceCard = ({ title, count, description, bgColor, icon }) => {
+// Register all necessary components
+Chart.register(...registerables);
+
+const AiReferenceCard = ({ title, count, description, bgColor }) => {
   return (
     <div
       className="AiReferenceCard"
@@ -13,14 +19,12 @@ const AiReferenceCard = ({ title, count, description, bgColor, icon }) => {
       }}
     >
       <div>
-        <h4 className="d-flex justify-content-between align-items-center" style={{ margin: 0 }}>
-          {title} 
-          {icon && (
-            <div style={{ marginRight: "10px" }}>
-              {icon}
-            </div>
-          )}
-        </h4>
+        <p
+          className="d-flex justify-content-between align-items-center"
+          style={{ margin: 0 }}
+        >
+          {title}
+        </p>
       </div>
       <p className="count">{count}</p>
       <p className="description">{description}</p>
@@ -28,140 +32,222 @@ const AiReferenceCard = ({ title, count, description, bgColor, icon }) => {
   );
 };
 
-const MainDashboard = () => {
-  // Function to determine the status color based on the status
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Completed":
-        return { color: "green", fontWeight: "300" };
-      case "Pending":
-        return { color: "#F8BD00", fontWeight: "300" };
-      case "In Progress":
-        return { color: "blue", fontWeight: "300" }; // you can change blue if needed
-      default:
-        return { color: "black" }; // Default color if the status is unknown
-    }
-  };
+const LogContainer = ({ logData }) => {
+  const [showAll, setShowAll] = useState(false);
+  const displayedLogs = showAll ? logData : logData.slice(0, 4);
+
   return (
-    <div className="AiReferenceMaindashboard my-4">
-      <h3 className="mb-3">Overview</h3>
-      <p>Manage and track your reference check processes.</p>
+    <div className="LogContainer my-4">
+      <div className="d-flex justify-content-between align-items-center">
+        <b className="mb-3">Recent Activities</b>
+        <a href="#" onClick={() => setShowAll(!showAll)}>
+          {showAll ? "Show Less" : "View All"}
+        </a>
+      </div>
+      <div className="list-log-container">
+        {displayedLogs.map((log) => (
+          <div
+            key={log.id}
+            className="log-item d-flex align-items-center mb-3 gap-3"
+          >
+            <img src={log.avatar} alt={log.name} className="me-2" />
+            <div>
+              <strong>{log.name}</strong> completed a reference check for{" "}
+              <strong>{log.referenceFor}</strong>
+              <div className="text-muted">{log.time}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const MainDashboard = () => {
+  // Data for the pie chart
+  const pieData = {
+    labels: ["Completed", "Pending", "In Progress"],
+    datasets: [
+      {
+        data: [159, 12, 86], // Example data
+        backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"],
+        hoverBackgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"],
+      },
+    ],
+  };
+
+  // Options for the pie chart to hide labels
+  const pieOptions = {
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+      },
+      tooltip: {
+        enabled: true, // Disable tooltips if you want to hide them as well
+      },
+    },
+  };
+
+  // Data for the column chart
+  const barData = {
+    labels: ["December", "January"], // Updated to represent only November to March
+    datasets: [
+      {
+        label: "Week 1",
+        backgroundColor: "#319F43",
+        borderColor: "transparent",
+        borderWidth: 2,
+        data: [110, 100], // Example data for November to March
+      },
+      {
+        label: "Week 2",
+        backgroundColor: "#1877F2",
+        borderColor: "transparent",
+        borderWidth: 2,
+        data: [90, 80], // Example data for November to March
+      },
+      {
+        label: "Week 3",
+        backgroundColor: "#F8BD00",
+        borderColor: "transparent",
+        borderWidth: 2,
+        data: [150, 140], // Example data for November to March
+      },
+      {
+        label: "Week 4",
+        backgroundColor: "#686868",
+        borderColor: "transparent",
+        borderWidth: 2,
+        data: [130, 120], // Example data for November to March
+      },
+    ],
+  };
+
+  const logData = [
+    {
+      id: 1,
+      name: "John Doe",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 2,
+      name: "Kirk Delagente",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 3,
+      name: "John Doe",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 4,
+      name: "Kirk Delagente",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 5,
+      name: "John Doe",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+    {
+      id: 6,
+      name: "Kirk Delagente",
+      referenceFor: "Jane Smith",
+      time: "2 hours ago",
+      avatar: default_avatar_img,
+    },
+  ];
+
+  return (
+    <div className="MockMainDashboard-content d-flex flex-column gap-2">
+      <div>
+        <h3 className="mb-3">Dashboard</h3>
+        <p>Manage and track your reference check processes.</p>
+      </div>
+      <div>
+        <Row className="mb-3">
+          <Col md={3}>
+            <AiReferenceCard
+              title="Active Jobs"
+              count="257"
+              description="+2 from last week"
+              bgColor="#319F43"
+            />
+          </Col>
+          <Col md={3}>
+            <AiReferenceCard
+              title="Pending References"
+              count="12"
+              description="-3 from last week"
+              bgColor="#1877F2"
+            />
+          </Col>
+          <Col md={3}>
+            <AiReferenceCard
+              title="Completed References"
+              count="159"
+              description="+15 from last week"
+              bgColor="#F8BD00"
+            />
+          </Col>
+          <Col md={3}>
+            <AiReferenceCard
+              title="Total Candidates"
+              count="7"
+              description="+28 from last month"
+              bgColor="#686868"
+            />
+          </Col>
+        </Row>
+      </div>
+
       <Row>
-        <Col md={3}>
-          <AiReferenceCard
-            title="Total Checks"
-            count="200"
-            description="+20% from last month"
-            bgColor="#319F43"
-
-          />
+        <Col md="6">
+          <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">
+            <p className="mb-3 pie-title-overlay">Reference Check Status</p>
+            <div className="pie-chart">
+              <Pie data={pieData} options={pieOptions} />
+              <div className="pie-labels ms-3">
+                <ul>
+                  {pieData.labels.map((label, index) => (
+                    <li
+                      key={index}
+                      style={{
+                        color: pieData.datasets[0].backgroundColor[index],
+                      }}
+                    >
+                      <p> {label}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
         </Col>
-        <Col md={3}>
-          <AiReferenceCard
-            title="Completed"
-            count="189"
-            description="+77% completion rate"
-            bgColor="#1877F2"
-            icon={
-              <svg 
-                width="24" 
-                height="24" 
-                viewBox="0 0 35 44" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M26.4408 11.0708C26.8509 11.5865 27.0813 12.2858 27.0813 13.015C27.0813 13.7442 26.8509 14.4436 26.4408 14.9593L19.2221 24.0343C18.8119 24.5502 18.2555 24.8401 17.6753 24.8403C17.0951 24.8404 16.5386 24.5509 16.1282 24.0352C15.7179 23.5196 15.4872 22.8201 15.4871 22.0907C15.487 21.3613 15.7173 20.6617 16.1275 20.1458L23.3463 11.0708C23.7565 10.5552 24.3128 10.2656 24.8928 10.2656C25.4729 10.2656 26.0306 10.5552 26.4408 11.0708ZM33.7325 11.0708C34.1426 11.5865 34.373 12.2858 34.373 13.015C34.373 13.7442 34.1426 14.4436 33.7325 14.9593L19.3971 32.981C18.9595 33.5306 18.3663 33.8394 17.7477 33.8394C17.1291 33.8394 16.5359 33.5306 16.0983 32.981L10.0142 25.3305C9.80524 25.0768 9.63859 24.7733 9.52395 24.4378C9.4093 24.1023 9.34896 23.7415 9.34643 23.3763C9.34391 23.0112 9.39926 22.649 9.50925 22.3111C9.61924 21.9731 9.78166 21.6661 9.98705 21.4079C10.1924 21.1497 10.4367 20.9455 10.7055 20.8072C10.9744 20.6689 11.2624 20.5993 11.5529 20.6025C11.8433 20.6057 12.1304 20.6816 12.3972 20.8257C12.6641 20.9698 12.9055 21.1793 13.1073 21.442L17.7477 27.2756L30.6394 11.0708C31.0495 10.5558 31.6055 10.2665 32.1852 10.2665C32.7649 10.2665 33.3223 10.5558 33.7325 11.0708ZM2.72104 21.442C3.13126 20.9264 3.68756 20.6368 4.26761 20.6368C4.84765 20.6368 5.40395 20.9264 5.81417 21.442L12.0019 29.2208C12.2142 29.4734 12.3842 29.777 12.5016 30.1137C12.619 30.4503 12.6816 30.8131 12.6856 31.1806C12.6896 31.5482 12.635 31.913 12.5249 32.2535C12.4148 32.594 12.2515 32.9034 12.0447 33.1632C11.8379 33.4231 11.5918 33.6282 11.3209 33.7664C11.05 33.9046 10.7597 33.9731 10.4674 33.9679C10.175 33.9627 9.88647 33.8839 9.61876 33.7361C9.35105 33.5883 9.10962 33.3746 8.90875 33.1075L2.7225 25.3323C2.31241 24.8166 2.08203 24.1172 2.08203 23.388C2.08203 22.6588 2.31241 21.9595 2.7225 21.4438L2.72104 21.442Z" fill="white"/>
-              </svg>
-
-            }
-          />
-        </Col>
-        <Col md={3}>
-          <AiReferenceCard
-            title="Pending"
-            count="59"
-            description="+23% in progress"
-            bgColor="#F8BD00"
-            icon={
-              <svg 
-              width="24" 
-              height="24" 
-              viewBox="0 0 46 46" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_1353_781)">
-              <path d="M13.4154 25.8776C14.214 25.8776 14.8931 25.5984 15.4528 25.04C16.0125 24.4816 16.2916 23.8025 16.2904 23.0026C16.2891 22.2027 16.0099 21.5242 15.4528 20.9671C14.8957 20.41 14.2165 20.1302 13.4154 20.1276C12.6142 20.125 11.9357 20.4049 11.3799 20.9671C10.824 21.5293 10.5442 22.2078 10.5404 23.0026C10.5365 23.7974 10.8164 24.4765 11.3799 25.04C11.9434 25.6035 12.6219 25.8827 13.4154 25.8776ZM22.9987 25.8776C23.7973 25.8776 24.4764 25.5984 25.0361 25.04C25.5958 24.4816 25.875 23.8025 25.8737 23.0026C25.8724 22.2027 25.5932 21.5242 25.0361 20.9671C24.479 20.41 23.7999 20.1302 22.9987 20.1276C22.1975 20.125 21.519 20.4049 20.9632 20.9671C20.4074 21.5293 20.1275 22.2078 20.1237 23.0026C20.1199 23.7974 20.3997 24.4765 20.9632 25.04C21.5267 25.6035 22.2052 25.8827 22.9987 25.8776ZM32.582 25.8776C33.3806 25.8776 34.0598 25.5984 34.6194 25.04C35.1791 24.4816 35.4583 23.8025 35.457 23.0026C35.4558 22.2027 35.1766 21.5242 34.6194 20.9671C34.0623 20.41 33.3832 20.1302 32.582 20.1276C31.7809 20.125 31.1024 20.4049 30.5465 20.9671C29.9907 21.5293 29.7109 22.2078 29.707 23.0026C29.7032 23.7974 29.983 24.4765 30.5465 25.04C31.11 25.6035 31.7885 25.8827 32.582 25.8776ZM22.9987 42.1693C20.3473 42.1693 17.8556 41.6658 15.5237 40.6589C13.1918 39.6521 11.1633 38.2867 9.43828 36.563C7.71328 34.8393 6.34798 32.8108 5.34237 30.4776C4.33676 28.1444 3.83331 25.6527 3.83203 23.0026C3.83076 20.3525 4.3342 17.8608 5.34237 15.5276C6.35053 13.1944 7.71584 11.1659 9.43828 9.44219C11.1607 7.71847 13.1892 6.35316 15.5237 5.34627C17.8582 4.33938 20.3499 3.83594 22.9987 3.83594C25.6475 3.83594 28.1392 4.33938 30.4737 5.34627C32.8082 6.35316 34.8367 7.71847 36.5591 9.44219C38.2816 11.1659 39.6475 13.1944 40.6569 15.5276C41.6664 17.8608 42.1692 20.3525 42.1654 23.0026C42.1615 25.6527 41.6581 28.1444 40.655 30.4776C39.652 32.8108 38.2867 34.8393 36.5591 36.563C34.8316 38.2867 32.8031 39.6527 30.4737 40.6609C28.1443 41.669 25.6526 42.1718 22.9987 42.1693ZM22.9987 38.3359C27.2793 38.3359 30.9049 36.8505 33.8758 33.8797C36.8466 30.9089 38.332 27.2832 38.332 23.0026C38.332 18.722 36.8466 15.0964 33.8758 12.1255C30.9049 9.15469 27.2793 7.66927 22.9987 7.66927C18.7181 7.66927 15.0925 9.15469 12.1216 12.1255C9.15078 15.0964 7.66537 18.722 7.66537 23.0026C7.66537 27.2832 9.15078 30.9089 12.1216 33.8797C15.0925 36.8505 18.7181 38.3359 22.9987 38.3359Z" fill="white"/>
-              </g>
-              <defs>
-              <clipPath id="clip0_1353_781">
-              <rect width="46" height="46" fill="white"/>
-              </clipPath>
-              </defs>
-              </svg>
-
-            }
-          />
-        </Col>
-        <Col md={3}>
-          <AiReferenceCard
-            title="Expired"
-            count="7"
-            description="5% expired links"
-            bgColor="#686868"
-            icon={
-              <svg 
-              width="24" 
-              height="24" 
-              viewBox="0 0 37 38" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5664 0.00449822C16.7802 -0.055663 14.0143 0.488275 11.4619 1.59834C8.9095 2.7084 6.63203 4.35783 4.78851 6.43148C2.945 8.50512 1.57987 10.953 0.788436 13.6042C-0.00299863 16.2555 -0.201666 19.0461 0.206303 21.7814C0.614272 24.5167 1.61905 27.1307 3.15048 29.4408C4.68191 31.751 6.70309 33.7017 9.0729 35.1567C11.4427 36.6117 14.1041 37.536 16.8711 37.865C19.6382 38.194 22.4443 37.9198 25.0935 37.0616C25.5462 36.9149 25.9215 36.5957 26.137 36.1743C26.3525 35.753 26.3904 35.264 26.2425 34.8149C26.0946 34.3658 25.7729 33.9933 25.3482 33.7796C24.9236 33.5658 24.4307 33.5281 23.978 33.6749C21.0991 34.6076 18.0084 34.6864 15.085 33.9017C12.1616 33.1169 9.5326 31.5028 7.52035 29.2571C5.5081 27.0115 4.20013 24.232 3.75683 21.2595C3.31354 18.2871 3.7542 15.2509 5.02477 12.5233C6.29534 9.7957 8.34059 7.49531 10.9097 5.90422C13.4788 4.31314 16.46 3.50054 19.4878 3.56608C22.5156 3.63162 25.4583 4.57245 27.955 6.27319C30.4517 7.97393 32.3939 10.3606 33.5433 13.1406C33.724 13.5778 34.0722 13.9258 34.5115 14.1082C34.729 14.1985 34.9623 14.2454 35.198 14.2463C35.4338 14.2471 35.6674 14.2019 35.8856 14.1132C36.1038 14.0245 36.3022 13.894 36.4695 13.7291C36.6368 13.5643 36.7698 13.3684 36.8608 13.1526C36.9518 12.9368 36.9991 12.7054 37 12.4714C37.0008 12.2375 36.9553 12.0057 36.8658 11.7892C35.4512 8.36757 33.0608 5.4299 29.9879 3.33654C26.9149 1.24319 23.293 0.0851662 19.5664 0.00449822ZM20.9428 8.906C20.9428 8.43358 20.7537 7.98051 20.417 7.64646C20.0803 7.31241 19.6237 7.12475 19.1475 7.12475C18.6714 7.12475 18.2147 7.31241 17.878 7.64646C17.5414 7.98051 17.3522 8.43358 17.3522 8.906V18.2635L12.4834 23.0919C12.307 23.2549 12.1655 23.4516 12.0674 23.6701C11.9693 23.8886 11.9165 24.1245 11.9123 24.3636C11.908 24.6028 11.9524 24.8404 12.0427 25.0622C12.133 25.284 12.2673 25.4854 12.4378 25.6546C12.6083 25.8237 12.8114 25.9571 13.0349 26.0467C13.2585 26.1363 13.4979 26.1802 13.739 26.176C13.98 26.1718 14.2177 26.1195 14.438 26.0221C14.6582 25.9247 14.8564 25.7844 15.0207 25.6094L20.4162 20.2585L20.9428 19.736V8.906ZM35.9036 35.6247C35.9036 36.2546 35.6514 36.8587 35.2024 37.3041C34.7535 37.7495 34.1447 37.9997 33.5098 37.9997C32.875 37.9997 32.2661 37.7495 31.8172 37.3041C31.3683 36.8587 31.1161 36.2546 31.1161 35.6247C31.1161 34.9949 31.3683 34.3908 31.8172 33.9454C32.2661 33.5 32.875 33.2497 33.5098 33.2497C34.1447 33.2497 34.7535 33.5 35.2024 33.9454C35.6514 34.3908 35.9036 34.9949 35.9036 35.6247ZM35.3051 20.781C35.3051 20.3086 35.116 19.8555 34.7793 19.5215C34.4426 19.1874 33.986 18.9997 33.5098 18.9997C33.0337 18.9997 32.5771 19.1874 32.2404 19.5215C31.9037 19.8555 31.7145 20.3086 31.7145 20.781V29.0935C31.7145 29.5659 31.9037 30.019 32.2404 30.353C32.5771 30.6871 33.0337 30.8747 33.5098 30.8747C33.986 30.8747 34.4426 30.6871 34.7793 30.353C35.116 30.019 35.3051 29.5659 35.3051 29.0935V20.781Z" fill="white"/>
-              </svg>
-
-            }
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col md={10}>
-          <div className="CheckContainer my-4">
-            <h3 className="mb-3">Recent Reference Checks</h3>
-            <p>Overview of the latest reference check requests</p>
-            <table className="table">
-              <thead className="no-border">
-                <tr>
-                  <th>Candidate</th>
-                  <th>Position</th>
-                  <th>Type</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Levi Mella</td>
-                  <td>Graphic Designer</td>
-                  <td>Basic</td>
-                  <td style={getStatusColor("Completed")}>Completed</td>
-                </tr>
-                <tr>
-                  <td>Kirk Delagente</td>
-                  <td>Prompt Eng.</td>
-                  <td>Customized</td>
-                  <td style={getStatusColor("Pending")}>Pending</td>
-                </tr>
-                <tr>
-                  <td>Aivan Sumalinog</td>
-                  <td>Web Developer</td>
-                  <td>Manage Focus</td>
-                  <td style={getStatusColor("In Progress")}>In Progress</td>
-                </tr>
-              </tbody>
-            </table>
+        <Col md="6">
+          <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">
+            <p className="mb-3 bar-title-overlay">Overview of Active Jobs</p>
+            <div className="bar-chart">
+              <Bar
+                data={barData}
+                options={{ responsive: true, maintainAspectRatio: false }}
+              />
+            </div>
           </div>
         </Col>
       </Row>
-
+      <LogContainer logData={logData} />
     </div>
-
   );
 };
 
