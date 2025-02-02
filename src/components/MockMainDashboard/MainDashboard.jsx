@@ -21,14 +21,12 @@ function MainDashboard() {
       <div>
         <h4>Welcome to your Dashboard!</h4>
         <span>
-
-                  <img
-                        src={logo}
-                        alt="Logo"
-                        width="95"
-                        height="14"
-                      />  
- is your AI-powered job search partner, designed to make your journey smoother and smarter. Master your interview skills with Mock.AI, perfect your resume with our Resume Fit Optimizer, and stay ahead of the game with our Application Tracker. Let us help you unlock the door to your dream job!
+          <img src={logo} alt="Logo" width="95" height="14" />
+          is your AI-powered job search partner, designed to make your journey
+          smoother and smarter. Master your interview skills with Mock.AI,
+          perfect your resume with our Resume Fit Optimizer, and stay ahead of
+          the game with our Application Tracker. Let us help you unlock the door
+          to your dream job!
         </span>
       </div>
 

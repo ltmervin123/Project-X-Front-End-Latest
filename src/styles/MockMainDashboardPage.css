@@ -37,13 +37,16 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    background: var(--primary-color) !important;
-    background: linear-gradient(264deg, rgba(244,106,5,1) 19%, rgb(255, 156, 85) 74%) !important;
+    width: 100%; /* Ensures full width */
     padding: 10px 3%;
+    border: none;
     margin: 0 !important;
     z-index: 1000;
+    background: url("../assets/header-bg.png") no-repeat center top !important;
+    background-size: contain 100%; /* Ensures the image covers the full header */
+
 }
+
 
 .MockMain-LogoBrand {
     background: var(--font-white);

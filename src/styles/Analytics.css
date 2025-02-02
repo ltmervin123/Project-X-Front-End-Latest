@@ -193,6 +193,108 @@
   font-size: 12px;
 }
 
+/* Analytics Container */
+.analytics-container {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--primary-color);
+  height: 50vh;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Table Wrapper */
+.table-responsive {
+  flex-grow: 1;
+  overflow-y: hidden; /* Enable scrolling */
+  max-height: 45vh; /* Adjust max height for scrolling */
+}
+
+/* Table Styling */
+.analytics-container table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  color: var(--font-black);
+  background-color: transparent;
+}
+
+/* Sticky Table Header */
+.analytics-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--font-white);
+  font-size: 12px;
+  border: none;
+}
+
+/* Optional Border Below Header */
+.analytics-container thead::after {
+  content: '';
+  display: block;
+  height: 3px !important;
+  border-bottom: 2px solid var(--primary-color);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Fix Misalignment of Headers and Body */
+.analytics-container thead,
+.analytics-container tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+/* Scrollable Table Body */
+.analytics-container tbody {
+  display: block;
+  max-height: 35vh; /* Allow scrolling */
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* Table Cells */
+.analytics-container th,
+.analytics-container td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 11px;
+}
+
+/* Center Align Action Column */
+.analytics-container .action-t-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.analytics-container .action-t-center-text {
+  text-align: center;
+}
+
+/* Buttons */
+.analytics-container tbody td button {
+  background: var(--primary-color);
+  text-decoration: none;
+  color: var(--font-white);
+  width: 100px;
+  padding: 5px;
+  border-radius: 50px;
+  font-size: 11px;
+  border: none !important;
+  cursor: pointer;
+}
+
+.analytics-container tbody td button:hover {
+  background: var(--input-bg);
+}
 /* analytics container */
 .analytics-container {
   padding: 20px; /* Add padding for better spacing */
@@ -205,14 +307,9 @@
   width: 60%;
 }
 
-.table-responsive {
-  /* padding: 20px; */
-  height: 97%; /* Full height */
-  padding: 0px 10px;
-  overflow-y: auto; /* Enable vertical scrolling */
-}
 
-table {
+
+.analytics-container table {
   text-align: left;
   width: 100%;
   border-collapse: collapse;
@@ -220,7 +317,7 @@ table {
   background-color: transparent !important;
 }
 
-thead{
+.analytics-container thead{
   height: 50px;
   position: sticky; /* Make the header sticky */
   top: 0; /* Stick to the top */
@@ -228,38 +325,33 @@ thead{
   background: var(--font-white);
   font-size: 12px;
 }
-
-thead::after {
-  content: '';
-  display: block;
-  height: 2px; /* Height of the border */
-  background: var(--primary-color); /* Color of the border */
-  position: absolute;
-  bottom: 0; /* Position it at the bottom of the thead */
-  left: 0;
-  right: 0;
-  z-index: -1; /* Ensure it is behind the thead */
+.table-responsive tbody {
+  display: block; /* Make tbody a block element */
+  max-height: 35vh; /* Set a max height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
-thead tr{
+
+
+.analytics-container thead tr{
   position: relative;
 }
-.action-t-center{
+.analytics-container .action-t-center{
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.action-t-center-text{
+.analytics-container .action-t-center-text{
   text-align: center;
 }
-tbody td {
+.analytics-container tbody td {
   padding: 5px;
   border-bottom: none;
   font-size: 0.95rem;
   font-size: 11px;
 }
 
-table tbody td button {
+.analytics-container table tbody td button {
   background: var(--primary-color);
   text-decoration: none;
   color: var(--font-white);
@@ -270,7 +362,7 @@ table tbody td button {
   border: none !important;
 }
 
-table tbody td button:hover {
+.analytics-container table tbody td button:hover {
   color: var(--font-white);
   background: var(--input-bg);
 }

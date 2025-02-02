@@ -14,13 +14,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import axios from "axios";
 import InterviewSuccessfulPopup from "./InterviewSuccessfulPopup";
-import tipsAvatar from "../../assets/expert.png";
+import tipsAvatar from "../../assets/tips-avatar.png";
 import LoadingScreen from "./loadingScreen";
 import loading from "../../assets/loading.gif";
 import ErrorAccessCam from "./errors/ErrorAccessCam";
 import ErrorGenerateFeedback from "./errors/ErrorGenerateFeedback";
 import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
-
 import io from "socket.io-client";
 import { useGreeting } from "../../hook/useGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
@@ -87,17 +86,27 @@ const VideoRecording = ({ interviewType, category }) => {
   }, [file, jobDescription]);
 
   const tips = [
-    "Know your resume.",
-    "Stay confident and positive.",
-    "Prepare for common questions.",
-    "Understand questions before answering.",
-    "Greet with a smile.",
-    "Speak with confidence.",
-    "Maintain eye contact with the interviewer.",
-    "Avoid negative topics.",
-    "Don’t forget to smile.",
-    "Express gratitude at the end.",
+    "Take deep breaths.",
+    "Sit up straight.",
+    "Smile naturally.",
+    "Make eye contact.",
+    "Speak slowly and clearly.",
+    "Pause before answering.",
+    "Stay positive.",
+    "Use a strong voice.",
+    "Dress professionally.",
+    "Visualize success.",
+    "Prepare key points.",
+    "Practice power poses.",
+    "Keep a glass of water nearby.",
+    "Engage actively.",
+    "Avoid fidgeting.",
+    "Stay hydrated and eat well.",
+    "Think of it as a conversation.",
+    "Have a backup plan.",
+    "End with a strong closing.",
   ];
+  
   // Add new state for interviewer selection
   const [showInterviewerSelect, setShowInterviewerSelect] = useState(true);
   const selectedInterviewer = useRef(null);

@@ -6,10 +6,9 @@ const AboutHRHatchSection = () => {
     <section  className='about-hr-hatch-container d-flex align-items-center flex-column' id="whyhrhacth">
       
       {/* Section Title */}
-      <h3 className='d-flex align-items-center justify-content-center'>
+      <h3 className="d-flex align-items-center justify-content-center">
         Why
         <img src={logo} alt="Logo" width="250" height="40"/> 
-        <p> ? </p> 
       </h3>
 
       {/* Subtitle with Quotes */}

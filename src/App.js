@@ -25,9 +25,10 @@ import SuccessPage from "./page/LoginSucess.jsx";
 
 /*Ai Reference */
 import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
-import AiRefereneCheckerPage from "./page/AiReferenceCheckerPage.jsx";
-import AiReferenceReportPage from "./page/AiReferenceReportPage.jsx";
+import AiRefereneJobsPage from "./page/AiReferenceJobsPage.jsx";
+import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
 
+/*Mock Ai */
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
 import BehavioralVideoRecording from "./components/maindashboard/BehavioralVideoRecording";
@@ -36,6 +37,12 @@ import VideoRecording from "./components/maindashboard/MockVideoRecording";
 /*Forgot page*/
 import Forgotpassword from "./page/ForgotPassPage.jsx";
 import Resetpassword from "./page/ResetPassPage.jsx";
+
+
+/* Our Partners Page */
+import OurParternersPage from "./page/OurPartnersPage.jsx";
+
+
 
 function App() {
   const { user } = useAuthContext();
@@ -110,12 +117,12 @@ function App() {
         {/* </Route> */}
 
         {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReferenceChecker" element={<AiRefereneCheckerPage />} />
+        <Route path="/AiReferenceJobs" element={<AiRefereneJobsPage />} />
+        {/* </Route> */}
+        {/* <Route element={<RequireAuth />}> */}
+        <Route path="/AiReferenceCandidates" element={<AiReferenceCandidatesPage />} />
         {/* </Route> */}
 
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReferenceReport" element={<AiReferenceReportPage />} />
-        {/* </Route> */}
 
         <Route element={<RequireAuth />}>
           <Route
@@ -143,6 +150,10 @@ function App() {
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* Use token as param */}
         <Route path="/reset-password/:token" element={<Resetpassword />} />
+
+        {/* OUr Partners */}
+        <Route path="/ourpartners" element={<OurParternersPage />} />
+
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
