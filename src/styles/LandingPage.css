@@ -41,7 +41,9 @@
 }
 
 .navbar > .container {
-  padding: 0 !important;
+  padding: 0px 5%;
+  margin: 0 !important;
+  width: 100%;
 }
 
 .nav-dropdown {
@@ -150,9 +152,15 @@
   clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
 }
 /* Header */
+.menu-content {
+  display: flex;
+  align-items: center;
+}
 
 .landing-header {
+  width: 100%;
   padding: 0px 5%;
+  margin: 0 !important;
 }
 .logoname {
   font-family: Roboto;

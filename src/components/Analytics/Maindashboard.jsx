@@ -513,7 +513,7 @@ const MainDashboard = () => {
                     <th>Topics/Job Description</th>
                     <th>Date</th>
                     <th>Overall Result</th>
-                    <th className="action-t-center-text">Action</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
