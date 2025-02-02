@@ -639,7 +639,18 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         throw new Error("No transcription data to upload");
       }
 
-      if (basicInterviewType === "Procedural Questions") {
+      if (basicInterviewType === "Selective Questioning") {
+        const response = await axios.post(
+          `${API}/api/interview/mock-interview`,
+          payload,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`, // JWT token
+            },
+          }
+        );
+      } else {
         // Make a POST request to the server to upload the video
         const response = await axios.post(
           `${API}/api/interview/basic-interview`,
@@ -659,17 +670,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           // Set the current greeting text to the generated question
           setQuestions((prevItem) => [...prevItem, generatedQuestion]);
         }
-      } else {
-        const response = await axios.post(
-          `${API}/api/interview/mock-interview`,
-          payload,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`, // JWT token
-            },
-          }
-        );
       }
 
       clearTranscript();
