@@ -305,7 +305,7 @@ const MainDashboard = () => {
           </div>
         </div>
       </div>
-      <p className="text-center w-100" style={{ color: "#686868" }}>
+      <p className="text-center w-100 mt-4" style={{ color: "#686868" }}>
         "Choose your interview type and start preparing with AI-driven
         insights!"
       </p>
