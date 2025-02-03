@@ -99,6 +99,7 @@
   border-radius: 50px;
   border: none;
   width: 180px;
+  padding: 10px 0px;
   color: var(--font-white) !important;
 
 }

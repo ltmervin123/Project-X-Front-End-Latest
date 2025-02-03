@@ -189,7 +189,7 @@ const PremiumPackageSection = () => {
             <div className="subscription-card-bg d-flex flex-column gap-4">
                 <p className="subscription-title">Company Plan </p>
                 <div className="subscription-list-container d-flex flex-column gap-1">
-                  <p className="subscription-list-content">Kindly send us an email regarding <a href="/aiReference" className="color-blue">AI Reference Checker </a> Pricing </p>
+                  <p className="subscription-list-content">Kindly send us an email regarding <a href="/commingsoon" className="color-blue">AI Reference Checker </a> Pricing </p>
 
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
