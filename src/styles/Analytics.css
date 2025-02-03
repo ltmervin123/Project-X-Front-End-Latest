@@ -21,9 +21,9 @@
   background: var(--primary-color);
   border: none;
   border-radius: 50px;
-  width: 120px;
-  padding: 5px;
-  font-size: 10px;
+  width: 135px;
+  padding: 8px 5px;
+  font-size: 11px;
   color: var(--font-white);
 }
 .button-container-analytics > button:hover{
@@ -112,10 +112,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-direction: column;
   gap: 0;
-  border-left: 2px solid var(--input-bg);
+  border-left: 1.5px solid var(--input-bg);
 }
 .chart-container > .chart-overall > h3{
   font-size: 3.5rem;
@@ -130,9 +129,10 @@
 .chart-col {
   position: relative;
   height: 16vh;
+  padding: 0;
 }
 .doughnut-chart{
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   display: flex;
   align-items: center;
@@ -140,9 +140,7 @@
   position: relative;
   top: 15%;
 }
-.doughnut-chart > canvas{
-  object-fit: contain !important;
-}
+
 .chart-name{
   text-align: center;
   font-weight: 900;
@@ -154,7 +152,7 @@
 }
 .chart-score {
   position: absolute;
-  bottom: 0%;
+  bottom: 5px;
   left: 50%;
   transform: translate(-50%, 0);
   text-align: center;
@@ -163,7 +161,6 @@
 }
 
 .overall-performance {
-  font-size: 2rem;
   text-align: center;
   height: 16vh;
   display: flex;
@@ -177,6 +174,7 @@
   font-weight: 600 !important;
   border-left: 3px solid var(--bg-fade-signup);
   width: 100%;
+
 }
 .overall-performance > h5{
   font-size: .8rem;
@@ -412,6 +410,9 @@
     padding: 6px;
     font-size: 12px;
   }
+  .chart-overall > h3{
+    font-size: 3.9em !important;
+  }
 }
 @media (min-width: 1600px) {
   .button-container-analytics > button{
@@ -431,5 +432,8 @@
     width: 120px;
     padding: 6px;
     font-size: 14px;
+  }
+  .chart-overall > h3{
+    font-size: 4.1em !important;
   }
 }

@@ -154,18 +154,22 @@
     top: 60px;
     left: 0;
     background: var(--sidebar-bg);
-    padding: 6vh 0px 10px 10px;
+    padding: 4.6vh 0px 10px 10px;
     height: calc(100vh - 60px);
     overflow-y: auto;
     z-index: 999;
     width: 16.5%;
+    text-align: left;
     min-width: 210px;
 }
 
 .MockMain-sidebar > a {
     text-decoration: none;
-    padding-left: 10px;
-    border-left: 3px solid var(--sidebar-bg);
+    padding-left: 5px;
+    border-left: 4px solid var(--sidebar-bg);
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-end-start-radius: 3px;
     font-size: 15px;
 }
 
@@ -284,7 +288,7 @@
     border-radius: 30px !important;
     background: var(--font-white) !important;
     height: auto;
-    min-height: 80vh;
+    max-height: 830px !important;
 }
 
 .summary-card {
@@ -518,8 +522,8 @@ font-size: 18px;
 @media (min-width: 1800px) {
     .MockMain-sidebar {
         height: calc(100vh - 60px);
-        width: 13.5%;
-        min-width: 180px;
+        width: 15%;
+        min-width: 190px;
     }
 }
 

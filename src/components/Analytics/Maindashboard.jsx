@@ -1,5 +1,5 @@
-import { React, useEffect, useState} from "react";
-import {   Row, Col, Carousel } from "react-bootstrap";
+import { React, useEffect, useState } from "react";
+import { Row, Col, Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Analytics.css";
 import { useAnalytics } from "../../hook/useAnalytics";
@@ -62,8 +62,6 @@ const MainDashboard = () => {
   const handleViewResult = (interviewId) => {
     navigate(`/result/${interviewId}`);
   };
-
-
 
   // Fetch analytics if there are no interviews
   useEffect(() => {
@@ -344,6 +342,7 @@ const MainDashboard = () => {
     );
   };
 
+  
   return (
     <div className="d-flex flex-column MockMainDashboard-content gap-3">
       <div className="dashboard-header">
@@ -359,7 +358,6 @@ const MainDashboard = () => {
           </>
         )}
       </div>
-
 
       {/* New button container */}
       <div className="button-container-analytics d-flex justify-content-end gap-3">
@@ -397,66 +395,63 @@ const MainDashboard = () => {
         </button>
       </div>
 
-
-        <div className="chart-container d-flex">
-
-          <Row className="justify-content-center align-items-end">
-            {chartData[selectedChart].map(
-              (
-                item // Use selectedChart to get the right data
-              ) => (
-                <Col key={item.name} xs={6} md={3} className="chart-col">
-                  <div className="chart-name">{item.name}</div>
-                  <div className="doughnut-chart" style={{ width: "100%" }}>
-                    <Doughnut
-                      className="doughnut"
-                      data={createDoughnutData(item.score, item.color)}
-                      options={{
-                        plugins: {
-                          legend: { display: false },
-                          tooltip: {
-                            enabled: true,
-                            callbacks: {
-                              label: (tooltipItem) => {
-                                const filledValue = tooltipItem.raw[0];
-                                return `${item.name}: ${filledValue} filled`;
-                              },
+      <div className="chart-container d-flex">
+        <Row className="justify-content-center align-items-end">
+          {chartData[selectedChart].map(
+            (
+              item // Use selectedChart to get the right data
+            ) => (
+              <Col key={item.name} xs={6} md={3} className="chart-col">
+                <div className="chart-name">{item.name}</div>
+                <div className="doughnut-chart" style={{ width: "100%" }}>
+                  <Doughnut
+                    className="doughnut"
+                    data={createDoughnutData(item.score, item.color)}
+                    options={{
+                      plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                          enabled: true,
+                          callbacks: {
+                            label: (tooltipItem) => {
+                              const filledValue = Number(tooltipItem.raw) || 0;
+                              return `${filledValue.toFixed(1)} / 10`;
                             },
                           },
                         },
-                        rotation: -90,
-                        circumference: 180,
-                        cutout: "70%",
-                        maintainAspectRatio: true,
-                        responsive: true,
-                      }}
-                    />
-                  </div>
-                  <div className="chart-score">
-                    <div>{item.score}</div>
-                  </div>
-                </Col>
-              )
-            )}
-          </Row>
- 
-          <div className="chart-overall">
-            <h3>          {Math.max(
+                      },
+                      rotation: -90,
+                      circumference: 180,
+                      cutout: "70%",
+                      maintainAspectRatio: true,
+                      responsive: true,
+                    }}
+                  />
+                </div>
+                <div className="chart-score">
+                  <div>{item.score}</div>
+                </div>
+              </Col>
+            )
+          )}
+        </Row>
+
+        <div className="chart-overall">
+          <h3>
+            {" "}
+            {Math.max(
               ...chartData[selectedChart].map((item) => item.score)
-            ).toFixed(1)}{" "}</h3>
-  
-            {/* Update to reflect max score */}
-            <p>Overall Performance</p>
-          </div>
+            ).toFixed(1)}{" "}
+          </h3>
 
-
+          {/* Update to reflect max score */}
+          <p>Overall Performance</p>
         </div>
+      </div>
 
       <div className="chart-area-container ">
-              {/* New Area Chart Slider Section */}
-      <div 
-          className="area-chart-container d-flex justify-content-start align-items-center gap-5"
-        >
+        {/* New Area Chart Slider Section */}
+        <div className="area-chart-container d-flex justify-content-start align-items-center gap-5">
           <div className="carousel-controls">
             <Carousel
               className="chart-card-area-container"
@@ -547,7 +542,10 @@ const MainDashboard = () => {
                             /10
                           </td>
                           <td className="action-t-center">
-                            <button variant="link" onClick={() => handleViewResult(item._id)}>
+                            <button
+                              variant="link"
+                              onClick={() => handleViewResult(item._id)}
+                            >
                               Full Summary
                             </button>
                           </td>
@@ -555,18 +553,17 @@ const MainDashboard = () => {
                       ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="text-center">No data available</td>
+                      <td colSpan="5" className="text-center">
+                        No data available
+                      </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           </div>
-
-          </div>
-
+        </div>
       </div>
-
     </div>
   );
 };
