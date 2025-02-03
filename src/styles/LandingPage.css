@@ -908,12 +908,19 @@ h2 > .quote {
   margin: 0;
   font-size: 12px;
 }
+.subscription-list-container > p > span{
+  color: var(--color-brown);
+  font-weight: 700;
+  font-style: italic;
+}
 .subscription-list-container > p > svg {
   margin: 0px 18px 0px 0px;
 }
 .subcription-pricing {
-  font-size: 8px;
+  font-size: 9px;
   height: 10%;
+  font-weight: 600;
+  color: var(--color-brown);
 }
 .yen-price {
   font-size: 26px;
@@ -922,6 +929,7 @@ h2 > .quote {
   padding: 0;
   position: relative;
   bottom: -10px;
+  color: var(--font-black);
 }
 .subscription-button-container {
   height: 20%;

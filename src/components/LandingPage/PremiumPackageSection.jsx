@@ -109,7 +109,7 @@ const PremiumPackageSection = () => {
                     </svg> */}
                                         <svg width="17" height="13"></svg>
 
-                    Application Tracker (Coming soon) </p>
+                    Application Tracker <span> (Coming soon)</span> </p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
                   <p className="yen-price">¥ 2,000.00 </p>
@@ -158,7 +158,7 @@ const PremiumPackageSection = () => {
                     </svg> */}
                                         <svg width="17" height="13"></svg>
 
-                    Application Tracker (Coming soon) </p>
+                    Application Tracker <span> (Coming soon)</span>  </p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
                   <p className="yen-price">¥ 20,000.00 </p>
