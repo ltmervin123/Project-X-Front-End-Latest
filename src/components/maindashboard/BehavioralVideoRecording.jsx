@@ -25,6 +25,8 @@ import io from "socket.io-client";
 import { useGreeting } from "../../hook/useGreeting";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorTranscription from "./errors/ErrorTranscription";
+import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
+import ErrorWhileTranscription from "./errors/errorWhileTransciption";
 import InterviewerOption from "../maindashboard/InterviewerOption";
 import InterviewPreviewOptionPopup from "./InterviewPreviewOptionPopup";
 import InterviewPreview from "./InterviewPreview";
@@ -32,6 +34,8 @@ import { useAnalytics } from "../../hook/useAnalytics";
 import { popupGuide } from "./PopupGuide";
 
 const BehavioralVideoRecording = () => {
+  const [errorWhileTranscribing, setErrorWhileTranscribing] = useState(false);
+  const [uploadingError, setUploadingError] = useState(false);
   const { getAnalytics } = useAnalytics();
   const location = useLocation();
   const category = location.state?.category || "";
@@ -140,12 +144,13 @@ const BehavioralVideoRecording = () => {
     return () => clearInterval(interval);
   }, []);
 
-  //Initialize websocket and handle the recognized text
+  // Initialize socket connection
   useEffect(() => {
-    // Initialize socket connection
     const newSocket = io(API, {
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
+      reconnection: true, // Explicitly enable reconnection
+      reconnectionAttempts: Infinity, // Keep trying indefinitely
+      reconnectionDelay: 1000, // Start retrying after 1 second
+      reconnectionDelayMax: 5000, // Max delay between retries
       auth: {
         token: user.token,
       },
@@ -155,8 +160,26 @@ const BehavioralVideoRecording = () => {
       console.log("Connected to server");
     });
 
-    newSocket.on("connect_error", (err) => {
-      console.error("Connection error:", err);
+    newSocket.on("connect_error", (error) => {
+      console.error(`Connection error: ${error.message}`);
+      setErrorWhileTranscribing(true);
+      setIsResponseIndicatorVisible(true);
+      setIsRecording(false);
+      setIsPaused(true);
+      setIsUploading(false);
+      clearTranscript();
+    });
+
+    newSocket.on("reconnect_attempt", (attempt) => {
+      console.log(`Reconnection attempt #${attempt}`);
+    });
+
+    newSocket.on("reconnect", () => {
+      console.log("Reconnected to server");
+    });
+
+    newSocket.on("disconnect", (reason) => {
+      console.warn(`Disconnected: ${reason}`);
     });
 
     setSocket(newSocket);
@@ -391,7 +414,6 @@ const BehavioralVideoRecording = () => {
         socket.on("real-time-transcription", (data) => {
           if (data.isFinal) {
             setTranscript(data.text);
-          } else {
           }
         });
 
@@ -399,7 +421,18 @@ const BehavioralVideoRecording = () => {
         socket.off("transcription-error");
         // Listen for transcription error events
         socket.on("transcription-error", (error) => {
+          // Stop emitting audio data if an error occurs
+          if (audioRecorderRef.current?.state === "recording") {
+            audioRecorderRef.current.stop();
+          }
+
           console.error("Transcription error:", error);
+          setErrorWhileTranscribing(true);
+          setIsResponseIndicatorVisible(true);
+          setIsRecording(false);
+          setIsPaused(true);
+          setIsUploading(false);
+          clearTranscript();
         });
 
         // Listen for audio data events
@@ -407,7 +440,8 @@ const BehavioralVideoRecording = () => {
           if (
             event.data.size > 0 &&
             socket?.connected &&
-            audioRecorderRef.current?.state === "recording"
+            audioRecorderRef.current?.state === "recording" &&
+            !errorWhileTranscribing
           ) {
             // Convert the audio chunk to a buffer
             const buffer = await event.data.arrayBuffer();
@@ -540,8 +574,6 @@ const BehavioralVideoRecording = () => {
         setFeedbackError(true);
       }
     });
-
-
   };
 
   // Timer Effect
@@ -639,10 +671,14 @@ const BehavioralVideoRecording = () => {
     } catch (error) {
       console.error("Error uploading transcription: ", error);
       if (error.message === "No transcription data to upload") {
+        // Set transcription error state to pop up the error modal
         setTranscriptionError(true);
+        //Reset the transcript text
         clearTranscript();
-        return false;
+      } else {
+        setUploadingError(true);
       }
+      setIsResponseIndicatorVisible(true);
     } finally {
       // Clear the recorded chunks after uploading
       recordedChunksRef.current = [];
@@ -901,7 +937,6 @@ const BehavioralVideoRecording = () => {
                             role="status"
                             src={loading}
                             alt="loading..."
-
                           />
                           <p>Reattempting access to camera...</p>
                         </div>
@@ -1094,6 +1129,24 @@ const BehavioralVideoRecording = () => {
                   setGenerateFinalGreetingError(false);
                   setIsUploading(true);
                   await aiFinalGreeting();
+                }}
+              />
+            )}
+
+            {uploadingError && (
+              <ErrorUploadAnswer
+                onRetry={async () => {
+                  setUploadingError(false);
+                  setIsUploading(true);
+                  await handleInterviewAnswer();
+                }}
+              />
+            )}
+
+            {errorWhileTranscribing && (
+              <ErrorWhileTranscription
+                onRetry={() => {
+                  setErrorWhileTranscribing(false);
                 }}
               />
             )}
