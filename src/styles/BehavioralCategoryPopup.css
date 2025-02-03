@@ -19,7 +19,7 @@
   color: var(--font-white) !important;
   border-radius: 20px !important;
   border: none;
-  height: 260px !important;
+  height: 280px !important;
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.3s ease, transform 0.2s;
@@ -97,4 +97,7 @@
   width: auto;
   max-width: 100%;
   z-index: 0;
+}
+.behavioral-card:nth-child(6) > .behavioral-image{
+  height: 90%;
 }

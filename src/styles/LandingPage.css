@@ -41,7 +41,9 @@
 }
 
 .navbar > .container {
-  padding: 0 !important;
+  padding: 0px 5%;
+  margin: 0 !important;
+  width: 100%;
 }
 
 .nav-dropdown {
@@ -150,9 +152,15 @@
   clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
 }
 /* Header */
+.menu-content {
+  display: flex;
+  align-items: center;
+}
 
 .landing-header {
+  width: 100%;
   padding: 0px 5%;
+  margin: 0 !important;
 }
 .logoname {
   font-family: Roboto;
@@ -202,7 +210,7 @@
   border-radius: 50px !important;
   font-size: 22px !important;
   font-weight: 400;
-  margin-top: 40px;
+  margin-top: 20px;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
 }
 .btn-get > a {
@@ -218,9 +226,8 @@
 .arrow-svg-pointing-btn {
   position: absolute;
   left: -10%;
-  bottom: 30px !important;
+  bottom: 10px !important;
   z-index: 1;
-  bottom: 20px;
   /* transform: scaleX(-1) !important; */
 
 }
@@ -872,7 +879,7 @@ h2 > .quote {
 }
 .subscription-card {
   background: var(--subcription-card-color);
-  height: 380px;
+  height: 370px;
   width: 24.5%;
   max-width: 320px !important;
   border-radius: 20px;
@@ -901,12 +908,19 @@ h2 > .quote {
   margin: 0;
   font-size: 12px;
 }
+.subscription-list-container > p > span{
+  color: var(--color-brown);
+  font-weight: 700;
+  font-style: italic;
+}
 .subscription-list-container > p > svg {
   margin: 0px 18px 0px 0px;
 }
 .subcription-pricing {
-  font-size: 8px;
+  font-size: 9px;
   height: 10%;
+  font-weight: 600;
+  color: var(--color-brown);
 }
 .yen-price {
   font-size: 26px;
@@ -915,6 +929,7 @@ h2 > .quote {
   padding: 0;
   position: relative;
   bottom: -10px;
+  color: var(--font-black);
 }
 .subscription-button-container {
   height: 20%;
@@ -932,7 +947,7 @@ h2 > .quote {
   background: var(--primary-color);
   font-size: 12px;
   position: absolute;
-  top: 3px;
+  top: 0px;
   transform: translate(38%);
   padding: 5px 20px;
   color: var(--font-white);
@@ -975,7 +990,7 @@ h2 > .quote {
   bottom: -2px;
 }
 .about-hr-hatch-container > h2 {
-  width: 45%;
+  width: 47%;
   text-align: center;
   font-weight: 200;
 }

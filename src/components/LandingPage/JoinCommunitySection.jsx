@@ -6,64 +6,58 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const JoinCommunitySection = () => {
   const cardsData = [
     {
-      content:
-        "“Mock.AI helped me gain confidence in my interviews! The AI feedback was super helpful.”",
-      author: "Alex R., Software Engineer",
+      content: "“Mock.AI helped me gain confidence in my interviews! The AI feedback was super helpful.”",
+      author: "Alex R., Software Engineer"
     },
     {
-      content:
-        "“Practicing with Mock.AI made a huge difference in my behavioral interviews.”",
-      author: "Liam W., DevOps Engineer",
+      content: "“Practicing with Mock.AI made a huge difference in my behavioral interviews.”",
+      author: "Liam W., DevOps Engineer"
     },
     {
       content: "“The AI feedback on my system design answers was spot on.”",
-      author: "Jake M., Backend Developer",
+      author: "Jake M., Backend Developer"
     },
     {
-      content:
-        "“Thanks to Mock.AI, I was able to refine my resume and land my dream job!”",
-      author: "Sarah T., Product Manager",
+      content: "“Thanks to Mock.AI, I was able to refine my resume and land my dream job!”",
+      author: "Sarah T., Product Manager"
     },
     {
-      content:
-        "“The mock interviews were incredibly realistic and helped me prepare effectively.”",
-      author: "Michael B., Data Scientist",
+      content: "“The mock interviews were incredibly realistic and helped me prepare effectively.”",
+      author: "Michael B., Data Scientist"
     },
     {
-      content:
-        "“I loved the personalized feedback from Mock.AI. It really helped me improve.”",
-      author: "Emily C., UX Designer",
+      content: "“I loved the personalized feedback from Mock.AI. It really helped me improve.”",
+      author: "Emily C., UX Designer"
     },
     {
-      content:
-        "“Mock.AI's tips on job applications were invaluable. I felt more confident applying.”",
-      author: "David K., Marketing Specialist",
+      content: "“Mock.AI's tips on job applications were invaluable. I felt more confident applying.”",
+      author: "David K., Marketing Specialist"
     },
     {
-      content:
-        "“The platform's insights on interview techniques were a game changer for me.”",
-      author: "Sophia L., Project Coordinator",
+      content: "“The platform's insights on interview techniques were a game changer for me.”",
+      author: "Sophia L., Project Coordinator"
     },
     {
-      content:
-        "“I appreciate how Mock.AI helped me prepare for technical interviews. Highly recommend!”",
-      author: "James P., Software Developer",
-    },
+      content: "“I appreciate how Mock.AI helped me prepare for technical interviews. Highly recommend!”",
+      author: "James P., Software Developer"
+    }
   ];
 
   const [index, setIndex] = useState(0);
   const cardsToShow = 3; // Number of cards to show at once
 
   const handleSelect = (selectedIndex) => {
-    setIndex(selectedIndex);
+    const totalItems = Math.ceil(cardsData.length / cardsToShow);
+    // Ensure the selectedIndex wraps around correctly
+    setIndex((selectedIndex + totalItems) % totalItems);
   };
 
-// Function to get the current set of cards to display
-const getCurrentCards = () => {
-  const start = index * cardsToShow;
-  const end = start + cardsToShow;
-  return cardsData.slice(start, end); // Slice the data based on current index and cards to show
-};
+  // Function to get the current set of cards to display
+  const getCurrentCards = () => {
+    const start = index * cardsToShow;
+    const end = start + cardsToShow;
+    return cardsData.slice(start, end); // Slice the data based on current index and cards to show
+  };
 
   return (
     <div className="join-community-container d-flex align-items-center justify-content-center flex-column gap-3">
@@ -120,36 +114,35 @@ const getCurrentCards = () => {
           )
         )}
         <div className="button-controller">
-        {/* Custom controls */}{" "}
-        <button
-          className="carousel-button "
-          onClick={() =>
-            handleSelect(
-              index === 0
-                ? Math.ceil(cardsData.length / cardsToShow) - 1
-                : index - 1
-            )
-          }
-          style={{ position: "absolute", left: "10px", zIndex: 1 }}
-        >
-          <FaChevronLeft />
-        </button>
-        <button
-          className="carousel-button "
-          onClick={() =>
-            handleSelect(
-              index === Math.ceil(cardsData.length / cardsToShow) - 1
-                ? 0
-                : index + 1
-            )
-          }
-          style={{ position: "absolute", right: "10px", zIndex: 1 }}
-        >
-          <FaChevronRight />
-        </button>
-      </div>
+          {/* Custom controls */}{" "}
+          <button
+            className="carousel-button"
+            onClick={() =>
+              handleSelect(
+                index === 0
+                  ? Math.ceil(cardsData.length / cardsToShow) - 1
+                  : index - 1
+              )
+            }
+            style={{ position: "absolute", left: "10px", zIndex: 1 }}
+          >
+            <FaChevronLeft />
+          </button>
+          <button
+            className="carousel-button"
+            onClick={() =>
+              handleSelect(
+                index === Math.ceil(cardsData.length / cardsToShow) - 1
+                  ? 0
+                  : index + 1
+              )
+            }
+            style={{ position: "absolute", right: "10px", zIndex: 1 }}
+          >
+            <FaChevronRight />
+          </button>
+        </div>
       </Carousel>
-
     </div>
   );
 };

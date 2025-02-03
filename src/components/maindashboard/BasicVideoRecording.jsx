@@ -21,6 +21,7 @@ import ErrorGenerateQuestion from "./errors/ErrorGenerateQuestion";
 import ErrorGenerateFinalGreeting from "./errors/ErrorGenerateFinalGreeting";
 import ErrorUploadAnswer from "./errors/ErrorUploadAnswer";
 import ErrorTranscription from "./errors/ErrorTranscription";
+import ErrorWhileTranscription from "./errors/errorWhileTransciption";
 import loading from "../../assets/loading.gif";
 import io from "socket.io-client";
 import Header from "../../components/Result/Header";
@@ -32,6 +33,7 @@ import { useAnalytics } from "../../hook/useAnalytics";
 import { popupGuide } from "./PopupGuide";
 
 const BasicVideoRecording = ({ interviewType, category }) => {
+  const [errorWhileTranscribing, setErrorWhileTranscribing] = useState(false);
   const [uploadingError, setUploadingError] = useState(false);
   const { getAnalytics } = useAnalytics();
   const recordedChunksRef = useRef([]);
@@ -97,6 +99,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     "Have a backup plan.",
     "End with a strong closing.",
   ];
+  
   const [basicInterviewType, setBasicInterviewType] = useState(
     sessionStorage.getItem("basicInterviewType")
   );
@@ -155,12 +158,13 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     return () => clearInterval(interval);
   }, []);
 
-  //Initialize websocket and handle the recognized text
+  // Initialize socket connection
   useEffect(() => {
-    // Initialize socket connection
     const newSocket = io(API, {
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
+      reconnection: true, // Explicitly enable reconnection
+      reconnectionAttempts: Infinity, // Keep trying indefinitely
+      reconnectionDelay: 1000, // Start retrying after 1 second
+      reconnectionDelayMax: 5000, // Max delay between retries
       auth: {
         token: user.token,
       },
@@ -170,8 +174,26 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       console.log("Connected to server");
     });
 
-    newSocket.on("connect_error", (err) => {
-      console.error("Connection error:", err);
+    newSocket.on("connect_error", (error) => {
+      console.error(`Connection error: ${error.message}`);
+      setErrorWhileTranscribing(true);
+      setIsResponseIndicatorVisible(true);
+      setIsRecording(false);
+      setIsPaused(true);
+      setIsUploading(false);
+      clearTranscript();
+    });
+
+    newSocket.on("reconnect_attempt", (attempt) => {
+      console.log(`Reconnection attempt #${attempt}`);
+    });
+
+    newSocket.on("reconnect", () => {
+      console.log("Reconnected to server");
+    });
+
+    newSocket.on("disconnect", (reason) => {
+      console.warn(`Disconnected: ${reason}`);
     });
 
     setSocket(newSocket);
@@ -375,6 +397,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   // Reusable function to start recording
   const [recordedVideos, setRecordedVideos] = useState([]); // State to store recorded videos
+
   const startRecording = () => {
     try {
       setIsResponseIndicatorVisible(false);
@@ -407,7 +430,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         socket.on("real-time-transcription", (data) => {
           if (data.isFinal) {
             setTranscript(data.text);
-          } else {
           }
         });
 
@@ -415,7 +437,18 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         socket.off("transcription-error");
         // Listen for transcription error events
         socket.on("transcription-error", (error) => {
+          // Stop emitting audio data if an error occurs
+          if (audioRecorderRef.current?.state === "recording") {
+            audioRecorderRef.current.stop();
+          }
+
           console.error("Transcription error:", error);
+          setErrorWhileTranscribing(true);
+          setIsResponseIndicatorVisible(true);
+          setIsRecording(false);
+          setIsPaused(true);
+          setIsUploading(false);
+          clearTranscript();
         });
 
         // Listen for audio data events
@@ -423,7 +456,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
           if (
             event.data.size > 0 &&
             socket?.connected &&
-            audioRecorderRef.current?.state === "recording"
+            audioRecorderRef.current?.state === "recording" &&
+            !errorWhileTranscribing
           ) {
             // Convert the audio chunk to a buffer
             const buffer = await event.data.arrayBuffer();
@@ -611,7 +645,6 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     window.location.reload(); // Reload the page
   };
 
-  //
   const uploadTranscription = async () => {
     try {
       setIsRecording(false);
@@ -683,8 +716,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
         clearTranscript();
       } else {
         setUploadingError(true);
-        // setUploading(true);
       }
+      setIsResponseIndicatorVisible(true);
       return false;
     } finally {
       // Clear the recorded chunks after uploading
@@ -1155,6 +1188,14 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                   setGenerateFinalGreetingError(false);
                   setIsUploading(true);
                   await aiFinalGreeting();
+                }}
+              />
+            )}
+
+            {errorWhileTranscribing && (
+              <ErrorWhileTranscription
+                onRetry={() => {
+                  setErrorWhileTranscribing(false);
                 }}
               />
             )}

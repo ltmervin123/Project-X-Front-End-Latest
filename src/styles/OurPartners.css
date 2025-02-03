@@ -8,14 +8,16 @@
   --sidebar-bg: #f2f3f7;
 }
 /* src/styles/OurPartners.css */
-.main-container-ai-reference {
-  padding: 50px;
-  height: 80vh;
+.main-container-ourpartners {
+  height: 100vh !important;
   background: url("../assets/bg-bundle.png");
-  background-size: cover;
+  background-size: contain 100%;
   width: 100%;
 }
-
+.main-container-ourpartners > div{
+  height: 75vh;
+  padding: 50px;
+}
 .partners-grid {
   display: flex;
   justify-content: center;
@@ -97,7 +99,9 @@
 
 .partners-footer {
   padding: 20px;
+  height: 25vh;
   text-align: center;
+  background: var(--font-white);
 }
 .partners-footer > p {
   text-align: center;
