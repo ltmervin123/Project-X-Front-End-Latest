@@ -154,7 +154,7 @@
     top: 60px;
     left: 0;
     background: var(--sidebar-bg);
-    padding: 4.6vh 0px 10px 10px;
+    padding: 3% 0px 10px 10px;
     height: calc(100vh - 60px);
     overflow-y: auto;
     z-index: 999;
