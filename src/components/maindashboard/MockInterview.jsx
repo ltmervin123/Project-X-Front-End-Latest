@@ -50,7 +50,6 @@ const MainDashboard = () => {
   }, []);
 
   const handleInterviewType = (type) => {
-    console.log(`Selected interview type: ${type}`); // Debugging line
     switch (type) {
       case "BEHAVIORAL":
         setShowBehavioralCategoryPopup(true);
@@ -129,16 +128,6 @@ const MainDashboard = () => {
       },
     });
   };
-
-  //For debugging
-
-  useEffect(() => {
-    console.log("Basic interview type: ", basicInterviewType);
-  }, [basicInterviewType]);
-
-  useEffect(() => {
-    console.log("Selected questions: ", selectedQuestions);
-  }, [selectedQuestions]);
 
   return (
     <div className=" d-flex align-items-start flex-column MockMainDashboard-content">
@@ -305,7 +294,7 @@ const MainDashboard = () => {
           </div>
         </div>
       </div>
-      <p className="text-center w-100" style={{ color: "#686868" }}>
+      <p className="text-center w-100 mt-4" style={{ color: "#686868" }}>
         "Choose your interview type and start preparing with AI-driven
         insights!"
       </p>

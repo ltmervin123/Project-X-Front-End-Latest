@@ -109,7 +109,7 @@ const PremiumPackageSection = () => {
                     </svg> */}
                                         <svg width="17" height="13"></svg>
 
-                    Application Tracker (Coming soon) </p>
+                    Application Tracker <span> (Coming soon)</span> </p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
                   <p className="yen-price">¥ 2,000.00 </p>
@@ -158,7 +158,7 @@ const PremiumPackageSection = () => {
                     </svg> */}
                                         <svg width="17" height="13"></svg>
 
-                    Application Tracker (Coming soon) </p>
+                    Application Tracker <span> (Coming soon)</span>  </p>
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">
                   <p className="yen-price">¥ 20,000.00 </p>
@@ -189,7 +189,7 @@ const PremiumPackageSection = () => {
             <div className="subscription-card-bg d-flex flex-column gap-4">
                 <p className="subscription-title">Company Plan </p>
                 <div className="subscription-list-container d-flex flex-column gap-1">
-                  <p className="subscription-list-content">Kindly send us an email regarding <a href="/aiReference" className="color-blue">AI Reference Checker </a> Pricing </p>
+                  <p className="subscription-list-content">Kindly send us an email regarding <a href="/commingsoon" className="color-blue">AI Reference Checker </a> Pricing </p>
 
                 </div>
                 <div className="subcription-pricing d-flex justify-content-center align-items-end">

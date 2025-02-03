@@ -27,45 +27,47 @@ const partners = [
 const OurPartnersPage = () => {
   return (
     <>
-      <div className="main-container-ai-reference">
-        <h2>
-          Our<span className="color-orange"> Recruitment</span> Partners
-        </h2>
-        <div className="d-flex justify-content-center align-items-center h-100 gap-3">
-          <div className="partners-grid">
-            {partners.map((partner) => (
-              <a
-                href={partner.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="partner-card"
-                key={partner.id}
-              >
-                <div className="overlay">
-                  <p>Visit Site</p>
-                </div>
-                <div className="img-partner-img-container d-flex justify-content-center align-items-center">
-                  <img src={partner.imgSrc} alt={partner.name} />
-                </div>
-                <div className="partner-name-and-content">
-                  <p className="partner-name">{partner.name}</p>
-                  <p className="partner-description">{partner.description}</p>
-                </div>
-              </a>
-            ))}
+      <div className="main-container-ourpartners">
+        <div className="">
+          <h2>
+            Our<span className="color-orange"> Recruitment</span> Partners
+          </h2>
+          <div className="d-flex justify-content-center align-items-center h-100 gap-3">
+            <div className="partners-grid">
+              {partners.map((partner) => (
+                <a
+                  href={partner.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="partner-card"
+                  key={partner.id}
+                >
+                  <div className="overlay">
+                    <p>Visit Site</p>
+                  </div>
+                  <div className="img-partner-img-container d-flex justify-content-center align-items-center">
+                    <img src={partner.imgSrc} alt={partner.name} />
+                  </div>
+                  <div className="partner-name-and-content">
+                    <p className="partner-name">{partner.name}</p>
+                    <p className="partner-description">{partner.description}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
+        <footer className="partners-footer d-flex w-100 justify-content-center align-items-center flex-column">
+          <h4 className="mb-4">
+            Strength in <span className="color-orange">Partnership</span>{" "}
+          </h4>
+          <p className="m-0">
+            Our selected partners bring unparalleled expertise to your
+            recruitment needs. Together, we're committed to finding the perfect
+            match for your organization.
+          </p>
+        </footer>
       </div>
-      <footer className="partners-footer d-flex justify-content-center align-items-center flex-column">
-        <h4>
-          Strength in <span className="color-orange">Partnership</span>{" "}
-        </h4>
-        <p>
-          Our selected partners bring unparalleled expertise to your recruitment
-          needs. Together, we're committed to finding the perfect match for your
-          organization.
-        </p>
-      </footer>
     </>
   );
 };

@@ -39,7 +39,9 @@ const BasicTypeOfQuestionPopUp = ({
     >
       <Modal.Body className="custom-modal">
         <div className="d-flex justify-content-end align-items-center mb-3">
-          <h5 className="m-0 w-100 text-center">Please select the type of Basic Interview</h5>
+          <h5 className="m-0 w-100 text-center">
+            Please select the type of Basic Interview
+          </h5>
 
           <Button
             className="closebtn"
