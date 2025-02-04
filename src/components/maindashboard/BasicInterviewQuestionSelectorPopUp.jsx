@@ -101,7 +101,7 @@ const BasicInterviewQuestionSelectorPopUp = ({
       onHide={onClose}
       centered
       dialogClassName="custom-modal-width"
-      backdrop="static"
+      backdrop={false}
     >
       <Modal.Body className="basic-category-select-modal">
         <div className="d-flex justify-content-between align-items-center mb-3">

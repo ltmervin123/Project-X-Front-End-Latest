@@ -510,6 +510,9 @@ font-size: 18px;
 }
 
 @media (min-width: 1700px) {
+    .MockMain-sidebar {
+        min-width: 270px !important;
+    }
     .MockMain-sidebar > a svg {
         font-size: 30px;
         height: 20px;
@@ -517,6 +520,11 @@ font-size: 18px;
 
     .MockMain-sidebar > a {
         font-size: 20px;
+    }
+}
+@media (min-width: 1800px) {
+    .MockMain-sidebar {
+        min-width: 300px !important;
     }
 }
 @media (min-width: 1800px) {

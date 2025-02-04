@@ -19,7 +19,7 @@
   color: var(--font-white) !important;
   border-radius: 20px !important;
   border: none;
-  height: 280px !important;
+  height: 310px !important;
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.3s ease, transform 0.2s;
@@ -61,12 +61,11 @@
   height: 100%;
   border: none;
   color: var(--font-white);
-  padding: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  font-size: 13px;
-  font-weight: 500; /* Use 500 instead of 50 for normal weight */
+  font-weight: 300; /* Use 500 instead of 50 for normal weight */
   text-align: left;
   opacity: 0;
   visibility: hidden;
