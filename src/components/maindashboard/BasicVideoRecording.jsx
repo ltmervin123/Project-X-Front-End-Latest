@@ -99,7 +99,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     "Have a backup plan.",
     "End with a strong closing.",
   ];
-  
+
   const [basicInterviewType, setBasicInterviewType] = useState(
     sessionStorage.getItem("basicInterviewType")
   );
@@ -129,6 +129,10 @@ const BasicVideoRecording = ({ interviewType, category }) => {
 
   const setTranscript = (text) => {
     transcriptRef.current = `${transcriptRef.current}${text}`;
+  };
+
+  const setFinalTransciption = (text) => {
+    transcriptRef.current = `${text}`;
   };
 
   const clearTranscript = () => {
@@ -542,7 +546,31 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     }
   };
 
+  const improveTranscription = async () => {
+    try {
+      const payload = {
+        transcript: transcriptRef.current,
+      };
+      const response = await axios.post(
+        `${API}/api/interview/improve-transcription`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`, // JWT token
+          },
+        }
+      );
+      const improvedTranscription = response.data.improvedTranscription;
+      setFinalTransciption(improvedTranscription);
+    } catch (error) {
+      console.error("Error improving transcription: ", error.data.message);
+    }
+  };
+
   const handleInterviewAnswer = async () => {
+    //Upload the transcription data for improvement
+    await improveTranscription();
     // this function return true when transcription is uploaded successfully and false when it fails
     const isSuccess = await uploadTranscription();
 
