@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddCandidatePopUp from "./AddCandidatePopUp"; // Assuming you have a similar component for adding candidates
+import AddRequestPopUp from "./AddRequestPopUp"; // Assuming you have a similar component for adding candidates
 import { FaSearch } from "react-icons/fa";
 
-const Candidates = () => {
-  const [candidates, setCandidates] = useState([
+const ReferenceRequest = () => {
+  const [requests, setRequests] = useState([
     {
       id: 1,
       name: "John Doe",
@@ -85,7 +85,7 @@ const Candidates = () => {
   ]);
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleAddNewCandidate = () => {
+  const handleAddNewRequest= () => {
     setShowPopup(true);
   };
 
@@ -93,10 +93,10 @@ const Candidates = () => {
     setShowPopup(false);
   };
 
-  const handleAddCandidate = (newCandidate) => {
-    setCandidates((prevCandidates) => [
-      ...prevCandidates,
-      { id: prevCandidates.length + 1, ...newCandidate },
+  const handleAddRequest = (newRequest) => {
+    setRequests((prevRequests) => [
+      ...prevRequests,
+      { id: prevRequests.length + 1, ...newRequest},
     ]);
   };
   // Function to get the color based on status
@@ -116,10 +116,9 @@ const Candidates = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3>Candidates</h3>
+        <h3>Reference Request</h3>
         <p>
-          Manage and track your potential hires through the reference checking
-          process.
+          Manage your reference request
         </p>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -127,14 +126,14 @@ const Candidates = () => {
           <div className="search-wrapper position-relative">
             <input
               type="text"
-              placeholder="Search candidates..."
+              placeholder="Search request..."
               className="form-control ps-4 pe-5" // padding start (left) and end (right)
             />
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
         </div>
         <button
-          onClick={handleAddNewCandidate}
+          onClick={handleAddNewRequest}
           className="btn-create-new-candidate d-flex align-items-center justify-content-center gap-1"
         >
           <svg
@@ -149,20 +148,20 @@ const Candidates = () => {
               fill="white"
             />
           </svg>
-          Add New Candidate
+          New Reference Request
         </button>
         {showPopup && (
-          <AddCandidatePopUp
+          <AddRequestPopUp
             onClose={handleClosePopup}
-            onAddCandidate={handleAddCandidate}
+            onAddRequest={handleAddRequest}
           />
         )}
       </div>
 
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
-          <h4>Candidate Lists</h4>
-          <p>Overview of all candidates in the system</p>
+          <h4>Reference Requests Lists</h4>
+          <p>Overview of all reference requests</p>
         </div>
 
         <table>
@@ -176,13 +175,13 @@ const Candidates = () => {
             </tr>
           </thead>
           <tbody>
-            {candidates.map((candidate) => (
-              <tr key={candidate.id}>
-                <td>{candidate.name}</td>
-                <td>{candidate.email}</td>
-                <td>{candidate.position}</td>
-                <td style={{ color: getStatusColor(candidate.status) }}>
-                  {candidate.status}
+            {requests.map((request) => (
+              <tr key={request.id}>
+                <td>{request.name}</td>
+                <td>{request.email}</td>
+                <td>{request.position}</td>
+                <td style={{ color: getStatusColor(request.status) }}>
+                  {request.status}
                 </td>
                 <td>
                   <button className="btn-view-details">View Details</button>
@@ -194,8 +193,8 @@ const Candidates = () => {
 
         <div className="d-flex justify-content-center w-100">
           <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
-            <button className="btn-export">Export Candidates</button>
-            <button className="btn-archive">Archive Inactive Candidates</button>
+            <button className="btn-export">Export Request</button>
+            <button className="btn-archive">Manage Templates</button>
           </div>
         </div>
       </div>
@@ -203,4 +202,4 @@ const Candidates = () => {
   );
 };
 
-export default Candidates;
+export default ReferenceRequest;

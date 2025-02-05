@@ -186,6 +186,9 @@
 .MockMain-sidebar > a.active-link svg {
     fill: var(--primary-color) !important;
 }
+.MockMain-sidebar > a.active-link path{
+    fill: var(--primary-color) !important;
+}
 
 .MockMainDashboard-content {
     padding: 10px 50px;

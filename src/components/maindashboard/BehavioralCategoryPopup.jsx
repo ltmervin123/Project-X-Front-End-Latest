@@ -88,7 +88,7 @@ const BehavioralCategoryPopup = ({
       show={show}
       onHide={onClose}
       centered
-      dialogClassName="custom-modal-width"
+      dialogClassName="custom-modal-width-behavioral"
       backdrop={false}
     >
       <Modal.Body className="custom-modal">

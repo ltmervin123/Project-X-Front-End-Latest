@@ -6,6 +6,20 @@
   --text-color: #000;
   --activity-card-bg: #d9d9d9;
 }
+.custom-modal-width-behavioral {
+  max-width: 1150px !important;
+  width: 90% !important;
+  /* height: 90% !important; */
+  max-height: 90vh !important;
+  border: none !important;
+}
+.custom-modal-width-behavioral  > .modal-content {
+  background: url("../assets/bg-pop-up.png") no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+  border: none;
+  height: 100%;
+}
 
 .behavioral-cards {
   display: flex;
@@ -19,30 +33,17 @@
   color: var(--font-white) !important;
   border-radius: 20px !important;
   border: none;
-  height: 310px !important;
+  height: 280px !important;
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.3s ease, transform 0.2s;
   cursor: pointer;
   width: 22%;
-  max-width: 300px !important;
+  max-width: 260px !important;
   background: var(--card-color);
   z-index: 1; /* Ensure card stays above the rectangle */
 }
 
-/* .square-bg-behavoral-card {
-    content: "";
-    position: absolute;
-    top: 50%; 
-    left: -10%; 
-    width: 120%; 
-    height: 40px; 
-    background-color: var(--primary-color); 
-    border-radius: 20px; 
-    transform: translateY(-50%);
-    z-index: -1; 
-  }
-   */
 .behavioral-title {
   position: absolute;
   bottom: 10px;
@@ -99,4 +100,14 @@
 }
 .behavioral-card:nth-child(6) > .behavioral-image{
   height: 90%;
+}
+@media (min-width: 1600px) {
+  .custom-modal-width-behavioral {
+    max-width: 1250px !important;
+  }
+  .behavioral-card {
+    height: 330px !important;
+    width: 22%;
+    max-width: 350px !important;
+  }
 }
