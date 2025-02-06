@@ -12,14 +12,14 @@
   position: relative;
 }
 
-.search-candidates input {
+.search-wrapper input {
   border-radius: 20px;
   width: 300px;
   background: #d9d9d9;
   border: 1px solid var(--card-color); /* Make sure the --avatar-bg variable is defined in your styles */
 }
 
-.search-candidates .search-icon {
+.search-wrapper .search-icon {
   right: 10px !important;
   font-size: 18px; /* Adjust size as needed */
   color: var(--card-color); /* Adjust color as needed */
@@ -32,7 +32,7 @@
   color: var(--font-white);
   font-size: 1.25rem; /* Use rem for scalability */
   border-radius: 10px;
-  padding: 10px 25px; /* Increased padding for better touch targets */
+  padding: 5px 25px; /* Increased padding for better touch targets */
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s; /* Smooth transition */
 }
@@ -95,6 +95,8 @@
   color: var(--font-white);
   border-radius: 50px;
   padding: 5px 20px;
+  width: 200px;
+
 }
 .candidate-button-controls > .btn-archive {
   background: var(--primary-color);
@@ -102,8 +104,10 @@
   color: var(--font-white);
   border-radius: 50px;
   padding: 5px 20px;
+  width: 200px;
+
 }
-.custom-modal-job .modal-body .btn-add-candidate {
+.btn-add-candidate {
   background: var(--primary-color);
   border-radius: 10px;
   border: none;

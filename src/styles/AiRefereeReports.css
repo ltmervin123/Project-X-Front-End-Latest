@@ -1,0 +1,38 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --card-color: #686868;
+  --btn-color: #b9b9b9;
+}
+/* Style for the button controls */
+.button-controls-report button {
+  background: var(--btn-color);
+  border: none;
+  color: var(--font-black);
+  border-radius: 50px;
+  padding: 5px 20px;
+  width: 200px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.button-controls-report button:hover {
+  cursor: pointer;
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+
+.button-controls-report button.active {
+  background: var(--primary-color); /* Primary color when active */
+  color: var(--font-white); /* Change text color to white */
+}
+.AiReference-report-container {
+    background: var(--font-white);
+    border: 1px solid var(--card-color);
+    border-radius: 20px;
+    padding: 20px;
+  }
+  .AiReference-report-container canvas{
+    height: auto;
+  }

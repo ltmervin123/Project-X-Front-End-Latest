@@ -1,12 +1,11 @@
 import React from "react";
-import "../styles/AiReferenceMaindashboard.css";
 import { Row, Col } from 'react-bootstrap';
-import Header from "../components/AiReferenceDashboard/Header";
+import Header from "../components/AiReferee/Header";
+import Sidebar from "../components/AiReferee/Sidebar";
+import Maindashboard from "../components/AiReferee/Maindashboard";
+import "../styles/AiRefereeMaindashboard.css";
 
-import Sidebar from "../components/AiReferenceDashboard/Sidebar";
-import Maindashboard from "../components/AiReferenceDashboard/Maindashboard";
-
-function AiReferenceMainDashboardPage() {
+function AiRefereeMainDashboardPage() {
   return (
     <>
         <Header />
@@ -27,4 +26,4 @@ function AiReferenceMainDashboardPage() {
   );
 }
 
-export default AiReferenceMainDashboardPage;
+export default AiRefereeMainDashboardPage;

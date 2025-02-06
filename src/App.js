@@ -23,11 +23,6 @@ import { useAuthContext } from "./hook/useAuthContext";
 import FailedPage from "./page/LoginFailed.jsx";
 import SuccessPage from "./page/LoginSucess.jsx";
 
-/*Ai Reference */
-import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
-import AiRefereneJobsPage from "./page/AiReferenceJobsPage.jsx";
-import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
-import AiReferenceReferenceRequestPage from "./page/AiReferenceReferenceRequestPage.jsx";
 
 /*Mock Ai */
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
@@ -41,6 +36,15 @@ import Resetpassword from "./page/ResetPassPage.jsx";
 
 /* Our Partners Page */
 import OurParternersPage from "./page/OurPartnersPage.jsx";
+
+/*Ai Referee */
+import AiRefereeMainDashboardPage from "./page/AiRefereeMainDashboardPage.jsx";
+import AiRefereeJobsPage from "./page/AiRefereeJobsPage.jsx";
+import AiRefereeCandidatesPage from "./page/AiRefereeCandidatesPage.jsx";
+import AiRefereeRequestPage from "./page/AiRefereeRequestPage.jsx";
+import AiRefereeQuestionPage from "./page/AiRefereeQuestionPage.jsx";
+import AiRefereeReportsPage from "./page/AiRefereeReportsPage.jsx";
+
 
 function App() {
   const { user } = useAuthContext();
@@ -109,21 +113,6 @@ function App() {
           </Route>
         </Route>
 
-        {/*Ai Reference */}
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReference" element={<AiReferenceMainDashboardPage />} />
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReferenceJobs" element={<AiRefereneJobsPage />} />
-        {/* <Route element={<RequireAuth />}> */}
-        <Route
-          path="/AiReferenceCandidates"
-          element={<AiReferenceCandidatesPage />}
-        />
-        {/* <Route element={<RequireAuth />}> */}
-        <Route
-          path="/AiReferenceReferenceRequestPage"
-          element={<AiReferenceReferenceRequestPage />}
-        />
         {/* </Route> */}
 
         <Route element={<RequireAuth />}>
@@ -158,6 +147,15 @@ function App() {
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
+
+        {/*Ai Referee */}
+        <Route path="/AiReferee" element={<AiRefereeMainDashboardPage />} />
+        <Route path="/AiRefereeJobs" element={<AiRefereeJobsPage />} />
+        <Route path="/AiRefereeCandidates" element={<AiRefereeCandidatesPage />} />
+        <Route path="/AiRefereeRequestPage" element={<AiRefereeRequestPage />} />
+        <Route path="/AiRefereeQuestionPage" element={<AiRefereeQuestionPage />} />
+        <Route path="/AiRefereeReportsPage" element={<AiRefereeReportsPage />} />
+
       </Routes>
     </Router>
   );

@@ -1,0 +1,123 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --sidebar-bg: #f2f3f7;
+  --btn-view-color: #319f43;
+}
+.AiReference-question-container {
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  border-radius: 20px;
+  padding: 20px;
+  height: 70vh;
+}
+.AiReference-Question-Sets-Container {
+  overflow-y: scroll;
+  height: 70%;
+}
+.button-controls-question button {
+  background: var(--btn-color);
+  border: none;
+  color: var(--font-black);
+  border-radius: 50px;
+  padding: 5px 20px;
+  width: 200px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.button-controls-question button:hover {
+  cursor: pointer;
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+
+.button-controls-question button.active {
+  background: var(--primary-color); /* Primary color when active */
+  color: var(--font-white); /* Change text color to white */
+}
+.dropdown-toggle-q-sets {
+  border: none;
+  background: none;
+}
+.question-set-container {
+  border: 1px solid var(--avatar-bg) !important;
+  height: auto;
+  padding: 10px;
+  border-radius: 20px;
+}
+.question-set-container p {
+  margin: 0 !important;
+}
+.btn-add-new-question {
+  border-radius: 20px;
+  border: 1px solid #686868;
+  width: 150px;
+  padding: 5px;
+}
+.hr-hatch-card-container {
+  height: 80% !important;
+}
+.hr-hatch-card {
+  border: 1px solid #686868;
+  height: 300px;
+  width: 350px;
+  border-radius: 20px;
+  border-top: transparent !important;
+}
+/* Style the first h5 element in hr-hatch-card-container */
+.hr-hatch-card-container .hr-hatch-card:nth-child(1) h5 {
+  background: var(--btn-view-color) !important;
+}
+
+/* Style the second h5 element in hr-hatch-card-container */
+.hr-hatch-card-container .hr-hatch-card:nth-child(2) h5 {
+  background: #1877f2 !important;
+}
+
+/* Style the third h5 element in hr-hatch-card-container */
+.hr-hatch-card-container .hr-hatch-card:nth-child(3) h5 {
+  background: #f8bd00 !important;
+}
+
+.hr-hatch-card > h5 {
+  width: 100%;
+  height: 30px;
+  padding: 20px;
+  height: auto;
+  margin: 0 !important;
+  color: var(--font-white);
+  border-radius: 20px 20px 0px 0px;
+  position: relative;
+}
+
+.hr-hatch-card > h5 > svg {
+  position: absolute;
+  right: 20px;
+  height: 20px;
+}
+.hr-hatch-card > p {
+  padding: 20px 20px 0px 20px;
+  color: var(--card-color);
+  font-size: 20px;
+  margin: 0;
+}
+.hr-hatch-card > small {
+  padding: 20px;
+  text-align: left;
+  width: 100%;
+  font-weight: 600;
+}
+
+.btn-view-questions {
+  background: var(--primary-color);
+  border-radius: 50px;
+  border: none;
+  width: 250px;
+  padding: 15px;
+  color: var(--font-white);
+  font-size: 20px;
+}

@@ -118,7 +118,7 @@ const ReferenceRequest = () => {
       <div>
         <h3>Reference Request</h3>
         <p>
-          Manage your reference request
+          Manage and track reference checks for your candidates.
         </p>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
