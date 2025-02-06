@@ -20,13 +20,14 @@ const Header = () => {
 
   return (
     <div className="landingHeader">
-      <Navbar>
-        <div className="d-flex justify-content-between align-items-center landing-header w-100">
+      <Navbar expand="lg">
+        <div className="d-flex justify-content-between align-items-center w-100">
           <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
             <img src={logo} alt="Logo" width="200" height="30" />
           </Navbar.Brand>
-          <div className="d-flex align-items-center">
-            <Nav className="me-auto d-flex gap-5">
+          <Navbar.Toggle aria-controls="navbar-nav" />
+          <Navbar.Collapse id="navbar-nav">
+            <Nav className="ms-auto d-flex gap-5">
               <NavDropdown
                 title="Products"
                 id="nav-dropdown-products"
@@ -82,7 +83,6 @@ const Header = () => {
                   setShowDropdown((prev) => ({ ...prev, company: isOpen }))
                 }
               >
-
                 <NavDropdown.Item className="noclickblue" href="#">
                   About Us
                 </NavDropdown.Item>
@@ -118,7 +118,7 @@ const Header = () => {
                 Sign-in
               </a>
             </div>
-          </div>
+          </Navbar.Collapse>
         </div>
       </Navbar>
     </div>

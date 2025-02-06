@@ -35,7 +35,7 @@ const BasicTypeOfQuestionPopUp = ({
       onHide={onClose}
       centered
       dialogClassName="custom-modal-width-basic"
-      backdrop="static"
+      backdrop={false}
     >
       <Modal.Body className="custom-modal">
         <div className="d-flex justify-content-end align-items-center mb-3">

@@ -22,7 +22,7 @@ const InterviewSuccessfulPopup = () => {
       show={true}
       centered
       dialogClassName="interviewsuccess-modal-width"
-      backdrop={true}
+      backdrop={false}
     >
       <Modal.Body className="d-flex align-items-center flex-column position-relative">
         <img src={SuccessAvatar} alt="" />

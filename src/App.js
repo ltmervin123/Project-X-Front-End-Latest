@@ -27,6 +27,7 @@ import SuccessPage from "./page/LoginSucess.jsx";
 import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
 import AiRefereneJobsPage from "./page/AiReferenceJobsPage.jsx";
 import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
+import AiReferenceReferenceRequestPage from "./page/AiReferenceReferenceRequestPage.jsx";
 
 /*Mock Ai */
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
@@ -38,11 +39,8 @@ import VideoRecording from "./components/maindashboard/MockVideoRecording";
 import Forgotpassword from "./page/ForgotPassPage.jsx";
 import Resetpassword from "./page/ResetPassPage.jsx";
 
-
 /* Our Partners Page */
 import OurParternersPage from "./page/OurPartnersPage.jsx";
-
-
 
 function App() {
   const { user } = useAuthContext();
@@ -114,15 +112,19 @@ function App() {
         {/*Ai Reference */}
         {/* <Route element={<RequireAuth />}> */}
         <Route path="/AiReference" element={<AiReferenceMainDashboardPage />} />
-        {/* </Route> */}
-
         {/* <Route element={<RequireAuth />}> */}
         <Route path="/AiReferenceJobs" element={<AiRefereneJobsPage />} />
-        {/* </Route> */}
         {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReferenceCandidates" element={<AiReferenceCandidatesPage />} />
+        <Route
+          path="/AiReferenceCandidates"
+          element={<AiReferenceCandidatesPage />}
+        />
+        {/* <Route element={<RequireAuth />}> */}
+        <Route
+          path="/AiReferenceReferenceRequestPage"
+          element={<AiReferenceReferenceRequestPage />}
+        />
         {/* </Route> */}
-
 
         <Route element={<RequireAuth />}>
           <Route
@@ -153,7 +155,6 @@ function App() {
 
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
-
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

@@ -6,7 +6,7 @@ const InterviewPreviewOptionPopup = ({ show, onHide, onPreview }) => {
     <Modal
       show={show}
       onHide={onHide}
-      backdrop="static" // This prevents closing when clicking outside
+      backdrop={false}
       keyboard={false} // This prevents closing with keyboard
       centered
       dialogClassName="interviewpreview-modal-width"

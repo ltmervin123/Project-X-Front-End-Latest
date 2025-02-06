@@ -17,56 +17,56 @@ const BehavioralCategoryPopup = ({
 }) => {
   const categories = [
     {
-      title: "Teamwork",
+      title: "TEAMWORK",
       description:
         "A teamwork interview is all about understanding how well you work with others. It's not just about your skills, but how you communicate, collaborate, and contribute in a group setting.",
       color: "#9747FF",
       image: BH1,
     },
     {
-      title: "Adaptability",
+      title: "ADAPTABILTY",
       description:
         "It is about showing how flexible you are when things change. It's not just about sticking to a plan, but how you adjust when faced with new challenges or unexpected situations.",
       color: "#F46A05",
       image: BH2,
     },
     {
-      title: "Communication",
+      title: "COMMUNICATION",
       description:
         "It is all about how effectively you share ideas, listen to others, and work through problems together. It’s not just about talking—it's about being clear, respectful, and making sure everyone is on the same page.",
       color: "#319F43",
       image: BH3,
     },
     {
-      title: "Stress Management",
+      title: "STRESS MANAGEMENT",
       description:
         "It focuses on how you handle pressure and stay calm in tough situations. It’s about showing that you can keep your cool, prioritize tasks, and maintain a positive mindset when things get hectic.",
       color: "#E33629",
       image: BH4,
     },
     {
-      title: "Dealing with Mistakes",
+      title: "DEALING WITH MISTAKES",
       description:
         "It focuses on how to evaluate your accountability, problem-solving skills, and ability to learn and grow. This is a behavioral question designed to see how you handle challenges under pressure.",
       color: "#9747FF",
       image: BH5,
     },
     {
-      title: "Decision Making",
+      title: "DECISION MAKING",
       description:
         "Decision-making is the process of identifying and choosing among alternative courses of action to address a problem or opportunity.",
       color: "#F46A05",
       image: BH6,
     },
     {
-      title: "Ethics and Integrity",
+      title: "ETHICS AND INTEGRITY",
       description:
         "Ethics refers to the principles and moral values that guide an individual or organization's behavior in determining what is right or wrong. Integrity is the quality of being honest and transparent.",
       color: "#319F43",
       image: BH7,
     },
     {
-      title: "Time Management",
+      title: "TIME MANAGEMENT",
       description:
         "It focuses on your ability to prioritize tasks, meet deadlines, and handle multiple responsibilities effectively. It often asks questions designed to understand how you've demonstrated time management skills in past situations.",
       color: "#E33629",
@@ -88,8 +88,8 @@ const BehavioralCategoryPopup = ({
       show={show}
       onHide={onClose}
       centered
-      dialogClassName="custom-modal-width"
-      backdrop="static"
+      dialogClassName="custom-modal-width-behavioral"
+      backdrop={false}
     >
       <Modal.Body className="custom-modal">
         <div className="d-flex justify-content-end align-items-center mb-3">
