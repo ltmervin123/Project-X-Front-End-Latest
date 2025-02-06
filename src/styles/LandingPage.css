@@ -35,15 +35,18 @@
   width: 100%;
   position: fixed;
   z-index: 100;
-  padding: 20px;
+  padding: 20px 5% !important;
   margin: 0 !important;
   /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
 }
+.landingHeader > nav{
+  width: 100% !important;
+}
 
-.navbar > .container {
-  padding: 0px 5%;
+.navbar > .landing-header {
+  padding: 0px 5% !important;
   margin: 0 !important;
-  width: 100%;
+  width: 100% !important;
 }
 
 .nav-dropdown {
@@ -157,11 +160,6 @@
   align-items: center;
 }
 
-.landing-header {
-  width: 100%;
-  padding: 0px 5%;
-  margin: 0 !important;
-}
 .logoname {
   font-family: Roboto;
   font-size: 25px;
