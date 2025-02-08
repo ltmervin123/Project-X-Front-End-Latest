@@ -1,0 +1,64 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
+}
+.company-register-page-container{
+  background: url("../assets/bg.png");
+  background-size: cover;
+}
+.company-reg-container i {
+  font-size: 15px;
+}
+.company-registration-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.company-registration-container-form {
+  width: 80%;
+  max-width: 1200px;
+  border-radius: 20px;
+  margin-bottom: 10vh !important;
+}
+.form-company-reg {
+  padding: 10px 100px 30px 100px;
+  border-radius: 0px 0px 20px 20px;
+  background: var(--font-white);
+}
+.company-reg-title {
+  border-radius: 20px 20px 0px 0px;
+  background: var(--primary-color);
+  padding: 30px 100px;
+  color: var(--font-white);
+}
+.company-reg-title > p {
+  font-weight: 200 !important;
+}
+.company-registration-container-form input,
+.company-registration-container-form select {
+  border-radius: 20px;
+  border: 2px solid var(--primary-color);
+  color: var(--input-bg);
+}
+.company-registration-container-form label {
+  margin-top: 5px;
+}
+.company-registration-container-form button {
+  background: var(--secondary-color);
+  border: none;
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+.companyregisteravatar {
+  height: 60%;
+  position: absolute;
+  bottom: 20px;
+  right: -30px;
+}

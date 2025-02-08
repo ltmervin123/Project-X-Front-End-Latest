@@ -45,6 +45,8 @@ import AiRefereeRequestPage from "./page/AiRefereeRequestPage.jsx";
 import AiRefereeQuestionPage from "./page/AiRefereeQuestionPage.jsx";
 import AiRefereeReportsPage from "./page/AiRefereeReportsPage.jsx";
 
+// CompanyRegistrationForm
+import CompanyRegistrationForm from "./page/CompanyRegistrationPage.jsx";
 
 function App() {
   const { user } = useAuthContext();
@@ -155,6 +157,9 @@ function App() {
         <Route path="/AiRefereeRequestPage" element={<AiRefereeRequestPage />} />
         <Route path="/AiRefereeQuestionPage" element={<AiRefereeQuestionPage />} />
         <Route path="/AiRefereeReportsPage" element={<AiRefereeReportsPage />} />
+
+        {/*Company Registration */}
+        <Route path="/CompanyRegistrationForm" element={<CompanyRegistrationForm />} />
 
       </Routes>
     </Router>

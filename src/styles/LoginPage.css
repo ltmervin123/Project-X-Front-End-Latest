@@ -15,7 +15,8 @@
 }
 .login-page-container {
   overflow: hidden;
-  padding: 0 !important;
+  padding: 0 !important;  background: url("../assets/bg.png");
+  background-size: cover;
   margin: 0;
 }
 .main-login-form {
@@ -43,7 +44,7 @@
   );
   color: white;
   padding: 10px;
-  width: 600px;
+  width: 550px;
   position: relative;
   border-radius: 50px;
   display: flex;
@@ -170,6 +171,7 @@
   color: var(--input-bg);
   font-size: 20px;
 }
+
 .input-group > div > input[type="text"],
 .input-group > div > input[type="password"],
 .input-group > div > input[type="email"] {
@@ -184,14 +186,39 @@
   color: var(--font-black);
 }
 
+
 .input-group > div > input[type="text"]:focus,
 .input-group > div > input[type="password"]:focus,
-.input-group > div > input[type="email"]:focus {
+.input-group > div > input[type="email"]:focus,
+.choose-services-container > select:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 8px rgba(244, 106, 5, 0.4);
 }
+.choose-services-container select {
+  appearance: none;
+  width: 100%;
+  padding: 10px 10px 10px 25px; /* Adjust padding as needed */
+  border-radius: 50px !important;
+  border: 2px solid var(--input-bg);
+  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  color: var(--input-bg);
+  position: relative;
+}
 
+.choose-services-container select {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E'); /* SVG down arrow */
+  background-position: right 15px center;
+  background-repeat: no-repeat;
+  padding-right: 40px; /* Adjust to make space for the icon */
+}
+.choose-services-container > select > option {
+  background: none;
+  border: none;
+  color: var(--font-black) !important;
+}
 .input-label {
   position: absolute;
   left: 25px;
@@ -330,7 +357,11 @@
   left: 50%;
   transform: translateX(-50%);
 }
-
+/* Disabled button styles */
+.login-button:disabled {
+  background: var(--font-white) !important;
+  cursor: not-allowed; /* Change cursor to not-allowed */
+}
 .account-details h3 {
   position: absolute;
   padding: 0 10px;
@@ -587,12 +618,12 @@
 .reset-pass-form > .input-group {
   width: 100%;
 }
-.loading-screen-container{
-    height: 90vh;
+.loading-screen-container {
+  height: 90vh;
 }
 .loading-screen-container > img {
-    width: 50px;
-  }
+  width: 50px;
+}
 .password-changed-container {
   height: 100%;
   display: flex;

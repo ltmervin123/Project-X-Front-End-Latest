@@ -12,14 +12,20 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
+  const [service, setService] = useState(""); // State to track selected service
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password);
     if (isLogin) {
-      navigate("/maindashboard");
+      if (service === "AI Reference") {
+        navigate("/AiReferee");
+      } else {
+        navigate("/maindashboard");
+      }
     }
   };
+  
 
   const handleGoogleLogin = async () => {
     window.location.href = `${API}/api/user/auth/google`;
@@ -233,11 +239,22 @@ const LoginForm = () => {
                   </a>
                 </div>
               </div>
-
+              <div className="mb-3 choose-services-container d-flex justify-content-center">
+                <select
+                  className="form-control"
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  required
+                >
+                  <option value="">Choose Your Service</option>
+                  <option value="Mock AI">Mock AI</option>
+                  <option value="AI Reference"> AI Reference</option>
+                </select>
+              </div>
               <button
                 type="submit"
                 className="login-button"
-                disabled={isLoading}
+                disabled={!service || isLoading} // Disable if no service selected
               >
                 {isLoading ? <LoadingScreen /> : "Log in"}
               </button>
@@ -270,10 +287,15 @@ const LoginForm = () => {
               <p>Don't have an account?</p>
               <i>Join Us Today</i>
             </div>
-
             <button
               className="signup-button"
-              onClick={() => (window.location.href = "/signup")}
+              onClick={() => {
+                if (service === "AI Reference") {
+                  window.location.href = "/CompanyRegistrationForm";
+                } else{
+                  window.location.href = "/signup";
+                }
+              }}
             >
               Sign up
             </button>

@@ -217,19 +217,26 @@ const ReferenceQuestion = () => {
           </p>
         </div>
 
-        {activeButton === 'HR-HATCH Formats' ? (
-  <div className="d-flex justify-content-center align-items-center h-100 gap-5 hr-hatch-card-container">
-    {hrHatchFormats.map((format, index) => (
-      <div key={index} className="hr-hatch-card d-flex justify-content-center align-items-center flex-column border">
-        <h5>{format.title} {format.svg}</h5>
-        <p>{format.description}</p>
-        <small>{format.questionCount} questions</small>
-        <br />
-        <button className="btn-view-questions mb-3">View Questions</button>
-      </div>
-    ))}
-  </div>
-)  : (
+        {activeButton === "HR-HATCH Formats" ? (
+          <div className="d-flex justify-content-center align-items-center h-100 gap-5 hr-hatch-card-container">
+            {hrHatchFormats.map((format, index) => (
+              <div
+                key={index}
+                className="hr-hatch-card d-flex justify-content-center align-items-center flex-column border"
+              >
+                <h5>
+                  {format.title} {format.svg}
+                </h5>
+                <p>{format.description}</p>
+                <small>{format.questionCount} questions</small>
+                <br />
+                <button className="btn-view-questions mb-3">
+                  View Questions
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
           <>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <div className="d-flex align-items-center search-candidates">
@@ -277,6 +284,7 @@ const ReferenceQuestion = () => {
                     </div>
                     <div className="d-flex align-items-center gap-2">
                       {/* Existing Edit/Delete/Dropdown Icons */}
+                      <a href="#">
                       <svg
                         className="icon"
                         width="29"
@@ -297,6 +305,9 @@ const ReferenceQuestion = () => {
                           fill="#1877F2"
                         />
                       </svg>
+
+                      </a>
+                      <a href="#">
                       <svg
                         className="icon"
                         width="28"
@@ -310,6 +321,8 @@ const ReferenceQuestion = () => {
                           fill="#686868"
                         />
                       </svg>
+                      </a>
+
                       <button
                         className="dropdown-toggle-q-sets border-0"
                         onClick={() => handleSetClick(index)}
