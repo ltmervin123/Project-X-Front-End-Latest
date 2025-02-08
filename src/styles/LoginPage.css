@@ -405,12 +405,15 @@
   display: flex;
   justify-content: center;
 }
-
+.social-icons button{
+  background: none;
+  border: none;
+}
 .social-icon {
   width: 33px;
   height: 33px;
   margin: 0;
-  cursor: default !important;
+  cursor: not-allowed !important;
   background: var(--font-white);
   padding: 3px;
   border-radius: 50%;

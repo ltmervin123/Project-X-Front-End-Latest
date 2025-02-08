@@ -25,7 +25,6 @@ const LoginForm = () => {
       }
     }
   };
-  
 
   const handleGoogleLogin = async () => {
     window.location.href = `${API}/api/user/auth/google`;
@@ -264,19 +263,18 @@ const LoginForm = () => {
           <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">
-              <img
-                src={google}
-                alt="Google"
-                className="social-icon"
+              <button
+                className="social-icon-btn"
                 onClick={handleGoogleLogin}
-              />
-              <img
-                src={fb}
-                alt="Facebook"
-                className="social-icon"
-                // onClick={handleFacebookLogin}
-              />
+                disabled
+              >
+                <img src={google} alt="Google" className="social-icon" />
+              </button>
+              <button className="social-icon-btn" disabled>
+                <img src={fb} alt="Facebook" className="social-icon" />
+              </button>
             </div>
+
             <button
               className="guest-button"
               // onClick={() => (window.location.href = "/")} // not implemented yet
@@ -292,7 +290,7 @@ const LoginForm = () => {
               onClick={() => {
                 if (service === "AI Reference") {
                   window.location.href = "/CompanyRegistrationForm";
-                } else{
+                } else {
                   window.location.href = "/signup";
                 }
               }}
