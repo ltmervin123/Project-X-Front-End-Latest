@@ -36,6 +36,7 @@
   justify-content: center; /* Center horizontally */
 }
 
+
 .login-container {
   background: rgb(244, 106, 5);
   background: linear-gradient(
@@ -45,18 +46,21 @@
     rgba(245, 199, 121, 1) 95%
   );
   color: white;
-  padding: 10px;
+  padding: 10px !important;
   width: 550px;
-  height:auto !important;
-  position: relative;
+  max-height: 90vh;  /* Added to prevent overflow */
+  height: auto !important;
   border-radius: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
-
-  z-index: 0;
+}
+.login-container .login-header ,
+.login-container .signup-container {
+  transform: scale(0.8); /* Scale contents inside */
+  transform-origin: center; /* Optional, to make the scaling happen from the center */
 }
 .login-avatar-container {
   height: 100%;
