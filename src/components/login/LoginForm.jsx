@@ -18,7 +18,7 @@ const LoginForm = () => {
     e.preventDefault();
     const isLogin = await login(email, password);
     if (isLogin) {
-      if (service === "AI Reference") {
+      if (service === "Ai Reference Checker") {
         navigate("/AiReferenceMaindashboard");
       } else {
         navigate("/maindashboard");
@@ -247,7 +247,7 @@ const LoginForm = () => {
                 >
                   <option value="">Choose Your Service</option>
                   <option value="Mock AI">Mock AI</option>
-                  <option value="AI Reference"> AI Reference</option>
+                  <option value="Ai Reference Checker"> Ai Reference Checker</option>
                 </select>
               </div>
               <button
@@ -266,13 +266,13 @@ const LoginForm = () => {
               <button
                 className="social-icon-btn"
                 onClick={handleGoogleLogin}
-                disabled={service === "AI Reference"} // Disable when service is "AI Reference"
+                disabled={service === "Ai Reference Checker"} // Disable when service is "Ai Reference Checker"
               >
                 <img src={google} alt="Google" className="social-icon" />
               </button>
               <button
                 className="social-icon-btn"
-                disabled={service === "AI Reference"} // Disable when service is "AI Reference"
+                disabled={service === "Ai Reference Checker"} // Disable when service is "Ai Reference Checker"
               >
                 <img src={fb} alt="Facebook" className="social-icon" />
               </button>
@@ -291,7 +291,7 @@ const LoginForm = () => {
             <button
               className="signup-button"
               onClick={() => {
-                if (service === "AI Reference") {
+                if (service === "Ai Reference Checker") {
                   window.location.href = "/CompanyRegistrationForm";
                 } else {
                   window.location.href = "/signup";
