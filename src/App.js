@@ -23,11 +23,6 @@ import { useAuthContext } from "./hook/useAuthContext";
 import FailedPage from "./page/LoginFailed.jsx";
 import SuccessPage from "./page/LoginSucess.jsx";
 
-/*Ai Reference */
-import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
-import AiRefereneJobsPage from "./page/AiReferenceJobsPage.jsx";
-import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
-import AiReferenceReferenceRequestPage from "./page/AiReferenceReferenceRequestPage.jsx";
 
 /*Mock Ai */
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
@@ -41,6 +36,17 @@ import Resetpassword from "./page/ResetPassPage.jsx";
 
 /* Our Partners Page */
 import OurParternersPage from "./page/OurPartnersPage.jsx";
+
+/*Ai Referee */
+import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
+import AiReferenceJobsPage from "./page/AiReferenceJobsPage.jsx";
+import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
+import AiReferenceRequestPage from "./page/AiReferenceRequestPage.jsx";
+import AiReferenceQuestionPage from "./page/AiReferenceQuestionPage.jsx";
+import AiReferenceReportsPage from "./page/AiReferenceReportsPage.jsx";
+
+// CompanyRegistrationForm
+import CompanyRegistrationForm from "./page/CompanyRegistrationPage.jsx";
 
 function App() {
   const { user } = useAuthContext();
@@ -109,21 +115,6 @@ function App() {
           </Route>
         </Route>
 
-        {/*Ai Reference */}
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReference" element={<AiReferenceMainDashboardPage />} />
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/AiReferenceJobs" element={<AiRefereneJobsPage />} />
-        {/* <Route element={<RequireAuth />}> */}
-        <Route
-          path="/AiReferenceCandidates"
-          element={<AiReferenceCandidatesPage />}
-        />
-        {/* <Route element={<RequireAuth />}> */}
-        <Route
-          path="/AiReferenceReferenceRequestPage"
-          element={<AiReferenceReferenceRequestPage />}
-        />
         {/* </Route> */}
 
         <Route element={<RequireAuth />}>
@@ -158,6 +149,18 @@ function App() {
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
+
+        {/*Ai Reference */}
+        <Route path="/AiReferenceMaindashboard" element={<AiReferenceMainDashboardPage />} />
+        <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
+        <Route path="/AiReferenceCandidates" element={<AiReferenceCandidatesPage />} />
+        <Route path="/AiReferenceRequestPage" element={<AiReferenceRequestPage />} />
+        <Route path="/AiReferenceQuestionPage" element={<AiReferenceQuestionPage />} />
+        <Route path="/AiReferenceReportsPage" element={<AiReferenceReportsPage />} />
+
+        {/*Company Registration */}
+        <Route path="/CompanyRegistrationForm" element={<CompanyRegistrationForm />} />
+
       </Routes>
     </Router>
   );

@@ -21,7 +21,7 @@ const AiReferenceCard = ({ title, count, description, bgColor }) => {
       <div>
         <p
           className="d-flex justify-content-between align-items-center"
-          style={{ margin: 0 }}
+ 
         >
           {title}
         </p>

@@ -1,10 +1,9 @@
 import React from "react";
-import "../styles/AiReferenceMaindashboard.css";
 import { Row, Col } from 'react-bootstrap';
-import Header from "../components/AiReferenceDashboard/Header";
-
-import Sidebar from "../components/AiReferenceDashboard/Sidebar";
-import Maindashboard from "../components/AiReferenceDashboard/Maindashboard";
+import Header from "../components/AiReference/Header";
+import Sidebar from "../components/AiReference/Sidebar";
+import Maindashboard from "../components/AiReference/Maindashboard";
+import "../styles/AiReferenceMaindashboard.css";
 
 function AiReferenceMainDashboardPage() {
   return (
