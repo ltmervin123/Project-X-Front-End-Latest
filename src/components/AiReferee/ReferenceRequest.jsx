@@ -7,85 +7,118 @@ const ReferenceRequest = () => {
   const [requests, setRequests] = useState([
     {
       id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
+      candidate: "John Doe",
+      referee: "Steve",  // Add a referee
       position: "Software Engineer",
       status: "In Progress",
+      dateSent: "2025-02-01",
+      dateDue: "2025-02-15",
+      actions: [],
     },
     {
       id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
+      candidate: "Jane Smith",
+      referee: "Steve",
       position: "Product Manager",
       status: "Completed",
+      dateSent: "2025-01-15",
+      dateDue: "2025-01-22",
+      actions: [],
     },
     {
       id: 3,
-      name: "Alice Johnson",
-      email: "alice.johnson@example.com",
+      candidate: "Alice Johnson",
+      referee: "Steve",
       position: "UX Designer",
       status: "In Progress",
+      dateSent: "2025-01-30",
+      dateDue: "2025-02-05",
+      actions: [],
     },
     {
       id: 4,
-      name: "Bob Brown",
-      email: "bob.brown@example.com",
+      candidate: "Bob Brown",
+      referee: "Stella",
       position: "Data Scientist",
       status: "Completed",
+      dateSent: "2025-01-10",
+      dateDue: "2025-01-18",
+      actions: [],
     },
     {
       id: 5,
-      name: "Charlie Davis",
-      email: "charlie.davis@example.com",
+      candidate: "Charlie Davis",
+      referee: "Stella",
       position: "DevOps Engineer",
       status: "Completed",
+      dateSent: "2025-01-20",
+      dateDue: "2025-01-28",
+      actions: [],
     },
     {
       id: 6,
-      name: "Diana Prince",
-      email: "diana.prince@example.com",
+      candidate: "Diana Prince",
+      referee: "Steve",
       position: "Marketing Specialist",
       status: "In Progress",
+      dateSent: "2025-02-02",
+      dateDue: "2025-02-10",
+      actions: [],
     },
     {
       id: 7,
-      name: "Ethan Hunt",
-      email: "ethan.hunt@example.com",
+      candidate: "Ethan Hunt",
+      referee: "Steve",
       position: "Software Engineer",
       status: "In Progress",
+      dateSent: "2025-02-03",
+      dateDue: "2025-02-15",
+      actions: [],
     },
     {
       id: 8,
-      name: "Fiona Green",
-      email: "fiona.green@example.com",
+      candidate: "Fiona Green",
+      referee: "Steve",
       position: "HR Manager",
       status: "New",
+      dateSent: "2025-02-05",
+      dateDue: "2025-02-12",
+      actions: [],
     },
     {
       id: 9,
-      name: "George White",
-      email: "george.white@example.com",
+      candidate: "George White",
+      referee: "Steve",
       position: "Sales Executive",
       status: "New",
+      dateSent: "2025-02-07",
+      dateDue: "2025-02-14",
+      actions: [],
     },
     {
       id: 10,
-      name: "Hannah Black",
-      email: "hannah.black@example.com",
+      candidate: "Hannah Black",
+      referee: "Steve",
       position: "Content Writer",
       status: "New",
+      dateSent: "2025-02-06",
+      dateDue: "2025-02-13",
+      actions: [],
     },
     {
       id: 11,
-      name: "Ian Gray",
-      email: "ian.gray@example.com",
+      candidate: "Ian Gray",
+      referee: "Stella",
       position: "Web Developer",
       status: "In Progress",
+      dateSent: "2025-02-04",
+      dateDue: "2025-02-11",
+      actions: [],
     },
   ]);
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleAddNewRequest= () => {
+  const handleAddNewRequest = () => {
     setShowPopup(true);
   };
 
@@ -96,9 +129,10 @@ const ReferenceRequest = () => {
   const handleAddRequest = (newRequest) => {
     setRequests((prevRequests) => [
       ...prevRequests,
-      { id: prevRequests.length + 1, ...newRequest},
+      { id: prevRequests.length + 1, ...newRequest },
     ]);
   };
+
   // Function to get the color based on status
   const getStatusColor = (status) => {
     switch (status) {
@@ -117,9 +151,7 @@ const ReferenceRequest = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
         <h3>Reference Request</h3>
-        <p>
-          Manage and track reference checks for your candidates.
-        </p>
+        <p>Manage and track reference checks for your candidates.</p>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
@@ -167,22 +199,26 @@ const ReferenceRequest = () => {
         <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
+              <th>Candidate</th>
+              <th>Referee</th>
               <th>Position</th>
               <th>Status</th>
+              <th>Date Sent</th>
+              <th>Date Due</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {requests.map((request) => (
               <tr key={request.id}>
-                <td>{request.name}</td>
-                <td>{request.email}</td>
+                <td>{request.candidate}</td>
+                <td>{request.referee}</td>
                 <td>{request.position}</td>
                 <td style={{ color: getStatusColor(request.status) }}>
                   {request.status}
                 </td>
+                <td>{request.dateSent}</td>
+                <td>{request.dateDue}</td>
                 <td>
                   <button className="btn-view-details">View Details</button>
                 </td>

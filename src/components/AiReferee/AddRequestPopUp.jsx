@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 const AddRequestPopUp = ({ onClose, onAddJob }) => {
-  const [jobName, setJobName] = useState("");
-  const [vacancies, setVacancies] = useState("");
-  const [hiringManager, setHiringManager] = useState("");
+  const [candidateName, setCandidateName] = useState("");
+  const [refereeEmail, setRefereeEmail] = useState("");
+  const [position, setPosition] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddJob({ name: jobName, vacancies, hiringManager });
+    onAddJob({ candidateName, refereeEmail, position });
     onClose();
   };
 
@@ -24,8 +24,8 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-          <h5 className="m-0">Add New Candidate</h5>
-          <small>Enter the details of the new candidate below.</small>
+            <h5 className="m-0">New Reference Request</h5>
+            <small>Create a new reference request for a candidate.</small>
           </div>
           <Button
             className="closebtn"
@@ -37,39 +37,56 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
           </Button>
         </div>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formJobName" className="d-flex align-items-center mb-3">
-            <Form.Label className="me-2" style={{ width: "150px" }}>Name</Form.Label>
+          {/* Candidate Name input */}
+          <Form.Group controlId="formCandidateName" className="d-flex align-items-center mb-3">
+            <Form.Label className="me-2" style={{ width: "150px" }}>Candidate</Form.Label>
             <Form.Control
               type="text"
-              value={jobName}
-              onChange={(e) => setJobName(e.target.value)}
+              value={candidateName}
+              onChange={(e) => setCandidateName(e.target.value)}
               placeholder="John Doe"
               required
             />
           </Form.Group>
-          <Form.Group controlId="formVacancies" className="d-flex align-items-center mb-3">
-            <Form.Label className="me-2" style={{ width: "150px" }}>Email</Form.Label>
+
+          {/* Referee's Name input */}
+          <Form.Group controlId="formRefereeName" className="d-flex align-items-center mb-3">
+            <Form.Label className="me-2" style={{ width: "150px" }}>Referee Name</Form.Label>
+            <Form.Control
+              type="text"
+              value={candidateName}
+              onChange={(e) => setCandidateName(e.target.value)}
+              placeholder="John Doe"
+              required
+            />
+          </Form.Group>
+          {/* Referee's Email input */}
+          <Form.Group controlId="formRefereeEmail" className="d-flex align-items-center mb-3">
+            <Form.Label className="me-2" style={{ width: "150px" }}>Referee's Email</Form.Label>
             <Form.Control
               type="email"
-              value={vacancies}
-              onChange={(e) => setVacancies(e.target.value)}
+              value={refereeEmail}
+              onChange={(e) => setRefereeEmail(e.target.value)}
               placeholder="sample@hrhatch.com"
               required
             />
           </Form.Group>
-          <Form.Group controlId="formHiringManager" className="d-flex align-items-center mb-3">
+
+          {/* Position input */}
+          <Form.Group controlId="formPosition" className="d-flex align-items-center mb-3">
             <Form.Label className="me-2" style={{ width: "150px" }}>Position</Form.Label>
             <Form.Control
               type="text"
-              value={hiringManager}
-              onChange={(e) => setHiringManager(e.target.value)}
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
               placeholder="Manager"
               required
             />
           </Form.Group>
+
           <div className="d-flex justify-content-end">
-            <button  className="btn-add-candidate" type="submit">
-            Add Candidate
+            <button className="btn-add-candidate" type="submit">
+              Send Request
             </button>
           </div>
         </Form>

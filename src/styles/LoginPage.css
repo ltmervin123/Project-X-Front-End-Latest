@@ -15,7 +15,8 @@
 }
 .login-page-container {
   overflow: hidden;
-  padding: 0 !important;  background: url("../assets/bg.png");
+  padding: 0 !important;
+  background: url("../assets/bg.png");
   background-size: cover;
   margin: 0;
 }
@@ -186,7 +187,6 @@
   color: var(--font-black);
 }
 
-
 .input-group > div > input[type="text"]:focus,
 .input-group > div > input[type="password"]:focus,
 .input-group > div > input[type="email"]:focus,
@@ -202,22 +202,42 @@
   border-radius: 50px !important;
   border: 2px solid var(--input-bg);
   box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
-  background: rgba(255, 255, 255, 0.7);
-  transition: all 0.3s ease;
   color: var(--input-bg);
   position: relative;
+
+  /* First, set the background color */
+  background-color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .choose-services-container select {
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E'); /* SVG down arrow */
-  background-position: right 15px center;
+  padding-right: 40px; /* Space for the icon */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Now, add the dropdown arrow (SVG) */
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E');
+  background-position: right 10px center; /* Adjust the position of the arrow */
   background-repeat: no-repeat;
-  padding-right: 40px; /* Adjust to make space for the icon */
+  background-size: 12px 12px;
+  transition: background-image 0.3s ease; /* Smooth transition for the background flip */
+}
+
+.choose-services-container select:focus {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E'); /* SVG up arrow (flipped) */
 }
 .choose-services-container > select > option {
   background: none;
   border: none;
   color: var(--font-black) !important;
+  transition: color 0.3s ease; /* Smooth transition for text color */
+}
+
+.choose-services-container select option:hover {
+  color: var(
+    --primary-color
+  ) !important; /* Change text color to primary color on hover */
+  background-color: transparent; /* Ensure background remains transparent */
 }
 .input-label {
   position: absolute;
@@ -317,6 +337,7 @@
   padding: 0 !important;
   width: 50%;
   font-size: 12px;
+  font-weight: 200;
 }
 
 .remember-box-check {
@@ -389,7 +410,7 @@
   width: 33px;
   height: 33px;
   margin: 0;
-  cursor: pointer;
+  cursor: default !important;
   background: var(--font-white);
   padding: 3px;
   border-radius: 50%;
