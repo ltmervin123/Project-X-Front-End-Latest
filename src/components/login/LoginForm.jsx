@@ -12,12 +12,17 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
+  const [service, setService] = useState(""); // State to track selected service
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password);
     if (isLogin) {
-      navigate("/maindashboard");
+      if (service === "AI Reference") {
+        navigate("/AiReferenceMaindashboard");
+      } else {
+        navigate("/maindashboard");
+      }
     }
   };
 
@@ -233,11 +238,22 @@ const LoginForm = () => {
                   </a>
                 </div>
               </div>
-
+              <div className="mb-3 choose-services-container d-flex justify-content-center">
+                <select
+                  className="form-control"
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  required
+                >
+                  <option value="">Choose Your Service</option>
+                  <option value="Mock AI">Mock AI</option>
+                  <option value="AI Reference"> AI Reference</option>
+                </select>
+              </div>
               <button
                 type="submit"
                 className="login-button"
-                disabled={isLoading}
+                disabled={!service || isLoading} // Disable if no service selected
               >
                 {isLoading ? <LoadingScreen /> : "Log in"}
               </button>
@@ -247,19 +263,21 @@ const LoginForm = () => {
           <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">
-              <img
-                src={google}
-                alt="Google"
-                className="social-icon"
+              <button
+                className="social-icon-btn"
                 onClick={handleGoogleLogin}
-              />
-              <img
-                src={fb}
-                alt="Facebook"
-                className="social-icon"
-                // onClick={handleFacebookLogin}
-              />
+                disabled={service === "AI Reference"} // Disable when service is "AI Reference"
+              >
+                <img src={google} alt="Google" className="social-icon" />
+              </button>
+              <button
+                className="social-icon-btn"
+                disabled={service === "AI Reference"} // Disable when service is "AI Reference"
+              >
+                <img src={fb} alt="Facebook" className="social-icon" />
+              </button>
             </div>
+
             <button
               className="guest-button"
               // onClick={() => (window.location.href = "/")} // not implemented yet
@@ -270,10 +288,15 @@ const LoginForm = () => {
               <p>Don't have an account?</p>
               <i>Join Us Today</i>
             </div>
-
             <button
               className="signup-button"
-              onClick={() => (window.location.href = "/signup")}
+              onClick={() => {
+                if (service === "AI Reference") {
+                  window.location.href = "/CompanyRegistrationForm";
+                } else {
+                  window.location.href = "/signup";
+                }
+              }}
             >
               Sign up
             </button>
