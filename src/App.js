@@ -38,12 +38,12 @@ import Resetpassword from "./page/ResetPassPage.jsx";
 import OurParternersPage from "./page/OurPartnersPage.jsx";
 
 /*Ai Referee */
-import AiRefereeMainDashboardPage from "./page/AiRefereeMainDashboardPage.jsx";
-import AiRefereeJobsPage from "./page/AiRefereeJobsPage.jsx";
-import AiRefereeCandidatesPage from "./page/AiRefereeCandidatesPage.jsx";
-import AiRefereeRequestPage from "./page/AiRefereeRequestPage.jsx";
-import AiRefereeQuestionPage from "./page/AiRefereeQuestionPage.jsx";
-import AiRefereeReportsPage from "./page/AiRefereeReportsPage.jsx";
+import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
+import AiReferenceJobsPage from "./page/AiReferenceJobsPage.jsx";
+import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
+import AiReferenceRequestPage from "./page/AiReferenceRequestPage.jsx";
+import AiReferenceQuestionPage from "./page/AiReferenceQuestionPage.jsx";
+import AiReferenceReportsPage from "./page/AiReferenceReportsPage.jsx";
 
 // CompanyRegistrationForm
 import CompanyRegistrationForm from "./page/CompanyRegistrationPage.jsx";
@@ -150,13 +150,13 @@ function App() {
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
 
-        {/*Ai Referee */}
-        <Route path="/AiReferee" element={<AiRefereeMainDashboardPage />} />
-        <Route path="/AiRefereeJobs" element={<AiRefereeJobsPage />} />
-        <Route path="/AiRefereeCandidates" element={<AiRefereeCandidatesPage />} />
-        <Route path="/AiRefereeRequestPage" element={<AiRefereeRequestPage />} />
-        <Route path="/AiRefereeQuestionPage" element={<AiRefereeQuestionPage />} />
-        <Route path="/AiRefereeReportsPage" element={<AiRefereeReportsPage />} />
+        {/*Ai Reference */}
+        <Route path="/AiReferenceMaindashboard" element={<AiReferenceMainDashboardPage />} />
+        <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
+        <Route path="/AiReferenceCandidates" element={<AiReferenceCandidatesPage />} />
+        <Route path="/AiReferenceRequestPage" element={<AiReferenceRequestPage />} />
+        <Route path="/AiReferenceQuestionPage" element={<AiReferenceQuestionPage />} />
+        <Route path="/AiReferenceReportsPage" element={<AiReferenceReportsPage />} />
 
         {/*Company Registration */}
         <Route path="/CompanyRegistrationForm" element={<CompanyRegistrationForm />} />

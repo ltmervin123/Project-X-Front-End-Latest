@@ -1,11 +1,12 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import Header from "../components/AiReferee/Header";
-import Sidebar from "../components/AiReferee/Sidebar";
-import ReferenceQuestion from "../components/AiReferee/ReferenceQuestion";
-import "../styles/AiRefereeQuestion.css";
+import Header from "../components/AiReference/Header";
+import Sidebar from "../components/AiReference/Sidebar";
+import ReferenceRequest from "../components/AiReference/ReferenceRequest";
+import "../styles/AiReferenceJobs.css";
+import "../styles/AiReferenceCandidates.css";
 
-function AiReferenceQuestionPage() {
+function AiReferenceRequestPage() {
   return (
     <>
       <Header />
@@ -17,7 +18,7 @@ function AiReferenceQuestionPage() {
           </Col>
           {/* Main content area with 9/12 width */}
           <Col md={10} className="p-3">
-            <ReferenceQuestion />
+            <ReferenceRequest />
           </Col>
         </Row>
       </div>
@@ -25,4 +26,4 @@ function AiReferenceQuestionPage() {
   );
 }
 
-export default AiReferenceQuestionPage;
+export default AiReferenceRequestPage;

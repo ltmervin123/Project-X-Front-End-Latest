@@ -6,9 +6,8 @@ import logo from "../../assets/logo.png"; // Adjust the path to your logo image
 const ReferenceQuestion = () => {
   const [selectedSet, setSelectedSet] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isHRHatchFormat, setIsHRHatchFormat] = useState(false); // New state for tracking format type
   const [activeButton, setActiveButton] = useState("Custom Sets"); // Default to 'Custom Sets'
-
+  const [flippedState, setFlippedState] = useState({});
   const handleButtonClick = (button) => {
     setActiveButton(button);
   };
@@ -53,62 +52,13 @@ const ReferenceQuestion = () => {
         "Would you consider this person a technical expert?",
       ],
     },
-    {
-      title: "Sales Reference Check",
-      questionCount: 5,
-      lastUpdated: "2023-03-01",
-      questionTitle: "Standard questions for all positions",
-      questions: [
-        "How did the candidate approach sales targets?",
-        "Was the candidate successful in meeting sales goals?",
-        "How did they build relationships with clients?",
-        "How well did they handle rejections and objections?",
-        "Would you recommend them for a sales role?",
-      ],
-    },
-    {
-      title: "Customer Service Reference Check",
-      questionCount: 4,
-      lastUpdated: "2023-07-13",
-      questionTitle: "Standard questions for all positions",
-      questions: [
-        "How did the candidate handle customer complaints?",
-        "Was the candidate effective in resolving issues?",
-        "How well did they communicate with customers?",
-        "Would you recommend them for a customer-facing role?",
-      ],
-    },
-    {
-      title: "Marketing Reference Check",
-      questionCount: 6,
-      lastUpdated: "2023-02-10",
-      questionTitle: "Standard questions for all positions",
-      questions: [
-        "What marketing campaigns did the candidate lead?",
-        "How did the candidate measure campaign success?",
-        "Was the candidate creative in developing strategies?",
-        "How did the candidate handle budget constraints?",
-        "Did they collaborate effectively with the team?",
-        "Would you recommend them for a marketing role?",
-      ],
-    },
-    {
-      title: "Finance Reference Check",
-      questionCount: 5,
-      lastUpdated: "2023-09-05",
-      questionTitle: "Standard questions for all positions",
-      questions: [
-        "How did the candidate manage financial reports?",
-        "Did they demonstrate strong analytical skills?",
-        "How well did they handle budgeting and forecasting?",
-        "How would you describe their attention to detail?",
-        "Would you recommend them for a finance role?",
-      ],
-    },
   ]);
-
   const handleSetClick = (index) => {
     setSelectedSet(index === selectedSet ? null : index);
+    setFlippedState((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index], // Toggle the flipped state for the clicked set
+    }));
   };
 
   const handleAddNewSet = (newSet) => {
@@ -330,6 +280,9 @@ const ReferenceQuestion = () => {
                         onClick={() => handleSetClick(index)}
                       >
                         <svg
+                          className={
+                            flippedState[index] ? "dropdown-flipped" : ""
+                          }
                           width="28"
                           height="17"
                           viewBox="0 0 28 17"

@@ -19,7 +19,7 @@ const LoginForm = () => {
     const isLogin = await login(email, password);
     if (isLogin) {
       if (service === "AI Reference") {
-        navigate("/AiReferee");
+        navigate("/AiReferenceMaindashboard");
       } else {
         navigate("/maindashboard");
       }

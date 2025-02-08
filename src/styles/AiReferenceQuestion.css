@@ -16,7 +16,7 @@
   height: 70vh;
 }
 .AiReference-Question-Sets-Container {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 70%;
 }
 .AiReference-table-title img {
@@ -133,4 +133,8 @@
   padding: 15px;
   color: var(--font-white);
   font-size: 20px;
+}
+.dropdown-flipped{
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
 }
