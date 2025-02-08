@@ -266,11 +266,14 @@ const LoginForm = () => {
               <button
                 className="social-icon-btn"
                 onClick={handleGoogleLogin}
-                disabled
+                disabled={service === "AI Reference"} // Disable when service is "AI Reference"
               >
                 <img src={google} alt="Google" className="social-icon" />
               </button>
-              <button className="social-icon-btn" disabled>
+              <button
+                className="social-icon-btn"
+                disabled={service === "AI Reference"} // Disable when service is "AI Reference"
+              >
                 <img src={fb} alt="Facebook" className="social-icon" />
               </button>
             </div>
