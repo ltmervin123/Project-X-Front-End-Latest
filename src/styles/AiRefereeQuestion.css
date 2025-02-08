@@ -19,6 +19,10 @@
   overflow-y: scroll;
   height: 70%;
 }
+.AiReference-table-title img {
+  position: relative;
+  bottom: 3px;
+}
 .button-controls-question button {
   background: var(--btn-color);
   border: none;
@@ -46,11 +50,20 @@
 .question-set-container {
   border: 1px solid var(--avatar-bg) !important;
   height: auto;
-  padding: 10px;
+  padding: 10px 30px 10px 10px;
   border-radius: 20px;
 }
 .question-set-container p {
   margin: 0 !important;
+}
+.question-set-info{
+  width: 80%;
+}
+.question-set-container .question-controls{
+  width: 20%;
+}
+.question-controls > div{
+  width: 70%;
 }
 .btn-add-new-question {
   border-radius: 20px;

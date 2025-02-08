@@ -132,7 +132,7 @@ const Sidebar = () => {
             fill="#686868"
           />
         </svg>
-        Analysis & Reports
+         Reports
       </NavLink>
     </div>
   );
