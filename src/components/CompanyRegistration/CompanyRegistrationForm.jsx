@@ -56,17 +56,33 @@ const CompanyRegistrationPage = () => {
                   placeholder="Enter Company Name"
                 />
               </Form.Group>
-
-              <Form.Group controlId="email-address">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter Email Address"
-                />
-              </Form.Group>
+              
+              <Row className="mb-4">
+                <Col md={6}>
+                  <Form.Group controlId="email-address">
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Enter Email Address"
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Enter Password"
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
               <Form.Group controlId="location">
                 <Form.Label>Location</Form.Label>
