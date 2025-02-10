@@ -8,12 +8,11 @@ import default_avatar_img from "../../assets/default.png"; // Import default ava
 // Register all necessary components
 Chart.register(...registerables);
 
-const AiReferenceCard = ({ title, count, description, bgColor }) => {
+const AiReferenceCard = ({ title, count, textColor }) => {
   return (
     <div
       className="AiReferenceCard"
       style={{
-        backgroundColor: bgColor,
         padding: "20px",
         borderRadius: "10px",
       }}
@@ -21,13 +20,16 @@ const AiReferenceCard = ({ title, count, description, bgColor }) => {
       <div>
         <p
           className="d-flex justify-content-between align-items-center"
- 
+          style={{
+            color: textColor,
+          }}
         >
           {title}
         </p>
       </div>
-      <p className="count">{count}</p>
-      <p className="description">{description}</p>
+      <p className="count d-flex align-items-center justify-content-center">
+        {count}
+      </p>
     </div>
   );
 };
@@ -66,12 +68,12 @@ const LogContainer = ({ logData }) => {
 const MainDashboard = () => {
   // Data for the pie chart
   const pieData = {
-    labels: ["Completed", "Pending", "In Progress"],
+    labels: ["Not Started", "In Progress", "Completed"],
     datasets: [
       {
-        data: [159, 12, 86], // Example data
-        backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"],
-        hoverBackgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"],
+        data: [159, 12, 86],
+        backgroundColor: ["#FFB44F", "#62B2FD", "#319F43"],
+        hoverBackgroundColor: ["#FFB44F", "#62B2FD", "#319F43"],
       },
     ],
   };
@@ -180,32 +182,28 @@ const MainDashboard = () => {
             <AiReferenceCard
               title="Active Jobs"
               count="257"
-              description="+2 from last week"
-              bgColor="#319F43"
+              textColor="#319F43"
             />
           </Col>
           <Col md={3}>
             <AiReferenceCard
               title="Pending References"
               count="12"
-              description="-3 from last week"
-              bgColor="#1877F2"
+              textColor="#1877F2"
             />
           </Col>
           <Col md={3}>
             <AiReferenceCard
               title="Completed References"
               count="159"
-              description="+15 from last week"
-              bgColor="#F8BD00"
+              textColor="#F8BD00"
             />
           </Col>
           <Col md={3}>
             <AiReferenceCard
               title="Total Candidates"
               count="7"
-              description="+28 from last month"
-              bgColor="#686868"
+              textColor="#686868"
             />
           </Col>
         </Row>
@@ -226,7 +224,7 @@ const MainDashboard = () => {
                         color: pieData.datasets[0].backgroundColor[index],
                       }}
                     >
-                      <p> {label}</p>
+                      <p>{label}</p>
                     </li>
                   ))}
                 </ul>

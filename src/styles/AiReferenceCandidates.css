@@ -68,10 +68,12 @@
 }
 .AiReference-candidates-container th,
 .AiReference-candidates-container td {
-  padding: 15px; /* Padding for table cells */
+  padding: 10px; /* Padding for table cells */
   text-align: left; /* Align text to the left */
 }
-
+.AiReference-candidates-container td:nth-child(5){
+  padding: 0;
+}
 .AiReference-candidates-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;
@@ -81,6 +83,7 @@
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
+  font-size: 14px;
 }
 
 .AiReference-candidates-container .btn-view-details:hover {

@@ -10,9 +10,12 @@ function Result() {
 
   return (
     <>
+              <div className="mock-background">
+
       <Header />
       <div className="analytics-bg">
         <ResultSection interviewId={interviewId} />
+      </div>
       </div>
     </>
   );
