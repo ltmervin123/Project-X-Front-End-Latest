@@ -69,11 +69,12 @@
 .AiReference-candidates-container th,
 .AiReference-candidates-container td {
   padding: 10px; /* Padding for table cells */
+word-wrap: break-word;
   text-align: left; /* Align text to the left */
 }
-.AiReference-candidates-container td:nth-child(5){
+/* .AiReference-candidates-container td:nth-child(5){
   padding: 0;
-}
+} */
 .AiReference-candidates-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;

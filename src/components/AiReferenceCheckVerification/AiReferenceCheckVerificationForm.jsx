@@ -1,0 +1,127 @@
+import React, { useState } from "react";
+import { Row, Col, Form, Button } from "react-bootstrap";
+
+const AiReferenceCheckVerificationForm = () => {
+  const [formData, setFormData] = useState({
+    refereeName: "",
+    currentCompany: "",
+    positionTitle: "",
+    companyWorkedWith: "",
+    relationship: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic
+  };
+
+  return (
+    <div className="AiReferenceCheckVerification-container d-flex align-items-center flex-column justify-content-center">
+      <h4 className="text-center">Reference Check Verification</h4>
+      <i className="text-center">
+        Your insights are valuable in helping us make informed decisions.
+      </i>
+
+      <div className="my-4 AiReferenceCheckVerification-container-form">
+        <div className="AiReferenceCheckVerification-title">
+          <h5 className="m-0">Verify Your Information</h5>
+          <p className="m-0">
+            Please verify your information below before proceeding to the
+            questionnaire.
+          </p>
+        </div>
+
+        <Form
+          onSubmit={handleSubmit}
+          className="form-AiReferenceCheckVerification "
+        >
+          <Row>
+            <Col md={12} className="d-flex flex-column gap-2">
+              <Form.Group controlId="referee-name">
+                <Form.Label>Referee Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="refereeName"
+                  value={formData.refereeName}
+                  onChange={handleChange}
+                  placeholder="Enter Referee Name"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="current-company">
+                <Form.Label>Current Company (Optional)</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="currentCompany"
+                  value={formData.currentCompany}
+                  onChange={handleChange}
+                  placeholder="Enter Current Company (Optional)"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="position-title">
+                <Form.Label>Position Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="positionTitle"
+                  value={formData.positionTitle}
+                  onChange={handleChange}
+                  placeholder="Enter Position Title"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="company-worked-with">
+                <Form.Label>Company You Worked With the Candidate</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="companyWorkedWith"
+                  value={formData.companyWorkedWith}
+                  onChange={handleChange}
+                  placeholder="E.g HR-HATCH"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="relationship">
+                <Form.Label>Relationship to the Candidate</Form.Label>
+                <Form.Control
+                  as="select"
+                  name="relationship"
+                  value={formData.relationship}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Relationship</option>
+                  <option value="manager">Manager</option>
+                  <option value="colleague">Colleague</option>
+                  <option value="subordinate">Subordinate</option>
+                  <option value="mentor">Mentor</option>
+                  <option value="other">Other</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+
+            <Col
+              md={3}
+              className="d-flex align-items-start position-relative"
+            ></Col>
+          </Row>
+
+          <div className="d-flex justify-content-center m-4 ">
+            <Button variant="primary" type="submit">
+              Proceed to Reference Check
+            </Button>
+          </div>
+        </Form>
+      </div>
+    </div>
+  );
+};
+
+export default AiReferenceCheckVerificationForm;

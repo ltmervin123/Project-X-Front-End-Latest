@@ -182,21 +182,22 @@ const MainDashboard = () => {
             <AiReferenceCard
               title="Active Jobs"
               count="257"
-              textColor="#319F43"
+              textColor="#1877F2"
             />
           </Col>
           <Col md={3}>
             <AiReferenceCard
               title="Pending References"
               count="12"
-              textColor="#1877F2"
+              textColor="#F8BD00"
             />
           </Col>
           <Col md={3}>
             <AiReferenceCard
               title="Completed References"
               count="159"
-              textColor="#F8BD00"
+              textColor="#319F43
+              "
             />
           </Col>
           <Col md={3}>

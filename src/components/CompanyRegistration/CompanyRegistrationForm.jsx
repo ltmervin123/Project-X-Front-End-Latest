@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 
-const CompanyRegistrationPage = () => {
+const CompanyRegistrationForm = () => {
   const [formData, setFormData] = useState({
     companyName: "",
     email: "",
@@ -209,4 +209,4 @@ const CompanyRegistrationPage = () => {
   );
 };
 
-export default CompanyRegistrationPage;
+export default CompanyRegistrationForm;
