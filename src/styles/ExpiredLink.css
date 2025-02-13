@@ -18,11 +18,10 @@
     flex-direction: column;
     gap: 20px;
     z-index: 0;
-    padding: 20px;
+    padding: 70px !important;
 }
 .expired-invalid-link-header {
     line-height: 1 !important;
-    font-family: Roboto;
 }
 .expired-invalid-link-header > h2 {
     text-align: center;
@@ -31,13 +30,17 @@
     
 }
 .expired-invalid-link-header-description {
+    font-weight: 100 !important;
+    font-size: 13px !important;
     text-align: center;
-    font-size: 14px !important;
-    font-style: italic;
-    font-weight: 400;
+    width: 100% !important;
 }
+
 .expired-invalid-link-container > p {
     text-align: center;
+    font-weight: 100 !important;
+    width: 85%;
+    font-size: 12px;
 }
 .expired-invalid-link-container > p,
 .expired-invalid-link-container > ul > li

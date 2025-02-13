@@ -8,11 +8,14 @@ const ExpiredLinkSection = () => {
         <div className="expired-invalid-link-container">
           <div className="expired-invalid-link-header">
             <h2 className="fs-4">Expired or Invalid Link</h2>
-            <p className="expired-invalid-link-header-description">We're sorry, but this link is no longer active.</p>
+            <i className="expired-invalid-link-header-description">
+              We're sorry, but this link is no longer active.
+            </i>
           </div>
-          
+
           <p>
-          The reference check link you've tried to access has expired or is invalid. This could be due to: 
+            The reference check link you've tried to access has expired or is
+            invalid. This could be due to:
           </p>
           <ul>
             <li>The reference check has already been completed</li>
@@ -20,14 +23,15 @@ const ExpiredLinkSection = () => {
             <li>The reference check request has been cancelled</li>
           </ul>
           <p>
-          If you believe this is an error, please contact the person who requested the reference check for assistance.
+            If you believe this is an error, please contact the person who
+            requested the reference check for assistance.
           </p>
-          <Button
-            variant="primary"
+          <button
+            className="btn-send-email"
             onClick={() => (window.location.href = "/")}
           >
             Close
-          </Button>
+          </button>
         </div>
       </div>
     </div>

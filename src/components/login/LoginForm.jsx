@@ -114,9 +114,8 @@ const LoginForm = () => {
                   <input
                     type="email"
                     className={`form-control ${
-                      error === "Incorrect email address" ||
-                      error ===
-                        "This company account is not activated. Please check the registered email for activation."
+                      error === "Incorrect email address"  ||
+                      error === "Account not activated. Check your email for activation"
                         ? "is-invalid"
                         : ""
                     }`}
@@ -128,7 +127,7 @@ const LoginForm = () => {
                     className={`input-label ${
                       error === "Incorrect email address" ||
                       error ===
-                        "This company account is not activated. Please check the registered email for activation."
+                        "Account not activated. Check your email for activation"
                         ? "is-invalid"
                         : ""
                     }`}
@@ -137,7 +136,7 @@ const LoginForm = () => {
                   </label>
                   {(error === "Incorrect email address" ||
                     error ===
-                      "This company account is not activated. Please check the registered email for activation.") && (
+                      "Account not activated. Check your email for activation") && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>
@@ -263,6 +262,7 @@ const LoginForm = () => {
                   required
                 >
                   <option value="">Choose Your Service</option>
+  
                   <option value={SERVICE[0]}> AI Reference Checker</option>
                   <option value={SERVICE[1]}>Mock AI</option>
                 </select>
