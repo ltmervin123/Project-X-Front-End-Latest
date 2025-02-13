@@ -34,6 +34,12 @@ import VideoRecording from "./components/maindashboard/MockVideoRecording";
 import Forgotpassword from "./page/ForgotPassPage.jsx";
 import Resetpassword from "./page/ResetPassPage.jsx";
 
+/*Password Changed page*/
+import PassChanged from "./page/PassChangedPage.jsx";
+
+/*Expired/Invalid Link page*/
+import ExpiredLink from "./page/ExpiredLinkPage.jsx";
+
 /* Our Partners Page */
 import OurParternersPage from "./page/OurPartnersPage.jsx";
 
@@ -146,7 +152,12 @@ function App() {
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* Use token as param */}
         <Route path="/reset-password/:token" element={<Resetpassword />} />
-
+        
+        {/* Password Changed */}
+        <Route path="/PasswordChanged" element={<PassChanged />} />
+        {/* Expired/Invalid Link */}
+        <Route path="/expiredlink" element={<ExpiredLink />} />
+        
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
