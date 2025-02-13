@@ -298,10 +298,15 @@ const LoginForm = () => {
             <button
               className="signup-button"
               onClick={() => {
-                if (service === "Ai Reference Checker") {
-                  window.location.href = "/CompanyRegistration";
-                } else {
-                  window.location.href = "/signup";
+                switch (service) {
+                  case SERVICE[0]:
+                    navigate("/CompanyRegistration");
+                    break;
+                  case SERVICE[1]:
+                    navigate("/signup");
+                    break;
+                  default:
+                    navigate("/login");
                 }
               }}
             >
