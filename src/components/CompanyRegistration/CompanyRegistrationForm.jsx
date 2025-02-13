@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 
@@ -14,6 +14,10 @@ const CompanyRegistrationForm = () => {
     positionTitle: "",
     annualHiringVolume: "",
   });
+
+  const buttonDisable = useMemo(() => {
+    return Object.values(formData).some((value) => value.trim() === "");
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +48,7 @@ const CompanyRegistrationForm = () => {
         </div>
 
         <Form onSubmit={handleSubmit} className="form-company-reg">
-          <Row >
+          <Row>
             <Col md={9}>
               <Form.Group controlId="company-name">
                 <Form.Label>Company Name</Form.Label>
@@ -56,7 +60,7 @@ const CompanyRegistrationForm = () => {
                   placeholder="Enter Company Name"
                 />
               </Form.Group>
-              
+
               <Row className="mb-4">
                 <Col md={6}>
                   <Form.Group controlId="email-address">
@@ -106,9 +110,9 @@ const CompanyRegistrationForm = () => {
                       onChange={handleChange}
                     >
                       <option value="">Select Company Size</option>
-                      <option value="small">1-50 employees</option>
-                      <option value="medium">51-200 employees</option>
-                      <option value="large">201+ employees</option>
+                      <option value="1-50">1-50 employees</option>
+                      <option value="51-200">51-200 employees</option>
+                      <option value="201+">201+ employees</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>
@@ -182,9 +186,9 @@ const CompanyRegistrationForm = () => {
                     onChange={handleChange}
                   >
                     <option value="">Select Hiring Volume</option>
-                    <option value="low">1-10 hires</option>
-                    <option value="medium">11-50 hires</option>
-                    <option value="high">51+ hires</option>
+                    <option value="1-10">1-10 hires</option>
+                    <option value="11-50">11-50 hires</option>
+                    <option value="51+">51+ hires</option>
                   </Form.Control>
                 </Form.Group>
               </div>
@@ -196,11 +200,10 @@ const CompanyRegistrationForm = () => {
                 className="companyregisteravatar"
                 alt="Image not found"
               />
-
             </Col>
           </Row>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" disabled={buttonDisable}>
             Register Company
           </Button>
         </Form>
