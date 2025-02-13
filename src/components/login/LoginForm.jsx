@@ -5,6 +5,8 @@ import fb from "../../assets/fb-icon.png";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "./LoadingScreen";
+const SERVICE = ["AI_REFERENCE", "MOCK_AI"];
+
 const LoginForm = () => {
   const API = process.env.REACT_APP_API_URL;
   const [email, setEmail] = useState("");
@@ -16,12 +18,17 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isLogin = await login(email, password);
-    if (isLogin) {
-      if (service === "Ai Reference Checker") {
-        navigate("/AiReferenceMaindashboard");
-      } else {
-        navigate("/maindashboard");
+    const isLogin = await login(email, password, service);
+    if (isLogin && isLogin?.service) {
+      switch (isLogin.service) {
+        case SERVICE[0]:
+          navigate("/AiReferenceMaindashboard");
+          break;
+        case SERVICE[1]:
+          navigate("/maindashboard");
+          break;
+        default:
+          navigate("/login");
       }
     }
   };
@@ -246,8 +253,8 @@ const LoginForm = () => {
                   required
                 >
                   <option value="">Choose Your Service</option>
-                  <option value="Mock AI">Mock AI</option>
-                  <option value="Ai Reference Checker"> Ai Reference Checker</option>
+                  <option value={SERVICE[0]}> AI Reference Checker</option>
+                  <option value={SERVICE[1]}>Mock AI</option>
                 </select>
               </div>
               <button
