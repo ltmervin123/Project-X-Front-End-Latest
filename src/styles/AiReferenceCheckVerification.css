@@ -1,0 +1,67 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
+}
+
+
+.AiReferenceCheckVerification-container i {
+  font-size: 15px;
+}
+
+.AiReferenceCheckVerification-container-form {
+  width: 70%;
+  max-width: 900px;
+  border-radius: 20px;
+  margin-bottom: 10vh !important;
+}
+
+.form-AiReferenceCheckVerification {
+  padding: 10px 100px 30px 100px;
+  border-radius: 0px 0px 20px 20px;
+  background: var(--font-white);
+}
+
+.AiReferenceCheckVerification-title {
+  border-radius: 20px 20px 0px 0px;
+  background: var(--primary-color);
+  padding: 30px 100px;
+  color: var(--font-white);
+}
+
+.AiReferenceCheckVerification-title > p {
+  font-weight: 200 !important;
+}
+
+.AiReferenceCheckVerification-container-form input,
+.AiReferenceCheckVerification-container-form select {
+  border-radius: 20px;
+  border: 2px solid var(--primary-color);
+  color: var(--input-bg);
+}
+
+.AiReferenceCheckVerification-container-form select {
+  appearance: none;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E'); /* SVG down arrow */
+  background-position: right 15px center;
+  background-repeat: no-repeat;
+  padding-right: 40px; /* Adjust to make space for the icon */
+}
+
+.AiReferenceCheckVerification-container-form select:focus {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E'); /* SVG up arrow (flipped) */
+}
+
+.AiReferenceCheckVerification-container-form label {
+  margin-top: 5px;
+}
+
+.AiReferenceCheckVerification-container-form button {
+  background: var(--secondary-color);
+  border: none;
+  border-radius: 20px;
+  padding: 5px 15px;
+}

@@ -14,11 +14,15 @@
 .mock-interview-summary{
   width: 30%;
 }
+.mock-background{
+background: #f9f9f9;
+}
+
 .MockMaindashboard-container {
     padding: 0 !important;
     width: 100%;
     min-height: 80vh;
-    margin-top: 12vh;
+    padding-top: 12vh !important;
     padding: 20px;
     overflow-x: hidden;
 }

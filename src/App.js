@@ -45,8 +45,11 @@ import AiReferenceRequestPage from "./page/AiReferenceRequestPage.jsx";
 import AiReferenceQuestionPage from "./page/AiReferenceQuestionPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferenceReportsPage.jsx";
 
-// CompanyRegistrationForm
-import CompanyRegistrationForm from "./page/CompanyRegistrationPage.jsx";
+// CompanyRegistrationPage
+import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
+
+// AiReferenceCheckVerificationPage
+import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
 
 function App() {
   const { user } = useAuthContext();
@@ -154,12 +157,15 @@ function App() {
         <Route path="/AiReferenceMaindashboard" element={<AiReferenceMainDashboardPage />} />
         <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
         <Route path="/AiReferenceCandidates" element={<AiReferenceCandidatesPage />} />
-        <Route path="/AiReferenceRequestPage" element={<AiReferenceRequestPage />} />
-        <Route path="/AiReferenceQuestionPage" element={<AiReferenceQuestionPage />} />
-        <Route path="/AiReferenceReportsPage" element={<AiReferenceReportsPage />} />
+        <Route path="/AiReferenceRequest" element={<AiReferenceRequestPage />} />
+        <Route path="/AiReferenceQuestion" element={<AiReferenceQuestionPage />} />
+        <Route path="/AiReferenceReports" element={<AiReferenceReportsPage />} />
 
         {/*Company Registration */}
-        <Route path="/CompanyRegistrationForm" element={<CompanyRegistrationForm />} />
+        <Route path="/CompanyRegistration" element={<CompanyRegistrationPage />} />
+
+        {/*// AiReferenceCheckVerificationPage*/}
+        <Route path="/AiReferenceCheckVerification" element={<AiReferenceCheckVerificationPage />} />
 
       </Routes>
     </Router>

@@ -292,7 +292,7 @@ const LoginForm = () => {
               className="signup-button"
               onClick={() => {
                 if (service === "Ai Reference Checker") {
-                  window.location.href = "/CompanyRegistrationForm";
+                  window.location.href = "/CompanyRegistration";
                 } else {
                   window.location.href = "/signup";
                 }
