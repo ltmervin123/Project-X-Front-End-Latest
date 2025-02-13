@@ -13,7 +13,7 @@ function Header() {
   const handleLogout = () => {
     logout();
   };
-  const username = user ? user.name.split(" ")[0]: "";
+  const username = user ? user.name.split(" ")[0] : "";
 
   return (
     <Navbar
@@ -21,25 +21,20 @@ function Header() {
       className="MockMain-Header d-flex align-items-center justify-content-between"
     >
       <Navbar.Brand
-        href="/maindashboard"
+        href="/AiReferenceMaindashboard"
         className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
-        <img
-              src={logo}
-              alt="Logo"
-              width="125"
-              height="18"
-            />  
+        <img src={logo} alt="Logo" width="125" height="18" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="UserNameNav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
         <Nav>
           <Dropdown>
-            <Dropdown.Toggle id="dropdown-basic" className="dropdown-header d-flex align-items-center justify-content-center gap-1">
-              <img
-                src={defaultAvatar}
-                alt="User Avatar"
-              />
+            <Dropdown.Toggle
+              id="dropdown-basic"
+              className="dropdown-header d-flex align-items-center justify-content-center gap-1"
+            >
+              <img src={defaultAvatar} alt="User Avatar" />
               {/* Conditional rendering of the username */}
               {user ? (
                 <>
@@ -56,14 +51,14 @@ function Header() {
               <Dropdown.Item
                 as={NavLink}
                 to="/userprofile#personal-info"
-                className={({ isActive }) => isActive ? "active-link" : ""}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 Profile
               </Dropdown.Item>
               <Dropdown.Item
                 as={NavLink}
                 to="/comingsoon"
-                className={({ isActive }) => isActive ? "active-link" : ""}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 Settings
               </Dropdown.Item>
@@ -71,7 +66,7 @@ function Header() {
                 as={NavLink}
                 to="/login"
                 onClick={handleLogout}
-                className={({ isActive }) => isActive ? "active-link" : ""}
+                className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 Logout
               </Dropdown.Item>
