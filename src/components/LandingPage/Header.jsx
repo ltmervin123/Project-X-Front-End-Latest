@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState({
     product: false,
     services: false,
@@ -39,16 +41,28 @@ const Header = () => {
                   setShowDropdown((prev) => ({ ...prev, product: isOpen }))
                 }
               >
-                <NavDropdown.Item className="noclickblue" href="/maindashboard">
+                <NavDropdown.Item
+                  className="noclickblue"
+                  onClick={() => navigate("/maindashboard")}
+                >
                   Mock.AI
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
+                <NavDropdown.Item
+                  className="noclickblue"
+                  onClick={() => navigate("/comingsoon")}
+                >
                   Resume Fit Optimizer
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
+                <NavDropdown.Item
+                  className="noclickblue"
+                  onClick={() => navigate("/comingsoon")}
+                >
                   Application Tracker
                 </NavDropdown.Item>
-                <NavDropdown.Item className="noclickblue" href="/comingsoon">
+                <NavDropdown.Item
+                  className="noclickblue"
+                  onClick={() => navigate("/AiReferenceMaindashboard")}
+                >
                   AI Reference Checker
                 </NavDropdown.Item>
               </NavDropdown>

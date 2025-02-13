@@ -17,12 +17,12 @@ import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
-import RequireAuth from "./components/session/requireAuth";
+import RequireAuthMockAI from "./components/session/requireAuthMockAI.jsx";
+import RequireAuthAIReference from "./components/session/requireAuthAIReference.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 import FailedPage from "./page/LoginFailed.jsx";
 import SuccessPage from "./page/LoginSucess.jsx";
-
 
 /*Mock Ai */
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
@@ -33,6 +33,12 @@ import VideoRecording from "./components/maindashboard/MockVideoRecording";
 /*Forgot page*/
 import Forgotpassword from "./page/ForgotPassPage.jsx";
 import Resetpassword from "./page/ResetPassPage.jsx";
+
+/*Password Changed page*/
+import PassChanged from "./page/PassChangedPage.jsx";
+
+/*Expired/Invalid Link page*/
+import ExpiredLink from "./page/ExpiredLinkPage.jsx";
 
 /* Our Partners Page */
 import OurParternersPage from "./page/OurPartnersPage.jsx";
@@ -81,92 +87,112 @@ function App() {
 
         {/* Protected routes */}
         <Route element={<PersistLogin />}>
+          {/* Authentication Routes */}
           <Route path="/loginfailed" element={<FailedPage />} />
           <Route path="/loginsuccess" element={<SuccessPage />} />
           <Route
             path="/login"
-            element={!user ? <Login /> : <Navigate to="/maindashboard" />}
+            element={
+              !user ? (
+                <Login />
+              ) : user.service === "MOCK_AI" ? (
+                <Navigate to="/maindashboard" />
+              ) : (
+                <Navigate to="/AiReferenceMaindashboard" />
+              )
+            }
           />
-          <Route element={<RequireAuth />}>
+
+          {/* Protected Routes - Require Authentication */}
+          <Route element={<RequireAuthMockAI />}>
+            {/* General User Dashboard & Profile */}
+            <Route path="/maindashboard" element={<MockMainDashboardPage />} />
+            <Route path="/userprofile" element={<UserProfilePage />} />
+
+            {/* Resume Builder */}
             <Route
               path="/EnglishResumeBuilder"
               element={<EnglishResumeBuilderPage />}
             />
-          </Route>
 
-          <Route element={<RequireAuth />}>
+            {/* Mock Interview */}
             <Route path="/MockLandingPage" element={<MockLandingPage />} />
-          </Route>
-
-          <Route element={<RequireAuth />}>
-            <Route path="/analytics" element={<Analytics />} />
-          </Route>
-
-          <Route element={<RequireAuth />}>
-            <Route path="/result/:interviewId" element={<Results />} />
-          </Route>
-
-          <Route element={<RequireAuth />}>
             <Route path="/mockInterview" element={<MockInterviewPage />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/result/:interviewId" element={<Results />} />
+
+            {/* Video Interview Categories */}
+            <Route
+              path="/basic-interview"
+              element={
+                <BasicVideoRecording interviewType="Mock" category="Basic" />
+              }
+            />
+            <Route
+              path="/behavioral-interview"
+              element={<BehavioralVideoRecording />}
+            />
+            <Route
+              path="/expert-interview"
+              element={
+                <VideoRecording interviewType="Mock" category="Expert" />
+              }
+            />
           </Route>
-          {/*new dashboard */}
-          <Route element={<RequireAuth />}>
-            <Route path="/maindashboard" element={<MockMainDashboardPage />} />
-          </Route>
-          <Route element={<RequireAuth />}>
-            <Route path="/userprofile" element={<UserProfilePage />} />
+
+          <Route element={<RequireAuthAIReference />}>
+            {/* AI Reference Checker Dashboard */}
+            <Route
+              path="/AiReferenceMaindashboard"
+              element={<AiReferenceMainDashboardPage />}
+            />
+            <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
+            <Route
+              path="/AiReferenceCandidates"
+              element={<AiReferenceCandidatesPage />}
+            />
+            <Route
+              path="/AiReferenceRequest"
+              element={<AiReferenceRequestPage />}
+            />
+            <Route
+              path="/AiReferenceQuestion"
+              element={<AiReferenceQuestionPage />}
+            />
+            <Route
+              path="/AiReferenceReports"
+              element={<AiReferenceReportsPage />}
+            />
           </Route>
         </Route>
 
-        {/* </Route> */}
+        {/*Company Registration */}
+        <Route
+          path="/CompanyRegistration"
+          element={<CompanyRegistrationPage />}
+        />
 
-        <Route element={<RequireAuth />}>
-          <Route
-            path="/basic-interview"
-            element={
-              <BasicVideoRecording interviewType="Mock" category="Basic" />
-            }
-          />
-        </Route>
-        <Route element={<RequireAuth />}>
-          <Route
-            path="/behavioral-interview"
-            element={<BehavioralVideoRecording />}
-          />
-        </Route>
-
-        <Route element={<RequireAuth />}>
-          <Route
-            path="/expert-interview"
-            element={<VideoRecording interviewType="Mock" category="Expert" />}
-          />
-        </Route>
+        {/*// AiReferenceCheckVerificationPage*/}
+        <Route
+          path="/AiReferenceCheckVerification"
+          element={<AiReferenceCheckVerificationPage />}
+        />
 
         {/* Forgot pass */}
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* Use token as param */}
         <Route path="/reset-password/:token" element={<Resetpassword />} />
-
+        
+        {/* Password Changed */}
+        <Route path="/PasswordChanged" element={<PassChanged />} />
+        {/* Expired/Invalid Link */}
+        <Route path="/expiredlink" element={<ExpiredLink />} />
+        
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
-
-        {/*Ai Reference */}
-        <Route path="/AiReferenceMaindashboard" element={<AiReferenceMainDashboardPage />} />
-        <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
-        <Route path="/AiReferenceCandidates" element={<AiReferenceCandidatesPage />} />
-        <Route path="/AiReferenceRequest" element={<AiReferenceRequestPage />} />
-        <Route path="/AiReferenceQuestion" element={<AiReferenceQuestionPage />} />
-        <Route path="/AiReferenceReports" element={<AiReferenceReportsPage />} />
-
-        {/*Company Registration */}
-        <Route path="/CompanyRegistration" element={<CompanyRegistrationPage />} />
-
-        {/*// AiReferenceCheckVerificationPage*/}
-        <Route path="/AiReferenceCheckVerification" element={<AiReferenceCheckVerificationPage />} />
-
       </Routes>
     </Router>
   );
