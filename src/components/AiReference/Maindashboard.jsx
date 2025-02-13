@@ -1,7 +1,7 @@
 import React, { useState } from "react"; // Import useState
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
-import { Pie, Bar } from "react-chartjs-2"; // Import chart components
+import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
 import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
 import default_avatar_img from "../../assets/default.png"; // Import default avatar image
 
@@ -66,63 +66,98 @@ const LogContainer = ({ logData }) => {
 };
 
 const MainDashboard = () => {
-  // Data for the pie chart
-  const pieData = {
-    labels: ["Not Started", "In Progress", "Completed"],
+  // Data for the line chart
+  const lineData = {
+    labels: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+    ],
     datasets: [
       {
-        data: [159, 12, 86],
-        backgroundColor: ["#FFB44F", "#62B2FD", "#319F43"],
-        hoverBackgroundColor: ["#FFB44F", "#62B2FD", "#319F43"],
+        label: "Total", // Replaced 'Active Jobs' with 'Total'
+        data: [300, 320, 350, 380, 410, 440, 470, 500],
+        fill: false,
+        backgroundColor: "#319F43",
+        borderColor: "#319F43",
+        tension: 0.1, // Make the line smooth
+      },
+      {
+        label: "Completed",
+        data: [120, 140, 160, 180, 200, 220, 240, 260],
+        fill: false,
+        backgroundColor: "#1877F2",
+        borderColor: "#1877F2",
+        tension: 0.1, // Make the line smooth
       },
     ],
   };
 
-  // Options for the pie chart to hide labels
-  const pieOptions = {
+  // Options for the line chart
+  const lineOptions = {
+    responsive: true,
     plugins: {
       legend: {
-        display: false, // Hide the legend
+        display: false, // Hides the legend
       },
       tooltip: {
-        enabled: true, // Disable tooltips if you want to hide them as well
+        enabled: true, // Disables tooltips
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false, // Disable grid on the x-axis
+        },
+      },
+      y: {
+        grid: {
+          display: false, // Disable grid on the y-axis
+        },
       },
     },
   };
 
-  // Data for the column chart
   const barData = {
-    labels: ["December", "January"], // Updated to represent only November to March
+    labels: ["Engineering", "Sales", "Marketing", "HR", "Finance", "Operation"], // Departments as labels
     datasets: [
       {
-        label: "Week 1",
-        backgroundColor: "#319F43",
-        borderColor: "transparent",
-        borderWidth: 2,
-        data: [110, 100], // Example data for November to March
-      },
-      {
-        label: "Week 2",
+        label: "Department References",
         backgroundColor: "#1877F2",
         borderColor: "transparent",
         borderWidth: 2,
-        data: [90, 80], // Example data for November to March
-      },
-      {
-        label: "Week 3",
-        backgroundColor: "#F8BD00",
-        borderColor: "transparent",
-        borderWidth: 2,
-        data: [150, 140], // Example data for November to March
-      },
-      {
-        label: "Week 4",
-        backgroundColor: "#686868",
-        borderColor: "transparent",
-        borderWidth: 2,
-        data: [130, 120], // Example data for November to March
+        data: [30, 25, 15, 10, 20, 40],
       },
     ],
+  };
+  const barOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false, // Hides the legend
+      },
+      tooltip: {
+        enabled: true, // Disables tooltips
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false, // Disable grid on the x-axis
+        },
+      },
+      y: {
+        grid: {
+          display: false, // Disable grid on the y-axis
+        },
+      },
+    },
   };
 
   const logData = [
@@ -196,8 +231,7 @@ const MainDashboard = () => {
             <AiReferenceCard
               title="Completed References"
               count="159"
-              textColor="#319F43
-              "
+              textColor="#319F43"
             />
           </Col>
           <Col md={3}>
@@ -212,35 +246,18 @@ const MainDashboard = () => {
 
       <Row>
         <Col md="6">
-          <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">
-            <p className="mb-3 pie-title-overlay">Reference Check Status</p>
-            <div className="pie-chart">
-              <Pie data={pieData} options={pieOptions} />
-              <div className="pie-labels ms-3">
-                <ul>
-                  {pieData.labels.map((label, index) => (
-                    <li
-                      key={index}
-                      style={{
-                        color: pieData.datasets[0].backgroundColor[index],
-                      }}
-                    >
-                      <p>{label}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="line-bar-chart-container position-relative">
+            <p className="mb-3 line-title-overlay">Reference Check Overview</p>
+            <div className="line-chart">
+              <Line data={lineData} options={lineOptions} />
             </div>
           </div>
         </Col>
         <Col md="6">
-          <div className="pie-bar-chart-container d-flex justify-content-center align-items-center position-relative">
-            <p className="mb-3 bar-title-overlay">Overview of Active Jobs</p>
+          <div className="line-bar-chart-container position-relative">
+            <p className="mb-3 bar-title-overlay">By Department</p>
             <div className="bar-chart">
-              <Bar
-                data={barData}
-                options={{ responsive: true, maintainAspectRatio: false }}
-              />
+              <Bar data={barData} options={barOptions} />
             </div>
           </div>
         </Col>

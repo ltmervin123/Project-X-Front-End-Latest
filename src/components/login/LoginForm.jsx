@@ -107,7 +107,11 @@ const LoginForm = () => {
                   <input
                     type="email"
                     className={`form-control ${
-                      error === "Incorrect email address" ? "is-invalid" : ""
+                      error === "Incorrect email address" ||
+                      error ===
+                        "This company account is not activated. Please check the registered email for activation."
+                        ? "is-invalid"
+                        : ""
                     }`}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -115,12 +119,18 @@ const LoginForm = () => {
                   />
                   <label
                     className={`input-label ${
-                      error === "Incorrect email address" ? "is-invalid" : ""
+                      error === "Incorrect email address" ||
+                      error ===
+                        "This company account is not activated. Please check the registered email for activation."
+                        ? "is-invalid"
+                        : ""
                     }`}
                   >
                     Email
                   </label>
-                  {error === "Incorrect email address" && (
+                  {(error === "Incorrect email address" ||
+                    error ===
+                      "This company account is not activated. Please check the registered email for activation.") && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>
@@ -247,7 +257,10 @@ const LoginForm = () => {
                 >
                   <option value="">Choose Your Service</option>
                   <option value="Mock AI">Mock AI</option>
-                  <option value="Ai Reference Checker"> Ai Reference Checker</option>
+                  <option value="Ai Reference Checker">
+                    {" "}
+                    Ai Reference Checker
+                  </option>
                 </select>
               </div>
               <button
