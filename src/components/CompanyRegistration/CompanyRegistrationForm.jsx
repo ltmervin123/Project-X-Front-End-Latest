@@ -1,18 +1,23 @@
 import React, { useState, useMemo } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
+import { useSignup } from "../../hook/useSignup";
 
 const CompanyRegistrationForm = () => {
+  const SERVICE = "AI_REFERENCE";
+  const { signup, isLoading, error, message } = useSignup();
+
   const [formData, setFormData] = useState({
-    companyName: "",
+    name: "",
     email: "",
+    password: "",
     location: "",
-    companySize: "",
+    size: "",
     industry: "",
+    annualHiringVolume: "",
     firstName: "",
     lastName: "",
     positionTitle: "",
-    annualHiringVolume: "",
   });
 
   const buttonDisable = useMemo(() => {
@@ -29,7 +34,6 @@ const CompanyRegistrationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
   };
 
   return (
@@ -54,8 +58,8 @@ const CompanyRegistrationForm = () => {
                 <Form.Label>Company Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="companyName"
-                  value={formData.companyName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter Company Name"
                 />
@@ -72,6 +76,9 @@ const CompanyRegistrationForm = () => {
                       onChange={handleChange}
                       placeholder="Enter Email Address"
                     />
+                    {/* Error warning for email */}
+                    {(error === "Email is not valid" ||
+                      error === "Email already exists") && <div>{error}</div>}
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -84,6 +91,10 @@ const CompanyRegistrationForm = () => {
                       onChange={handleChange}
                       placeholder="Enter Password"
                     />
+                    {/* Error warning for password */}
+                    {error === "Password is not strong enough" && (
+                      <div>{error}</div>
+                    )}
                   </Form.Group>
                 </Col>
               </Row>
@@ -105,8 +116,8 @@ const CompanyRegistrationForm = () => {
                     <Form.Label>Company Size</Form.Label>
                     <Form.Control
                       as="select"
-                      name="companySize"
-                      value={formData.companySize}
+                      name="size"
+                      value={formData.size}
                       onChange={handleChange}
                     >
                       <option value="">Select Company Size</option>
@@ -191,6 +202,11 @@ const CompanyRegistrationForm = () => {
                     <option value="51+">51+ hires</option>
                   </Form.Control>
                 </Form.Group>
+                {/* Success message here  */}
+                <div>
+                  Company account has been created! Please check the registered
+                  email for activation
+                </div>
               </div>
             </Col>
 
