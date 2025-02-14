@@ -1,119 +1,42 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // Ensure useState is imported
+import { useLocation } from "react-router-dom";
 import "../styles/ReviewYourReferenceCheckPage.css";
 
 function ReviewYourReferenceCheckPage() {
-  // Array of questions with original and enhanced answers
-  const [expanded, setExpanded] = useState(false);
-
-  const handleToggle = () => {
-    setExpanded(!expanded);
+  const location = useLocation();
+  const { questions, answers } = location.state || {
+    questions: [],
+    answers: [],
   };
 
-  const questions = [
-    {
-      id: 1,
-      text: "How long have you known the candidate, and in what capacity?",
-      originalAnswer:
-        "I've known John for 5 years as his direct supervisor at XYZ Corp.",
-      enhancedAnswer:
-        "I have had the pleasure of knowing John Doe for a period of 5 years, during which time I served as his direct supervisor at XYZ Corporation. This professional relationship has provided me with extensive insight into John's work ethic, skills, and character.",
-    },
-    {
-      id: 2,
-      text: "How would you describe the candidate’s strengths and areas for improvement?",
-      originalAnswer:
-        "John is highly organized and a great team player, but he sometimes struggles with delegating tasks.",
-      enhancedAnswer:
-        "John is a highly organized and efficient individual who consistently excels in team settings. However, he occasionally faces challenges in delegating tasks, which is something he has actively worked on improving over time.",
-    },
-    {
-      id: 3,
-      text: "Can you describe a time when the candidate demonstrated leadership?",
-      originalAnswer:
-        "John led a project team that delivered a major product update on time.",
-      enhancedAnswer:
-        "John demonstrated exemplary leadership when he led a cross-functional team responsible for delivering a significant product update. Through his effective communication, guidance, and attention to detail, he ensured that the project was completed on time and exceeded expectations.",
-    },
-    {
-      id: 4,
-      text: "How does the candidate handle stress or pressure in challenging situations?",
-      originalAnswer:
-        "John remains calm under pressure and focuses on solutions.",
-      enhancedAnswer:
-        "John exhibits remarkable composure when under pressure. He maintains a calm demeanor, which allows him to focus on finding practical solutions while ensuring that the team remains motivated and productive even in the most challenging situations.",
-    },
-    {
-      id: 5,
-      text: "What is the candidate's approach to teamwork and collaboration?",
-      originalAnswer:
-        "John is an excellent team player who always helps others when needed.",
-      enhancedAnswer:
-        "John fosters a collaborative environment by being an exceptional team player. He is always willing to lend a helping hand, share knowledge, and ensure that team objectives are met. His collaborative mindset has contributed significantly to the success of many group projects.",
-    },
-    {
-      id: 6,
-      text: "How would you rate the candidate's communication skills?",
-      originalAnswer:
-        "John communicates effectively, both in writing and verbally.",
-      enhancedAnswer:
-        "John possesses excellent communication skills, both written and verbal. He is able to convey complex ideas clearly and concisely, ensuring that all stakeholders, from team members to clients, fully understand the information being presented.",
-    },
-    {
-      id: 7,
-      text: "Has the candidate demonstrated a willingness to learn and improve professionally?",
-      originalAnswer:
-        "Yes, John actively seeks feedback and takes courses to enhance his skills.",
-      enhancedAnswer:
-        "John demonstrates an ongoing commitment to personal and professional growth. He actively seeks constructive feedback and utilizes it to improve his performance. Additionally, he regularly engages in relevant training and courses to enhance his skill set.",
-    },
-    {
-      id: 8,
-      text: "How does the candidate handle feedback and criticism?",
-      originalAnswer:
-        "John takes feedback well and uses it as an opportunity for growth.",
-      enhancedAnswer:
-        "John handles feedback and criticism with maturity and professionalism. He approaches it with an open mind, viewing it as a valuable opportunity to learn and refine his skills. This openness has contributed to his continuous improvement in various areas of his work.",
-    },
-    {
-      id: 9,
-      text: "Can you share an example of the candidate showing initiative?",
-      originalAnswer:
-        "John volunteered to take on additional responsibilities when a colleague was out sick.",
-      enhancedAnswer:
-        "John consistently demonstrates initiative, such as when he voluntarily took on additional responsibilities to cover for a colleague who was unexpectedly absent. His proactive attitude ensured that critical tasks continued without disruption, highlighting his sense of responsibility and leadership.",
-    },
-    {
-      id: 10,
-      text: "What impact has the candidate had on your team or organization?",
-      originalAnswer:
-        "John has positively influenced team dynamics and productivity.",
-      enhancedAnswer:
-        "John has made a substantial impact on our team, improving both dynamics and overall productivity. His strong leadership skills, combined with his collaborative approach, have not only helped to drive success in projects but have also contributed to a more positive and efficient work environment.",
-    },
-  ];
-
-  const handleDefaultClick = () => {
-    setEditedAnswers(
-      questions.reduce((acc, question) => {
-        acc[question.id] = question.enhancedAnswer;
-        return acc;
-      }, {})
-    );
-    setOpenQuestion(null); // Close any open dropdown
-  };
-
+  const updatedQuestions = questions.map((question, index) => ({
+    ...question,
+    id: index + 1, // Use the index as a unique 
+    text: questions[index] || "",
+    originalAnswer: answers[index] || "", // Add original answer
+  }));
+  
   // State to handle dropdown visibility
-  const [openQuestion, setOpenQuestion] = useState(null); // Track one open dropdown
+  const [openQuestion, setOpenQuestion] = useState(null); // Track the open dropdown by question ID
   // State to manage the editing status and enhanced answers
   const [editedAnswers, setEditedAnswers] = useState(
-    questions.reduce((acc, question) => {
+    updatedQuestions.reduce((acc, question) => {
       acc[question.id] = question.enhancedAnswer;
       return acc;
     }, {})
   );
 
+  // State to handle expanded view
+  const [expanded, setExpanded] = useState(false); // Initialize expanded state
+
   const toggleQuestion = (id) => {
-    setOpenQuestion((prev) => (prev === id ? null : id)); // Open only one question at a time
+    // Toggle the visibility of the clicked dropdown
+    setOpenQuestion(id === openQuestion ? null : id); // If it's already open, close it, else open it
+  };
+
+  // Add this function to toggle the expanded state
+  const handleToggle = () => {
+    setExpanded((prev) => !prev); // Toggle the expanded state
   };
 
   // Handle the change in the enhanced answer (for editing)
@@ -124,15 +47,20 @@ function ReviewYourReferenceCheckPage() {
     }));
   };
 
+  const handleDefaultClick = () => {
+    setEditedAnswers(
+      updatedQuestions.reduce((acc, question) => {
+        acc[question.id] = question.enhancedAnswer;
+        return acc;
+      }, {})
+    );
+    setOpenQuestion(null); // Close any open dropdown
+  };
+
   return (
     <>
       <div className="container-fluid mock-background d-flex align-items-center justify-content-center">
-        <div
-          className={`ReviewYourReferenceCheck-container ${
-            expanded ? "expanded" : ""
-          }`}
-        >
-          {" "}
+        <div className={`ReviewYourReferenceCheck-container`}>
           <h4>
             Review Your <span className="color-orange"> Reference Check</span>
           </h4>
@@ -163,7 +91,7 @@ function ReviewYourReferenceCheckPage() {
           </div>
           <div className="ReviewYourReferenceCheck-box-dropdown">
             {/* Render questions dynamically */}
-            {questions.map((question) => (
+            {updatedQuestions.map((question) => (
               <div
                 className="ReviewYourReferenceCheck-dropdown"
                 key={question.id}
@@ -207,37 +135,15 @@ function ReviewYourReferenceCheckPage() {
                       <p>
                         <strong>Enhanced Answer:</strong>
                       </p>
-                      {editedAnswers[question.id] ? (
-                        <div>
-                          <textarea
-                            rows="4"
-                            value={editedAnswers[question.id]}
-                            onChange={(e) =>
-                              handleEnhancedAnswerChange(e, question.id)
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <p>{question.enhancedAnswer}</p>
-                      )}
-                    </div>
-                    <button
-                      className="my-2"
-                      onClick={() => {
-                        const newEnhancedAnswer = prompt(
-                          "Edit Enhanced Answer:",
-                          editedAnswers[question.id]
-                        );
-                        if (newEnhancedAnswer !== null) {
-                          setEditedAnswers((prev) => ({
-                            ...prev,
-                            [question.id]: newEnhancedAnswer,
-                          }));
+                      <textarea
+                        rows="4"
+                        value={editedAnswers[question.id]}
+                        onChange={(e) =>
+                          handleEnhancedAnswerChange(e, question.id)
                         }
-                      }}
-                    >
-                      Edit Enhanced Answer
-                    </button>
+                      />
+                    </div>
+                    <button className="my-2">Edit Enhanced Answer</button>
                   </div>
                 )}
               </div>

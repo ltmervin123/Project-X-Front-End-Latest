@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ReferenceCheckQuestionnairePage() {
   const location = useLocation();
   const selectedMethod = location.state?.selectedMethod; // Access 'selectedMethod' from the state
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     console.log("Selected Method:", selectedMethod);
@@ -24,7 +25,9 @@ function ReferenceCheckQuestionnairePage() {
   ];
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [transcription, setTranscription] = useState("Transcription will appear here....");
+  const [transcription, setTranscription] = useState("");
+  const [answers, setAnswers] = useState(new Array(questions.length).fill("")); // Store answers for each question
+  const [answered, setAnswered] = useState(new Array(questions.length).fill(false)); // Track whether a question has been answered
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
@@ -41,6 +44,41 @@ function ReferenceCheckQuestionnairePage() {
   const handleTranscriptionChange = (event) => {
     setTranscription(event.target.value);
   };
+
+  const handleStart = () => {
+    if (transcription.trim()) {
+      const updatedAnswers = [...answers];
+      updatedAnswers[currentQuestionIndex] = transcription; // Save the answer for the current question
+      setAnswers(updatedAnswers);
+      setAnswered((prevAnswered) => {
+        const updatedAnswered = [...prevAnswered];
+        updatedAnswered[currentQuestionIndex] = true; // Mark current question as answered
+        return updatedAnswered;
+      });
+      setTranscription(""); // Reset the transcription input field
+    } else {
+      alert("Please answer the question before moving to the next one.");
+    }
+  };
+
+  const handleFinish = () => {
+    if (transcription.trim()) {
+      const updatedAnswers = [...answers];
+      updatedAnswers[currentQuestionIndex] = transcription; // Save the last answer
+      setAnswers(updatedAnswers);
+    }
+  
+    // Log the questions and answers when finishing the questionnaire
+    console.log("Questions and Answers:");
+    questions.forEach((question, index) => {
+      console.log(`${question}: ${answers[index]}`);
+    });
+  
+    navigate("/ReviewYourReferenceCheckPage", {
+      state: { questions: questions, answers: answers }, // Pass the questions and answers
+    });
+  };
+  
 
   return (
     <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -66,7 +104,7 @@ function ReferenceCheckQuestionnairePage() {
           </button>
           <button
             onClick={handleNext}
-            disabled={currentQuestionIndex === questions.length - 1}
+            disabled={!answered[currentQuestionIndex]} // Disable 'Next' if the current question is not answered
             className="d-flex align-items-center justify-content-center"
           >
             Next
@@ -77,13 +115,21 @@ function ReferenceCheckQuestionnairePage() {
       <div className="transcription-answer-container">
         <h4>{selectedMethod === "Voice Response" ? "Transcription:" : "Answer:"}</h4>
         <textarea
-          value={transcription}
+          value={answered[currentQuestionIndex] ? answers[currentQuestionIndex] : transcription} // Show transcription or saved answer
           onChange={handleTranscriptionChange}
           rows="4"
-          placeholder={selectedMethod === "Voice Response" ? "Transcription will appear here...." : "Type your answer..."}
+          placeholder={
+            selectedMethod === "Voice Response"
+              ? "Transcription will appear here...."
+              : "Type your answer..."
+          }
         />
         <div className="d-flex justify-content-center">
-          <button>Start</button>
+          {currentQuestionIndex === questions.length - 1 ? (
+            <button onClick={handleFinish}>Finish</button> // Show Finish button on last question
+          ) : (
+            <button onClick={handleStart}>Start</button> // Start button to save answer and move to next question
+          )}
         </div>
       </div>
     </div>

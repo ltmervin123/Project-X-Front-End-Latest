@@ -30,11 +30,11 @@
     font-weight: 600;
     
 }
-.password-changed > p {
+.password-changed-container > p {
     text-align: center;
 }
-.password-changed > p,
-.password-changed > ul > li
+.password-changed-container > p,
+.password-changed-container > ul > li
  {
     font-size: 14px !important;
     margin-bottom: 0 !important;

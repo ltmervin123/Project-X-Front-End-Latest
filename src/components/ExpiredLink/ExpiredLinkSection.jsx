@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 
 const ExpiredLinkSection = () => {
   return (
@@ -27,10 +26,10 @@ const ExpiredLinkSection = () => {
             requested the reference check for assistance.
           </p>
           <button
-            className="btn-send-email"
+            className="btn-bt-dashboard"
             onClick={() => (window.location.href = "/")}
           >
-            Close
+            Back to Dashboard
           </button>
         </div>
       </div>

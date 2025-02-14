@@ -49,6 +49,11 @@
 .referencecheckquestion-container button:nth-child(2) {
   background: #1877f2 !important;
 }
+.referencecheckquestion-container button:nth-child(2):disabled {
+  background: #1876f259 !important;
+  cursor: not-allowed; 
+  opacity: 0.6; 
+}
 .referencecheckquestion-container button:nth-child(1) > svg{
     position: relative;
     left: -15px;

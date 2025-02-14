@@ -14,7 +14,7 @@ function AiReferenceCheckVerificationPage() {
 
   return (
     <>
-      <div className="mock-background">
+      <div className="container-fluid mock-background">
         <Header />
         <AiReferenceCheckVerificationForm />
       </div>

@@ -51,9 +51,9 @@
   padding: 7px;
   background: #ffdcc2;
 }
-.ReviewYourReferenceCheck-box-dropdown{
-    height: 70% !important;
-    overflow: hidden;
+.ReviewYourReferenceCheck-box-dropdown {
+  height: 70% !important;
+  overflow: hidden;
 }
 .ReviewYourReferenceCheck-dropdown {
   border-radius: 0px;
@@ -83,15 +83,14 @@
 
 /* Transition for smooth rotation effect */
 .ReviewYourReferenceCheck-dropdown-header svg {
-    transition: transform 0.3s ease !important; /* Smooth transition for rotation */
-  }
-  
-  /* When the dropdown is open, rotate the icon (flip it 180 degrees) */
-  .ReviewYourReferenceCheck-dropdown-header svg.open {
-    transform: rotate(180deg) !important;
-  }
-  
-  
+  transition: transform 0.3s ease !important; /* Smooth transition for rotation */
+}
+
+/* When the dropdown is open, rotate the icon (flip it 180 degrees) */
+.ReviewYourReferenceCheck-dropdown-header svg.open {
+  transform: rotate(180deg) !important;
+}
+
 .ReviewYourReferenceCheck-dropdown-content {
   color: var(--font-black);
   font-size: 14px;
@@ -138,19 +137,19 @@
   padding: 5px 20px;
   border: none;
 }
-.view-more-btn{
-    position: absolute;
-    left: 0;
-    padding: 0;
-    font-style: italic;
-    color: var(--input-bg);
+.view-more-btn {
+  position: absolute;
+  left: 0;
+  padding: 0;
+  font-style: italic;
+  color: var(--input-bg);
 }
-.reset-btn{
-    background: var(--primary-color);
-    font-size: 25px;
-    border-radius: 50px;
-    padding: 5px 60px;
-    border: none;
-    color: var(--font-white);
-    margin-top: 20px;
+.reset-btn {
+  background: var(--primary-color);
+  font-size: 25px;
+  border-radius: 50px;
+  padding: 5px 60px;
+  border: none;
+  color: var(--font-white);
+  margin-top: 20px;
 }
