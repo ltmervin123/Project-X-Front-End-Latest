@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "../styles/LoginPage.css";
-import '../styles/CompanyRegistrationForm.css';
+import "../styles/CompanyRegistrationForm.css";
 import Header from "../components/CompanyRegistration/Header";
 import CompanyRegistrationForm from "../components/CompanyRegistration/CompanyRegistrationForm";
 
