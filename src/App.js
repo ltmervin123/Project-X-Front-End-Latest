@@ -57,6 +57,15 @@ import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
 // AiReferenceCheckVerificationPage
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
 
+// ChooseYourInterviewMethodPage
+import ChooseYourInterviewMethodPage from "./page/ChooseYourInterviewMethodPage.jsx";
+
+// ReferenceCheckQuestionnairePage
+import ReferenceCheckQuestionnairePage from "./page/ReferenceCheckQuestionnairePage.jsx";
+
+// ReviewYourReferenceCheckPage
+import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.jsx";
+
 function App() {
   const { user } = useAuthContext();
 
@@ -172,22 +181,37 @@ function App() {
           element={<CompanyRegistrationPage />}
         />
 
-        {/*// AiReferenceCheckVerificationPage*/}
+        {/* AiReferenceCheckVerificationPage*/}
         <Route
           path="/AiReferenceCheckVerification"
           element={<AiReferenceCheckVerificationPage />}
+        />
+        {/* ChooseYourInterviewMethodPage*/}
+        <Route
+          path="/ChooseYourInterviewMethodPage"
+          element={<ChooseYourInterviewMethodPage />}
+        />
+        {/* ReferenceCheckQuestionnairePage*/}
+        <Route
+          path="/ReferenceCheckQuestionnairePage"
+          element={<ReferenceCheckQuestionnairePage />}
+        />
+        {/* ReviewYourReferenceCheckPage*/}
+        <Route
+          path="/ReviewYourReferenceCheckPage"
+          element={<ReviewYourReferenceCheckPage />}
         />
 
         {/* Forgot pass */}
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* Use token as param */}
         <Route path="/reset-password/:token" element={<Resetpassword />} />
-        
+
         {/* Password Changed */}
         <Route path="/PasswordChanged" element={<PassChanged />} />
         {/* Expired/Invalid Link */}
         <Route path="/expiredlink" element={<ExpiredLink />} />
-        
+
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
 

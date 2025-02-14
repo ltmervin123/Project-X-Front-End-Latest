@@ -1,0 +1,109 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
+}
+.referencecheckquestiontitle {
+  width: 80%;
+  max-width: 1300px;
+}
+.referencecheckquestion-container {
+  position: relative;
+  width: 80%;
+  max-width: 1300px;
+  height: auto;
+  background: var(--font-white);
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 0px #00000059;
+}
+.transcription-answer-container {
+  width: 400px;
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--font-white);
+  box-shadow: 0 4px 4px 0px #00000059;
+}
+.referencecheckquestion-container .question-container > .question-title {
+  font-weight: 600 !important;
+}
+.referencecheckquestion-container .question-container > p {
+  font-size: 24px;
+}
+.referencecheckquestion-container button {
+  width: 200px;
+  padding: 5px 25px;
+  font-weight: 400;
+  border: none;
+  color: var(--font-white);
+  border-radius: 10px;
+  font-size: 25px;
+  position: relative;
+}
+.referencecheckquestion-container button:nth-child(1) {
+  background: #686868 !important;
+}
+.referencecheckquestion-container button:nth-child(2) {
+  background: #1877f2 !important;
+}
+.referencecheckquestion-container button:nth-child(1) > svg{
+    position: relative;
+    left: -15px;
+}
+.referencecheckquestion-container button:nth-child(2) > svg{
+    position: relative;
+    right: -40px;
+}
+.transcription-answer-container textarea {
+  width: 100% !important;
+  background: #d9d9d9;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  color: var(--input-bg);
+}
+.transcription-answer-container button {
+  background: var(--primary-color) !important;
+  padding: 5px 25px;
+  font-weight: 400;
+  border: none;
+  color: var(--font-white);
+  border-radius: 10px;
+  font-size: 25px;
+}
+/* bg shapes */
+.orange-bg-bottom {
+  background: var(--primary-color);
+  width: 30%;
+  height: 2%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.orange-bg-top {
+  background: var(--primary-color);
+  width: 30%;
+  height: 2%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.blue-bg-left {
+  background: var(--secondary-color);
+  width: 1%;
+  height: 60%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.blue-bg-right {
+  background: var(--secondary-color);
+  width: 1%;
+  height: 60%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}

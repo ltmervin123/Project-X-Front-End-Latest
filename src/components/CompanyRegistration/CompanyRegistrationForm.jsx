@@ -1,11 +1,20 @@
 import React, { useState, useMemo } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { useSignup } from "../../hook/useSignup";
+import { useNavigate } from "react-router-dom";
 
 const CompanyRegistrationForm = () => {
   const SERVICE = "AI_REFERENCE";
   const { signup, isLoading, error, message } = useSignup();
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  // temporary redirect
+  const handleClick = () => {
+    navigate("/AiReferenceCheckVerification");
+  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -42,7 +51,7 @@ const CompanyRegistrationForm = () => {
   };
 
   return (
-    <div className="company-reg-container  d-flex align-items-center flex-column justify-content-center">
+    <div className="company-reg-container d-flex align-items-center flex-column justify-content-center">
       <h4 className="text-center">Company Registration</h4>
       <i className="text-center">
         Join our platform and start hiring top talent today!
@@ -56,98 +65,144 @@ const CompanyRegistrationForm = () => {
           </p>
         </div>
 
-        <Form onSubmit={handleSubmit} className="form-company-reg">
+        <form onSubmit={handleSubmit} className="form-company-reg">
           <Row>
             <Col md={9}>
-              <Form.Group controlId="company-name">
-                <Form.Label>Company Name</Form.Label>
-                <Form.Control
+              <div className="mb-3">
+                <label htmlFor="company-name" className="form-label">
+                  Company Name
+                </label>
+                <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter Company Name"
+                  className="form-control"
+                  id="company-name"
                 />
-              </Form.Group>
+              </div>
 
               <Row className="mb-4">
                 <Col md={6}>
-                  <Form.Group controlId="email-address">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
+                  <div className="mb-3 position-relative">
+                    <label htmlFor="email-address" className="form-label">
+                      Email Address
+                    </label>
+                    <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Enter Email Address"
+                      className={`form-control ${
+                        error === "Email is not valid" ||
+                        error === "Email already exists"
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      id="email-address"
                     />
-                    {/* Error warning for email */}
                     {(error === "Email is not valid" ||
-                      error === "Email already exists") && <div>{error}</div>}
-                  </Form.Group>
+                      error === "Email already exists") && (
+                      <div className="invalid-feedback">{error}</div>
+                    )}
+                  </div>
                 </Col>
                 <Col md={6}>
-                  <Form.Group controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
+                  <div className="mb-3 position-relative">
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
+                    <input
+                      type={showPassword ? "text" : "password"} // This toggles the type between text and password
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="Enter Password"
+                      className={`form-control ${
+                        error === "Password is not strong enough"
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      id="password"
                     />
-                    {/* Error warning for password */}
+                    <span
+                      className={`toggle-password ${
+                        error === "Password is not strong enough"
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
+                      style={{
+                        cursor: "pointer",
+                        zIndex: 10,
+                      }}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}{" "}
+                      {/* Toggle icon */}
+                    </span>
                     {error === "Password is not strong enough" && (
-                      <div>{error}</div>
+                      <div className="invalid-feedback ">{error}</div>
                     )}
-                  </Form.Group>
+                  </div>
                 </Col>
               </Row>
 
-              <Form.Group controlId="location">
-                <Form.Label>Location</Form.Label>
-                <Form.Control
+              <div className="mb-3">
+                <label htmlFor="location" className="form-label">
+                  Location
+                </label>
+                <input
                   type="text"
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Enter Company Location"
+                  className="form-control"
+                  id="location"
                 />
-              </Form.Group>
+              </div>
 
               <Row className="mb-4">
                 <Col md={6}>
-                  <Form.Group controlId="company-size">
-                    <Form.Label>Company Size</Form.Label>
-                    <Form.Control
-                      as="select"
+                  <div className="mb-3">
+                    <label htmlFor="company-size" className="form-label">
+                      Company Size
+                    </label>
+                    <select
                       name="size"
                       value={formData.size}
                       onChange={handleChange}
+                      className="form-select"
+                      id="company-size"
                     >
                       <option value="">Select Company Size</option>
                       <option value="1-50">1-50 employees</option>
                       <option value="51-200">51-200 employees</option>
                       <option value="201+">201+ employees</option>
-                    </Form.Control>
-                  </Form.Group>
+                    </select>
+                  </div>
                 </Col>
                 <Col md={6}>
-                  <Form.Group controlId="industry">
-                    <Form.Label>Industry</Form.Label>
-                    <Form.Control
-                      as="select"
+                  <div className="mb-3">
+                    <label htmlFor="industry" className="form-label">
+                      Industry
+                    </label>
+                    <select
                       name="industry"
                       value={formData.industry}
                       onChange={handleChange}
+                      className="form-select"
+                      id="industry"
                     >
                       <option value="">Select Industry</option>
                       <option value="Technology">Technology</option>
                       <option value="Finance">Finance</option>
                       <option value="Healthcare">Healthcare</option>
                       <option value="Education">Education</option>
-                    </Form.Control>
-                  </Form.Group>
+                    </select>
+                  </div>
                 </Col>
               </Row>
 
@@ -156,58 +211,73 @@ const CompanyRegistrationForm = () => {
 
                 <Row>
                   <Col md={6}>
-                    <Form.Group controlId="first-name">
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
+                    <div className="mb-3">
+                      <label htmlFor="first-name" className="form-label">
+                        First Name
+                      </label>
+                      <input
                         type="text"
                         name="firstName"
                         value={formData.firstName}
                         onChange={handleChange}
                         placeholder="Enter First Name"
+                        className="form-control"
+                        id="first-name"
                       />
-                    </Form.Group>
+                    </div>
                   </Col>
 
                   <Col md={6}>
-                    <Form.Group controlId="last-name">
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
+                    <div className="mb-3">
+                      <label htmlFor="last-name" className="form-label">
+                        Last Name
+                      </label>
+                      <input
                         type="text"
                         name="lastName"
                         value={formData.lastName}
                         onChange={handleChange}
                         placeholder="Enter Last Name"
+                        className="form-control"
+                        id="last-name"
                       />
-                    </Form.Group>
+                    </div>
                   </Col>
                 </Row>
 
-                <Form.Group controlId="position-title">
-                  <Form.Label>Position Title</Form.Label>
-                  <Form.Control
+                <div className="mb-3">
+                  <label htmlFor="position-title" className="form-label">
+                    Position Title
+                  </label>
+                  <input
                     type="text"
                     name="positionTitle"
                     value={formData.positionTitle}
                     onChange={handleChange}
-                    placeholder="Ex. HR Manager "
+                    placeholder="Ex. HR Manager"
+                    className="form-control"
+                    id="position-title"
                   />
-                </Form.Group>
+                </div>
 
-                <Form.Group controlId="annual-hiring-volume">
-                  <Form.Label>Annual Hiring Volume</Form.Label>
-                  <Form.Control
-                    as="select"
+                <div className="mb-3">
+                  <label htmlFor="annual-hiring-volume" className="form-label">
+                    Annual Hiring Volume
+                  </label>
+                  <select
                     name="annualHiringVolume"
                     value={formData.annualHiringVolume}
                     onChange={handleChange}
+                    className="form-select"
+                    id="annual-hiring-volume"
                   >
                     <option value="">Select Hiring Volume</option>
                     <option value="1-10">1-10 hires</option>
                     <option value="11-50">11-50 hires</option>
                     <option value="51+">51+ hires</option>
-                  </Form.Control>
-                </Form.Group>
-                {/* Success message here  */}
+                  </select>
+                </div>
+                {/* Success message here */}
                 {message && <div>{message}</div>}
               </div>
             </Col>
@@ -221,10 +291,15 @@ const CompanyRegistrationForm = () => {
             </Col>
           </Row>
 
-          <Button variant="primary" type="submit" disabled={disableButton}>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={disableButton}
+            onClick={handleClick} // Add the onClick handler
+          >
             {!isLoading ? "Register Company" : "Processing..."}
           </Button>
-        </Form>
+        </form>
       </div>
     </div>
   );

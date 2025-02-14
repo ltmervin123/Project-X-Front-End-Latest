@@ -60,6 +60,14 @@
 .company-registration-container-form label {
   margin-top: 5px;
 }
+.company-registration-container-form .toggle-password{
+  position: absolute;
+  right: 15px;
+  top: 75%;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
 .company-registration-container-form button {
   background: var(--secondary-color);
   border: none;
@@ -71,4 +79,7 @@
   position: absolute;
   bottom: 20px;
   right: -30px;
+}
+.company-registration-container-form .invalid-feedback{
+  left: 12px;
 }

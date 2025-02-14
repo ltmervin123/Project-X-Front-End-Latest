@@ -65,3 +65,9 @@
   border-radius: 20px;
   padding: 5px 15px;
 }
+.referencheckavatar{
+  height: 80%;
+  position: absolute;
+  bottom: 20px;
+  right: -30px;
+}

@@ -17,7 +17,7 @@
   overflow: auto;
   padding: 0 !important;
   background: url("../assets/bg.png");
-  background-size: cover;
+  background-size: 100%;
   margin: 0;
 }
 .main-login-form {

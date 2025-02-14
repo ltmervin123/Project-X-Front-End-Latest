@@ -1,7 +1,15 @@
 import React, { useState } from "react";
+import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const AiReferenceCheckVerificationForm = () => {
+  const navigate = useNavigate();
+
+  // temporary redirect
+  const handleClick = () => {
+    navigate("/ChooseYourInterviewMethodPage");
+  };
   const [formData, setFormData] = useState({
     refereeName: "",
     currentCompany: "",
@@ -44,7 +52,7 @@ const AiReferenceCheckVerificationForm = () => {
           className="form-AiReferenceCheckVerification "
         >
           <Row>
-            <Col md={12} className="d-flex flex-column gap-2">
+            <Col md={9} className="d-flex flex-column gap-2">
               <Form.Group controlId="referee-name">
                 <Form.Label>Referee Name</Form.Label>
                 <Form.Control
@@ -53,17 +61,6 @@ const AiReferenceCheckVerificationForm = () => {
                   value={formData.refereeName}
                   onChange={handleChange}
                   placeholder="Enter Referee Name"
-                />
-              </Form.Group>
-
-              <Form.Group controlId="current-company">
-                <Form.Label>Current Company (Optional)</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="currentCompany"
-                  value={formData.currentCompany}
-                  onChange={handleChange}
-                  placeholder="Enter Current Company (Optional)"
                 />
               </Form.Group>
 
@@ -107,14 +104,21 @@ const AiReferenceCheckVerificationForm = () => {
               </Form.Group>
             </Col>
 
-            <Col
-              md={3}
-              className="d-flex align-items-start position-relative"
-            ></Col>
+            <Col md={3} className="d-flex align-items-start position-relative">
+              <img
+                src={RegisterCompanyAvatar}
+                className="referencheckavatar"
+                alt="Image not found"
+              />
+            </Col>
           </Row>
 
           <div className="d-flex justify-content-center m-4 ">
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={handleClick} // Add the onClick handler
+            >
               Proceed to Reference Check
             </Button>
           </div>
