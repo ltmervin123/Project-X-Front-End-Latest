@@ -20,9 +20,13 @@ const CompanyRegistrationForm = () => {
     positionTitle: "",
   });
 
-  const buttonDisable = useMemo(() => {
+  const validateForm = useMemo(() => {
     return Object.values(formData).some((value) => value.trim() === "");
   }, [formData]);
+
+  const disableButton = useMemo(() => {
+    return validateForm || isLoading;
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,8 +36,9 @@ const CompanyRegistrationForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await signup(formData, SERVICE);
   };
 
   return (
@@ -137,10 +142,10 @@ const CompanyRegistrationForm = () => {
                       onChange={handleChange}
                     >
                       <option value="">Select Industry</option>
-                      <option value="tech">Technology</option>
-                      <option value="finance">Finance</option>
-                      <option value="healthcare">Healthcare</option>
-                      <option value="education">Education</option>
+                      <option value="Technology">Technology</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Education">Education</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>
@@ -203,10 +208,7 @@ const CompanyRegistrationForm = () => {
                   </Form.Control>
                 </Form.Group>
                 {/* Success message here  */}
-                <div>
-                  Company account has been created! Please check the registered
-                  email for activation
-                </div>
+                {message && <div>{message}</div>}
               </div>
             </Col>
 
@@ -219,8 +221,8 @@ const CompanyRegistrationForm = () => {
             </Col>
           </Row>
 
-          <Button variant="primary" type="submit" disabled={buttonDisable}>
-            Register Company
+          <Button variant="primary" type="submit" disabled={disableButton}>
+            {!isLoading ? "Register Company" : "Processing..."}
           </Button>
         </Form>
       </div>

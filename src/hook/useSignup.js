@@ -27,10 +27,35 @@ export const useSignup = () => {
   const aiReferenceSignUp = async (userDetail) => {
     try {
       const URL = `${API}/api/ai-referee/auth/company-registration`;
+      const {
+        name,
+        email,
+        password,
+        location,
+        size,
+        industry,
+        annualHiringVolume,
+        firstName,
+        lastName,
+        positionTitle,
+      } = userDetail;
       const companyDetails = {
-        
+        name,
+        email,
+        password,
+        location,
+        size,
+        industry,
+        annualHiringVolume,
       };
-      const personInChargeDetails = {};
+      const personInChargeDetails = { firstName, lastName, positionTitle };
+
+      const response = await axios.post(URL, {
+        companyDetails,
+        personInChargeDetails,
+      });
+
+      setMessage(response.data.message);
     } catch (err) {
       setError(err.response ? err.response.data.message : "Signup failed");
       return false;
