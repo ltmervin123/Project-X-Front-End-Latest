@@ -114,8 +114,9 @@ const LoginForm = () => {
                   <input
                     type="email"
                     className={`form-control ${
-                      error === "Incorrect email address"  ||
-                      error === "Account not activated. Check your email for activation"
+                      error === "Incorrect email address" ||
+                      error ===
+                        "Account not activated. Check your email for activation"
                         ? "is-invalid"
                         : ""
                     }`}
@@ -134,9 +135,7 @@ const LoginForm = () => {
                   >
                     Email
                   </label>
-                  {(error === "Incorrect email address" ||
-                    error ===
-                      "Account not activated. Check your email for activation") && (
+                  {error === "Incorrect email address" && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>
@@ -208,7 +207,11 @@ const LoginForm = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     className={`form-control ${
-                      error === "Incorrect password" ? "is-invalid" : ""
+                      error === "Incorrect password" ||
+                      error ===
+                        "Account not activated. Check your email for activation"
+                        ? "is-invalid"
+                        : ""
                     }`}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -216,7 +219,11 @@ const LoginForm = () => {
                   />
                   <label
                     className={`input-label ${
-                      error === "Incorrect password" ? "is-invalid" : ""
+                      error === "Incorrect password" ||
+                      error ===
+                        "Account not activated. Check your email for activation"
+                        ? "is-invalid"
+                        : ""
                     }`}
                   >
                     Password
@@ -234,7 +241,9 @@ const LoginForm = () => {
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </span>
 
-                  {error === "Incorrect password" && (
+                  {(error === "Incorrect password" ||
+                    error ===
+                      "Account not activated. Check your email for activation") && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>
@@ -262,7 +271,7 @@ const LoginForm = () => {
                   required
                 >
                   <option value="">Choose Your Service</option>
-  
+
                   <option value={SERVICE[0]}> AI Reference Checker</option>
                   <option value={SERVICE[1]}>Mock AI</option>
                 </select>
@@ -283,13 +292,13 @@ const LoginForm = () => {
               <button
                 className="social-icon-btn"
                 onClick={handleGoogleLogin}
-                disabled={service === "Ai Reference Checker"} // Disable when service is "Ai Reference Checker"
+                disabled={service === SERVICE[0]} // Disable when service is "Ai Reference Checker"
               >
                 <img src={google} alt="Google" className="social-icon" />
               </button>
               <button
                 className="social-icon-btn"
-                disabled={service === "Ai Reference Checker"} // Disable when service is "Ai Reference Checker"
+                disabled={service === SERVICE[0]} // Disable when service is "Ai Reference Checker"
               >
                 <img src={fb} alt="Facebook" className="social-icon" />
               </button>
