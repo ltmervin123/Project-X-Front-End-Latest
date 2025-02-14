@@ -40,6 +40,12 @@ import PassChanged from "./page/PassChangedPage.jsx";
 /*Expired/Invalid Link page*/
 import ExpiredLink from "./page/ExpiredLinkPage.jsx";
 
+/*Reference Verification page*/
+import ReferenceVerification from "./page/ReferenceVerificationPage.jsx";
+
+/*Reference Verification page*/
+import CreatedAccount from "./page/CreatedAccountPage.jsx";
+
 /* Our Partners Page */
 import OurParternersPage from "./page/OurPartnersPage.jsx";
 
@@ -185,8 +191,15 @@ function App() {
         
         {/* Password Changed */}
         <Route path="/PasswordChanged" element={<PassChanged />} />
+        
         {/* Expired/Invalid Link */}
         <Route path="/expiredlink" element={<ExpiredLink />} />
+
+        {/* Reference Verification page */}
+        <Route path="/ReferenceVerification" element={<ReferenceVerification />} />
+
+        {/* Created Account page*/}
+        <Route path="/CreatedAccount" element={<CreatedAccount />} />
         
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />

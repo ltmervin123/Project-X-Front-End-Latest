@@ -3,7 +3,7 @@ import "../styles/ExpiredLink.css";
 import Header from "../components/ExpiredLink/Header";
 import ExpiredLinkSection from "../components/ExpiredLink/ExpiredLinkSection.jsx";
 
-function ForgotPassPage() {
+function ExpiredLinkPage() {
   return (
     <>
       <div className="container-fluid main-container login-page-container">
@@ -14,4 +14,4 @@ function ForgotPassPage() {
   );
 }
 
-export default ForgotPassPage;
+export default ExpiredLinkPage;
