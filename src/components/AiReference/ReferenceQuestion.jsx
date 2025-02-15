@@ -66,7 +66,9 @@ const ReferenceQuestion = () => {
 
   const fetchCustomReferenceQuestions = async () => {
     try {
-      const { id, token } = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem("user"));
+      const id = user?.id;
+      const token = user?.token;
       const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
       const reponse = await axios.get(URL, {
         headers: {

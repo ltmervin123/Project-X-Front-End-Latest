@@ -43,7 +43,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { token } = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(localStorage.getItem("user"));
+    const token = user?.token;
     try {
       const URL = `${API}/api/ai-referee/company-reference-questions/create-reference-questions`;
       const payload = {

@@ -155,7 +155,7 @@ function App() {
             />
           </Route>
 
-          {/* <Route element={<RequireAuthAIReference />}> */}
+          <Route element={<RequireAuthAIReference />}>
             {/* AI Reference Checker Dashboard */}
             <Route
               path="/AiReferenceMaindashboard"
@@ -179,7 +179,7 @@ function App() {
               element={<AiReferenceReportsPage />}
             />
           </Route>
-        {/* </Route> */}
+        </Route>
 
         {/*Company Registration */}
         <Route
@@ -215,16 +215,19 @@ function App() {
 
         {/* Password Changed */}
         <Route path="/PasswordChanged" element={<PassChanged />} />
-        
+
         {/* Expired/Invalid Link */}
         <Route path="/expiredlink" element={<ExpiredLink />} />
 
         {/* Reference Verification page */}
-        <Route path="/ReferenceVerification" element={<ReferenceVerification />} />
+        <Route
+          path="/ReferenceVerification"
+          element={<ReferenceVerification />}
+        />
 
         {/* Created Account page*/}
         <Route path="/CreatedAccount" element={<CreatedAccount />} />
-        
+
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
