@@ -80,6 +80,25 @@ const ReferenceQuestion = () => {
     }
   };
 
+  const reFetchUpdatedQuestions = async () => {
+    try {
+      const { id, token } = JSON.parse(localStorage.getItem("user"));
+      const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
+      const reponse = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //delete the old questions from local storage
+      localStorage.removeItem("questions");
+      //set the new questions to local storage
+      localStorage.setItem("questions", JSON.stringify(reponse.data.questions));
+      setQuestionSets(reponse.data.questions);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (!questionSets.length) {
@@ -98,10 +117,10 @@ const ReferenceQuestion = () => {
     }));
   };
 
-  const handleAddNewSet = (newSet) => {
-    setQuestionSets((prevSets) => [...prevSets, newSet]);
-    setIsModalOpen(false); // Close modal after adding
-  };
+  // const handleAddNewSet = (newSet) => {
+  //   setQuestionSets((prevSets) => [...prevSets, newSet]);
+  //   setIsModalOpen(false); // Close modal after adding
+  // };
 
   // HR-HATCH Format Data
   const hrHatchFormats = [
@@ -270,7 +289,7 @@ const ReferenceQuestion = () => {
                         <p className="color-orange">
                           {item.questions.length} questions
                         </p>
-                        &nbsp;• Last updated: {formatDate(item.createdAt)}
+                        &nbsp;• Last updated: {formatDate(item.updatedAt)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-end gap-5 question-controls">
@@ -360,7 +379,7 @@ const ReferenceQuestion = () => {
       {isModalOpen && (
         <AddNewSetsQuestionPopUp
           onClose={() => setIsModalOpen(false)} // Close modal
-          onAddJob={handleAddNewSet} // Add new set logic
+          reFetchUpdatedQuestions={reFetchUpdatedQuestions} // Refetch questions after adding
         />
       )}
     </div>
