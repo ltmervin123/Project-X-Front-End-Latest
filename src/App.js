@@ -155,7 +155,7 @@ function App() {
             />
           </Route>
 
-          <Route element={<RequireAuthAIReference />}>
+          {/* <Route element={<RequireAuthAIReference />}> */}
             {/* AI Reference Checker Dashboard */}
             <Route
               path="/AiReferenceMaindashboard"
@@ -179,7 +179,7 @@ function App() {
               element={<AiReferenceReportsPage />}
             />
           </Route>
-        </Route>
+        {/* </Route> */}
 
         {/*Company Registration */}
         <Route
@@ -229,7 +229,7 @@ function App() {
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
         {/* Catch all un existing routes */}
-        <Route path="*" element={<ErrorPage />} />
+        <Route path="*" element={<ErrorePage />} />
       </Routes>
     </Router>
   );
