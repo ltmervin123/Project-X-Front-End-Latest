@@ -14,48 +14,6 @@ const ReferenceQuestion = () => {
     setActiveButton(button);
   };
 
-  // const [questionSets, setQuestionSets] = useState([
-  //   // {
-  //   //   title: "General Reference Check",
-  //   //   questionCount: 5,
-  //   //   lastUpdated: "2023-05-15",
-  //   //   questionTitle: "Standard questions for all positions",
-  //   //   questions: [
-  //   //     "How long did you work with the candidate?",
-  //   //     "What were the candidate's primary responsibilities?",
-  //   //     "How would you rate the candidate's overall job performance?",
-  //   //     "What are the candidate's greatest strengths?",
-  //   //     "Are there any areas where the candidate could improve?",
-  //   //   ],
-  //   // },
-  //   // {
-  //   //   title: "Managerial Reference Check",
-  //   //   questionCount: 6,
-  //   //   lastUpdated: "2023-04-10",
-  //   //   questionTitle: "Standard questions for all positions",
-  //   //   questions: [
-  //   //     "Was the candidate a manager or team lead?",
-  //   //     "How would you describe their leadership style?",
-  //   //     "Did they meet or exceed expectations for their role?",
-  //   //     "How did they handle challenges and conflict?",
-  //   //     "What skills did they bring to the team?",
-  //   //   ],
-  //   // },
-  //   // {
-  //   //   title: "Technical Reference Check",
-  //   //   questionCount: 5,
-  //   //   lastUpdated: "2023-06-25",
-  //   //   questionTitle: "Standard questions for all positions",
-  //   //   questions: [
-  //   //     "What technical skills does the candidate possess?",
-  //   //     "How did the candidate contribute to technical projects?",
-  //   //     "Did they display problem-solving abilities?",
-  //   //     "How did they stay updated with industry trends?",
-  //   //     "Would you consider this person a technical expert?",
-  //   //   ],
-  //   // },
-  // ]);
-
   const [questionSets, setQuestionSets] = useState(
     JSON.parse(localStorage.getItem("questions")) || []
   );
@@ -392,7 +350,7 @@ const ReferenceQuestion = () => {
                     </div>
                     {selectedSet === item._id && (
                       <div className="dropdown-content-q-sets mt-3">
-                        <p>{item.questionTitle}</p>
+                        <p>{item.description}</p>
                         <ul>
                           {item.questions.map((question, qIndex) => (
                             <li key={qIndex}>{question}</li>
