@@ -229,7 +229,7 @@ function App() {
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
         {/* Catch all un existing routes */}
-        <Route path="*" element={<ErrorePage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
   );

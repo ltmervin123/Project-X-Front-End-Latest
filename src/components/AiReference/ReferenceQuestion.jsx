@@ -120,13 +120,13 @@ const ReferenceQuestion = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!questionSets.length) {
+      if (questionSets.length === 0) {
         await fetchCustomReferenceQuestions();
       }
     };
 
     fetchData();
-  }, [questionSets]);
+  }, []);
 
   const handleSetClick = (index) => {
     setSelectedSet(index === selectedSet ? null : index);
