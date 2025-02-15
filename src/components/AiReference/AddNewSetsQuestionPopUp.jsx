@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import axios from "axios";
 
-const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
-  const [title, setTitle] = useState("");
+const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
+  const API = process.env.REACT_APP_API_URL;
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [isQuestionsEmpty, setIsQuestionsEmpty] = useState(false);
   const [questions, setQuestions] = useState([
     { text: "" }, // Start with one empty question
   ]);
+
+  useEffect(() => {
+    const validateQuestions = () => {
+      setIsQuestionsEmpty(false);
+      if (questions.length === 0) {
+        setIsQuestionsEmpty(true);
+      }
+    };
+
+    validateQuestions();
+  }, [questions]);
 
   const handleQuestionChange = (index, value) => {
     const updatedQuestions = [...questions];
@@ -23,17 +37,32 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
     setQuestions(updatedQuestions);
   };
 
-  const handleSubmit = (e) => {
+  const formatQuestions = () => {
+    return questions.map((question) => question.text);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newSet = {
-      title,
-      description,
-      questions: questions.map((q) => q.text),
-      questionCount: questions.length,
-      lastUpdated: new Date().toLocaleDateString(),
-    };
-    onAddJob(newSet); // Pass new set to parent
-    onClose(); // Close modal after adding
+    const { token } = JSON.parse(localStorage.getItem("user"));
+    try {
+      const URL = `${API}/api/ai-referee/company-reference-questions/create-reference-questions`;
+      const payload = {
+        name,
+        description,
+        questions: formatQuestions(),
+      };
+      const reponse = await axios.post(URL, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (reponse.status === 201) {
+        reFetchUpdatedQuestions();
+      }
+      onClose();
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -58,8 +87,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Enter set name"
               required
             />
@@ -74,6 +103,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
               placeholder="Enter description"
               required
             />
+            {isQuestionsEmpty && <div>Question is required</div>}
           </Form.Group>
 
           <div className="questions-list">
@@ -112,13 +142,18 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
               className="btn-add-new-question"
               variant="link"
               onClick={handleAddQuestion}
+              disabled={questions.length === 5}
             >
               Add Questions
             </button>
           </div>
 
           <div className="d-flex justify-content-end mt-3">
-            <button className="btn-add-candidate" type="submit">
+            <button
+              className="btn-add-candidate"
+              type="submit"
+              disabled={isQuestionsEmpty}
+            >
               Add Set
             </button>
           </div>
