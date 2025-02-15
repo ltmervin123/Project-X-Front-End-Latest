@@ -142,6 +142,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
               className="btn-add-new-question"
               variant="link"
               onClick={handleAddQuestion}
+              disabled={questions.length === 5}
             >
               Add Questions
             </button>
