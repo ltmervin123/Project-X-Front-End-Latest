@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa"; // icons for edit, delete, and dropdown
 import AddNewSetsQuestionPopUp from "./AddNewSetsQuestionPopUp";
 import logo from "../../assets/logo.png"; // Adjust the path to your logo image
+import axios from "axios";
 
 const ReferenceQuestion = () => {
+  const API = process.env.REACT_APP_API_URL;
   const [selectedSet, setSelectedSet] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("Custom Sets"); // Default to 'Custom Sets'
@@ -12,47 +14,82 @@ const ReferenceQuestion = () => {
     setActiveButton(button);
   };
 
-  const [questionSets, setQuestionSets] = useState([
-    {
-      title: "General Reference Check",
-      questionCount: 5,
-      lastUpdated: "2023-05-15",
-      questionTitle: "Standard questions for all positions",
-      questions: [
-        "How long did you work with the candidate?",
-        "What were the candidate's primary responsibilities?",
-        "How would you rate the candidate's overall job performance?",
-        "What are the candidate's greatest strengths?",
-        "Are there any areas where the candidate could improve?",
-      ],
-    },
-    {
-      title: "Managerial Reference Check",
-      questionCount: 6,
-      lastUpdated: "2023-04-10",
-      questionTitle: "Standard questions for all positions",
-      questions: [
-        "Was the candidate a manager or team lead?",
-        "How would you describe their leadership style?",
-        "Did they meet or exceed expectations for their role?",
-        "How did they handle challenges and conflict?",
-        "What skills did they bring to the team?",
-      ],
-    },
-    {
-      title: "Technical Reference Check",
-      questionCount: 5,
-      lastUpdated: "2023-06-25",
-      questionTitle: "Standard questions for all positions",
-      questions: [
-        "What technical skills does the candidate possess?",
-        "How did the candidate contribute to technical projects?",
-        "Did they display problem-solving abilities?",
-        "How did they stay updated with industry trends?",
-        "Would you consider this person a technical expert?",
-      ],
-    },
-  ]);
+  // const [questionSets, setQuestionSets] = useState([
+  //   // {
+  //   //   title: "General Reference Check",
+  //   //   questionCount: 5,
+  //   //   lastUpdated: "2023-05-15",
+  //   //   questionTitle: "Standard questions for all positions",
+  //   //   questions: [
+  //   //     "How long did you work with the candidate?",
+  //   //     "What were the candidate's primary responsibilities?",
+  //   //     "How would you rate the candidate's overall job performance?",
+  //   //     "What are the candidate's greatest strengths?",
+  //   //     "Are there any areas where the candidate could improve?",
+  //   //   ],
+  //   // },
+  //   // {
+  //   //   title: "Managerial Reference Check",
+  //   //   questionCount: 6,
+  //   //   lastUpdated: "2023-04-10",
+  //   //   questionTitle: "Standard questions for all positions",
+  //   //   questions: [
+  //   //     "Was the candidate a manager or team lead?",
+  //   //     "How would you describe their leadership style?",
+  //   //     "Did they meet or exceed expectations for their role?",
+  //   //     "How did they handle challenges and conflict?",
+  //   //     "What skills did they bring to the team?",
+  //   //   ],
+  //   // },
+  //   // {
+  //   //   title: "Technical Reference Check",
+  //   //   questionCount: 5,
+  //   //   lastUpdated: "2023-06-25",
+  //   //   questionTitle: "Standard questions for all positions",
+  //   //   questions: [
+  //   //     "What technical skills does the candidate possess?",
+  //   //     "How did the candidate contribute to technical projects?",
+  //   //     "Did they display problem-solving abilities?",
+  //   //     "How did they stay updated with industry trends?",
+  //   //     "Would you consider this person a technical expert?",
+  //   //   ],
+  //   // },
+  // ]);
+
+  const [questionSets, setQuestionSets] = useState(
+    JSON.parse(localStorage.getItem("questions")) || []
+  );
+
+  const formatDate = (date) => {
+    return date.split("T")[0]; // Extract only YYYY-MM-DD
+  };
+
+  const fetchCustomReferenceQuestions = async () => {
+    try {
+      const { id, token } = JSON.parse(localStorage.getItem("user"));
+      const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
+      const reponse = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.setItem("questions", JSON.stringify(reponse.data.questions));
+      setQuestionSets(reponse.data.questions);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!questionSets.length) {
+        await fetchCustomReferenceQuestions();
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleSetClick = (index) => {
     setSelectedSet(index === selectedSet ? null : index);
     setFlippedState((prevState) => ({
@@ -221,16 +258,19 @@ const ReferenceQuestion = () => {
             </div>
             <div className="AiReference-Question-Sets-Container">
               {/* Question Set Container for Custom Sets */}
-              {questionSets.map((set, index) => (
-                <div key={index} className="question-set-container border mb-3">
+              {questionSets.map((item) => (
+                <div
+                  key={item._id}
+                  className="question-set-container border mb-3"
+                >
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="question-set-info">
-                      <h5>{set.title}</h5>
+                      <h5>{item.name}</h5>
                       <p className="d-flex">
                         <p className="color-orange">
-                          {set.questionCount} questions
+                          {item.questions.length} questions
                         </p>
-                        &nbsp;• Last updated: {set.lastUpdated}
+                        &nbsp;• Last updated: {formatDate(item.createdAt)}
                       </p>
                     </div>
                     <div className="d-flex justify-content-end gap-5 question-controls">
@@ -277,11 +317,11 @@ const ReferenceQuestion = () => {
 
                       <button
                         className="dropdown-toggle-q-sets border-0"
-                        onClick={() => handleSetClick(index)}
+                        onClick={() => handleSetClick(item._id)}
                       >
                         <svg
                           className={
-                            flippedState[index] ? "dropdown-flipped" : ""
+                            flippedState[item._id] ? "dropdown-flipped" : ""
                           }
                           width="28"
                           height="17"
@@ -299,11 +339,11 @@ const ReferenceQuestion = () => {
                       </button>
                     </div>
                   </div>
-                  {selectedSet === index && (
+                  {selectedSet === item._id && (
                     <div className="dropdown-content-q-sets mt-3">
-                      <p>{set.questionTitle}</p>
+                      <p>{item.questionTitle}</p>
                       <ul>
-                        {set.questions.map((question, qIndex) => (
+                        {item.questions.map((question, qIndex) => (
                           <li key={qIndex}>{question}</li>
                         ))}
                       </ul>
