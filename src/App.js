@@ -158,35 +158,32 @@ function App() {
             />
           </Route>
 
-          {/* <Route element={<RequireAuthAIReference />}> */}
-          {/* AI Reference Checker Dashboard */}
-          <Route
-            path="/AiReferenceMaindashboard"
-            element={<AiReferenceMainDashboardPage />}
-          />
-          <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
-          <Route
-            path="/AiReferenceCandidates"
-            element={<AiReferenceCandidatesPage />}
-          />
-          <Route
-            path="/AiReferenceRequest"
-            element={<AiReferenceRequestPage />}
-          />
-          {/* Dri changes vin  */}
-          <Route
-            path="/ViewRequest"
-            element={<ViewRequest />}
-          />
-          <Route
-            path="/AiReferenceQuestion"
-            element={<AiReferenceQuestionPage />}
-          />
-          <Route
-            path="/AiReferenceReports"
-            element={<AiReferenceReportsPage />}
-          />
-          {/* </Route> */}
+          <Route element={<RequireAuthAIReference />}>
+            {/* AI Reference Checker Dashboard */}
+            <Route
+              path="/AiReferenceMaindashboard"
+              element={<AiReferenceMainDashboardPage />}
+            />
+            <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
+            <Route
+              path="/AiReferenceCandidates"
+              element={<AiReferenceCandidatesPage />}
+            />
+            <Route
+              path="/AiReferenceRequest"
+              element={<AiReferenceRequestPage />}
+            />
+            {/* Dri changes vin  */}
+            <Route path="/ViewRequest" element={<ViewRequest />} />
+            <Route
+              path="/AiReferenceQuestion"
+              element={<AiReferenceQuestionPage />}
+            />
+            <Route
+              path="/AiReferenceReports"
+              element={<AiReferenceReportsPage />}
+            />
+          </Route>
         </Route>
 
         {/*Company Registration */}
