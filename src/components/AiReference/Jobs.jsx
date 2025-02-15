@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobPopUp from "./AddJobPopUp";
+import { FaSearch } from "react-icons/fa";
 
 const Jobs = () => {
+  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+
   // Sample data for active jobs
   const [activeJobs, setActiveJobs] = useState([
     {
@@ -67,13 +70,26 @@ const Jobs = () => {
         <h3>Jobs</h3>
         <p>Manage and track your open positions</p>
       </div>
+      <div className="d-flex align-items-center search-candidates">
+        <div className="search-wrapper position-relative">
+          <input
+            type="text"
+            placeholder="Search job name..."
+            className="form-control ps-4 pe-5"
+            value={searchQuery} // bind value to the searchQuery state
+            onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
+          />
+
+          <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+        </div>
+      </div>
       <div className="d-flex justify-content-end">
         <button
           onClick={handleCreateNewJob}
           className="btn-create-new-job mb-3 d-flex align-items-center justify-content-center gap-1"
         >
           <svg
-           width="30"
+            width="30"
             height="30"
             viewBox="0 0 37 37"
             fill="none"
@@ -107,18 +123,23 @@ const Jobs = () => {
             </tr>
           </thead>
           <tbody>
-            {activeJobs.map((job) => (
-              <tr key={job.id}>
-                <td>{job.name}</td>
-                <td>{job.vacancies}</td>
-                <td>{job.hiringManager}</td>
-                <td>
-                  <button variant="link" className="btn-view-details">
-                    View Details
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {activeJobs
+              .filter(
+                (job) =>
+                  job.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by job name
+              )
+              .map((job) => (
+                <tr key={job.id}>
+                  <td>{job.name}</td>
+                  <td>{job.vacancies}</td>
+                  <td>{job.hiringManager}</td>
+                  <td>
+                    <button variant="link" className="btn-view-details">
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

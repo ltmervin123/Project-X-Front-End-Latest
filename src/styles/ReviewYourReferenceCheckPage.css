@@ -14,7 +14,7 @@
   width: 65%;
   max-width: 880px;
   height: auto;
-  max-height: 900px;
+  /* max-height: 900px !important; */
   background: var(--font-white);
   padding: 20px 40px;
   border-radius: 20px;
@@ -41,8 +41,14 @@
 
 .ReviewYourReferenceCheck-container > p {
   font-size: 14px;
+  font-weight: 600;
+margin: 0;
 }
-
+.ReviewYourReferenceCheck-container > p > span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--input-bg);
+}
 .warning-notice-orange {
   width: 100%;
   border: 2px solid var(--primary-color);
@@ -52,9 +58,15 @@
   background: #ffdcc2;
 }
 .ReviewYourReferenceCheck-box-dropdown {
-  height: 70% !important;
   overflow: hidden;
+  transition: height 0.3s ease; /* Smooth transition for height change */
 }
+
+/* Optional: You can define a max-height when collapsed */
+.ReviewYourReferenceCheck-box-dropdown.collapsed {
+  max-height: 560px; /* Limit the height when collapsed */
+}
+
 .ReviewYourReferenceCheck-dropdown {
   border-radius: 0px;
   position: relative;

@@ -166,3 +166,20 @@
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }
+.AiReference-Question-Sets-Container::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.AiReference-Question-Sets-Container::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.AiReference-Question-Sets-Container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.AiReference-Question-Sets-Container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}

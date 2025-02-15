@@ -4,6 +4,8 @@ import AddCandidatePopUp from "./AddCandidatePopUp"; // Assuming you have a simi
 import { FaSearch } from "react-icons/fa";
 
 const Candidates = () => {
+  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+
   const [candidates, setCandidates] = useState([
     {
       id: 1,
@@ -128,8 +130,11 @@ const Candidates = () => {
             <input
               type="text"
               placeholder="Search candidates..."
-              className="form-control ps-4 pe-5" // padding start (left) and end (right)
+              className="form-control ps-4 pe-5"
+              value={searchQuery} // bind value to the searchQuery state
+              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
             />
+
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
         </div>
@@ -176,19 +181,26 @@ const Candidates = () => {
             </tr>
           </thead>
           <tbody>
-            {candidates.map((candidate) => (
-              <tr key={candidate.id}>
-                <td>{candidate.name}</td>
-                <td>{candidate.email}</td>
-                <td>{candidate.position}</td>
-                <td style={{ color: getStatusColor(candidate.status) }}>
-                  {candidate.status}
-                </td>
-                <td>
-                  <button className="btn-view-details">View Details</button>
-                </td>
-              </tr>
-            ))}
+            {candidates
+              .filter(
+                (candidate) =>
+                  candidate.name
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) // Filter by name
+              )
+              .map((candidate) => (
+                <tr key={candidate.id}>
+                  <td>{candidate.name}</td>
+                  <td>{candidate.email}</td>
+                  <td>{candidate.position}</td>
+                  <td style={{ color: getStatusColor(candidate.status) }}>
+                    {candidate.status}
+                  </td>
+                  <td>
+                    <button className="btn-view-details">View Details</button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
 

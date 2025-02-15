@@ -8,31 +8,7 @@ import default_avatar_img from "../../assets/default.png"; // Import default ava
 // Register all necessary components
 Chart.register(...registerables);
 
-const AiReferenceCard = ({ title, count, textColor }) => {
-  return (
-    <div
-      className="AiReferenceCard"
-      style={{
-        padding: "20px",
-        borderRadius: "10px",
-      }}
-    >
-      <div>
-        <p
-          className="d-flex justify-content-between align-items-center"
-          style={{
-            color: textColor,
-          }}
-        >
-          {title}
-        </p>
-      </div>
-      <p className="count d-flex align-items-center justify-content-center">
-        {count}
-      </p>
-    </div>
-  );
-};
+
 
 const LogContainer = ({ logData }) => {
   const [showAll, setShowAll] = useState(false);
@@ -66,6 +42,13 @@ const LogContainer = ({ logData }) => {
 };
 
 const MainDashboard = () => {
+  const cardData = [
+    { title: "Active Jobs", count: "257", color: "#1877F2" },
+    { title: "Pending References", count: "12", color: "#F8BD00" },
+    { title: "Completed References", count: "159", color: "#319F43" },
+    { title: "Total Candidates", count: "159", color: "#686868" },
+  ];
+
   // Data for the line chart
   const lineData = {
     labels: [
@@ -213,34 +196,27 @@ const MainDashboard = () => {
       </div>
       <div>
         <Row className="mb-3">
-          <Col md={3}>
-            <AiReferenceCard
-              title="Active Jobs"
-              count="257"
-              textColor="#1877F2"
-            />
-          </Col>
-          <Col md={3}>
-            <AiReferenceCard
-              title="Pending References"
-              count="12"
-              textColor="#F8BD00"
-            />
-          </Col>
-          <Col md={3}>
-            <AiReferenceCard
-              title="Completed References"
-              count="159"
-              textColor="#319F43"
-            />
-          </Col>
-          <Col md={3}>
-            <AiReferenceCard
-              title="Total Candidates"
-              count="7"
-              textColor="#686868"
-            />
-          </Col>
+          {cardData.map((card, index) => (
+            <Col key={index} md={3}>
+              <div className="AiReferenceCard">
+                {/* Title and Count */}
+                <div className="h-100">
+                  <p className="d-flex title">
+                    <div
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: card.color, // Dynamic color from card data
+                        marginRight: "10px", // Space between box and title
+                      }}
+                    ></div>
+                    {card.title}
+                  </p>
+                  <p className="d-flex align-items-center justify-content-center count">{card.count}</p>
+                </div>
+              </div>
+            </Col>
+          ))}
         </Row>
       </div>
 

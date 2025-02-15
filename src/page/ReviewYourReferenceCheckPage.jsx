@@ -89,7 +89,7 @@ function ReviewYourReferenceCheckPage() {
             Please ensure all information is accurate before submitting. Once
             submitted, you won't be able to make further changes.
           </div>
-          <div className="ReviewYourReferenceCheck-box-dropdown">
+          <div className={`ReviewYourReferenceCheck-box-dropdown ${expanded ? "" : "collapsed"}`}>            {/* Render questions dynamically */}
             {/* Render questions dynamically */}
             {updatedQuestions.map((question) => (
               <div

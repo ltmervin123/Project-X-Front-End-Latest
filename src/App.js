@@ -72,6 +72,9 @@ import ReferenceCheckQuestionnairePage from "./page/ReferenceCheckQuestionnaireP
 // ReviewYourReferenceCheckPage
 import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.jsx";
 
+// ViewRequest
+import ViewRequest from "./components/AiReference/ViewRequest.jsx";
+
 function App() {
   const { user } = useAuthContext();
 
@@ -156,28 +159,33 @@ function App() {
           </Route>
 
           {/* <Route element={<RequireAuthAIReference />}> */}
-            {/* AI Reference Checker Dashboard */}
-            <Route
-              path="/AiReferenceMaindashboard"
-              element={<AiReferenceMainDashboardPage />}
-            />
-            <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
-            <Route
-              path="/AiReferenceCandidates"
-              element={<AiReferenceCandidatesPage />}
-            />
-            <Route
-              path="/AiReferenceRequest"
-              element={<AiReferenceRequestPage />}
-            />
-            <Route
-              path="/AiReferenceQuestion"
-              element={<AiReferenceQuestionPage />}
-            />
-            <Route
-              path="/AiReferenceReports"
-              element={<AiReferenceReportsPage />}
-            />
+          {/* AI Reference Checker Dashboard */}
+          <Route
+            path="/AiReferenceMaindashboard"
+            element={<AiReferenceMainDashboardPage />}
+          />
+          <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
+          <Route
+            path="/AiReferenceCandidates"
+            element={<AiReferenceCandidatesPage />}
+          />
+          <Route
+            path="/AiReferenceRequest"
+            element={<AiReferenceRequestPage />}
+          />
+          {/* Dri changes vin  */}
+          <Route
+            path="/ViewRequest"
+            element={<ViewRequest />}
+          />
+          <Route
+            path="/AiReferenceQuestion"
+            element={<AiReferenceQuestionPage />}
+          />
+          <Route
+            path="/AiReferenceReports"
+            element={<AiReferenceReportsPage />}
+          />
           {/* </Route> */}
         </Route>
 
@@ -215,16 +223,19 @@ function App() {
 
         {/* Password Changed */}
         <Route path="/PasswordChanged" element={<PassChanged />} />
-        
+
         {/* Expired/Invalid Link */}
         <Route path="/expiredlink" element={<ExpiredLink />} />
 
         {/* Reference Verification page */}
-        <Route path="/ReferenceVerification" element={<ReferenceVerification />} />
+        <Route
+          path="/ReferenceVerification"
+          element={<ReferenceVerification />}
+        />
 
         {/* Created Account page*/}
         <Route path="/CreatedAccount" element={<CreatedAccount />} />
-        
+
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
 

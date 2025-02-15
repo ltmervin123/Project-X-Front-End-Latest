@@ -120,3 +120,21 @@ word-wrap: break-word;
   padding: 5px;
   color: var(--font-white);
 }
+/* Customizing the scrollbar */
+.AiReference-candidates-container tbody::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.AiReference-candidates-container tbody::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.AiReference-candidates-container tbody::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.AiReference-candidates-container tbody::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}

@@ -2,13 +2,22 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddRequestPopUp from "./AddRequestPopUp"; // Assuming you have a similar component for adding candidates
 import { FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ReferenceRequest = () => {
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  // Function to handle navigation on button click
+  const handleViewRequest = () => {
+    navigate("/ViewRequest"); // Navigate to '/ViewRequest' when the button is clicked
+  };
+  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+
   const [requests, setRequests] = useState([
     {
       id: 1,
       candidate: "John Doe",
-      referee: "Steve",  // Add a referee
+      referee: "Steve", // Add a referee
       position: "Software Engineer",
       status: "In Progress",
       dateSent: "2025-02-01",
@@ -160,10 +169,13 @@ const ReferenceRequest = () => {
               type="text"
               placeholder="Search request..."
               className="form-control ps-4 pe-5" // padding start (left) and end (right)
+              value={searchQuery} // Bind value to searchQuery state
+              onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery state
             />
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
         </div>
+
         <button
           onClick={handleAddNewRequest}
           className="btn-create-new-candidate d-flex align-items-center justify-content-center gap-1"
@@ -209,21 +221,34 @@ const ReferenceRequest = () => {
             </tr>
           </thead>
           <tbody>
-            {requests.map((request) => (
-              <tr key={request.id}>
-                <td>{request.candidate}</td>
-                <td>{request.referee}</td>
-                <td>{request.position}</td>
-                <td style={{ color: getStatusColor(request.status) }}>
-                  {request.status}
-                </td>
-                <td>{request.dateSent}</td>
-                <td>{request.dateDue}</td>
-                <td>
-                  <button className="btn-view-details">View Details</button>
-                </td>
-              </tr>
-            ))}
+            {requests
+              .filter(
+                (request) =>
+                  request.candidate
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                  request.referee
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                  request.position
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) // Search in candidate, referee, and position
+              )
+              .map((request) => (
+                <tr key={request.id}>
+                  <td>{request.candidate}</td>
+                  <td>{request.referee}</td>
+                  <td>{request.position}</td>
+                  <td style={{ color: getStatusColor(request.status) }}>
+                    {request.status}
+                  </td>
+                  <td>{request.dateSent}</td>
+                  <td>{request.dateDue}</td>
+                  <td>
+                    <button onClick={handleViewRequest} className="btn-view-details">View</button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
 
