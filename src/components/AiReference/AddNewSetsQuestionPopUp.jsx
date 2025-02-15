@@ -15,7 +15,9 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
   };
 
   const handleAddQuestion = () => {
-    setQuestions([...questions, { text: "" }]);
+    if (questions.length < 10) {
+      setQuestions([...questions, { text: "" }]);
+    }
   };
 
   const handleDeleteQuestion = (index) => {
@@ -53,7 +55,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
             &times;
           </Button>
         </div>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} >
           <Form.Group controlId="formTitle" className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -68,7 +70,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
           <Form.Group controlId="formDescription" className="mb-3">
             <Form.Label>Description</Form.Label>
             <Form.Control
-              type="text"
+              as="textarea"
+              rows={1} // You can adjust the number of rows
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description"
@@ -80,7 +83,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
             {questions.map((question, index) => (
               <div key={index} className="d-flex align-items-center mb-2">
                 <Form.Control
-                  type="text"
+                  as="textarea"
+                  rows={1} // Adjust as needed
                   value={question.text}
                   onChange={(e) => handleQuestionChange(index, e.target.value)}
                   placeholder={`Question ${index + 1}`}
@@ -107,15 +111,18 @@ const AddNewSetsQuestionPopUp = ({ onClose, onAddJob }) => {
             ))}
           </div>
 
-          <div className="d-flex justify-content-center">
-            <button
-              className="btn-add-new-question"
-              variant="link"
-              onClick={handleAddQuestion}
-            >
-              Add Questions
-            </button>
-          </div>
+          {/* Conditionally render Add Question button if less than 10 questions */}
+          {questions.length < 10 && (
+            <div className="d-flex justify-content-center">
+              <button
+                className="btn-add-new-question"
+                variant="link"
+                onClick={handleAddQuestion}
+              >
+                Add Questions
+              </button>
+            </div>
+          )}
 
           <div className="d-flex justify-content-end mt-3">
             <button className="btn-add-candidate" type="submit">

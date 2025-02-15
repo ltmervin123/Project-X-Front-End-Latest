@@ -56,13 +56,13 @@
 .question-set-container p {
   margin: 0 !important;
 }
-.question-set-info{
+.question-set-info {
   width: 80%;
 }
-.question-set-container .question-controls{
+.question-set-container .question-controls {
   width: 20%;
 }
-.question-controls > div{
+.question-controls > div {
   width: 70%;
 }
 .btn-add-new-question {
@@ -76,33 +76,33 @@
 }
 .hr-hatch-card {
   border: 1px solid #686868;
-  height: 300px;
+  height: 320px;
   width: 350px;
   border-radius: 20px;
   border-top: transparent !important;
 }
+
 /* Style the first h5 element in hr-hatch-card-container */
 .hr-hatch-card-container .hr-hatch-card:nth-child(1) h5 {
-  background: var(--btn-view-color) !important;
+  color: var(--btn-view-color) !important;
 }
 
 /* Style the second h5 element in hr-hatch-card-container */
 .hr-hatch-card-container .hr-hatch-card:nth-child(2) h5 {
-  background: #1877f2 !important;
+  color: #1877f2 !important;
 }
 
 /* Style the third h5 element in hr-hatch-card-container */
 .hr-hatch-card-container .hr-hatch-card:nth-child(3) h5 {
-  background: #f8bd00 !important;
+  color: #f8bd00 !important;
 }
 
 .hr-hatch-card > h5 {
   width: 100%;
-  height: 30px;
+  height: 20%;
   padding: 20px;
   height: auto;
   margin: 0 !important;
-  color: var(--font-white);
   border-radius: 20px 20px 0px 0px;
   position: relative;
 }
@@ -117,12 +117,14 @@
   color: var(--card-color);
   font-size: 20px;
   margin: 0;
+  height: 50%;
 }
 .hr-hatch-card > small {
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   text-align: left;
   width: 100%;
   font-weight: 600;
+  height: 10%;
 }
 
 .btn-view-questions {
@@ -134,7 +136,33 @@
   color: var(--font-white);
   font-size: 20px;
 }
-.dropdown-flipped{
+.dropdown-flipped {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
+}
+/* styles.css or App.css */
+
+.questions-list {
+  max-height: 200px;  /* Set a max-height to allow scrolling */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  padding-right: 12px; /* Add space to the right so the scrollbar doesn't overlap content */
+}
+
+/* Customizing the scrollbar */
+.questions-list::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.questions-list::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.questions-list::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.questions-list::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
 }
