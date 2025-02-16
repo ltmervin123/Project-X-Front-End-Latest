@@ -82,8 +82,15 @@
 .AiReference-active-jobs-container .btn-view-details:hover {
   background: darkgreen;
 }
-
+.custom-modal-job .modal-dialog{
+  width: 1000px !important;
+  /* background: var(--primary-color); */
+}
+/* .custom-modal-job .modal-content{
+  background: var(--secondary-color);
+} */
 .custom-modal-job .modal-body {
+  width: 100%;
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
 .custom-modal-job .modal-body .candidate-id{

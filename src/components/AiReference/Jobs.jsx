@@ -33,8 +33,10 @@ const Jobs = () => {
   };
 
   const formatDate = (date) => {
+    if (!date) return ''; // Return an empty string or a fallback value if the date is invalid
     return date.split("T")[0]; // Extract only YYYY-MM-DD
   };
+  
 
   const refetchJobs = async () => {
     try {
@@ -127,7 +129,7 @@ const Jobs = () => {
               <th>Job Name</th>
               <th>Vacancies</th>
               <th>Hiring Manager</th>
-              <th>Posted Date</th>
+              <th>Created at</th>
             </tr>
           </thead>
           <tbody>
