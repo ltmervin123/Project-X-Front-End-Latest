@@ -226,7 +226,7 @@ function App() {
 
         {/*Company Reference Verification page */}
         <Route
-          path="/CompanyReferenceVerification"
+          path="/ReferenceVerification"
           element={<ReferenceVerification />}
         />
 
