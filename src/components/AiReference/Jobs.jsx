@@ -132,6 +132,8 @@ const Jobs = () => {
                 (job) =>
                   job.jobName.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by job name
               )
+              .slice()
+              .reverse()
               .map((job) => (
                 <tr key={job._id}>
                   <td>{job.jobName}</td>
