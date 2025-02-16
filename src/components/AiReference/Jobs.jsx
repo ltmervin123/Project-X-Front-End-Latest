@@ -32,6 +32,10 @@ const Jobs = () => {
     }
   };
 
+  const formatDate = (date) => {
+    return date.split("T")[0]; // Extract only YYYY-MM-DD
+  };
+
   const refetchJobs = async () => {
     try {
       //delete the jobs from local storage
@@ -139,9 +143,7 @@ const Jobs = () => {
                   <td>{job.jobName}</td>
                   <td>{job.vacancies}</td>
                   <td>{job.hiringManager}</td>
-                  <td>
-                  {job.postedDate}
-                  </td>
+                  <td>{formatDate(job.createdAt)}</td>
                 </tr>
               ))}
           </tbody>
