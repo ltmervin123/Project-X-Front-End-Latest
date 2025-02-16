@@ -219,14 +219,14 @@ function App() {
         <Route path="/reset-password/:token" element={<Resetpassword />} />
 
         {/* Password Changed */}
-        <Route path="/CompanyAccountPasswordChanged" element={<PassChanged />} />
+        <Route path="/PasswordChanged" element={<PassChanged />} />
 
         {/* Company Expired/Invalid Link */}
         <Route path="CompanyExpiredLink" element={<ExpiredLink />} />
 
         {/*Company Reference Verification page */}
         <Route
-          path="/CompanyReferenceVerification"
+          path="/ReferenceVerification"
           element={<ReferenceVerification />}
         />
 

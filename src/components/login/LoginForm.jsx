@@ -273,7 +273,6 @@ const LoginForm = () => {
                   <option value="">Choose Your Service</option>
                   <option value={SERVICE[1]}>Mock AI</option>
                   <option value={SERVICE[0]}> AI Reference Checker</option>
-
                 </select>
               </div>
               <button
@@ -285,7 +284,13 @@ const LoginForm = () => {
               </button>
             </form>
           </div>
-
+          <div className="agreenment-box-check">
+            <input type="checkbox" className="form-check-input" />
+            <small className="text-center form-check-label">
+              By continuing, you agree to HR-HATCH  Terms of Service and
+              acknowledge you've read our Data Protection Agreement.
+            </small>
+          </div>
           <div className="signup-container text-center">
             <p>Or sign up using</p>
             <div className="social-icons">

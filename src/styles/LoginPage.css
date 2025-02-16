@@ -559,7 +559,13 @@
   padding: 0;
   margin: 0;
 }
+.agreenment-box-check{
+  width: 60%;
 
+}
+.agreenment-box-check small{
+font-size: 12px;
+}
 .check-email-container {
   background: rgb(244, 106, 5);
   background: linear-gradient(
