@@ -174,9 +174,12 @@
   border-radius: 5px; /* Optional: Rounded corners */
 }
 
-.log-item img {
+.log-item .avatar-letter  {
   width: 40px; /* Set a fixed width for images */
   height: 40px; /* Set a fixed height for images */
   border-radius: 50%; /* Make images circular */
   background: var(--card-color);
+  color: var(--font-white);
+  font-weight: 500;
+  font-size: 20px;
 }

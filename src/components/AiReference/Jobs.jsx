@@ -6,46 +6,32 @@ import { FaSearch } from "react-icons/fa";
 const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
 
-  // Sample data for active jobs
   const [activeJobs, setActiveJobs] = useState([
     {
       id: 1,
       name: "Graphic Designer",
       vacancies: 2,
       hiringManager: "Levi Mella",
+      postedDate: "2025-02-01", // Example posted date
     },
     {
       id: 2,
       name: "Software Engineer",
       vacancies: 3,
       hiringManager: "Alice Johnson",
+      postedDate: "2025-02-03", // Example posted date
     },
     {
       id: 3,
       name: "Graphic Designer",
       vacancies: 2,
       hiringManager: "Levi Mella",
+      postedDate: "2025-02-05", // Example posted date
     },
-    {
-      id: 4,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
-    {
-      id: 5,
-      name: "Graphic Designer",
-      vacancies: 2,
-      hiringManager: "Levi Mella",
-    },
-    {
-      id: 6,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
+
     // Add more jobs as needed
   ]);
+  
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -119,7 +105,7 @@ const Jobs = () => {
               <th>Job Name</th>
               <th>Vacancies</th>
               <th>Hiring Manager</th>
-              <th>Actions</th>
+              <th>Posted Date</th>
             </tr>
           </thead>
           <tbody>
@@ -134,9 +120,7 @@ const Jobs = () => {
                   <td>{job.vacancies}</td>
                   <td>{job.hiringManager}</td>
                   <td>
-                    <button variant="link" className="btn-view-details">
-                      View Details
-                    </button>
+                  {job.postedDate}
                   </td>
                 </tr>
               ))}

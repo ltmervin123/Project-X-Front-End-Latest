@@ -3,17 +3,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AddRequestPopUp from "./AddRequestPopUp"; // Assuming you have a similar component for adding candidates
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp"; // Make sure to import the details popup component
 
 const ReferenceRequest = () => {
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
 
-  // Function to handle navigation on button click
-  const handleViewRequest = () => {
-    navigate("/ViewRequest"); // Navigate to '/ViewRequest' when the button is clicked
-  };
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
 
   const [requests, setRequests] = useState([
+    // Same mock data as before
     {
       id: 1,
       candidate: "John Doe",
@@ -34,97 +33,9 @@ const ReferenceRequest = () => {
       dateDue: "2025-01-22",
       actions: [],
     },
-    {
-      id: 3,
-      candidate: "Alice Johnson",
-      referee: "Steve",
-      position: "UX Designer",
-      status: "In Progress",
-      dateSent: "2025-01-30",
-      dateDue: "2025-02-05",
-      actions: [],
-    },
-    {
-      id: 4,
-      candidate: "Bob Brown",
-      referee: "Stella",
-      position: "Data Scientist",
-      status: "Completed",
-      dateSent: "2025-01-10",
-      dateDue: "2025-01-18",
-      actions: [],
-    },
-    {
-      id: 5,
-      candidate: "Charlie Davis",
-      referee: "Stella",
-      position: "DevOps Engineer",
-      status: "Completed",
-      dateSent: "2025-01-20",
-      dateDue: "2025-01-28",
-      actions: [],
-    },
-    {
-      id: 6,
-      candidate: "Diana Prince",
-      referee: "Steve",
-      position: "Marketing Specialist",
-      status: "In Progress",
-      dateSent: "2025-02-02",
-      dateDue: "2025-02-10",
-      actions: [],
-    },
-    {
-      id: 7,
-      candidate: "Ethan Hunt",
-      referee: "Steve",
-      position: "Software Engineer",
-      status: "In Progress",
-      dateSent: "2025-02-03",
-      dateDue: "2025-02-15",
-      actions: [],
-    },
-    {
-      id: 8,
-      candidate: "Fiona Green",
-      referee: "Steve",
-      position: "HR Manager",
-      status: "New",
-      dateSent: "2025-02-05",
-      dateDue: "2025-02-12",
-      actions: [],
-    },
-    {
-      id: 9,
-      candidate: "George White",
-      referee: "Steve",
-      position: "Sales Executive",
-      status: "New",
-      dateSent: "2025-02-07",
-      dateDue: "2025-02-14",
-      actions: [],
-    },
-    {
-      id: 10,
-      candidate: "Hannah Black",
-      referee: "Steve",
-      position: "Content Writer",
-      status: "New",
-      dateSent: "2025-02-06",
-      dateDue: "2025-02-13",
-      actions: [],
-    },
-    {
-      id: 11,
-      candidate: "Ian Gray",
-      referee: "Stella",
-      position: "Web Developer",
-      status: "In Progress",
-      dateSent: "2025-02-04",
-      dateDue: "2025-02-11",
-      actions: [],
-    },
+    // ...other requests
   ]);
+
   const [showPopup, setShowPopup] = useState(false);
 
   const handleAddNewRequest = () => {
@@ -140,6 +51,15 @@ const ReferenceRequest = () => {
       ...prevRequests,
       { id: prevRequests.length + 1, ...newRequest },
     ]);
+  };
+
+  const handleViewDetails = (candidate) => {
+    setSelectedCandidate(candidate); // Set the selected candidate for the details popup
+    setShowDetailsPopup(true); // Show the details popup
+  };
+
+  const handleCloseDetailsPopup = () => {
+    setShowDetailsPopup(false); // Close the details popup
   };
 
   // Function to get the color based on status
@@ -245,7 +165,12 @@ const ReferenceRequest = () => {
                   <td>{request.dateSent}</td>
                   <td>{request.dateDue}</td>
                   <td>
-                    <button onClick={handleViewRequest} className="btn-view-details">View</button>
+                    <button
+                      className="btn-view-details"
+                      onClick={() => handleViewDetails(request)}
+                    >
+                      View Details
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -259,6 +184,13 @@ const ReferenceRequest = () => {
           </div>
         </div>
       </div>
+
+      {showDetailsPopup && selectedCandidate && (
+        <ReferenceRequestDetailsPopUp
+          candidate={selectedCandidate}
+          onClose={handleCloseDetailsPopup}
+        />
+      )}
     </div>
   );
 };
