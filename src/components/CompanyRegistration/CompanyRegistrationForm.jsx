@@ -11,10 +11,6 @@ const CompanyRegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // temporary redirect
-  const handleClick = () => {
-    navigate("/AiReferenceCheckVerification");
-  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -295,7 +291,6 @@ const CompanyRegistrationForm = () => {
             variant="primary"
             type="submit"
             disabled={disableButton}
-            onClick={handleClick} // Add the onClick handler
           >
             {!isLoading ? "Register Company" : "Processing..."}
           </Button>
