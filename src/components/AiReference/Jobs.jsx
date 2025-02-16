@@ -1,51 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobPopUp from "./AddJobPopUp";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
 
 const Jobs = () => {
+  const API = process.env.REACT_APP_API_URL;
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const id = USER?.id;
+  const token = USER?.token;
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
 
-  // Sample data for active jobs
-  const [activeJobs, setActiveJobs] = useState([
-    {
-      id: 1,
-      name: "Graphic Designer",
-      vacancies: 2,
-      hiringManager: "Levi Mella",
-    },
-    {
-      id: 2,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
-    {
-      id: 3,
-      name: "Graphic Designer",
-      vacancies: 2,
-      hiringManager: "Levi Mella",
-    },
-    {
-      id: 4,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
-    {
-      id: 5,
-      name: "Graphic Designer",
-      vacancies: 2,
-      hiringManager: "Levi Mella",
-    },
-    {
-      id: 6,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
-    // Add more jobs as needed
-  ]);
+  const [activeJobs, setActiveJobs] = useState(
+    JSON.parse(localStorage.getItem("jobs")) || []
+  );
+
+  const fetchJobs = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        localStorage.setItem("jobs", JSON.stringify(response.data.jobs));
+        setActiveJobs(response.data.jobs);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const refetchJobs = async () => {
+    try {
+      //delete the jobs from local storage
+      localStorage.removeItem("jobs");
+
+      //fetch the jobs again
+      await fetchJobs();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const getJobsWhenFirstRender = async () => {
+      if (activeJobs.length === 0) {
+        await fetchJobs();
+      }
+    };
+
+    getJobsWhenFirstRender();
+  }, []);
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -57,11 +64,8 @@ const Jobs = () => {
     setShowPopup(false);
   };
 
-  const handleAddJob = (newJob) => {
-    setActiveJobs((prevJobs) => [
-      ...prevJobs,
-      { id: prevJobs.length + 1, ...newJob },
-    ]);
+  const handleAddJob = () => {
+    refetchJobs();
   };
 
   return (
@@ -126,11 +130,11 @@ const Jobs = () => {
             {activeJobs
               .filter(
                 (job) =>
-                  job.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by job name
+                  job.jobName.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by job name
               )
               .map((job) => (
-                <tr key={job.id}>
-                  <td>{job.name}</td>
+                <tr key={job._id}>
+                  <td>{job.jobName}</td>
                   <td>{job.vacancies}</td>
                   <td>{job.hiringManager}</td>
                   <td>
