@@ -1,4 +1,4 @@
-import React, {  useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa"; // icons for edit, delete, and dropdown
 import AddNewSetsQuestionPopUp from "./AddNewSetsQuestionPopUp";
 import StandardFormat from "./StandardFormatComponent";
@@ -343,7 +343,12 @@ const ReferenceQuestion = () => {
         </button>
         <button
           className={`btn-hrhatch-formats ${
-            activeButton === "HR-HATCH Formats" ? "active" : ""
+            activeButton === "HR-HATCH Formats" ||
+            activeButton === "Standard Format" ||
+            activeButton === "Management Format" ||
+            activeButton === "Executive Format"
+              ? "active"
+              : ""
           }`}
           onClick={() => handleButtonClick("HR-HATCH Formats")} // Show HR-HATCH Formats
         >
