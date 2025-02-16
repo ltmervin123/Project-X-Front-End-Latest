@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "../styles/LoginPage.css";
+import "../styles/GlobalScrollColor.css";
 import Header from "../components/login/Header";
 import LoginForm from "../components/login/LoginForm";
 
