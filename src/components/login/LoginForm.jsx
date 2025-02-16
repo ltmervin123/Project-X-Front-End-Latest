@@ -271,9 +271,9 @@ const LoginForm = () => {
                   required
                 >
                   <option value="">Choose Your Service</option>
-
-                  <option value={SERVICE[0]}> AI Reference Checker</option>
                   <option value={SERVICE[1]}>Mock AI</option>
+                  <option value={SERVICE[0]}> AI Reference Checker</option>
+
                 </select>
               </div>
               <button

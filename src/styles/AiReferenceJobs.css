@@ -59,6 +59,9 @@
   table-layout: fixed; /* Prevent layout shifts */
   width: 100%; /* Full width for rows */
 }
+.AiReference-active-jobs-container th{
+  color:  var(--card-color);
+}
 .AiReference-active-jobs-container th,
 .AiReference-active-jobs-container td {
   padding: 15px; /* Padding for table cells */
@@ -83,6 +86,37 @@
 .custom-modal-job .modal-body {
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
+.custom-modal-job .modal-body .candidate-id{
+  font-weight: 300;
+  color: var(--card-color);
+}
+.custom-modal-job .modal-body .candidate-details > div{
+ border-bottom: 1px solid var(--text-color) ;
+}
+
+.custom-modal-job .modal-body .jobs-area{
+  background: #319f4356;
+  width: 150px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 50px;
+}
+.custom-modal-job .modal-body .candidate-details .card{
+  background: var(--font-white);
+  padding: 10px;
+  height: 120px;
+  border: none;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+}
+.custom-modal-job .modal-body .candidate-details .card > p{
+  font-weight: 500 !important;
+}
+.custom-modal-job .modal-body .candidate-details .card > small{
+  color: var(--card-color);
+}
+.custom-modal-job .modal-body .candidate-details .card > small > span{
+  color: var(--text-color);
+}
 .custom-modal-job .modal-body .btn-create-job {
   background: var(--primary-color);
   border-radius: 10px;
@@ -91,6 +125,23 @@
   padding: 5px;
   color: var(--font-white);
 }
+.custom-modal-job .modal-body .button-controls-job > button:nth-child(1){
+background: var(--primary-color);
+padding: 5px 10px;
+color: var(--font-white);
+border-radius: 50px;
+border: none;
+width: 200px;
+
+}
+.custom-modal-job .modal-body .button-controls-job > button:nth-child(2){
+  background: var(--card-color);
+  padding: 5px 10px;
+  width: 200px;
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+  }
 /* Customizing the scrollbar */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar {
   width: 12px; /* Scrollbar width */

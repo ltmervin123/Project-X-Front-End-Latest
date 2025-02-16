@@ -123,7 +123,7 @@ const Jobs = () => {
               <th>Job Name</th>
               <th>Vacancies</th>
               <th>Hiring Manager</th>
-              <th>Actions</th>
+              <th>Posted Date</th>
             </tr>
           </thead>
           <tbody>
@@ -140,9 +140,7 @@ const Jobs = () => {
                   <td>{job.vacancies}</td>
                   <td>{job.hiringManager}</td>
                   <td>
-                    <button variant="link" className="btn-view-details">
-                      View Details
-                    </button>
+                  {job.postedDate}
                   </td>
                 </tr>
               ))}

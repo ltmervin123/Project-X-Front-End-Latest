@@ -1,7 +1,10 @@
-import React, { use, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa"; // icons for edit, delete, and dropdown
 import AddNewSetsQuestionPopUp from "./AddNewSetsQuestionPopUp";
-import logo from "../../assets/logo.png"; // Adjust the path to your logo image
+import StandardFormat from "./StandardFormatComponent";
+import ManagementFormat from "./ManagementFormatComponent";
+import ExecutiveFormat from "./ExecutiveFormatComponent";
+import HrHatchFormats from "./HrHatchFormatsComponent";
 import axios from "axios";
 
 const ReferenceQuestion = () => {
@@ -99,7 +102,7 @@ const ReferenceQuestion = () => {
   // HR-HATCH Format Data
   const hrHatchFormats = [
     {
-      title: "General Level",
+      title: "Standard Format",
       description: "Standard questions suitable for most positions",
       questionCount: 10,
       svg: (
@@ -118,7 +121,7 @@ const ReferenceQuestion = () => {
       ),
     },
     {
-      title: "Management Level",
+      title: "Management Format",
       description: "Questions tailored for managerial and leadership roles",
       questionCount: 10,
       svg: (
@@ -137,7 +140,7 @@ const ReferenceQuestion = () => {
       ),
     },
     {
-      title: "Executive Level",
+      title: "Executive Format",
       description: "In-depth questions for senior executive positions",
       questionCount: 10,
       svg: (
@@ -159,6 +162,170 @@ const ReferenceQuestion = () => {
     },
   ];
 
+  //standar format questions
+  const StandardQuestionsSets = [
+    {
+      id: 1,
+      category: "Relationship",
+      questions: [
+        "How do you know (candidate’s name), and how long have you worked together?",
+      ],
+    },
+    {
+      id: 2,
+      category: "Job Responsibilities and Performance",
+      questions: [
+        "Can you describe (candidate’s name) main responsibilities in his/her previous role?",
+        "How would you rate (candidate’s name) performance in his/her role, and why?",
+        "What do you consider to be (candidate’s name) key strengths?",
+        "What areas, if any, do you think the (candidate’s name) could further develop or improve?",
+      ],
+    },
+    {
+      id: 3,
+      category: "Skills and Competencies",
+      questions: [
+        "How would you describe (candidate’s name) communication skills?",
+        "How well (candidate’s name) they work with colleagues or in a team?",
+        "How would you describe their attention to detail in their work?",
+      ],
+    },
+    {
+      id: 4,
+      category: "Work Ethic and Behavior",
+      questions: [
+        "How would you describe (candidate’s name) attitude and professionalism?",
+        "How did they handle feedback and criticism?",
+        "Did they show initiative and a willingness to learn?",
+      ],
+    },
+    {
+      id: 5,
+      category: "Closing Questions",
+      questions: [
+        "If given the opportunity, would you work with or rehire this (candidate’s name)?",
+      ],
+    },
+  ];
+  //management format questions
+  const ManagementQuestionsSets = [
+    {
+      id: 1,
+      category: "Relationship",
+      questions: [
+        "How do you know (candidate’s name), and how long have you worked together?",
+      ],
+    },
+    {
+      id: 2,
+      category: "Job Responsibilities and Performance",
+      questions: [
+        "Can you describe (candidate’s name) main responsibilities in his/her previous role?",
+        "How would you rate (candidate’s name) performance in his/her role, and why?",
+        "What do you consider to be (candidate’s name) key strengths?",
+        "What areas, if any, do you think the (candidate’s name) could further develop or improve?",
+      ],
+    },
+    {
+      id: 3,
+      category: "Leadership & Management Skills",
+      questions: [
+        "How would you describe (candidate’s name) leadership style?",
+        "Can you provide an example of how (candidate’s name) motivated or developed their team?",
+        "How did (candidate’s name) handle difficult team situations or conflicts?",
+        "How effective was (candidate’s name) at delegating tasks and empowering others?",
+        "What would you say (candidate’s name) biggest strengths as a leader?",
+      ],
+    },
+    {
+      id: 4,
+      category: "Work Ethic and Behavior",
+      questions: [
+        "How would you describe (candidate’s name) attitude and professionalism?",
+        "How did they handle feedback and criticism?",
+        "Did they show initiative and a willingness to learn?",
+      ],
+    },
+    {
+      id: 5,
+      category: "Closing Questions",
+      questions: [
+        "If given the opportunity, would you work with or rehire this (candidate’s name)?",
+        "Is there anything else you believe we should know about the (candidate’s name)?",
+      ],
+    },
+  ];
+  //executive format questions
+  const ExecutiveQuestionsSets = [
+    {
+      id: 1,
+      category: "Relationship",
+      questions: [
+        "How do you know (candidate’s name), and how long have you worked together?",
+      ],
+    },
+    {
+      id: 2,
+      category: "Job Responsibilities and Performance",
+      questions: [
+        "Can you describe (candidate’s name) main responsibilities in his/her previous role?",
+        "How would you rate (candidate’s name) performance in his/her role, and why?",
+      ],
+    },
+    {
+      id: 3,
+      category: "Strategic Leadership & Vision",
+      questions: [
+        "How would you describe (candidate’s name) ability to set and communicate a clear vision for the organization?",
+        "Can you provide an example of a strategic initiative they led and its impact on the business?",
+        "How did they approach long-term planning while managing day-to-day operations?",
+      ],
+    },
+    {
+      id: 4,
+      category: "Business Impact & Results",
+      questions: [
+        "What measurable results did (candidate’s name) achieve during their tenure?",
+        "Can you share examples of how (candidate’s name) drove growth, profitability, or operational improvements?",
+        "How did they handle critical business decisions, especially in high-pressure situations?",
+      ],
+    },
+    {
+      id: 5,
+      category: "Team Leadership & Organizational Development",
+      questions: [
+        "How did they build and develop high-performing teams?",
+        "Can you share an example of how they mentored or coached senior leaders?",
+        "How did they handle organizational change or restructuring?",
+      ],
+    },
+    {
+      id: 6,
+      category: "Decision-Making & Problem-Solving",
+      questions: [
+        "How would you describe their decision-making process for complex, high-stakes decisions?",
+        "Can you share a time when they had to make a difficult decision with limited information?",
+        "How did they manage risk while pursuing growth opportunities?",
+      ],
+    },
+    {
+      id: 7,
+      category: "Innovation & Growth",
+      questions: [
+        "How proactive were they in identifying new opportunities for growth or innovation?",
+        "Can you share an instance where they successfully implemented a transformative initiative?",
+        "How did they stay ahead of industry trends and market changes?",
+      ],
+    },
+    {
+      id: 8,
+      category: "Closing Questions",
+      questions: [
+        "If given the opportunity, would you work with or rehire this (candidate’s name)?",
+        "Is there anything else you believe we should know about the (candidate’s name)?",
+      ],
+    },
+  ];
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
@@ -176,7 +343,12 @@ const ReferenceQuestion = () => {
         </button>
         <button
           className={`btn-hrhatch-formats ${
-            activeButton === "HR-HATCH Formats" ? "active" : ""
+            activeButton === "HR-HATCH Formats" ||
+            activeButton === "Standard Format" ||
+            activeButton === "Management Format" ||
+            activeButton === "Executive Format"
+              ? "active"
+              : ""
           }`}
           onClick={() => handleButtonClick("HR-HATCH Formats")} // Show HR-HATCH Formats
         >
@@ -186,33 +358,31 @@ const ReferenceQuestion = () => {
 
       <div className="AiReference-question-container position-relative">
         {activeButton === "HR-HATCH Formats" ? (
-          <>
-            <div className="AiReference-table-title">
-              <h4>
-                <img src={logo} alt="Logo" width="125" height="19" />
-                Question Formats
-              </h4>
-              <p>Standardized question sets provided by HR-Hatch</p>
-            </div>
-            <div className="d-flex justify-content-around align-items-center h-100 gap-3 hr-hatch-card-container">
-              {hrHatchFormats.map((format, index) => (
-                <div
-                  key={index}
-                  className="hr-hatch-card d-flex justify-content-center align-items-center flex-column border"
-                >
-                  <h5>
-                    {format.title} {format.svg}
-                  </h5>
-                  <p>{format.description}</p>
-                  <small>{format.questionCount} questions</small>
-                  <br />
-                  <button className="btn-view-questions mb-3">
-                    View Questions
-                  </button>
-                </div>
-              ))}
-            </div>
-          </>
+          <HrHatchFormats
+            hrHatchFormats={hrHatchFormats}
+            handleButtonClick={handleButtonClick}
+          />
+        ) : activeButton === "Standard Format" ? (
+          <StandardFormat
+            StandardQuestionsSets={StandardQuestionsSets}
+            selectedSet={selectedSet}
+            handleSetClick={handleSetClick}
+            flippedState={flippedState}
+          />
+        ) : activeButton === "Management Format" ? (
+          <ManagementFormat
+            ManagementQuestionsSets={ManagementQuestionsSets}
+            selectedSet={selectedSet}
+            handleSetClick={handleSetClick}
+            flippedState={flippedState}
+          />
+        ) : activeButton === "Executive Format" ? (
+          <ExecutiveFormat
+            ExecutiveQuestionsSets={ExecutiveQuestionsSets}
+            selectedSet={selectedSet}
+            handleSetClick={handleSetClick}
+            flippedState={flippedState}
+          />
         ) : (
           <>
             <div className="AiReference-table-title">
@@ -252,49 +422,73 @@ const ReferenceQuestion = () => {
             <div className="AiReference-Question-Sets-Container">
               {/* Question Set Container for Custom Sets */}
               {questionSets && questionSets.length > 0 ? (
-                questionSets
-                  .slice()
-                  .reverse()
-                  .map((item) => (
-                    <div
-                      key={item._id}
-                      className="question-set-container border mb-3"
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="question-set-info">
-                          <h5>{item.name}</h5>
-                          <p className="d-flex">
-                            <p className="color-orange">
-                              {item.questions.length} questions
-                            </p>
-                            &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                questionSets.map((item) => (
+                  <div
+                    key={item._id}
+                    className="question-set-container border mb-3"
+                  >
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div className="question-set-info">
+                        <h5>{item.name}</h5>
+                        <p className="d-flex">
+                          <p className="color-orange">
+                            {item.questions.length} questions
                           </p>
-                        </div>
-                        <div className="d-flex justify-content-end gap-5 question-controls">
-                          {/* Existing Edit/Delete/Dropdown Icons */}
+                          &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                        </p>
+                      </div>
+                      <div className="d-flex justify-content-end gap-5 question-controls">
+                        {/* Existing Edit/Delete/Dropdown Icons */}
+
+                        <button
+                          className="dropdown-toggle-q-sets border-0"
+                          onClick={() => handleSetClick(item._id)}
+                        >
+                          <svg
+                            className={
+                              flippedState[item._id] ? "dropdown-flipped" : ""
+                            }
+                            width="28"
+                            height="17"
+                            viewBox="0 0 28 17"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
+                              fill="#686868"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                    {selectedSet === item._id && (
+                      <div className="dropdown-content-q-sets mt-3">
+                        <p className="w-100 d-flex justify-content-between">
+                          {item.description}{" "}
                           <div className="d-flex justify-content-center gap-3">
-                            <a href="#">
-                              <svg
-                                className="icon"
-                                width="29"
-                                height="27"
-                                viewBox="0 0 29 27"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
-                                  stroke="#1877F2"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19.8163Z"
-                                  fill="#1877F2"
-                                />
-                              </svg>
-                            </a>
+                            <svg
+                              className="icon"
+                              width="20"
+                              height="auto"
+                              viewBox="0 0 29 27"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
+                                stroke="#1877F2"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                              <path
+                                d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19.8163Z"
+                                fill="#1877F2"
+                              />
+                            </svg>
                             {/* <a href="#">
                               <svg
                                 className="icon"
@@ -313,8 +507,8 @@ const ReferenceQuestion = () => {
                             {/* Delete button */}
                             <svg
                               className="icon"
-                              width="28"
-                              height="30"
+                              width="20"
+                              height="auto"
                               viewBox="0 0 28 30"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
@@ -326,43 +520,16 @@ const ReferenceQuestion = () => {
                               />
                             </svg>
                           </div>
-
-                          <button
-                            className="dropdown-toggle-q-sets border-0"
-                            onClick={() => handleSetClick(item._id)}
-                          >
-                            <svg
-                              className={
-                                flippedState[item._id] ? "dropdown-flipped" : ""
-                              }
-                              width="28"
-                              height="17"
-                              viewBox="0 0 28 17"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
-                                fill="#686868"
-                              />
-                            </svg>
-                          </button>
-                        </div>
+                        </p>
+                        <ul>
+                          {item.questions.map((question, qIndex) => (
+                            <li key={qIndex}>{question}</li>
+                          ))}
+                        </ul>
                       </div>
-                      {selectedSet === item._id && (
-                        <div className="dropdown-content-q-sets mt-3">
-                          <p>{item.description}</p>
-                          <ul>
-                            {item.questions.map((question, qIndex) => (
-                              <li key={qIndex}>{question}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ))
+                    )}
+                  </div>
+                ))
               ) : (
                 <div>No questions found</div>
               )}

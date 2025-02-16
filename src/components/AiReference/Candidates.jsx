@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddCandidatePopUp from "./AddCandidatePopUp"; // Assuming you have a similar component for adding candidates
+import CandidateDetailsPopUp from "./CandidateDetailsPopUp";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 
@@ -10,6 +11,8 @@ const Candidates = () => {
   const token = USER?.token;
   const API = process.env.REACT_APP_API_URL;
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
 
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
@@ -64,19 +67,31 @@ const Candidates = () => {
   const handleAddCandidate = async () => {
     await refetchCandidates();
   };
-  // Function to get the color based on status
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "In Progress":
-        return "#F8BD00";
-      case "Completed":
-        return "#1877F2";
-      case "New":
-        return "#319F43";
-      default:
-        return "black"; // Default color for unknown statuses
-    }
+
+  // Modify the function to handle "View Details"
+  const handleViewDetails = (candidate) => {
+    setSelectedCandidate(candidate);
+    setShowDetailsPopup(true);
   };
+
+  const handleCloseDetailsPopup = () => {
+    setShowDetailsPopup(false);
+    setSelectedCandidate(null);
+  };
+
+ // Function to get the color based on status
+const getStatusColor = (status) => {
+  switch (status) {
+    case "In Progress":
+      return "#F8BD00"; // Yellow
+    case "Completed":
+      return "#1877F2"; // Blue
+    case "New":
+      return "#319F43"; // Green
+    default:
+      return "#6c757d"; // Gray for unknown statuses
+  }
+};
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -164,9 +179,14 @@ const Candidates = () => {
                         {candidate.status}
                       </td>
                       <td>
-                        <button className="btn-view-details">
+                        <button
+                      className="btn-view-details"
+                      onClick={() => handleViewDetails(candidate)}
+                    >
+                      
                           View Details
-                        </button>
+                        
+                    </button>{" "}
                       </td>
                     </tr>
                   ))}
@@ -185,6 +205,12 @@ const Candidates = () => {
           <div>No candidate record</div>
         )}
       </div>
+      {showDetailsPopup && selectedCandidate && (
+        <CandidateDetailsPopUp
+          candidate={selectedCandidate}
+          onClose={handleCloseDetailsPopup}
+        />
+      )}
     </div>
   );
 };
