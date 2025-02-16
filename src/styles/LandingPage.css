@@ -199,8 +199,8 @@
 .btn-get {
   background-color: var(--primary-color) !important;
   border: none !important;
-  width: 240px;
-  height: 40px;
+  min-width: 240px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,7 +208,7 @@
   border-radius: 50px !important;
   font-size: 22px !important;
   font-weight: 400;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
 }
 .btn-get > a {
@@ -282,12 +282,12 @@
   padding: 0;
 }
 .hero-container .hero-subtitle {
-  font-size: 1.46em;
-  font-weight: 200;
+  font-size: 28px;
+  font-weight: 300;
 }
 .hero-subtitle > svg {
   position: relative;
-  top: -5px;
+  top: -10px;
   margin: 0px 5px;
   width: 15px;
 }
@@ -322,9 +322,83 @@ h2 > .quote {
 
 .hero-content {
   color: var(--font-black) !important;
-  font-size: 20px !important;
+  font-size: 28px !important;
   font-weight: 200 !important;
 }
+.btn-container {
+  gap: 30px;
+}
+.joined-users {
+  min-width: 120px;
+  width: auto;
+  height: 50px;
+}
+.avatars-container {
+  min-width: 120px !important;
+  max-width: 120px !important;
+  height: 50px;
+  position: relative;
+}
+.users-avatar {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  overflow: hidden; /* Ensures images stay inside the circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(#1774EB, #1877F2, #0E458C);
+}
+
+.users-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the avatar without stretching */
+  display: none; /* Hide image by default */
+}
+
+.users-avatar.has-image {
+  background-image: none; /* Remove gradient if an image exists */
+}
+
+.users-avatar.has-image img {
+  display: block; /* Show the image if the class is applied */
+}
+.avatars-1 {
+  right: 0;
+  z-index: 12;
+}
+.avatars-2 {
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+}
+.avatars-3 {
+  left: 0;
+  z-index: 10;
+}
+#join-text {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  right:-60px;
+  font-size: 28px !important;
+  font-weight: 200 !important;
+}
+#numbers-joined {
+  margin-inline: 5px;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
+@media (min-width: 768px) {
+  .flex-md-row {
+      flex-direction: row !important;
+  }
+}
+
+
 
 .heroavatar {
   /* height: 20% !important; */
@@ -412,7 +486,8 @@ h2 > .quote {
   max-width: 350px;
   border: 1px solid #ffffff;
   border-radius: 8px;
-  box-shadow: 0px 12px 11px 0px rgb(244, 244, 244);
+  box-shadow: 0px 20px 20px 1px #4040401A;
+  
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -421,7 +496,7 @@ h2 > .quote {
   max-width: 500px !important;
   border: 1px solid #ffffff;
   border-radius: 8px;
-  box-shadow: 0px 12px 11px 0px rgb(244, 244, 244);
+  box-shadow: 0px 20px 20px 1px #4040401A;
   padding: 20px;
 
 }
@@ -478,7 +553,7 @@ h2 > .quote {
 .card-join-community {
   background-color: var(--font-white); /* Card background color */
   border-radius: 30px; /* Rounded corners */
-  box-shadow: 2px 12px 11px 0px rgb(244, 244, 244);
+  box-shadow: 0px 10px 20px 1px #4040401A;
   width: 340px; /* Fixed width for cards */
   transition: transform 0.2s; /* Smooth hover effect */
   padding: 5px 20px 20px 20px;
@@ -513,7 +588,7 @@ h2 > .quote {
 }
 
 .card-join-community .card-author {
-  font-style: italic; /* Italic style for author */
+  /* font-style: italic; */
   margin-top: 0.5em; /* Space above author text */
   color: var(--font-black); /* Author text color */
   font-weight: 500;
