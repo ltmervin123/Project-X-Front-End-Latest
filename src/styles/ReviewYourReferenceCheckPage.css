@@ -11,15 +11,15 @@
   display: flex;
   flex-direction: column; /* Arrange items vertically */
   justify-content: space-between; /* Ensures space between elements */
-  width: 65%;
-  max-width: 880px;
-  height: auto;
-  /* max-height: 900px !important; */
+  width: 80%;
+  max-width: 1300px;
+
+  max-height: 700px;
   background: var(--font-white);
   padding: 20px 40px;
   border-radius: 20px;
   box-shadow: 0 4px 4px 0px #00000059;
-  margin: 10vh 0vh !important;
+  /* margin: 10vh 0vh !important; */
   position: relative;
   overflow: hidden; /* Ensure content doesn’t overflow the container */
 }
@@ -27,6 +27,101 @@
 .ReviewYourReferenceCheck-container.expanded {
   max-height: none; /* Allow it to expand */
   overflow-y: auto; /* Enable scrolling when expanded */
+}
+
+.ReviewYourReferenceCheck-container > p {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.ReviewYourReferenceCheck-container > p > span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--input-bg);
+}
+
+.question-container {
+  margin-bottom: 20px;
+}
+.question-indicator {
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 200px;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+.question-text {
+  font-size: 16px;
+  font-weight: 400;
+}
+.orig-label,
+.stndard-label{
+  color: var(--input-bg);
+  font-weight: 300;
+
+}
+
+.answer-container,
+.standardized-answer-container {
+  margin-bottom: 15px;
+}
+.answer-container{
+  background: #F2F3F7;
+  padding: 20px;
+  border-radius: 20px;
+}
+.standardized-answer-container{
+  background: #319f4331;
+  padding: 10px;
+  border-radius: 20px;
+
+}
+/* textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--input-bg);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--font-black);
+} */
+
+.answer-container p,
+.standardized-answer-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.YourOriginalAns-container {
+  background: #f2f3f7;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.EnchanceAns-container {
+  background: #319f432b;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.EnchanceAns-container p,
+.YourOriginalAns-container p {
+  margin: 0 !important;
+  padding: 0;
+}
+.edit-btn-container button{
+  background: var(--secondary-color);
+  border-radius: 50px;
+  padding: 5px 15px;
+  color: var(--font-white);
+  border: none;
+}
+
+.ReviewYourReferenceCheck-dropdown-content button {
+  background: #ffdcc2;
+  border-radius: 50px;
+  padding: 5px 20px;
+  border: none;
 }
 
 .view-more-btn {
@@ -39,130 +134,64 @@
   z-index: 1; /* Ensure the button stays above content */
 }
 
-.ReviewYourReferenceCheck-container > p {
-  font-size: 14px;
-  font-weight: 600;
-margin: 0;
-}
-.ReviewYourReferenceCheck-container > p > span {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--input-bg);
-}
-.warning-notice-orange {
-  width: 100%;
-  border: 2px solid var(--primary-color);
-  border-radius: 10px;
-  font-size: 14px;
-  padding: 7px;
-  background: #ffdcc2;
-}
-.ReviewYourReferenceCheck-box-dropdown {
-  overflow: hidden;
-  transition: height 0.3s ease; /* Smooth transition for height change */
-}
-
-/* Optional: You can define a max-height when collapsed */
-.ReviewYourReferenceCheck-box-dropdown.collapsed {
-  overflow-y: scroll;
-  max-height: 260px; /* Limit the height when collapsed */
-}
-
-.ReviewYourReferenceCheck-dropdown {
-  border-radius: 0px;
-  position: relative;
-  margin-bottom: 10px; /* Space between dropdowns */
-}
-
-.ReviewYourReferenceCheck-dropdown-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0px;
-  cursor: pointer;
-  border: none;
-  font-weight: bold;
+.view-more-btn,
+.reset-btn {
   font-size: 16px;
-  border-bottom: 2px solid var(--input-bg);
 }
 
-.ReviewYourReferenceCheck-dropdown-header p:nth-child(1) {
-  width: 20% !important;
-}
-
-.ReviewYourReferenceCheck-dropdown-header p:nth-child(2) {
-  font-weight: 400;
-}
-
-/* Transition for smooth rotation effect */
-.ReviewYourReferenceCheck-dropdown-header svg {
-  transition: transform 0.3s ease !important; /* Smooth transition for rotation */
-}
-
-/* When the dropdown is open, rotate the icon (flip it 180 degrees) */
-.ReviewYourReferenceCheck-dropdown-header svg.open {
-  transform: rotate(180deg) !important;
-}
-
-.ReviewYourReferenceCheck-dropdown-content {
-  color: var(--font-black);
-  font-size: 14px;
-  border-radius: 0 0 10px 10px;
-  max-height: 500px;
-  width: 100%;
-  overflow-y: auto;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-
-.ReviewYourReferenceCheck-dropdown-content p {
-  margin: 0;
-  padding: 10px 0;
-}
-
-.YourOriginalAns-container {
-  background: #f2f3f7;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.EnchanceAns-container {
-  background: #319f4335;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.EnchanceAns-container p,
-.YourOriginalAns-container p {
-  margin: 0 !important;
-  padding: 0;
-}
-
-.EnchanceAns-container textarea {
-  border: none;
-  background: transparent;
-  width: 100%;
-}
-
-.ReviewYourReferenceCheck-dropdown-content button {
-  background: #ffdcc2;
-  border-radius: 50px;
-  padding: 5px 20px;
-  border: none;
-}
-.view-more-btn {
-  position: absolute;
-  left: 0;
-  padding: 0;
-  font-style: italic;
-  color: var(--input-bg);
-}
 .reset-btn {
   background: var(--primary-color);
-  font-size: 25px;
+  font-size: 18px;
   border-radius: 50px;
   padding: 5px 60px;
   border: none;
   color: var(--font-white);
   margin-top: 20px;
 }
+
+/* Navigation Buttons Styling */
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 35px;
+  font-weight: 500;
+}
+
+.prev-btn,
+.next-btn {
+  color: var(--primary-color);
+  cursor: pointer;
+  margin: 0 10px;
+  background: none;
+  border: none;
+  font-size: 50px;
+
+}
+
+.prev-btn:disabled,
+.next-btn:disabled {
+  color: var(--input-bg);
+  cursor: not-allowed;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  color: var(--primary-color);
+}
+
+.submit-btn {
+  padding: 10px 40px;
+  background: var(--primary-color);
+  color: var(--font-white);
+  font-size: 16px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: var(--secondary-color);
+}
+

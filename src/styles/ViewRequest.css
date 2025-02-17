@@ -1,0 +1,39 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
+}
+.ViewRequest-container {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  justify-content: space-between; /* Ensures space between elements */
+  background: var(--font-white);
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 0px #00000059;
+  /* margin: 10vh 0vh !important; */
+  position: relative;
+  overflow: hidden; /* Ensure content doesn’t overflow the container */
+}
+.ViewRequest-container p >span{
+    color: var(--input-bg);
+    font-size: 17px;
+    font-weight: 400 !important;
+}
+.ViewRequest-container > div > button{
+    background: var(--secondary-color);
+    color: var(--font-white);
+    border-radius: 10px;
+    border: none;
+    padding: 5px 15px;
+}
+.color-gray {
+    color: var(--input-bg);
+}
+.signature-verif-title{
+    font-weight: 600 !important;
+    font-size: 20px;
+}

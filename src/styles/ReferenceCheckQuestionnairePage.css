@@ -6,6 +6,7 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
+
 .referencecheckquestiontitle {
   width: 80%;
   max-width: 1300px;
@@ -21,7 +22,8 @@
   box-shadow: 0 4px 4px 0px #00000059;
 }
 .transcription-answer-container {
-  width: 400px;
+  width: 80%;
+  max-width: 1300px;
   padding: 20px;
   border-radius: 20px;
   background: var(--font-white);
@@ -62,6 +64,7 @@
     position: relative;
     right: -40px;
 }
+
 .transcription-answer-container textarea {
   width: 100% !important;
   background: #d9d9d9;
@@ -78,6 +81,10 @@
   color: var(--font-white);
   border-radius: 10px;
   font-size: 25px;
+}
+.transcription-answer-container button.disabled{
+  background: var(--input-bg) !important;
+  cursor: not-allowed;
 }
 /* bg shapes */
 .orange-bg-bottom {

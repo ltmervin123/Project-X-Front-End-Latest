@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddRequestPopUp from "./AddRequestPopUp"; // Assuming you have a similar component for adding candidates
+import AddRequestPopUp from "./AddRequestPopUp";
 import { FaSearch } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp"; // Make sure to import the details popup component
+import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
+import ViewRequest from "./ViewRequest";
 
 const ReferenceRequest = () => {
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-
-  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [requests, setRequests] = useState([
-    // Same mock data as before
     {
       id: 1,
       candidate: "John Doe",
-      referee: "Steve", // Add a referee
+      referee: "Steve",
       position: "Software Engineer",
       status: "In Progress",
       dateSent: "2025-02-01",
@@ -33,7 +32,6 @@ const ReferenceRequest = () => {
       dateDue: "2025-01-22",
       actions: [],
     },
-    // ...other requests
   ]);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -54,12 +52,16 @@ const ReferenceRequest = () => {
   };
 
   const handleViewDetails = (candidate) => {
-    setSelectedCandidate(candidate); // Set the selected candidate for the details popup
-    setShowDetailsPopup(true); // Show the details popup
+    setSelectedCandidate(candidate);
+    setShowDetailsPopup(true);
   };
 
   const handleCloseDetailsPopup = () => {
-    setShowDetailsPopup(false); // Close the details popup
+    setShowDetailsPopup(false);
+  };
+
+  const handleViewReference = () => {
+    setShowViewRequest(true); // Set to true to show ViewRequest component
   };
 
   // Function to get the color based on status
@@ -72,9 +74,14 @@ const ReferenceRequest = () => {
       case "New":
         return "#319F43";
       default:
-        return "black"; // Default color for unknown statuses
+        return "black";
     }
   };
+
+  // Conditional rendering based on showViewRequest state
+  if (showViewRequest) {
+    return <ViewRequest />; // Render ViewRequest component
+  }
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -88,9 +95,9 @@ const ReferenceRequest = () => {
             <input
               type="text"
               placeholder="Search request..."
-              className="form-control ps-4 pe-5" // padding start (left) and end (right)
-              value={searchQuery} // Bind value to searchQuery state
-              onChange={(e) => setSearchQuery(e.target.value)} // Update searchQuery state
+              className="form-control ps-4 pe-5"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
@@ -152,7 +159,7 @@ const ReferenceRequest = () => {
                     .includes(searchQuery.toLowerCase()) ||
                   request.position
                     .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) // Search in candidate, referee, and position
+                    .includes(searchQuery.toLowerCase())
               )
               .map((request) => (
                 <tr key={request.id}>
@@ -189,6 +196,7 @@ const ReferenceRequest = () => {
         <ReferenceRequestDetailsPopUp
           candidate={selectedCandidate}
           onClose={handleCloseDetailsPopup}
+          onViewReference={handleViewReference} // Add this line
         />
       )}
     </div>

@@ -135,6 +135,7 @@
   padding: 5px;
   color: var(--font-white);
 }
+
 .custom-modal-job .modal-body .button-controls-job > button:nth-child(1){
 background: var(--primary-color);
 padding: 5px 10px;
@@ -144,8 +145,9 @@ border: none;
 width: 200px;
 
 }
+
 .custom-modal-job .modal-body .button-controls-job > button:nth-child(2){
-  background: var(--card-color);
+  background: var(--secondary-color);
   padding: 5px 10px;
   width: 200px;
   color: var(--font-white);

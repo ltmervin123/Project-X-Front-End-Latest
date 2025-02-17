@@ -37,3 +37,6 @@
     color: var(--input-bg);
     font-size: 13px;
 }
+.color-orange{
+    color: var(--primary-color);
+}

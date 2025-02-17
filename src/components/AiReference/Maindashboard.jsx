@@ -15,7 +15,7 @@ const LogContainer = ({ logData }) => {
   return (
     <div className="LogContainer my-4">
       <div className="d-flex justify-content-between align-items-center">
-        <b className="mb-3">Recent Activities</b>
+        <p className="mb-3">Recent Activities</p>
         <a href="#" onClick={() => setShowAll(!showAll)}>
           {showAll ? "Show Less" : "View All"}
         </a>

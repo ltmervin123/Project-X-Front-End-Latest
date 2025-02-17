@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  FaMicrophone,
+  FaMicrophoneAltSlash,
+  FaMicrophoneSlash,
+} from "react-icons/fa";
 
 function ReferenceCheckQuestionnairePage() {
   const location = useLocation();
@@ -27,7 +32,11 @@ function ReferenceCheckQuestionnairePage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [transcription, setTranscription] = useState("");
   const [answers, setAnswers] = useState(new Array(questions.length).fill("")); // Store answers for each question
-  const [answered, setAnswered] = useState(new Array(questions.length).fill(false)); // Track whether a question has been answered
+  const [answered, setAnswered] = useState(
+    new Array(questions.length).fill(false)
+  ); // Track whether a question has been answered
+
+  const [isRecording, setIsRecording] = useState(false); // Track if recording is in progress
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
@@ -45,7 +54,7 @@ function ReferenceCheckQuestionnairePage() {
     setTranscription(event.target.value);
   };
 
-  const handleStart = () => {
+  const handleSubmit = () => {
     if (transcription.trim()) {
       const updatedAnswers = [...answers];
       updatedAnswers[currentQuestionIndex] = transcription; // Save the answer for the current question
@@ -67,18 +76,30 @@ function ReferenceCheckQuestionnairePage() {
       updatedAnswers[currentQuestionIndex] = transcription; // Save the last answer
       setAnswers(updatedAnswers);
     }
-  
+
     // Log the questions and answers when finishing the questionnaire
     console.log("Questions and Answers:");
     questions.forEach((question, index) => {
       console.log(`${question}: ${answers[index]}`);
     });
-  
+
     navigate("/ReviewYourReferenceCheckPage", {
       state: { questions: questions, answers: answers }, // Pass the questions and answers
     });
   };
-  
+
+  const startRecording = () => {
+    setIsRecording(true);
+    // Implement your start recording logic here
+    console.log("Recording started...");
+  };
+
+  const stopRecording = () => {
+    setIsRecording(false);
+    // Implement your stop recording logic here
+    console.log("Recording stopped...");
+    // You can update the transcription with the recorded content here
+  };
 
   return (
     <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -113,9 +134,17 @@ function ReferenceCheckQuestionnairePage() {
       </div>
 
       <div className="transcription-answer-container">
-        <h4>{selectedMethod === "Voice Response" ? "Transcription:" : "Answer:"}</h4>
+        <h4>
+          {selectedMethod === "Voice Response" ? "Transcription:" : "Answer:"}
+        </h4>
         <textarea
-          value={answered[currentQuestionIndex] ? answers[currentQuestionIndex] : transcription} // Show transcription or saved answer
+          value={
+            selectedMethod === "Voice Response"
+              ? transcription
+              : answered[currentQuestionIndex]
+              ? answers[currentQuestionIndex]
+              : transcription
+          } // Show transcription or saved answer
           onChange={handleTranscriptionChange}
           rows="4"
           placeholder={
@@ -123,15 +152,46 @@ function ReferenceCheckQuestionnairePage() {
               ? "Transcription will appear here...."
               : "Type your answer..."
           }
+          disabled={selectedMethod === "Voice Response"} // Disable input for Voice Response
         />
         <div className="d-flex justify-content-center">
-          {currentQuestionIndex === questions.length - 1 ? (
+          {selectedMethod === "Voice Response" ? (
+            <div>
+              {isRecording ? (
+                <button
+                  className="d-flex gap-2 align-items-center justify-content"
+                  onClick={stopRecording}
+                >
+                  <FaMicrophoneAltSlash />
+                  Stop Recording
+                </button>
+              ) : (
+                <button
+                  className="d-flex gap-2 align-items-center justify-content"
+                  onClick={startRecording}
+                >
+                  <FaMicrophone />
+                  Start Recording
+                </button>
+              )}
+            </div>
+          ) : currentQuestionIndex === questions.length - 1 ? (
             <button onClick={handleFinish}>Finish</button> // Show Finish button on last question
           ) : (
-            <button onClick={handleStart}>Start</button> // Start button to save answer and move to next question
+            <button
+              onClick={handleSubmit}
+              disabled={answered[currentQuestionIndex]} // Disable submit button after answering
+              className={answered[currentQuestionIndex] ? "disabled" : ""}
+            >
+              Submit
+            </button>
           )}
         </div>
       </div>
+      <div className="orange-bg-bottom"></div>
+      <div className="orange-bg-top"></div>
+      <div className="blue-bg-left"></div>
+      <div className="blue-bg-right"></div>
     </div>
   );
 }

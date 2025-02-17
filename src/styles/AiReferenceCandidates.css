@@ -66,6 +66,9 @@
   table-layout: fixed; /* Prevent layout shifts */
   width: 100%; /* Full width for rows */
 }
+.AiReference-candidates-container th{
+  color:  var(--card-color);
+}
 .AiReference-candidates-container th,
 .AiReference-candidates-container td {
   padding: 10px; /* Padding for table cells */

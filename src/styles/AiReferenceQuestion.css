@@ -153,7 +153,9 @@
 .questions-list {
   max-height: 200px; /* Set a max-height to allow scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
-  padding-right: 12px; /* Add space to the right so the scrollbar doesn't overlap content */
+}
+.questions-list .text-area-question{
+  width: 88.5% !important;
 }
 .dropdown-content-q-sets ul {
   max-height: 150px;

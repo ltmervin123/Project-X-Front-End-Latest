@@ -13,6 +13,8 @@ const StandardFormatComponent = ({
         <h4 className="color-green">Standard Formats</h4>
         <p>Standardized question sets provided by HR-Hatch</p>
       </div>
+      <div className="AiReference-Question-Sets-Container">
+
       {StandardQuestionsSets && StandardQuestionsSets.length > 0 ? (
         StandardQuestionsSets.map((item) => (
           <div key={item.id} className="question-set-container border mb-3">
@@ -57,6 +59,7 @@ const StandardFormatComponent = ({
       ) : (
         <div>No questions found</div>
       )}
+      </div>
     </>
   );
 };

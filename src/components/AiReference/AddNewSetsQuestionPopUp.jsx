@@ -69,7 +69,13 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
   };
 
   return (
-    <Modal show={true} onHide={onClose} centered backdrop={true}>
+    <Modal
+      show={true}
+      onHide={onClose}
+      className="custom-modal-job"
+      centered
+      backdrop={true}
+    >
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
@@ -85,9 +91,14 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             &times;
           </Button>
         </div>
-        <Form onSubmit={handleSubmit} >
-          <Form.Group controlId="formTitle" className="mb-3">
-            <Form.Label>Name</Form.Label>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group
+            controlId="formTitle"
+            className="d-flex align-items-center mb-3"
+          >
+            <Form.Label className="me-2" style={{ width: "150px" }}>
+              Name
+            </Form.Label>
             <Form.Control
               type="text"
               value={name}
@@ -97,8 +108,13 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formDescription" className="mb-3">
-            <Form.Label>Description</Form.Label>
+          <Form.Group
+            controlId="formDescription"
+            className="d-flex align-items-center mb-3"
+          >
+            <Form.Label className="me-2" style={{ width: "150px" }}>
+              Description
+            </Form.Label>
             <Form.Control
               as="textarea"
               rows={1} // You can adjust the number of rows
@@ -113,8 +129,13 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
           <div className="questions-list">
             {questions.map((question, index) => (
               <div key={index} className="d-flex align-items-center mb-2">
+                <Form.Label className="me-2" style={{ width: "150px" }}>
+                  Question {index + 1}
+                </Form.Label>
+
                 <Form.Control
                   as="textarea"
+                  className="text-area-question"
                   rows={1} // Adjust as needed
                   value={question.text}
                   onChange={(e) => handleQuestionChange(index, e.target.value)}
@@ -126,8 +147,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                   onClick={() => handleDeleteQuestion(index)}
                 >
                   <svg
-                    width="28"
-                    height="30"
+                    width="26"
+                    height="28"
                     viewBox="0 0 28 30"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"

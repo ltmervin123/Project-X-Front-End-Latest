@@ -33,10 +33,9 @@ const Jobs = () => {
   };
 
   const formatDate = (date) => {
-    if (!date) return ''; // Return an empty string or a fallback value if the date is invalid
+    if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
     return date.split("T")[0]; // Extract only YYYY-MM-DD
   };
-  
 
   const refetchJobs = async () => {
     try {
@@ -80,20 +79,20 @@ const Jobs = () => {
         <h3>Jobs</h3>
         <p>Manage and track your open positions</p>
       </div>
-      <div className="d-flex align-items-center search-candidates">
-        <div className="search-wrapper position-relative">
-          <input
-            type="text"
-            placeholder="Search job name..."
-            className="form-control ps-4 pe-5"
-            value={searchQuery} // bind value to the searchQuery state
-            onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
-          />
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex align-items-center search-candidates">
+          <div className="search-wrapper position-relative">
+            <input
+              type="text"
+              placeholder="Search job name..."
+              className="form-control ps-4 pe-5"
+              value={searchQuery} // bind value to the searchQuery state
+              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
+            />
 
-          <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+          </div>
         </div>
-      </div>
-      <div className="d-flex justify-content-end">
         <button
           onClick={handleCreateNewJob}
           className="btn-create-new-job mb-3 d-flex align-items-center justify-content-center gap-1"
@@ -112,6 +111,7 @@ const Jobs = () => {
           </svg>
           Create New Job
         </button>
+
         {showPopup && (
           <AddJobPopUp onClose={handleClosePopup} onAddJob={handleAddJob} />
         )}

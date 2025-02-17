@@ -2,15 +2,58 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 const AddRequestPopUp = ({ onClose, onAddJob }) => {
+  const candidatesData = {
+    Manager: ["John Doe", "Jane Smith", "Michael Johnson"],
+    Developer: ["Alice Brown", "Bob White", "Charlie Green"],
+    Executive: ["James Bond", "Lara Croft", "Bruce Wayne"],
+  };
+
+  const customSets = [
+    "Custom Set 1",
+    "Custom Set 2",
+    "Custom Set 3",
+    "Custom Set 4",
+  ];
+
   const [candidateName, setCandidateName] = useState("");
-  const [refereeName, setRefereeName] = useState(""); // Fixed: Changed to refereeName
+  const [refereeName, setRefereeName] = useState("");
   const [refereeEmail, setRefereeEmail] = useState("");
   const [position, setPosition] = useState("");
-  const [questionFormat, setQuestionFormat] = useState(""); // New state for Question Format
+  const [questionFormat, setQuestionFormat] = useState("");
+  const [candidateOptions, setCandidateOptions] = useState([]);
+  const [isCustomSet, setIsCustomSet] = useState(false); // Track if custom set is selected
+
+  const handlePositionChange = (e) => {
+    const selectedPosition = e.target.value;
+    setPosition(selectedPosition);
+    setCandidateOptions(candidatesData[selectedPosition] || []);
+    setCandidateName(""); // Reset candidate when position changes
+  };
+
+  const handleQuestionFormatChange = (e) => {
+    const selectedFormat = e.target.value;
+    if (selectedFormat === "Custom Sets") {
+      setIsCustomSet(true); // Show custom sets when selected
+      setQuestionFormat("");
+    } else {
+      setIsCustomSet(false); // Show regular dropdown options
+      setQuestionFormat(selectedFormat);
+    }
+  };
+
+  const handleCustomSetChange = (e) => {
+    setQuestionFormat(e.target.value); // Set the selected custom set
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddJob({ candidateName, refereeName, refereeEmail, position, questionFormat }); // Added refereeName
+    onAddJob({
+      candidateName,
+      refereeName,
+      refereeEmail,
+      position,
+      questionFormat,
+    });
     onClose();
   };
 
@@ -38,6 +81,26 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
           </Button>
         </div>
         <Form onSubmit={handleSubmit}>
+          {/* Position input */}
+          <Form.Group
+            controlId="formPosition"
+            className="d-flex align-items-center mb-3"
+          >
+            <Form.Label className="me-2" style={{ width: "150px" }}>
+              Position
+            </Form.Label>
+            <Form.Select
+              value={position}
+              onChange={handlePositionChange}
+              required
+            >
+              <option value="">Select Position</option>
+              <option value="Manager">Manager</option>
+              <option value="Developer">Developer</option>
+              <option value="Executive">Executive</option>
+            </Form.Select>
+          </Form.Group>
+
           {/* Candidate Name input */}
           <Form.Group
             controlId="formCandidateName"
@@ -46,13 +109,19 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             <Form.Label className="me-2" style={{ width: "150px" }}>
               Candidate
             </Form.Label>
-            <Form.Control
-              type="text"
+            <Form.Select
               value={candidateName}
               onChange={(e) => setCandidateName(e.target.value)}
-              placeholder="John Doe"
+              disabled={!position} // Disable if no position is selected
               required
-            />
+            >
+              <option value="">Select Candidate</option>
+              {candidateOptions.map((candidate, index) => (
+                <option key={index} value={candidate}>
+                  {candidate}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           {/* Referee's Name input */}
@@ -65,8 +134,8 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             </Form.Label>
             <Form.Control
               type="text"
-              value={refereeName} // Fixed: using refereeName
-              onChange={(e) => setRefereeName(e.target.value)} // Fixed: updating refereeName
+              value={refereeName}
+              onChange={(e) => setRefereeName(e.target.value)}
               placeholder="John Doe"
               required
             />
@@ -89,41 +158,40 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             />
           </Form.Group>
 
-          {/* Position input */}
-          <Form.Group
-            controlId="formPosition"
-            className="d-flex align-items-center mb-3"
-          >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
-              Position
-            </Form.Label>
-            <Form.Control
-              type="text"
-              value={position}
-              onChange={(e) => setPosition(e.target.value)}
-              placeholder="Manager"
-              required
-            />
-          </Form.Group>
-
-          {/* Question Format dropdown */}
+          {/* Reference Question dropdown */}
           <Form.Group
             controlId="formQuestionFormat"
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-              Question Format
+            Reference Question
             </Form.Label>
-            <Form.Select
-              value={questionFormat} // Fixed: using questionFormat
-              onChange={(e) => setQuestionFormat(e.target.value)} // Fixed: updating questionFormat
-              required
-            >
-              <option value="">Select Format</option>
-              <option value="Standard Format">Standard Format</option>
-              <option value="Management Format">Management Format</option>
-              <option value="Executive Format">Executive Format</option>
-            </Form.Select>
+            {!isCustomSet ? (
+              <Form.Select
+                value={questionFormat}
+                onChange={handleQuestionFormatChange}
+                required
+              >
+                <option value="">Select Format</option>
+                <option value="Standard Format">Standard Format</option>
+                <option value="Management Format">Management Format</option>
+                <option value="Executive Format">Executive Format</option>
+                <option value="Custom Sets">Custom Sets</option>
+              </Form.Select>
+            ) : (
+              <Form.Select
+                value={questionFormat}
+                onChange={handleCustomSetChange}
+                required
+              >
+                <option value="">Select Custom Set</option>
+                {customSets.map((set, index) => (
+                  <option key={index} value={set}>
+                    {set}
+                  </option>
+                ))}
+              </Form.Select>
+            )}
           </Form.Group>
 
           <div className="d-flex justify-content-end">
