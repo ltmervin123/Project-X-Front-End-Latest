@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Row, Col, Carousel } from "react-bootstrap";
-import MockAvatar from "../../assets/mock-avatar.png";
 import HeroAvatar from "../../assets/hero-avatar.png";
-import BundleAvatar from "../../assets/bundle-avatar.png";
-import Bundle2Avatar from "../../assets/bundle-avatar2.png";
+import HeroAvatar2 from "../../assets/hero-avatar-2.png";
 import logo from "../../assets/logo.png"; // Importing Logo image
 import img1 from "../../assets/hero-img1.png"; // Importing Hero Avatar image
 import img2 from "../../assets/hero-img2.png"; // Importing Hero Avatar image
 import img3 from "../../assets/hero-img3.png"; // Importing Hero Avatar image
+import img4 from "../../assets/reference-question-page-screenshot.png";
+import img5 from "../../assets/dashboad-page-screenshot.png";
+import img6 from "../../assets/question-answer-screenshot.png";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -34,13 +35,30 @@ const HeroSection = () => {
           className="d-flex content-slide-container h-100 align-items-center justify-content-center"
           activeIndex={index}
           onSelect={handleSelect}
-          indicators={true}
+          indicators={false}
           controls={false}
         >
           <Carousel.Item>
             <div className="custom-hero-container d-flex align-items-center justify-content-center h-100">
               <Row className="d-flex align-items-center justify-content-center">
-                <Col md={6} className="position-relative">
+                <Col md={6} className="ai-mock-interview-ad position-relative">
+                  {/* ai mock interview btn */}
+                  <button 
+                    className="ai-mock-interview-btn"
+                    onClick={() => window.location.href = "/"}
+                  >
+                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.45148 3.8603C6.87506 2.62072 8.58781 2.58318 9.09002 3.74768L9.13252 3.86101L9.70414 5.53268C9.83514 5.91605 10.0468 6.26687 10.3249 6.56148C10.6031 6.85608 10.9411 7.08762 11.3163 7.24047L11.47 7.29784L13.1417 7.86876C14.3813 8.29234 14.4188 10.0051 13.255 10.5073L13.1417 10.5498L11.47 11.1214C11.0865 11.2523 10.7356 11.464 10.4408 11.7421C10.1461 12.0202 9.91444 12.3583 9.76152 12.7336L9.70414 12.8866L9.13323 14.559C8.70964 15.7986 6.99689 15.8361 6.49539 14.6723L6.45148 14.559L5.88056 12.8873C5.74965 12.5038 5.53799 12.1528 5.25988 11.8581C4.98176 11.5634 4.64366 11.3317 4.26839 11.1788L4.11539 11.1214L2.44373 10.5505C1.20343 10.1269 1.16589 8.41418 2.33039 7.91268L2.44373 7.86876L4.11539 7.29784C4.49877 7.16684 4.84959 6.95515 5.14419 6.67704C5.4388 6.39893 5.67033 6.06087 5.82318 5.68568L5.88056 5.53268L6.45148 3.8603ZM13.459 1.41797C13.5915 1.41797 13.7214 1.45514 13.8338 1.52526C13.9463 1.59538 14.0368 1.69564 14.0951 1.81464L14.1291 1.89751L14.377 2.62426L15.1045 2.87218C15.2373 2.91729 15.3537 3.00082 15.439 3.11217C15.5243 3.22352 15.5746 3.35768 15.5835 3.49765C15.5925 3.63762 15.5597 3.77709 15.4893 3.8984C15.4189 4.01971 15.314 4.11738 15.1881 4.17905L15.1045 4.21305L14.3777 4.46097L14.1298 5.18843C14.0846 5.32119 14.001 5.43755 13.8896 5.52276C13.7782 5.60796 13.6441 5.65819 13.5041 5.66706C13.3641 5.67594 13.2247 5.64307 13.1034 5.57261C12.9822 5.50216 12.8845 5.39729 12.8229 5.2713L12.7889 5.18843L12.541 4.46168L11.8136 4.21376C11.6808 4.16864 11.5643 4.08512 11.4791 3.97377C11.3938 3.86242 11.3435 3.72826 11.3345 3.58829C11.3256 3.44832 11.3584 3.30884 11.4288 3.18754C11.4992 3.06623 11.604 2.96855 11.73 2.90689L11.8136 2.87289L12.5403 2.62497L12.7882 1.89751C12.836 1.75756 12.9264 1.63607 13.0467 1.55007C13.1669 1.46407 13.3111 1.41788 13.459 1.41797Z" fill="#F46A05"/>
+                    </svg>
+
+                    <span className="button-name">
+                      AI Mock Interview
+                    </span>
+                  </button>
+
+                  <h3 id="header-text">
+                    Your <span id="blueish-color-text">Job Hunting</span> Made Simple. 
+                  </h3>
                   {/* Logo */}
                   <img src={logo} alt="Logo" width="400" height="60" />
 
@@ -105,46 +123,48 @@ const HeroSection = () => {
 
                   <div className="btn-container d-flex align-items-center justify-content-between flex-md-row">
                     {/* Button to Get Started */}
-                    <button className="btn-get">
-                      <a
-                        href="/login"
+                    <button 
+                      className="btn-get"
+                      onClick={() => window.location.href = "/login"}
+                    >
+                      {/* Rocket Icon */}
+                      <svg
+                        className="rocket-icon"
+                        width="30"
+                        height="30"
+                        viewBox="0 0 41 42"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.58912 26.2823L2.34912 24.7223C2.34912 24.7223 2.34912 20.0423 3.90912 15.3623C5.46912 10.6823 16.3891 10.6823 16.3891 10.6823M8.58912 26.2823L14.8291 32.5223M8.58912 26.2823C8.58912 26.2823 14.8291 10.6823 22.6291 6.00227C30.4291 1.32227 39.7891 1.32227 39.7891 1.32227C39.7891 1.32227 39.7891 10.6823 35.1091 18.4823C30.4291 26.2823 14.8291 32.5223 14.8291 32.5223M14.8291 32.5223L16.3891 38.7623C16.3891 38.7623 21.0691 38.7623 25.7491 37.2023C30.4291 35.6423 30.4291 24.7223 30.4291 24.7223"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M0.789062 40.322L7.02906 37.202L3.90906 34.082L0.789062 40.322Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M27.309 15.3622C28.1706 15.3622 28.869 14.6638 28.869 13.8022C28.869 12.9406 28.1706 12.2422 27.309 12.2422C26.4475 12.2422 25.749 12.9406 25.749 13.8022C25.749 14.6638 26.4475 15.3622 27.309 15.3622Z"
+                          fill="white"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span
                         className="d-flex align-items-center justify-content-center"
                       >
-                        {/* Rocket Icon */}
-                        <svg
-                          className="rocket-icon"
-                          width="30"
-                          height="30"
-                          viewBox="0 0 41 42"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.58912 26.2823L2.34912 24.7223C2.34912 24.7223 2.34912 20.0423 3.90912 15.3623C5.46912 10.6823 16.3891 10.6823 16.3891 10.6823M8.58912 26.2823L14.8291 32.5223M8.58912 26.2823C8.58912 26.2823 14.8291 10.6823 22.6291 6.00227C30.4291 1.32227 39.7891 1.32227 39.7891 1.32227C39.7891 1.32227 39.7891 10.6823 35.1091 18.4823C30.4291 26.2823 14.8291 32.5223 14.8291 32.5223M14.8291 32.5223L16.3891 38.7623C16.3891 38.7623 21.0691 38.7623 25.7491 37.2023C30.4291 35.6423 30.4291 24.7223 30.4291 24.7223"
-                            stroke="white"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M0.789062 40.322L7.02906 37.202L3.90906 34.082L0.789062 40.322Z"
-                            fill="white"
-                            stroke="white"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M27.309 15.3622C28.1706 15.3622 28.869 14.6638 28.869 13.8022C28.869 12.9406 28.1706 12.2422 27.309 12.2422C26.4475 12.2422 25.749 12.9406 25.749 13.8022C25.749 14.6638 26.4475 15.3622 27.309 15.3622Z"
-                            fill="white"
-                            stroke="white"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
                         GET STARTED
-                      </a>
+                      </span>
                     </button>
                     <div className="joined-users d-flex flex-md-row">
                       <div className="avatars-container d-flex flex-md-row col-md-6">
@@ -195,240 +215,127 @@ const HeroSection = () => {
           </Carousel.Item>
           <Carousel.Item>
             <div className="custom-hero-container d-flex align-items-center justify-content-center h-100">
-              <div className="content-mock-interview-container w-100 d-flex flex-column justify-content-center  gap-4">
-                <h1 className="text-center">
-                  <span className="color-orange">Mock.AI</span>: AI-Powered
-                  English 
-                  <br />Interview Practice Tool
-                </h1>
-                <div className="position-relative">
-                  <div className="mock-content-bg ">
-                    <div className="overlayed-icons d-flex gap-3 justify-content-center">
-                      <svg
-                        width="30"
-                        height="30"
-                        viewBox="0 0 39 39"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M14.625 8.125C16.3489 8.125 18.0022 8.80982 19.2212 10.0288C20.4402 11.2478 21.125 12.9011 21.125 14.625C21.125 16.3489 20.4402 18.0022 19.2212 19.2212C18.0022 20.4402 16.3489 21.125 14.625 21.125C12.9011 21.125 11.2478 20.4402 10.0288 19.2212C8.80982 18.0022 8.125 16.3489 8.125 14.625C8.125 12.9011 8.80982 11.2478 10.0288 10.0288C11.2478 8.80982 12.9011 8.125 14.625 8.125ZM14.625 24.375C18.9638 24.375 27.625 26.5525 27.625 30.875V34.125H1.625V30.875C1.625 26.5525 10.2863 24.375 14.625 24.375ZM27.235 8.71C30.5175 12.285 30.5175 17.2413 27.235 20.5238L24.505 17.7775C25.87 15.86 25.87 13.3738 24.505 11.4563L27.235 8.71ZM32.6138 3.25C39 9.83125 38.9513 19.6787 32.6138 26L29.965 23.3512C34.4663 18.1838 34.4663 10.8063 29.965 5.89875L32.6138 3.25Z"
-                          fill="white"
-                        />
-                      </svg>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        id="Layer_1"
-                        data-name="Layer 1"
-                        viewBox="0 0 28 24"
-                        width="30"
-                        height="30"
-                      >
-                        <path
-                          d="M24,12c0-1.626-.714-3.16-1.925-4.124,.14-1.622-.44-3.211-1.59-4.362-1.15-1.149-2.735-1.728-4.277-1.555-2.014-2.556-6.365-2.604-8.332-.035-1.624-.144-3.211,.439-4.361,1.59-1.149,1.15-1.729,2.74-1.555,4.277-2.556,2.014-2.605,6.365-.035,8.333-.14,1.622,.44,3.211,1.59,4.362,1.15,1.149,2.737,1.73,4.277,1.555,2.014,2.556,6.365,2.604,8.332,.035,1.62,.136,3.21-.439,4.361-1.59,1.149-1.15,1.729-2.74,1.555-4.277,1.246-1.048,1.96-2.582,1.96-4.208Zm-6.46-1.434l-4.739,4.568c-1.163,1.161-3.066,1.151-4.229-.013l-2.252-2.092c-.404-.376-.428-1.009-.052-1.413,.377-.405,1.011-.427,1.413-.052l2.278,2.117c.418,.417,1.05,.416,1.44,.025l4.752-4.581c.398-.382,1.031-.371,1.414,.026,.384,.397,.372,1.031-.025,1.414Z"
-                          fill="white"
-                        />
-                      </svg>
-
-                      <svg
-                        width="30"
-                        height="30"
-                        viewBox="0 0 43 43"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M11.9444 23.7943C16.4962 23.7943 20.1861 20.0991 20.1861 15.5407C20.1861 10.9824 16.4962 7.28711 11.9444 7.28711C7.39268 7.28711 3.70276 10.9824 3.70276 15.5407C3.70276 20.0991 7.39268 23.7943 11.9444 23.7943Z"
-                          fill="white"
-                          stroke="white"
-                          stroke-width="0.5"
-                          stroke-miterlimit="10"
-                        />
-                        <path
-                          d="M10.9877 23.8354C9.10403 26.4261 6.56942 27.4724 2.98608 27.4724C4.7025 26.3282 6.41892 24.0874 7.08542 22.3262L10.9877 23.8354Z"
-                          fill="white"
-                        />
-                        <path
-                          d="M31.0555 32.8954C35.6073 32.8954 39.2972 29.2055 39.2972 24.6538C39.2972 20.102 35.6073 16.4121 31.0555 16.4121C26.5038 16.4121 22.8138 20.102 22.8138 24.6538C22.8138 29.2055 26.5038 32.8954 31.0555 32.8954Z"
-                          fill="white"
-                          stroke="white"
-                          stroke-width="0.5"
-                          stroke-miterlimit="10"
-                        />
-                        <path
-                          d="M32.0123 32.9604C33.896 35.5511 36.4306 36.5974 40.0139 36.5974C38.2975 35.4532 36.5811 33.2124 35.9146 31.4512L32.0123 32.9604Z"
-                          fill="white"
-                        />
-                        <path
-                          d="M7.7639 16.7229C8.42358 16.7229 8.95835 16.1881 8.95835 15.5284C8.95835 14.8688 8.42358 14.334 7.7639 14.334C7.10423 14.334 6.56946 14.8688 6.56946 15.5284C6.56946 16.1881 7.10423 16.7229 7.7639 16.7229Z"
-                          fill="#F46A05"
-                        />
-                        <path
-                          d="M11.9444 16.7229C12.6041 16.7229 13.1389 16.1881 13.1389 15.5284C13.1389 14.8688 12.6041 14.334 11.9444 14.334C11.2848 14.334 10.75 14.8688 10.75 15.5284C10.75 16.1881 11.2848 16.7229 11.9444 16.7229Z"
-                          fill="#F46A05"
-                        />
-                        <path
-                          d="M16.125 16.7229C16.7847 16.7229 17.3194 16.1881 17.3194 15.5284C17.3194 14.8688 16.7847 14.334 16.125 14.334C15.4653 14.334 14.9305 14.8688 14.9305 15.5284C14.9305 16.1881 15.4653 16.7229 16.125 16.7229Z"
-                          fill="#F46A05"
-                        />
-                        <path
-                          d="M7.08542 22.3262C6.41892 24.088 4.7025 26.3282 2.98608 27.4724C6.56942 27.4724 9.10403 26.4261 10.9877 23.8354"
-                          stroke="#F46A05"
-                          stroke-width="0.5"
-                          stroke-miterlimit="10"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M13.3032 23.7783C17.2747 23.1298 20.3056 19.682 20.3056 15.5271C20.3056 10.9094 16.5622 7.16602 11.9445 7.16602C7.32676 7.16602 3.58337 10.9094 3.58337 15.5271C3.58337 17.5183 4.27914 19.3464 5.44074 20.7827"
-                          stroke="#F46A05"
-                          stroke-width="0.5"
-                          stroke-miterlimit="10"
-                          stroke-linecap="round"
-                        />
-                        <path
-                          d="M35.2361 25.8479C35.8957 25.8479 36.4305 25.3131 36.4305 24.6534C36.4305 23.9938 35.8957 23.459 35.2361 23.459C34.5764 23.459 34.0416 23.9938 34.0416 24.6534C34.0416 25.3131 34.5764 25.8479 35.2361 25.8479Z"
-                          fill="#F46A05"
-                        />
-                        <path
-                          d="M31.0555 25.8479C31.7152 25.8479 32.25 25.3131 32.25 24.6534C32.25 23.9938 31.7152 23.459 31.0555 23.459C30.3959 23.459 29.8611 23.9938 29.8611 24.6534C29.8611 25.3131 30.3959 25.8479 31.0555 25.8479Z"
-                          fill="#F46A05"
-                        />
-                        <path
-                          d="M26.875 25.8479C27.5347 25.8479 28.0694 25.3131 28.0694 24.6534C28.0694 23.9938 27.5347 23.459 26.875 23.459C26.2153 23.459 25.6805 23.9938 25.6805 24.6534C25.6805 25.3131 26.2153 25.8479 26.875 25.8479Z"
-                          fill="#F46A05"
-                        />
-                        <path
-                          d="M35.9146 31.4512C36.5811 33.213 38.2975 35.4532 40.0139 36.5974C36.4306 36.5974 33.896 35.5511 32.0123 32.9604"
-                          stroke="#F46A05"
-                          stroke-width="0.5"
-                          stroke-miterlimit="10"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M29.6969 32.9053C25.7254 32.2567 22.6945 28.809 22.6945 24.6541C22.6945 20.0364 26.4378 16.293 31.0556 16.293C35.6733 16.293 39.4167 20.0364 39.4167 24.6541C39.4167 26.6452 38.7209 28.4733 37.5593 29.9096"
-                          stroke="#F46A05"
-                          stroke-width="0.5"
-                          stroke-miterlimit="10"
-                          stroke-linecap="round"
-                        />
-                      </svg>
-                    </div>
-                    <p>
-                      Designed for job seekers looking to enhance their English
-                      interview skills, our Mock.AI platform offers personalized
-                      mock interviews along with detailed analytics to help you
-                      track your progress. It provides insights into areas for
-                      improvement, helping you refine your responses, improve
-                      fluency, and build confidence. Tailored to your needs, the
-                      platform ensures you are well-prepared to successfully
-                      secure your ideal job.
-                    </p>
-                    <img src={MockAvatar} alt="" />
-                  </div>
-                  <div className="bg-blue-behind"></div>
-                </div>
-
-                <button
-                  className="btn-mock d-flex align-items-center justify-content-center"
-                  onClick={handleRedirect}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 33 33"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+              <Row className="d-flex align-items-center justify-content-center">
+                <Col md={7} className="ai-reference-checker-ad position-relative">
+                  {/* ai mock interview btn */}
+                  <button 
+                    className="ai-reference-checker-btn"
+                    onClick={() => window.location.href = "/"}
                   >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M8.76562 6.18739L11.1705 4.90039L27.6705 15.8997V18.4737L11.1705 29.4751L8.76562 28.1881V6.18739ZM11.8594 9.07695V25.2965L24.024 17.1867L11.8594 9.07695Z"
-                      fill="white"
-                    />
-                  </svg>
-                  Start your Mock Interview
-                </button>
-              </div>
-            </div>
-          </Carousel.Item>
-          <Carousel.Item>
-            <div className="custom-hero-container d-flex align-items-center justify-content-center  h-100">
-              <div className="custom-bundle-mock-interview-container d-flex flex-column justify-content-center ">
-                <h1 className="text-center">Bundle it with our </h1>
-                <h3 className="color-orange text-center">
-                  Resume Fit Optimizer & Application Tracker
-                </h3>
-                <div className="content-bundle-mock w-100 d-flex flex-column justify-content-center align-items-center gap-3 position-relative">
-                  <div className="bundle-mock-bg">
-                    <p>
-                      Resume Fit Optimizer is a smart tool that refines your
-                      resume by highlighting relevant strengths and provides
-                      detailed insights on how well it aligns with a specific
-                      job, boosting your chances of success.
-                    </p>
-                    <div className="bundle-avatar">
-                      <svg
-                        width="425"
-                        height="425"
-                        viewBox="0 0 425 425"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect
-                          x="340.457"
-                          width="119"
-                          height="481.479"
-                          transform="rotate(45 340.457 0)"
-                          fill="#1706AC"
-                        />
-                      </svg>
+                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.45148 3.8603C6.87506 2.62072 8.58781 2.58318 9.09002 3.74768L9.13252 3.86101L9.70414 5.53268C9.83514 5.91605 10.0468 6.26687 10.3249 6.56148C10.6031 6.85608 10.9411 7.08762 11.3163 7.24047L11.47 7.29784L13.1417 7.86876C14.3813 8.29234 14.4188 10.0051 13.255 10.5073L13.1417 10.5498L11.47 11.1214C11.0865 11.2523 10.7356 11.464 10.4408 11.7421C10.1461 12.0202 9.91444 12.3583 9.76152 12.7336L9.70414 12.8866L9.13323 14.559C8.70964 15.7986 6.99689 15.8361 6.49539 14.6723L6.45148 14.559L5.88056 12.8873C5.74965 12.5038 5.53799 12.1528 5.25988 11.8581C4.98176 11.5634 4.64366 11.3317 4.26839 11.1788L4.11539 11.1214L2.44373 10.5505C1.20343 10.1269 1.16589 8.41418 2.33039 7.91268L2.44373 7.86876L4.11539 7.29784C4.49877 7.16684 4.84959 6.95515 5.14419 6.67704C5.4388 6.39893 5.67033 6.06087 5.82318 5.68568L5.88056 5.53268L6.45148 3.8603ZM13.459 1.41797C13.5915 1.41797 13.7214 1.45514 13.8338 1.52526C13.9463 1.59538 14.0368 1.69564 14.0951 1.81464L14.1291 1.89751L14.377 2.62426L15.1045 2.87218C15.2373 2.91729 15.3537 3.00082 15.439 3.11217C15.5243 3.22352 15.5746 3.35768 15.5835 3.49765C15.5925 3.63762 15.5597 3.77709 15.4893 3.8984C15.4189 4.01971 15.314 4.11738 15.1881 4.17905L15.1045 4.21305L14.3777 4.46097L14.1298 5.18843C14.0846 5.32119 14.001 5.43755 13.8896 5.52276C13.7782 5.60796 13.6441 5.65819 13.5041 5.66706C13.3641 5.67594 13.2247 5.64307 13.1034 5.57261C12.9822 5.50216 12.8845 5.39729 12.8229 5.2713L12.7889 5.18843L12.541 4.46168L11.8136 4.21376C11.6808 4.16864 11.5643 4.08512 11.4791 3.97377C11.3938 3.86242 11.3435 3.72826 11.3345 3.58829C11.3256 3.44832 11.3584 3.30884 11.4288 3.18754C11.4992 3.06623 11.604 2.96855 11.73 2.90689L11.8136 2.87289L12.5403 2.62497L12.7882 1.89751C12.836 1.75756 12.9264 1.63607 13.0467 1.55007C13.1669 1.46407 13.3111 1.41788 13.459 1.41797Z" fill="#F46A05"/>
+                    </svg>
 
-                      <img src={BundleAvatar} alt="" />
+                    <span className="button-name">
+                      AI Reference Checker
+                    </span>
+                  </button>
+                  <h3 id="header-text">
+                    Make <span id="blueish-color-text">Confident Hires </span> 
+                    with AI-Verified References. 
+                  </h3>
+
+                  {/* ai-reference-checker Description */}
+                  <p className="ai-reference-checker-content position-relative">
+                    Streamline your hiring process with AI Reference Checker. This innovative tool automates the reference interview process, saving you time and effort while ensuring accuracy and consistency. Let AI handle the heavy lifting by conducting thorough, unbiased reference checks to help you make smarter hiring decisions. Effortlessly gather insights, validate candidates, and keep your recruitment process efficient and professional.
+                  </p>
+
+                  {/* Arrow SVG Button */}
+
+                  <svg className="arrow-svg-pointing-btn"
+                    width="80" height="80" viewBox="0 0 124 122" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1739_1216)">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M68.6205 10.0867C66.7621 8.61234 56.448 15.8195 57.9124 17.5659C58.9887 18.8908 59.7141 18.6773 63.3733 16.0647C69.3177 11.8457 69.9411 11.1568 68.6205 10.0867ZM52.9691 20.5193C51.8811 20.2077 45.1143 25.4828 43.2499 28.1199C42.0025 29.8716 42.2651 30.9541 43.9172 30.8188C45.1992 30.7092 51.1138 26.1661 53.9393 23.0951C54.711 22.2463 54.1764 20.8634 52.9691 20.5193ZM37.6849 34.0589C35.6428 34.0039 29.0837 41.0313 29.9834 42.3346C30.6415 43.2877 31.0773 43.2166 32.8942 41.9621C37.9291 38.486 40.5563 34.1445 37.6849 34.0589ZM65.0896 82.6946C62.77 81.395 65.0945 90.8485 68.2101 95.3611C69.1904 96.7811 68.4726 96.4437 66.1676 94.416C63.3905 91.9388 58.2883 88.4817 57.5615 88.5527C55.7865 88.7442 57.1414 90.5661 61.0721 93.3097C65.3624 96.2932 65.3963 96.1549 60.5256 95.4678C54.2018 94.5488 52.376 94.9477 53.7408 96.8777C54.4526 97.9086 56.0534 98.3544 62.3384 99.3576C64.9133 99.7628 67.9354 100.348 69.1158 100.653C74.4834 102.06 74.5272 102.029 71.4077 96.7151C68.8537 92.3604 67.6397 89.6657 67.0346 87.0101C66.5817 84.9962 65.7148 83.0384 65.0896 82.6946ZM53.9483 84.958C53.2022 84.4392 49.2386 82.3503 46.5932 80.6725C43.3663 78.6206 42.0256 78.5984 43.2104 80.5953C44.1753 82.2269 53.7569 88.1923 54.9484 87.8579C55.8672 87.5969 55.2809 85.905 53.9483 84.958ZM26.4353 47.1682C23.5078 46.3459 18.9774 56.8268 21.0053 59.7639C21.0993 59.9001 21.4528 60.8336 21.7761 61.8168C23.1461 65.9549 25.3245 65.9731 24.1749 61.8265C23.1575 58.1056 23.613 56.0965 26.7259 50.9601C28.0395 48.7894 27.9521 47.5859 26.4353 47.1682ZM38.7487 75.1163C37.8902 74.3878 35.0358 72.9691 33.3789 71.7865C29.1811 68.7966 27.0032 68.4045 28.749 70.9332C29.8502 72.5282 38.3812 77.955 39.317 77.6249C40.2881 77.2991 40.0341 76.182 38.7487 75.1163Z" fill="black"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_1739_1216">
+                      <rect width="82.7283" height="93.105" fill="white" transform="translate(77 0.265137) rotate(55.3782)"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+
+
+                  <div className="btn-container d-flex align-items-center justify-content-between flex-md-row">
+                    {/* Button to Get Started */}
+                    <button 
+                      className="btn-sign-up"
+                      onClick={() => window.location.href = "/signup"}
+                    >
+                      {/* Sign up icon */}
+                      <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.7692 4.08C12.7692 3.63444 12.9735 3.20712 13.337 2.89206C13.7005 2.577 14.1936 2.4 14.7077 2.4H23.2923C23.8064 2.4 24.2995 2.577 24.663 2.89206C25.0265 3.20712 25.2308 3.63444 25.2308 4.08V19.92C25.2308 20.3656 25.0265 20.7929 24.663 21.1079C24.2995 21.423 23.8064 21.6 23.2923 21.6H14.7077C14.1936 21.6 13.7005 21.423 13.337 21.1079C12.9735 20.7929 12.7692 20.3656 12.7692 19.92V16.8C12.7692 16.4817 12.6234 16.1765 12.3637 15.9515C12.104 15.7264 11.7518 15.6 11.3846 15.6C11.0174 15.6 10.6652 15.7264 10.4055 15.9515C10.1459 16.1765 10 16.4817 10 16.8V19.92C10 21.0021 10.496 22.0398 11.3789 22.805C12.2617 23.5701 13.4591 24 14.7077 24H23.2923C24.5409 24 25.7383 23.5701 26.6212 22.805C27.504 22.0398 28 21.0021 28 19.92V4.08C28 2.99792 27.504 1.96015 26.6212 1.195C25.7383 0.429856 24.5409 0 23.2923 0H14.7077C14.0895 0 13.4773 0.105532 12.9061 0.310571C12.335 0.515611 11.816 0.816141 11.3789 1.195C10.9417 1.57387 10.5949 2.02364 10.3584 2.51865C10.1218 3.01366 10 3.54421 10 4.08V7.2C10 7.51826 10.1459 7.82348 10.4055 8.04853C10.6652 8.27357 11.0174 8.4 11.3846 8.4C11.7518 8.4 12.104 8.27357 12.3637 8.04853C12.6234 7.82348 12.7692 7.51826 12.7692 7.2V4.08Z" fill="white"/>
+                        <path d="M15.5281 7.36656C15.7859 7.13185 16.1356 7 16.5002 7C16.8648 7 17.2145 7.13185 17.4724 7.36656L21.5974 11.1224C21.8552 11.3572 22 11.6756 22 12.0076C22 12.3395 21.8552 12.6579 21.5974 12.8927L17.4724 16.6486C17.213 16.8766 16.8657 17.0028 16.5052 17C16.1446 16.9971 15.7998 16.8654 15.5448 16.6333C15.2899 16.4012 15.1453 16.0872 15.1422 15.7589C15.139 15.4307 15.2776 15.1144 15.5281 14.8783L17.306 13.2595H1.37502C1.01034 13.2595 0.660599 13.1276 0.402733 12.8928C0.144868 12.658 0 12.3396 0 12.0076C0 11.6755 0.144868 11.3571 0.402733 11.1223C0.660599 10.8875 1.01034 10.7556 1.37502 10.7556H17.306L15.5281 9.13682C15.2703 8.90205 15.1255 8.58366 15.1255 8.25169C15.1255 7.91972 15.2703 7.60133 15.5281 7.36656Z" fill="white"/>
+                      </svg>
+                      <span
+                        className="d-flex align-items-center justify-content-center"
+                      >
+                        Sign Up Now
+                      </span>
+                    </button>
+                    <div className="joined-users d-flex flex-md-row">
+                      <div className="avatars-container d-flex flex-md-row col-md-6">
+                        {/* Add "has-image" to parent div if img has a source */}
+                        <div className="users-avatar avatars-1">
+                          <img src="" alt="" />
+                        </div>
+                        <div className="users-avatar avatars-2"> 
+                          <img src="" alt="" />
+                        </div>
+                        <div className="users-avatar avatars-3">
+                          <img src="" alt="" />
+                        </div>
+                      </div>
+                      <span id="join-text" className=" col-md-6">Join <span id="numbers-joined"> 2,000+ </span> users</span>
                     </div>
-                    {/* <img src={BundleAvatar} alt="" /> */}
                   </div>
-                </div>
-              </div>
+                </Col>
+                <Col md={3} className="hero-avatar-bg">
+                  {/* Hero Avatar Image */}
+                  <img
+                    src={HeroAvatar2}
+                    className="heroavatar"
+                    alt="Hero Avatar"
+                  />
+
+                  {/* Images around the Hero Avatar */}
+                  <div className="image-grid">
+                    <img
+                      src={img5}
+                      className="grid-image top-center"
+                      alt="Image 3"
+                    />
+                    <img
+                      src={img6}
+                      className="grid-image bottom-right"
+                      alt="Image 1"
+                    />
+                    <img
+                      src={img4}
+                      className="grid-image bottom-left"
+                      alt="Image 2"
+                    />
+                  </div>
+                </Col>
+              </Row>
             </div>
           </Carousel.Item>
-          <Carousel.Item>
-            <div className="custom-hero-container d-flex align-items-center  flex-column justify-content-center h-100">
-              <h1>Here's how our Resume Fit Optimizer works!</h1>
-              <div className="bundle-bg2">
-                <img src={Bundle2Avatar} alt="" />
-                <p>
-                  Simply upload your current resume along with the job
-                  description, and the app will refine and emphasize areas in
-                  your resume that are most relevant to the job’s requirements
-                  without altering content. Additionally, it will provide
-                  detailed analytics to assess how well your qualifications
-                  align with the role, increasing your chances of passing resume
-                  screenings and advancing in the hiring process.
-                </p>
-              </div>
-            </div>
-          </Carousel.Item>
+          
         </Carousel>
         {/* Custom controls */}
         <button
           className="carousel-control-prev"
-          onClick={() => handleSelect(index === 0 ? 3 : index - 1)} // Adjust the number based on your items
+          onClick={() => handleSelect(index === 0 ? 1 : index - 1)} // Adjust the number based on your items
           style={{ position: "absolute", left: "10px", zIndex: 1 }}
         >
           <FaChevronLeft />
         </button>
         <button
           className="carousel-control-next"
-          onClick={() => handleSelect(index === 3 ? 0 : index + 1)} // Adjust the number based on your items
+          onClick={() => handleSelect(index === 1 ? 0 : index + 1)} // Adjust the number based on your items
           style={{ position: "absolute", right: "10px", zIndex: 1 }}
         >
           <FaChevronRight />
         </button>
-        {/* Decorative Triangle Border */}
-
-        <div className="border-triangle"></div>
       </section>
     </>
   );

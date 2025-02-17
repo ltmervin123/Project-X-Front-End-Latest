@@ -15,6 +15,7 @@ import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
+import CompanyProfilePage from "./page/CompanyProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuthMockAI from "./components/session/requireAuthMockAI.jsx";
@@ -59,6 +60,9 @@ import AiReferenceReportsPage from "./page/AiReferenceReportsPage.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
+
+/*Company Expired/Invalid Link page*/
+import CompanyExpiredLink from "./page/CompanyExpiredLinkPage.jsx";
 
 // AiReferenceCheckVerificationPage
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
@@ -160,6 +164,7 @@ function App() {
 
           <Route element={<RequireAuthAIReference />}>
             {/* AI Reference Checker Dashboard */}
+            <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
             <Route
               path="/AiReferenceMaindashboard"
               element={<AiReferenceMainDashboardPage />}
@@ -229,14 +234,17 @@ function App() {
           element={<CreatedAccount />}
         />
 
-        {/* Company Expired/Invalid Link */}
-        <Route path="/CompanyExpiredLink" element={<ExpiredLink />} />
+        {/*  Company Expired/Invalid Link */}
+        <Route path="/CompanyExpiredLink" element={<CompanyExpiredLink />} />
 
-        {/*Company Reference Verification page */}
+        {/* Reference Verification page */}
         <Route
-          path="/CompanyReferenceVerification"
+          path="/ReferenceVerification"
           element={<ReferenceVerification />}
         />
+
+        {/* Created Account page*/}
+        <Route path="/CreatedAccount" element={<CreatedAccount />} />
 
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />

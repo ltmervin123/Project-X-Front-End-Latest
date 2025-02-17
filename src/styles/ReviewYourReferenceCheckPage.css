@@ -64,7 +64,8 @@ margin: 0;
 
 /* Optional: You can define a max-height when collapsed */
 .ReviewYourReferenceCheck-box-dropdown.collapsed {
-  max-height: 560px; /* Limit the height when collapsed */
+  overflow-y: scroll;
+  max-height: 260px; /* Limit the height when collapsed */
 }
 
 .ReviewYourReferenceCheck-dropdown {
