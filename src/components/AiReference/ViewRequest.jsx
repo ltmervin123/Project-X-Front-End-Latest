@@ -2,67 +2,110 @@ import React, { useState } from "react"; // Ensure useState is imported
 import "../../styles/ReviewYourReferenceCheckPage.css";
 
 function ViewRequest() {
-  // Static data for 10 questions, original answers, and enhanced answers
+  // Updated questions and categories
   const updatedQuestions = [
     {
-      id: 1,
-      text: "What is your experience with the candidate?",
-      originalAnswer: "The candidate has demonstrated excellent skills in project management.",
-      enhancedAnswer: "The candidate has consistently displayed exceptional project management skills, efficiently leading teams and delivering projects on time and within budget."
+      category: "Relationship",
+      questions: [
+        {
+          id: 1,
+          text: "How do you know (candidate’s name), and how long have you worked together?",
+          originalAnswer: "I worked with the candidate for 2 years as their direct supervisor.",
+          enhancedAnswer: "I have had the pleasure of working with the candidate for over 2 years, where I directly supervised their work and witnessed their growth and dedication."
+        }
+      ]
     },
     {
-      id: 2,
-      text: "How does the candidate handle challenges?",
-      originalAnswer: "They remain calm under pressure and find effective solutions.",
-      enhancedAnswer: "The candidate stays calm and composed under pressure, approaching challenges with a strategic mindset, and consistently finding innovative and effective solutions."
+      category: "Job Responsibilities and Performance",
+      questions: [
+        {
+          id: 2,
+          text: "Can you describe (candidate’s name) main responsibilities in his/her previous role?",
+          originalAnswer: "The candidate was responsible for project management and client communication.",
+          enhancedAnswer: "In their previous role, the candidate was in charge of overseeing multiple projects, managing client relationships, and ensuring timely delivery of services."
+        },
+        {
+          id: 3,
+          text: "How would you rate (candidate’s name) performance in his/her role, and why?",
+          originalAnswer: "I would rate the candidate's performance as excellent.",
+          enhancedAnswer: "I would rate the candidate's performance as outstanding, consistently exceeding expectations in all aspects of their role, from client interactions to project completion."
+        },
+        {
+          id: 4,
+          text: "What do you consider to be (candidate’s name) key strengths?",
+          originalAnswer: "The candidate has strong communication and organizational skills.",
+          enhancedAnswer: "The candidate’s key strengths lie in their exceptional communication abilities and organizational prowess, enabling them to manage complex tasks with ease."
+        },
+        {
+          id: 5,
+          text: "What areas, if any, do you think the (candidate’s name) could further develop or improve?",
+          originalAnswer: "The candidate could work on being less perfectionistic at times.",
+          enhancedAnswer: "While the candidate demonstrates exceptional work ethic, they could focus on reducing their tendency to overanalyze and spending extra time on tasks to ensure efficiency."
+        }
+      ]
     },
     {
-      id: 3,
-      text: "Would you recommend the candidate?",
-      originalAnswer: "Yes, I would highly recommend them.",
-      enhancedAnswer: "Without hesitation, I would highly recommend this candidate for any role. They are hardworking, reliable, and bring great value to any team."
+      category: "Skills and Competencies",
+      questions: [
+        {
+          id: 6,
+          text: "How would you describe (candidate’s name) communication skills?",
+          originalAnswer: "The candidate has great communication skills, both written and verbal.",
+          enhancedAnswer: "The candidate excels in both written and verbal communication, consistently conveying ideas clearly and effectively in all interactions."
+        },
+        {
+          id: 7,
+          text: "How well does (candidate’s name) work with colleagues or in a team?",
+          originalAnswer: "They work very well with colleagues, always being a team player.",
+          enhancedAnswer: "The candidate is an excellent team player, collaborating seamlessly with colleagues, offering support, and fostering a positive work environment."
+        },
+        {
+          id: 8,
+          text: "How would you describe their attention to detail in their work?",
+          originalAnswer: "The candidate pays great attention to detail and ensures accuracy in their work.",
+          enhancedAnswer: "The candidate's meticulous attention to detail is evident in their work, ensuring accuracy and a high standard in every task they complete."
+        }
+      ]
     },
     {
-      id: 4,
-      text: "What are the candidate’s strengths?",
-      originalAnswer: "Great communication skills and problem-solving abilities.",
-      enhancedAnswer: "The candidate excels in communication and demonstrates exceptional problem-solving skills, effectively addressing complex challenges in various work environments."
+      category: "Work Ethic and Behavior",
+      questions: [
+        {
+          id: 9,
+          text: "How would you describe (candidate’s name) attitude and professionalism?",
+          originalAnswer: "The candidate is very professional and positive in their attitude.",
+          enhancedAnswer: "The candidate exhibits a positive, professional attitude, approaching challenges with a can-do mindset and always maintaining a high standard of professionalism."
+        },
+        {
+          id: 10,
+          text: "How did they handle feedback and criticism?",
+          originalAnswer: "The candidate is open to feedback and takes it constructively.",
+          enhancedAnswer: "The candidate is highly receptive to feedback, viewing it as an opportunity for growth and consistently improving based on constructive criticism."
+        },
+        {
+          id: 11,
+          text: "Did they show initiative and a willingness to learn?",
+          originalAnswer: "Yes, the candidate is always eager to learn and take on new challenges.",
+          enhancedAnswer: "The candidate is proactive, always seeking new learning opportunities and demonstrating a strong initiative to take on challenges with enthusiasm."
+        }
+      ]
     },
     {
-      id: 5,
-      text: "What are the candidate’s weaknesses?",
-      originalAnswer: "They can be a bit perfectionistic at times.",
-      enhancedAnswer: "The candidate tends to be a perfectionist, which can sometimes result in spending extra time on tasks, but it ensures high-quality results."
-    },
-    {
-      id: 6,
-      text: "How does the candidate work in a team?",
-      originalAnswer: "They are very collaborative and always open to feedback.",
-      enhancedAnswer: "The candidate is highly collaborative, works well with diverse teams, and actively seeks and acts upon feedback to improve team performance."
-    },
-    {
-      id: 7,
-      text: "How does the candidate handle deadlines?",
-      originalAnswer: "They are very punctual and always meet deadlines.",
-      enhancedAnswer: "The candidate is highly reliable when it comes to deadlines, always delivering work on time and managing time efficiently even under pressure."
-    },
-    {
-      id: 8,
-      text: "What is the candidate’s approach to learning new skills?",
-      originalAnswer: "They are eager to learn and adapt quickly.",
-      enhancedAnswer: "The candidate has a proactive approach to learning, quickly picking up new skills and applying them effectively to their role."
-    },
-    {
-      id: 9,
-      text: "How does the candidate handle constructive criticism?",
-      originalAnswer: "They are receptive and make improvements based on feedback.",
-      enhancedAnswer: "The candidate responds to constructive feedback with a positive attitude, using it as an opportunity for growth and consistently improving their performance."
-    },
-    {
-      id: 10,
-      text: "What is the candidate’s work ethic like?",
-      originalAnswer: "They are diligent and always put in their best effort.",
-      enhancedAnswer: "The candidate demonstrates a strong work ethic, consistently going above and beyond expectations and taking pride in their work."
+      category: "Closing Questions",
+      questions: [
+        {
+          id: 12,
+          text: "If given the opportunity, would you work with or rehire this (candidate’s name)?",
+          originalAnswer: "Yes, I would definitely rehire the candidate.",
+          enhancedAnswer: "Without a doubt, I would rehire the candidate in a heartbeat, as they consistently proved to be a valuable asset to the team."
+        },
+        {
+          id: 13,
+          text: "Is there anything else you believe we should know about the (candidate’s name)?",
+          originalAnswer: "No, I think all important points have been covered.",
+          enhancedAnswer: "The candidate is a dedicated, hardworking individual with a positive attitude, and I believe they will excel in any role they undertake."
+        }
+      ]
     }
   ];
 
@@ -70,8 +113,10 @@ function ViewRequest() {
   const [openQuestion, setOpenQuestion] = useState(null); // Track the open dropdown by question ID
   // State to manage the editing status and enhanced answers
   const [editedAnswers, setEditedAnswers] = useState(
-    updatedQuestions.reduce((acc, question) => {
-      acc[question.id] = question.enhancedAnswer;
+    updatedQuestions.reduce((acc, category) => {
+      category.questions.forEach(question => {
+        acc[question.id] = question.enhancedAnswer;
+      });
       return acc;
     }, {})
   );
@@ -97,36 +142,30 @@ function ViewRequest() {
     }));
   };
 
-
-
   return (
     <>
-      <div className="container-fluid mock-background d-flex align-items-center justify-content-center">
-        <div className={`ReviewYourReferenceCheck-container`}>
-          <h4 className="color-orange mb-2">
-          Reference Check  
-          </h4>
-          <p className="mb-1">
-          Name: <span>Levi Mella</span>
-          </p>
-          <p className="mb-1">
-          Company Worked With Candidate: <span>Hr-Hatch</span>
-          </p>
-          <p className="mb-1">
-          Position Title: <span>ss</span>
-          </p>
-          <p className="mb-1">
-          Relationship to Candidate: <span>peer_colleague</span>
-          </p>
-          <div className={`ReviewYourReferenceCheck-box-dropdown ${expanded ? "" : "collapsed"}`}>            {/* Render questions dynamically */}
-            {updatedQuestions.map((question) => (
+      <h4 className="color-orange mb-2">Reference Check</h4>
+      <p className="mb-1"><b>Position: </b><span>[Insert Reference Name]</span></p>
+      <p className="mb-1"><b>Company Name: </b><span>[Insert Candidate Name]</span></p>
+      <p className="mb-1"><b>Referee Name: </b><span>[Insert Referee Name]</span></p>
+      <p className="mb-1"><b>Referee Title: </b><span>[Insert Referee Title]</span></p>
+      <p className="mb-1"><b>Company Name:  </b><span>[Insert Company Name]</span></p>
+      <p className="mb-1"><b>Relationship to Candidate:</b><span>[e.g., Manager, Colleague, Direct Report]</span></p>
+      <p className="mb-1"><b>Dates Worked Together:</b><span>From [Start Date] to [End Date]</span></p>
+
+
+      <div className={`my-4 ReviewYourReferenceCheck-box-dropdown ${expanded ? "" : "collapsed"}`}>
+        {updatedQuestions.map((category) => (
+          <div key={category.category}>
+            <h5>{category.category}</h5>
+            {category.questions.map((question) => (
               <div
                 className="ReviewYourReferenceCheck-dropdown"
                 key={question.id}
               >
                 <div
                   className="ReviewYourReferenceCheck-dropdown-header position-relative"
-                  onClick={() => toggleQuestion(question.id)} // Calls toggleQuestion function with question ID
+                  onClick={() => toggleQuestion(question.id)}
                 >
                   <div className="d-flex w-100">
                     <p className="m-0">Question {question.id}:</p>
@@ -134,7 +173,7 @@ function ViewRequest() {
                   </div>
 
                   <svg
-                    className={openQuestion === question.id ? "open" : ""} // Apply "open" class when the question is open
+                    className={openQuestion === question.id ? "open" : ""}
                     width="10"
                     height="6"
                     viewBox="0 0 10 6"
@@ -170,16 +209,13 @@ function ViewRequest() {
               </div>
             ))}
           </div>
-          <div className="my-3">
-            {openQuestion !== null && ( // Only show View More after a dropdown is clicked
-              <div className="d-flex justify-content-center align-items-center position-relative">
-                <button className="view-more-btn" onClick={handleToggle}>
-                  {expanded ? "View less..." : "View more..."}
-                </button>
-
-              </div>
-            )}
-          </div>
+        ))}
+      </div>
+      <div className="my-3">
+        <div className="d-flex justify-content-center align-items-center position-relative">
+          <button className="view-more-btn" onClick={handleToggle}>
+            {expanded ? "View less..." : "View more..."}
+          </button>
         </div>
       </div>
     </>

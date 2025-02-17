@@ -65,6 +65,7 @@
 .question-controls > div {
   width: 70%;
 }
+
 .btn-add-new-question {
   border-radius: 20px;
   border: 1px solid #686868;
@@ -164,26 +165,43 @@
 /* Customizing the scrollbar */
 .questions-list::-webkit-scrollbar,
 .dropdown-content-q-sets ul::-webkit-scrollbar,
-.AiReference-Question-Sets-Container::-webkit-scrollbar {
+.AiReference-Question-Sets-Container::-webkit-scrollbar,
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar {
   width: 12px;
 }
 
 .questions-list::-webkit-scrollbar-thumb,
 .dropdown-content-q-sets ul::-webkit-scrollbar-thumb,
-.AiReference-Question-Sets-Container::-webkit-scrollbar-thumb {
+.AiReference-Question-Sets-Container::-webkit-scrollbar-thumb ,
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
   border-radius: 6px;
 }
 
 .questions-list::-webkit-scrollbar-thumb:hover,
 .dropdown-content-q-sets ul::-webkit-scrollbar-thumb:hover,
-.AiReference-Question-Sets-Container::-webkit-scrollbar-thumb:hover {
+.AiReference-Question-Sets-Container::-webkit-scrollbar-thumb:hover ,
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-thumb:hover {
+
   background-color: var(--primary-color);
 }
 
 .questions-list::-webkit-scrollbar-track,
 .dropdown-content-q-sets ul::-webkit-scrollbar-track,
-.AiReference-Question-Sets-Container::-webkit-scrollbar-track {
+.AiReference-Question-Sets-Container::-webkit-scrollbar-track ,
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-track {
+
   background-color: #f1f1f1;
   border-radius: 6px;
+}
+
+.button-controls-job button:hover {
+  cursor: pointer;
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+
+.button-controls-job button.active {
+  background: var(--primary-color); /* Primary color when active */
+  color: var(--font-white); /* Change text color to white */
 }

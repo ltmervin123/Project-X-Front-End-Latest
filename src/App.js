@@ -15,6 +15,7 @@ import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
+import CompanyProfilePage from "./page/CompanyProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuthMockAI from "./components/session/requireAuthMockAI.jsx";
@@ -59,6 +60,9 @@ import AiReferenceReportsPage from "./page/AiReferenceReportsPage.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
+
+/*Company Expired/Invalid Link page*/
+import CompanyExpiredLink from "./page/CompanyExpiredLinkPage.jsx";
 
 // AiReferenceCheckVerificationPage
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
@@ -160,6 +164,7 @@ function App() {
 
           <Route element={<RequireAuthAIReference />}>
             {/* AI Reference Checker Dashboard */}
+            <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
             <Route
               path="/AiReferenceMaindashboard"
               element={<AiReferenceMainDashboardPage />}
@@ -221,17 +226,20 @@ function App() {
         {/* Password Changed */}
         <Route path="/PasswordChanged" element={<PassChanged />} />
 
-        {/* Company Expired/Invalid Link */}
-        <Route path="CompanyExpiredLink" element={<ExpiredLink />} />
+        {/*  Expired/Invalid Link */}
+        <Route path="/ExpiredLink" element={<ExpiredLink />} />
 
-        {/*Company Reference Verification page */}
+        {/*  Company Expired/Invalid Link */}
+        <Route path="/CompanyExpiredLink" element={<CompanyExpiredLink />} />
+
+        {/* Reference Verification page */}
         <Route
           path="/ReferenceVerification"
           element={<ReferenceVerification />}
         />
 
         {/* Created Account page*/}
-        <Route path="/CompanyCreatedAccount" element={<CreatedAccount />} />
+        <Route path="/CreatedAccount" element={<CreatedAccount />} />
 
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
