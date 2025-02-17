@@ -2,7 +2,8 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const CandidateDetailsPopUp = ({ candidate, onClose }) => {
+const CandidateDetailsPopUp = ({ candidates, onClose }) => {
+  console.log(candidates);
   // Function to get the color based on status
   const getStatusColor = (status) => {
     switch (status) {
@@ -27,11 +28,11 @@ const CandidateDetailsPopUp = ({ candidate, onClose }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-0">
           <div>
-            <h5 className="m-0">{candidate.name}</h5>
+            <h5 className="m-0">{candidates.name}</h5>
           </div>
           <div className="d-flex justify-content-center align-items-center">
             <p className="m-0 candidate-id">
-              <strong>Candidate ID:</strong> {candidate.id}
+              <strong>Candidate ID:</strong> {candidates._id}
             </p>
 
             <Button
@@ -75,9 +76,9 @@ const CandidateDetailsPopUp = ({ candidate, onClose }) => {
                 </svg>
                 Status:
               </strong>{" "}
-              <span style={{ color: getStatusColor(candidate.status) }}>
+              <span style={{ color: getStatusColor(candidates.status) }}>
                 {" "}
-                {candidate.status}
+                {candidates.status}
               </span>
             </p>
           </div>
@@ -99,7 +100,7 @@ const CandidateDetailsPopUp = ({ candidate, onClose }) => {
                 </svg>
                 Email:
               </strong>{" "}
-              {candidate.email}
+              {candidates.email}
             </p>
             <p className="d-flex gap-2 align-items-center">
               <strong className="d-flex gap-2 align-items-center">
@@ -117,7 +118,7 @@ const CandidateDetailsPopUp = ({ candidate, onClose }) => {
                 </svg>
                 Phone:
               </strong>{" "}
-              {candidate.phone || "N/A"}
+              {candidates.phone || "N/A"}
             </p>
           </div>
 
@@ -143,7 +144,7 @@ const CandidateDetailsPopUp = ({ candidate, onClose }) => {
               </svg>
               Position:
             </strong>{" "}
-            {candidate.position || "N/A"}
+            {candidates.position || "N/A"}
           </p>
           <p className="mb-5 d-flex gap-2 align-items-center">
             <strong className="d-flex gap-2 align-items-center">
@@ -167,11 +168,9 @@ const CandidateDetailsPopUp = ({ candidate, onClose }) => {
               </svg>
               Applied Date:
             </strong>{" "}
-            {candidate.appliedDate || "N/A"}
+            {candidates.appliedDate || "N/A"}
           </p>
         </div>
-
-
       </Modal.Body>
     </Modal>
   );

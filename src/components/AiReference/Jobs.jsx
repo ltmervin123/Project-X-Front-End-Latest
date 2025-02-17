@@ -33,10 +33,9 @@ const Jobs = () => {
   };
 
   const formatDate = (date) => {
-    if (!date) return ''; // Return an empty string or a fallback value if the date is invalid
+    if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
     return date.split("T")[0]; // Extract only YYYY-MM-DD
   };
-  
 
   const refetchJobs = async () => {
     try {
@@ -123,33 +122,41 @@ const Jobs = () => {
           <p>Manage and track your open positions</p>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Job Name</th>
-              <th>Vacancies</th>
-              <th>Hiring Manager</th>
-              <th>Created at</th>
-            </tr>
-          </thead>
-          <tbody>
-            {activeJobs
-              .filter(
-                (job) =>
-                  job.jobName.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by job name
-              )
-              .slice()
-              .reverse()
-              .map((job) => (
-                <tr key={job._id}>
-                  <td>{job.jobName}</td>
-                  <td>{job.vacancies}</td>
-                  <td>{job.hiringManager}</td>
-                  <td>{formatDate(job.createdAt)}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        {activeJobs && activeJobs.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Job Name</th>
+                <th>Vacancies</th>
+                <th>Hiring Manager</th>
+                <th>Created at</th>
+              </tr>
+            </thead>
+            <tbody>
+              {activeJobs
+                .filter(
+                  (job) =>
+                    job.jobName
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase()) // Filter by job name
+                )
+                .slice()
+                .reverse()
+                .map((job) => (
+                  <tr key={job._id}>
+                    <td>{job.jobName}</td>
+                    <td>{job.vacancies}</td>
+                    <td>{job.hiringManager}</td>
+                    <td>{formatDate(job.createdAt)}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        ) : (
+          <div>
+            <p>No active jobs record</p>
+          </div>
+        )}
       </div>
     </div>
   );
