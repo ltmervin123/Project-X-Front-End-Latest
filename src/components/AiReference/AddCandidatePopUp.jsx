@@ -13,19 +13,10 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
 
-  const positions = [
-    "Manager",
-    "Developer",
-    "Designer",
-    "Product Manager",
-    "HR",
-    "Sales",
-    "Marketing",
-    "Engineer",
-    "Accountant",
-    "Support",
-    "Others",
-  ];
+  const [positions, setPositions] = useState(() => {
+    const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+    return jobs.map((job) => job.jobName);
+  });
 
   const handlePositionChange = (e) => {
     const value = e.target.value;
@@ -122,15 +113,28 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
             <Form.Label className="me-2" style={{ width: "150px" }}>
               Position
             </Form.Label>
-
+            <Form.Select
+              value={position}
+              onChange={handlePositionChange}
+              required
+            >
+              <option value="" disabled>
+                Select a position
+              </option>
+              {positions.map((pos, index) => (
+                <option key={index} value={pos}>
+                  {pos}
+                </option>
+              ))}
+            </Form.Select>
             {/* Render the select dropdown unless "Others" is selected */}
-            {!isOther && (
+            {/* {!isOther && (
               <Form.Select
                 value={position}
+                placeholder="Select a position"
                 onChange={handlePositionChange}
                 required
               >
-                <option value="">Select Position</option>
                 {positions.map((pos, index) => (
                   <option key={index} value={pos}>
                     {pos}
@@ -140,7 +144,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
             )}
 
             {/* Render the text input if "Others" is selected */}
-            {isOther && (
+            {/* {isOther && (
               <Form.Control
                 type="text"
                 value={position}
@@ -149,7 +153,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
                 className="mt-2"
                 required
               />
-            )}
+            )} */}{" "}
           </Form.Group>
 
           <div className="d-flex justify-content-end">

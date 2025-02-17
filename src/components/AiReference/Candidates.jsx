@@ -79,19 +79,19 @@ const Candidates = () => {
     setSelectedCandidate(null);
   };
 
- // Function to get the color based on status
-const getStatusColor = (status) => {
-  switch (status) {
-    case "In Progress":
-      return "#F8BD00"; // Yellow
-    case "Completed":
-      return "#1877F2"; // Blue
-    case "New":
-      return "#319F43"; // Green
-    default:
-      return "#6c757d"; // Gray for unknown statuses
-  }
-};
+  // Function to get the color based on status
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "In Progress":
+        return "#F8BD00"; // Yellow
+      case "Completed":
+        return "#1877F2"; // Blue
+      case "New":
+        return "#319F43"; // Green
+      default:
+        return "#6c757d"; // Gray for unknown statuses
+    }
+  };
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -180,13 +180,11 @@ const getStatusColor = (status) => {
                       </td>
                       <td>
                         <button
-                      className="btn-view-details"
-                      onClick={() => handleViewDetails(candidate)}
-                    >
-                      
+                          className="btn-view-details"
+                          onClick={() => handleViewDetails(candidate)}
+                        >
                           View Details
-                        
-                    </button>{" "}
+                        </button>{" "}
                       </td>
                     </tr>
                   ))}
@@ -207,7 +205,7 @@ const getStatusColor = (status) => {
       </div>
       {showDetailsPopup && selectedCandidate && (
         <CandidateDetailsPopUp
-          candidate={selectedCandidate}
+          candidates={selectedCandidate}
           onClose={handleCloseDetailsPopup}
         />
       )}
