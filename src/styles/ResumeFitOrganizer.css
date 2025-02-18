@@ -33,7 +33,7 @@
 }
 
 .upload-docs-content{
-
+    width: 95%;
 }
 
 .upload-docs-content > .upload-docs-content-col{
@@ -41,7 +41,7 @@
     box-shadow: 0px 4px 4px #00000040;
     border-radius: 25px;
     padding: 25px;
-    max-width: 45%;
+    max-width: 100%;
     min-height: 100%;
 }
 .ResumeFitOptimizer-uploadDocs-content{
@@ -59,7 +59,8 @@
     gap: 5px;
     flex-direction: column;
     justify-content: center;
-    border-style: dashed;
+    background-color: #F2F3F7;
+    border: 1px dashed black;
     color: var(--primary-color);
     border-color: var(--text-color);
     border-radius: 20px;
@@ -73,7 +74,65 @@
     background: var(--secondary-color) !important;
     font-style: normal;
 }
-.ResumeFitOptimizer-uploadDocs-job-description {}
+.ResumeFitOptimizer-uploadDocs-job-description {
+    height: 170px;
+    max-height: 200px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    background: #F2F3F7;
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px #00000040;
+    overflow: hidden;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+.uploadDocs-job-description {
+    height: 170px;
+    max-height: 200px; 
+    width: 100%;
+    transition: border 0.2s ease-in-out;
+}
+.uploadDocs-job-description:focus-within {
+    border: 1px solid black;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.textarea-wrapper {
+    height: 170px;
+    max-height: 200px; 
+    width: 100%;
+    background: #F2F3F7; 
+    overflow: hidden;
+}
+#job-description {
+    border: none;
+    width: 100%;
+    height: 135px;
+    max-height: 135px; 
+    background-color: transparent;
+    border: none; /* Removes default border */
+    outline: none; 
+    resize: vertical; /* Allows user to resize the textarea */
+    padding-right: 15px; /* Adds space between content and scrollbar */
+    overflow-y: auto; 
+}
+#job-description:focus,
+#job-description:active {
+    border: none;
+    outline: none;
+    box-shadow: none; /* Removes shadow if applied on focus */
+}
+textarea::placeholder {
+    color: var(--font-black);
+    font-style: italic;
+  }
 .ResumeFitOptimizer-aiResumeInsightsSummary-content {
 }
 .aiResume-insights-summary-content {
@@ -142,19 +201,31 @@
     margin: 0px;
     padding: 0px;
 }
-.progress-bar-orange .progress-bar {
-    background-color: #ff5733 !important; /* Custom color */
+.progress-bar-yellow .progress-bar {
+    background-color: #F8BD00 !important; /* Custom color */
 }
 .progress-bar-blue .progress-bar {
     background-color: #1706ac !important; /* Custom color */
 }
-.progress-bar-yellow .progress-bar {
-    background-color: #F8BD00 !important; /* Custom color */
+.progress-bar-orange .progress-bar {
+    background-color: #e65c00 !important; /* Custom color */
 }
 .progress-bar-green .progress-bar {
-    background-color: #319F43 !important; /* Custom color */
+    background-color: #009900 !important; /* Custom color */
 }
-
+.progress-bar-red .progress-bar {
+    background-color: #b30000 !important; /* Custom color */
+}
+.chart-name {
+    /* background-color: #1877F2; */
+    color: var(--font-black);
+    padding: 3px 25px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
 .progress-content-progress-percentage-container {
     width: auto;
 }
@@ -193,11 +264,12 @@
 }
 .compareresumes-resume-content {
     height: 100%;
+    margin-top: 50px;
 }
 .compareresumes-resume-content-resume-btn {}
 
 
-.compareresumes-resume-content-resume-btn > button {
+/* .compareresumes-resume-content-resume-btn > button {
     padding: 3px 20px;
     margin-right: 5px;
     background: #686868 ;
@@ -211,45 +283,24 @@
 }
 .btn-active {
     background: var(--primary-color) !important;
-}
+} */
 .compareresumes-content-resume-container {
-    height: calc(100% - 50px);
+    height: 100% ;
 }
 .compareresumes-content-resume {
-    height: calc(100vh - 200px);
-}
-.compareresumes-content-resume-content {
-    border: 1px solid #000;
-    box-shadow: 0px 4px 4px #00000040;
-    border-radius: 25px;
-    padding: 25px;
-    overflow: hidden;
-    min-width: 50%;
-    height: calc(100vh - 200px);
-    max-height: 1080px;
-}
-.compareresumes-content-resume-header {}
-
-.compareresumes-content-resume-header > h5 {
-    font-weight: 600;
-}
-.compareresumes-content-resume-header > p {
-    font-size: 16px;
-    font-weight: 400;
-    color: #686868;
-}
-
-.compareresumes-content-resume-body {
-    height: calc(100% - 30px);
+    height: 100% ;
 }
 .compareresumes-content-resume-original,
 .compareresumes-content-resume-optimized {
-    display: none;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
     height: 100%;
     width: 100%;
     padding: 20px;
     overflow: hidden;
-    background-color: #F2F3F7;
+    background-color: #FFFFFF;
+    border: 1px solid #000;
     box-shadow: 0px 4px 4px #00000040;
     border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -260,9 +311,12 @@
 .compareresumes-content-resume-original-content,
 .compareresumes-content-resume-optimized-content {
     overflow: auto;
-}
-.resume-active {
-    display: flex !important;
+    width: 100%;
+    height: 100%;
+    background-color: #F2F3F7;
+    box-shadow: 0px 4px 4px #00000040;
+    padding: 10px;
+    border-radius: 20px;
 }
 .compareresumes-content-resume-optimization {
     border: 1px solid #000;
@@ -272,6 +326,11 @@
     min-width: 48%;
     height: calc(100vh - 200px);
     max-height: 1080px;
+}
+.compareresumes-content-resume-original-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
 }
 .compareresumes-content-resume-optimization-body {}
 .resume-optimization-group {
@@ -286,7 +345,28 @@
 .resume-optimization-value {}
 .compareresumes-btn-content {}
 .compareresumes-container-btn {}
-.btn-compare-resume {}
+
+.btn-cancel-optimizer,
+.btn-save-export {
+    padding: 5px 40px;
+    margin-inline: 10px;
+    background: var(--primary-color) !important;
+    color: var(--font-white);
+    border: none;
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -ms-border-radius: 25px;
+    -o-border-radius: 25px;
+}
+.btn-cancel-optimizer {
+    background: var(--secondary-color) !important;
+}
+.btn-save-export {
+    background: var(--primary-color) !important;
+}
+
+
 
 
 
@@ -315,19 +395,24 @@
 .saveandexportresume-description {}
 .saveandexportresume-container-export-btn {}
 .saveandexportresume-container-export-btn > button {
-    padding: 5px 25px;
+    padding: 10px 50px;
     margin-right: 5px;
     background: var(--secondary-color);
     color: var(--font-white);
     border: none;
-    border-radius: 25px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    -ms-border-radius: 25px;
-    -o-border-radius: 25px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 .saveandexportresume-container-export-btn > button:hover {
     background: #110489;
+}
+.saveandexportresume-container-export-btn > p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .btn-start-new-optimization {
     width: auto;
@@ -349,6 +434,7 @@
 
 
 /* scroll styles */
+#job-description,
 .compareresumes-content-resume-original-content,
 .compareresumes-content-resume-optimized-content {
     --bg-fade-signup: #f0f0f0; /* Example background color for the scrollbar track */
@@ -356,26 +442,25 @@
 }
   
   /* Scrollbar styling */
+#job-description::-webkit-scrollbar,
 .compareresumes-content-resume-original-content::-webkit-scrollbar,
 .compareresumes-content-resume-optimized-content::-webkit-scrollbar {
     width: 12px; /* Width of the scrollbar */
 }
   
+#job-description::-webkit-scrollbar-track,
 .compareresumes-content-resume-original-content::-webkit-scrollbar-track,
 .compareresumes-content-resume-optimized-content::-webkit-scrollbar-track {
     background: var(--bg-fade-signup); /* Background of the scrollbar track */
     width: 12px; /* Width of the scrollbar */
 }
-  
+#job-description::-webkit-scrollbar-thumb,
 .compareresumes-content-resume-original-content::-webkit-scrollbar-thumb,
 .compareresumes-content-resume-optimized-content::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color); /* Color of the scrollbar thumb */
+    cursor: pointer;
+    background-color: #d65a05; /* Color of the scrollbar thumb */
     border-radius: 6px; /* Rounded corners */
     width: 12px; /* Set the width of the thumb */
     height: 12px; /* Set the height to the same as the width for a circle */
 }
   
-.compareresumes-content-resume-original-content::-webkit-scrollbar-thumb:hover,
-.compareresumes-content-resume-optimized-content::-webkit-scrollbar-thumb:hover {
-    background-color: #d65a05; /* Darker shade on hover */
-}

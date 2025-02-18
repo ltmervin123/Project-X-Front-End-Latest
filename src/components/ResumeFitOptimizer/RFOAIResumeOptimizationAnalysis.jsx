@@ -7,21 +7,37 @@ import { Doughnut } from "react-chartjs-2";
 
 function UploadDocs() {
   const now = 6;
-  const current = now;
-  const total = 10;
-  const dnname = ["Experience", "Education", "Achievements", "Skills", "Keywords"];
-  const dncurrent = 15;
-  const dntotal = 20;
-  const createDoughnutData = (score, outOf, color) => ({
+  const chartdata = [
+    { name : "Experience", current:4.6, total:10}, 
+    {name:"Education", current:4.6, total:10}, 
+    {name:"Achievements", current:4.6, total:10}, 
+    {name:"Skills", current:4.6, total:10}
+  ];
+  const progressData = [
+    { name: "Grammar & Clarity", current: 6, total: 10 },
+    { name: "Structure & Readability", current: 8, total: 10 },
+    { name: "Key Experience", current: 6, total: 10 },
+    { name: "Keyword Match", current: 5, total: 10 },
+  ];
+  const createDoughnutData = (score, color) => ({
     datasets: [
       {
-        data: [score, outOf - score], // Assuming a scale of 10
+        data: [score, 10 - score], // Assuming a scale of 10
         backgroundColor: [color, "#36434E"], // Use the specified color and remaining color
         borderColor: "#36434E",
       },
     ],
   });
 
+// Function to determine the progress bar color class
+const getProgressBarClass = (current, total) => {
+  const percentage = (current / total) * 10;
+  if (percentage >= 7.6) return "progress-bar-green";
+  if (percentage >= 5.1) return "progress-bar-orange";
+  if (percentage >= 2.6) return "progress-bar-yellow";
+  if (percentage >= 1) return "progress-bar-red";
+  return "progress-bar-red";
+};
 
 
   return (
@@ -38,61 +54,23 @@ function UploadDocs() {
                 <p>Real-time AI analysis of your resume</p>
               </div>
               <div className="airesumeoptimizationanalysis-content-progress d-flex justify-content-between align-items-center flex-row gap-2">
-                <Col md={6} className="progress-content-progress-bar d-flex flex-column gap-2">
-                  <div className="progress-content-group">
-                    <div className="progress-content-label">Grammar & Clarity</div>
-                    <ProgressBar 
-                      className="progress-bar-orange"
-                      now={now} 
-                      label={current} 
-                      max={total}
-                      style={{ backgroundColor: "" }} 
-                    />
-                    <div className="position-absolute w-100 text-end pe-2" style={{ top: "50%", transform: "translateY(-50%)" }}>
-                      {total}
-                    </div>
-                  </div>
 
-                  <div className="progress-content-group">
-                    <div className="progress-content-label">Structure & Readability</div>
-                    <ProgressBar 
-                      className="progress-bar-blue"
-                      now={now} 
-                      label={current} 
-                      max={total}
-                      style={{ backgroundColor: "" }} 
-                    />
-                    <div className="position-absolute w-100 text-end pe-2" style={{ top: "50%", transform: "translateY(-50%)" }}>
-                      {total}
+              <Col md={6} className="progress-content-progress-bar d-flex flex-column gap-2">
+                  {progressData.map((item, index) => (
+                    <div className="progress-content-group" key={index}>
+                      <div className="progress-content-label">{item.name}</div>
+                      <ProgressBar 
+                        className={getProgressBarClass(item.current, item.total)}
+                        now={item.current} 
+                        label={item.current} 
+                        max={item.total}
+                        style={{ backgroundColor: "" }} 
+                      />
+                      <div className="position-absolute w-100 text-end pe-2" style={{ top: "50%", transform: "translateY(-50%)" }}>
+                        {item.total}
+                      </div>
                     </div>
-                  </div>
-                  <div className="progress-content-group">
-                    <div className="progress-content-label">Key Experience</div>
-                    <ProgressBar 
-                      className="progress-bar-green"
-                      now={now} 
-                      label={current} 
-                      max={total}
-                      style={{ backgroundColor: "" }} 
-                    />
-                    <div className="position-absolute w-100 text-end pe-2" style={{ top: "50%", transform: "translateY(-50%)" }}>
-                      {total}
-                    </div>
-                  </div>
-                  <div className="progress-content-group">
-                    <div className="progress-content-label">Keyword Match</div>
-                    <ProgressBar 
-                      className="progress-bar-yellow"
-                      now={now} 
-                      label={current} 
-                      max={total}
-                      style={{ backgroundColor: "" }} 
-                    />
-                    <div className="position-absolute w-100 text-end pe-2" style={{ top: "50%", transform: "translateY(-50%)" }}>
-                      {total}
-                    </div>
-                  </div>
-                  
+                  ))}
                 </Col>
                 <Col md={6} className="progress-content-progress-percentage d-flex justify-content-start align-items-center flex-column">
                   <span className="progress-content-label">Overall Fit Score Analysis</span>
@@ -108,13 +86,13 @@ function UploadDocs() {
               </div>
               <div className="airesumeoptimizationanalysis-content-analysis">
               <Col className="progress-content-progress-percentage-container d-flex justify-content-around align-items-center flex-row">
-                {dnname.map((name, index) => (
+                {chartdata.map((item, index) => (
                   <Col key={index} xs={1} md={1} className="chart-col">
-                    <div className="chart-name">{name}</div>
+                    <div className="chart-name">{item.name}</div>
                     <div className="doughnut-chart" style={{ width: "10px" }}>
                       <Doughnut
                         className="doughnut"
-                        data={createDoughnutData(dncurrent, dntotal, "#1706ac")}
+                        data={createDoughnutData(item.current, "#28A745")}
                         options={{
                           plugins: {
                             legend: { display: false },
@@ -123,7 +101,7 @@ function UploadDocs() {
                               callbacks: {
                                 label: (tooltipItem) => {
                                   const filledValue = Number(tooltipItem.raw) || 0;
-                                  return `${filledValue.toFixed(1)} / ${dntotal}`;
+                                  return `${filledValue.toFixed(1)} / ${item.total}`;
                                 },
                               },
                             },
@@ -137,11 +115,12 @@ function UploadDocs() {
                       />
                     </div>
                     <div className="chart-score">
-                      <div>{dncurrent}</div>
+                      <div>{item.current}</div>
                     </div>
                   </Col>
                 ))}
               </Col>
+
 
               </div>
             </Row>
