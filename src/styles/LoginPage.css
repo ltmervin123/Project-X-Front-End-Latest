@@ -93,7 +93,7 @@
 
 .account-details-login {
   border: 1px solid white;
-  padding: 10px 10px 20px 10px !important;
+  padding: 10px 10px 10px 10px !important;
   border-radius: 30px !important;
   position: relative;
   width: 90%;
@@ -444,6 +444,7 @@
 
 .login-container > .signup-container {
   margin: 0 !important;
+  margin-top: 10px !important;
 }
 .dont-have-acc-container {
   margin: 2px;

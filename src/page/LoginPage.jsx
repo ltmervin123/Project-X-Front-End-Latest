@@ -14,7 +14,7 @@ function LoginPage() {
 
   return (
     <>
-      <div className="container-fluid main-container login-page-container">
+      <div className="container-fluid main-container ">
         <Header />
         <LoginForm />
       </div>

@@ -104,7 +104,9 @@ function UploadDocs() {
                 </div>
               </Col>
             </Row>
-            <Row className="upload-docs-content d-flex justify-content-around align-items-center flex-row gap-2 w-100">
+            <Row className="upload-docs-content d-flex justify-content-around align-items-center flex-row gap-2 ">
+            <Col className="p-0">
+
               <div className="upload-docs-btn d-flex justify-content-end align-items-center">
                   <button 
                       className="btn-continue-optimization btn-primary"
@@ -113,6 +115,7 @@ function UploadDocs() {
                       Continue to Optimization
                   </button>
               </div>
+              </Col>
             </Row>
           </div>
         </div>

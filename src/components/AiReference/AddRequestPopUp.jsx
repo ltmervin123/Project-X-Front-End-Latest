@@ -157,6 +157,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
       });
 
       if (response.status === 201) {
+        onAddRequest();
         onClose();
       }
     } catch (error) {
@@ -256,11 +257,9 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             <Form.Control
               value={refereeName}
               onChange={(e) => setRefereeName(e.target.value)}
+              placeholder="Enter Referee Name"
               required
-              placeholder="John Doe"
-
             />
-
           </Form.Group>
 
           {/* Referee's Email input */}
@@ -275,7 +274,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
               type="email"
               value={refereeEmail}
               onChange={(e) => setRefereeEmail(e.target.value)}
-              placeholder="sample@hrhatch.com"
+              placeholder="johndoe@gmail.com"
               required
             />
           </Form.Group>

@@ -46,6 +46,7 @@
   border-radius: 20px;
   border: 2px solid var(--primary-color);
   color: var(--input-bg);
+  background: var(--font-white);
 }
 .company-registration-container-form select {
   appearance: none;

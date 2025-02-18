@@ -17,8 +17,6 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [service, setService] = useState(SERVICE[1]); // Default is AI Reference Checker
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password, service);
@@ -286,8 +284,8 @@ const LoginForm = () => {
               </button>
             </form>
           </div>
-          <div className="signup-container text-center">
-            <p>Or sign up using</p>
+          <div className="signup-container text-center ">
+            <p className="m-3">Or sign up using</p>
             <div className="social-icons">
               <button
                 className="social-icon-btn"
@@ -319,7 +317,7 @@ const LoginForm = () => {
               onClick={() => {
                 switch (service) {
                   case SERVICE[0]:
-                    navigate("/CompanyRegistration");
+                    navigate("/company-registration");
                     break;
                   case SERVICE[1]:
                     navigate("/signup");
@@ -334,7 +332,6 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

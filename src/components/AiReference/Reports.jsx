@@ -36,6 +36,20 @@ const Reports = () => {
     },
   ];
 
+  // Helper function to create a tooltip element if it doesn't exist yet
+function createTooltipElement() {
+  let tooltipEl = document.getElementById("chartjs-tooltip");
+
+  if (!tooltipEl) {
+    tooltipEl = document.createElement("div");
+    tooltipEl.id = "chartjs-tooltip";
+    tooltipEl.innerHTML = "<table></table>";
+    document.body.appendChild(tooltipEl);
+  }
+
+  return tooltipEl;
+}
+
   /*overview*/
   const chartData = {
     labels: ["January", "February", "March", "April", "May", "June"],
@@ -53,6 +67,92 @@ const Reports = () => {
     ],
   };
 
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+      },
+      tooltip: {
+        enabled: false, // Disable the default tooltip
+        external: function (context) {
+          const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
+  
+          const tooltipModel = context.tooltip;
+  
+          // Hide tooltip if opacity is 0
+          if (tooltipModel.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+          }
+  
+          const position = context.chart.canvas.getBoundingClientRect();
+          tooltipEl.style.opacity = 1;
+          tooltipEl.style.backgroundColor = "#fff";
+          tooltipEl.style.padding = "10px";
+          tooltipEl.style.position = "absolute";
+          tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+          tooltipEl.style.borderRadius = "10px";
+          tooltipEl.style.pointerEvents = "none";
+  
+          // Set tooltip position based on chart's canvas
+          tooltipEl.style.left =
+            position.left + window.scrollX + tooltipModel.caretX + "px";
+          tooltipEl.style.top =
+            position.top + window.scrollY + tooltipModel.caretY + "px";
+  
+          // Get the data index and month
+          const dataIndex = tooltipModel.dataPoints[0].dataIndex;
+          const month = context.chart.data.labels[dataIndex]; // Month from the labels
+          const total = context.chart.data.datasets[0].data[dataIndex] + context.chart.data.datasets[1].data[dataIndex]; // Total value
+          const completed = context.chart.data.datasets[0].data[dataIndex]; // Completed value
+          const pending = context.chart.data.datasets[1].data[dataIndex]; // Pending value
+  
+          // Construct the tooltip content
+          const innerHtml = `
+            <table class="tooltip-bar-chart">
+              <tr>
+                <td style="font-weight: 500;">${month}</td>
+              </tr>
+              <tr>
+                <td style="color: #1877F2; font-weight: 400;">Completed: ${completed}</td>
+              </tr>
+              <tr>
+                <td style="color: #F8BD00; font-weight: 400;">Pending: ${pending}</td>
+              </tr>
+            </table>
+          `;
+          
+          tooltipEl.querySelector("table").innerHTML = innerHtml;
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false, // Hide grid lines on x-axis
+        },
+        ticks: {
+          font: {
+            size: 12, // Adjust font size
+          },
+          color: "#000", // Label color
+        },
+      },
+      y: {
+        grid: {
+          display: false, // Hide grid lines on y-axis
+        },
+        ticks: {
+          font: {
+            size: 12, // Adjust font size
+          },
+          color: "#000", // Label color
+        },
+      },
+    },
+  };
+  
   /*reports*/
   const candidateData = [
     { candidate: "John Doe", referee: "Alice Johnson", status: "Completed" },
@@ -85,7 +185,95 @@ const Reports = () => {
     ],
   };
 
-  return (
+  const candidateChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: "y", // This makes the chart horizontal
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+      },
+      tooltip: {
+        enabled: false, // Disable default tooltip
+        external: function (context) {
+          const tooltipEl = document.getElementById("chartjs-tooltip");
+  
+          // Ensure the tooltip element exists, create if it doesn't
+          let tooltipElement = tooltipEl;
+          if (!tooltipElement) {
+            tooltipElement = document.createElement("div");
+            tooltipElement.id = "chartjs-tooltip";
+            tooltipElement.innerHTML = "<table></table>";
+            document.body.appendChild(tooltipElement);
+          }
+  
+          const tooltipModel = context.tooltip;
+  
+          // Hide tooltip if opacity is 0
+          if (tooltipModel.opacity === 0) {
+            tooltipElement.style.opacity = 0;
+            return;
+          }
+  
+          // Position the tooltip
+          const position = context.chart.canvas.getBoundingClientRect();
+          tooltipElement.style.opacity = 1;
+          tooltipElement.style.backgroundColor = "#fff";
+          tooltipElement.style.padding = "10px";
+          tooltipElement.style.position = "absolute";
+          tooltipElement.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+          tooltipElement.style.borderRadius = "10px";
+          tooltipElement.style.pointerEvents = "none";
+  
+          // Set tooltip position
+          tooltipElement.style.left =
+            position.left + window.scrollX + tooltipModel.caretX + "px";
+          tooltipElement.style.top =
+            position.top + window.scrollY + tooltipModel.caretY + "px";
+  
+          // Get the data point and dataset info
+          const dataIndex = tooltipModel.dataPoints[0].dataIndex;
+          const department = context.chart.data.labels[dataIndex]; // Evaluation skill (e.g., "Leadership")
+          const score = context.chart.data.datasets[0].data[dataIndex]; // Evaluation score
+  
+          // Custom tooltip content
+          const innerHtml = `
+            <table class="tooltip-bar-chart">
+              <tr>
+                <td style="font-weight: 500;">${department}: ${score}</td>
+              </tr>
+            </table>
+          `;
+          tooltipElement.querySelector("table").innerHTML = innerHtml;
+        },
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false, // Hide grid lines on x-axis
+        },
+        ticks: {
+          font: {
+            size: 12, // Adjust font size
+          },
+          color: "#000", // Label color
+        },
+      },
+      y: {
+        grid: {
+          display: false, // Hide grid lines on y-axis
+        },
+        ticks: {
+          font: {
+            size: 12, // Adjust font size
+          },
+          color: "#000", // Label color
+        },
+      },
+    },
+  };
+    return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div>
         <h3>Analytics & Reports</h3>
@@ -201,35 +389,7 @@ const Reports = () => {
                 <div className="chart-container-report">
                   <Bar
                     data={candidateChartData}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      indexAxis: "y", // This makes the chart horizontal
-                      scales: {
-                        x: {
-                          ticks: {
-                            beginAtZero: true,
-                          },
-                          grid: {
-                            display: false, // Removes the grid from the y-axis
-                          },
-                          max: 10, // Set the max value to 10
-                        },
-                        y: {
-                          ticks: {
-                            beginAtZero: true,
-                          },
-                          grid: {
-                            display: false, // Removes the grid from the y-axis
-                          },
-                        },
-                      },
-                      plugins: {
-                        legend: {
-                          display: false, // This removes the legend from the canvas
-                        },
-                      },
-                    }}
+                    options={candidateChartOptions}
                   />
                 </div>
               </Col>
@@ -246,30 +406,7 @@ const Reports = () => {
                 <div className="chart-container-report">
                   <Bar
                     data={chartData}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false, // This is important for full size
-                      indexAxis: "x", // This makes the chart horizontal
-                      scales: {
-                        x: {
-                          stacked: true,
-                          grid: {
-                            display: false, // Removes the grid from the y-axis
-                          },
-                        },
-                        y: {
-                          stacked: true,
-                          grid: {
-                            display: false, // Removes the grid from the y-axis
-                          },
-                        },
-                      },
-                      plugins: {
-                        legend: {
-                          display: false, // This removes the legend from the canvas
-                        },
-                      },
-                    }}
+                    options={barOptions}
                   />
                 </div>
               </Col>

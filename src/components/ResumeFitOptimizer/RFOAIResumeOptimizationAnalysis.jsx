@@ -124,7 +124,9 @@ const getProgressBarClass = (current, total) => {
 
               </div>
             </Row>
-            <Row className="airesumeoptimizationanalysis-container-row airesumeoptimizationanalysis-btn-content d-flex justify-content-around align-items-center flex-row gap-2 w-100">
+            <Row className="airesumeoptimizationanalysis-container-row airesumeoptimizationanalysis-btn-content d-flex justify-content-around align-items-center flex-row gap-2 ">
+                            <Col className="p-0">
+                
                 <div className="airesumeoptimizationanalysis-container-btn d-flex justify-content-end align-items-center w-100">
                     <button 
                         className="btn-compare-resume btn-primary"
@@ -135,6 +137,7 @@ const getProgressBarClass = (current, total) => {
                         Compare Resumes
                     </button>
                 </div>
+                </Col>
             </Row>
           </div>
         </div>

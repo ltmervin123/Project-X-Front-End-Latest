@@ -115,7 +115,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
               Position
             </Form.Label>
             <Form.Select
-              value={positions}
+              value={position}
               onChange={handlePositionChange}
               required
             >
@@ -131,12 +131,11 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
           </Form.Group>
 
           <div className="d-flex justify-content-end">
-          <button
-  className="btn-add-candidate"
-  type="submit"
-  disabled={isLoading || !isFormValid}
->
-
+            <button
+              className="btn-add-candidate"
+              type="submit"
+              disabled={isLoading || !isFormValid}
+            >
               {isLoading ? "Adding..." : "Add Candidate"}
             </button>
           </div>
