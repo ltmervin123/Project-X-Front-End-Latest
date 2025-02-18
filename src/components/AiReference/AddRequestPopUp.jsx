@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-const AddRequestPopUp = ({ onClose, onAddJob }) => {
-  const candidatesData = {
-    Manager: ["John Doe", "Jane Smith", "Michael Johnson"],
-    Developer: ["Alice Brown", "Bob White", "Charlie Green"],
-    Executive: ["James Bond", "Lara Croft", "Bruce Wayne"],
-  };
+const AddRequestPopUp = ({ onClose, onAddRequest }) => {
+  // Memoize positions to avoid unnecessary re-renders
+  const positions = useMemo(() => {
+    const activeJobs = JSON.parse(localStorage.getItem("jobs")) || [];
+    return activeJobs.map((job) => job.jobName);
+  }, []);
+  const [selectedPosition, setSelectedPosition] = useState("");
 
-  const refereeNameList = [
-    "Steve", "Stella", "Bob Williams", "Carol Davis", "Mick Sam", "Kirk Aron"
-  ];
+  const [selectedCandidate, setSelectedCandidate] = useState("");
+  const [candidates, setCandidates] = useState([]);
+
+  // Update candidates when selectedPosition changes
+  useEffect(() => {
+    if (!selectedPosition) {
+      setCandidates([]);
+      return;
+    }
+    const allCandidates = JSON.parse(localStorage.getItem("candidates")) || [];
+    const filteredCandidates = allCandidates
+      .filter((candidate) => candidate.position === selectedPosition)
+      .map((candidate) => candidate.name);
+
+    setCandidates(filteredCandidates);
+  }, [selectedPosition]);
 
   const customSets = [
     "Custom Set 1",
@@ -18,20 +32,15 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
     "Custom Set 3",
     "Custom Set 4",
   ];
-
-  const [candidateName, setCandidateName] = useState("");
   const [refereeName, setRefereeName] = useState("");
   const [refereeEmail, setRefereeEmail] = useState("");
-  const [position, setPosition] = useState("");
   const [questionFormat, setQuestionFormat] = useState("");
-  const [candidateOptions, setCandidateOptions] = useState([]);
-  const [isCustomSet, setIsCustomSet] = useState(false);
+
+  const [isCustomSet, setIsCustomSet] = useState(false); // Track if custom set is selected
 
   const handlePositionChange = (e) => {
     const selectedPosition = e.target.value;
-    setPosition(selectedPosition);
-    setCandidateOptions(candidatesData[selectedPosition] || []);
-    setCandidateName(""); // Reset candidate when position changes
+    setSelectedPosition(selectedPosition);
   };
 
   const handleQuestionFormatChange = (e) => {
@@ -49,6 +58,14 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
     }
   };
 
+  useEffect(() => {
+    const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
+    const filteredCandidates = candidates
+      .filter((candidate) => candidate.position === selectedPosition)
+      .map((candidate) => candidate.name);
+    setCandidates(filteredCandidates);
+  }, [selectedPosition]);
+
   const handleCustomSetChange = (e) => {
     const selectedValue = e.target.value;
 
@@ -62,11 +79,11 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddJob({
-      candidateName,
+    onAddRequest({
+      candidateName: selectedCandidate,
       refereeName,
       refereeEmail,
-      position,
+      position: positions,
       questionFormat,
     });
     onClose();
@@ -105,14 +122,18 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
               Position
             </Form.Label>
             <Form.Select
-              value={position}
+              value={selectedPosition}
               onChange={handlePositionChange}
               required
             >
-              <option value="">Select Position</option>
-              <option value="Manager">Manager</option>
-              <option value="Developer">Developer</option>
-              <option value="Executive">Executive</option>
+              <option value="" disabled>
+                Select Position
+              </option>
+              {positions.map((pos, index) => (
+                <option key={index} value={pos}>
+                  {pos}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
 
@@ -125,17 +146,25 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
               Candidate
             </Form.Label>
             <Form.Select
-              value={candidateName}
-              onChange={(e) => setCandidateName(e.target.value)}
-              disabled={!position} // Disable if no position is selected
+              value={selectedCandidate}
+              onChange={(e) => setSelectedCandidate(e.target.value)}
+              disabled={!selectedPosition} // Disable if no position is selected
               required
             >
               <option value="">Select Candidate</option>
-              {candidateOptions.map((candidate, index) => (
-                <option key={index} value={candidate}>
-                  {candidate}
+              {candidates && candidates.length > 0 ? (
+                candidates.map((candidate, index) => (
+                  <option key={index} value={candidate}>
+                    {candidate}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  {selectedPosition
+                    ? "No candidates available"
+                    : "Select position first"}
                 </option>
-              ))}
+              )}
             </Form.Select>
           </Form.Group>
 

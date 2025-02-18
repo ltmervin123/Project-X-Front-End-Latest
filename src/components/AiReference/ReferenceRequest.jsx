@@ -11,28 +11,9 @@ const ReferenceRequest = () => {
   const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      candidate: "John Doe",
-      referee: "Steve",
-      position: "Software Engineer",
-      status: "In Progress",
-      dateSent: "2025-02-01",
-      dateDue: "2025-02-15",
-      actions: [],
-    },
-    {
-      id: 2,
-      candidate: "Jane Smith",
-      referee: "Steve",
-      position: "Product Manager",
-      status: "Completed",
-      dateSent: "2025-01-15",
-      dateDue: "2025-01-22",
-      actions: [],
-    },
-  ]);
+  const [requests, setRequests] = useState(
+    JSON.parse(localStorage.getItem("referenceRequests")) || []
+  );
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -132,64 +113,68 @@ const ReferenceRequest = () => {
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
           <h4>Reference Requests Lists</h4>
-          <p>Overview of all reference requests</p>
         </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Candidate</th>
-              <th>Referee</th>
-              <th>Position</th>
-              <th>Status</th>
-              <th>Date Sent</th>
-              <th>Date Due</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests
-              .filter(
-                (request) =>
-                  request.candidate
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                  request.referee
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                  request.position
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase())
-              )
-              .map((request) => (
-                <tr key={request.id}>
-                  <td>{request.candidate}</td>
-                  <td>{request.referee}</td>
-                  <td>{request.position}</td>
-                  <td style={{ color: getStatusColor(request.status) }}>
-                    {request.status}
-                  </td>
-                  <td>{request.dateSent}</td>
-                  <td>{request.dateDue}</td>
-                  <td>
-                    <button
-                      className="btn-view-details"
-                      onClick={() => handleViewDetails(request)}
-                    >
-                      View Details
-                    </button>
-                  </td>
+        {requests && requests.length > 0 ? (
+          <>
+            <p>Overview of all reference requests</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Referee</th>
+                  <th>Position</th>
+                  <th>Status</th>
+                  <th>Date Sent</th>
+                  <th>Date Due</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-          </tbody>
-        </table>
-
-        <div className="d-flex justify-content-center w-100">
-          <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
-            <button className="btn-export">Export Request</button>
-            <button className="btn-archive">Manage Templates</button>
-          </div>
-        </div>
+              </thead>
+              <tbody>
+                {requests
+                  .filter(
+                    (request) =>
+                      request.candidate
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                      request.referee
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                      request.position
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase())
+                  )
+                  .map((request) => (
+                    <tr key={request.id}>
+                      <td>{request.candidate}</td>
+                      <td>{request.referee}</td>
+                      <td>{request.position}</td>
+                      <td style={{ color: getStatusColor(request.status) }}>
+                        {request.status}
+                      </td>
+                      <td>{request.dateSent}</td>
+                      <td>{request.dateDue}</td>
+                      <td>
+                        <button
+                          className="btn-view-details"
+                          onClick={() => handleViewDetails(request)}
+                        >
+                          View Details
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            <div className="d-flex justify-content-center w-100">
+              <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
+                <button className="btn-export">Export Request</button>
+                <button className="btn-archive">Manage Templates</button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div>No reference requests record</div>
+        )}
       </div>
 
       {showDetailsPopup && selectedCandidate && (
