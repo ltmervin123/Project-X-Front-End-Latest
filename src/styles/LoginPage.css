@@ -573,10 +573,10 @@
 .agreenment-box-check > .form-check-input {
   margin: 0 !important;
   margin-right: 2px !important;
-  padding: 6px;
+  padding: 10px;
 
 }
-.agreenment-box-check label{
+.agreenment-box-check small{
 font-size: 12px;
 line-height: 1 !important;
 }
@@ -748,9 +748,9 @@ line-height: 1 !important;
 
 
 /* DPA modal */
-.dpa-modal-agreement {
-  /* min-width: 700px !important; */
-}
+/* .dpa-modal-agreement {
+  min-width: 700px !important;
+} */
 .modal-dialog {
   width: 600px !important;
   max-width: 700px !important;

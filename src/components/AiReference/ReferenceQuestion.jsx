@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa"; // icons for edit, delete, and dropdown
 import AddNewSetsQuestionPopUp from "./AddNewSetsQuestionPopUp";
-import StandardFormat from "./StandardFormatComponent";
+import FormatComponent from "./FormatComponent";
 import ManagementFormat from "./ManagementFormatComponent";
 import ExecutiveFormat from "./ExecutiveFormatComponent";
 import HrHatchFormats from "./HrHatchFormatsComponent";
@@ -363,7 +363,7 @@ const ReferenceQuestion = () => {
             handleButtonClick={handleButtonClick}
           />
         ) : activeButton === "Standard Format" ? (
-          <StandardFormat
+          <FormatComponent
             StandardQuestionsSets={StandardQuestionsSets}
             selectedSet={selectedSet}
             handleSetClick={handleSetClick}

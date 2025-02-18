@@ -8,6 +8,10 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
     Executive: ["James Bond", "Lara Croft", "Bruce Wayne"],
   };
 
+  const refereeNameList = [
+    "Steve", "Stella", "Bob Williams", "Carol Davis", "Mick Sam", "Kirk Aron"
+  ];
+
   const customSets = [
     "Custom Set 1",
     "Custom Set 2",
@@ -21,7 +25,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
   const [position, setPosition] = useState("");
   const [questionFormat, setQuestionFormat] = useState("");
   const [candidateOptions, setCandidateOptions] = useState([]);
-  const [isCustomSet, setIsCustomSet] = useState(false); // Track if custom set is selected
+  const [isCustomSet, setIsCustomSet] = useState(false);
 
   const handlePositionChange = (e) => {
     const selectedPosition = e.target.value;
@@ -32,17 +36,28 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
 
   const handleQuestionFormatChange = (e) => {
     const selectedFormat = e.target.value;
+
     if (selectedFormat === "Custom Sets") {
       setIsCustomSet(true); // Show custom sets when selected
-      setQuestionFormat("");
+      setQuestionFormat(""); // Reset question format
+    } else if (selectedFormat === "Back to Format Options") {
+      setIsCustomSet(false); // Return to format options
+      setQuestionFormat(""); // Clear selected format
     } else {
       setIsCustomSet(false); // Show regular dropdown options
-      setQuestionFormat(selectedFormat);
+      setQuestionFormat(selectedFormat); // Set the selected question format
     }
   };
 
   const handleCustomSetChange = (e) => {
-    setQuestionFormat(e.target.value); // Set the selected custom set
+    const selectedValue = e.target.value;
+
+    if (selectedValue === "Back to Format Options") {
+      setIsCustomSet(false); // Return to format options
+      setQuestionFormat(""); // Reset question format
+    } else {
+      setQuestionFormat(selectedValue); // Set the selected custom set
+    }
   };
 
   const handleSubmit = (e) => {
@@ -132,13 +147,18 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             <Form.Label className="me-2" style={{ width: "150px" }}>
               Referee Name
             </Form.Label>
-            <Form.Control
-              type="text"
+            <Form.Select
               value={refereeName}
               onChange={(e) => setRefereeName(e.target.value)}
-              placeholder="John Doe"
               required
-            />
+            >
+              <option value="">Select Referee</option>
+              {refereeNameList.map((referee, index) => (
+                <option key={index} value={referee}>
+                  {referee}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           {/* Referee's Email input */}
@@ -164,7 +184,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-            Reference Question
+              Reference Question
             </Form.Label>
             {!isCustomSet ? (
               <Form.Select
@@ -190,6 +210,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
                     {set}
                   </option>
                 ))}
+                <option value="Back to Format Options">Back to Format Options</option>
               </Form.Select>
             )}
           </Form.Group>

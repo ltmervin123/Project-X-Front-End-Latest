@@ -69,7 +69,7 @@
 .btn-add-new-question {
   border-radius: 20px;
   border: 1px solid #686868;
-  width: 150px;
+  width: 100%;
   padding: 5px;
 }
 .hr-hatch-card-container {
@@ -206,4 +206,14 @@
 .button-controls-job button.active {
   background: var(--primary-color); /* Primary color when active */
   color: var(--font-white); /* Change text color to white */
+}
+
+.progress-bar-for-question{
+  border-radius: 50px !important;
+  height: 38px;
+}
+.progress-bar-for-question > .progress-bar{
+  height: 100%;
+  border-radius: 50px !important;
+  background: var(--secondary-color);
 }

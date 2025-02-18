@@ -1,7 +1,6 @@
-// StandardFormat.js
 import React from "react";
 
-const StandardFormatComponent = ({
+const FormatComponent = ({
   StandardQuestionsSets,
   selectedSet,
   handleSetClick,
@@ -10,7 +9,8 @@ const StandardFormatComponent = ({
   return (
     <>
       <div className="AiReference-table-title">
-        <h4 className="color-green">Standard Formats</h4>
+        format will depend on selectedFormat
+        <h4 className="color-green">Standard Formats</h4> 
         <p>Standardized question sets provided by HR-Hatch</p>
       </div>
       <div className="AiReference-Question-Sets-Container">
@@ -64,4 +64,4 @@ const StandardFormatComponent = ({
   );
 };
 
-export default StandardFormatComponent;
+export default FormatComponent;
