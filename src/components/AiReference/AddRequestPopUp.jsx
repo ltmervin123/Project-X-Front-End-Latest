@@ -2,15 +2,54 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 const AddRequestPopUp = ({ onClose, onAddRequest }) => {
+  const [candidates, setCandidates] = useState([]);
+  const [selectedPosition, setSelectedPosition] = useState("");
+  const [selectedCandidate, setSelectedCandidate] = useState("");
+  const [selectedPositionId, setSelectedPositionId] = useState("");
+  const [selectedCandidateId, setSelectedCandidateId] = useState("");
+  const [selectedQuestion, setSelectedQuestion] = useState("");
+  const [selectedQuestionId, setSelectedQuestionId] = useState("");
+  const [refereeName, setRefereeName] = useState("");
+  const [refereeEmail, setRefereeEmail] = useState("");
+  const [questionFormatType, setQuestionFormatType] = useState("");
+  const [isCustomQuestion, setIsCustomQuestion] = useState(false);
+
   // Memoize positions to avoid unnecessary re-renders
   const positions = useMemo(() => {
     const activeJobs = JSON.parse(localStorage.getItem("jobs")) || [];
-    return activeJobs.map((job) => job.jobName);
+    return activeJobs.map((job) => ({
+      jobName: job.jobName,
+      _id: job._id,
+    }));
   }, []);
-  const [selectedPosition, setSelectedPosition] = useState("");
 
-  const [selectedCandidate, setSelectedCandidate] = useState("");
-  const [candidates, setCandidates] = useState([]);
+  const hrHatchQuestion = useMemo(() => {
+    return [
+      {
+        name: "Standard Format",
+        value: "STANDARD",
+        _id: "67b404a91eb4c9da22cff68e",
+      },
+      {
+        name: "Management Format",
+        value: "MANAGEMENT",
+        _id: "67b405191eb4c9da22cff690",
+      },
+      {
+        name: "Executive Format",
+        value: "EXECUTIVE",
+        _id: "67b405a41eb4c9da22cff691",
+      },
+    ];
+  }, []);
+
+  const customQuestion = useMemo(() => {
+    const questions = JSON.parse(localStorage.getItem("questions")) || [];
+    return questions.map((question) => ({
+      name: question.name,
+      _id: question._id,
+    }));
+  }, []);
 
   // Update candidates when selectedPosition changes
   useEffect(() => {
@@ -26,56 +65,64 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     setCandidates(filteredCandidates);
   }, [selectedPosition]);
 
-  const customSets = [
-    "Custom Set 1",
-    "Custom Set 2",
-    "Custom Set 3",
-    "Custom Set 4",
-  ];
-  const [refereeName, setRefereeName] = useState("");
-  const [refereeEmail, setRefereeEmail] = useState("");
-  const [questionFormat, setQuestionFormat] = useState("");
-
-  const [isCustomSet, setIsCustomSet] = useState(false); // Track if custom set is selected
-
   const handlePositionChange = (e) => {
-    const selectedPosition = e.target.value;
-    setSelectedPosition(selectedPosition);
+    const jobName = e.target.value;
+    const selectedPosition = positions.find(
+      (position) => position.jobName === jobName
+    );
+    const selectedPositionId = selectedPosition._id;
+    setSelectedPositionId(selectedPositionId);
+    setSelectedPosition(jobName);
   };
 
-  const handleQuestionFormatChange = (e) => {
-    const selectedFormat = e.target.value;
-    if (selectedFormat === "Custom Sets") {
-      setIsCustomSet(true); // Show custom sets when selected
-      setQuestionFormat("");
-    } else {
-      setIsCustomSet(false); // Show regular dropdown options
-      setQuestionFormat(selectedFormat);
+  const handleCandidateChange = (e) => {
+    const candidateName = e.target.value;
+    const selectedCandidate = candidates.find(
+      (candidate) => candidate.name === candidateName
+    );
+    setSelectedCandidate(candidateName);
+    setSelectedCandidateId(selectedCandidate._id);
+  };
+
+  const handleQuestionFormatChange = (event) => {
+    const questionName = event.target.value;
+    const selectedQuestion = isCustomQuestion
+      ? customQuestion.find((question) => question.name === questionName)
+      : hrHatchQuestion.find((question) => question.name === questionName);
+    setSelectedQuestionId(selectedQuestion._id);
+    setSelectedQuestion(questionName);
+  };
+
+  const handleSelectFormatTypeChanges = (event) => {
+    const format = event.target.value;
+    switch (format) {
+      case "HR-HATCH-FORMAT":
+        setIsCustomQuestion(false);
+        break;
+      case "CUSTOM_FORMAT":
+        setIsCustomQuestion(true);
+        break;
+      default:
+        setIsCustomQuestion(false);
+        break;
     }
+    setQuestionFormatType(format);
   };
 
   useEffect(() => {
     const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
     const filteredCandidates = candidates
       .filter((candidate) => candidate.position === selectedPosition)
-      .map((candidate) => candidate.name);
+      .map((candidate) => ({
+        name: candidate.name,
+        _id: candidate._id,
+      }));
     setCandidates(filteredCandidates);
   }, [selectedPosition]);
 
-  const handleCustomSetChange = (e) => {
-    setQuestionFormat(e.target.value); // Set the selected custom set
-  };
-
+  //To Do
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddRequest({
-      candidateName: selectedCandidate,
-      refereeName,
-      refereeEmail,
-      position: positions,
-      questionFormat,
-    });
-    onClose();
   };
 
   return (
@@ -118,9 +165,9 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
               <option value="" disabled>
                 Select Position
               </option>
-              {positions.map((pos, index) => (
-                <option key={index} value={pos}>
-                  {pos}
+              {positions.map((pos) => (
+                <option key={pos._id} value={pos.jobName}>
+                  {pos.jobName}
                 </option>
               ))}
             </Form.Select>
@@ -136,15 +183,15 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             </Form.Label>
             <Form.Select
               value={selectedCandidate}
-              onChange={(e) => setSelectedCandidate(e.target.value)}
+              onChange={handleCandidateChange}
               disabled={!selectedPosition} // Disable if no position is selected
               required
             >
               <option value="">Select Candidate</option>
               {candidates && candidates.length > 0 ? (
-                candidates.map((candidate, index) => (
-                  <option key={index} value={candidate}>
-                    {candidate}
+                candidates.map((candidate) => (
+                  <option key={candidate._id} value={candidate.name}>
+                    {candidate.name}
                   </option>
                 ))
               ) : (
@@ -199,31 +246,59 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             <Form.Label className="me-2" style={{ width: "150px" }}>
               Reference Question
             </Form.Label>
-            {!isCustomSet ? (
+
+            {!questionFormatType ? (
               <Form.Select
-                value={questionFormat}
-                onChange={handleQuestionFormatChange}
+                value={questionFormatType}
+                onChange={handleSelectFormatTypeChanges}
                 required
               >
-                <option value="">Select Format</option>
-                <option value="Standard Format">Standard Format</option>
-                <option value="Management Format">Management Format</option>
-                <option value="Executive Format">Executive Format</option>
-                <option value="Custom Sets">Custom Sets</option>
+                <option value="" disabled>
+                  Choose Question Format
+                </option>
+                <option value="HR-HATCH-FORMAT">HR-HATCH Format</option>
+                <option value="CUSTOM_FORMAT">Custom Format</option>
               </Form.Select>
             ) : (
-              <Form.Select
-                value={questionFormat}
-                onChange={handleCustomSetChange}
-                required
-              >
-                <option value="">Select Custom Set</option>
-                {customSets.map((set, index) => (
-                  <option key={index} value={set}>
-                    {set}
-                  </option>
-                ))}
-              </Form.Select>
+              <>
+                {isCustomQuestion ? (
+                  <Form.Select
+                    value={selectedQuestion}
+                    onChange={handleQuestionFormatChange}
+                    required
+                  >
+                    <option value="" disabled>
+                      Choose Custom Question
+                    </option>
+                    {customQuestion && customQuestion.length > 0 ? (
+                      customQuestion.map((question) => (
+                        <option key={question._id} value={question.name}>
+                          {question.name}
+                        </option>
+                      ))
+                    ) : (
+                      <option value="" disabled>
+                        No custom questions available
+                      </option>
+                    )}
+                  </Form.Select>
+                ) : (
+                  <Form.Select
+                    value={selectedQuestion}
+                    onChange={handleQuestionFormatChange}
+                    required
+                  >
+                    <option value="" disabled>
+                      Choose HR-HATCH Question
+                    </option>
+                    {hrHatchQuestion.map((question) => (
+                      <option key={question._id} value={question.name}>
+                        {question.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                )}
+              </>
             )}
           </Form.Group>
 
