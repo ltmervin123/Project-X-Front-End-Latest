@@ -573,10 +573,10 @@
 .agreenment-box-check > .form-check-input {
   margin: 0 !important;
   margin-right: 2px !important;
-  padding: 10px;
+  padding: 6px;
 
 }
-.agreenment-box-check small{
+.agreenment-box-check label{
 font-size: 12px;
 line-height: 1 !important;
 }
