@@ -31,6 +31,13 @@ import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording"
 import BehavioralVideoRecording from "./components/maindashboard/BehavioralVideoRecording";
 import VideoRecording from "./components/maindashboard/MockVideoRecording";
 
+// ResumeFitOptimizerPage
+import RTOUploadDocsPage from "./page/RTOUploadDocsPage.jsx";
+import RTOAIResumeOptimizationAnalysis from "./page/RTOAIResumeOptimizationAnalysisPage.jsx";
+import RFOCompareResumes from "./page/RFOCompareResumesPage.jsx";
+import RFOSaveAndExportResumePage from "./page/RFOSaveAndExportResumePage.jsx";
+
+
 /*Forgot page*/
 import Forgotpassword from "./page/ForgotPassPage.jsx";
 import Resetpassword from "./page/ResetPassPage.jsx";
@@ -248,6 +255,22 @@ function App() {
 
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
+
+
+
+
+        <Route path="/ResumeFitOptimizer" element={<RTOUploadDocsPage />} />
+        <Route path="/ResumeFitOptimizer/AIResumeOptimizationAnalysis" element={<RTOAIResumeOptimizationAnalysis />} />
+        <Route path="/ResumeFitOptimizer/CompareResumes" element={<RFOCompareResumes />} />
+        <Route path="/ResumeFitOptimizer/SaveAndExportResumes" element={<RFOSaveAndExportResumePage />} />
+        
+
+
+
+
+
+
+
 
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

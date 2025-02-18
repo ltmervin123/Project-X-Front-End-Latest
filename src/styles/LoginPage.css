@@ -562,24 +562,6 @@
   padding: 0;
   margin: 0;
 }
-.agreenment-box-check{
-  width: 70%;
-  display: flex;
-  flex-direction: row;
-  line-height: 1;
-  font-size: 12px;
-  margin-block: 10px;
-}
-.agreenment-box-check > .form-check-input {
-  margin: 0 !important;
-  margin-right: 2px !important;
-  padding: 6px;
-
-}
-.agreenment-box-check label{
-font-size: 12px;
-line-height: 1 !important;
-}
 .check-email-container {
   background: rgb(244, 106, 5);
   background: linear-gradient(
@@ -746,80 +728,3 @@ line-height: 1 !important;
   border: none;
 }
 
-
-/* DPA modal */
-.dpa-modal-agreement {
-  /* min-width: 700px !important; */
-}
-.modal-dialog {
-  width: 600px !important;
-  max-width: 700px !important;
-}
-.dpa-container {
-  overflow-y: hidden;
-}
-.dpa-content {
-  width: 700px;
-  height: 500px;
-  overflow: auto;
-}
-.dpa-content > h2 {
-  width: 100%;
-  font-size: 24px;
-}
-
-.dpa-content > p {
-  font-size: 14px;
-}
-.section {
-  width: 100%;
-  margin-block: 5px;
-}
-.section > .section-title {
-  font-weight: 600;
-  font-size: 24px;
-}
-.section > .section-description {
-  font-size: 14px;
-}
-.section > .acceptance {
-  color: #686868;
-  font-style: italic;
-}
-.btn-continue {
-  background-color: #F46A05;
-  color: var(--font-white) !important;
-  font-weight: 400;
-  padding: 5px 50px;
-  font-size: 18px;
-  border: none;
-  margin-bottom: 5px;
-  border-radius: 25px;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
-  -ms-border-radius: 25px;
-  -o-border-radius: 25px;
-}
-
-
-/* Scrollbar styling */
-.dpa-content::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-}
-
-.dpa-content::-webkit-scrollbar-track {
-  background: #D1D1D1;
-  width: 12px;
-  border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -o-border-radius: 6px;
-}
-
-.dpa-content::-webkit-scrollbar-thumb {
-  background-color: #F46A05; /* Color of the scrollbar thumb */
-  border-radius: 6px; /* Rounded corners */
-  width: 12px; /* Set the width of the thumb */
-  height: 12px; /* Set the height to the same as the width for a circle */
-}
