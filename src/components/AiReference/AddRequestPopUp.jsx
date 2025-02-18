@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import axios from "axios";
 
 const AddRequestPopUp = ({ onClose, onAddRequest }) => {
+  const API = process.env.REACT_APP_API_URL;
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const token = USER.token;
   const [candidates, setCandidates] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState("");
   const [selectedCandidate, setSelectedCandidate] = useState("");
@@ -13,6 +17,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
   const [refereeEmail, setRefereeEmail] = useState("");
   const [questionFormatType, setQuestionFormatType] = useState("");
   const [isCustomQuestion, setIsCustomQuestion] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Memoize positions to avoid unnecessary re-renders
   const positions = useMemo(() => {
@@ -121,8 +126,40 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
   }, [selectedPosition]);
 
   //To Do
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await createReferenceRequest();
+  };
+
+  const createReferenceRequest = async () => {
+    try {
+      setIsLoading(true);
+      const URL = `${API}/api/ai-referee/company-request-reference/create-reference-request`;
+      const payload = {
+        positionId: selectedPositionId,
+        positionName: selectedPosition,
+        candidateId: selectedCandidateId,
+        candidateName: selectedCandidate,
+        refereeName,
+        refereeEmail,
+        questionId: selectedQuestionId,
+        formatType: questionFormatType,
+      };
+
+      const response = await axios.post(URL, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 201) {
+        onClose();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -308,8 +345,12 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
           </Form.Group>
 
           <div className="d-flex justify-content-end">
-            <button className="btn-add-candidate" type="submit">
-              Send Request
+            <button
+              className="btn-add-candidate"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? "Sending..." : "Send Request"}
             </button>
           </div>
         </Form>
