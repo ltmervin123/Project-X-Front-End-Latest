@@ -153,6 +153,11 @@ width: 200px;
   border-radius: 50px;
   border: none;
   }
+  .custom-modal-job .modal-body .form-control,
+  .custom-modal-job .modal-body .form-select
+  {
+    box-shadow: 0px 4px 4px #0000003d;
+  }
 /* Customizing the scrollbar */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar {
   width: 12px; /* Scrollbar width */

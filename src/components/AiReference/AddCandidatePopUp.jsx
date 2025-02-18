@@ -115,7 +115,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
               Position
             </Form.Label>
             <Form.Select
-              value={position}
+              value={positions}
               onChange={handlePositionChange}
               required
             >
@@ -128,33 +128,6 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
                 </option>
               ))}
             </Form.Select>
-            {/* Render the select dropdown unless "Others" is selected */}
-            {/* {!isOther && (
-              <Form.Select
-                value={position}
-                placeholder="Select a position"
-                onChange={handlePositionChange}
-                required
-              >
-                {positions.map((pos, index) => (
-                  <option key={index} value={pos}>
-                    {pos}
-                  </option>
-                ))}
-              </Form.Select>
-            )}
-
-            {/* Render the text input if "Others" is selected */}
-            {/* {isOther && (
-              <Form.Control
-                type="text"
-                value={position}
-                onChange={(e) => setPosition(e.target.value)}
-                placeholder="Please specify"
-                className="mt-2"
-                required
-              />
-            )} */}{" "}
           </Form.Group>
 
           <div className="d-flex justify-content-end">
