@@ -17,8 +17,6 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [service, setService] = useState(""); // State to track selected service
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password, service);
@@ -320,7 +318,7 @@ const LoginForm = () => {
               onClick={() => {
                 switch (service) {
                   case SERVICE[0]:
-                    navigate("/CompanyRegistration");
+                    navigate("/company-registration");
                     break;
                   case SERVICE[1]:
                     navigate("/signup");
@@ -335,7 +333,6 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
-      
     </div>
   );
 };
