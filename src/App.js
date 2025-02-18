@@ -106,7 +106,6 @@ function App() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/comingsoon" element={<CommingSoonPage />} />
         <Route path="/signup" element={<SignUp />} />
-
         {/* Protected routes */}
         <Route element={<PersistLogin />}>
           {/* Authentication Routes */}
@@ -190,65 +189,58 @@ function App() {
             />
           </Route>
         </Route>
-
-        {/*Company Registration */}
-        <Route
-          path="/CompanyRegistration"
-          element={<CompanyRegistrationPage />}
-        />
-
         {/* AiReferenceCheckVerificationPage*/}
         <Route
-          path="/AiReferenceCheckVerification"
+          path="/reference-request/:token"
           element={<AiReferenceCheckVerificationPage />}
+        />
+        {/* Reference Verification page */}8
+        <Route
+          path="/reference-completed"
+          element={<ReferenceVerification />}
         />
         {/* ChooseYourInterviewMethodPage*/}
         <Route
-          path="/ChooseYourInterviewMethodPage"
+          path="/reference-interview-method"
           element={<ChooseYourInterviewMethodPage />}
         />
         {/* ReferenceCheckQuestionnairePage*/}
         <Route
-          path="/ReferenceCheckQuestionnairePage"
+          path="/reference-questionnaire"
           element={<ReferenceCheckQuestionnairePage />}
         />
         {/* ReviewYourReferenceCheckPage*/}
         <Route
-          path="/ReviewYourReferenceCheckPage"
+          path="/reference-review"
           element={<ReviewYourReferenceCheckPage />}
         />
-
-        {/* Forgot pass */}
-        <Route path="/forgotpassword" element={<Forgotpassword />} />
-        {/* Use token as param */}
-        <Route path="/reset-password/:token" element={<Resetpassword />} />
-
+        {/*Company Registration */}
+        <Route
+          path="/company-registration"
+          element={<CompanyRegistrationPage />}
+        />
         {/* Password Changed */}
         <Route
-          path="/CompanyAccountPasswordChanged"
+          path="/company-account-password-changed"
           element={<PassChanged />}
         />
         {/* Created Account page*/}
         <Route
-          path="/activate-company-account/:token"
+          path="/company-activate-account/:token"
           element={<CreatedAccount />}
         />
-
-        {/*  Company Expired/Invalid Link */}
-        <Route path="/CompanyExpiredLink" element={<CompanyExpiredLink />} />
-
-        {/* Reference Verification page */}8
         <Route
-          path="/ReferenceVerification"
-          element={<ReferenceVerification />}
+          path="/company-expired-activation"
+          element={<CompanyExpiredLink />}
         />
-
         {/* Created Account page*/}
-        <Route path="/CreatedAccount" element={<CreatedAccount />} />
-
+        <Route path="/company-created-account" element={<CreatedAccount />} />
+        {/* Forgot pass */}
+        <Route path="/forgotpassword" element={<Forgotpassword />} />
+        {/* Use token as param */}
+        <Route path="/reset-password/:token" element={<Resetpassword />} />
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
-
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>

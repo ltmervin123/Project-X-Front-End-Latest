@@ -83,7 +83,7 @@ function ReferenceCheckQuestionnairePage() {
       console.log(`${question}: ${answers[index]}`);
     });
 
-    navigate("/ReviewYourReferenceCheckPage", {
+    navigate("/reference-review", {
       state: { questions: questions, answers: answers }, // Pass the questions and answers
     });
   };
