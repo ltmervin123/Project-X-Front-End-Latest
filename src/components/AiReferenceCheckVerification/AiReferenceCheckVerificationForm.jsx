@@ -8,7 +8,7 @@ const AiReferenceCheckVerificationForm = () => {
 
   // temporary redirect
   const handleClick = () => {
-    navigate("/ChooseYourInterviewMethodPage");
+    navigate("/reference-interview-method");
   };
   const [formData, setFormData] = useState({
     refereeName: "",
