@@ -40,7 +40,6 @@
 .btn-create-new-candidate:hover {
   background: darkorange; /* Darker shade on hover */
 }
-
 .AiReference-candidates-container {
   background: var(--font-white);
   border: 1px solid var(--card-color);
@@ -122,6 +121,10 @@ word-wrap: break-word;
   width: 150px;
   padding: 5px;
   color: var(--font-white);
+}
+.btn-add-candidate:disabled{
+  background: var(--card-color) !important;
+  cursor: not-allowed;
 }
 /* Customizing the scrollbar */
 .AiReference-candidates-container tbody::-webkit-scrollbar {

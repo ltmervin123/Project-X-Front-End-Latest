@@ -13,6 +13,7 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
   const [hiringManager, setHiringManager] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const isFormValid = jobName && vacancies && hiringManager;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,7 +69,7 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             controlId="formJobName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Job Name
             </Form.Label>
             <Form.Control
@@ -83,7 +84,7 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             controlId="formVacancies"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Vacancies
             </Form.Label>
             <Form.Control
@@ -98,7 +99,7 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             controlId="formHiringManager"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Hiring Manager
             </Form.Label>
             <Form.Control
@@ -109,8 +110,8 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             />
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <button className="btn-create-job" type="submit" disabled={loading}>
-              {loading ? "Creating Job..." : "Create Job"}
+          <button className="btn-create-job" type="submit" disabled={loading || !isFormValid}>
+          {loading ? "Creating Job..." : "Create Job"}
             </button>
           </div>
         </Form>

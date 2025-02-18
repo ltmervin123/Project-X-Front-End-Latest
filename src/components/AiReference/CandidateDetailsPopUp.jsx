@@ -47,7 +47,6 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
         </div>
 
         <div className="candidate-details">
-          <p className="jobs-area">Graphic Designer</p>
 
           <div className="my-3">
             <p className="d-flex gap-2 align-items-center justify-content-between">
@@ -83,8 +82,8 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
             </p>
           </div>
           <div className="my-3">
-            <p className="d-flex gap-2 align-items-center">
-              <strong className="d-flex gap-2 align-items-center">
+          <p className="d-flex gap-2 align-items-center justify-content-between">
+          <strong className="d-flex gap-2 align-items-center">
                 {" "}
                 <svg
                   width="20"
@@ -102,7 +101,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
               </strong>{" "}
               {candidates.email}
             </p>
-            <p className="d-flex gap-2 align-items-center">
+            <p className="d-flex gap-2 align-items-center justify-content-between">
               <strong className="d-flex gap-2 align-items-center">
                 <svg
                   width="16"
@@ -122,7 +121,8 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
             </p>
           </div>
 
-          <p className="my-3 d-flex gap-2 align-items-center">
+          <p className="d-flex gap-2 align-items-center justify-content-between">
+            
             <strong className="d-flex gap-2 align-items-center">
               <svg
                 width="19"
@@ -146,8 +146,8 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
             </strong>{" "}
             {candidates.position || "N/A"}
           </p>
-          <p className="mb-5 d-flex gap-2 align-items-center">
-            <strong className="d-flex gap-2 align-items-center">
+          <p className="d-flex gap-2 align-items-center justify-content-between">
+          <strong className="d-flex gap-2 align-items-center">
               <svg
                 width="20"
                 height="20"

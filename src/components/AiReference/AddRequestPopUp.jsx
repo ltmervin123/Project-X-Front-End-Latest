@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 const AddRequestPopUp = ({ onClose, onAddJob }) => {
+  
   const candidatesData = {
     Manager: ["John Doe", "Jane Smith", "Michael Johnson"],
     Developer: ["Alice Brown", "Bob White", "Charlie Green"],
@@ -26,6 +27,12 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
   const [questionFormat, setQuestionFormat] = useState("");
   const [candidateOptions, setCandidateOptions] = useState([]);
   const [isCustomSet, setIsCustomSet] = useState(false);
+  const isFormValid =
+  candidateName &&
+  refereeName &&
+  refereeEmail &&
+  position &&
+  questionFormat;
 
   const handlePositionChange = (e) => {
     const selectedPosition = e.target.value;
@@ -101,7 +108,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             controlId="formPosition"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Position
             </Form.Label>
             <Form.Select
@@ -121,7 +128,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             controlId="formCandidateName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Candidate
             </Form.Label>
             <Form.Select
@@ -144,7 +151,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             controlId="formRefereeName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Referee Name
             </Form.Label>
             <Form.Select
@@ -166,7 +173,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             controlId="formRefereeEmail"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Referee's Email
             </Form.Label>
             <Form.Control
@@ -183,7 +190,7 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
             controlId="formQuestionFormat"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Reference Question
             </Form.Label>
             {!isCustomSet ? (
@@ -216,9 +223,14 @@ const AddRequestPopUp = ({ onClose, onAddJob }) => {
           </Form.Group>
 
           <div className="d-flex justify-content-end">
-            <button className="btn-add-candidate" type="submit">
-              Send Request
-            </button>
+          <button
+  className="btn-add-candidate"
+  type="submit"
+  disabled={!isFormValid} // Disable if the form is not valid
+>
+  Send Request
+</button>
+
           </div>
         </Form>
       </Modal.Body>

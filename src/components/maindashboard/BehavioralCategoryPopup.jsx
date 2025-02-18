@@ -91,7 +91,7 @@ const BehavioralCategoryPopup = ({
       dialogClassName="custom-modal-width-behavioral"
       backdrop={false}
     >
-      <Modal.Body className="custom-modal">
+      <Modal.Body>
         <div className="d-flex justify-content-end align-items-center mb-3">
           <Button
             className="closebtn"

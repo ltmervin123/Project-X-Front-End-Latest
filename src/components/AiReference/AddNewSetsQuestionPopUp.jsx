@@ -166,7 +166,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
           </div>
 
           {/* Progress bar and count */}
-          <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className="d-flex justify-content-between align-items-center my-2 mb-3">
             <div className="w-100 d-flex justify-content-center align-items-center">
               <p style={{ width: "150px" }}></p>
 
@@ -201,13 +201,17 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
           )}
 
           <div className="d-flex justify-content-end mt-3">
-            <button
-              className="btn-add-candidate"
-              type="submit"
-              disabled={isQuestionsEmpty}
-            >
-              Add Set
-            </button>
+            <div className="d-flex justify-content-end mt-3">
+              <button
+                className={`btn-add-candidate ${
+                  questions.length < 10 ? "disable" : ""
+                }`} // Add "disable" class if there are less than 10 questions
+                type="submit"
+                disabled={questions.length < 10} // Disable the button if there are less than 10 questions
+              >
+                Add Set
+              </button>
+            </div>
           </div>
         </Form>
       </Modal.Body>

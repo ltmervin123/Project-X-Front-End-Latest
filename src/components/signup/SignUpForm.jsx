@@ -4,17 +4,32 @@ import { Button } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import RegistrationSuccessPopUp from "./RegistrationSuccessPopUp";
 import { useSignup } from "../../hook/useSignup";
+import DPAPopUp from "./DPAPopUp"; // Import the DPAPopUp modal component
 
 function SignUpForm() {
   const [showSuccessPopUp, setShowSuccessPopUp] = useState(false);
   const [name, setName] = useState(""); // Added name state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isBoxChecked, setIsBoxChecked] = useState(false);
   const { signup, isLoading, error } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
   const SERVICE = "MOCK_AI";
+  const [showModal, setShowModal] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [agreeChecked, setAgreeChecked] = useState(false); // Separate state to keep checkbox unchecked until "Continue" is clicked
 
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      if (!agreeChecked) {
+        setShowModal(true); // Show modal if the user hasn't agreed yet
+      } else {
+        setIsChecked(true); // Allow checking again without modal
+      }
+    } else {
+      setIsChecked(false);
+      setAgreeChecked(false); // Reset agreement state when unchecked
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userDetail = {
@@ -33,10 +48,11 @@ function SignUpForm() {
     setShowSuccessPopUp(false);
   };
 
-  const handleCheckboxChange = (e) => {
-    setIsBoxChecked(e.target.checked);
+  const handleContinue = () => {
+    setAgreeChecked(true); // Mark that the user has agreed
+    setIsChecked(true); // Keep the checkbox checked
+    setShowModal(false); // Close modal
   };
-
   return (
     <div className="signup-info-container">
       <div className="info-create-acc-container">
@@ -328,29 +344,48 @@ function SignUpForm() {
               <div className="checkbox-container d-flex align-items-center">
                 <input
                   type="checkbox"
-                  checked={isBoxChecked}
+                  checked={isChecked}
                   onChange={handleCheckboxChange}
                 />
               </div>
               <div className="privacy-content">
-                <p>Privacy Agreement</p>
                 <p>
-                  By registering, you agree to our Privacy Policy and Terms of
-                  Service. We value your privacy. Your information will not be
-                  shared with third parties.
+                  By continuing, you agree to{" "}
+                  <a
+                    href="URL_TO_TERMS_OF_SERVICE"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    HR-HATCH Terms of Service
+                  </a>{" "}
+                  and acknowledge you've read our{" "}
+                  <a
+                    href="URL_TO_DATA_PROTECTION_AGREEMENT"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Data Protection Agreement
+                  </a>
+                  .
                 </p>
               </div>
             </div>
             <button
               type="submit"
               className="singup-button"
-              disabled={!isBoxChecked || isLoading}
+              disabled={!isChecked || isLoading}
             >
               {isLoading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
         </div>
       </div>
+      {/* Add this line before the form ends */}
+      <DPAPopUp
+        showModal={showModal}
+        setShowModal={setShowModal}
+        handleContinue={handleContinue}
+      />
 
       {showSuccessPopUp && (
         <RegistrationSuccessPopUp onClose={handleClosePopUp} />
