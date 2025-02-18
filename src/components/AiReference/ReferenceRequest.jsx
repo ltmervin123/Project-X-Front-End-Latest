@@ -129,7 +129,7 @@ const ReferenceRequest = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              {/* <tbody>
                 {requests
                   .filter(
                     (request) =>
@@ -163,7 +163,7 @@ const ReferenceRequest = () => {
                       </td>
                     </tr>
                   ))}
-              </tbody>
+              </tbody> */}
             </table>
             <div className="d-flex justify-content-center w-100">
               <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
