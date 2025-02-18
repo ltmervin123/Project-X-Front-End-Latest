@@ -1,14 +1,29 @@
-import React, { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/ReviewYourReferenceCheckPage.css";
 
 function ReviewYourReferenceCheckPage() {
   const location = useLocation();
   const [uploadedFile, setUploadedFile] = useState(null); // Track the uploaded file
-  const [signatureMethod, setSignatureMethod] = useState("Select Drawing"); // Track signature method
+  const [signatureMethod, setSignatureMethod] = useState("Draw Signature"); // Track signature method
+  const [imagePreview, setImagePreview] = useState(null); // Track the preview of the uploaded image
 
   const handleSelectChange = (e) => {
     setSignatureMethod(e.target.value);
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadedFile(file);
+
+      // Create a FileReader to read the file and display the image preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result); // Set the image preview URL
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
   };
 
   const handleFileDrop = (e) => {
@@ -16,13 +31,13 @@ function ReviewYourReferenceCheckPage() {
     const file = e.dataTransfer.files[0];
     if (file) {
       setUploadedFile(file);
-    }
-  };
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setUploadedFile(file);
+      // Create a FileReader to read the file and display the image preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result); // Set the image preview URL
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
     }
   };
 
@@ -79,6 +94,22 @@ function ReviewYourReferenceCheckPage() {
     // Reset drawing state to false, so new drawings start fresh
     setIsDrawing(false);
   };
+  // Adjust canvas size based on container size
+  const resizeCanvas = () => {
+    const canvas = canvasRef.current;
+    if (canvas && canvas.parentElement) {
+      // Add null check for parentElement
+      const container = canvas.parentElement;
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+
+      // Redraw the signature if necessary
+      const ctx = canvas.getContext("2d");
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "black"; // Ensure stroke style remains consistent
+    }
+  };
 
   // Function to start drawing
   const startDrawing = (e) => {
@@ -115,6 +146,16 @@ function ReviewYourReferenceCheckPage() {
     setIsDrawing(false);
   };
 
+  // Update canvas size on window resize
+  useEffect(() => {
+    resizeCanvas(); // Initial resize on mount
+    window.addEventListener("resize", resizeCanvas); // Update size on window resize
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+    };
+  }, []);
+
   // Handle editing answer
   const handleEditAnswer = () => {
     setEditedAnswer(currentQuestion.originalAnswer); // Populate the text field with the original answer
@@ -146,20 +187,26 @@ function ReviewYourReferenceCheckPage() {
               className="mb-3"
               onChange={handleSelectChange}
             >
-              <option value="Select Drawing">Select Drawing</option>
-              <option value="Upload Image">Upload Image</option>
+              <option>Select Type of Signature</option>
+              <option value="Draw Signature">Draw Signature</option>
+              <option value="Upload Signature">Upload Signature</option>
             </select>
           </div>
 
-          {signatureMethod === "Select Drawing" ? (
+          {signatureMethod === "Draw Signature" ? (
             <div className="drawing-container">
               <p>Drawing container area</p>
-              <div className="drawing-container-box">
+              <div
+                className="drawing-container-box w-100"
+                style={{ width: "100%", height: "300px" }}
+              >
                 <canvas
                   ref={canvasRef}
-                  width={1000}
-                  height={300}
-                  style={{ border: "1px solid black" }}
+                  style={{
+                    border: "1px solid black",
+                    width: "100%",
+                    height: "100%",
+                  }}
                   onMouseDown={startDrawing}
                   onMouseMove={draw}
                   onMouseUp={stopDrawing}
@@ -168,38 +215,57 @@ function ReviewYourReferenceCheckPage() {
               </div>
             </div>
           ) : (
-            <div className="file-upload-container">
-              <p>Drag & Drop Signature</p>
-              <div
-                className="file-upload-area d-flex align-items-center justify-content-center flex-column"
-                onDrop={handleFileDrop}
-                onDragOver={handleDragOver}
-                style={{
-                  border: "1px solid black",
-                  padding: "20px",
-                  textAlign: "center",
-                }}
-              >
-                {uploadedFile ? (
-                  <p>File uploaded: {uploadedFile.name}</p>
-                ) : (
-                  <p>Drop your file here or click to select</p>
-                )}
-                <input
-                  type="file"
-                  id="file-upload"
-                  onChange={handleFileSelect}
-                  style={{ display: "none" }}
-                />
-                <button
-                  onClick={() =>
-                    document.getElementById("file-upload").click()
-                  }
+            signatureMethod === "Upload Signature" && (
+              <div className="file-upload-container">
+                <p>Drag & Drop Signature</p>
+                <div
+                  className="file-upload-area d-flex align-items-center justify-content-center flex-column"
+                  onDrop={handleFileDrop}
+                  onDragOver={handleDragOver}
+                  style={{
+                    border: "1px solid black",
+                    padding: "20px",
+                    textAlign: "center",
+                  }}
                 >
-                  Select File
-                </button>
+                  {uploadedFile ? (
+                    <div>
+                      {imagePreview && (
+                        <>
+                          <img
+                            src={imagePreview}
+                            alt="Uploaded preview"
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "200px",
+                              marginTop: "10px",
+                            }}
+                          />
+                          <p>File uploaded: {uploadedFile.name}</p>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <p>Drop your signature image here or click to select</p>
+                      <input
+                        type="file"
+                        id="file-upload"
+                        onChange={handleFileSelect}
+                        style={{ display: "none" }}
+                      />
+                      <button
+                        onClick={() =>
+                          document.getElementById("file-upload").click()
+                        }
+                      >
+                        Select File
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+            )
           )}
 
           <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
@@ -207,13 +273,12 @@ function ReviewYourReferenceCheckPage() {
             <button>Submit</button>
           </div>
         </div>
-
       </div>
-      
+
       <div className="orange-bg-bottom"></div>
-        <div className="orange-bg-top"></div>
-        <div className="blue-bg-left"></div>
-        <div className="blue-bg-right"></div>
+      <div className="orange-bg-top"></div>
+      <div className="blue-bg-left"></div>
+      <div className="blue-bg-right"></div>
     </div>
   );
 }

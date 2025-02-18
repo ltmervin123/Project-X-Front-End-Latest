@@ -155,31 +155,31 @@ function ViewRequest() {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="ViewRequest-container">
         <h4 className="color-orange mb-2">Standard Format</h4>
-        <p className="mb-1">
+        <p className="mb-2">
           <b>Position: </b>
           <span>[Insert Reference Name]</span>
         </p>
-        <p className="mb-1">
+        <p className="mb-2">
           <b>Candidate Name: </b>
           <span>[Insert Candidate Name]</span>
         </p>
-        <p className="mb-1">
+        <p className="mb-2">
           <b>Referee Name: </b>
           <span>[Insert Referee Name]</span>
         </p>
-        <p className="mb-1">
+        <p className="mb-2">
           <b>Referee Title: </b>
           <span>[Insert Referee Title]</span>
         </p>
-        {/* <p className="mb-1">
+        {/* <p className="mb-2">
           <b>Company Name: </b>
           <span>[Insert Company Name]</span>
         </p> */}
-        <p className="mb-1">
+        <p className="mb-2">
           <b>Relationship to Candidate: </b>
           <span>[e.g., Manager, Colleague, Direct Report]</span>
         </p>
-        <p className="mb-1">
+        <p className="mb-2">
           <b>Dates Worked Together:  </b>
           <span>From [Start Date] to [End Date]</span>
         </p>
@@ -211,14 +211,17 @@ function ViewRequest() {
           ))}
         </div>
 
-        <p className="signature-verif-title color-orange mb-1">
+        <p className="signature-verif-title color-orange mb-2">
           SIGNATURE AND VERIFICATION
         </p>
-        <p className="mb-1">
+        <img className="signature-feild" src="https://tse3.mm.bing.net/th?id=OIP.FYbTZzL8uFZSPfh4mxRgcAHaC7&pid=Api&P=0&h=180" alt="Signature here..." />
+
+        <p className="mb-2">
+          
           <b>Referee Name (Printed):</b>
           <span> [Insert Name]</span>
         </p>
-        <p className=" mb-1">
+        <p className=" mb-2">
           <b>Date:</b>
           <span> [Insert Date]</span>
         </p>

@@ -234,6 +234,9 @@ function App() {
           element={<CreatedAccount />}
         />
 
+        {/*  Ai Reference Expired/Invalid Link */}
+        <Route path="/AiReferenceExpiredLink" element={<ExpiredLink />} />
+
         {/*  Company Expired/Invalid Link */}
         <Route path="/CompanyExpiredLink" element={<CompanyExpiredLink />} />
 
