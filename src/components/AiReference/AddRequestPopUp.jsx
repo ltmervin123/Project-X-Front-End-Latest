@@ -255,11 +255,6 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
               required
             >
               <option value="">Select Referee</option>
-              {refereeNameList.map((referee, index) => (
-                <option key={index} value={referee}>
-                  {referee}
-                </option>
-              ))}
             </Form.Select>
           </Form.Group>
 
