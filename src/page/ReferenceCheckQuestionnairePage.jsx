@@ -103,9 +103,9 @@ function ReferenceCheckQuestionnairePage() {
 
   return (
     <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center flex-column positio-relative">
-      <h1 className="referencecheckquestiontitle text-left mb-5">
+      <h2 className="referencecheckquestiontitle text-left mb-2">
         Reference Check Questionnaire
-      </h1>
+      </h2>
 
       <div className="referencecheckquestion-container mb-5">
         <div className="question-container">

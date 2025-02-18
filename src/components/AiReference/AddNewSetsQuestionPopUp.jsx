@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, ProgressBar } from "react-bootstrap";
 import axios from "axios";
 
 const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
@@ -54,12 +54,12 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
         description,
         questions: formatQuestions(),
       };
-      const reponse = await axios.post(URL, payload, {
+      const response = await axios.post(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (reponse.status === 201) {
+      if (response.status === 201) {
         reFetchUpdatedQuestions();
       }
       onClose();
@@ -67,6 +67,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
       console.error(error.message);
     }
   };
+
+  const progress = Math.min(100, (questions.length / 10) * 100); // Progress bar logic
 
   return (
     <Modal
@@ -163,16 +165,38 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             ))}
           </div>
 
+          {/* Progress bar and count */}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className="w-100 d-flex justify-content-center align-items-center">
+              <p style={{ width: "150px" }}></p>
+
+              {/* Progress bar and count */}
+              <div style={{ width: "95%" }}>
+                <p className="mb-3">{questions.length} of 10 Questions</p>
+                <ProgressBar
+                  className="progress-bar-for-question"
+                  now={progress}
+                  label={false}
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Conditionally render Add Question button if less than 10 questions */}
           {questions.length < 10 && (
             <div className="d-flex justify-content-center">
-              <button
-                className="btn-add-new-question"
-                variant="link"
-                onClick={handleAddQuestion}
-              >
-                Add Questions
-              </button>
+              <div className="w-100 d-flex justify-content-center align-items-center">
+                <p style={{ width: "150px" }}></p>
+                <div style={{ width: "95%" }}>
+                  <button
+                    className="btn-add-new-question"
+                    variant="link"
+                    onClick={handleAddQuestion}
+                  >
+                    Add Questions
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 

@@ -192,7 +192,6 @@ const Candidates = () => {
             </table>
             <div className="d-flex justify-content-center w-100">
               <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
-                <button className="btn-export">Export Candidates</button>
                 <button className="btn-archive">
                   Archive Inactive Candidates
                 </button>

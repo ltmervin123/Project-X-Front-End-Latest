@@ -70,12 +70,15 @@
   background: #F2F3F7;
   padding: 20px;
   border-radius: 20px;
+  overflow-y: auto;
+  height: 100px;
 }
 .standardized-answer-container{
   background: #319f4331;
   padding: 10px;
   border-radius: 20px;
-
+  overflow-y: auto;
+  height: 100px;
 }
 /* textarea {
   width: 100%;
@@ -96,12 +99,17 @@
   background: #f2f3f7;
   padding: 20px;
   border-radius: 10px;
+  overflow-y: auto;
+  height: 200px;
 }
 
 .EnchanceAns-container {
   background: #319f432b;
   padding: 20px;
   border-radius: 10px;
+  overflow-y: auto;
+  height: 200px;
+
 }
 
 .EnchanceAns-container p,
@@ -112,9 +120,10 @@
 .edit-btn-container button{
   background: var(--secondary-color);
   border-radius: 50px;
-  padding: 5px 15px;
+  padding: 5px 30px;
   color: var(--font-white);
   border: none;
+  font-size: 15px;
 }
 
 .ReviewYourReferenceCheck-dropdown-content button {
@@ -166,7 +175,6 @@
   margin: 0 10px;
   background: none;
   border: none;
-  font-size: 50px;
 
 }
 
@@ -181,17 +189,60 @@
   color: var(--primary-color);
 }
 
-.submit-btn {
-  padding: 10px 40px;
+.proceed-btn {
+  padding: 5px 60px;
   background: var(--primary-color);
   color: var(--font-white);
   font-size: 16px;
   border-radius: 50px;
   border: none;
   cursor: pointer;
+  position: absolute;
+  right: 0;
 }
 
-.submit-btn:hover {
+.proceed-btn:hover {
   background: var(--secondary-color);
 }
 
+.ReviewYourReferenceCheck-container .selection-container > select{
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+}
+.drawing-container > .drawing-container-box{
+  width: 100%;
+  border-radius: 10px;
+}
+.file-upload-container{
+  font-weight: 500;
+}
+.file-upload-area{
+  height: 300px;
+}
+.file-upload-container button{
+  width: 200px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  font-weight: 600;
+  background: var(--secondary-color);
+}
+.drawing-container > .drawing-container-box >canvas{
+  border-radius: 10px;
+}
+.ReviewYourReferenceCheck-button-controls > button{
+  width: 200px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  font-weight: 600;
+}
+.ReviewYourReferenceCheck-button-controls > button:nth-child(1){
+  background: var(--primary-color);
+}
+.ReviewYourReferenceCheck-button-controls > button:nth-child(2){
+  background: var(--secondary-color);
+}

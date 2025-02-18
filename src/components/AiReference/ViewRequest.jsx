@@ -154,13 +154,13 @@ function ViewRequest() {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="ViewRequest-container">
-        <h4 className="color-orange mb-2">Standard Report</h4>
+        <h4 className="color-orange mb-2">Standard Format</h4>
         <p className="mb-1">
           <b>Position: </b>
           <span>[Insert Reference Name]</span>
         </p>
         <p className="mb-1">
-          <b>Company Name: </b>
+          <b>Candidate Name: </b>
           <span>[Insert Candidate Name]</span>
         </p>
         <p className="mb-1">
@@ -171,16 +171,16 @@ function ViewRequest() {
           <b>Referee Title: </b>
           <span>[Insert Referee Title]</span>
         </p>
-        <p className="mb-1">
+        {/* <p className="mb-1">
           <b>Company Name: </b>
           <span>[Insert Company Name]</span>
-        </p>
+        </p> */}
         <p className="mb-1">
-          <b>Relationship to Candidate:</b>
+          <b>Relationship to Candidate: </b>
           <span>[e.g., Manager, Colleague, Direct Report]</span>
         </p>
         <p className="mb-1">
-          <b>Dates Worked Together:</b>
+          <b>Dates Worked Together:  </b>
           <span>From [Start Date] to [End Date]</span>
         </p>
 
@@ -200,7 +200,7 @@ function ViewRequest() {
                   <div className="YourOriginalAns-container my-2">
                     <p>{question.originalAnswer}</p>
                   </div>
-                  <h6 className="color-gray">Enhanced Answer:</h6>
+                  <h6 className="color-gray">Normalized Answer:</h6>
 
                   <div className="EnchanceAns-container mb-2">
                     <p>{editedAnswers[question.id]}</p>
