@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/ReviewYourReferenceCheckPage.css";
 
@@ -93,7 +93,6 @@ function ReviewYourReferenceCheckPage() {
     // Reset drawing state to false, so new drawings start fresh
     setIsDrawing(false);
   };
-  // Adjust canvas size based on container size, considering device pixel ratio (DPR)
   const resizeCanvas = () => {
     const canvas = canvasRef.current;
     if (canvas && canvas.parentElement) {
@@ -103,21 +102,30 @@ function ReviewYourReferenceCheckPage() {
       const scale = window.devicePixelRatio || 1; // Use DPR for higher quality on high-res screens
 
       // Set canvas width and height considering the device pixel ratio
-      canvas.width = container.clientWidth * scale;
-      canvas.height = container.clientHeight * scale;
+      const width = container.clientWidth * scale;
+      const height = container.clientHeight * scale;
+
+      // Set the canvas size to ensure it matches the scaled size
+      canvas.width = width;
+      canvas.height = height;
 
       // Scale the context to match the device pixel ratio
       context.scale(scale, scale);
 
       // Redraw the signature if necessary
-      context.lineWidth = 4; // Increased line width for better visibility
+      context.lineWidth = 4 * scale; // Line width scaled for higher resolution
       context.lineCap = "round"; // Smooth end of lines
       context.lineJoin = "round"; // Smooth corners of lines
       context.strokeStyle = "black"; // Ensure stroke style remains consistent
+
+      // Optional: Clear the canvas before redrawing to avoid artifacts
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Optional: Anti-aliasing is handled automatically by most browsers for high-DPI screens.
+      context.imageSmoothingEnabled = true; // This is for smoother rendering
+      context.globalCompositeOperation = "source-over"; // Ensure strokes aren't being drawn in unexpected ways.
     }
   };
-
-  // Function to start drawing
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -132,7 +140,6 @@ function ReviewYourReferenceCheckPage() {
     setIsDrawing(true);
   };
 
-  // Function to draw on canvas
   const draw = (e) => {
     if (!isDrawing) return;
     const canvas = canvasRef.current;
@@ -147,12 +154,10 @@ function ReviewYourReferenceCheckPage() {
     ctx.stroke();
   };
 
-  // Function to stop drawing
   const stopDrawing = () => {
     setIsDrawing(false);
   };
 
-  // Update canvas size on window resize
   useEffect(() => {
     resizeCanvas(); // Initial resize on mount
     window.addEventListener("resize", resizeCanvas); // Update size on window resize
@@ -160,7 +165,7 @@ function ReviewYourReferenceCheckPage() {
     return () => {
       window.removeEventListener("resize", resizeCanvas);
     };
-  }, []);
+  }, []); // The empty dependency array means this runs only once (on mount)
 
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
