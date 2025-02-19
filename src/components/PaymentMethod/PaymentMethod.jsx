@@ -120,6 +120,7 @@ function PaymentMethod() {
                         </clipPath>
                       </defs>
                     </svg>
+
                     GCASH
                   </Button>
                   

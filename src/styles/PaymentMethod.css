@@ -45,18 +45,23 @@
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 4px;
 }
 .payment-methods-btn {
     background-color: white;
     color: var(--font-black);
     border: none;
-    max-width: 120px;
-    flex: 1 1 120px;
+    max-height: 90px;
+    max-width: 90px;
+    flex: 0 1 90px;
 }
 .payment-methods-btn:hover{
     background-color: var(--bg-fade-signup);
     color: var(--font-black);
+}
+.payment-methods-btn:active{
+    background-color: #acacac !important;
+    color: var(--font-black) !important;
 }
 .box-show-044 {
     box-shadow: 0px 4px 4px #00000040;
