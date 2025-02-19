@@ -8,7 +8,6 @@ function ChooseYourInterviewMethodPage() {
 
   // Handle the method selection and navigate to next page
   const handleSelection = (method) => {
-    console.log(`Selected method: ${method}`);
     setSelectedMethod(method);
     navigate("/reference-instructions", {
       state: { selectedMethod: method }, // Pass selectedMethod with the correct key
