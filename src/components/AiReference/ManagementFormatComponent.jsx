@@ -13,6 +13,8 @@ const ManagementFormatComponent = ({
         <h4 className="color-blue">Management Formats</h4>
         <p> Questions tailored for managerial and leadership roles</p>
       </div>
+      <div className="Format-Container">
+
       {ManagementQuestionsSets && ManagementQuestionsSets.length > 0 ? (
         ManagementQuestionsSets.map((item) => (
           <div key={item.id} className="question-set-container border mb-3">
@@ -57,6 +59,7 @@ const ManagementFormatComponent = ({
       ) : (
         <div>No questions found</div>
       )}
+      </div>
     </>
   );
 };

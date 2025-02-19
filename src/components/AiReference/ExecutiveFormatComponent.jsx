@@ -13,7 +13,7 @@ const ExecutiveFormatComponent = ({
         <h4 className="color-yellow">Executive Formats</h4>
         <p> In-depth questions for senior executive positions   </p>
       </div>
-      <div className="AiReference-Question-Sets-Container">
+      <div className="Format-Container">
 
       {ExecutiveQuestionsSets && ExecutiveQuestionsSets.length > 0 ? (
         ExecutiveQuestionsSets.map((item) => (
