@@ -83,8 +83,14 @@ import ReferenceCheckQuestionnairePage from "./page/ReferenceCheckQuestionnaireP
 // ReviewYourReferenceCheckPage
 import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.jsx";
 
+// ReferenceCheckInstructionsPage
+import ReferenceCheckInstructionsPage from "./page/ReferenceCheckInstructionsPage.jsx";
+
 // ViewRequest
 import ViewRequest from "./components/AiReference/ViewRequest.jsx";
+
+// PaymentMethod
+import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
 
 function App() {
   const { user } = useAuthContext();
@@ -209,6 +215,11 @@ function App() {
             path="/reference-interview-method"
             element={<ChooseYourInterviewMethodPage />}
           />
+          {/* ReferenceCheckInstructionsPage*/}
+          <Route
+            path="/reference-instructions"
+            element={<ReferenceCheckInstructionsPage />}
+          />
           {/* ReferenceCheckQuestionnairePage*/}
           <Route
             path="/reference-questionnaire"
@@ -271,6 +282,10 @@ function App() {
         <Route
           path="/ResumeFitOptimizer/SaveAndExportResumes"
           element={<RFOSaveAndExportResumePage />}
+        />
+        <Route
+          path="/PaymentMethod"
+          element={<PaymentMethod />}
         />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

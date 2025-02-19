@@ -205,7 +205,7 @@ const DPAPopUp = ({ showModal, setShowModal, handleContinue }) => {
               onClick={handleContinue}
               disabled={!isChecked} // Disable button if checkbox is not checked
             >
-              Continue
+              Agree
             </button>
           </div>
         </div>

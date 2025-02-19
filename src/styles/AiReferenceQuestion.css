@@ -17,7 +17,7 @@
 }
 .AiReference-Question-Sets-Container {
   overflow-y: auto;
-  height: 80%;
+  height: 40vh;
   padding-right: 10px;
 }
 .AiReference-table-title img {
@@ -180,14 +180,16 @@
 .questions-list::-webkit-scrollbar,
 .dropdown-content-q-sets ul::-webkit-scrollbar,
 .AiReference-Question-Sets-Container::-webkit-scrollbar,
-.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar {
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar,
+.Format-Container::-webkit-scrollbar {
   width: 10px;
 }
 
 .questions-list::-webkit-scrollbar-thumb,
 .dropdown-content-q-sets ul::-webkit-scrollbar-thumb,
 .AiReference-Question-Sets-Container::-webkit-scrollbar-thumb ,
-.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-thumb {
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-thumb,
+.Format-Container::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
   border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -199,7 +201,8 @@
 .questions-list::-webkit-scrollbar-thumb:hover,
 .dropdown-content-q-sets ul::-webkit-scrollbar-thumb:hover,
 .AiReference-Question-Sets-Container::-webkit-scrollbar-thumb:hover ,
-.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-thumb:hover {
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-thumb:hover,
+.Format-Container::-webkit-scrollbar-thumb:hover {
 
   background-color: var(--primary-color);
 }
@@ -207,7 +210,8 @@
 .questions-list::-webkit-scrollbar-track,
 .dropdown-content-q-sets ul::-webkit-scrollbar-track,
 .AiReference-Question-Sets-Container::-webkit-scrollbar-track ,
-.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-track {
+.ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-track,
+.Format-Container::-webkit-scrollbar-track {
 
   background-color: #f1f1f1;
   border-radius: 6px;
@@ -235,4 +239,11 @@
   border-radius: 50px !important;
   background: var(--secondary-color);
   
+}
+
+/* Format format */
+.Format-Container{
+  overflow-y: auto;
+  height: 50vh;
+  padding-right: 10px;
 }

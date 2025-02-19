@@ -17,6 +17,8 @@
   max-width: 900px;
   border-radius: 20px;
   margin-bottom: 10vh !important;
+  background: var(--font-white);
+  border: 1px solid #dedede;
 }
 
 .form-AiReferenceCheckVerification {
