@@ -1,16 +1,14 @@
 import React, { useState, useMemo } from "react";
-import { Modal, Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { useSignup } from "../../hook/useSignup";
-import { useNavigate } from "react-router-dom";
 import DPAPopUp from "./DPAPopUp"; // Import the DPAPopUp modal component
 
 const CompanyRegistrationForm = () => {
   const SERVICE = "AI_REFERENCE";
   const { signup, isLoading, error, message, status } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -35,11 +33,6 @@ const CompanyRegistrationForm = () => {
     setShowModal(false); // Close modal
   };
 
-  const handleClose = () => {
-    setShowModal(false);
-    setIsChecked(false); // Keep the checkbox unchecked if modal is closed without clicking "Continue"
-  };
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -59,7 +52,7 @@ const CompanyRegistrationForm = () => {
 
   const disableButton = useMemo(() => {
     return validateForm || isLoading || !isChecked;
-  });
+  },[validateForm, isLoading, isChecked]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -330,7 +323,7 @@ const CompanyRegistrationForm = () => {
               <img
                 src={RegisterCompanyAvatar}
                 className="companyregisteravatar"
-                alt="Image not found"
+                alt="Register Avatar"
               />
             </Col>
           </Row>
