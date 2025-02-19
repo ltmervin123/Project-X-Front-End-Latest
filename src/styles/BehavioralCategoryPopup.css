@@ -9,16 +9,21 @@
 .custom-modal-width-behavioral {
   max-width: 1150px !important;
   width: 90% !important;
-  /* height: 90% !important; */
   max-height: 90vh !important;
   border: none !important;
 }
-.custom-modal-width-behavioral  > .modal-content {
+.custom-modal-width-behavioral .modal-content {
   background: url("../assets/bg-pop-up.png") no-repeat;
   background-size: cover;
   border-radius: 20px;
   border: none;
   height: 100%;
+  width: 1150px !important;
+
+}
+.custom-modal-width-behavioral .modal-content > .modal-body{
+width: 100%;
+height: auto;
 }
 
 .behavioral-cards {

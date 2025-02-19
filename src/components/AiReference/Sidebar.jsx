@@ -70,7 +70,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/AiReferenceRequestPage"
+        to="/AiReferenceRequest"
       >
         <svg
           width="24"
@@ -90,7 +90,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/AiReferenceQuestionPage"
+        to="/AiReferenceQuestion"
       >
         <svg
           width="24"
@@ -110,7 +110,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/AiReferenceReportsPage"
+        to="/AiReferenceReports"
       >
         <svg
           width="15"

@@ -1,0 +1,55 @@
+.created-account-container {
+    background: rgb(244, 106, 5);
+    background: linear-gradient(
+      128deg,
+      rgba(244, 106, 5, 1) 32%,
+      rgba(245, 199, 121, 1) 95%,
+      rgba(245, 199, 121, 1) 95%
+    );
+    color: white;
+    padding: 40px !important;
+    width: 500px !important;
+    height: 480px !important;
+    position: relative;
+    border-radius: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 0;
+    padding: 50px 70px !important;
+}
+.created-account-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1 !important;
+}
+.created-account-header > svg {
+    margin-bottom: 10px;
+}
+.created-account-header > h2 {
+    text-align: center;
+    margin-bottom: 10px !important;
+    font-weight: 600;
+    
+}
+
+.created-account-container > p {
+    text-align: center;
+    font-weight: 100 !important;
+    width: 85%;
+}
+.created-account-container > p
+ {
+    font-size: 14px !important;
+    margin-bottom: 50px !important;
+}
+.btn-activate-now {
+    padding: 5px 40px;
+    border-radius: 50px;
+    background: var(--secondary-color);
+    color: var(--font-white) !important;
+    border: none;
+}

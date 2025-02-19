@@ -391,6 +391,24 @@
   right: 20px;
 }
 
+/* Customizing the scrollbar */
+.table-responsive tbody::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.table-responsive tbody::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.table-responsive tbody::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.table-responsive tbody::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}
 @media (min-width: 1500px) {
   .button-container-analytics > button{
     width: 150px;

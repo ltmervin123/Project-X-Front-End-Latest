@@ -1,0 +1,41 @@
+.password-changed-container {
+    background: rgb(244, 106, 5);
+    background: linear-gradient(
+      128deg,
+      rgba(244, 106, 5, 1) 32%,
+      rgba(245, 199, 121, 1) 95%,
+      rgba(245, 199, 121, 1) 95%
+    );
+    color: white;
+    padding: 40px !important;
+    width: 500px !important;
+    height: 480px !important;
+    position: relative;
+    border-radius: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 0;
+    padding: 20px;
+}
+.password-changed-header {
+    line-height: 1 !important;
+    font-family: Roboto;
+}
+.password-changed-header > h2 {
+    text-align: center;
+    margin-bottom: 0;
+    font-weight: 600;
+    
+}
+.password-changed-container > p {
+    text-align: center;
+}
+.password-changed-container > p,
+.password-changed-container > ul > li
+ {
+    font-size: 14px !important;
+    margin-bottom: 0 !important;
+}

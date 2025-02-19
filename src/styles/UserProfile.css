@@ -12,7 +12,8 @@
 .user-profile-section {
     border: 2px solid var(--font-white);
     border-radius: 20px;
-    height: 90vh;
+    height: auto;
+    max-height: 85vh;
     padding: 30px 100px 50px 50px;
     overflow: hidden;
 }

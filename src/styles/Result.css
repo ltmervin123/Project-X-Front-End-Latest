@@ -454,3 +454,21 @@
 }
 
 
+/* Customizing the scrollbar */
+.interview-data::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.interview-data::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.interview-data::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.interview-data::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}

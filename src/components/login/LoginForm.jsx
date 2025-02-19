@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import google from "../../assets/google-icon.png";
 import fb from "../../assets/fb-icon.png";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "./LoadingScreen";
+const SERVICE = ["AI_REFERENCE", "MOCK_AI"];
+
 const LoginForm = () => {
   const API = process.env.REACT_APP_API_URL;
   const [email, setEmail] = useState("");
@@ -12,16 +15,21 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const [service, setService] = useState(""); // State to track selected service
+  const [service, setService] = useState(SERVICE[1]); // Default is AI Reference Checker
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isLogin = await login(email, password);
-    if (isLogin) {
-      if (service === "Ai Reference Checker") {
-        navigate("/AiReferenceMaindashboard");
-      } else {
-        navigate("/maindashboard");
+    const isLogin = await login(email, password, service);
+    if (isLogin && isLogin?.service) {
+      switch (isLogin.service) {
+        case SERVICE[0]:
+          navigate("/AiReferenceMaindashboard");
+          break;
+        case SERVICE[1]:
+          navigate("/maindashboard");
+          break;
+        default:
+          navigate("/login");
       }
     }
   };
@@ -42,7 +50,7 @@ const LoginForm = () => {
             <h2>LOG IN</h2>
             <p>Welcome back, let’s dive in!</p>
           </div>
-          <div className="account-details">
+          <div className="account-details account-details-login">
             <h3>Account Details</h3>
             <p>Please enter your credentials to access your account.</p>
             <form className="login-form" onSubmit={handleSubmit}>
@@ -107,7 +115,11 @@ const LoginForm = () => {
                   <input
                     type="email"
                     className={`form-control ${
-                      error === "Incorrect email address" ? "is-invalid" : ""
+                      error === "Incorrect email address" ||
+                      error ===
+                        "Account not activated. Check your email for activation"
+                        ? "is-invalid"
+                        : ""
                     }`}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -115,7 +127,11 @@ const LoginForm = () => {
                   />
                   <label
                     className={`input-label ${
-                      error === "Incorrect email address" ? "is-invalid" : ""
+                      error === "Incorrect email address" ||
+                      error ===
+                        "Account not activated. Check your email for activation"
+                        ? "is-invalid"
+                        : ""
                     }`}
                   >
                     Email
@@ -192,7 +208,11 @@ const LoginForm = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     className={`form-control ${
-                      error === "Incorrect password" ? "is-invalid" : ""
+                      error === "Incorrect password" ||
+                      error ===
+                        "Account not activated. Check your email for activation"
+                        ? "is-invalid"
+                        : ""
                     }`}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -200,7 +220,11 @@ const LoginForm = () => {
                   />
                   <label
                     className={`input-label ${
-                      error === "Incorrect password" ? "is-invalid" : ""
+                      error === "Incorrect password" ||
+                      error ===
+                        "Account not activated. Check your email for activation"
+                        ? "is-invalid"
+                        : ""
                     }`}
                   >
                     Password
@@ -218,7 +242,9 @@ const LoginForm = () => {
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </span>
 
-                  {error === "Incorrect password" && (
+                  {(error === "Incorrect password" ||
+                    error ===
+                      "Account not activated. Check your email for activation") && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>
@@ -245,9 +271,8 @@ const LoginForm = () => {
                   onChange={(e) => setService(e.target.value)}
                   required
                 >
-                  <option value="">Choose Your Service</option>
-                  <option value="Mock AI">Mock AI</option>
-                  <option value="Ai Reference Checker"> Ai Reference Checker</option>
+                  <option value={SERVICE[1]}>Mock AI</option>
+                  <option value={SERVICE[0]}> AI Reference Checker</option>
                 </select>
               </div>
               <button
@@ -259,20 +284,19 @@ const LoginForm = () => {
               </button>
             </form>
           </div>
-
-          <div className="signup-container text-center">
-            <p>Or sign up using</p>
+          <div className="signup-container text-center ">
+            <p className="m-3">Or sign up using</p>
             <div className="social-icons">
               <button
                 className="social-icon-btn"
                 onClick={handleGoogleLogin}
-                disabled={service === "Ai Reference Checker"} // Disable when service is "Ai Reference Checker"
+                disabled={service === SERVICE[0]} // Disable when service is "Ai Reference Checker"
               >
                 <img src={google} alt="Google" className="social-icon" />
               </button>
               <button
                 className="social-icon-btn"
-                disabled={service === "Ai Reference Checker"} // Disable when service is "Ai Reference Checker"
+                disabled={service === SERVICE[0]} // Disable when service is "Ai Reference Checker"
               >
                 <img src={fb} alt="Facebook" className="social-icon" />
               </button>
@@ -291,10 +315,15 @@ const LoginForm = () => {
             <button
               className="signup-button"
               onClick={() => {
-                if (service === "Ai Reference Checker") {
-                  window.location.href = "/CompanyRegistrationForm";
-                } else {
-                  window.location.href = "/signup";
+                switch (service) {
+                  case SERVICE[0]:
+                    navigate("/company-registration");
+                    break;
+                  case SERVICE[1]:
+                    navigate("/signup");
+                    break;
+                  default:
+                    navigate("/login");
                 }
               }}
             >
