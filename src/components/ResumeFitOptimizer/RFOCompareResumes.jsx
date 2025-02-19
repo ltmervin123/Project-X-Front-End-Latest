@@ -44,7 +44,9 @@ function CompareResumes() {
               </Row>
             </Row>
             <Row className="compareresumes-container-row compareresumes-btn-content d-flex justify-content-around align-items-center flex-row gap-2 w-100">
-                <div className="compareresumes-container-btn d-flex justify-content-between align-items-center w-100">
+                            <Col className="px-3">
+                
+                <div className="compareresumes-container-btn d-flex justify-content-between align-items-center ">
                   {/* change or remove href to cancel */}
                   <button 
                     className="btn-cancel-optimizer btn-primary"
@@ -64,6 +66,7 @@ function CompareResumes() {
                   </button>
 
                 </div>
+                </Col>
             </Row>
           </div>
         </div>

@@ -12,6 +12,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
   const [position, setPosition] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
+  const isFormValid = name && email && position;
 
   const [positions, setPositions] = useState(() => {
     const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
@@ -114,7 +115,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
               Position
             </Form.Label>
             <Form.Select
-              value={positions}
+              value={position}
               onChange={handlePositionChange}
               required
             >
@@ -133,7 +134,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
             <button
               className="btn-add-candidate"
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || !isFormValid}
             >
               {isLoading ? "Adding..." : "Add Candidate"}
             </button>

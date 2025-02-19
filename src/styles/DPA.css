@@ -1,0 +1,110 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
+}
+.cr-agreement-box-check{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    line-height: 1;
+    font-size: 12px;
+    margin-block: 10px;
+  }
+  .cr-agreement-box-check > .cr-form-check-input {
+    margin: 0 !important;
+    margin-right: 2px !important;
+    padding: 6px;
+  
+  }
+  .cr-agreement-box-check label{
+  font-size: 14px;
+  line-height: 1 !important;
+  margin: 0px !important;
+  }
+  
+  
+  
+  .cr-dpa-modal-agreement .modal-dialog {
+    width: 100% !important;
+    max-width: 1150px !important;
+  }
+  .cr-dpa-container {
+    overflow-y: hidden;
+  }
+  .cr-dpa-content {
+    width: 100% !important;
+    max-width: 1150px !important;
+    height: 510px;
+    overflow: auto;
+  }
+  .cr-dpa-content > h2 {
+    width: 100%;
+    font-size: 24px;
+  }
+  
+  .cr-dpa-content > p {
+    font-size: 14px;
+  }
+  .cr-section {
+    width: 100%;
+    margin-block: 5px;
+  }
+  .cr-section > .cr-section-title {
+    font-weight: 600;
+    font-size: 24px;
+  }
+  .cr-section .cr-section-description {
+    font-size: 14px;
+  }
+  .cr-section > .acceptance {
+    color: #686868;
+    font-style: italic;
+  }
+  .btn-cr-continue {
+    background-color: #F46A05;
+    color: var(--font-white) !important;
+    font-weight: 400;
+    padding: 5px 50px;
+    font-size: 18px;
+    border: none;
+    margin-bottom: 5px;
+    border-radius: 25px;
+  }
+  
+  .btn-cr-continue.disable {
+    background: var(--input-bg) !important; /* Background color for the disabled state */
+  }
+  
+  .btn-cr-continue:disabled {
+    background: var(--input-bg) !important; /* Ensure the background color when the button is disabled */
+    cursor: not-allowed; /* Optional: Change the cursor to show it's disabled */
+  }
+  
+  
+  /* Scrollbar styling */
+  .cr-dpa-content::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+  }
+  
+  .cr-dpa-content::-webkit-scrollbar-track {
+    background: #D1D1D1;
+    width: 12px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+  }
+  
+  .cr-dpa-content::-webkit-scrollbar-thumb {
+    background-color: #F46A05; /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners */
+    width: 12px; /* Set the width of the thumb */
+    height: 12px; /* Set the height to the same as the width for a circle */
+  }

@@ -385,6 +385,7 @@ textarea::placeholder {
     border: 1px solid #000 !important;
     box-shadow: 0px 4px 4px #00000040;
     height : calc(100vh - 200px) ;
+    width: 95%;
     padding: 20px;
     border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -401,6 +402,7 @@ textarea::placeholder {
     background: var(--secondary-color);
     color: var(--font-white);
     border: none;
+    width: 500px;
     border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -416,7 +418,7 @@ textarea::placeholder {
     justify-content: center;
 }
 .btn-start-new-optimization {
-    width: auto;
+    width: 300px !important;
     background: var(--primary-color) !important;
 }
 .btn-start-new-optimization:hover {

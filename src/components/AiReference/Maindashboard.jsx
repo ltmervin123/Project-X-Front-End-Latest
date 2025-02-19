@@ -134,12 +134,12 @@ const lineOptions = {
               <td style="font-weight: 500;">${month}</td>
             </tr>
             <tr>
-              <td style="color: #1877F2; font-weight: 200;">Total: ${
+              <td style="color: #1877F2; font-weight: 400;">Total: ${
                 lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
               }</td>
             </tr>
             <tr>
-              <td style="color: #319F43;font-weight: 200;">Complete: ${
+              <td style="color: #319F43;font-weight: 400;">Complete: ${
                 lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
               }</td>
             </tr>

@@ -1,19 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddRequestPopUp from "./AddRequestPopUp";
 import { FaSearch } from "react-icons/fa";
 import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
 import ViewRequest from "./ViewRequest";
+import axios from "axios";
 
 const ReferenceRequest = () => {
+  const API = process.env.REACT_APP_API_URL;
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const companyId = USER?.id;
+  const token = USER?.token;
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [requests, setRequests] = useState(
-    JSON.parse(localStorage.getItem("referenceRequests")) || []
+  const [reference, setReference] = useState(
+    JSON.parse(localStorage.getItem("reference")) || []
   );
+
+  const fetchReference = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-request-by-companyId/${companyId}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem(
+          "reference",
+          JSON.stringify(response.data.reference)
+        );
+        setReference(response.data.reference);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const reFetchReference = async () => {
+    try {
+      localStorage.removeItem("reference");
+      await fetchReference();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const getReferenceWhenFirstRender = async () => {
+      if (reference.length === 0) {
+        await fetchReference();
+      }
+    };
+
+    getReferenceWhenFirstRender();
+  }, []);
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -25,11 +69,8 @@ const ReferenceRequest = () => {
     setShowPopup(false);
   };
 
-  const handleAddRequest = (newRequest) => {
-    setRequests((prevRequests) => [
-      ...prevRequests,
-      { id: prevRequests.length + 1, ...newRequest },
-    ]);
+  const handleAddReference = async () => {
+    await reFetchReference();
   };
 
   const handleViewDetails = (candidate) => {
@@ -43,6 +84,11 @@ const ReferenceRequest = () => {
 
   const handleViewReference = () => {
     setShowViewRequest(true); // Set to true to show ViewRequest component
+  };
+
+  const formatDate = (date) => {
+    if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
+    return date.split("T")[0]; // Extract only YYYY-MM-DD
   };
 
   // Function to get the color based on status
@@ -105,7 +151,7 @@ const ReferenceRequest = () => {
         {showPopup && (
           <AddRequestPopUp
             onClose={handleClosePopup}
-            onAddRequest={handleAddRequest}
+            onAddRequest={handleAddReference}
           />
         )}
       </div>
@@ -114,7 +160,7 @@ const ReferenceRequest = () => {
         <div className="AiReference-table-title">
           <h4>Reference Requests Lists</h4>
         </div>
-        {requests && requests.length > 0 ? (
+        {reference && reference.length > 0 ? (
           <>
             <p>Overview of all reference requests</p>
             <table>
@@ -129,41 +175,41 @@ const ReferenceRequest = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-              {/* <tbody>
-                {requests
+              <tbody>
+                {reference
                   .filter(
-                    (request) =>
-                      request.candidate
+                    (reference) =>
+                      reference.candidate
                         .toLowerCase()
                         .includes(searchQuery.toLowerCase()) ||
-                      request.referee
+                      reference.referee
                         .toLowerCase()
                         .includes(searchQuery.toLowerCase()) ||
-                      request.position
+                      reference.position
                         .toLowerCase()
                         .includes(searchQuery.toLowerCase())
                   )
-                  .map((request) => (
-                    <tr key={request.id}>
-                      <td>{request.candidate}</td>
-                      <td>{request.referee}</td>
-                      <td>{request.position}</td>
-                      <td style={{ color: getStatusColor(request.status) }}>
-                        {request.status}
+                  .map((reference) => (
+                    <tr key={reference.id}>
+                      <td>{reference.candidate}</td>
+                      <td>{reference.referee}</td>
+                      <td>{reference.position}</td>
+                      <td style={{ color: getStatusColor(reference.status) }}>
+                        {reference.status}
                       </td>
-                      <td>{request.dateSent}</td>
-                      <td>{request.dateDue}</td>
+                      <td>{formatDate(reference.dateSent)}</td>
+                      <td>{formatDate(reference.dueDate)}</td>
                       <td>
                         <button
                           className="btn-view-details"
-                          onClick={() => handleViewDetails(request)}
+                          onClick={() => handleViewDetails(reference)}
                         >
                           View Details
                         </button>
                       </td>
                     </tr>
                   ))}
-              </tbody> */}
+              </tbody>
             </table>
             <div className="d-flex justify-content-center w-100">
               <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">

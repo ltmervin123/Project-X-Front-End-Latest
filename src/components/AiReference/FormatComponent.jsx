@@ -9,7 +9,7 @@ const FormatComponent = ({
   return (
     <>
       <div className="AiReference-table-title">
-        format will depend on selectedFormat
+        {/* format will depend on selectedFormat */}
         <h4 className="color-green">Standard Formats</h4> 
         <p>Standardized question sets provided by HR-Hatch</p>
       </div>

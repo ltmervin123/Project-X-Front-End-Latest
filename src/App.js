@@ -20,6 +20,7 @@ import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuthMockAI from "./components/session/requireAuthMockAI.jsx";
 import RequireAuthAIReference from "./components/session/requireAuthAIReference.jsx";
+import RequireAuthVefifyReferee from "./components/session/requireAuthVerifyReferee.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 import FailedPage from "./page/LoginFailed.jsx";
@@ -36,7 +37,6 @@ import RTOUploadDocsPage from "./page/RTOUploadDocsPage.jsx";
 import RTOAIResumeOptimizationAnalysis from "./page/RTOAIResumeOptimizationAnalysisPage.jsx";
 import RFOCompareResumes from "./page/RFOCompareResumesPage.jsx";
 import RFOSaveAndExportResumePage from "./page/RFOSaveAndExportResumePage.jsx";
-
 
 /*Forgot page*/
 import Forgotpassword from "./page/ForgotPassPage.jsx";
@@ -196,31 +196,39 @@ function App() {
             />
           </Route>
         </Route>
+
+        <Route element={<RequireAuthVefifyReferee />}>
+          {/* Reference Verification page */}8
+          <Route
+            path="/reference-completed"
+            element={<ReferenceVerification />}
+          />
+          {/* ChooseYourInterviewMethodPage*/}
+          <Route
+            path="/reference-interview-metho"d
+            element={<ChooseYourInterviewMethodPage />}
+          />
+          {/* ReferenceCheckQuestionnairePage*/}
+          <Route
+            path="/reference-questionnaire"
+            element={<ReferenceCheckQuestionnairePage />}
+          />
+          {/* ReviewYourReferenceCheckPage*/}
+          <Route
+            path="/reference-review"
+            element={<ReviewYourReferenceCheckPage />}
+          />
+        </Route>
+
+        {/* reference expired link */}
+        <Route path="/reference-expired-link" element={<ExpiredLink />} />
+
         {/* AiReferenceCheckVerificationPage*/}
         <Route
           path="/reference-request/:token"
           element={<AiReferenceCheckVerificationPage />}
         />
-        {/* Reference Verification page */}8
-        <Route
-          path="/reference-completed"
-          element={<ReferenceVerification />}
-        />
-        {/* ChooseYourInterviewMethodPage*/}
-        <Route
-          path="/reference-interview-method"
-          element={<ChooseYourInterviewMethodPage />}
-        />
-        {/* ReferenceCheckQuestionnairePage*/}
-        <Route
-          path="/reference-questionnaire"
-          element={<ReferenceCheckQuestionnairePage />}
-        />
-        {/* ReviewYourReferenceCheckPage*/}
-        <Route
-          path="/reference-review"
-          element={<ReviewYourReferenceCheckPage />}
-        />
+
         {/*Company Registration */}
         <Route
           path="/company-registration"
@@ -249,22 +257,19 @@ function App() {
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
-
-
-
         <Route path="/ResumeFitOptimizer" element={<RTOUploadDocsPage />} />
-        <Route path="/ResumeFitOptimizer/AIResumeOptimizationAnalysis" element={<RTOAIResumeOptimizationAnalysis />} />
-        <Route path="/ResumeFitOptimizer/CompareResumes" element={<RFOCompareResumes />} />
-        <Route path="/ResumeFitOptimizer/SaveAndExportResumes" element={<RFOSaveAndExportResumePage />} />
-        
-
-
-
-
-
-
-
-
+        <Route
+          path="/ResumeFitOptimizer/AIResumeOptimizationAnalysis"
+          element={<RTOAIResumeOptimizationAnalysis />}
+        />
+        <Route
+          path="/ResumeFitOptimizer/CompareResumes"
+          element={<RFOCompareResumes />}
+        />
+        <Route
+          path="/ResumeFitOptimizer/SaveAndExportResumes"
+          element={<RFOSaveAndExportResumePage />}
+        />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>

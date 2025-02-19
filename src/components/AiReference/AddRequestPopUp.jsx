@@ -70,6 +70,10 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     setCandidates(filteredCandidates);
   }, [selectedPosition]);
 
+  const isFormValid =
+  selectedCandidate && refereeName && refereeEmail && selectedPosition && questionFormatType;
+
+
   const handlePositionChange = (e) => {
     const jobName = e.target.value;
     const selectedPosition = positions.find(
@@ -153,6 +157,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
       });
 
       if (response.status === 201) {
+        onAddRequest();
         onClose();
       }
     } catch (error) {
@@ -191,7 +196,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             controlId="formPosition"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Position
             </Form.Label>
             <Form.Select
@@ -215,7 +220,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             controlId="formCandidateName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Candidate
             </Form.Label>
             <Form.Select
@@ -246,16 +251,15 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             controlId="formRefereeName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Referee Name
             </Form.Label>
-            <Form.Select
+            <Form.Control
               value={refereeName}
               onChange={(e) => setRefereeName(e.target.value)}
+              placeholder="Enter Referee Name"
               required
-            >
-              <option value="">Select Referee</option>
-            </Form.Select>
+            />
           </Form.Group>
 
           {/* Referee's Email input */}
@@ -263,14 +267,14 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             controlId="formRefereeEmail"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Referee's Email
             </Form.Label>
             <Form.Control
               type="email"
               value={refereeEmail}
               onChange={(e) => setRefereeEmail(e.target.value)}
-              placeholder="sample@hrhatch.com"
+              placeholder="johndoe@gmail.com"
               required
             />
           </Form.Group>
@@ -280,7 +284,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             controlId="formQuestionFormat"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="me-2" style={{ width: "220px" }}>
               Reference Question
             </Form.Label>
 
@@ -343,7 +347,8 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             <button
               className="btn-add-candidate"
               type="submit"
-              disabled={isLoading}
+              // disabled={isLoading}
+              disabled={!isFormValid} // Disable if the form is not valid
             >
               {isLoading ? "Sending..." : "Send Request"}
             </button>

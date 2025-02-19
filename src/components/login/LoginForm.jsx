@@ -15,9 +15,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const [service, setService] = useState(""); // State to track selected service
-
-
+  const [service, setService] = useState(SERVICE[1]); // Default is AI Reference Checker
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -273,7 +271,6 @@ const LoginForm = () => {
                   onChange={(e) => setService(e.target.value)}
                   required
                 >
-                  <option value="">Choose Your Service</option>
                   <option value={SERVICE[1]}>Mock AI</option>
                   <option value={SERVICE[0]}> AI Reference Checker</option>
                 </select>
@@ -287,8 +284,8 @@ const LoginForm = () => {
               </button>
             </form>
           </div>
-          <div className="signup-container text-center">
-            <p>Or sign up using</p>
+          <div className="signup-container text-center ">
+            <p className="m-3">Or sign up using</p>
             <div className="social-icons">
               <button
                 className="social-icon-btn"
@@ -320,7 +317,7 @@ const LoginForm = () => {
               onClick={() => {
                 switch (service) {
                   case SERVICE[0]:
-                    navigate("/CompanyRegistration");
+                    navigate("/company-registration");
                     break;
                   case SERVICE[1]:
                     navigate("/signup");
@@ -335,7 +332,6 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
-      
     </div>
   );
 };
