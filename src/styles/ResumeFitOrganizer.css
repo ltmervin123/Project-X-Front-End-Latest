@@ -73,6 +73,7 @@
 .uploadDocs-job-description > .upload-area > button {
     background: var(--secondary-color) !important;
     font-style: normal;
+    padding: 5px 10px;
 }
 .ResumeFitOptimizer-uploadDocs-job-description {
     height: 170px;
