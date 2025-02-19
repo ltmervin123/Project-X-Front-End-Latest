@@ -86,6 +86,9 @@ import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.js
 // ViewRequest
 import ViewRequest from "./components/AiReference/ViewRequest.jsx";
 
+// PaymentMethod
+import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
+
 function App() {
   const { user } = useAuthContext();
 
@@ -271,6 +274,10 @@ function App() {
         <Route
           path="/ResumeFitOptimizer/SaveAndExportResumes"
           element={<RFOSaveAndExportResumePage />}
+        />
+        <Route
+          path="/PaymentMethod"
+          element={<PaymentMethod />}
         />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
