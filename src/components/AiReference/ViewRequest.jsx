@@ -195,14 +195,14 @@ function ViewRequest() {
                       <b>Question {question.id}:</b> {question.text}
                     </p>
                   </div>
-                  <h6 className="color-gray">Original Answer:</h6>
+                  {/* <h6 className="color-gray">Original Answer:</h6>
 
                   <div className="YourOriginalAns-container my-2">
                     <p>{question.originalAnswer}</p>
-                  </div>
+                  </div> */}
                   <h6 className="color-gray">Normalized Answer:</h6>
 
-                  <div className="EnchanceAns-container mb-2">
+                  <div className="EnchanceAns-container mb-4">
                     <p>{editedAnswers[question.id]}</p>
                   </div>
                 </div>

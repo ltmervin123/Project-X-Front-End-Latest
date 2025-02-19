@@ -1,6 +1,6 @@
 import React from "react";
 
-const FormatComponent = ({
+const StandardFormatComponent = ({
   StandardQuestionsSets,
   selectedSet,
   handleSetClick,
@@ -13,7 +13,7 @@ const FormatComponent = ({
         <h4 className="color-green">Standard Formats</h4> 
         <p>Standardized question sets provided by HR-Hatch</p>
       </div>
-      <div className="AiReference-Question-Sets-Container">
+      <div className="Format-Container">
 
       {StandardQuestionsSets && StandardQuestionsSets.length > 0 ? (
         StandardQuestionsSets.map((item) => (
@@ -64,4 +64,4 @@ const FormatComponent = ({
   );
 };
 
-export default FormatComponent;
+export default StandardFormatComponent;
