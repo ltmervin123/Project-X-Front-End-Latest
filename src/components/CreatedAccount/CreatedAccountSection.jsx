@@ -1,6 +1,8 @@
-import React from "react";
+import React, { use } from "react";
+
 
 const CreatedAccountSection = () => {
+
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">

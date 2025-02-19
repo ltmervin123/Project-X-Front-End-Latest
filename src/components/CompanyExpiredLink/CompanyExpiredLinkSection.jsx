@@ -33,7 +33,7 @@ const CompanyExpiredLinkSection = () => {
 
           <button
             className="btn-bt-dashboard"
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = "/company-registration")}
           >
             Back to Registration{" "}
           </button>
