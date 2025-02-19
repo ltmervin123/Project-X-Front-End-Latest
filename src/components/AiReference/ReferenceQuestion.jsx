@@ -93,11 +93,19 @@ const ReferenceQuestion = () => {
 
   const handleSetClick = (index) => {
     setSelectedSet(index === selectedSet ? null : index);
-    setFlippedState((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index], // Toggle the flipped state for the clicked set
-    }));
+  
+    setFlippedState((prevState) => {
+      const newState = Object.keys(prevState).reduce((acc, key) => {
+        acc[key] = false; // Reset all dropdowns to the original state
+        return acc;
+      }, {});
+  
+      newState[index] = !prevState[index]; // Flip only the clicked dropdown
+  
+      return newState;
+    });
   };
+  
 
   // HR-HATCH Format Data
   const hrHatchFormats = [
