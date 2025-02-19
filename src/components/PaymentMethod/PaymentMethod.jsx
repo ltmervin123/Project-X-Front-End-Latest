@@ -9,7 +9,7 @@ function PaymentMethod() {
       name: "Payment with Mastercard",
       input: [
         { name: "Card Number", type: "text", placeholder: "1234567890123456" },
-        { name: "Expiry Date", type: "date", placeholder: "" },
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
         { name: "CVV", type: "text", placeholder: "123" },
         { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
       ],
@@ -220,7 +220,31 @@ function PaymentMethod() {
                       <Form.Label className="me-2" style={{ width: "150px" }}>
                         {field.name}
                       </Form.Label>
-                      <Form.Control type={field.type} placeholder={field.placeholder} />
+                      <Form.Control 
+                        type={field.type} 
+                        placeholder={field.placeholder} 
+                        autoComplete="off"
+                        maxLength={
+                          field.name === "Card Number"
+                          ? "16" : field.name === "Account Number"
+                          ? "16" : field.name === "Expiry Date"
+                          ? "5" :  field.name === "CVV"
+                          ? "3" : undefined
+                        }
+                        onInput={
+                          field.name === "Card Number" || field.name === "Account Number"  || field.name === "CVV" 
+                            ? (e) => (e.target.value = e.target.value.replace(/\D/g, ""))
+                            : field.name === "Expiry Date"
+                              ? (e) => {
+                                  let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                                  if (value.length > 2) {
+                                    value = value.slice(0, 2) + "/" + value.slice(2); // Auto-insert "/"
+                                  }
+                                  e.target.value = value.slice(0, 5); // Limit to MM/YY format
+                                }
+                              : undefined
+                        }
+                      />
                     </Form.Group>
                   ))}
                   <button
