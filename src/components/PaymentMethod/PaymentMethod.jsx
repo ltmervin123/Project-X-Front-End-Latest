@@ -226,9 +226,9 @@ function PaymentMethod() {
                         autoComplete="off"
                         maxLength={
                           field.name === "Card Number"
-                          ? "16" : field.name === "Account Number"
-                          ? "16" : field.name === "Expiry Date"
-                          ? "5" :  field.name === "CVV"
+                          ? "19" : field.name === "Account Number"
+                          ? "19" : field.name === "Expiry Date"
+                          ? "7" :  field.name === "CVV"
                           ? "3" : undefined
                         }
                         onInput={
