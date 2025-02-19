@@ -11,6 +11,8 @@ function AiReferenceCheckVerificationPage() {
   const API = process.env.REACT_APP_API_URL;
   const [isExpired, setIsExpired] = useState(false);
   const [refereeName, setRefereeName] = useState("");
+  const [referenceId, setReferenceId] = useState("");
+  const [candidateName, setCandidateName] = useState("");
 
   const validateSession = async () => {
     try {
@@ -28,7 +30,9 @@ function AiReferenceCheckVerificationPage() {
 
       if (response.status === 200) {
         localStorage.setItem("token", token);
+        setCandidateName(response.data.candidateName);
         setRefereeName(response.data.refereeName);
+        setReferenceId(response.data.referenceId);
       }
     } catch (error) {
       setIsExpired(true); // Set expired state if an error occurs
@@ -51,7 +55,11 @@ function AiReferenceCheckVerificationPage() {
   return (
     <div className="container-fluid mock-background">
       <Header />
-      <AiReferenceCheckVerificationForm refereeName={refereeName}/>
+      <AiReferenceCheckVerificationForm
+        refereeName={refereeName}
+        referenceId={referenceId}
+        candidateName={candidateName}
+      />
     </div>
   );
 }
