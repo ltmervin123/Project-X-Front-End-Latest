@@ -30,6 +30,7 @@
 .PaymentMethod-select-payment-methods-container {
     height: 100%;
     width: 100%;
+    overflow: auto;
 }
 .select-payment-methods-content-header {}
 .select-payment-methods-title {}
@@ -42,7 +43,7 @@
 .select-payment-methods-content-selections {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 20px;
 }
@@ -68,6 +69,7 @@
 .PaymentMethod-pay-form-container-header-title {}
 .pay-form-content-infput-field {
     height: 90%;
+    overflow: auto;
 }
 .pay-form-content-infput-field > form {
     height: 100%;
@@ -90,3 +92,51 @@
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* scroll styles */
+.PaymentMethod-select-payment-methods-container,
+.compareresumes-content-resume-original-content,
+.compareresumes-content-resume-optimized-content {
+    --bg-fade-signup: #f0f0f0; /* Example background color for the scrollbar track */
+    --primary-color: #007bff; /* Example primary color for the scrollbar thumb */
+}
+  
+  /* Scrollbar styling */
+.PaymentMethod-select-payment-methods-container::-webkit-scrollbar,
+.compareresumes-content-resume-original-content::-webkit-scrollbar,
+.compareresumes-content-resume-optimized-content::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+  
+.PaymentMethod-select-payment-methods-container::-webkit-scrollbar-track,
+.compareresumes-content-resume-original-content::-webkit-scrollbar-track,
+.compareresumes-content-resume-optimized-content::-webkit-scrollbar-track {
+    background: var(--bg-fade-signup); /* Background of the scrollbar track */
+    width: 12px; /* Width of the scrollbar */
+}
+.PaymentMethod-select-payment-methods-container::-webkit-scrollbar-thumb,
+.compareresumes-content-resume-original-content::-webkit-scrollbar-thumb,
+.compareresumes-content-resume-optimized-content::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: #d65a05; /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners */
+    width: 12px; /* Set the width of the thumb */
+    height: 12px; /* Set the height to the same as the width for a circle */
+}
+  
