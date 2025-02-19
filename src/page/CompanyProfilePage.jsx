@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/MockInterviewPage.css";
 import { Row, Col } from "react-bootstrap";
-import Sidebar from "../components/MockMainDashboard/Sidebar";
+import Sidebar from "../components/AiReference/Sidebar";
 import CompanyProfile from "../components/CompanyProfile/CompanyProfile";
 import Header from "../components/Result/Header";
 

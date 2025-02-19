@@ -169,12 +169,13 @@ function App() {
           </Route>
 
           <Route element={<RequireAuthAIReference />}>
-            {/* AI Reference Checker Dashboard */}
-            <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
+            {/* General Company Dashboard & Profile */}
             <Route
               path="/AiReferenceMaindashboard"
               element={<AiReferenceMainDashboardPage />}
             />
+            <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
+
             <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
             <Route
               path="/AiReferenceCandidates"
@@ -205,7 +206,8 @@ function App() {
           />
           {/* ChooseYourInterviewMethodPage*/}
           <Route
-            path="/reference-interview-metho"d
+            path="/reference-interview-metho"
+            d
             element={<ChooseYourInterviewMethodPage />}
           />
           {/* ReferenceCheckQuestionnairePage*/}

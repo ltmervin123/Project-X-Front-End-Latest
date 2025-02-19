@@ -32,14 +32,14 @@
   
   .cr-dpa-modal-agreement .modal-dialog {
     width: 100% !important;
-    max-width: 1150px !important;
+    max-width: 800px !important;
   }
   .cr-dpa-container {
     overflow-y: hidden;
   }
   .cr-dpa-content {
     width: 100% !important;
-    max-width: 1150px !important;
+    max-width: 800px !important;
     height: 510px;
     overflow: auto;
   }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
-import "../../styles/ResumeFitOrganizer.css";
+import "../../styles/ResumeFitOptimizer.css";
 import { Button, Row, Col } from "react-bootstrap";
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { Doughnut } from "react-chartjs-2";

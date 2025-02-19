@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
-import "../../styles/ResumeFitOrganizer.css";
+import "../../styles/ResumeFitOptimizer.css";
 import { Button, Row, Col } from "react-bootstrap";
 
 function SaveAndExportResume() {
@@ -15,7 +15,7 @@ function SaveAndExportResume() {
   return (
     <>
       <div className="ResumeFitOptimizer-container d-flex flex-column gap-2">
-        <div className="ResumeFitOptimizer-content d-flex flex-column gap-2">
+        <div className="ResumeFitOptimizer-content d-flex flex-column h-100 gap-2">
           <div className="saveandexportresume-container d-flex justify-content-center align-items-center flex-column gap-3">
             <div className="saveandexportresume-header">
               <h2 className="saveandexportresume-title">Save and Export Resume</h2>
