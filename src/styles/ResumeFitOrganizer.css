@@ -165,7 +165,7 @@ textarea::placeholder {
     box-shadow: 0px 4px 4px #00000040;
     border-radius: 25px;
     padding: 25px;
-    height: 45%;
+    /* height: 45%; */
     max-height: auto;
     min-width: 95%;
 }

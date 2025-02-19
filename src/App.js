@@ -205,7 +205,7 @@ function App() {
           />
           {/* ChooseYourInterviewMethodPage*/}
           <Route
-            path="/reference-interview-metho"d
+            path="/reference-interview-method"
             element={<ChooseYourInterviewMethodPage />}
           />
           {/* ReferenceCheckQuestionnairePage*/}
