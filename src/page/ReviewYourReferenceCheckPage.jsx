@@ -7,6 +7,11 @@ function ReviewYourReferenceCheckPage() {
   const [uploadedFile, setUploadedFile] = useState(null); // Track the uploaded file
   const [signatureMethod, setSignatureMethod] = useState("Draw Signature"); // Track signature method
   const [imagePreview, setImagePreview] = useState(null); // Track the preview of the uploaded image
+  const [showSignatureSection, setShowSignatureSection] = useState(false);
+
+  const handleProceed = () => {
+    setShowSignatureSection(true);
+  };
 
   const handleSelectChange = (e) => {
     setSignatureMethod(e.target.value);
@@ -59,13 +64,7 @@ function ReviewYourReferenceCheckPage() {
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to track the current question
   const [isDrawing, setIsDrawing] = useState(false); // Track if drawing is in progress
-  const [editedAnswer, setEditedAnswer] = useState(""); // Track the edited answer for the question
-
   const canvasRef = useRef(null); // Ref to access canvas element directly
-
-  const handleSubmit = () => {
-    // Handle submit logic
-  };
 
   // Handle next question navigation
   const handleNextQuestion = () => {
@@ -94,20 +93,27 @@ function ReviewYourReferenceCheckPage() {
     // Reset drawing state to false, so new drawings start fresh
     setIsDrawing(false);
   };
-  // Adjust canvas size based on container size
+  // Adjust canvas size based on container size, considering device pixel ratio (DPR)
   const resizeCanvas = () => {
     const canvas = canvasRef.current;
     if (canvas && canvas.parentElement) {
-      // Add null check for parentElement
       const container = canvas.parentElement;
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
+      const context = canvas.getContext("2d");
+
+      const scale = window.devicePixelRatio || 1; // Use DPR for higher quality on high-res screens
+
+      // Set canvas width and height considering the device pixel ratio
+      canvas.width = container.clientWidth * scale;
+      canvas.height = container.clientHeight * scale;
+
+      // Scale the context to match the device pixel ratio
+      context.scale(scale, scale);
 
       // Redraw the signature if necessary
-      const ctx = canvas.getContext("2d");
-      ctx.lineWidth = 2;
-      ctx.lineCap = "round";
-      ctx.strokeStyle = "black"; // Ensure stroke style remains consistent
+      context.lineWidth = 4; // Increased line width for better visibility
+      context.lineCap = "round"; // Smooth end of lines
+      context.lineJoin = "round"; // Smooth corners of lines
+      context.strokeStyle = "black"; // Ensure stroke style remains consistent
     }
   };
 
@@ -118,8 +124,8 @@ function ReviewYourReferenceCheckPage() {
 
     // Get canvas position relative to the document
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Adjust for actual canvas size
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Adjust for actual canvas size
 
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -134,8 +140,8 @@ function ReviewYourReferenceCheckPage() {
 
     // Get canvas position relative to the document
     const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Adjust for actual canvas size
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Adjust for actual canvas size
 
     ctx.lineTo(x, y);
     ctx.stroke();
@@ -156,123 +162,193 @@ function ReviewYourReferenceCheckPage() {
     };
   }, []);
 
-  // Handle editing answer
-  const handleEditAnswer = () => {
-    setEditedAnswer(currentQuestion.originalAnswer); // Populate the text field with the original answer
-  };
-
-  const handleAnswerChange = (e) => {
-    setEditedAnswer(e.target.value); // Update the edited answer
-  };
-
-  const handleSaveAnswer = () => {
-    // Logic to save the edited answer (e.g., update state or send to backend)
-    updatedQuestions[currentQuestionIndex].originalAnswer = editedAnswer;
-    // Go back to the review screen after saving
-  };
-
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <h2 className="referencecheckquestiontitle text-left mb-2">
         Review Your Responses
       </h2>
-      <div className="ReviewYourReferenceCheck-container">
-        <div>
-          <h3>Select or Upload Image</h3>
-          <div className="selection-container">
-            <p>Signature Method</p>
-            <select
-              name="signature-method"
-              id="signature-method"
-              className="mb-3"
-              onChange={handleSelectChange}
-            >
-              <option>Select Type of Signature</option>
-              <option value="Draw Signature">Draw Signature</option>
-              <option value="Upload Signature">Upload Signature</option>
-            </select>
-          </div>
 
-          {signatureMethod === "Draw Signature" ? (
-            <div className="drawing-container">
-              <p>Drawing container area</p>
-              <div
-                className="drawing-container-box w-100"
-                style={{ width: "100%", height: "300px" }}
-              >
-                <canvas
-                  ref={canvasRef}
-                  style={{
-                    border: "1px solid black",
-                    width: "100%",
-                    height: "100%",
-                  }}
-                  onMouseDown={startDrawing}
-                  onMouseMove={draw}
-                  onMouseUp={stopDrawing}
-                  onMouseLeave={stopDrawing}
-                />
+      <div className="ReviewYourReferenceCheck-container">
+        {!showSignatureSection ? (
+          <>
+            {/* Question Indicator */}
+            <div className="question-indicator mb-3">
+              <p className="m-0">
+                Question {currentQuestion.id} of {updatedQuestions.length}
+              </p>
+            </div>
+
+            {/* Question Display */}
+            <div className="ReviewYourReferenceCheck-box-item h-100">
+              <div className="question-container">
+                <p className="question-text">
+                  <strong>Question {currentQuestion.id}:</strong>{" "}
+                  {currentQuestion.text}
+                </p>
+              </div>
+
+              {/* Standardized Answer Section */}
+              <p className="stndard-label">
+                <strong>Normalize Answer:</strong>
+              </p>
+              <div className="answer-container">
+                <p></p>
+              </div>
+
+              {/* Edit or Submit Button */}
+              <div className="edit-btn-container">
+                <button className="edit-answer-btn">Edit Answer</button>
               </div>
             </div>
-          ) : (
-            signatureMethod === "Upload Signature" && (
-              <div className="file-upload-container">
-                <p>Drag & Drop Signature</p>
+
+            {/* Navigation Buttons */}
+            <div className="navigation-buttons gap-4 position-relative">
+              {currentQuestion.id === 10 ? (
+                <>
+                  <button
+                    className="prev-btn"
+                    onClick={handlePreviousQuestion}
+                    disabled={currentQuestionIndex === 0}
+                  >
+                    &lt;
+                  </button>
+                  <p className="m-0">{currentQuestion.id}</p>
+                  <button
+                    className="next-btn"
+                    onClick={handleNextQuestion}
+                    disabled={
+                      currentQuestionIndex === updatedQuestions.length - 1
+                    }
+                  >
+                    &gt;
+                  </button>
+                  <button className="proceed-btn" onClick={handleProceed}>
+                    Proceed
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="prev-btn"
+                    onClick={handlePreviousQuestion}
+                    disabled={currentQuestionIndex === 0}
+                  >
+                    &lt;
+                  </button>
+                  <p className="m-0">{currentQuestion.id}</p>
+                  <button
+                    className="next-btn"
+                    onClick={handleNextQuestion}
+                    disabled={
+                      currentQuestionIndex === updatedQuestions.length - 1
+                    }
+                  >
+                    &gt;
+                  </button>
+                </>
+              )}
+            </div>
+          </>
+        ) : (
+          <div>
+            {/* Signature Section */}
+            <h3>Select or Upload Image</h3>
+            <div className="selection-container">
+              <p>Signature Method</p>
+              <select
+                name="signature-method"
+                id="signature-method"
+                className="mb-3"
+                onChange={handleSelectChange}
+              >
+                {/* <option>Select Type of Signature</option> */}
+                <option value="Draw Signature">Draw Signature</option>
+                <option value="Upload Signature">Upload Signature</option>
+              </select>
+            </div>
+
+            {signatureMethod === "Draw Signature" ? (
+              <div className="drawing-container">
+                <p>Drawing container area</p>
                 <div
-                  className="file-upload-area d-flex align-items-center justify-content-center flex-column"
-                  onDrop={handleFileDrop}
-                  onDragOver={handleDragOver}
-                  style={{
-                    border: "1px solid black",
-                    padding: "20px",
-                    textAlign: "center",
-                  }}
+                  className="drawing-container-box w-100"
+                  style={{ width: "100%", height: "280px" }}
                 >
-                  {uploadedFile ? (
-                    <div>
-                      {imagePreview && (
-                        <>
-                          <img
-                            src={imagePreview}
-                            alt="Uploaded preview"
-                            style={{
-                              maxWidth: "100%",
-                              maxHeight: "200px",
-                              marginTop: "10px",
-                            }}
-                          />
-                          <p>File uploaded: {uploadedFile.name}</p>
-                        </>
-                      )}
-                    </div>
-                  ) : (
-                    <>
-                      <p>Drop your signature image here or click to select</p>
-                      <input
-                        type="file"
-                        id="file-upload"
-                        onChange={handleFileSelect}
-                        style={{ display: "none" }}
-                      />
-                      <button
-                        onClick={() =>
-                          document.getElementById("file-upload").click()
-                        }
-                      >
-                        Select File
-                      </button>
-                    </>
-                  )}
+                  <canvas
+                    ref={canvasRef}
+                    style={{
+                      border: "1px solid black",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    onMouseDown={startDrawing}
+                    onMouseMove={draw}
+                    onMouseUp={stopDrawing}
+                    onMouseLeave={stopDrawing}
+                  />
                 </div>
               </div>
-            )
-          )}
+            ) : (
+              signatureMethod === "Upload Signature" && (
+                <div className="file-upload-container">
+                  <p>Drag & Drop Signature</p>
+                  <div
+                    className="file-upload-area d-flex align-items-center justify-content-center flex-column"
+                    onDrop={handleFileDrop}
+                    onDragOver={handleDragOver}
+                    style={{
+                      border: "1px solid black",
+                      padding: "20px",
+                      height: "280px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {uploadedFile ? (
+                      <div>
+                        {imagePreview && (
+                          <>
+                            <img
+                              src={imagePreview}
+                              alt="Uploaded preview"
+                              style={{
+                                maxWidth: "100%",
+                                maxHeight: "200px",
+                                marginTop: "10px",
+                              }}
+                            />
+                            <p>File uploaded: {uploadedFile.name}</p>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <>
+                        <p>Drop your signature image here or click to select</p>
+                        <input
+                          type="file"
+                          id="file-upload"
+                          onChange={handleFileSelect}
+                          style={{ display: "none" }}
+                        />
+                        <button
+                          onClick={() =>
+                            document.getElementById("file-upload").click()
+                          }
+                        >
+                          Select File
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )
+            )}
 
-          <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
-            <button onClick={clearDrawing}>Clear</button>
-            <button>Submit</button>
+            <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
+              <button onClick={clearDrawing}>Clear</button>
+              <button>Submit</button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="orange-bg-bottom"></div>
