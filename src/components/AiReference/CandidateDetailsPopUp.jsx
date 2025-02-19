@@ -3,7 +3,6 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
 const CandidateDetailsPopUp = ({ candidates, onClose }) => {
-  console.log(candidates);
   // Function to get the color based on status
   const getStatusColor = (status) => {
     switch (status) {
@@ -17,6 +16,12 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
         return "black"; // Default color for unknown statuses
     }
   };
+
+  const formatDate = (date) => {
+    if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
+    return date.split("T")[0]; // Extract only YYYY-MM-DD
+  };
+
   return (
     <Modal
       show={true}
@@ -47,7 +52,6 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
         </div>
 
         <div className="candidate-details">
-
           <div className="my-3">
             <p className="d-flex gap-2 align-items-center justify-content-between">
               <strong className="d-flex gap-2 align-items-center">
@@ -82,8 +86,8 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
             </p>
           </div>
           <div className="my-3">
-          <p className="d-flex gap-2 align-items-center justify-content-between">
-          <strong className="d-flex gap-2 align-items-center">
+            <p className="d-flex gap-2 align-items-center justify-content-between">
+              <strong className="d-flex gap-2 align-items-center">
                 {" "}
                 <svg
                   width="20"
@@ -122,7 +126,6 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
           </div>
 
           <p className="d-flex gap-2 align-items-center justify-content-between">
-            
             <strong className="d-flex gap-2 align-items-center">
               <svg
                 width="19"
@@ -147,7 +150,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
             {candidates.position || "N/A"}
           </p>
           <p className="d-flex gap-2 align-items-center justify-content-between">
-          <strong className="d-flex gap-2 align-items-center">
+            <strong className="d-flex gap-2 align-items-center">
               <svg
                 width="20"
                 height="20"
@@ -168,7 +171,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
               </svg>
               Applied Date:
             </strong>{" "}
-            {candidates.appliedDate || "N/A"}
+            {formatDate(candidates.createdAt) || "N/A"}
           </p>
         </div>
       </Modal.Body>
