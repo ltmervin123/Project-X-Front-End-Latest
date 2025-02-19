@@ -3,15 +3,18 @@ import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const AiReferenceCheckVerificationForm = () => {
+const AiReferenceCheckVerificationForm = ({ refereeName }) => {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);  
+
 
   // temporary redirect
   const handleClick = () => {
     navigate("/reference-interview-method");
   };
   const [formData, setFormData] = useState({
-    refereeName: "",
+    refereeName,
     currentCompany: "",
     positionTitle: "",
     companyWorkedWith: "",
@@ -28,8 +31,12 @@ const AiReferenceCheckVerificationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic
+    console.log(formData);
   };
+
+  const validateInputfied = ()=>{
+    
+  }
 
   return (
     <div className="AiReferenceCheckVerification-container d-flex align-items-center flex-column justify-content-center">
@@ -58,9 +65,9 @@ const AiReferenceCheckVerificationForm = () => {
                 <Form.Control
                   type="text"
                   name="refereeName"
-                  value={formData.refereeName}
-                  onChange={handleChange}
-                  placeholder="Enter Referee Name"
+                  value={refereeName}
+                  placeholder="Referee Name"
+                  disabled={true}
                 />
               </Form.Group>
 
@@ -117,7 +124,8 @@ const AiReferenceCheckVerificationForm = () => {
             <Button
               variant="primary"
               type="submit"
-              onClick={handleClick} // Add the onClick handler
+              onSubmit={handleSubmit}
+              // onClick={handleClick} // Add the onClick handler
             >
               Proceed to Reference Check
             </Button>

@@ -177,6 +177,8 @@ const ReferenceRequest = () => {
               </thead>
               <tbody>
                 {reference
+                  .slice()
+                  .reverse()
                   .filter(
                     (reference) =>
                       reference.candidate
