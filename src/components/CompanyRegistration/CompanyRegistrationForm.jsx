@@ -8,7 +8,7 @@ import DPAPopUp from "./DPAPopUp"; // Import the DPAPopUp modal component
 
 const CompanyRegistrationForm = () => {
   const SERVICE = "AI_REFERENCE";
-  const { signup, isLoading, error, message } = useSignup();
+  const { signup, isLoading, error, message, status } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ const CompanyRegistrationForm = () => {
   }, [formData]);
 
   const disableButton = useMemo(() => {
-    return validateForm || isLoading;
+    return validateForm || isLoading || !isChecked;
   });
 
   const handleChange = (e) => {
@@ -69,9 +69,29 @@ const CompanyRegistrationForm = () => {
     }));
   };
 
+  const clearForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      location: "",
+      size: "",
+      industry: "",
+      annualHiringVolume: "",
+      firstName: "",
+      lastName: "",
+      positionTitle: "",
+    });
+    setIsChecked(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(formData, SERVICE);
+    //Success registration reset the form and show the success message
+    if (status === 201) {
+      clearForm();
+    }
   };
 
   return (

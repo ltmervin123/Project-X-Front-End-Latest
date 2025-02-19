@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
+  const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [message, setMessage] = useState(null);
   const API = process.env.REACT_APP_API_URL;
@@ -54,9 +55,10 @@ export const useSignup = () => {
         companyDetails,
         personInChargeDetails,
       });
-
+      setStatus(response.status);
       setMessage(response.data.message);
     } catch (err) {
+      setStatus(err.response ? err.response.status : 500);
       setError(err.response ? err.response.data.message : "Signup failed");
       return false;
     } finally {
@@ -96,5 +98,5 @@ export const useSignup = () => {
     }
   };
 
-  return { signup, isLoading, error, message };
+  return { signup, isLoading, error, message, status };
 };
