@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col } from "react-bootstrap";
 import Header from "../components/AiReference/Header";
 import Sidebar from "../components/AiReference/Sidebar";
 import Maindashboard from "../components/AiReference/Maindashboard";
@@ -8,6 +8,7 @@ import "../styles/AiReferenceMaindashboard.css";
 function AiReferenceMainDashboardPage() {
   return (
     <>
+      <div className="mock-background">
         <Header />
         <div className="MockMaindashboard-container ">
           <Row>
@@ -16,12 +17,12 @@ function AiReferenceMainDashboardPage() {
               <Sidebar />
             </Col>
             {/* Main content area with 9/12 width */}
-              <Col md={10} className="p-3">
-                <Maindashboard />
-              </Col>
+            <Col md={10} className="p-3">
+              <Maindashboard />
+            </Col>
           </Row>
         </div>
-
+      </div>
     </>
   );
 }

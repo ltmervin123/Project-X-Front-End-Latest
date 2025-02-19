@@ -46,6 +46,7 @@
   border-radius: 20px;
   border: 2px solid var(--primary-color);
   color: var(--input-bg);
+  background: var(--font-white);
 }
 .company-registration-container-form select {
   appearance: none;
@@ -60,15 +61,33 @@
 .company-registration-container-form label {
   margin-top: 5px;
 }
+.company-registration-container-form .toggle-password{
+  position: absolute;
+  right: 15px;
+  top: 75%;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
 .company-registration-container-form button {
   background: var(--secondary-color);
   border: none;
   border-radius: 20px;
   padding: 5px 15px;
+  color: var(--font-white);
+}
+.register-company-btn.disable{
+  cursor: not-allowed !important;
+  background: #1706ac92;
 }
 .companyregisteravatar {
-  height: 60%;
+  height: 55%;
   position: absolute;
   bottom: 20px;
   right: -30px;
 }
+.company-registration-container-form .invalid-feedback{
+  left: 12px;
+}
+
+

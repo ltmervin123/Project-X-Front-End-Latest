@@ -14,11 +14,15 @@
 .mock-interview-summary{
   width: 30%;
 }
+/* .mock-background{
+background: #f9f9f9;
+} */
+
 .MockMaindashboard-container {
     padding: 0 !important;
     width: 100%;
     min-height: 80vh;
-    margin-top: 12vh;
+    padding-top: 12vh !important;
     padding: 20px;
     overflow-x: hidden;
 }
@@ -228,7 +232,7 @@
     border-radius: 20px;
     display: flex;
     flex-wrap: wrap;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--card-color);
 }
 
 .MockGuide-container > div > div {
@@ -287,7 +291,7 @@
     position: relative;
     width: 95%;
     max-width: 320px !important;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--card-color);
     border-radius: 30px !important;
     background: var(--font-white) !important;
     height: auto;

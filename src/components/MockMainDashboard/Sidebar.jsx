@@ -47,7 +47,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/comingsoon"
+        to="/ResumeFitOptimizer"
       >
         <svg
           width="15"

@@ -1,91 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddCandidatePopUp from "./AddCandidatePopUp"; // Assuming you have a similar component for adding candidates
+import CandidateDetailsPopUp from "./CandidateDetailsPopUp";
 import { FaSearch } from "react-icons/fa";
+import axios from "axios";
 
 const Candidates = () => {
-  const [candidates, setCandidates] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      position: "Software Engineer",
-      status: "In Progress",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      position: "Product Manager",
-      status: "Completed",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      email: "alice.johnson@example.com",
-      position: "UX Designer",
-      status: "In Progress",
-    },
-    {
-      id: 4,
-      name: "Bob Brown",
-      email: "bob.brown@example.com",
-      position: "Data Scientist",
-      status: "Completed",
-    },
-    {
-      id: 5,
-      name: "Charlie Davis",
-      email: "charlie.davis@example.com",
-      position: "DevOps Engineer",
-      status: "Completed",
-    },
-    {
-      id: 6,
-      name: "Diana Prince",
-      email: "diana.prince@example.com",
-      position: "Marketing Specialist",
-      status: "In Progress",
-    },
-    {
-      id: 7,
-      name: "Ethan Hunt",
-      email: "ethan.hunt@example.com",
-      position: "Software Engineer",
-      status: "In Progress",
-    },
-    {
-      id: 8,
-      name: "Fiona Green",
-      email: "fiona.green@example.com",
-      position: "HR Manager",
-      status: "New",
-    },
-    {
-      id: 9,
-      name: "George White",
-      email: "george.white@example.com",
-      position: "Sales Executive",
-      status: "New",
-    },
-    {
-      id: 10,
-      name: "Hannah Black",
-      email: "hannah.black@example.com",
-      position: "Content Writer",
-      status: "New",
-    },
-    {
-      id: 11,
-      name: "Ian Gray",
-      email: "ian.gray@example.com",
-      position: "Web Developer",
-      status: "In Progress",
-    },
-  ]);
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const companyId = USER?.id;
+  const token = USER?.token;
+  const API = process.env.REACT_APP_API_URL;
+  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+
+  const [candidates, setCandidates] = useState(
+    JSON.parse(localStorage.getItem("candidates")) || []
+  );
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleAddNewCandidate = () => {
+  const fetchCandidates = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${companyId}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setCandidates(response.data.candidates);
+        localStorage.setItem(
+          "candidates",
+          JSON.stringify(response.data.candidates)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchCandidatesWhenRender = async () => {
+      if (!candidates || candidates.length === 0) {
+        await fetchCandidates();
+      }
+    };
+
+    fetchCandidatesWhenRender();
+  }, []);
+
+  const handleAddNewCandidate = async () => {
     setShowPopup(true);
   };
 
@@ -93,23 +58,38 @@ const Candidates = () => {
     setShowPopup(false);
   };
 
-  const handleAddCandidate = (newCandidate) => {
-    setCandidates((prevCandidates) => [
-      ...prevCandidates,
-      { id: prevCandidates.length + 1, ...newCandidate },
-    ]);
+  const refetchCandidates = async () => {
+    //Remove the candidates from local storage
+    localStorage.removeItem("candidates");
+    await fetchCandidates();
   };
+
+  const handleAddCandidate = async () => {
+    await refetchCandidates();
+  };
+
+  // Modify the function to handle "View Details"
+  const handleViewDetails = (candidate) => {
+    setSelectedCandidate(candidate);
+    setShowDetailsPopup(true);
+  };
+
+  const handleCloseDetailsPopup = () => {
+    setShowDetailsPopup(false);
+    setSelectedCandidate(null);
+  };
+
   // Function to get the color based on status
   const getStatusColor = (status) => {
     switch (status) {
       case "In Progress":
-        return "#F8BD00";
+        return "#F8BD00"; // Yellow
       case "Completed":
-        return "#1877F2";
+        return "#1877F2"; // Blue
       case "New":
-        return "#319F43";
+        return "#319F43"; // Green
       default:
-        return "black"; // Default color for unknown statuses
+        return "#6c757d"; // Gray for unknown statuses
     }
   };
 
@@ -128,8 +108,11 @@ const Candidates = () => {
             <input
               type="text"
               placeholder="Search candidates..."
-              className="form-control ps-4 pe-5" // padding start (left) and end (right)
+              className="form-control ps-4 pe-5"
+              value={searchQuery} // bind value to the searchQuery state
+              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
             />
+
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
         </div>
@@ -165,40 +148,66 @@ const Candidates = () => {
           <p>Overview of all candidates in the system</p>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Position</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {candidates.map((candidate) => (
-              <tr key={candidate.id}>
-                <td>{candidate.name}</td>
-                <td>{candidate.email}</td>
-                <td>{candidate.position}</td>
-                <td style={{ color: getStatusColor(candidate.status) }}>
-                  {candidate.status}
-                </td>
-                <td>
-                  <button className="btn-view-details">View Details</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="d-flex justify-content-center w-100">
-          <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
-            <button className="btn-export">Export Candidates</button>
-            <button className="btn-archive">Archive Inactive Candidates</button>
-          </div>
-        </div>
+        {candidates && candidates.length > 0 ? (
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Position</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {candidates
+                  .filter(
+                    (candidate) =>
+                      candidate.name
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) // Filter by name
+                  )
+                  .slice()
+                  .reverse()
+                  .map((candidate) => (
+                    <tr key={candidate._id}>
+                      <td>{candidate.name}</td>
+                      <td>{candidate.email}</td>
+                      <td>{candidate.position}</td>
+                      <td style={{ color: getStatusColor(candidate.status) }}>
+                        {candidate.status}
+                      </td>
+                      <td>
+                        <button
+                          className="btn-view-details"
+                          onClick={() => handleViewDetails(candidate)}
+                        >
+                          View Details
+                        </button>{" "}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            <div className="d-flex justify-content-center w-100">
+              <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
+                <button className="btn-archive">
+                  Archive Inactive Candidates
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div>No candidate record</div>
+        )}
       </div>
+      {showDetailsPopup && selectedCandidate && (
+        <CandidateDetailsPopUp
+          candidates={selectedCandidate}
+          onClose={handleCloseDetailsPopup}
+        />
+      )}
     </div>
   );
 };

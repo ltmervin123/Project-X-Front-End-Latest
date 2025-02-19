@@ -59,65 +59,72 @@
   margin-bottom: 20px;
 }
 
-.AiReferenceCards {
+.AiReferenceCard {
   display: flex;
   flex-direction: column;
   gap: 20px; /* Space between cards */
-}
-
-.AiReferenceCard {
   padding: 20px;
-  border-radius: 8px;
-  color: var(--font-white);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  height: 150px;
+  background: var(--font-white);
 }
-
-.AiReferenceCard > p {
-  margin-bottom: 10px !important;
-  font-weight: 100 !important;
-  font-size: 14px;
+.AiReferenceCard > div p {
+  font-weight: 500;
+  height: 10%;
+  margin: 0;
+}
+.AiReferenceCard .title {
+  font-weight: bold !important;
+  color: var(--card-color);
 }
 
 .AiReferenceCard .count {
-  font-size: 24px !important;
+  font-size: 35px !important;
   font-weight: bold !important;
-  margin-bottom: 5px;
+  margin: 0;
+  height: 90%;
+  width: 100%;
 }
 
-.AiReferenceCard .description {
-  font-size: 14px;
-  color: var(--font-white);
+.AiReferenceCard .value {
+  font-size: 35px !important;
+  font-weight: bold !important;
+  margin: 0;
+  padding-top: 10%;
+  height: 70%;
+  width: 100%;
+}
+.AiReferenceCard small {
+  color: var(--card-color);
 }
 
-/*Pie/Bar Chart*/
-.pie-bar-chart-container {
+/*Line/Bar Chart*/
+.line-bar-chart-container {
   width: 100%;
   height: 40vh;
   background: #b8c4ce;
   border-radius: 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
-.pie-chart,
+.line-chart,
 .bar-chart {
-  height: 70% !important;
-  width: 80%;
-  background: var(--font-white);
+  height: 100% !important;
+  width: 100%;
+  background: var(--font-white) !important;
   border-radius: 10px;
   border-radius: 10px;
   position: relative;
-  padding: 20px;
+  padding: 40px 20px 20px 20px;
+}
+.line-title-overlay,
+.bar-title-overlay {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  left: 10px;
 }
 
-.pie-title-overlay,
-.bar-title-overlay {
-  background: var(--primary-color);
-  color: var(--font-white);
-  position: absolute;
-  /* width: 50%; */
-  padding: 5px 20px;
-  border-radius: 10px 50px 50px 0px;
-  top: -1px;
-  left: -1px;
-}
 /* Ensure the canvas takes full width */
 .bar-chart > canvas {
   width: 100% !important; /* Ensure the canvas takes full width */
@@ -139,14 +146,16 @@
   align-items: center;
   justify-content: center;
 }
-
-.pie-labels ul {
-  padding: 0; /* Remove padding */
-  margin: 0;
+.pie-labels li {
+  font-size: inherit;
+  line-height: 2;
+  position: relative;
 }
+
 .pie-labels p {
   margin: 0;
-  color: var(--text-color) !important;
+  font-size: 15px;
+  color: var(--avatar-bg) !important;
 }
 
 .LogContainer {
@@ -159,15 +168,19 @@
 .LogContainer > div > a {
   text-decoration: none;
   color: var(--text-color);
+  font-weight: 400;
 }
 .list-log-container {
   padding: 10px; /* Optional: Add padding */
   border-radius: 5px; /* Optional: Rounded corners */
 }
 
-.log-item img {
+.log-item .avatar-letter  {
   width: 40px; /* Set a fixed width for images */
   height: 40px; /* Set a fixed height for images */
   border-radius: 50%; /* Make images circular */
   background: var(--card-color);
+  color: var(--font-white);
+  font-weight: 500;
+  font-size: 20px;
 }

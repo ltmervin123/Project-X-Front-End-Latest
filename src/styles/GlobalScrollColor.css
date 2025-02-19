@@ -1,23 +1,26 @@
 /* Global Scrollbar for WebKit browsers (Chrome, Safari) */
+html {
+  --bg-fade-signup: #f0f0f0; /* Example background color for the scrollbar track */
+  --primary-color: #007bff; /* Example primary color for the scrollbar thumb */
+}
+
+/* Scrollbar styling */
 html::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
-  }
-  
-  html::-webkit-scrollbar-track {
-    background: var(--bg-fade-signup); /* Background of the scrollbar track */
-  }
-  
-  html::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color); /* Color of the scrollbar thumb */
-    border-radius: 10px; /* Rounded corners for the thumb */
-  }
-  
-  html::-webkit-scrollbar-thumb:hover {
-    background-color: #d65a05; /* Darker shade on hover (replace with your desired color) */
-  }
-  
-  /* Global Scrollbar for Firefox */
-  html {
-    scrollbar-width: thin; /* Make the scrollbar thin */
-    scrollbar-color: var(--primary-color) var(--bg-fade-signup); /* Thumb color and track color */
-  }
+  width: 12px; /* Width of the scrollbar */
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--bg-fade-signup); /* Background of the scrollbar track */
+  width: 12px; /* Width of the scrollbar */
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners */
+  width: 12px; /* Set the width of the thumb */
+  height: 12px; /* Set the height to the same as the width for a circle */
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background-color: #d65a05; /* Darker shade on hover */
+}

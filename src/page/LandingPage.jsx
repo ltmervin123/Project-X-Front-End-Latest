@@ -18,9 +18,8 @@ const LandingPage = () => {
   return (
     <>
       <div className="main-container">
-      <Header />
+        <Header />
         <div className="bg-white-gray-gradient">
-         
           <HeroSection />
           <DidYouKnowSection />
           <JoinCommunitySection />

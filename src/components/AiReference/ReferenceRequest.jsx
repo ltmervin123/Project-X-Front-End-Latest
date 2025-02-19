@@ -1,121 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddRequestPopUp from "./AddRequestPopUp"; // Assuming you have a similar component for adding candidates
+import AddRequestPopUp from "./AddRequestPopUp";
 import { FaSearch } from "react-icons/fa";
+import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
+import ViewRequest from "./ViewRequest";
+import axios from "axios";
 
 const ReferenceRequest = () => {
-  const [requests, setRequests] = useState([
-    {
-      id: 1,
-      candidate: "John Doe",
-      referee: "Steve",  // Add a referee
-      position: "Software Engineer",
-      status: "In Progress",
-      dateSent: "2025-02-01",
-      dateDue: "2025-02-15",
-      actions: [],
-    },
-    {
-      id: 2,
-      candidate: "Jane Smith",
-      referee: "Steve",
-      position: "Product Manager",
-      status: "Completed",
-      dateSent: "2025-01-15",
-      dateDue: "2025-01-22",
-      actions: [],
-    },
-    {
-      id: 3,
-      candidate: "Alice Johnson",
-      referee: "Steve",
-      position: "UX Designer",
-      status: "In Progress",
-      dateSent: "2025-01-30",
-      dateDue: "2025-02-05",
-      actions: [],
-    },
-    {
-      id: 4,
-      candidate: "Bob Brown",
-      referee: "Stella",
-      position: "Data Scientist",
-      status: "Completed",
-      dateSent: "2025-01-10",
-      dateDue: "2025-01-18",
-      actions: [],
-    },
-    {
-      id: 5,
-      candidate: "Charlie Davis",
-      referee: "Stella",
-      position: "DevOps Engineer",
-      status: "Completed",
-      dateSent: "2025-01-20",
-      dateDue: "2025-01-28",
-      actions: [],
-    },
-    {
-      id: 6,
-      candidate: "Diana Prince",
-      referee: "Steve",
-      position: "Marketing Specialist",
-      status: "In Progress",
-      dateSent: "2025-02-02",
-      dateDue: "2025-02-10",
-      actions: [],
-    },
-    {
-      id: 7,
-      candidate: "Ethan Hunt",
-      referee: "Steve",
-      position: "Software Engineer",
-      status: "In Progress",
-      dateSent: "2025-02-03",
-      dateDue: "2025-02-15",
-      actions: [],
-    },
-    {
-      id: 8,
-      candidate: "Fiona Green",
-      referee: "Steve",
-      position: "HR Manager",
-      status: "New",
-      dateSent: "2025-02-05",
-      dateDue: "2025-02-12",
-      actions: [],
-    },
-    {
-      id: 9,
-      candidate: "George White",
-      referee: "Steve",
-      position: "Sales Executive",
-      status: "New",
-      dateSent: "2025-02-07",
-      dateDue: "2025-02-14",
-      actions: [],
-    },
-    {
-      id: 10,
-      candidate: "Hannah Black",
-      referee: "Steve",
-      position: "Content Writer",
-      status: "New",
-      dateSent: "2025-02-06",
-      dateDue: "2025-02-13",
-      actions: [],
-    },
-    {
-      id: 11,
-      candidate: "Ian Gray",
-      referee: "Stella",
-      position: "Web Developer",
-      status: "In Progress",
-      dateSent: "2025-02-04",
-      dateDue: "2025-02-11",
-      actions: [],
-    },
-  ]);
+  const API = process.env.REACT_APP_API_URL;
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const companyId = USER?.id;
+  const token = USER?.token;
+  const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [reference, setReference] = useState(
+    JSON.parse(localStorage.getItem("reference")) || []
+  );
+
+  const fetchReference = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-request-by-companyId/${companyId}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem(
+          "reference",
+          JSON.stringify(response.data.reference)
+        );
+        setReference(response.data.reference);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const reFetchReference = async () => {
+    try {
+      localStorage.removeItem("reference");
+      await fetchReference();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const getReferenceWhenFirstRender = async () => {
+      if (reference.length === 0) {
+        await fetchReference();
+      }
+    };
+
+    getReferenceWhenFirstRender();
+  }, []);
+
   const [showPopup, setShowPopup] = useState(false);
 
   const handleAddNewRequest = () => {
@@ -126,11 +69,26 @@ const ReferenceRequest = () => {
     setShowPopup(false);
   };
 
-  const handleAddRequest = (newRequest) => {
-    setRequests((prevRequests) => [
-      ...prevRequests,
-      { id: prevRequests.length + 1, ...newRequest },
-    ]);
+  const handleAddReference = async () => {
+    await reFetchReference();
+  };
+
+  const handleViewDetails = (candidate) => {
+    setSelectedCandidate(candidate);
+    setShowDetailsPopup(true);
+  };
+
+  const handleCloseDetailsPopup = () => {
+    setShowDetailsPopup(false);
+  };
+
+  const handleViewReference = () => {
+    setShowViewRequest(true); // Set to true to show ViewRequest component
+  };
+
+  const formatDate = (date) => {
+    if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
+    return date.split("T")[0]; // Extract only YYYY-MM-DD
   };
 
   // Function to get the color based on status
@@ -143,9 +101,14 @@ const ReferenceRequest = () => {
       case "New":
         return "#319F43";
       default:
-        return "black"; // Default color for unknown statuses
+        return "black";
     }
   };
+
+  // Conditional rendering based on showViewRequest state
+  if (showViewRequest) {
+    return <ViewRequest />; // Render ViewRequest component
+  }
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -159,11 +122,14 @@ const ReferenceRequest = () => {
             <input
               type="text"
               placeholder="Search request..."
-              className="form-control ps-4 pe-5" // padding start (left) and end (right)
+              className="form-control ps-4 pe-5"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
         </div>
+
         <button
           onClick={handleAddNewRequest}
           className="btn-create-new-candidate d-flex align-items-center justify-content-center gap-1"
@@ -185,7 +151,7 @@ const ReferenceRequest = () => {
         {showPopup && (
           <AddRequestPopUp
             onClose={handleClosePopup}
-            onAddRequest={handleAddRequest}
+            onAddRequest={handleAddReference}
           />
         )}
       </div>
@@ -193,47 +159,79 @@ const ReferenceRequest = () => {
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
           <h4>Reference Requests Lists</h4>
-          <p>Overview of all reference requests</p>
         </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Candidate</th>
-              <th>Referee</th>
-              <th>Position</th>
-              <th>Status</th>
-              <th>Date Sent</th>
-              <th>Date Due</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests.map((request) => (
-              <tr key={request.id}>
-                <td>{request.candidate}</td>
-                <td>{request.referee}</td>
-                <td>{request.position}</td>
-                <td style={{ color: getStatusColor(request.status) }}>
-                  {request.status}
-                </td>
-                <td>{request.dateSent}</td>
-                <td>{request.dateDue}</td>
-                <td>
-                  <button className="btn-view-details">View Details</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="d-flex justify-content-center w-100">
-          <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
-            <button className="btn-export">Export Request</button>
-            <button className="btn-archive">Manage Templates</button>
-          </div>
-        </div>
+        {reference && reference.length > 0 ? (
+          <>
+            <p>Overview of all reference requests</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Candidate</th>
+                  <th>Referee</th>
+                  <th>Position</th>
+                  <th>Status</th>
+                  <th>Date Sent</th>
+                  <th>Date Due</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reference
+                  .slice()
+                  .reverse()
+                  .filter(
+                    (reference) =>
+                      reference.candidate
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                      reference.referee
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                      reference.position
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase())
+                  )
+                  .map((reference) => (
+                    <tr key={reference.id}>
+                      <td>{reference.candidate}</td>
+                      <td>{reference.referee}</td>
+                      <td>{reference.position}</td>
+                      <td style={{ color: getStatusColor(reference.status) }}>
+                        {reference.status}
+                      </td>
+                      <td>{formatDate(reference.dateSent)}</td>
+                      <td>{formatDate(reference.dueDate)}</td>
+                      <td>
+                        <button
+                          className="btn-view-details"
+                          onClick={() => handleViewDetails(reference)}
+                        >
+                          View Details
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            <div className="d-flex justify-content-center w-100">
+              <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
+                <button className="btn-export">Export Request</button>
+                <button className="btn-archive">Manage Templates</button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div>No reference requests record</div>
+        )}
       </div>
+
+      {showDetailsPopup && selectedCandidate && (
+        <ReferenceRequestDetailsPopUp
+          candidate={selectedCandidate}
+          onClose={handleCloseDetailsPopup}
+          onViewReference={handleViewReference} // Add this line
+        />
+      )}
     </div>
   );
 };

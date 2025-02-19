@@ -40,7 +40,6 @@
 .btn-create-new-candidate:hover {
   background: darkorange; /* Darker shade on hover */
 }
-
 .AiReference-candidates-container {
   background: var(--font-white);
   border: 1px solid var(--card-color);
@@ -66,12 +65,18 @@
   table-layout: fixed; /* Prevent layout shifts */
   width: 100%; /* Full width for rows */
 }
+.AiReference-candidates-container th{
+  color:  var(--card-color);
+}
 .AiReference-candidates-container th,
 .AiReference-candidates-container td {
-  padding: 15px; /* Padding for table cells */
+  padding: 10px; /* Padding for table cells */
+word-wrap: break-word;
   text-align: left; /* Align text to the left */
 }
-
+/* .AiReference-candidates-container td:nth-child(5){
+  padding: 0;
+} */
 .AiReference-candidates-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;
@@ -81,6 +86,7 @@
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
+  font-size: 14px;
 }
 
 .AiReference-candidates-container .btn-view-details:hover {
@@ -115,4 +121,26 @@
   width: 150px;
   padding: 5px;
   color: var(--font-white);
+}
+.btn-add-candidate:disabled{
+  background: var(--card-color) !important;
+  cursor: not-allowed;
+}
+/* Customizing the scrollbar */
+.AiReference-candidates-container tbody::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.AiReference-candidates-container tbody::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.AiReference-candidates-container tbody::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.AiReference-candidates-container tbody::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
 }

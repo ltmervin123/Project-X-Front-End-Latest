@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "../styles/LoginPage.css";
+import "../styles/GlobalScrollColor.css";
 import Header from "../components/login/Header";
 import LoginForm from "../components/login/LoginForm";
 
@@ -13,7 +14,7 @@ function LoginPage() {
 
   return (
     <>
-      <div className="container-fluid main-container login-page-container">
+      <div className="container-fluid main-container ">
         <Header />
         <LoginForm />
       </div>

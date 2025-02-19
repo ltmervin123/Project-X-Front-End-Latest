@@ -1,19 +1,58 @@
-import React, { useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import React, { useState, useMemo } from "react";
+import { Row, Col } from "react-bootstrap";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
+import { useSignup } from "../../hook/useSignup";
+import DPAPopUp from "./DPAPopUp"; // Import the DPAPopUp modal component
 
-const CompanyRegistrationPage = () => {
+const CompanyRegistrationForm = () => {
+  const SERVICE = "AI_REFERENCE";
+  const { signup, isLoading, error, message, status } = useSignup();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [agreeChecked, setAgreeChecked] = useState(false); // Separate state to keep checkbox unchecked until "Continue" is clicked
+
+  const handleCheckboxChange = (e) => {
+    if (e.target.checked) {
+      if (!agreeChecked) {
+        setShowModal(true); // Show modal if the user hasn't agreed yet
+      } else {
+        setIsChecked(true); // Allow checking again without modal
+      }
+    } else {
+      setIsChecked(false);
+      setAgreeChecked(false); // Reset agreement state when unchecked
+    }
+  };
+
+  const handleContinue = () => {
+    setAgreeChecked(true); // Mark that the user has agreed
+    setIsChecked(true); // Keep the checkbox checked
+    setShowModal(false); // Close modal
+  };
+
   const [formData, setFormData] = useState({
-    companyName: "",
+    name: "",
     email: "",
+    password: "",
     location: "",
-    companySize: "",
+    size: "",
     industry: "",
+    annualHiringVolume: "",
     firstName: "",
     lastName: "",
     positionTitle: "",
-    annualHiringVolume: "",
   });
+
+  const validateForm = useMemo(() => {
+    return Object.values(formData).some((value) => value.trim() === "");
+  }, [formData]);
+
+  const disableButton = useMemo(() => {
+    return validateForm || isLoading || !isChecked;
+  },[validateForm, isLoading, isChecked]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,13 +62,33 @@ const CompanyRegistrationPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const clearForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      location: "",
+      size: "",
+      industry: "",
+      annualHiringVolume: "",
+      firstName: "",
+      lastName: "",
+      positionTitle: "",
+    });
+    setIsChecked(false);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+    await signup(formData, SERVICE);
+    //Success registration reset the form and show the success message
+    if (status === 201) {
+      clearForm();
+    }
   };
 
   return (
-    <div className="company-reg-container  d-flex align-items-center flex-column justify-content-center">
+    <div className="company-reg-container d-flex align-items-center flex-column justify-content-center">
       <h4 className="text-center">Company Registration</h4>
       <i className="text-center">
         Join our platform and start hiring top talent today!
@@ -43,75 +102,144 @@ const CompanyRegistrationPage = () => {
           </p>
         </div>
 
-        <Form onSubmit={handleSubmit} className="form-company-reg">
-          <Row >
+        <form onSubmit={handleSubmit} className="form-company-reg">
+          <Row>
             <Col md={9}>
-              <Form.Group controlId="company-name">
-                <Form.Label>Company Name</Form.Label>
-                <Form.Control
+              <div className="mb-3">
+                <label htmlFor="company-name" className="form-label">
+                  Company Name
+                </label>
+                <input
                   type="text"
-                  name="companyName"
-                  value={formData.companyName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   placeholder="Enter Company Name"
+                  className="form-control"
+                  id="company-name"
                 />
-              </Form.Group>
+              </div>
 
-              <Form.Group controlId="email-address">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter Email Address"
-                />
-              </Form.Group>
+              <Row className="mb-4">
+                <Col md={6}>
+                  <div className="mb-3 position-relative">
+                    <label htmlFor="email-address" className="form-label">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Enter Email Address"
+                      className={`form-control ${
+                        error === "Email is not valid" ||
+                        error === "Email already exists"
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      id="email-address"
+                    />
+                    {(error === "Email is not valid" ||
+                      error === "Email already exists") && (
+                      <div className="invalid-feedback">{error}</div>
+                    )}
+                  </div>
+                </Col>
+                <Col md={6}>
+                  <div className="mb-3 position-relative">
+                    <label htmlFor="password" className="form-label">
+                      Password
+                    </label>
+                    <input
+                      type={showPassword ? "text" : "password"} // This toggles the type between text and password
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Enter Password"
+                      className={`form-control ${
+                        error === "Password is not strong enough"
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      id="password"
+                    />
+                    <span
+                      className={`toggle-password ${
+                        error === "Password is not strong enough"
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
+                      style={{
+                        cursor: "pointer",
+                        zIndex: 10,
+                      }}
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}{" "}
+                      {/* Toggle icon */}
+                    </span>
+                    {error === "Password is not strong enough" && (
+                      <div className="invalid-feedback ">{error}</div>
+                    )}
+                  </div>
+                </Col>
+              </Row>
 
-              <Form.Group controlId="location">
-                <Form.Label>Location</Form.Label>
-                <Form.Control
+              <div className="mb-3">
+                <label htmlFor="location" className="form-label">
+                  Location
+                </label>
+                <input
                   type="text"
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Enter Company Location"
+                  className="form-control"
+                  id="location"
                 />
-              </Form.Group>
+              </div>
 
               <Row className="mb-4">
                 <Col md={6}>
-                  <Form.Group controlId="company-size">
-                    <Form.Label>Company Size</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="companySize"
-                      value={formData.companySize}
+                  <div className="mb-3">
+                    <label htmlFor="company-size" className="form-label">
+                      Company Size
+                    </label>
+                    <select
+                      name="size"
+                      value={formData.size}
                       onChange={handleChange}
+                      className="form-select"
+                      id="company-size"
                     >
                       <option value="">Select Company Size</option>
-                      <option value="small">1-50 employees</option>
-                      <option value="medium">51-200 employees</option>
-                      <option value="large">201+ employees</option>
-                    </Form.Control>
-                  </Form.Group>
+                      <option value="1-50">1-50 employees</option>
+                      <option value="51-200">51-200 employees</option>
+                      <option value="201+">201+ employees</option>
+                    </select>
+                  </div>
                 </Col>
                 <Col md={6}>
-                  <Form.Group controlId="industry">
-                    <Form.Label>Industry</Form.Label>
-                    <Form.Control
-                      as="select"
+                  <div className="mb-3">
+                    <label htmlFor="industry" className="form-label">
+                      Industry
+                    </label>
+                    <select
                       name="industry"
                       value={formData.industry}
                       onChange={handleChange}
+                      className="form-select"
+                      id="industry"
                     >
                       <option value="">Select Industry</option>
-                      <option value="tech">Technology</option>
-                      <option value="finance">Finance</option>
-                      <option value="healthcare">Healthcare</option>
-                      <option value="education">Education</option>
-                    </Form.Control>
-                  </Form.Group>
+                      <option value="Technology">Technology</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Education">Education</option>
+                    </select>
+                  </div>
                 </Col>
               </Row>
 
@@ -120,57 +248,74 @@ const CompanyRegistrationPage = () => {
 
                 <Row>
                   <Col md={6}>
-                    <Form.Group controlId="first-name">
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
+                    <div className="mb-3">
+                      <label htmlFor="first-name" className="form-label">
+                        First Name
+                      </label>
+                      <input
                         type="text"
                         name="firstName"
                         value={formData.firstName}
                         onChange={handleChange}
                         placeholder="Enter First Name"
+                        className="form-control"
+                        id="first-name"
                       />
-                    </Form.Group>
+                    </div>
                   </Col>
 
                   <Col md={6}>
-                    <Form.Group controlId="last-name">
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
+                    <div className="mb-3">
+                      <label htmlFor="last-name" className="form-label">
+                        Last Name
+                      </label>
+                      <input
                         type="text"
                         name="lastName"
                         value={formData.lastName}
                         onChange={handleChange}
                         placeholder="Enter Last Name"
+                        className="form-control"
+                        id="last-name"
                       />
-                    </Form.Group>
+                    </div>
                   </Col>
                 </Row>
 
-                <Form.Group controlId="position-title">
-                  <Form.Label>Position Title</Form.Label>
-                  <Form.Control
+                <div className="mb-3">
+                  <label htmlFor="position-title" className="form-label">
+                    Position Title
+                  </label>
+                  <input
                     type="text"
                     name="positionTitle"
                     value={formData.positionTitle}
                     onChange={handleChange}
-                    placeholder="Ex. HR Manager "
+                    placeholder="Ex. HR Manager"
+                    className="form-control"
+                    id="position-title"
                   />
-                </Form.Group>
+                </div>
 
-                <Form.Group controlId="annual-hiring-volume">
-                  <Form.Label>Annual Hiring Volume</Form.Label>
-                  <Form.Control
-                    as="select"
+                <div className="mb-3">
+                  <label htmlFor="annual-hiring-volume" className="form-label">
+                    Annual Hiring Volume
+                  </label>
+                  <select
                     name="annualHiringVolume"
                     value={formData.annualHiringVolume}
                     onChange={handleChange}
+                    className="form-select"
+                    id="annual-hiring-volume"
                   >
                     <option value="">Select Hiring Volume</option>
-                    <option value="low">1-10 hires</option>
-                    <option value="medium">11-50 hires</option>
-                    <option value="high">51+ hires</option>
-                  </Form.Control>
-                </Form.Group>
+                    <option value="1-10">1-10 hires</option>
+                    <option value="11-50">11-50 hires</option>
+                    <option value="51+">51+ hires</option>
+                  </select>
+                </div>
+                {/* Success message here */}
+                {message && <div>{message}</div>}
               </div>
             </Col>
 
@@ -178,19 +323,62 @@ const CompanyRegistrationPage = () => {
               <img
                 src={RegisterCompanyAvatar}
                 className="companyregisteravatar"
-                alt="Image not found"
+                alt="Register Avatar"
               />
-
             </Col>
           </Row>
 
-          <Button variant="primary" type="submit">
-            Register Company
-          </Button>
-        </Form>
+          <div className="cr-agreement-box-check d-flex align-items-center gap-2">
+            <input
+              type="checkbox"
+              id="cr-form-check-input"
+              className="cr-form-check-input btn-modal"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
+            <label
+              for="cr-form-check-input"
+              className="text-left form-check-label w-100 privacy-content"
+            >
+              By continuing, you agree to{" "}
+              <a
+                href="URL_TO_TERMS_OF_SERVICE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                HR-HATCH Terms of Service
+              </a>{" "}
+              and acknowledge you've read our{" "}
+              <a
+                href="URL_TO_DATA_PROTECTION_AGREEMENT"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Data Protection Agreement
+              </a>
+              .
+            </label>
+          </div>
+
+          {/* Add this line before the form ends */}
+          <DPAPopUp
+            showModal={showModal}
+            setShowModal={setShowModal}
+            handleContinue={handleContinue}
+          />
+
+          <button
+            variant="primary"
+            type="submit"
+            disabled={disableButton}
+            className={`register-company-btn ${disableButton ? "disable" : ""}`} // Add "disable" class if disableButton is true
+          >
+            {!isLoading ? "Register Company" : "Processing..."}
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
-export default CompanyRegistrationPage;
+export default CompanyRegistrationForm;

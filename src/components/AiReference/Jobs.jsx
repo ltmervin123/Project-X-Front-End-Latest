@@ -1,48 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobPopUp from "./AddJobPopUp";
+import { FaSearch } from "react-icons/fa";
+import axios from "axios";
 
 const Jobs = () => {
-  // Sample data for active jobs
-  const [activeJobs, setActiveJobs] = useState([
-    {
-      id: 1,
-      name: "Graphic Designer",
-      vacancies: 2,
-      hiringManager: "Levi Mella",
-    },
-    {
-      id: 2,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
-    {
-      id: 3,
-      name: "Graphic Designer",
-      vacancies: 2,
-      hiringManager: "Levi Mella",
-    },
-    {
-      id: 4,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
-    {
-      id: 5,
-      name: "Graphic Designer",
-      vacancies: 2,
-      hiringManager: "Levi Mella",
-    },
-    {
-      id: 6,
-      name: "Software Engineer",
-      vacancies: 3,
-      hiringManager: "Alice Johnson",
-    },
-    // Add more jobs as needed
-  ]);
+  const API = process.env.REACT_APP_API_URL;
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const id = USER?.id;
+  const token = USER?.token;
+  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+
+  const [activeJobs, setActiveJobs] = useState(
+    JSON.parse(localStorage.getItem("jobs")) || []
+  );
+
+  const fetchJobs = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        localStorage.setItem("jobs", JSON.stringify(response.data.jobs));
+        setActiveJobs(response.data.jobs);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const formatDate = (date) => {
+    if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
+    return date.split("T")[0]; // Extract only YYYY-MM-DD
+  };
+
+  const refetchJobs = async () => {
+    try {
+      //delete the jobs from local storage
+      localStorage.removeItem("jobs");
+
+      //fetch the jobs again
+      await fetchJobs();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const getJobsWhenFirstRender = async () => {
+      if (activeJobs.length === 0) {
+        await fetchJobs();
+      }
+    };
+
+    getJobsWhenFirstRender();
+  }, []);
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -54,11 +69,8 @@ const Jobs = () => {
     setShowPopup(false);
   };
 
-  const handleAddJob = (newJob) => {
-    setActiveJobs((prevJobs) => [
-      ...prevJobs,
-      { id: prevJobs.length + 1, ...newJob },
-    ]);
+  const handleAddJob = () => {
+    refetchJobs();
   };
 
   return (
@@ -67,13 +79,26 @@ const Jobs = () => {
         <h3>Jobs</h3>
         <p>Manage and track your open positions</p>
       </div>
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex align-items-center search-candidates">
+          <div className="search-wrapper position-relative">
+            <input
+              type="text"
+              placeholder="Search job name..."
+              className="form-control ps-4 pe-5"
+              value={searchQuery} // bind value to the searchQuery state
+              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
+            />
+
+            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+          </div>
+        </div>
         <button
           onClick={handleCreateNewJob}
           className="btn-create-new-job mb-3 d-flex align-items-center justify-content-center gap-1"
         >
           <svg
-           width="30"
+            width="30"
             height="30"
             viewBox="0 0 37 37"
             fill="none"
@@ -86,6 +111,7 @@ const Jobs = () => {
           </svg>
           Create New Job
         </button>
+
         {showPopup && (
           <AddJobPopUp onClose={handleClosePopup} onAddJob={handleAddJob} />
         )}
@@ -97,30 +123,41 @@ const Jobs = () => {
           <p>Manage and track your open positions</p>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Job Name</th>
-              <th>Vacancies</th>
-              <th>Hiring Manager</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {activeJobs.map((job) => (
-              <tr key={job.id}>
-                <td>{job.name}</td>
-                <td>{job.vacancies}</td>
-                <td>{job.hiringManager}</td>
-                <td>
-                  <button variant="link" className="btn-view-details">
-                    View Details
-                  </button>
-                </td>
+        {activeJobs && activeJobs.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Job Name</th>
+                <th>Vacancies</th>
+                <th>Hiring Manager</th>
+                <th>Created at</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {activeJobs
+                .filter(
+                  (job) =>
+                    job.jobName
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase()) // Filter by job name
+                )
+                .slice()
+                .reverse()
+                .map((job) => (
+                  <tr key={job._id}>
+                    <td>{job.jobName}</td>
+                    <td>{job.vacancies}</td>
+                    <td>{job.hiringManager}</td>
+                    <td>{formatDate(job.createdAt)}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        ) : (
+          <div>
+            <p>No active jobs record</p>
+          </div>
+        )}
       </div>
     </div>
   );

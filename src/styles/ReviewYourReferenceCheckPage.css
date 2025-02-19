@@ -1,0 +1,275 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
+}
+
+.ReviewYourReferenceCheck-container {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  width: 80%;
+  max-width: 1300px;
+  height: 540px;
+  background: var(--font-white);
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 0px #00000059;
+  /* margin: 10vh 0vh !important; */
+  position: relative;
+  overflow: hidden; /* Ensure content doesn’t overflow the container */
+}
+
+.ReviewYourReferenceCheck-container.expanded {
+  max-height: none; /* Allow it to expand */
+  overflow-y: auto; /* Enable scrolling when expanded */
+}
+
+.ReviewYourReferenceCheck-container > p {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.ReviewYourReferenceCheck-container > p > span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--input-bg);
+}
+
+.question-container {
+  margin-bottom: 20px;
+}
+.question-indicator {
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 200px;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+.question-text {
+  font-size: 16px;
+  font-weight: 400;
+}
+.orig-label,
+.stndard-label{
+  color: var(--input-bg);
+  font-weight: 300;
+
+}
+
+.answer-container,
+.standardized-answer-container {
+  margin-bottom: 15px;
+}
+.answer-container{
+  background: #F2F3F7;
+  padding: 20px;
+  border-radius: 20px;
+  overflow-x: auto;
+  height: 250px;
+  word-wrap: break-word;
+}
+
+.standardized-answer-container{
+  background: #319f4331;
+  padding: 10px;
+  border-radius: 20px;
+  overflow-y: auto;
+  height: 100px;
+}
+/* textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--input-bg);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--font-black);
+} */
+
+.answer-container p,
+.standardized-answer-container p {
+  margin: 0;
+  padding: 0;
+}
+
+.YourOriginalAns-container {
+  background: #f2f3f7;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-y: auto;
+  height: 500px !important;
+}
+
+
+.EnchanceAns-container {
+  background: #319f432b;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-y: auto;
+  height: 200px;
+
+}
+
+.EnchanceAns-container p,
+.YourOriginalAns-container p {
+  margin: 0 !important;
+  padding: 0;
+}
+.edit-btn-container button{
+  background: var(--secondary-color);
+  border-radius: 50px;
+  padding: 5px 30px;
+  color: var(--font-white);
+  border: none;
+  font-size: 15px;
+}
+
+.ReviewYourReferenceCheck-dropdown-content button {
+  background: #ffdcc2;
+  border-radius: 50px;
+  padding: 5px 20px;
+  border: none;
+}
+
+.view-more-btn {
+  align-self: center; /* Center the button horizontally */
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1; /* Ensure the button stays above content */
+}
+
+.view-more-btn,
+.reset-btn {
+  font-size: 16px;
+}
+
+.reset-btn {
+  background: var(--primary-color);
+  font-size: 18px;
+  border-radius: 50px;
+  padding: 5px 60px;
+  border: none;
+  color: var(--font-white);
+  margin-top: 20px;
+}
+
+/* Navigation Buttons Styling */
+.navigation-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 35px;
+  font-weight: 500;
+}
+
+.prev-btn,
+.next-btn {
+  color: var(--primary-color);
+  cursor: pointer;
+  margin: 0 10px;
+  background: none;
+  border: none;
+
+}
+
+.prev-btn:disabled,
+.next-btn:disabled {
+  color: var(--input-bg);
+  cursor: not-allowed;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  color: var(--primary-color);
+}
+
+.proceed-btn {
+  padding: 5px 60px;
+  background: var(--primary-color);
+  color: var(--font-white);
+  font-size: 16px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+}
+
+.proceed-btn:hover {
+  background: var(--secondary-color);
+}
+
+.ReviewYourReferenceCheck-container .selection-container > select{
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+}
+.drawing-container > .drawing-container-box{
+  width: 100%;
+  border-radius: 10px;
+}
+.file-upload-container{
+  font-weight: 500;
+}
+.file-upload-area{
+  height: 300px;
+}
+.file-upload-container button{
+  width: 200px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  font-weight: 600;
+  background: var(--secondary-color);
+}
+.drawing-container > .drawing-container-box >canvas{
+  border-radius: 10px !important;
+  width: 100%;
+}
+.ReviewYourReferenceCheck-button-controls > button{
+  width: 200px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  font-weight: 600;
+}
+.ReviewYourReferenceCheck-button-controls > button:nth-child(1){
+  background: var(--primary-color);
+}
+.ReviewYourReferenceCheck-button-controls > button:nth-child(2){
+  background: var(--secondary-color);
+}
+.signature-feild{
+  background: var(--font-white);
+  width: 300px;
+  height: 100px;
+  border-bottom: 1px solid var(--font-black);
+}
+
+/* Customizing the scrollbar */
+.answer-container::-webkit-scrollbar {
+  width: 12px; /* Scrollbar width */
+}
+
+.answer-container::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.answer-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.answer-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}

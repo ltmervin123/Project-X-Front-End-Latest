@@ -102,7 +102,7 @@ const JoinCommunitySection = () => {
                       <p className="card-text">{card.content}</p>
                       <p
                         className="card-author"
-                        style={{ fontStyle: "italic", marginTop: "0.5em" }}
+                        style={{ marginTop: "0.5em" }}
                       >
                         {card.author}
                       </p>

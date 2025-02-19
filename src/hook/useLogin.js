@@ -6,11 +6,11 @@ export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const API = process.env.REACT_APP_API_URL;
-  const URL = `${API}/api/user/auth/login`;
   const { dispatch } = useAuthContext();
 
-  const login = async (email, password) => {
+  const login = async (email, password, service) => {
     try {
+      const URL = getURL(service);
       setIsLoading(true);
       setError(null);
       //Request body
@@ -23,6 +23,7 @@ export const useLogin = () => {
 
       const data = await response.data;
       const user = {
+        service: data.user.service,
         name: data.user.name,
         email: data.user.email,
         id: data.user._id,
@@ -30,7 +31,7 @@ export const useLogin = () => {
       };
       if (response.status === 200) {
         dispatch({ type: "LOGIN", payload: user });
-        return true;
+        return user;
       }
     } catch (err) {
       // Handle any error from the request
@@ -43,6 +44,17 @@ export const useLogin = () => {
       return false;
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const getURL = (service) => {
+    switch (service) {
+      case "AI_REFERENCE":
+        return `${API}/api/ai-referee/auth/company-login`;
+      case "MOCK_AI":
+        return `${API}/api/user/auth/login`;
+      default:
+        return ``;
     }
   };
 
