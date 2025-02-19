@@ -69,6 +69,7 @@ function createTooltipElement() {
 
   const barOptions = {
     responsive: true,
+    indexAxis: "x", 
     plugins: {
       legend: {
         display: false, // Hide the legend
@@ -104,7 +105,6 @@ function createTooltipElement() {
           // Get the data index and month
           const dataIndex = tooltipModel.dataPoints[0].dataIndex;
           const month = context.chart.data.labels[dataIndex]; // Month from the labels
-          const total = context.chart.data.datasets[0].data[dataIndex] + context.chart.data.datasets[1].data[dataIndex]; // Total value
           const completed = context.chart.data.datasets[0].data[dataIndex]; // Completed value
           const pending = context.chart.data.datasets[1].data[dataIndex]; // Pending value
   

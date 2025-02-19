@@ -83,6 +83,9 @@ import ReferenceCheckQuestionnairePage from "./page/ReferenceCheckQuestionnaireP
 // ReviewYourReferenceCheckPage
 import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.jsx";
 
+// ReferenceCheckInstructionsPage
+import ReferenceCheckInstructionsPage from "./page/ReferenceCheckInstructionsPage.jsx";
+
 // ViewRequest
 import ViewRequest from "./components/AiReference/ViewRequest.jsx";
 
@@ -209,6 +212,11 @@ function App() {
             path="/reference-interview-method"
             element={<ChooseYourInterviewMethodPage />}
           />
+          {/* ReferenceCheckInstructionsPage*/}
+          <Route
+            path="/reference-instructions"
+            element={<ReferenceCheckInstructionsPage />}
+          />
           {/* ReferenceCheckQuestionnairePage*/}
           <Route
             path="/reference-questionnaire"
@@ -251,7 +259,7 @@ function App() {
         />
         {/* Created Account page*/}
         <Route path="/company-created-account" element={<CreatedAccount />} />
-        
+
         {/* Forgot pass */}
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* Use token as param */}
