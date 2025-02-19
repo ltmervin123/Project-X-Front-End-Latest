@@ -17,7 +17,8 @@
 }
 .AiReference-Question-Sets-Container {
   overflow-y: auto;
-  height: 70%;
+  height: 80%;
+  padding-right: 10px;
 }
 .AiReference-table-title img {
   position: relative;
@@ -155,6 +156,7 @@
 .questions-list {
   max-height: 220px; /* Set a max-height to allow scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px;
 }
 .questions-list .text-area-question{
   width: 88.5% !important;
@@ -179,7 +181,7 @@
 .dropdown-content-q-sets ul::-webkit-scrollbar,
 .AiReference-Question-Sets-Container::-webkit-scrollbar,
 .ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 .questions-list::-webkit-scrollbar-thumb,
@@ -187,7 +189,11 @@
 .AiReference-Question-Sets-Container::-webkit-scrollbar-thumb ,
 .ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar-thumb {
   background-color: var(--primary-color);
-  border-radius: 6px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .questions-list::-webkit-scrollbar-thumb:hover,
