@@ -8,6 +8,10 @@ import {
 } from "react-icons/fa";
 
 function ReferenceCheckQuestionnairePage() {
+  const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
+  const [candidateName, setCandidateName] = useState(
+    REFEREE?.candidateName || ""
+  );
   const location = useLocation();
   const selectedMethod = location.state?.selectedMethod; // Access 'selectedMethod' from the state
   const navigate = useNavigate(); // Initialize useNavigate
@@ -17,9 +21,13 @@ function ReferenceCheckQuestionnairePage() {
   const getQuestions = () => {
     switch (referenceQuestions.formatType) {
       case "HR-HATCH-FORMAT":
-        return Object.values(referenceQuestions?.questions || {}).flat();
+        return Object.values(referenceQuestions?.questions || {})
+          .flat()
+          .map((q) => q.replace(/\$\{candidateName\}/g, candidateName)); // Replace placeholders
       case "CUSTOM_FORMAT":
-        return referenceQuestions?.questions || [];
+        return (referenceQuestions?.questions || []).map((q) =>
+          q.replace(/\$\{candidateName\}/g, candidateName)
+        );
       default:
         return [];
     }

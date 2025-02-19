@@ -4,7 +4,11 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const AiReferenceCheckVerificationForm = ({ refereeName, referenceId }) => {
+const AiReferenceCheckVerificationForm = ({
+  refereeName,
+  referenceId,
+  candidateName,
+}) => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const [formData, setFormData] = useState({
@@ -13,6 +17,7 @@ const AiReferenceCheckVerificationForm = ({ refereeName, referenceId }) => {
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
+    candidateName: "",
   });
   const [processing, setProcessing] = useState(false);
 
@@ -51,7 +56,14 @@ const AiReferenceCheckVerificationForm = ({ refereeName, referenceId }) => {
         referenceId: referenceId,
       }));
     }
-  }, [refereeName, referenceId]);
+
+    if (candidateName) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        candidateName: candidateName,
+      }));
+    }
+  }, [refereeName, referenceId, candidateName]);
 
   const isFormValid = () => {
     return (
