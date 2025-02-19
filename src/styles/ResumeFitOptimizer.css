@@ -64,6 +64,7 @@
 .uploadDocs-job-description > .upload-area > button {
     background: var(--secondary-color) !important;
     font-style: normal;
+    padding: 5px 10px;
 }
 .ResumeFitOptimizer-uploadDocs-job-description {
     height: 170px;
@@ -148,7 +149,7 @@ textarea::placeholder {
     box-shadow: 0px 4px 4px #00000040;
     border-radius: 25px;
     padding: 25px;
-    height: 45%;
+    /* height: 45%; */
     max-height: auto;
     min-width: 95%;
 }
@@ -285,7 +286,7 @@ textarea::placeholder {
     background-color: #F2F3F7;
     box-shadow: 0px 4px 4px #00000040;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 .compareresumes-content-resume-optimization {
     border: 1px solid #000;

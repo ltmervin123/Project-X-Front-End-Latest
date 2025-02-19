@@ -199,15 +199,14 @@ function App() {
         </Route>
 
         <Route element={<RequireAuthVefifyReferee />}>
-          {/* Reference Verification page */}8
+          {/* Reference Verification page */}
           <Route
             path="/reference-completed"
             element={<ReferenceVerification />}
           />
           {/* ChooseYourInterviewMethodPage*/}
           <Route
-            path="/reference-interview-metho"
-            d
+            path="/reference-interview-method"
             element={<ChooseYourInterviewMethodPage />}
           />
           {/* ReferenceCheckQuestionnairePage*/}

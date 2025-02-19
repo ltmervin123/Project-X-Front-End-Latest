@@ -25,6 +25,7 @@ function UploadDocs() {
         data: [score, 10 - score], // Assuming a scale of 10
         backgroundColor: [color, "#36434E"], // Use the specified color and remaining color
         borderColor: "#36434E",
+        borderWidth:0,
       },
     ],
   });
@@ -87,9 +88,9 @@ const getProgressBarClass = (current, total) => {
               <div className="airesumeoptimizationanalysis-content-analysis">
               <Col className="progress-content-progress-percentage-container d-flex justify-content-around align-items-center flex-row">
                 {chartdata.map((item, index) => (
-                  <Col key={index} xs={1} md={1} className="chart-col">
+                  <Col key={index} md={2} className="chart-col">
                     <div className="chart-name">{item.name}</div>
-                    <div className="doughnut-chart" style={{ width: "10px" }}>
+                    <div className="doughnut-chart">
                       <Doughnut
                         className="doughnut"
                         data={createDoughnutData(item.current, "#28A745")}

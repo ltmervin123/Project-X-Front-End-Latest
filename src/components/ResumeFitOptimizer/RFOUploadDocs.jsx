@@ -80,6 +80,7 @@ function UploadDocs() {
                             >
                             Select File
                             </Button>
+                            <i className="support-file-text">Supports DOC, DOCX</i>
                             <input
                                 type="file"
                                 id="fileInput"
@@ -88,7 +89,6 @@ function UploadDocs() {
                                 accept=".doc, .docx"
                                 multiple
                             />
-                            <i className="support-file-text">Supports DOC, DOCX</i>
                             {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                         </div>
                     </div>
