@@ -1,25 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const AiReferenceCheckVerificationForm = ({ refereeName }) => {
+const AiReferenceCheckVerificationForm = ({ refereeName, referenceId }) => {
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);  
-
-
-  // temporary redirect
-  const handleClick = () => {
-    navigate("/reference-interview-method");
-  };
+  const API = process.env.REACT_APP_API_URL;
   const [formData, setFormData] = useState({
-    refereeName,
-    currentCompany: "",
+    referenceId: "",
+    refereeName: "",
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
   });
+  const [processing, setProcessing] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,14 +24,80 @@ const AiReferenceCheckVerificationForm = ({ refereeName }) => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  // Save referee data to local storage
+  const saveRefereeDataTemporary = () => {
+    localStorage.setItem("refereeData", JSON.stringify(formData));
   };
 
-  const validateInputfied = ()=>{
-    
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await getReferenceQuestions();
+    saveRefereeDataTemporary();
+    navigate("/reference-interview-method");
+  };
+
+  // Sync refereeName when it changes
+  useEffect(() => {
+    if (refereeName) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        refereeName: refereeName,
+      }));
+    }
+
+    if (referenceId) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        referenceId: referenceId,
+      }));
+    }
+  }, [refereeName, referenceId]);
+
+  const isFormValid = () => {
+    return (
+      formData.refereeName &&
+      formData.positionTitle &&
+      formData.companyWorkedWith &&
+      formData.relationship
+    );
+  };
+
+  const getReferenceQuestions = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("token", token);
+      setProcessing(true);
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem(
+          "referenceQuestions",
+          JSON.stringify(response.data)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  // Prevent user from leaving the page
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "Are you sure you want to leave this page?"; // Standard message for modern browsers
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   return (
     <div className="AiReferenceCheckVerification-container d-flex align-items-center flex-column justify-content-center">
@@ -65,7 +126,7 @@ const AiReferenceCheckVerificationForm = ({ refereeName }) => {
                 <Form.Control
                   type="text"
                   name="refereeName"
-                  value={refereeName}
+                  value={formData.refereeName}
                   placeholder="Referee Name"
                   disabled={true}
                 />
@@ -125,9 +186,9 @@ const AiReferenceCheckVerificationForm = ({ refereeName }) => {
               variant="primary"
               type="submit"
               onSubmit={handleSubmit}
-              // onClick={handleClick} // Add the onClick handler
+              disabled={!isFormValid() || processing}
             >
-              Proceed to Reference Check
+              {processing ? "Processing..." : "Proceed to Questionnaire"}
             </Button>
           </div>
         </Form>

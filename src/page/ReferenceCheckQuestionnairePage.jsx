@@ -11,29 +11,27 @@ function ReferenceCheckQuestionnairePage() {
   const location = useLocation();
   const selectedMethod = location.state?.selectedMethod; // Access 'selectedMethod' from the state
   const navigate = useNavigate(); // Initialize useNavigate
+  const referenceQuestions =
+    JSON.parse(localStorage.getItem("referenceQuestions")) || {};
 
-  useEffect(() => {
-    console.log("Selected Method:", selectedMethod);
-  }, [selectedMethod]);
-
-  const questions = [
-    "How long have you known the candidate and in what capacity?",
-    "What are the candidate’s main strengths?",
-    "Can you provide an example of the candidate’s ability to work under pressure?",
-    "How would you describe the candidate’s communication skills?",
-    "What are the candidate’s areas for improvement?",
-    "How does the candidate handle conflict or criticism?",
-    "How does the candidate work in a team?",
-    "Can you describe the candidate’s work ethic?",
-    "What motivates the candidate?",
-    "Would you recommend the candidate for this position?",
-  ];
+  const getQuestions = () => {
+    switch (referenceQuestions.formatType) {
+      case "HR-HATCH-FORMAT":
+        return Object.values(referenceQuestions?.questions || {}).flat();
+      case "CUSTOM_FORMAT":
+        return referenceQuestions?.questions || [];
+      default:
+        return [];
+    }
+  };
+  const [question, setQuestion] = useState(getQuestions);
+  useEffect(() => {}, [selectedMethod]);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [transcription, setTranscription] = useState("");
-  const [answers, setAnswers] = useState(new Array(questions.length).fill("")); // Store answers for each question
+  const [answers, setAnswers] = useState(new Array(question.length).fill("")); // Store answers for each question
   const [answered, setAnswered] = useState(
-    new Array(questions.length).fill(false)
+    new Array(question.length).fill(false)
   ); // Track whether a question has been answered
 
   const [isRecording, setIsRecording] = useState(false); // Track if recording is in progress
@@ -45,7 +43,7 @@ function ReferenceCheckQuestionnairePage() {
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < question.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
@@ -79,12 +77,12 @@ function ReferenceCheckQuestionnairePage() {
 
     // Log the questions and answers when finishing the questionnaire
     console.log("Questions and Answers:");
-    questions.forEach((question, index) => {
+    question.forEach((question, index) => {
       console.log(`${question}: ${answers[index]}`);
     });
 
     navigate("/reference-review", {
-      state: { questions: questions, answers: answers }, // Pass the questions and answers
+      state: { questions: question, answers: answers }, // Pass the questions and answers
     });
   };
 
@@ -101,6 +99,18 @@ function ReferenceCheckQuestionnairePage() {
     // You can update the transcription with the recorded content here
   };
 
+  // Prevent user from leaving the page
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "Are you sure you want to leave this page?"; // Standard message for modern browsers
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center flex-column positio-relative">
       <h2 className="referencecheckquestiontitle text-left mb-2">
@@ -110,9 +120,9 @@ function ReferenceCheckQuestionnairePage() {
       <div className="referencecheckquestion-container mb-5">
         <div className="question-container">
           <p className="question-title">
-            Question {currentQuestionIndex + 1} of {questions.length}
+            Question {currentQuestionIndex + 1} of {question.length}
           </p>
-          <p>{questions[currentQuestionIndex]}</p>
+          <p>{question[currentQuestionIndex]}</p>
         </div>
 
         <div className="button-container d-flex align-items-center justify-content-between">
@@ -175,7 +185,7 @@ function ReferenceCheckQuestionnairePage() {
                 </button>
               )}
             </div>
-          ) : currentQuestionIndex === questions.length - 1 ? (
+          ) : currentQuestionIndex === question.length - 1 ? (
             <button onClick={handleFinish}>Finish</button> // Show Finish button on last question
           ) : (
             <button
