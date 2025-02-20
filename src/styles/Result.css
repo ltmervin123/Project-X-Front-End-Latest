@@ -456,7 +456,7 @@
 
 /* Customizing the scrollbar */
 .interview-data::-webkit-scrollbar {
-  width: 12px; /* Scrollbar width */
+  width: 6px; /* Scrollbar width */
 }
 
 .interview-data::-webkit-scrollbar-thumb {

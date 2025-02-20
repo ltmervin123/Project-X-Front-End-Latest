@@ -160,7 +160,7 @@ width: 200px;
   }
 /* Customizing the scrollbar */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar {
-  width: 12px; /* Scrollbar width */
+  width: 5px; /* Scrollbar width */
 }
 
 .AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb {

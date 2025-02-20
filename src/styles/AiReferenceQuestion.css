@@ -182,7 +182,7 @@
 .AiReference-Question-Sets-Container::-webkit-scrollbar,
 .ReviewYourReferenceCheck-box-dropdown::-webkit-scrollbar,
 .Format-Container::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 .questions-list::-webkit-scrollbar-thumb,

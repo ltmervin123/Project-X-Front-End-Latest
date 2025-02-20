@@ -393,7 +393,7 @@
 
 /* Customizing the scrollbar */
 .table-responsive tbody::-webkit-scrollbar {
-  width: 12px; /* Scrollbar width */
+  width: 6px; /* Scrollbar width */
 }
 
 .table-responsive tbody::-webkit-scrollbar-thumb {
