@@ -283,10 +283,7 @@ function App() {
           path="/ResumeFitOptimizer/SaveAndExportResumes"
           element={<RFOSaveAndExportResumePage />}
         />
-        <Route
-          path="/PaymentMethod"
-          element={<PaymentMethod />}
-        />
+        <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
