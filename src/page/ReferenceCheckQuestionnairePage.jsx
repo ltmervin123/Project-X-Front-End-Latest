@@ -8,15 +8,28 @@ import {
 } from "react-icons/fa";
 
 function ReferenceCheckQuestionnairePage() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
   const [candidateName, setCandidateName] = useState(
     REFEREE?.candidateName || ""
   );
-  const location = useLocation();
-  const selectedMethod = location.state?.selectedMethod; // Access 'selectedMethod' from the state
-  const navigate = useNavigate(); // Initialize useNavigate
+  const selectedMethod = location.state?.selectedMethod;
   const referenceQuestions =
     JSON.parse(localStorage.getItem("referenceQuestions")) || {};
+  const [question, setQuestion] = useState([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [transcription, setTranscription] = useState("");
+  const [answers, setAnswers] = useState([]);
+  const [answered, setAnswered] = useState([]);
+  const [inputedText, setInputedText] = useState("");
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
 
   const getQuestions = () => {
     switch (referenceQuestions.formatType) {
@@ -32,23 +45,6 @@ function ReferenceCheckQuestionnairePage() {
         return [];
     }
   };
-  const [question, setQuestion] = useState(getQuestions);
-  useEffect(() => {}, [selectedMethod]);
-
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [transcription, setTranscription] = useState("");
-  const [answers, setAnswers] = useState(new Array(question.length).fill("")); // Store answers for each question
-  const [answered, setAnswered] = useState(
-    new Array(question.length).fill(false)
-  ); // Track whether a question has been answered
-
-  const [isRecording, setIsRecording] = useState(false); // Track if recording is in progress
-
-  const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
 
   const handleNext = () => {
     if (currentQuestionIndex < question.length - 1) {
@@ -58,6 +54,10 @@ function ReferenceCheckQuestionnairePage() {
 
   const handleTranscriptionChange = (event) => {
     setTranscription(event.target.value);
+  };
+
+  const handleInputedTextChange = (event) => {
+    setInputedText(event.target.value);
   };
 
   const handleSubmit = () => {
@@ -96,16 +96,22 @@ function ReferenceCheckQuestionnairePage() {
 
   const startRecording = () => {
     setIsRecording(true);
-    // Implement your start recording logic here
+
     console.log("Recording started...");
   };
 
   const stopRecording = () => {
     setIsRecording(false);
-    // Implement your stop recording logic here
+
     console.log("Recording stopped...");
-    // You can update the transcription with the recorded content here
   };
+
+  // Load questions from local storage
+  useEffect(() => {
+    if (question.length === 0) {
+      setQuestion(getQuestions);
+    }
+  }, [referenceQuestions]);
 
   // Prevent user from leaving the page
   useEffect(() => {
@@ -151,61 +157,65 @@ function ReferenceCheckQuestionnairePage() {
         </div>
       </div>
 
-      <div className="transcription-answer-container">
-        <h4>
-          {selectedMethod === "Voice Response" ? "Transcription:" : "Answer:"}
-        </h4>
-        <textarea
-          value={
-            selectedMethod === "Voice Response"
-              ? transcription
-              : answered[currentQuestionIndex]
-              ? answers[currentQuestionIndex]
-              : transcription
-          } // Show transcription or saved answer
-          onChange={handleTranscriptionChange}
-          rows="4"
-          placeholder={
-            selectedMethod === "Voice Response"
-              ? "Transcription will appear here...."
-              : "Type your answer..."
-          }
-          disabled={selectedMethod === "Voice Response"} // Disable input for Voice Response
-        />
-        <div className="d-flex justify-content-center">
-          {selectedMethod === "Voice Response" ? (
-            <div>
-              {isRecording ? (
-                <button
-                  className="d-flex gap-2 align-items-center justify-content"
-                  onClick={stopRecording}
-                >
-                  <FaMicrophoneAltSlash />
-                  Stop Recording
-                </button>
-              ) : (
-                <button
-                  className="d-flex gap-2 align-items-center justify-content"
-                  onClick={startRecording}
-                >
-                  <FaMicrophone />
-                  Start Recording
-                </button>
-              )}
+      <>
+        {selectedMethod === "VOICE_BASE" ? (
+          <div className="transcription-answer-container">
+            <h4>Transcription:</h4>
+            <textarea
+              value={transcription}
+              onChange={handleTranscriptionChange}
+              rows="4"
+              placeholder={"Transcription will appear here...."}
+              disabled={true}
+            />
+            <div className="d-flex justify-content-center">
+              <div>
+                {currentQuestionIndex !== question.length ? (
+                  isRecording ? (
+                    <button
+                      className="d-flex gap-2 align-items-center justify-content"
+                      onClick={stopRecording}
+                    >
+                      <FaMicrophoneAltSlash />
+                      Stop Recording
+                    </button>
+                  ) : (
+                    <button
+                      className="d-flex gap-2 align-items-center justify-content"
+                      onClick={startRecording}
+                    >
+                      <FaMicrophone />
+                      Start Recording
+                    </button>
+                  )
+                ) : (
+                  <button onClick={handleFinish}>Finish</button>
+                )}
+              </div>
             </div>
-          ) : currentQuestionIndex === question.length - 1 ? (
-            <button onClick={handleFinish}>Finish</button> // Show Finish button on last question
-          ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={answered[currentQuestionIndex]} // Disable submit button after answering
-              className={answered[currentQuestionIndex] ? "disabled" : ""}
-            >
-              Submit
-            </button>
-          )}
-        </div>
-      </div>
+          </div>
+        ) : (
+          <div className="transcription-answer-container">
+            <h4>Answer:</h4>
+            <textarea
+              value={inputedText} // Show transcription or saved answer
+              onChange={handleInputedTextChange}
+              rows="4"
+              placeholder={"Type your answer..."}
+            />
+            <div className="d-flex justify-content-center">
+              <button
+                onClick={handleSubmit}
+                disabled={answered[currentQuestionIndex]}
+                className={!inputedText ? "disabled" : ""}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        )}
+      </>
+
       <div className="orange-bg-bottom"></div>
       <div className="orange-bg-top"></div>
       <div className="blue-bg-left"></div>
