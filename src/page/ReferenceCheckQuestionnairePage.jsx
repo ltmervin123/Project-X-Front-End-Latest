@@ -10,22 +10,22 @@ import {
 function ReferenceCheckQuestionnairePage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
-  const [candidateName, setCandidateName] = useState(
-    REFEREE?.candidateName || ""
-  );
   const selectedMethod = location.state?.selectedMethod;
+  const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
+  const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
     JSON.parse(localStorage.getItem("referenceQuestions")) || {};
-  const [question, setQuestion] = useState([]);
+
+  const [questions, setQuestion] = useState([]);
   const [isRecording, setIsRecording] = useState(false);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [transcription, setTranscription] = useState("");
   const [answers, setAnswers] = useState([]);
   const [answered, setAnswered] = useState([]);
   const [inputedText, setInputedText] = useState("");
 
-  const handlePrevious = () => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  const prevQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
@@ -46,8 +46,8 @@ function ReferenceCheckQuestionnairePage() {
     }
   };
 
-  const handleNext = () => {
-    if (currentQuestionIndex < question.length - 1) {
+  const nextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
@@ -61,36 +61,36 @@ function ReferenceCheckQuestionnairePage() {
   };
 
   const handleSubmit = () => {
-    if (transcription.trim()) {
-      const updatedAnswers = [...answers];
-      updatedAnswers[currentQuestionIndex] = transcription; // Save the answer for the current question
-      setAnswers(updatedAnswers);
-      setAnswered((prevAnswered) => {
-        const updatedAnswered = [...prevAnswered];
-        updatedAnswered[currentQuestionIndex] = true; // Mark current question as answered
-        return updatedAnswered;
-      });
-      setTranscription(""); // Reset the transcription input field
-    } else {
-      alert("Please answer the question before moving to the next one.");
-    }
+    // if (transcription.trim()) {
+    //   const updatedAnswers = [...answers];
+    //   updatedAnswers[currentQuestionIndex] = transcription; // Save the answer for the current question
+    //   setAnswers(updatedAnswers);
+    //   setAnswered((prevAnswered) => {
+    //     const updatedAnswered = [...prevAnswered];
+    //     updatedAnswered[currentQuestionIndex] = true; // Mark current question as answered
+    //     return updatedAnswered;
+    //   });
+    //   setTranscription(""); // Reset the transcription input field
+    // } else {
+    //   alert("Please answer the question before moving to the next one.");
+    // }
   };
 
   const handleFinish = () => {
-    if (transcription.trim()) {
-      const updatedAnswers = [...answers];
-      updatedAnswers[currentQuestionIndex] = transcription; // Save the last answer
-      setAnswers(updatedAnswers);
-    }
+    // if (transcription.trim()) {
+    //   const updatedAnswers = [...answers];
+    //   updatedAnswers[currentQuestionIndex] = transcription; // Save the last answer
+    //   setAnswers(updatedAnswers);
+    // }
 
-    // Log the questions and answers when finishing the questionnaire
-    console.log("Questions and Answers:");
-    question.forEach((question, index) => {
-      console.log(`${question}: ${answers[index]}`);
-    });
+    // // Log the questions and answers when finishing the questionnaire
+    // console.log("Questions and Answers:");
+    // question.forEach((question, index) => {
+    //   console.log(`${question}: ${answers[index]}`);
+    // });
 
     navigate("/reference-review", {
-      state: { questions: question, answers: answers }, // Pass the questions and answers
+      state: { questions: questions, answers: answers },
     });
   };
 
@@ -108,10 +108,10 @@ function ReferenceCheckQuestionnairePage() {
 
   // Load questions from local storage
   useEffect(() => {
-    if (question.length === 0) {
-      setQuestion(getQuestions);
+    if (questions.length === 0) {
+      setQuestion(getQuestions());
     }
-  }, [referenceQuestions]);
+  }, []);
 
   // Prevent user from leaving the page
   useEffect(() => {
@@ -134,21 +134,21 @@ function ReferenceCheckQuestionnairePage() {
       <div className="referencecheckquestion-container mb-5">
         <div className="question-container">
           <p className="question-title">
-            Question {currentQuestionIndex + 1} of {question.length}
+            Question {currentQuestionIndex + 1} of {questions.length}
           </p>
-          <p>{question[currentQuestionIndex]}</p>
+          <p>{questions[currentQuestionIndex]}</p>
         </div>
 
         <div className="button-container d-flex align-items-center justify-content-between">
           <button
-            onClick={handlePrevious}
+            onClick={nextQuestion}
             disabled={currentQuestionIndex === 0}
             className="d-flex align-items-center justify-content-center"
           >
             Previous
           </button>
           <button
-            onClick={handleNext}
+            onClick={prevQuestion}
             disabled={!answered[currentQuestionIndex]} // Disable 'Next' if the current question is not answered
             className="d-flex align-items-center justify-content-center"
           >
@@ -170,7 +170,7 @@ function ReferenceCheckQuestionnairePage() {
             />
             <div className="d-flex justify-content-center">
               <div>
-                {currentQuestionIndex !== question.length ? (
+                {currentQuestionIndex !== questions.length ? (
                   isRecording ? (
                     <button
                       className="d-flex gap-2 align-items-center justify-content"
