@@ -211,7 +211,8 @@ useLayoutEffect(() => {
 
             {/* Navigation Buttons */}
             <div className="navigation-buttons gap-4 position-relative">
-              {currentQuestion.id === 10 ? (
+              {/* Display the Proceed button if the last question is reach */}
+              {currentQuestion.id === questions.length ? (
                 <>
                   <button
                     className="prev-btn"

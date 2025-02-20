@@ -81,54 +81,54 @@ const MainDashboard = () => {
     ],
   };
 
-// Ensure the tooltip element exists and is created before using it
-const createTooltipElement = () => {
-  let tooltipEl = document.getElementById("chartjs-tooltip");
+  // Ensure the tooltip element exists and is created before using it
+  const createTooltipElement = () => {
+    let tooltipEl = document.getElementById("chartjs-tooltip");
 
-  if (!tooltipEl) {
-    tooltipEl = document.createElement("div");
-    tooltipEl.id = "chartjs-tooltip";
-    tooltipEl.innerHTML = "<table></table>";
-    document.body.appendChild(tooltipEl);
-  }
+    if (!tooltipEl) {
+      tooltipEl = document.createElement("div");
+      tooltipEl.id = "chartjs-tooltip";
+      tooltipEl.innerHTML = "<table></table>";
+      document.body.appendChild(tooltipEl);
+    }
 
-  return tooltipEl;
-};
+    return tooltipEl;
+  };
 
-const lineOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: false,
-      external: function (context) {
-        const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
+  const lineOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+        external: function (context) {
+          const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
 
-        const tooltipModel = context.tooltip;
+          const tooltipModel = context.tooltip;
 
-        if (tooltipModel.opacity === 0) {
-          tooltipEl.style.opacity = 0;
-          return;
-        }
+          if (tooltipModel.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+          }
 
-        const position = context.chart.canvas.getBoundingClientRect();
-        tooltipEl.style.opacity = 1;
-        tooltipEl.style.backgroundColor = "#fff";
-        tooltipEl.style.padding = "10px";
-        tooltipEl.style.position = "absolute";
-        tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
-        tooltipEl.style.borderRadius = "10px";
-        tooltipEl.style.pointerEvents = "none";
+          const position = context.chart.canvas.getBoundingClientRect();
+          tooltipEl.style.opacity = 1;
+          tooltipEl.style.backgroundColor = "#fff";
+          tooltipEl.style.padding = "10px";
+          tooltipEl.style.position = "absolute";
+          tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+          tooltipEl.style.borderRadius = "10px";
+          tooltipEl.style.pointerEvents = "none";
 
-        tooltipEl.style.left =
-          position.left + window.scrollX + tooltipModel.caretX + "px";
-        tooltipEl.style.top =
-          position.top + window.scrollY + tooltipModel.caretY + "px";
+          tooltipEl.style.left =
+            position.left + window.scrollX + tooltipModel.caretX + "px";
+          tooltipEl.style.top =
+            position.top + window.scrollY + tooltipModel.caretY + "px";
 
-        const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
-        const innerHtml = `
+          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
+          const innerHtml = `
           <table class="tooltip-line=chart">
             <tr>
               <td style="font-weight: 500;">${month}</td>
@@ -145,36 +145,35 @@ const lineOptions = {
             </tr>
           </table>
         `;
-        tooltipEl.querySelector("table").innerHTML = innerHtml;
-      },
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          size: 12,
+          tooltipEl.querySelector("table").innerHTML = innerHtml;
         },
-        color: "#000",
       },
     },
-    y: {
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          size: 12,
+    scales: {
+      x: {
+        grid: {
+          display: false,
         },
-        color: "#000",
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+        },
       },
     },
-  },
-};
-
+  };
 
   const barData = {
     labels: ["Engineering", "Sales", "Marketing", "HR", "Finance", "Operation"], // Departments as labels
