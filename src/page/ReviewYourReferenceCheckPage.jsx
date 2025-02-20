@@ -157,19 +157,25 @@ const draw = (e) => {
 const stopDrawing = () => {
   setIsDrawing(false);
 };
-const hasRunRef = useRef(false); // Ref to track if the effect has run
 useLayoutEffect(() => {
-  if (signatureMethod === "Draw Signature" && hasRunRef.current) {
-    resizeCanvas(); // Call resizeCanvas only on the first render if the signature method is "Draw Signature"
-    hasRunRef.current = true; // Set the ref to true after the first run
+  if (signatureMethod === "Draw Signature") {
+    console.log("Canvas resize");
+
+    const intervalId = setInterval(() => {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        resizeCanvas();
+        clearInterval(intervalId); // Stop checking once the canvas is available
+      } else {
+        console.log("Canvas not yet available, checking again...");
+      }
+    }, 100); // Check every 100ms
+
+    return () => {
+      clearInterval(intervalId); // Cleanup on unmount
+    };
   }
-
-  // Cleanup function (if needed)
-  return () => {
-    // You can add any cleanup logic here if necessary
-  };
-}, [signatureMethod]); // Use signatureMethod as a dependency
-
+}, [signatureMethod]);
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <h2 className="referencecheckquestiontitle text-left mb-2">
