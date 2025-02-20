@@ -5,6 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
 import ViewRequest from "./ViewRequest";
 import axios from "axios";
+import ReferenceRequestEmailSentPopup from "./ReferenceRequestEmailSentPopup"; // Add this line
 
 const ReferenceRequest = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -12,10 +13,10 @@ const ReferenceRequest = () => {
   const companyId = USER?.id;
   const token = USER?.token;
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+  const [showEmailSentPopup, setShowEmailSentPopup] = useState(false); // Add this line
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
   const [searchQuery, setSearchQuery] = useState("");
-
   const [reference, setReference] = useState(
     JSON.parse(localStorage.getItem("reference")) || []
   );
@@ -71,7 +72,8 @@ const ReferenceRequest = () => {
 
   const handleAddReference = async () => {
     await reFetchReference();
-  };
+    setShowEmailSentPopup(true); // Add this line
+};
 
   const handleViewDetails = (candidate) => {
     setSelectedCandidate(candidate);
@@ -234,6 +236,12 @@ const ReferenceRequest = () => {
           onViewReference={handleViewReference} // Add this line
         />
       )}
+      {showEmailSentPopup && (
+    <ReferenceRequestEmailSentPopup
+        show={showEmailSentPopup}
+        onClose={() => setShowEmailSentPopup(false)} // Add this line
+    />
+)}
     </div>
   );
 };
