@@ -5,15 +5,16 @@ import { FaSearch } from "react-icons/fa";
 import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
 import ViewRequest from "./ViewRequest";
 import axios from "axios";
-import ReferenceRequestEmailSentPopup from "./ReferenceRequestEmailSentPopup"; // Add this line
+import { useNavigate } from "react-router-dom";
 
 const ReferenceRequest = () => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const companyId = USER?.id;
   const token = USER?.token;
+  const navigate = useNavigate();
+
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
-  const [showEmailSentPopup, setShowEmailSentPopup] = useState(false); // Add this line
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
   const [searchQuery, setSearchQuery] = useState("");
@@ -72,8 +73,8 @@ const ReferenceRequest = () => {
 
   const handleAddReference = async () => {
     await reFetchReference();
-    setShowEmailSentPopup(true); // Add this line
-};
+    navigate("/AiReferenceRequestEmailSent");
+    };
 
   const handleViewDetails = (candidate) => {
     setSelectedCandidate(candidate);
@@ -117,7 +118,9 @@ const ReferenceRequest = () => {
       <div className="d-flex justify-content-between align-items-end mb-3">
         <div>
           <h3>Reference Request</h3>
-          <p className="m-0">Manage and track reference checks for your candidates.</p>
+          <p className="m-0">
+            Manage and track reference checks for your candidates.
+          </p>
         </div>
 
         <button
@@ -236,12 +239,6 @@ const ReferenceRequest = () => {
           onViewReference={handleViewReference} // Add this line
         />
       )}
-      {showEmailSentPopup && (
-    <ReferenceRequestEmailSentPopup
-        show={showEmailSentPopup}
-        onClose={() => setShowEmailSentPopup(false)} // Add this line
-    />
-)}
     </div>
   );
 };

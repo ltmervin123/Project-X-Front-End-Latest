@@ -1,46 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import JoinIMG from "../../assets/mock-avatar.png";
 import { Carousel } from "react-bootstrap";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const JoinCommunitySection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target); // Stop observing after it becomes visible
+          }
+        });
+      },
+      { threshold: 0.5 } // Trigger when 50% of the element is visible
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
   const cardsData = [
     {
-      content: "“Mock.AI helped me gain confidence in my interviews! The AI feedback was super helpful.”",
-      author: "Alex R., Software Engineer"
+      content:
+        "“Mock.AI helped me gain confidence in my interviews! The AI feedback was super helpful.”",
+      author: "Alex R., Software Engineer",
     },
     {
-      content: "“Practicing with Mock.AI made a huge difference in my behavioral interviews.”",
-      author: "Liam W., DevOps Engineer"
+      content:
+        "“Practicing with Mock.AI made a huge difference in my behavioral interviews.”",
+      author: "Liam W., DevOps Engineer",
     },
     {
       content: "“The AI feedback on my system design answers was spot on.”",
-      author: "Jake M., Backend Developer"
+      author: "Jake M., Backend Developer",
     },
     {
-      content: "“Thanks to Mock.AI, I was able to refine my resume and land my dream job!”",
-      author: "Sarah T., Product Manager"
+      content:
+        "“Thanks to Mock.AI, I was able to refine my resume and land my dream job!”",
+      author: "Sarah T., Product Manager",
     },
     {
-      content: "“The mock interviews were incredibly realistic and helped me prepare effectively.”",
-      author: "Michael B., Data Scientist"
+      content:
+        "“The mock interviews were incredibly realistic and helped me prepare effectively.”",
+      author: "Michael B., Data Scientist",
     },
     {
-      content: "“I loved the personalized feedback from Mock.AI. It really helped me improve.”",
-      author: "Emily C., UX Designer"
+      content:
+        "“I loved the personalized feedback from Mock.AI. It really helped me improve.”",
+      author: "Emily C., UX Designer",
     },
     {
-      content: "“Mock.AI's tips on job applications were invaluable. I felt more confident applying.”",
-      author: "David K., Marketing Specialist"
+      content:
+        "“Mock.AI's tips on job applications were invaluable. I felt more confident applying.”",
+      author: "David K., Marketing Specialist",
     },
     {
-      content: "“The platform's insights on interview techniques were a game changer for me.”",
-      author: "Sophia L., Project Coordinator"
+      content:
+        "“The platform's insights on interview techniques were a game changer for me.”",
+      author: "Sophia L., Project Coordinator",
     },
     {
-      content: "“I appreciate how Mock.AI helped me prepare for technical interviews. Highly recommend!”",
-      author: "James P., Software Developer"
-    }
+      content:
+        "“I appreciate how Mock.AI helped me prepare for technical interviews. Highly recommend!”",
+      author: "James P., Software Developer",
+    },
   ];
 
   const [index, setIndex] = useState(0);
@@ -60,7 +94,12 @@ const JoinCommunitySection = () => {
   };
 
   return (
-    <div className="join-community-container d-flex align-items-center justify-content-center flex-column gap-3">
+    <div
+      ref={sectionRef}
+      className={`join-community-container d-flex align-items-center justify-content-center flex-column gap-3 ${
+        isVisible ? "fade-in" : ""
+      }`}
+    >
       <div className="d-flex align-items-center justify-content-center">
         <h2>Join our community of satisfied users</h2>
         <img src={JoinIMG} alt="Did You Know Avatar" />
@@ -100,10 +139,7 @@ const JoinCommunitySection = () => {
                         </svg>
                       </div>
                       <p className="card-text">{card.content}</p>
-                      <p
-                        className="card-author"
-                        style={{ marginTop: "0.5em" }}
-                      >
+                      <p className="card-author" style={{ marginTop: "0.5em" }}>
                         {card.author}
                       </p>
                     </div>

@@ -89,6 +89,9 @@ import ReferenceCheckInstructionsPage from "./page/ReferenceCheckInstructionsPag
 // ViewRequest
 import ViewRequest from "./components/AiReference/ViewRequest.jsx";
 
+// ReferenceRequestEmailSentPage
+import ReferenceRequestEmailSentPage from "./page/ReferenceRequestEmailSentPage.jsx";
+
 // PaymentMethod
 import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
 
@@ -191,7 +194,6 @@ function App() {
               path="/AiReferenceRequest"
               element={<AiReferenceRequestPage />}
             />
-            {/* Dri changes vin  */}
             <Route path="/ViewRequest" element={<ViewRequest />} />
             <Route
               path="/AiReferenceQuestion"
@@ -200,6 +202,11 @@ function App() {
             <Route
               path="/AiReferenceReports"
               element={<AiReferenceReportsPage />}
+            />
+            {/* ReferenceRequestEmailSentPage*/}
+            <Route
+              path="/AiReferenceRequestEmailSent"
+              element={<ReferenceRequestEmailSentPage />}
             />
           </Route>
         </Route>

@@ -104,7 +104,13 @@
 .custom-modal-job .modal-body .candidate-details > div{
  border-bottom: 1px solid var(--text-color) ;
 }
-
+.custom-modal-job .modal-body > form > div > input,
+.custom-modal-job .modal-body > form > div > select {
+  border-radius: 50px;
+}
+.custom-modal-job .modal-body > form > div textarea {
+  border-radius: 20px;
+}
 
 .custom-modal-job .modal-body .candidate-details .card{
   background: var(--font-white);

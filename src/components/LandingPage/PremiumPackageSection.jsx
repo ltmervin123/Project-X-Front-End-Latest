@@ -1,9 +1,37 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 const PremiumPackageSection = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
+  const [isVisible, setIsVisible] = useState(false);
+  const headerRef = useRef(null); // Reference to the <h1> element
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          console.log(entry.isIntersecting); // Check if visibility is being detected
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect(); // Stop observing after visibility is detected
+          }
+        });
+      },
+      { threshold: 0.1 } // You can change this value to make it more or less sensitive
+    );
+    
+    const currentHeader = headerRef.current;
+    if (currentHeader) {
+      observer.observe(currentHeader);
+    }
+
+    return () => {
+      if (currentHeader) {
+        observer.disconnect(); // Clean up on component unmount
+      }
+    };
+  }, []);
+  
   const subscriptionPlans = [
     {
       title: "Free",
@@ -70,10 +98,12 @@ const PremiumPackageSection = () => {
 
   return (
     <section
-      className="premium-package-container d-flex align-items-center flex-column"
       id="pricing"
+      className={`premium-package-container d-flex align-items-center flex-column ${
+        isVisible ? "fade-in" : ""
+      }`}
     >
-      <h1 id="mockpricing">Pricing Plans</h1>
+      <h1 id="mockpricing" ref={headerRef}>Pricing Plans</h1> {/* Added ref to <h1> */}
       <div className="subcription-pricing-container d-flex align-items-center justify-content-center flex-wrap gap-5">
         {subscriptionPlans.map((plan, index) => (
           <div

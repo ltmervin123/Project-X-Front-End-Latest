@@ -132,7 +132,7 @@ word-wrap: break-word;
 
 /* Customizing the scrollbar */
 .AiReference-report-container tbody::-webkit-scrollbar {
-  width: 12px; /* Scrollbar width */
+  width: 6px; /* Scrollbar width */
 }
 
 .AiReference-report-container tbody::-webkit-scrollbar-thumb {
