@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -22,13 +22,42 @@ function ReferenceCheckQuestionnairePage() {
   const [answers, setAnswers] = useState([]);
   const [answered, setAnswered] = useState([]);
   const [inputedText, setInputedText] = useState("");
-
+  const [referenceQuestionsData, setReferenceQuestionsData] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const prevQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
+  };
+
+  const formatReferenceQuestions = () => {
+    // Check if reference questions is not hr-hatch format return an empty array because its an Custom format
+    if (
+      !referenceQuestions ||
+      referenceQuestions.formatType !== "HR-HATCH-FORMAT"
+    ) {
+      return [];
+    }
+
+    if (
+      !referenceQuestions.questions ||
+      typeof referenceQuestions.questions !== "object"
+    ) {
+      console.error("Questions object is missing or not valid.");
+      return [];
+    }
+
+    return Object.entries(referenceQuestions.questions) // Access nested `questions` object
+      .filter(([category, questions]) => Array.isArray(questions)) // Ensure values are arrays
+      .map(([category, questions]) => ({
+        category,
+        questions: questions.map((q) =>
+          typeof q === "string"
+            ? q.replace(/\$\{candidateName\}/g, candidateName)
+            : q
+        ),
+      }));
   };
 
   const getQuestions = () => {
@@ -48,7 +77,7 @@ function ReferenceCheckQuestionnairePage() {
 
   const nextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
 
@@ -60,7 +89,7 @@ function ReferenceCheckQuestionnairePage() {
     setInputedText(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
     // if (transcription.trim()) {
     //   const updatedAnswers = [...answers];
     //   updatedAnswers[currentQuestionIndex] = transcription; // Save the answer for the current question
@@ -74,6 +103,11 @@ function ReferenceCheckQuestionnairePage() {
     // } else {
     //   alert("Please answer the question before moving to the next one.");
     // }
+
+    const updatedAnswers = [...answered]; // Create a new copy of the array
+    updatedAnswers[currentQuestionIndex] = inputedText; // Update the specific index
+    setAnswered(updatedAnswers); // Update state
+    setInputedText(""); // Clear the input field
   };
 
   const handleFinish = () => {
@@ -106,10 +140,16 @@ function ReferenceCheckQuestionnairePage() {
     console.log("Recording stopped...");
   };
 
+  useEffect(() => {
+    console.log("referenceQuestionsData", referenceQuestionsData);
+  }, [referenceQuestionsData]);
+
   // Load questions from local storage
   useEffect(() => {
     if (questions.length === 0) {
       setQuestion(getQuestions());
+      setAnswered(new Array(getQuestions().length).fill(""));
+      setReferenceQuestionsData(formatReferenceQuestions());
     }
   }, []);
 
@@ -141,15 +181,15 @@ function ReferenceCheckQuestionnairePage() {
 
         <div className="button-container d-flex align-items-center justify-content-between">
           <button
-            onClick={nextQuestion}
+            onClick={prevQuestion}
             disabled={currentQuestionIndex === 0}
             className="d-flex align-items-center justify-content-center"
           >
             Previous
           </button>
           <button
-            onClick={prevQuestion}
-            disabled={!answered[currentQuestionIndex]} // Disable 'Next' if the current question is not answered
+            onClick={nextQuestion}
+            disabled={answered[currentQuestionIndex] === ""} // Disable 'Next' if the current question is not answered
             className="d-flex align-items-center justify-content-center"
           >
             Next
@@ -206,7 +246,7 @@ function ReferenceCheckQuestionnairePage() {
             <div className="d-flex justify-content-center">
               <button
                 onClick={handleSubmit}
-                disabled={answered[currentQuestionIndex]}
+                disabled={!inputedText}
                 className={!inputedText ? "disabled" : ""}
               >
                 Submit
