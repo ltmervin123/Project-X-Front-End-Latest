@@ -57,6 +57,7 @@ function ReferenceCheckQuestionnairePage() {
             ? q.replace(/\$\{candidateName\}/g, candidateName)
             : q
         ),
+        answers: new Array(questions.length).fill("")
       }));
   };
 
