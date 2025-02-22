@@ -19,7 +19,7 @@ function ReferenceCheckQuestionnairePage() {
   const [questions, setQuestion] = useState([]);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
-  const [answers, setAnswers] = useState([]);
+  // const [answers, setAnswers] = useState([]);
   const [answered, setAnswered] = useState([]);
   const [inputedText, setInputedText] = useState("");
   const [referenceQuestionsData, setReferenceQuestionsData] = useState({});
@@ -28,6 +28,12 @@ function ReferenceCheckQuestionnairePage() {
   const prevQuestion = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const nextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
 
@@ -57,7 +63,7 @@ function ReferenceCheckQuestionnairePage() {
             ? q.replace(/\$\{candidateName\}/g, candidateName)
             : q
         ),
-        answers: new Array(questions.length).fill("")
+        answers: new Array(questions.length).fill(""),
       }));
   };
 
@@ -76,12 +82,6 @@ function ReferenceCheckQuestionnairePage() {
     }
   };
 
-  const nextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
-  };
-
   const handleTranscriptionChange = (event) => {
     setTranscription(event.target.value);
   };
@@ -90,43 +90,54 @@ function ReferenceCheckQuestionnairePage() {
     setInputedText(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    // if (transcription.trim()) {
-    //   const updatedAnswers = [...answers];
-    //   updatedAnswers[currentQuestionIndex] = transcription; // Save the answer for the current question
-    //   setAnswers(updatedAnswers);
-    //   setAnswered((prevAnswered) => {
-    //     const updatedAnswered = [...prevAnswered];
-    //     updatedAnswered[currentQuestionIndex] = true; // Mark current question as answered
-    //     return updatedAnswered;
-    //   });
-    //   setTranscription(""); // Reset the transcription input field
-    // } else {
-    //   alert("Please answer the question before moving to the next one.");
-    // }
+  const handleSubmit = () => {
+    const updatedAnswers = [...answered];
+    updatedAnswers[currentQuestionIndex] = inputedText;
+    setAnswered(updatedAnswers);
+    setInputedText("");
+    attachAnswer();
+  };
 
-    const updatedAnswers = [...answered]; // Create a new copy of the array
-    updatedAnswers[currentQuestionIndex] = inputedText; // Update the specific index
-    setAnswered(updatedAnswers); // Update state
-    setInputedText(""); // Clear the input field
+  const saveReferenceQuestionsData = () => {
+    localStorage.setItem(
+      "referenceQuestionsData",
+      JSON.stringify(referenceQuestionsData || [])
+    );
+  };
+
+  const attachAnswer = () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const answer = inputedText;
+    setReferenceQuestionsData((prevData) => {
+      return prevData.map((categoryItem) => {
+        const { category, questions, answers } = categoryItem;
+
+        // Find the index of the currentQuestion inside the category's questions array
+        const questionIndex = questions.indexOf(currentQuestion);
+
+        // If the question is found, attach the answer at the same index
+        if (questionIndex !== -1) {
+          const updatedAnswers = [...answers]; // Create a copy of answers array
+          updatedAnswers[questionIndex] = answer; // Update the correct index
+
+          return {
+            ...categoryItem,
+            answers: updatedAnswers, // Update answers in the category
+          };
+        }
+
+        return categoryItem; // Return unchanged category if no match
+      });
+    });
   };
 
   const handleFinish = () => {
-    // if (transcription.trim()) {
-    //   const updatedAnswers = [...answers];
-    //   updatedAnswers[currentQuestionIndex] = transcription; // Save the last answer
-    //   setAnswers(updatedAnswers);
-    // }
-
-    // // Log the questions and answers when finishing the questionnaire
-    // console.log("Questions and Answers:");
-    // question.forEach((question, index) => {
-    //   console.log(`${question}: ${answers[index]}`);
+    handleSubmit();
+    saveReferenceQuestionsData();
+    // navigate("/reference-review", {
+    //   state: { questions: questions, answers: answered },
     // });
-
-    navigate("/reference-review", {
-      state: { questions: questions, answers: answers },
-    });
+    navigate("/reference-review");
   };
 
   const startRecording = () => {
@@ -141,9 +152,9 @@ function ReferenceCheckQuestionnairePage() {
     console.log("Recording stopped...");
   };
 
-  useEffect(() => {
-    console.log("referenceQuestionsData", referenceQuestionsData);
-  }, [referenceQuestionsData]);
+  // useEffect(() => {
+  //   console.log("referenceQuestionsData", referenceQuestionsData);
+  // }, [referenceQuestionsData]);
 
   // Load questions from local storage
   useEffect(() => {
@@ -190,7 +201,10 @@ function ReferenceCheckQuestionnairePage() {
           </button>
           <button
             onClick={nextQuestion}
-            disabled={answered[currentQuestionIndex] === ""} // Disable 'Next' if the current question is not answered
+            disabled={
+              answered[currentQuestionIndex] === "" ||
+              currentQuestionIndex === questions.length - 1
+            } // Disable 'Next' if the current question is not answered
             className="d-flex align-items-center justify-content-center"
           >
             Next
@@ -245,13 +259,17 @@ function ReferenceCheckQuestionnairePage() {
               placeholder={"Type your answer..."}
             />
             <div className="d-flex justify-content-center">
-              <button
-                onClick={handleSubmit}
-                disabled={!inputedText}
-                className={!inputedText ? "disabled" : ""}
-              >
-                Submit
-              </button>
+              {currentQuestionIndex === questions.length - 1 ? (
+                <button onClick={handleFinish}>Finish</button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={!inputedText}
+                  className={!inputedText ? "disabled" : ""}
+                >
+                  Submit
+                </button>
+              )}
             </div>
           </div>
         )}
