@@ -179,7 +179,7 @@ textarea::placeholder {
     height: auto;
 }
 .progress-content-percentage {
-    color: #1877F2;
+    color: var(--primary-color);
     font-size: 42px;
     margin: 0px;
     padding: 0px;
@@ -200,25 +200,38 @@ textarea::placeholder {
 .progress-bar-red .progress-bar {
     background-color: #b30000 !important; /* Custom color */
 }
-.chart-name {
-    /* background-color: #1877F2; */
-    color: var(--font-black);
-    padding: 3px 25px;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
-}
+
 .progress-content-progress-percentage-container {
     width: auto;
+}
+.progress-content-progress-percentage-container p {
+    color: var(--font-black);
+    position: relative;
+    font-weight: 600;
+    margin: 0;
+}
+.progress-content-progress-percentage-container .chart-col{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+
+}
+.progress-content-progress-percentage-container svg{
+    width: 34px;
+    height: 34px;
 }
 .airesumeoptimizationanalysis-btn-content {
     padding: 0px !important;
     border: none !important;
     box-shadow: none !important;
 }
-
+.airesumeoptimizationanalysis-progress-content-header p,
+.airesumeoptimizationanalysis-strength-analysis-content-header p{
+    color: var(--input-bg);
+    font-size: 12px;
+}
 .btn-compare-resume {
     padding: 3px 20px;
     margin-right: 5px;
