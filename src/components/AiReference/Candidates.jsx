@@ -193,7 +193,7 @@ const Candidates = () => {
               </tbody>
             </table>
             <div className="d-flex justify-content-center w-100">
-              <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
+              <div className="d-flex justify-content-center align-items-center gap-5 candidate-button-controls h-100">
                 <button className="btn-archive">
                   Archive Inactive Candidates
                 </button>

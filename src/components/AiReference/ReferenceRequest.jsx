@@ -166,10 +166,11 @@ const ReferenceRequest = () => {
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
           <h4>Reference Requests Lists</h4>
+          <p>Overview of all reference requests</p>
         </div>
         {reference && reference.length > 0 ? (
           <>
-            <p>Overview of all reference requests</p>
+
             <table>
               <thead>
                 <tr>

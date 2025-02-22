@@ -74,8 +74,8 @@ const getProgressBarClass = (current, total) => {
                   ))}
                 </Col>
                 <Col md={6} className="progress-content-progress-percentage d-flex justify-content-start align-items-center flex-column">
-                  <span className="progress-content-label">Overall Fit Score Analysis</span>
                   <span className="progress-content-percentage">70%</span>
+                  <span className="progress-content-label">Overall Fit Score Analysis</span>
 
                 </Col>
               </div>

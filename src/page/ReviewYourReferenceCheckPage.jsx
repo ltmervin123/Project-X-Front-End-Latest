@@ -82,100 +82,100 @@ function ReviewYourReferenceCheckPage() {
 
   const currentQuestion = updatedQuestions[currentQuestionIndex];
 
-// Clear drawing function that clears both the canvas and drawing state
-const clearDrawing = () => {
-  const canvas = canvasRef.current;
-  const context = canvas.getContext("2d");
+  // Clear drawing function that clears both the canvas and drawing state
+  const clearDrawing = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
 
-  // Clear the canvas content
-  context.clearRect(0, 0, canvas.width, canvas.height);
+    // Clear the canvas content
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Reset drawing state to false, so new drawings start fresh
-  setIsDrawing(false);
-  resizeCanvas();
-};
+    // Reset drawing state to false, so new drawings start fresh
+    setIsDrawing(false);
+    resizeCanvas();
+  };
 
-const resizeCanvas = () => {
-  const canvas = canvasRef.current;
-  if (!canvas) {
-    console.log("Canvas is not available.");
-    return; // Ensure canvasRef is not null
-  }
-  
-  const container = canvas.parentElement;
-  if (!container) {
-    console.log("Container is not available.");
-    return; // Ensure parent element exists
-  }
+  const resizeCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.log("Canvas is not available.");
+      return; // Ensure canvasRef is not null
+    }
 
-  const context = canvas.getContext("2d");
-  const scale = window.devicePixelRatio || 1; // Use DPR for higher quality on high-res screens
-  const width = container.clientWidth * scale;
-  const height = container.clientHeight * scale;
+    const container = canvas.parentElement;
+    if (!container) {
+      console.log("Container is not available.");
+      return; // Ensure parent element exists
+    }
 
-  // Set the canvas size to ensure it matches the scaled size
-  canvas.width = width;
-  canvas.height = height;
+    const context = canvas.getContext("2d");
+    const scale = window.devicePixelRatio || 1; // Use DPR for higher quality on high-res screens
+    const width = container.clientWidth * scale;
+    const height = container.clientHeight * scale;
 
-  // Scale the context to match the device pixel ratio
-  context.scale(scale, scale);
+    // Set the canvas size to ensure it matches the scaled size
+    canvas.width = width;
+    canvas.height = height;
 
-  // Redraw the signature if necessary
-  context.lineWidth = 2 * scale; // Line width scaled for higher resolution
-  context.lineCap = "round"; // Smooth end of lines
-  context.lineJoin = "round"; // Smooth corners of lines
-  context.strokeStyle = "black"; // Ensure stroke style remains consistent
-  console.log("Canvas resized to", width, "x", height);
-};
-const startDrawing = (e) => {
-  const canvas = canvasRef.current;
-  const ctx = canvas.getContext("2d");
+    // Scale the context to match the device pixel ratio
+    context.scale(scale, scale);
 
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-  const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+    // Redraw the signature if necessary
+    context.lineWidth = 2 * scale; // Line width scaled for higher resolution
+    context.lineCap = "round"; // Smooth end of lines
+    context.lineJoin = "round"; // Smooth corners of lines
+    context.strokeStyle = "black"; // Ensure stroke style remains consistent
+    console.log("Canvas resized to", width, "x", height);
+  };
+  const startDrawing = (e) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-  setIsDrawing(true); // Set isDrawing to true to stop resizeCanvas from running
-};
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
 
-const draw = (e) => {
-  if (!isDrawing) return;
-  const canvas = canvasRef.current;
-  const ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    setIsDrawing(true); // Set isDrawing to true to stop resizeCanvas from running
+  };
 
-  // Get canvas position relative to the document
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Adjust for actual canvas size
-  const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Adjust for actual canvas size
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-  ctx.lineTo(x, y);
-  ctx.stroke();
-};
+    // Get canvas position relative to the document
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Adjust for actual canvas size
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Adjust for actual canvas size
 
-const stopDrawing = () => {
-  setIsDrawing(false);
-};
-useLayoutEffect(() => {
-  if (signatureMethod === "Draw Signature") {
-    console.log("Canvas resize");
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
 
-    const intervalId = setInterval(() => {
-      const canvas = canvasRef.current;
-      if (canvas) {
-        resizeCanvas();
-        clearInterval(intervalId); // Stop checking once the canvas is available
-      } else {
-        console.log("Canvas not yet available, checking again...");
-      }
-    }, 100); // Check every 100ms
+  const stopDrawing = () => {
+    setIsDrawing(false);
+  };
+  useLayoutEffect(() => {
+    if (signatureMethod === "Draw Signature") {
+      console.log("Canvas resize");
 
-    return () => {
-      clearInterval(intervalId); // Cleanup on unmount
-    };
-  }
-}, [signatureMethod]);
+      const intervalId = setInterval(() => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+          resizeCanvas();
+          clearInterval(intervalId); // Stop checking once the canvas is available
+        } else {
+          console.log("Canvas not yet available, checking again...");
+        }
+      }, 100); // Check every 100ms
+
+      return () => {
+        clearInterval(intervalId); // Cleanup on unmount
+      };
+    }
+  }, [signatureMethod]);
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <h2 className="referencecheckquestiontitle text-left mb-2">
@@ -208,11 +208,6 @@ useLayoutEffect(() => {
               <div className="answer-container">
                 <p></p>
               </div>
-
-              {/* Edit or Submit Button */}
-              <div className="edit-btn-container">
-                <button className="edit-answer-btn">Edit Answer</button>
-              </div>
             </div>
 
             {/* Navigation Buttons */}
@@ -237,7 +232,7 @@ useLayoutEffect(() => {
                   >
                     &gt;
                   </button>
-                  <button className="proceed-btn" onClick={handleProceed} >
+                  <button className="proceed-btn" onClick={handleProceed}>
                     Proceed
                   </button>
                 </>
@@ -290,7 +285,6 @@ useLayoutEffect(() => {
                   style={{ width: "100%", height: "280px" }}
                 >
                   <canvas
-                  
                     ref={canvasRef}
                     style={{
                       border: "1px solid black",
@@ -338,6 +332,19 @@ useLayoutEffect(() => {
                       </div>
                     ) : (
                       <>
+                        <svg
+                          width="47"
+                          height="47"
+                          viewBox="0 0 47 47"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M11.7487 39.1666C10.6716 39.1666 9.74989 38.7834 8.98353 38.0171C8.21717 37.2507 7.83334 36.3283 7.83203 35.2499V31.3333C7.83203 30.7784 8.02003 30.3136 8.39603 29.9389C8.77203 29.5642 9.23681 29.3762 9.79036 29.3749C10.3439 29.3736 10.8094 29.5616 11.1867 29.9389C11.564 30.3162 11.7513 30.781 11.7487 31.3333V35.2499H35.2487V31.3333C35.2487 30.7784 35.4367 30.3136 35.8127 29.9389C36.1887 29.5642 36.6535 29.3762 37.207 29.3749C37.7606 29.3736 38.226 29.5616 38.6033 29.9389C38.9806 30.3162 39.168 30.781 39.1654 31.3333V35.2499C39.1654 36.327 38.7822 37.2494 38.0158 38.0171C37.2495 38.7847 36.3271 39.1679 35.2487 39.1666H11.7487ZM21.5404 15.3728L17.8685 19.0447C17.4768 19.4364 17.012 19.6244 16.4742 19.6087C15.9363 19.5931 15.4708 19.3887 15.0779 18.9958C14.7188 18.6041 14.5308 18.1472 14.5139 17.6249C14.4969 17.1027 14.6849 16.6458 15.0779 16.2541L22.1279 9.2041C22.3237 9.00827 22.5359 8.86988 22.7643 8.78893C22.9928 8.70799 23.2376 8.66686 23.4987 8.66556C23.7598 8.66425 24.0046 8.70538 24.2331 8.78893C24.4615 8.87249 24.6737 9.01088 24.8695 9.2041L31.9195 16.2541C32.3112 16.6458 32.4992 17.1027 32.4835 17.6249C32.4679 18.1472 32.2799 18.6041 31.9195 18.9958C31.5279 19.3874 31.0631 19.5918 30.5252 19.6087C29.9873 19.6257 29.5219 19.4377 29.1289 19.0447L25.457 15.3728V29.3749C25.457 29.9298 25.269 30.3952 24.893 30.7712C24.517 31.1472 24.0523 31.3346 23.4987 31.3333C22.9451 31.332 22.4804 31.144 22.1044 30.7693C21.7284 30.3946 21.5404 29.9298 21.5404 29.3749V15.3728Z"
+                            fill="#686868"
+                          />
+                        </svg>
+
                         <p>Drop your signature image here or click to select</p>
                         <input
                           type="file"

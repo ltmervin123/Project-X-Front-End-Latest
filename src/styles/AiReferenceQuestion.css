@@ -22,7 +22,7 @@
 }
 .AiReference-table-title img {
   position: relative;
-  bottom: 3px;
+  bottom: 1px;
 }
 .button-controls-question button {
   background: var(--btn-color);
