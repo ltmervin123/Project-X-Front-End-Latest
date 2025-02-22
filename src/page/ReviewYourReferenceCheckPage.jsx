@@ -161,25 +161,45 @@ function ReviewYourReferenceCheckPage() {
   const stopDrawing = () => {
     setIsDrawing(false);
   };
-  // useLayoutEffect(() => {
-  //   if (signatureMethod === "Draw Signature") {
-  //     console.log("Canvas resize");
+  useLayoutEffect(() => {
+    if (signatureMethod === "Draw Signature") {
+      console.log("Canvas resize");
 
-  //     const intervalId = setInterval(() => {
-  //       const canvas = canvasRef.current;
-  //       if (canvas) {
-  //         resizeCanvas();
-  //         clearInterval(intervalId); // Stop checking once the canvas is available
-  //       } else {
-  //         console.log("Canvas not yet available, checking again...");
-  //       }
-  //     }, 100); // Check every 100ms
+      const intervalId = setInterval(() => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+          resizeCanvas();
+          clearInterval(intervalId); // Stop checking once the canvas is available
+        } else {
+          console.log("Canvas not yet available, checking again...");
+        }
+      }, 100); // Check every 100ms
 
-  //     return () => {
-  //       clearInterval(intervalId); // Cleanup on unmount
-  //     };
-  //   }
-  // }, [signatureMethod]);
+      return () => {
+        clearInterval(intervalId); // Cleanup on unmount
+      };
+    }
+  }, [signatureMethod]);
+
+  const saveSignature = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.log("Canvas not found.");
+      return;
+    }
+
+    const dataURL = canvas.toDataURL("image/png"); // Convert canvas to Base64 image
+    console.log("Signature saved!", dataURL);
+
+    // Create a temporary link to download the image
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "signature.png"; // File name for download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <h2 className="referencecheckquestiontitle text-left mb-2">
@@ -349,7 +369,7 @@ function ReviewYourReferenceCheckPage() {
 
             <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
               <button onClick={clearDrawing}>Clear</button>
-              <button>Submit</button>
+              <button onClick={saveSignature}>Submit</button>
             </div>
           </div>
         )}
