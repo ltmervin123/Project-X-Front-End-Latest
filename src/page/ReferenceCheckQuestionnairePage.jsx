@@ -8,7 +8,6 @@ import {
 } from "react-icons/fa";
 
 function ReferenceCheckQuestionnairePage() {
-
   const navigate = useNavigate();
   const location = useLocation();
   const selectedMethod = location.state?.selectedMethod;
@@ -16,14 +15,14 @@ function ReferenceCheckQuestionnairePage() {
   const [candidateName, setCandidateName] = useState(
     REFEREE?.candidateName || ""
   );
- 
+
   const referenceQuestions =
     JSON.parse(localStorage.getItem("referenceQuestions")) || {};
 
   const [questions, setQuestion] = useState([]);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
-  // const [answers, setAnswers] = useState([]);
+
   const [answered, setAnswered] = useState([]);
   const [inputedText, setInputedText] = useState("");
   const [referenceQuestionsData, setReferenceQuestionsData] = useState({});
@@ -85,19 +84,6 @@ function ReferenceCheckQuestionnairePage() {
         return [];
     }
   };
-  
-
-  const handlePrevious = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentQuestionIndex < question.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
 
   const handleTranscriptionChange = (event) => {
     setTranscription(event.target.value);
@@ -111,8 +97,8 @@ function ReferenceCheckQuestionnairePage() {
     const updatedAnswers = [...answered];
     updatedAnswers[currentQuestionIndex] = inputedText;
     setAnswered(updatedAnswers);
-    setInputedText("");
     attachAnswer();
+    nextQuestion();
   };
 
   const saveReferenceQuestionsData = () => {
@@ -124,36 +110,32 @@ function ReferenceCheckQuestionnairePage() {
 
   const attachAnswer = () => {
     const currentQuestion = questions[currentQuestionIndex];
-    const answer = inputedText;
     setReferenceQuestionsData((prevData) => {
-      return prevData.map((categoryItem) => {
-        const { category, questions, answers } = categoryItem;
+      return prevData
+        .map((categoryItem) => {
+          const { category, questions, answers } = categoryItem;
+          const questionIndex = questions.indexOf(currentQuestion);
 
-        // Find the index of the currentQuestion inside the category's questions array
-        const questionIndex = questions.indexOf(currentQuestion);
+          if (questionIndex !== -1) {
+            const updatedAnswers = [...answers];
 
-        // If the question is found, attach the answer at the same index
-        if (questionIndex !== -1) {
-          const updatedAnswers = [...answers]; // Create a copy of answers array
-          updatedAnswers[questionIndex] = answer; // Update the correct index
+            // ✅ Ensure array length matches questions length
+            updatedAnswers.length = questions.length;
 
-          return {
-            ...categoryItem,
-            answers: updatedAnswers, // Update answers in the category
-          };
-        }
+            updatedAnswers[questionIndex] = inputedText; // Attach answer
 
-        return categoryItem; // Return unchanged category if no match
-      });
+            return { ...categoryItem, answers: [...updatedAnswers] };
+          }
+          return categoryItem;
+        })
+        .map((item) => ({ ...item })); // **Ensure new reference**
     });
+    setInputedText("");
   };
 
   const handleFinish = () => {
-    handleSubmit();
     saveReferenceQuestionsData();
-    // navigate("/reference-review", {
-    //   state: { questions: questions, answers: answered },
-    // });
+
     navigate("/reference-review");
   };
 
@@ -168,10 +150,6 @@ function ReferenceCheckQuestionnairePage() {
     // Implement your stop recording logic here
     console.log("Recording stopped...");
   };
-
-  // useEffect(() => {
-  //   console.log("referenceQuestionsData", referenceQuestionsData);
-  // }, [referenceQuestionsData]);
 
   // Load questions from local storage
   useEffect(() => {
@@ -206,26 +184,6 @@ function ReferenceCheckQuestionnairePage() {
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
           <p>{questions[currentQuestionIndex]}</p>
-        </div>
-
-        <div className="button-container d-flex align-items-center justify-content-between">
-          <button
-            onClick={prevQuestion}
-            disabled={currentQuestionIndex === 0}
-            className="d-flex align-items-center justify-content-center"
-          >
-            Previous
-          </button>
-          <button
-            onClick={nextQuestion}
-            disabled={
-              answered[currentQuestionIndex] === "" ||
-              currentQuestionIndex === questions.length - 1
-            } // Disable 'Next' if the current question is not answered
-            className="d-flex align-items-center justify-content-center"
-          >
-            Next
-          </button>
         </div>
       </div>
 
@@ -270,13 +228,18 @@ function ReferenceCheckQuestionnairePage() {
           <div className="transcription-answer-container">
             <h4>Answer:</h4>
             <textarea
-              value={inputedText} // Show transcription or saved answer
+              value={inputedText}
+              disabled={
+                currentQuestionIndex === questions.length - 1 &&
+                answered[currentQuestionIndex]
+              }
               onChange={handleInputedTextChange}
               rows="4"
               placeholder={"Type your answer..."}
             />
             <div className="d-flex justify-content-center">
-              {currentQuestionIndex === questions.length - 1 ? (
+              {currentQuestionIndex === questions.length - 1 &&
+              answered[currentQuestionIndex] ? (
                 <button onClick={handleFinish}>Finish</button>
               ) : (
                 <button
