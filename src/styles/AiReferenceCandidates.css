@@ -33,7 +33,7 @@
   font-size: 1.25rem; /* Use rem for scalability */
   border-radius: 10px;
   /* width: 300px; */
-  padding: 5px 25px; /* Increased padding for better touch targets */
+  padding: 5px 25px 5px 15px; /* Increased padding for better touch targets */
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s; /* Smooth transition */
 }

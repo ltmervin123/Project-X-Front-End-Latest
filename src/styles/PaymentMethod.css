@@ -1,147 +1,142 @@
-
 :root {
-    --primary-color: #f46a05;
-    --secondary-color: #1706ac;
-    --font-white: #fff;
-    --font-black: #000;
-    --input-bg: #686868;
-    --bg-fade-signup: #d9d9d9;
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --font-black: #000;
+  --input-bg: #686868;
+  --bg-fade-signup: #d9d9d9;
 }
 
 .PaymentMethod-contentainer {
-    height: 100vh !important;
-    width: 100vw !important;
+  height: 100vh !important;
+  width: 100vw !important;
 }
 .PaymentMethod-content {
-    height: 100%;
-    width: 90%;
+  height: 100%;
+  width: 90%;
+  max-width: 1300px;
 }
 .PaymentMethod-col {
-    border: 1px solid #000;
-    height: 80%;
-    width: 40%;
-    border-radius: 25px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    -ms-border-radius: 25px;
-    -o-border-radius: 25px;
-    padding: 30px;
+  height: 80%;
+  width: 40%;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+  padding: 30px;
+
+  box-shadow: 0px 4px 4px #00000040;
 }
 .PaymentMethod-select-payment-methods-container {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
-.select-payment-methods-content-header {}
-.select-payment-methods-title {}
 .select-payment-methods-content {
-    width: 100%;
+  width: 100%;
+  
 }
 .select-payment-methods-content-header-text {
-    padding-block: 20px;
+  padding-block: 20px;
+  padding-left: 0;
 }
 .select-payment-methods-content-selections {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    gap: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-left: 0;
 }
 .payment-methods-btn {
-    background-color: white;
-    color: var(--font-black);
-    border: none;
-    max-height: 90px;
-    max-width: 90px;
-    flex: 0 1 90px;
+  background-color: white;
+  color: var(--font-black);
+  border: none;
+  height: 90px;
+  max-width: 90px;
+  flex: 0 1 90px;
+  font-size: 8px !important;
+  padding: 0;
+  border-radius: 20px;
 }
-.payment-methods-btn:hover{
-    background-color: var(--bg-fade-signup);
-    color: var(--font-black);
+.payment-methods-btn > div {
+  height: 70%;
+  display: flex;
+  align-items: center;
 }
-.payment-methods-btn:active{
-    background-color: #acacac !important;
-    color: var(--font-black) !important;
+.payment-methods-btn img {
+  width: 50px;
+}
+.payment-methods-btn:hover {
+  scale: 1.05;
+  color: var(--font-black);
+}
+.payment-methods-btn:active {
+  background-color: #acacac !important;
+  color: var(--font-black) !important;
 }
 .box-show-044 {
-    box-shadow: 0px 4px 4px #00000040;
+  box-shadow: 0px 4px 4px #00000040;
 }
 .PaymentMethod-pay-form-container {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
-.PaymentMethod-pay-form-container-header {}
-.PaymentMethod-pay-form-container-header-title {}
 .pay-form-content-infput-field {
-    height: 90%;
-    overflow: auto;
+  height: 90%;
+  overflow: auto;
 }
 .pay-form-content-infput-field > form {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
-.pay-form-content-infput-field > form >
-.form-group {
-    flex: 1 1 100%;
+.pay-form-content-infput-field > form > .form-group {
+  flex: 1 1 100%;
 }
-
+.pay-form-content-infput-field > form input{
+    box-shadow: 0px 4px 4px #00000040;
+}
 .btn-pay-now {
-    padding: 5px 0px;
-    width: 100%;
-    border: none;
-    border-radius: 10px;
-    background-color: var(--secondary-color);
-    color: var(--font-white);
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+  padding: 5px 0px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--secondary-color);
+  color: var(--font-white);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* scroll styles */
 .PaymentMethod-select-payment-methods-container,
 .compareresumes-content-resume-original-content,
 .compareresumes-content-resume-optimized-content {
-    --bg-fade-signup: #f0f0f0; /* Example background color for the scrollbar track */
-    --primary-color: #007bff; /* Example primary color for the scrollbar thumb */
+  --bg-fade-signup: #f0f0f0; /* Example background color for the scrollbar track */
+  --primary-color: #007bff; /* Example primary color for the scrollbar thumb */
 }
-  
-  /* Scrollbar styling */
+
+/* Scrollbar styling */
 .PaymentMethod-select-payment-methods-container::-webkit-scrollbar,
 .compareresumes-content-resume-original-content::-webkit-scrollbar,
 .compareresumes-content-resume-optimized-content::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
+  width: 12px; /* Width of the scrollbar */
 }
-  
+
 .PaymentMethod-select-payment-methods-container::-webkit-scrollbar-track,
 .compareresumes-content-resume-original-content::-webkit-scrollbar-track,
 .compareresumes-content-resume-optimized-content::-webkit-scrollbar-track {
-    background: var(--bg-fade-signup); /* Background of the scrollbar track */
-    width: 12px; /* Width of the scrollbar */
+  background: var(--bg-fade-signup); /* Background of the scrollbar track */
+  width: 12px; /* Width of the scrollbar */
 }
 .PaymentMethod-select-payment-methods-container::-webkit-scrollbar-thumb,
 .compareresumes-content-resume-original-content::-webkit-scrollbar-thumb,
 .compareresumes-content-resume-optimized-content::-webkit-scrollbar-thumb {
-    cursor: pointer;
-    background-color: #d65a05; /* Color of the scrollbar thumb */
-    border-radius: 6px; /* Rounded corners */
-    width: 12px; /* Set the width of the thumb */
-    height: 12px; /* Set the height to the same as the width for a circle */
+  cursor: pointer;
+  background-color: #d65a05; /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Rounded corners */
+  width: 12px; /* Set the width of the thumb */
+  height: 12px; /* Set the height to the same as the width for a circle */
 }
-  
