@@ -1,4 +1,5 @@
 import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, use } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -8,10 +9,12 @@ import {
 } from "react-icons/fa";
 
 function ReferenceCheckQuestionnairePage() {
+
   const navigate = useNavigate();
   const location = useLocation();
   const selectedMethod = location.state?.selectedMethod;
   const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
+
   const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
     JSON.parse(localStorage.getItem("referenceQuestions")) || {};
@@ -143,11 +146,13 @@ function ReferenceCheckQuestionnairePage() {
   const startRecording = () => {
     setIsRecording(true);
 
+
     console.log("Recording started...");
   };
 
   const stopRecording = () => {
     setIsRecording(false);
+
 
     console.log("Recording stopped...");
   };
