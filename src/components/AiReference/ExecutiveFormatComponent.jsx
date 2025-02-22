@@ -11,7 +11,7 @@ const ExecutiveFormatComponent = ({
     <>
       <div className="AiReference-table-title">
         <h4 className="color-yellow">Executive Formats</h4>
-        <p> In-depth questions for senior executive positions   </p>
+        <p> In-depth questions for senior executive positions.   </p>
       </div>
       <div className="Format-Container">
 

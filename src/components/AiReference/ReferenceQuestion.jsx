@@ -111,7 +111,7 @@ const ReferenceQuestion = () => {
   const hrHatchFormats = [
     {
       title: "Standard Format",
-      description: "Standard questions suitable for most positions",
+      description: "Standard questions suitable for most positions.",
       questionCount: 10,
       svg: (
         <svg
@@ -130,7 +130,7 @@ const ReferenceQuestion = () => {
     },
     {
       title: "Management Format",
-      description: "Questions tailored for managerial and leadership roles",
+      description: "Questions tailored for managerial and leadership roles.",
       questionCount: 10,
       svg: (
         <svg
@@ -149,7 +149,7 @@ const ReferenceQuestion = () => {
     },
     {
       title: "Executive Format",
-      description: "In-depth questions for senior executive positions",
+      description: "In-depth questions for senior executive positions.",
       questionCount: 10,
       svg: (
         <svg
@@ -338,7 +338,7 @@ const ReferenceQuestion = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
         <h3>Reference Question</h3>
-        <p>Manage your reference request</p>
+        <p>Manage your reference request.</p>
       </div>
       <div className="d-flex justify-content-center align-items-center button-controls-question gap-5 mb-3">
         <button
@@ -395,7 +395,7 @@ const ReferenceQuestion = () => {
           <>
             <div className="AiReference-table-title">
               <h4>Custom Question Sets</h4>
-              <p>Your tailored reference check questions</p>
+              <p>Your tailored reference check questions.</p>
             </div>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <div className="d-flex align-items-center search-candidates">

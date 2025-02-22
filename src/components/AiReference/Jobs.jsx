@@ -78,7 +78,7 @@ const Jobs = () => {
       <div className="d-flex justify-content-between align-items-end mb-3">
         <div>
           <h3>Jobs</h3>
-          <p className="m-0">Manage and track your open positions</p>
+          <p className="m-0">Manage and track your open positions.</p>
         </div>
         <button
           onClick={handleCreateNewJob}
@@ -122,7 +122,7 @@ const Jobs = () => {
       <div className="AiReference-active-jobs-container">
         <div className="AiReference-table-title">
           <h4>Active Jobs</h4>
-          <p>Manage and track your open positions</p>
+          <p>Manage and track your open positions.</p>
         </div>
 
         {activeJobs && activeJobs.length > 0 ? (

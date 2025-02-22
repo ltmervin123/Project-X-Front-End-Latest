@@ -147,7 +147,7 @@ const Candidates = () => {
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
           <h4>Candidate Lists</h4>
-          <p>Overview of all candidates in the system</p>
+          <p>Overview of all candidates in the system.</p>
         </div>
 
         {candidates && candidates.length > 0 ? (

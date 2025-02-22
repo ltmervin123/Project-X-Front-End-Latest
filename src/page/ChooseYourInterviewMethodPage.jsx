@@ -20,7 +20,7 @@ function ChooseYourInterviewMethodPage() {
         <h3>
           Choose Your <span className="color-orange">Interview Method</span>
         </h3>
-        <p>Select how you'd like to answer the interview questions</p>
+        <p>Select the type of response you'd like for the interview questions.</p>
 
         {/* Cards Container */}
         <div className="row d-flex justify-content-center align-items-center">
