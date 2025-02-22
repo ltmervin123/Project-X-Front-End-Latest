@@ -32,6 +32,10 @@ const PremiumPackageSection = () => {
     };
   }, []);
   
+  const handlePaymentMethod = () => {
+    navigate('/PaymentMethod'); // Navigate to the PaymentMethod page
+  };
+
 
 
   return (
@@ -60,7 +64,7 @@ const PremiumPackageSection = () => {
                   / 1 Round of Interview 
                 </div>
                 <div className="d-flex justify-content-center align-items-center subscription-button-container">
-                  <button className="btn-choose-plan">Choose Plan</button>
+                  <button className="btn-choose-plan"  onClick={handlePaymentMethod}>Choose Plan</button>
 
                 </div>
             </div>
@@ -96,7 +100,7 @@ const PremiumPackageSection = () => {
                   / 10 Rounds of Interview 
                 </div>
                 <div className="d-flex justify-content-center align-items-center subscription-button-container">
-                  <button className="btn-choose-plan">Choose Plan</button>
+                  <button className="btn-choose-plan"  onClick={handlePaymentMethod}>Choose Plan</button>
 
                 </div>
             </div>
@@ -147,7 +151,7 @@ const PremiumPackageSection = () => {
                   / Unlimited Rounds
                 </div>
                 <div className="d-flex justify-content-center align-items-center subscription-button-container">
-                  <button className="btn-choose-plan active">Choose Plan</button>
+                  <button className="btn-choose-plan active" onClick={handlePaymentMethod}>Choose Plan</button>
 
                 </div>
             </div>
