@@ -9,9 +9,45 @@ import { Form, Row, Col } from "react-bootstrap";
 function PaymentMethod() {
   const paymentForms = [
     {
-      name: "Payment with Mastercard",
+      name: "Pay with Mastercard",
       input: [
         { name: "Card Number", type: "text", placeholder: "1234567890123456" },
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
+        { name: "CVV", type: "text", placeholder: "123" },
+        { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+      ],
+    },
+    {
+      name: "Pay with Visa",
+      input: [
+        { name: "Card Number", type: "text", placeholder: "1234567890123456" },
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
+        { name: "CVV", type: "text", placeholder: "123" },
+        { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+      ],
+    },
+    {
+      name: "Pay with American Express",
+      input: [
+        { name: "Card Number", type: "text", placeholder: "123456789012345" },
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
+        { name: "CVV", type: "text", placeholder: "1234" },
+        { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+      ],
+    },
+    {
+      name: "Pay with JCB",
+      input: [
+        { name: "Card Number", type: "text", placeholder: "1234567890123456" },
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
+        { name: "CVV", type: "text", placeholder: "123" },
+        { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+      ],
+    },
+    {
+      name: "Pay with Diners",
+      input: [
+        { name: "Card Number", type: "text", placeholder: "123456789012345" },
         { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
         { name: "CVV", type: "text", placeholder: "123" },
         { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
@@ -39,34 +75,12 @@ function PaymentMethod() {
               <Row className="select-payment-methods-content">
                 <div className="select-payment-methods-content-header-text d-flex flex-column">
                   <b>Credit/Debit Cards</b>
-                  <small>Select your preferred card type</small>
+                  <small>Select your preferred card type.</small>
                 </div>
-                <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start gap-3 row-gap-4">
-                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
-                    <div>
-                      <svg
-                        width="35"
-                        height="30"
-                        viewBox="0 0 35 30"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M0 3.75C0 1.6875 1.575 0 3.5 0H31.5C32.4283 0 33.3185 0.395088 33.9749 1.09835C34.6312 1.80161 35 2.75544 35 3.75V26.25C35 27.2446 34.6312 28.1984 33.9749 28.9017C33.3185 29.6049 32.4283 30 31.5 30H3.5C2.57174 30 1.6815 29.6049 1.02513 28.9017C0.368749 28.1984 0 27.2446 0 26.25V3.75ZM21.875 9.75C22.575 9.75 23.275 9.75 23.8 10.125L23.625 12H23.45C22.9234 11.6498 22.3195 11.4557 21.7 11.4375C20.825 11.4375 20.475 12 20.475 12.375C20.475 12.75 20.825 12.9375 21.7 13.3125C22.925 14.0625 23.45 14.8125 23.45 15.75C23.45 17.625 22.05 18.9375 19.6 18.9375C18.55 18.9375 17.675 18.5625 17.15 18.375L17.5 16.5H17.675C18.375 16.875 18.9 17.0625 19.775 17.0625C20.475 17.0625 21.175 16.6875 21.175 16.125C21.175 15.75 20.825 15.5625 19.95 15C19.075 14.625 18.025 13.875 18.025 12.5625C18.025 10.875 19.775 9.75 21.875 9.75ZM28 9.75H29.75L31.5 18.75H29.4L29.05 17.4375H26.25L25.725 18.75H23.45L26.775 10.5C26.95 9.9375 27.3 9.9375 28 9.9375V9.75ZM17.15 9.75H14.875L13.475 18.75H15.75L17.15 9.75ZM9.275 15.9375L9.1 14.625L8.225 10.5C8.225 9.9375 7.7 9.9375 7.175 9.75H3.675V9.9375L5.775 10.875L5.95 11.25L7.875 18.75H10.5L14 9.9375H11.725L9.45 15.9375H9.275Z"
-                          fill="#1706AC"
-                        />
-                      </svg>
-                    </div>
-                    VISA
-                  </button>
-
-                  <button
+                <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-center gap-3 row-gap-4">
+                <button
                     className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
-                    onClick={() =>
-                      handlePaymentChange("Payment with Mastercard")
-                    }
+                    onClick={() => handlePaymentChange("Pay with Mastercard")}
                   >
                     <div>
                       <svg
@@ -88,7 +102,30 @@ function PaymentMethod() {
                     </div>
                     Mastercard
                   </button>
-                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
+                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
+                                     onClick={() => handlePaymentChange("Pay with Visa")}>
+                    <div>
+                      <svg
+                        width="35"
+                        height="30"
+                        viewBox="0 0 35 30"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M0 3.75C0 1.6875 1.575 0 3.5 0H31.5C32.4283 0 33.3185 0.395088 33.9749 1.09835C34.6312 1.80161 35 2.75544 35 3.75V26.25C35 27.2446 34.6312 28.1984 33.9749 28.9017C33.3185 29.6049 32.4283 30 31.5 30H3.5C2.57174 30 1.6815 29.6049 1.02513 28.9017C0.368749 28.1984 0 27.2446 0 26.25V3.75ZM21.875 9.75C22.575 9.75 23.275 9.75 23.8 10.125L23.625 12H23.45C22.9234 11.6498 22.3195 11.4557 21.7 11.4375C20.825 11.4375 20.475 12 20.475 12.375C20.475 12.75 20.825 12.9375 21.7 13.3125C22.925 14.0625 23.45 14.8125 23.45 15.75C23.45 17.625 22.05 18.9375 19.6 18.9375C18.55 18.9375 17.675 18.5625 17.15 18.375L17.5 16.5H17.675C18.375 16.875 18.9 17.0625 19.775 17.0625C20.475 17.0625 21.175 16.6875 21.175 16.125C21.175 15.75 20.825 15.5625 19.95 15C19.075 14.625 18.025 13.875 18.025 12.5625C18.025 10.875 19.775 9.75 21.875 9.75ZM28 9.75H29.75L31.5 18.75H29.4L29.05 17.4375H26.25L25.725 18.75H23.45L26.775 10.5C26.95 9.9375 27.3 9.9375 28 9.9375V9.75ZM17.15 9.75H14.875L13.475 18.75H15.75L17.15 9.75ZM9.275 15.9375L9.1 14.625L8.225 10.5C8.225 9.9375 7.7 9.9375 7.175 9.75H3.675V9.9375L5.775 10.875L5.95 11.25L7.875 18.75H10.5L14 9.9375H11.725L9.45 15.9375H9.275Z"
+                          fill="#1706AC"
+                        />
+                      </svg>
+                    </div>
+                    VISA
+                  </button>
+
+
+                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
+                   onClick={() => handlePaymentChange("Pay with American Express")}>
                     <div>
                       <svg
                         width="55"
@@ -105,7 +142,8 @@ function PaymentMethod() {
                     </div>
                     American Express
                   </button>
-                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
+                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
+                   onClick={() => handlePaymentChange("Pay with JCB")}>
                     <div>
                       <svg
                         width="51"
@@ -122,7 +160,8 @@ function PaymentMethod() {
                     </div>
                     JCB
                   </button>
-                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
+                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
+                                     onClick={() => handlePaymentChange("Pay with Diners")}>
                     <div>
                       <svg
                         width="46"
@@ -139,10 +178,15 @@ function PaymentMethod() {
                     </div>
                     Diners
                   </button>
-                  <button
-                    className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
-                    onClick={() => handlePaymentChange("Payment with Gcash")}
-                  >
+                </div>
+              </Row>
+              <Row className="select-payment-methods-content">
+                <div className="select-payment-methods-content-header-text d-flex flex-column">
+                  <b>E-Wallets and Others</b>
+                  <small>Select your preferred payment options.</small>
+                </div>
+                <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start gap-3 row-gap-4">
+                  <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
                     <div>
                       <svg
                         width="57"
@@ -169,7 +213,7 @@ function PaymentMethod() {
 
                   <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
                     <div>
-                      <img src={RakutenPay} alt="" />
+                      <img className="RakutenPay" src={RakutenPay} alt="" />
                     </div>
                     Rakuten Pay
                   </button>
@@ -181,17 +225,14 @@ function PaymentMethod() {
                   </button>
                 </div>
               </Row>
-              <Row className="select-payment-methods-content">
-                <div className="select-payment-methods-content-selections"></div>
-              </Row>
             </div>
           </Col>
           <Col className="PaymentMethod-col d-flex justify-content-center align-items-center flex-column gap-2">
             <div className="PaymentMethod-pay-form-container">
               <div className="PaymentMethod-pay-form-container-header">
-                <h3 className="PaymentMethod-pay-form-container-header-title">
+                <h4 className="PaymentMethod-pay-form-container-header-title">
                   {selectedPayment.name}
-                </h3>
+                </h4>
               </div>
               <div className="pay-form-content-infput-field w-100 d-flex flex-column justify-content-center align-items-center">
                 <Form className="d-flex flex-row justify-content-center align-items-center flex-wrap">
@@ -241,7 +282,7 @@ function PaymentMethod() {
                       />
                     </Form.Group>
                   ))}
-                  <button className="btn-pay-now ">Pay Now</button>
+                  <button className="btn-pay-now mx-2">Pay Now</button>
                 </Form>
               </div>
             </div>

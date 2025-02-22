@@ -6,7 +6,9 @@ import fb from "../../assets/fb-icon.png";
 import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "./LoadingScreen";
-const SERVICE = ["AI_REFERENCE", "MOCK_AI"];
+import CustomDropdown from "./CustomDropdown";
+
+const SERVICE = ["MOCK_AI", "AI_REFERENCE"];
 
 const LoginForm = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -15,8 +17,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const [service, setService] = useState(SERVICE[1]); // Default is AI Reference Checker
-
+  const [service, setService] = useState(SERVICE[0]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password, service);
@@ -265,7 +266,7 @@ const LoginForm = () => {
                 </div>
               </div>
               <div className="mb-3 choose-services-container d-flex justify-content-center">
-                <select
+                {/* <select
                   className="form-control"
                   value={service}
                   onChange={(e) => setService(e.target.value)}
@@ -273,7 +274,12 @@ const LoginForm = () => {
                 >
                   <option value={SERVICE[1]}>Mock AI</option>
                   <option value={SERVICE[0]}> AI Reference Checker</option>
-                </select>
+                </select> */}
+                <CustomDropdown
+                  options={SERVICE}
+                  selectedOption={service}
+                  onSelect={setService}
+                />
               </div>
               <button
                 type="submit"
@@ -316,11 +322,11 @@ const LoginForm = () => {
               className="signup-button"
               onClick={() => {
                 switch (service) {
-                  case SERVICE[0]:
-                    navigate("/company-registration");
+                  case SERVICE[0]: // For MOCK_AI
+                    navigate("/signup"); // Navigate to signup for MOCK_AI
                     break;
-                  case SERVICE[1]:
-                    navigate("/signup");
+                  case SERVICE[1]: // For AI_REFERENCE
+                    navigate("/company-registration"); // Navigate to company registration for AI_REFERENCE
                     break;
                   default:
                     navigate("/login");
