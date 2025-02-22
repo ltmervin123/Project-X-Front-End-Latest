@@ -269,7 +269,7 @@ function App() {
         />
         {/* Created Account page*/}
         <Route path="/company-created-account" element={<CreatedAccount />} />
-        
+
         {/* Forgot pass */}
         <Route path="/forgotpassword" element={<Forgotpassword />} />
         {/* Use token as param */}

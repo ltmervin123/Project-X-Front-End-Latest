@@ -18,7 +18,7 @@ function AiReferenceCheckVerificationPage() {
   const validateSession = async () => {
     try {
       setVerifying(true);
-      const URL = `${API}/api/ai-referee/verify-reference-link`;
+      const URL = `${API}/api/ai-referee/reference/verify-reference-link`;
       const response = await axios.post(
         URL,
         {},
