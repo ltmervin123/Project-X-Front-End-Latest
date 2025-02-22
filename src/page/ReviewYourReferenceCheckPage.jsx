@@ -15,57 +15,6 @@ function ReviewYourReferenceCheckPage() {
   const [isDrawing, setIsDrawing] = useState(false); // Track if drawing is in progress
   const canvasRef = useRef(null); // Ref to access canvas element directly
 
-  // const updatedQuestions = questions.map((question, index) => ({
-  //   ...question,
-  //   id: index + 1, // Use the index as a unique id
-  //   text: question || "",
-  //   originalAnswer: answers[index] || "", // Add original answer
-  // }));
-  // const formatReferenceQuestions = () => {
-  //   // Check if reference questions is not hr-hatch format return an empty array because its an Custom format
-  //   if (
-  //     !referenceQuestions ||
-  //     referenceQuestions.formatType !== "HR-HATCH-FORMAT"
-  //   ) {
-  //     return [];
-  //   }
-
-  //   if (
-  //     !referenceQuestions.questions ||
-  //     typeof referenceQuestions.questions !== "object"
-  //   ) {
-  //     console.error("Questions object is missing or not valid.");
-  //     return [];
-  //   }
-
-  //   return Object.entries(referenceQuestions.questions) // Access nested `questions` object
-  //     .filter(([category, questions]) => Array.isArray(questions)) // Ensure values are arrays
-  //     .map(([category, questions]) => ({
-  //       category,
-  //       questions: questions.map((q) =>
-  //         typeof q === "string"
-  //           ? q.replace(/\$\{candidateName\}/g, candidateName)
-  //           : q
-  //       ),
-  //       answers: new Array(questions.length).fill(""),
-  //     }));
-  // };
-
-  // const getQuestions = () => {
-  //   switch (referenceQuestions.formatType) {
-  //     case "HR-HATCH-FORMAT":
-  //       return Object.values(referenceQuestions?.questions || {})
-  //         .flat()
-  //         .map((q) => q.replace(/\$\{candidateName\}/g, candidateName)); // Replace placeholders
-  //     case "CUSTOM_FORMAT":
-  //       return (referenceQuestions?.questions || []).map((q) =>
-  //         q.replace(/\$\{candidateName\}/g, candidateName)
-  //       );
-  //     default:
-  //       return [];
-  //   }
-  // };
-
   //Set questions and answer to render on the UI
   useEffect(() => {
     if (referenceQuestionsData.length > 0) {
@@ -136,8 +85,6 @@ function ReviewYourReferenceCheckPage() {
       setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
-
-  // const currentQuestion = updatedQuestions[currentQuestionIndex];
 
   // Clear drawing function that clears both the canvas and drawing state
   const clearDrawing = () => {
@@ -265,56 +212,32 @@ function ReviewYourReferenceCheckPage() {
               <div className="answer-container">
                 <p>{answers[currentQuestionIndex]}</p>
               </div>
-
-              {/* Edit or Submit Button */}
-              <div className="edit-btn-container">
-                <button className="edit-answer-btn">Edit Answer</button>
-              </div>
             </div>
 
             {/* Navigation Buttons */}
             <div className="navigation-buttons gap-4 position-relative">
-              {/* Display the Proceed button if the last question is reach */}
-              {currentQuestionIndex === questions.length ? (
-                <>
-                  <button
-                    className="prev-btn"
-                    onClick={handlePreviousQuestion}
-                    disabled={currentQuestionIndex === 0}
-                  >
-                    &lt;
-                  </button>
-                  <p className="m-0">{currentQuestionIndex}</p>
-                  <button
-                    className="next-btn"
-                    onClick={handleNextQuestion}
-                    disabled={currentQuestionIndex === answers.length - 1}
-                  >
-                    &gt;
-                  </button>
+              <>
+                <button
+                  className="prev-btn"
+                  onClick={handlePreviousQuestion}
+                  disabled={currentQuestionIndex === 0}
+                >
+                  &lt;
+                </button>
+                <p className="m-0">{currentQuestionIndex + 1}</p>
+                <button
+                  className="next-btn"
+                  onClick={handleNextQuestion}
+                  disabled={currentQuestionIndex === answers.length - 1}
+                >
+                  &gt;
+                </button>
+                {currentQuestionIndex === answers.length - 1 && (
                   <button className="proceed-btn" onClick={handleProceed}>
                     Proceed
                   </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="prev-btn"
-                    onClick={handlePreviousQuestion}
-                    disabled={currentQuestionIndex === 0}
-                  >
-                    &lt;
-                  </button>
-                  <p className="m-0">{currentQuestionIndex.id}</p>
-                  <button
-                    className="next-btn"
-                    onClick={handleNextQuestion}
-                    disabled={currentQuestionIndex === answers.length - 1}
-                  >
-                    &gt;
-                  </button>
-                </>
-              )}
+                )}
+              </>
             </div>
           </>
         ) : (
