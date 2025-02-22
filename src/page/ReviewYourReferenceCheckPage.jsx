@@ -3,13 +3,33 @@ import { useLocation } from "react-router-dom";
 import "../styles/ReviewYourReferenceCheckPage.css";
 
 function ReviewYourReferenceCheckPage() {
-  const location = useLocation();
+  const referenceQuestionsData =
+    JSON.parse(localStorage.getItem("referenceQuestionsData")) || [];
+  const [answers, setAnswers] = useState([]);
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(null); // Track the uploaded file
   const [signatureMethod, setSignatureMethod] = useState("Draw Signature"); // Track signature method
   const [imagePreview, setImagePreview] = useState(null); // Track the preview of the uploaded image
   const [showSignatureSection, setShowSignatureSection] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false); // Track if drawing is in progress
   const canvasRef = useRef(null); // Ref to access canvas element directly
+
+  //Set questions and answer to render on the UI
+  useEffect(() => {
+    if (referenceQuestionsData.length > 0) {
+      // Extract all questions and answers from referenceQuestionsData
+      const allQuestions = referenceQuestionsData.flatMap(
+        (item) => item.questions || []
+      );
+      const allAnswers = referenceQuestionsData.flatMap(
+        (item) => item.answers || []
+      );
+
+      setQuestions(allQuestions);
+      setAnswers(allAnswers);
+    }
+  }, []);
 
   const handleProceed = () => {
     setShowSignatureSection(true);
@@ -52,35 +72,19 @@ function ReviewYourReferenceCheckPage() {
     e.preventDefault();
   };
 
-  const { questions, answers } = location.state || {
-    questions: [],
-    answers: [],
-  };
-
-  const updatedQuestions = questions.map((question, index) => ({
-    ...question,
-    id: index + 1, // Use the index as a unique id
-    text: question || "",
-    originalAnswer: answers[index] || "", // Add original answer
-  }));
-
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to track the current question
-
   // Handle next question navigation
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < updatedQuestions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    if (currentQuestionIndex < answers.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
 
   // Handle previous question navigation
   const handlePreviousQuestion = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
-
-  const currentQuestion = updatedQuestions[currentQuestionIndex];
 
   // Clear drawing function that clears both the canvas and drawing state
   const clearDrawing = () => {
@@ -157,25 +161,25 @@ function ReviewYourReferenceCheckPage() {
   const stopDrawing = () => {
     setIsDrawing(false);
   };
-  useLayoutEffect(() => {
-    if (signatureMethod === "Draw Signature") {
-      console.log("Canvas resize");
+  // useLayoutEffect(() => {
+  //   if (signatureMethod === "Draw Signature") {
+  //     console.log("Canvas resize");
 
-      const intervalId = setInterval(() => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-          resizeCanvas();
-          clearInterval(intervalId); // Stop checking once the canvas is available
-        } else {
-          console.log("Canvas not yet available, checking again...");
-        }
-      }, 100); // Check every 100ms
+  //     const intervalId = setInterval(() => {
+  //       const canvas = canvasRef.current;
+  //       if (canvas) {
+  //         resizeCanvas();
+  //         clearInterval(intervalId); // Stop checking once the canvas is available
+  //       } else {
+  //         console.log("Canvas not yet available, checking again...");
+  //       }
+  //     }, 100); // Check every 100ms
 
-      return () => {
-        clearInterval(intervalId); // Cleanup on unmount
-      };
-    }
-  }, [signatureMethod]);
+  //     return () => {
+  //       clearInterval(intervalId); // Cleanup on unmount
+  //     };
+  //   }
+  // }, [signatureMethod]);
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <h2 className="referencecheckquestiontitle text-left mb-2">
@@ -188,7 +192,7 @@ function ReviewYourReferenceCheckPage() {
             {/* Question Indicator */}
             <div className="question-indicator mb-3">
               <p className="m-0">
-                Question {currentQuestion.id} of {updatedQuestions.length}
+                Question {currentQuestionIndex + 1} of {questions.length}
               </p>
             </div>
 
@@ -196,8 +200,8 @@ function ReviewYourReferenceCheckPage() {
             <div className="ReviewYourReferenceCheck-box-item h-100">
               <div className="question-container">
                 <p className="question-text">
-                  <strong>Question {currentQuestion.id}:</strong>{" "}
-                  {currentQuestion.text}
+                  <strong>Question {currentQuestionIndex + 1}:</strong>{" "}
+                  {questions[currentQuestionIndex]}
                 </p>
               </div>
 
@@ -206,57 +210,34 @@ function ReviewYourReferenceCheckPage() {
                 <strong>Normalize Answer:</strong>
               </p>
               <div className="answer-container">
-                <p></p>
+                <p>{answers[currentQuestionIndex]}</p>
               </div>
             </div>
 
             {/* Navigation Buttons */}
             <div className="navigation-buttons gap-4 position-relative">
-              {/* Display the Proceed button if the last question is reach */}
-              {currentQuestion.id === questions.length ? (
-                <>
-                  <button
-                    className="prev-btn"
-                    onClick={handlePreviousQuestion}
-                    disabled={currentQuestionIndex === 0}
-                  >
-                    &lt;
-                  </button>
-                  <p className="m-0">{currentQuestion.id}</p>
-                  <button
-                    className="next-btn"
-                    onClick={handleNextQuestion}
-                    disabled={
-                      currentQuestionIndex === updatedQuestions.length - 1
-                    }
-                  >
-                    &gt;
-                  </button>
+              <>
+                <button
+                  className="prev-btn"
+                  onClick={handlePreviousQuestion}
+                  disabled={currentQuestionIndex === 0}
+                >
+                  &lt;
+                </button>
+                <p className="m-0">{currentQuestionIndex + 1}</p>
+                <button
+                  className="next-btn"
+                  onClick={handleNextQuestion}
+                  disabled={currentQuestionIndex === answers.length - 1}
+                >
+                  &gt;
+                </button>
+                {currentQuestionIndex === answers.length - 1 && (
                   <button className="proceed-btn" onClick={handleProceed}>
                     Proceed
                   </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="prev-btn"
-                    onClick={handlePreviousQuestion}
-                    disabled={currentQuestionIndex === 0}
-                  >
-                    &lt;
-                  </button>
-                  <p className="m-0">{currentQuestion.id}</p>
-                  <button
-                    className="next-btn"
-                    onClick={handleNextQuestion}
-                    disabled={
-                      currentQuestionIndex === updatedQuestions.length - 1
-                    }
-                  >
-                    &gt;
-                  </button>
-                </>
-              )}
+                )}
+              </>
             </div>
           </>
         ) : (
