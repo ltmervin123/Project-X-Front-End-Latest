@@ -10,6 +10,19 @@ function ReviewYourReferenceCheckPage() {
   const [showSignatureSection, setShowSignatureSection] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false); // Track if drawing is in progress
   const canvasRef = useRef(null); // Ref to access canvas element directly
+  const { questions, answers } = location.state || {
+    questions: [],
+    answers: [],
+  };
+
+  const updatedQuestions = questions.map((question, index) => ({
+    ...question,
+    id: index + 1, // Use the index as a unique id
+    text: question || "",
+    originalAnswer: answers[index] || "", // Add original answer
+  }));
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to track the current question
 
   const handleProceed = () => {
     setShowSignatureSection(true);
@@ -52,20 +65,6 @@ function ReviewYourReferenceCheckPage() {
     e.preventDefault();
   };
 
-  const { questions, answers } = location.state || {
-    questions: [],
-    answers: [],
-  };
-
-  const updatedQuestions = questions.map((question, index) => ({
-    ...question,
-    id: index + 1, // Use the index as a unique id
-    text: question || "",
-    originalAnswer: answers[index] || "", // Add original answer
-  }));
-
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to track the current question
-
   // Handle next question navigation
   const handleNextQuestion = () => {
     if (currentQuestionIndex < updatedQuestions.length - 1) {
@@ -82,100 +81,100 @@ function ReviewYourReferenceCheckPage() {
 
   const currentQuestion = updatedQuestions[currentQuestionIndex];
 
-// Clear drawing function that clears both the canvas and drawing state
-const clearDrawing = () => {
-  const canvas = canvasRef.current;
-  const context = canvas.getContext("2d");
+  // Clear drawing function that clears both the canvas and drawing state
+  const clearDrawing = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
 
-  // Clear the canvas content
-  context.clearRect(0, 0, canvas.width, canvas.height);
+    // Clear the canvas content
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Reset drawing state to false, so new drawings start fresh
-  setIsDrawing(false);
-  resizeCanvas();
-};
+    // Reset drawing state to false, so new drawings start fresh
+    setIsDrawing(false);
+    resizeCanvas();
+  };
 
-const resizeCanvas = () => {
-  const canvas = canvasRef.current;
-  if (!canvas) {
-    console.log("Canvas is not available.");
-    return; // Ensure canvasRef is not null
-  }
-  
-  const container = canvas.parentElement;
-  if (!container) {
-    console.log("Container is not available.");
-    return; // Ensure parent element exists
-  }
+  const resizeCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      console.log("Canvas is not available.");
+      return; // Ensure canvasRef is not null
+    }
 
-  const context = canvas.getContext("2d");
-  const scale = window.devicePixelRatio || 1; // Use DPR for higher quality on high-res screens
-  const width = container.clientWidth * scale;
-  const height = container.clientHeight * scale;
+    const container = canvas.parentElement;
+    if (!container) {
+      console.log("Container is not available.");
+      return; // Ensure parent element exists
+    }
 
-  // Set the canvas size to ensure it matches the scaled size
-  canvas.width = width;
-  canvas.height = height;
+    const context = canvas.getContext("2d");
+    const scale = window.devicePixelRatio || 1; // Use DPR for higher quality on high-res screens
+    const width = container.clientWidth * scale;
+    const height = container.clientHeight * scale;
 
-  // Scale the context to match the device pixel ratio
-  context.scale(scale, scale);
+    // Set the canvas size to ensure it matches the scaled size
+    canvas.width = width;
+    canvas.height = height;
 
-  // Redraw the signature if necessary
-  context.lineWidth = 2 * scale; // Line width scaled for higher resolution
-  context.lineCap = "round"; // Smooth end of lines
-  context.lineJoin = "round"; // Smooth corners of lines
-  context.strokeStyle = "black"; // Ensure stroke style remains consistent
-  console.log("Canvas resized to", width, "x", height);
-};
-const startDrawing = (e) => {
-  const canvas = canvasRef.current;
-  const ctx = canvas.getContext("2d");
+    // Scale the context to match the device pixel ratio
+    context.scale(scale, scale);
 
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-  const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+    // Redraw the signature if necessary
+    context.lineWidth = 2 * scale; // Line width scaled for higher resolution
+    context.lineCap = "round"; // Smooth end of lines
+    context.lineJoin = "round"; // Smooth corners of lines
+    context.strokeStyle = "black"; // Ensure stroke style remains consistent
+    console.log("Canvas resized to", width, "x", height);
+  };
+  const startDrawing = (e) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-  setIsDrawing(true); // Set isDrawing to true to stop resizeCanvas from running
-};
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
 
-const draw = (e) => {
-  if (!isDrawing) return;
-  const canvas = canvasRef.current;
-  const ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    setIsDrawing(true); // Set isDrawing to true to stop resizeCanvas from running
+  };
 
-  // Get canvas position relative to the document
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Adjust for actual canvas size
-  const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Adjust for actual canvas size
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-  ctx.lineTo(x, y);
-  ctx.stroke();
-};
+    // Get canvas position relative to the document
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Adjust for actual canvas size
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Adjust for actual canvas size
 
-const stopDrawing = () => {
-  setIsDrawing(false);
-};
-useLayoutEffect(() => {
-  if (signatureMethod === "Draw Signature") {
-    console.log("Canvas resize");
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
 
-    const intervalId = setInterval(() => {
-      const canvas = canvasRef.current;
-      if (canvas) {
-        resizeCanvas();
-        clearInterval(intervalId); // Stop checking once the canvas is available
-      } else {
-        console.log("Canvas not yet available, checking again...");
-      }
-    }, 100); // Check every 100ms
+  const stopDrawing = () => {
+    setIsDrawing(false);
+  };
+  useLayoutEffect(() => {
+    if (signatureMethod === "Draw Signature") {
+      console.log("Canvas resize");
 
-    return () => {
-      clearInterval(intervalId); // Cleanup on unmount
-    };
-  }
-}, [signatureMethod]);
+      const intervalId = setInterval(() => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+          resizeCanvas();
+          clearInterval(intervalId); // Stop checking once the canvas is available
+        } else {
+          console.log("Canvas not yet available, checking again...");
+        }
+      }, 100); // Check every 100ms
+
+      return () => {
+        clearInterval(intervalId); // Cleanup on unmount
+      };
+    }
+  }, [signatureMethod]);
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <h2 className="referencecheckquestiontitle text-left mb-2">
@@ -237,7 +236,7 @@ useLayoutEffect(() => {
                   >
                     &gt;
                   </button>
-                  <button className="proceed-btn" onClick={handleProceed} >
+                  <button className="proceed-btn" onClick={handleProceed}>
                     Proceed
                   </button>
                 </>
@@ -290,7 +289,6 @@ useLayoutEffect(() => {
                   style={{ width: "100%", height: "280px" }}
                 >
                   <canvas
-                  
                     ref={canvasRef}
                     style={{
                       border: "1px solid black",
