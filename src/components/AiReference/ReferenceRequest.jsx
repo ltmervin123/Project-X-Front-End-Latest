@@ -74,7 +74,7 @@ const ReferenceRequest = () => {
   const handleAddReference = async () => {
     await reFetchReference();
     navigate("/AiReferenceRequestEmailSent");
-    };
+  };
 
   const handleViewDetails = (candidate) => {
     setSelectedCandidate(candidate);
@@ -110,7 +110,7 @@ const ReferenceRequest = () => {
 
   // Conditional rendering based on showViewRequest state
   if (showViewRequest) {
-    return <ViewRequest />; // Render ViewRequest component
+    return <ViewRequest referenceId={selectedCandidate._id} />; // Render ViewRequest component
   }
 
   return (
@@ -170,7 +170,6 @@ const ReferenceRequest = () => {
         </div>
         {reference && reference.length > 0 ? (
           <>
-
             <table>
               <thead>
                 <tr>
