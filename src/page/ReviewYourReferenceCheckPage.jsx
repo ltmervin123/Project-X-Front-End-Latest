@@ -10,6 +10,19 @@ function ReviewYourReferenceCheckPage() {
   const [showSignatureSection, setShowSignatureSection] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false); // Track if drawing is in progress
   const canvasRef = useRef(null); // Ref to access canvas element directly
+  const { questions, answers } = location.state || {
+    questions: [],
+    answers: [],
+  };
+
+  const updatedQuestions = questions.map((question, index) => ({
+    ...question,
+    id: index + 1, // Use the index as a unique id
+    text: question || "",
+    originalAnswer: answers[index] || "", // Add original answer
+  }));
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to track the current question
 
   const handleProceed = () => {
     setShowSignatureSection(true);
@@ -51,20 +64,6 @@ function ReviewYourReferenceCheckPage() {
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-
-  const { questions, answers } = location.state || {
-    questions: [],
-    answers: [],
-  };
-
-  const updatedQuestions = questions.map((question, index) => ({
-    ...question,
-    id: index + 1, // Use the index as a unique id
-    text: question || "",
-    originalAnswer: answers[index] || "", // Add original answer
-  }));
-
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // State to track the current question
 
   // Handle next question navigation
   const handleNextQuestion = () => {
