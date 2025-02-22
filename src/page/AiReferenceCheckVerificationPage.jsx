@@ -13,10 +13,12 @@ function AiReferenceCheckVerificationPage() {
   const [refereeName, setRefereeName] = useState("");
   const [referenceId, setReferenceId] = useState("");
   const [candidateName, setCandidateName] = useState("");
+  const [verifying, setVerifying] = useState(false);
 
   const validateSession = async () => {
     try {
-      const URL = `${API}/api/ai-referee/verify-reference-link`;
+      setVerifying(true);
+      const URL = `${API}/api/ai-referee/reference/verify-reference-link`;
       const response = await axios.post(
         URL,
         {},
@@ -36,6 +38,8 @@ function AiReferenceCheckVerificationPage() {
       }
     } catch (error) {
       setIsExpired(true); // Set expired state if an error occurs
+    } finally {
+      setVerifying(false);
     }
   };
 
@@ -46,6 +50,10 @@ function AiReferenceCheckVerificationPage() {
 
     validateSession();
   }, []);
+
+  if (verifying) {
+    return <div>Verifying link....</div>;
+  }
 
   // If expired, navigate to "/reference-expired-link"
   if (isExpired) {

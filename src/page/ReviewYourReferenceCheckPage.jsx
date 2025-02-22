@@ -1,19 +1,23 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
-import { useLocation } from "react-router-dom";
 import "../styles/ReviewYourReferenceCheckPage.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ReviewYourReferenceCheckPage() {
+  const navigate = useNavigate();
+  const API = process.env.REACT_APP_API_URL;
   const referenceQuestionsData =
     JSON.parse(localStorage.getItem("referenceQuestionsData")) || [];
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [uploadedFile, setUploadedFile] = useState(null); // Track the uploaded file
-  const [signatureMethod, setSignatureMethod] = useState("Draw Signature"); // Track signature method
-  const [imagePreview, setImagePreview] = useState(null); // Track the preview of the uploaded image
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [signatureMethod, setSignatureMethod] = useState("Draw Signature");
+  const [imagePreview, setImagePreview] = useState(null);
   const [showSignatureSection, setShowSignatureSection] = useState(false);
-  const [isDrawing, setIsDrawing] = useState(false); // Track if drawing is in progress
-  const canvasRef = useRef(null); // Ref to access canvas element directly
+  const [isDrawing, setIsDrawing] = useState(false);
+  const canvasRef = useRef(null);
+  const [submitting, setSubmitting] = useState(false);
 
   //Set questions and answer to render on the UI
   useEffect(() => {
@@ -161,25 +165,86 @@ function ReviewYourReferenceCheckPage() {
   const stopDrawing = () => {
     setIsDrawing(false);
   };
-  // useLayoutEffect(() => {
-  //   if (signatureMethod === "Draw Signature") {
-  //     console.log("Canvas resize");
+  useLayoutEffect(() => {
+    if (signatureMethod === "Draw Signature") {
+      console.log("Canvas resize");
 
-  //     const intervalId = setInterval(() => {
-  //       const canvas = canvasRef.current;
-  //       if (canvas) {
-  //         resizeCanvas();
-  //         clearInterval(intervalId); // Stop checking once the canvas is available
-  //       } else {
-  //         console.log("Canvas not yet available, checking again...");
-  //       }
-  //     }, 100); // Check every 100ms
+      const intervalId = setInterval(() => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+          resizeCanvas();
+          clearInterval(intervalId); // Stop checking once the canvas is available
+        } else {
+          console.log("Canvas not yet available, checking again...");
+        }
+      }, 100); // Check every 100ms
 
-  //     return () => {
-  //       clearInterval(intervalId); // Cleanup on unmount
-  //     };
-  //   }
-  // }, [signatureMethod]);
+      return () => {
+        clearInterval(intervalId); // Cleanup on unmount
+      };
+    }
+  }, [signatureMethod]);
+
+  // Convert Base64 to Blob
+  const dataURLtoBlob = (dataURL) => {
+    const byteString = atob(dataURL.split(",")[1]);
+    const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      uint8Array[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([uint8Array], { type: mimeString });
+  };
+
+  const submitReferenceCheck = async () => {
+    const URL = `${API}/api/ai-referee/reference/create-reference`;
+    const REFERENCE_DATA =
+      JSON.parse(localStorage.getItem("refereeData")) || {};
+    const REFERENCE_QUESTIONS_DATA =
+      JSON.parse(localStorage.getItem("referenceQuestions")) || [];
+    const TOKEN = localStorage.getItem("token");
+    const { referenceId, positionTitle, relationship, companyWorkedWith } =
+      REFERENCE_DATA;
+    const referenceQuestion = referenceQuestionsData;
+    const { format } = REFERENCE_QUESTIONS_DATA;
+    const canvas = canvasRef.current;
+    try {
+      setSubmitting(true);
+      const signatureDataURL = canvas.toDataURL("image/png");
+      const signatureBlob = dataURLtoBlob(signatureDataURL);
+      const formdata = new FormData();
+      formdata.append("referenceRequestId", referenceId);
+      formdata.append("refereeTitle", positionTitle);
+      formdata.append("refereeRelationshipWithCandidate", relationship);
+      formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
+      formdata.append("questionFormat", format);
+      formdata.append("companyWorkedWith", companyWorkedWith);
+      formdata.append("file", signatureBlob, "signature.png");
+
+      const response = await axios.post(URL, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+
+      if (response.status === 201) {
+        //Remove datas from localstorage
+        localStorage.removeItem("refereeData");
+        localStorage.removeItem("referenceQuestions");
+        localStorage.removeItem("referenceQuestionsData");
+        localStorage.removeItem("token");
+        //Navigate to reference completed page
+        navigate("/reference-completed");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="container-fluid main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <h2 className="referencecheckquestiontitle text-left mb-2">
@@ -349,7 +414,9 @@ function ReviewYourReferenceCheckPage() {
 
             <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
               <button onClick={clearDrawing}>Clear</button>
-              <button>Submit</button>
+              <button onClick={submitReferenceCheck} disabled={submitting}>
+                {submitting ? "Submitting..." : "Submit"}
+              </button>
             </div>
           </div>
         )}
