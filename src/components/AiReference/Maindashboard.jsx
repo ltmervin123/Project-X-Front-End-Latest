@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // Import useState
+import React, { useState, useEffect, useRef } from "react"; // Import useState
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
@@ -60,13 +60,16 @@ const MainDashboard = () => {
   const [questionSets, setQuestionSets] = useState(
     JSON.parse(localStorage.getItem("questions")) || []
   );
+  const timeoutRef = useRef(null);
+  const abortControllerRef = useRef(new AbortController());
 
-  const fetchCustomReferenceQuestions = async () => {
+  const fetchCustomReferenceQuestions = async ({ signal } = {}) => {
     try {
       const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
       const reponse = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
+          signal,
         },
       });
       localStorage.setItem("questions", JSON.stringify(reponse.data.questions));
@@ -76,32 +79,14 @@ const MainDashboard = () => {
     }
   };
 
-  const reFetchUpdatedQuestions = async () => {
-    try {
-      //delete the old questions from local storage
-      localStorage.removeItem("questions");
-      await fetchCustomReferenceQuestions();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (questionSets.length === 0) {
-        await fetchCustomReferenceQuestions();
-      }
-    };
-
-    fetchData();
-  }, []);
-  const fetchReference = async () => {
+  const fetchReference = async ({ signal } = {}) => {
     try {
       const URL = `${API}/api/ai-referee/company-request-reference/get-reference-request-by-companyId/${id}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        signal,
       });
 
       if (response.status === 200) {
@@ -115,22 +100,15 @@ const MainDashboard = () => {
       console.error(error);
     }
   };
-  const reFetchReference = async () => {
-    try {
-      localStorage.removeItem("reference");
-      await fetchReference();
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-  const fetchJobs = async () => {
+  const fetchJobs = async ({ signal } = {}) => {
     try {
       const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        signal,
       });
       if (response.status === 200) {
         localStorage.setItem("jobs", JSON.stringify(response.data.jobs));
@@ -140,19 +118,6 @@ const MainDashboard = () => {
       console.error(error);
     }
   };
-
-  const refetchJobs = async () => {
-    try {
-      //delete the jobs from local storage
-      localStorage.removeItem("jobs");
-
-      //fetch the jobs again
-      await fetchJobs();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const fetchCandidates = async () => {
     try {
       const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${id}`;
@@ -174,14 +139,54 @@ const MainDashboard = () => {
     }
   };
 
-  const reFetchCandidates = async () => {
+  const reFetchCandidates = async ({ signal } = {}) => {
     try {
       localStorage.removeItem("candidates");
-      await fetchCandidates();
+      await fetchCandidates(signal);
     } catch (error) {
       console.error(error);
     }
   };
+
+  const reFetchUpdatedQuestions = async ({ signal } = {}) => {
+    try {
+      //delete the old questions from local storage
+      localStorage.removeItem("questions");
+      await fetchCustomReferenceQuestions(signal);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const reFetchReference = async ({ signal } = {}) => {
+    try {
+      localStorage.removeItem("reference");
+      await fetchReference(signal);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const refetchJobs = async ({ signal } = {}) => {
+    try {
+      //delete the jobs from local storage
+      localStorage.removeItem("jobs");
+
+      //fetch the jobs again
+      await fetchJobs(signal);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (questionSets.length === 0) {
+        await fetchCustomReferenceQuestions();
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchCandidatesWhenRender = async () => {
@@ -511,20 +516,45 @@ const MainDashboard = () => {
       avatar: default_avatar_img,
     },
   ];
-  async function refetchAllData() {
-    await reFetchCandidates();
-    await refetchJobs();
-    await reFetchReference();
 
-    // Schedule the next fetch after the previous one completes
-    setTimeout(refetchAllData, 10000);
+  async function refetchAllData(timeoutRef, abortController) {
+    if (abortController.signal.aborted) return; // Stop execution if aborted
+
+    try {
+      await Promise.all([
+        reFetchCandidates({ signal: abortController.signal }),
+        refetchJobs({ signal: abortController.signal }),
+        reFetchReference({ signal: abortController.signal }),
+      ]);
+    } catch (error) {
+      if (error.name === "AbortError") {
+        console.error("Request aborted");
+        return;
+      }
+      console.error("Fetch error:", error);
+    }
+
+    if (!abortController.signal.aborted) {
+      timeoutRef.current = setTimeout(
+        () => refetchAllData(timeoutRef, abortController),
+        10000
+      );
+    }
   }
 
   useEffect(() => {
-    refetchAllData(); // Start the first fetch
-    return () => clearTimeout(refetchAllData); // Cleanup on unmount
-  }, []);
+    refetchAllData(timeoutRef, abortControllerRef.current);
 
+    return () => {
+      // Clear timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // Abort fetch requests
+      abortControllerRef.current.abort();
+    };
+  }, []);
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
