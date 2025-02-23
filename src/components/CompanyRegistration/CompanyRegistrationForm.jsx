@@ -245,6 +245,7 @@ const CompanyRegistrationForm = () => {
                     </select>
                   </div>
                 </Col>
+
               </Row>
 
               <div className="my-4">
