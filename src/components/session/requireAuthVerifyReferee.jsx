@@ -9,7 +9,7 @@ const RequireAuthVerifyReferee = () => {
 
   useEffect(() => {
     const validateSession = async () => {
-      const URL = `${API}/api/ai-referee/verify-reference-link`;
+      const URL = `${API}/api/ai-referee/reference/verify-reference-link`;
       try {
         const response = await axios.post(
           URL,

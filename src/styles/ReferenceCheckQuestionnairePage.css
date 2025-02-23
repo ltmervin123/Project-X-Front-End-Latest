@@ -16,6 +16,7 @@
   width: 80%;
   max-width: 1300px;
   height: auto;
+  max-height: 400px;
   background: var(--font-white);
   padding: 20px 40px;
   border-radius: 20px;
@@ -24,16 +25,22 @@
 .transcription-answer-container {
   width: 80%;
   max-width: 1300px;
-  padding: 20px;
+  padding: 20px 40px;
   border-radius: 20px;
+  height: auto;
+  max-height: 400px;
+
   background: var(--font-white);
   box-shadow: 0 4px 4px 0px #00000059;
 }
 .referencecheckquestion-container .question-container > .question-title {
   font-weight: 600 !important;
+  height: auto !important;
 }
 .referencecheckquestion-container .question-container > p {
   font-size: 24px;
+  overflow-y: auto;
+  max-height: 100px;
 }
 .referencecheckquestion-container button {
   width: 200px;
@@ -71,6 +78,7 @@
   border-radius: 10px;
   border: none;
   padding: 10px;
+  height: 60% !important;
   color: var(--input-bg);
 }
 .transcription-answer-container button {
@@ -118,4 +126,22 @@
   position: absolute;
   bottom: 0;
   left: 0;
+}
+/* Customizing the scrollbar */
+.referencecheckquestion-container .question-container > p::-webkit-scrollbar {
+  width: 5px; /* Scrollbar width */
+}
+
+.referencecheckquestion-container .question-container > p::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.referencecheckquestion-container .question-container > p::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.referencecheckquestion-container .question-container > p::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
 }

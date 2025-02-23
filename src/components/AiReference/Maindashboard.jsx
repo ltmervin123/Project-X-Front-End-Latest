@@ -1,9 +1,10 @@
-import React, { useState } from "react"; // Import useState
+import React, { useState, useEffect } from "react"; // Import useState
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
 import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
 import default_avatar_img from "../../assets/default.png"; // Import default avatar image
+import axios from "axios";
 
 // Register all necessary components
 Chart.register(...registerables);
@@ -43,11 +44,202 @@ const LogContainer = ({ logData }) => {
 };
 
 const MainDashboard = () => {
+  const API = process.env.REACT_APP_API_URL;
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const id = USER?.id;
+  const token = USER?.token;
+  const [candidates, setCandidates] = useState(
+    JSON.parse(localStorage.getItem("candidates")) || []
+  );
+  const [activeJobs, setActiveJobs] = useState(
+    JSON.parse(localStorage.getItem("jobs")) || []
+  );
+  const [reference, setReference] = useState(
+    JSON.parse(localStorage.getItem("reference")) || []
+  );
+  const [questionSets, setQuestionSets] = useState(
+    JSON.parse(localStorage.getItem("questions")) || []
+  );
+
+  const fetchCustomReferenceQuestions = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
+      const reponse = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.setItem("questions", JSON.stringify(reponse.data.questions));
+      setQuestionSets(reponse.data.questions);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const reFetchUpdatedQuestions = async () => {
+    try {
+      //delete the old questions from local storage
+      localStorage.removeItem("questions");
+      await fetchCustomReferenceQuestions();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (questionSets.length === 0) {
+        await fetchCustomReferenceQuestions();
+      }
+    };
+
+    fetchData();
+  }, []);
+  const fetchReference = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-request-by-companyId/${id}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem(
+          "reference",
+          JSON.stringify(response.data.reference)
+        );
+        setReference(response.data.reference);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const reFetchReference = async () => {
+    try {
+      localStorage.removeItem("reference");
+      await fetchReference();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchJobs = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        localStorage.setItem("jobs", JSON.stringify(response.data.jobs));
+        setActiveJobs(response.data.jobs);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const refetchJobs = async () => {
+    try {
+      //delete the jobs from local storage
+      localStorage.removeItem("jobs");
+
+      //fetch the jobs again
+      await fetchJobs();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchCandidates = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${id}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setCandidates(response.data.candidates);
+        localStorage.setItem(
+          "candidates",
+          JSON.stringify(response.data.candidates)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const reFetchCandidates = async () => {
+    try {
+      localStorage.removeItem("candidates");
+      await fetchCandidates();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchCandidatesWhenRender = async () => {
+      if (!candidates || candidates.length === 0) {
+        await fetchCandidates();
+      }
+    };
+
+    fetchCandidatesWhenRender();
+  }, []);
+
+  useEffect(() => {
+    const getReferenceWhenFirstRender = async () => {
+      if (reference.length === 0) {
+        await fetchReference();
+      }
+    };
+
+    getReferenceWhenFirstRender();
+  }, []);
+
+  useEffect(() => {
+    const getJobsWhenFirstRender = async () => {
+      if (activeJobs.length === 0) {
+        await fetchJobs();
+      }
+    };
+
+    getJobsWhenFirstRender();
+  }, []);
+
+  // Calculate the count for each card
+  const activeJobCount =
+    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+
+  const completedReferenceCount =
+    reference.filter((record) => record.status === "Completed").length || 0;
+
+  const pendingReferenceCount =
+    reference.filter(
+      (record) => record.status === "In Progress" || record.status === "New"
+    ).length || 0;
+
+  const totalCandidateCount = candidates.length || 0;
+
   const cardData = [
-    { title: "Active Jobs", count: "257", color: "#1877F2" },
-    { title: "Pending References", count: "12", color: "#F8BD00" },
-    { title: "Completed References", count: "159", color: "#319F43" },
-    { title: "Total Candidates", count: "159", color: "#686868" },
+    { title: "Active Jobs", count: activeJobCount, color: "#1877F2" },
+    {
+      title: "Pending References",
+      count: pendingReferenceCount,
+      color: "#F8BD00",
+    },
+    {
+      title: "Completed References",
+      count: completedReferenceCount,
+      color: "#319F43",
+    },
+    { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
   ];
   // Data for the line chart
   const lineData = {
@@ -81,54 +273,54 @@ const MainDashboard = () => {
     ],
   };
 
-// Ensure the tooltip element exists and is created before using it
-const createTooltipElement = () => {
-  let tooltipEl = document.getElementById("chartjs-tooltip");
+  // Ensure the tooltip element exists and is created before using it
+  const createTooltipElement = () => {
+    let tooltipEl = document.getElementById("chartjs-tooltip");
 
-  if (!tooltipEl) {
-    tooltipEl = document.createElement("div");
-    tooltipEl.id = "chartjs-tooltip";
-    tooltipEl.innerHTML = "<table></table>";
-    document.body.appendChild(tooltipEl);
-  }
+    if (!tooltipEl) {
+      tooltipEl = document.createElement("div");
+      tooltipEl.id = "chartjs-tooltip";
+      tooltipEl.innerHTML = "<table></table>";
+      document.body.appendChild(tooltipEl);
+    }
 
-  return tooltipEl;
-};
+    return tooltipEl;
+  };
 
-const lineOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: false,
-      external: function (context) {
-        const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
+  const lineOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+        external: function (context) {
+          const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
 
-        const tooltipModel = context.tooltip;
+          const tooltipModel = context.tooltip;
 
-        if (tooltipModel.opacity === 0) {
-          tooltipEl.style.opacity = 0;
-          return;
-        }
+          if (tooltipModel.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+          }
 
-        const position = context.chart.canvas.getBoundingClientRect();
-        tooltipEl.style.opacity = 1;
-        tooltipEl.style.backgroundColor = "#fff";
-        tooltipEl.style.padding = "10px";
-        tooltipEl.style.position = "absolute";
-        tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
-        tooltipEl.style.borderRadius = "10px";
-        tooltipEl.style.pointerEvents = "none";
+          const position = context.chart.canvas.getBoundingClientRect();
+          tooltipEl.style.opacity = 1;
+          tooltipEl.style.backgroundColor = "#fff";
+          tooltipEl.style.padding = "10px";
+          tooltipEl.style.position = "absolute";
+          tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+          tooltipEl.style.borderRadius = "10px";
+          tooltipEl.style.pointerEvents = "none";
 
-        tooltipEl.style.left =
-          position.left + window.scrollX + tooltipModel.caretX + "px";
-        tooltipEl.style.top =
-          position.top + window.scrollY + tooltipModel.caretY + "px";
+          tooltipEl.style.left =
+            position.left + window.scrollX + tooltipModel.caretX + "px";
+          tooltipEl.style.top =
+            position.top + window.scrollY + tooltipModel.caretY + "px";
 
-        const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
-        const innerHtml = `
+          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
+          const innerHtml = `
           <table class="tooltip-line=chart">
             <tr>
               <td style="font-weight: 500;">${month}</td>
@@ -145,36 +337,35 @@ const lineOptions = {
             </tr>
           </table>
         `;
-        tooltipEl.querySelector("table").innerHTML = innerHtml;
-      },
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          size: 12,
+          tooltipEl.querySelector("table").innerHTML = innerHtml;
         },
-        color: "#000",
       },
     },
-    y: {
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          size: 12,
+    scales: {
+      x: {
+        grid: {
+          display: false,
         },
-        color: "#000",
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+        },
       },
     },
-  },
-};
-
+  };
 
   const barData = {
     labels: ["Engineering", "Sales", "Marketing", "HR", "Finance", "Operation"], // Departments as labels
@@ -320,6 +511,19 @@ const lineOptions = {
       avatar: default_avatar_img,
     },
   ];
+  async function refetchAllData() {
+    await reFetchCandidates();
+    await refetchJobs();
+    await reFetchReference();
+
+    // Schedule the next fetch after the previous one completes
+    setTimeout(refetchAllData, 10000);
+  }
+
+  useEffect(() => {
+    refetchAllData(); // Start the first fetch
+    return () => clearTimeout(refetchAllData); // Cleanup on unmount
+  }, []);
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">

@@ -20,16 +20,13 @@ function ChooseYourInterviewMethodPage() {
         <h3>
           Choose Your <span className="color-orange">Interview Method</span>
         </h3>
-        <p>Select how you'd like to answer the interview questions</p>
+        <p>Select the type of response you'd like for the interview questions.</p>
 
         {/* Cards Container */}
         <div className="row d-flex justify-content-center align-items-center">
           {/* Card 1 - Voice Response */}
           <div className="col-12 col-md-5 mb-4">
-            <div
-              className="card"
-              onClick={() => handleSelection("Voice Response")}
-            >
+            <div className="card" onClick={() => handleSelection("VOICE_BASE")}>
               <div className="card-body d-flex align-items-center justify-content-center gap-2">
                 <div className="icon-container">
                   {/* SVG for Voice Response */}
@@ -57,10 +54,7 @@ function ChooseYourInterviewMethodPage() {
 
           {/* Card 2 - Text-based Response */}
           <div className="col-12 col-md-5 mb-4">
-            <div
-              className="card"
-              onClick={() => handleSelection("Text-based Response")}
-            >
+            <div className="card" onClick={() => handleSelection("TEXT_BASE")}>
               <div className="card-body d-flex align-items-center justify-content-center gap-2">
                 <div className="icon-container">
                   {/* SVG for Text-based Response */}

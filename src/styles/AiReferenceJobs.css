@@ -15,7 +15,7 @@
   color: var(--font-white);
   font-size: 1.25rem; /* Use rem for scalability */
   border-radius: 10px;
-  padding: 5px 25px; /* Increased padding for better touch targets */
+  padding: 5px 25px 5px 15px; /* Increased padding for better touch targets */
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s; /* Smooth transition */
 }
@@ -59,8 +59,8 @@
   table-layout: fixed; /* Prevent layout shifts */
   width: 100%; /* Full width for rows */
 }
-.AiReference-active-jobs-container th{
-  color:  var(--card-color);
+.AiReference-active-jobs-container th {
+  color: var(--card-color);
 }
 .AiReference-active-jobs-container th,
 .AiReference-active-jobs-container td {
@@ -97,16 +97,22 @@
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
 
-.custom-modal-job .modal-body .candidate-id{
+.custom-modal-job .modal-body .candidate-id {
   font-weight: 300;
   color: var(--card-color);
 }
-.custom-modal-job .modal-body .candidate-details > div{
- border-bottom: 1px solid var(--text-color) ;
+.custom-modal-job .modal-body .candidate-details > div {
+  border-bottom: 1px solid var(--text-color);
+}
+.custom-modal-job .modal-body > form > div > input,
+.custom-modal-job .modal-body > form > div > select {
+  border-radius: 50px;
+}
+.custom-modal-job .modal-body > form > div textarea {
+  border-radius: 20px;
 }
 
-
-.custom-modal-job .modal-body .candidate-details .card{
+.custom-modal-job .modal-body .candidate-details .card {
   background: var(--font-white);
   padding: 10px;
   height: 120px;
@@ -114,13 +120,13 @@
   border: none;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
 }
-.custom-modal-job .modal-body .candidate-details .card > p{
+.custom-modal-job .modal-body .candidate-details .card > p {
   font-weight: 500 !important;
 }
-.custom-modal-job .modal-body .candidate-details .card > small{
+.custom-modal-job .modal-body .candidate-details .card > small {
   color: var(--card-color);
 }
-.custom-modal-job .modal-body .candidate-details .card > small > span{
+.custom-modal-job .modal-body .candidate-details .card > small > span {
   color: var(--text-color);
 }
 .custom-modal-job .modal-body .btn-create-job {
@@ -131,36 +137,68 @@
   padding: 5px;
   color: var(--font-white);
 }
-.custom-modal-job .modal-body .btn-create-job:disabled{
+.custom-modal-job .modal-body .btn-create-job:disabled {
   background: var(--card-color);
 }
 
-.custom-modal-job .modal-body .button-controls-job > button:nth-child(1){
-background: var(--primary-color);
-padding: 5px 10px;
-color: var(--font-white);
-border-radius: 50px;
-border: none;
-width: 200px;
-
+.custom-modal-job .modal-body .button-controls-job > button:nth-child(1) {
+  background: var(--primary-color);
+  padding: 5px 10px;
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+  width: 200px;
 }
 
-.custom-modal-job .modal-body .button-controls-job > button:nth-child(2){
+.custom-modal-job .modal-body .button-controls-job > button:nth-child(2) {
   background: var(--secondary-color);
   padding: 5px 10px;
   width: 200px;
   color: var(--font-white);
   border-radius: 50px;
   border: none;
-  }
-  .custom-modal-job .modal-body .form-control,
-  .custom-modal-job .modal-body .form-select
-  {
-    box-shadow: 0px 4px 4px #0000003d;
-  }
+}
+.custom-modal-job .modal-body .form-control,
+.custom-modal-job .modal-body .form-select {
+  box-shadow: 0px 4px 4px #0000003d;
+}
+/* Apply custom styles to form controls and select dropdown */
+.custom-modal-job .modal-body .form-control,
+.custom-modal-job .modal-body .form-select {
+  box-shadow: 0px 4px 4px #0000003d;
+}
+/* Custom dropdown with background image for the icon */
+.custom-modal-job .modal-body .form-select {
+  position: relative;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  padding-right: 30px;  /* Space for the icon */
+  appearance: none !important;  /* Remove default arrow */
+  -webkit-appearance: none !important;  /* For Safari */
+  -moz-appearance: none !important;  /* For Firefox */
+  transition: background-image 0.3s ease; /* Smooth transition for the background */
+}
+
+/* Focus state when dropdown is open */
+.custom-modal-job .modal-body .form-select:focus {
+  outline: none;  /* Remove default focus outline */
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+}
+
+/* Ensure the background returns to default when not focused */
+.custom-modal-job .modal-body .form-select:not(:focus) {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+}
+
+
 /* Customizing the scrollbar */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar {
-  width: 12px; /* Scrollbar width */
+  width: 5px; /* Scrollbar width */
 }
 
 .AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb {

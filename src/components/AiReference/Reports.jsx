@@ -339,7 +339,7 @@ function createTooltipElement() {
           <>
             <div className="AiReference-table-title">
               <h4>Recent Reports</h4>
-              <p>Download or view detailed reports</p>
+              <p>Download or view detailed reports.</p>
             </div>
             <table>
               <thead>
@@ -382,7 +382,7 @@ function createTooltipElement() {
           <>
             <div className="AiReference-table-title">
               <h4>Candidate Evaluation Summaries</h4>
-              <p>Average scores across key competencies</p>
+              <p>Average scores across key competencies.</p>
             </div>
             <Row>
               <Col md={8}>
@@ -399,7 +399,7 @@ function createTooltipElement() {
           <>
             <div className="AiReference-table-title">
               <h4>Reference Check Analytics</h4>
-              <p>Overview of completed and pending reference checks</p>
+              <p>Overview of completed and pending reference checks.</p>
             </div>
             <Row>
               <Col md={8}>

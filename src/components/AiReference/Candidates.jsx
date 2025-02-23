@@ -95,26 +95,13 @@ const Candidates = () => {
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div>
-        <h3>Candidates</h3>
-        <p>
-          Manage and track your potential hires through the reference checking
-          process.
-        </p>
-      </div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="d-flex align-items-center search-candidates">
-          <div className="search-wrapper position-relative">
-            <input
-              type="text"
-              placeholder="Search candidates..."
-              className="form-control ps-4 pe-5"
-              value={searchQuery} // bind value to the searchQuery state
-              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
-            />
-
-            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
-          </div>
+      <div className="d-flex justify-content-between align-items-end mb-3">
+        <div>
+          <h3>Candidates</h3>
+          <p className="m-0">
+            Manage and track your potential hires through the reference checking
+            process.
+          </p>
         </div>
         <button
           onClick={handleAddNewCandidate}
@@ -141,11 +128,26 @@ const Candidates = () => {
           />
         )}
       </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex align-items-center search-candidates">
+          <div className="search-wrapper position-relative">
+            <input
+              type="text"
+              placeholder="Search candidates..."
+              className="form-control ps-4 pe-5"
+              value={searchQuery} // bind value to the searchQuery state
+              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
+            />
+
+            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+          </div>
+        </div>
+      </div>
 
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
           <h4>Candidate Lists</h4>
-          <p>Overview of all candidates in the system</p>
+          <p>Overview of all candidates in the system.</p>
         </div>
 
         {candidates && candidates.length > 0 ? (
@@ -191,7 +193,7 @@ const Candidates = () => {
               </tbody>
             </table>
             <div className="d-flex justify-content-center w-100">
-              <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
+              <div className="d-flex justify-content-center align-items-center gap-5 candidate-button-controls h-100">
                 <button className="btn-archive">
                   Archive Inactive Candidates
                 </button>

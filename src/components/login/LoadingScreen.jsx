@@ -5,7 +5,7 @@ import loading from "../../assets/loading.gif";
 const LoadingScreen = () => {
   return (
     <Modal show={true} centered backdrop={true}>
-      <Modal.Body className="text-center p-5">
+      <Modal.Body className="text-center py-5 px-0">
         <img className="loadinganimation" src={loading} alt="" />
         <span className="visually-hidden loading" style={{ color: "#f46a05" }}>
           Loading...
