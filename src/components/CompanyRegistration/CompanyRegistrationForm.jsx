@@ -53,7 +53,7 @@ const CompanyRegistrationForm = () => {
 
   const disableButton = useMemo(() => {
     return validateForm || isLoading || !isChecked;
-  },[validateForm, isLoading, isChecked]);
+  }, [validateForm, isLoading, isChecked]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,12 +84,15 @@ const CompanyRegistrationForm = () => {
     await signup(formData, SERVICE);
     // Success registration reset the form and show the success message
     if (status === 201) {
-      if (message === "Company account has been created! Please check the registered email for activation") {
+      if (
+        message ===
+        "Company account has been created! Please check the registered email for activation"
+      ) {
         navigate("/company-email-verification"); // Navigate to the email verification page
       }
       clearForm();
     }
-};
+  };
   return (
     <div className="company-reg-container d-flex align-items-center flex-column justify-content-center">
       <h4 className="text-center">Company Registration</h4>
@@ -244,6 +247,7 @@ const CompanyRegistrationForm = () => {
                     </select>
                   </div>
                 </Col>
+
               </Row>
 
               <div className="my-4">
@@ -317,7 +321,6 @@ const CompanyRegistrationForm = () => {
                     <option value="51+">51+ hires</option>
                   </select>
                 </div>
-
               </div>
             </Col>
 
