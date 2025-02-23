@@ -186,31 +186,31 @@ const AiReferenceCheckVerificationForm = ({
                   <option value="Other">Other</option>
                 </Form.Control>
               </Form.Group>
-  <Form.Group controlId="date-worked-together">
-    <Form.Label>Date Worked Together</Form.Label>
-    <Row>
-      <Col md={6}>
-        <Form.Label htmlFor="startdate">Start Date</Form.Label>
-        <Form.Control
-          type="date"
-          name="startDate"
-          id="startdate"
-          value={formData.startDate}
-          onChange={handleChange}
-        />
-      </Col>
-      <Col md={6}>
-        <Form.Label htmlFor="enddate">End Date</Form.Label>
-        <Form.Control
-          type="date"
-          name="endDate"
-          id="enddate"
-          value={formData.endDate}
-          onChange={handleChange}
-        />
-      </Col>
-    </Row>
-  </Form.Group>
+              <Form.Group controlId="date-worked-together">
+                <Form.Label>Date Worked Together</Form.Label>
+                <Row>
+                  <Col md={6}>
+                    <Form.Label htmlFor="startdate">Start Date</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="startDate"
+                      id="startdate"
+                      value={formData.startDate}
+                      onChange={handleChange}
+                    />
+                  </Col>
+                  <Col md={6}>
+                    <Form.Label htmlFor="enddate">End Date</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="endDate"
+                      id="enddate"
+                      value={formData.endDate}
+                      onChange={handleChange}
+                    />
+                  </Col>
+                </Row>
+              </Form.Group>
             </Col>
 
             <Col md={3} className="d-flex align-items-start position-relative">

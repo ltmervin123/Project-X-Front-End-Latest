@@ -229,11 +229,18 @@ function ReviewYourReferenceCheckPage() {
     const REFERENCE_QUESTIONS_DATA =
       JSON.parse(localStorage.getItem("referenceQuestions")) || [];
     const TOKEN = localStorage.getItem("token");
-    const { referenceId, positionTitle, relationship, companyWorkedWith } =
-      REFERENCE_DATA;
+    const {
+      referenceId,
+      positionTitle,
+      relationship,
+      companyWorkedWith,
+      endDate,
+      startDate,
+    } = REFERENCE_DATA;
     const referenceQuestion = referenceQuestionsData;
     const { format } = REFERENCE_QUESTIONS_DATA;
     const canvas = canvasRef.current;
+    const workDuration = { endDate, startDate };
     try {
       setSubmitting(true);
       const signatureDataURL = canvas.toDataURL("image/png");
@@ -245,6 +252,7 @@ function ReviewYourReferenceCheckPage() {
       formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
       formdata.append("questionFormat", format);
       formdata.append("companyWorkedWith", companyWorkedWith);
+      formdata.append("workDuration", JSON.stringify(workDuration));
       formdata.append("file", signatureBlob, "signature.png");
 
       const response = await axios.post(URL, formdata, {
