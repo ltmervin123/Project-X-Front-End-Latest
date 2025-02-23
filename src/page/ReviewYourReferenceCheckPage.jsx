@@ -243,17 +243,29 @@ function ReviewYourReferenceCheckPage() {
     const workDuration = { endDate, startDate };
     try {
       setSubmitting(true);
-      const signatureDataURL = canvas.toDataURL("image/png");
-      const signatureBlob = dataURLtoBlob(signatureDataURL);
       const formdata = new FormData();
-      formdata.append("referenceRequestId", referenceId);
-      formdata.append("refereeTitle", positionTitle);
-      formdata.append("refereeRelationshipWithCandidate", relationship);
-      formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
-      formdata.append("questionFormat", format);
-      formdata.append("companyWorkedWith", companyWorkedWith);
-      formdata.append("workDuration", JSON.stringify(workDuration));
-      formdata.append("file", signatureBlob, "signature.png");
+
+      if (signatureMethod === "Draw Signature") {
+        const signatureDataURL = canvas.toDataURL("image/png");
+        const signatureBlob = dataURLtoBlob(signatureDataURL);
+        formdata.append("referenceRequestId", referenceId);
+        formdata.append("refereeTitle", positionTitle);
+        formdata.append("refereeRelationshipWithCandidate", relationship);
+        formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
+        formdata.append("questionFormat", format);
+        formdata.append("companyWorkedWith", companyWorkedWith);
+        formdata.append("workDuration", JSON.stringify(workDuration));
+        formdata.append("file", signatureBlob, "signature.png");
+      } else {
+        formdata.append("referenceRequestId", referenceId);
+        formdata.append("refereeTitle", positionTitle);
+        formdata.append("refereeRelationshipWithCandidate", relationship);
+        formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
+        formdata.append("questionFormat", format);
+        formdata.append("companyWorkedWith", companyWorkedWith);
+        formdata.append("workDuration", JSON.stringify(workDuration));
+        formdata.append("file", uploadedFile);
+      }
 
       const response = await axios.post(URL, formdata, {
         headers: {
@@ -358,37 +370,33 @@ function ReviewYourReferenceCheckPage() {
 
             {signatureMethod === "Draw Signature" ? (
               <>
-                            <div className="drawing-container">
-                <p>Drawing container area</p>
-                <div
-                  className="drawing-container-box w-100"
-                  style={{ width: "100%", height: "280px" }}
-                >
-                  <canvas
-                    ref={canvasRef}
-                    style={{
-                      border: "1px solid black",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                    onMouseDown={startDrawing}
-                    onMouseMove={draw}
-                    onMouseUp={stopDrawing}
-                    onMouseLeave={stopDrawing}
-                  />
-                </div>
-              </div>
-              <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
-                    <button onClick={clearDrawing}>Clear</button>
-                    <button
-                      onClick={submitReferenceCheck}
-                      disabled={submitting}
-                    >
-                      {submitting ? "Submitting..." : "Submit"}
-                    </button>
+                <div className="drawing-container">
+                  <p>Drawing container area</p>
+                  <div
+                    className="drawing-container-box w-100"
+                    style={{ width: "100%", height: "280px" }}
+                  >
+                    <canvas
+                      ref={canvasRef}
+                      style={{
+                        border: "1px solid black",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      onMouseDown={startDrawing}
+                      onMouseMove={draw}
+                      onMouseUp={stopDrawing}
+                      onMouseLeave={stopDrawing}
+                    />
                   </div>
+                </div>
+                <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
+                  <button onClick={clearDrawing}>Clear</button>
+                  <button onClick={submitReferenceCheck} disabled={submitting}>
+                    {submitting ? "Submitting..." : "Submit"}
+                  </button>
+                </div>
               </>
-
             ) : (
               // In your JSXF
               signatureMethod === "Upload Signature" && (
@@ -458,7 +466,9 @@ function ReviewYourReferenceCheckPage() {
                           {errorMessage && (
                             <p style={{ color: "red" }}>{errorMessage}</p>
                           )}
-                          <i className="py-3">Supported Files: JPG, PNG, JPEG, JFIF.</i>
+                          <i className="py-3">
+                            Supported Files: JPG, PNG, JPEG, JFIF.
+                          </i>
                         </>
                       )}
                     </div>
