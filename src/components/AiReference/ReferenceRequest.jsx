@@ -110,7 +110,7 @@ const ReferenceRequest = () => {
 
   // Conditional rendering based on showViewRequest state
   if (showViewRequest) {
-    return <ViewRequest referenceId={selectedCandidate._id} />; // Render ViewRequest component
+    return <ViewRequest referenceId={selectedCandidate._id} token={token} />; // Render ViewRequest component
   }
 
   return (
