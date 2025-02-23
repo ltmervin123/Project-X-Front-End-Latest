@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingScreen from "./LoadingScreen";
 import CustomDropdown from "./CustomDropdown";
 
-const SERVICE = ["MOCK_AI", "AI_REFERENCE"];
+const SERVICE = ["AI_REFERENCE", "MOCK_AI"];
 
 const LoginForm = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -322,10 +322,10 @@ const LoginForm = () => {
               className="signup-button"
               onClick={() => {
                 switch (service) {
-                  case SERVICE[0]: // For MOCK_AI
+                  case SERVICE[1]:
                     navigate("/signup"); // Navigate to signup for MOCK_AI
                     break;
-                  case SERVICE[1]: // For AI_REFERENCE
+                  case SERVICE[0]:
                     navigate("/company-registration"); // Navigate to company registration for AI_REFERENCE
                     break;
                   default:

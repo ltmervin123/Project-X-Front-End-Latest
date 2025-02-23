@@ -41,6 +41,17 @@ function ViewRequest({ referenceId, token }) {
     return newDate.toDateString();
   }
 
+  function formatDateForWorkDuration(date) {
+    if (!date) return "Invalid Date"; // Handle null/undefined cases
+
+    const newDate = new Date(date);
+    if (isNaN(newDate)) return "Invalid Date"; // Handle invalid dates
+
+    return newDate.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
+  }
   function formatter(letter) {
     if (!letter) {
       return "";
@@ -178,8 +189,20 @@ function ViewRequest({ referenceId, token }) {
             <b>Dates Worked Together: </b>
 
             <span>
-              {/* From {"Not Available"} to {"Not Available"} */}
-              {"Not Available"}
+              {referenceData?.workDuration ? (
+                <>
+                  From{" "}
+                  {formatDateForWorkDuration(
+                    referenceData?.workDuration?.startDate
+                  )}{" "}
+                  To{" "}
+                  {formatDateForWorkDuration(
+                    referenceData?.workDuration?.endDate
+                  )}
+                </>
+              ) : (
+                "Not Available"
+              )}
             </span>
           </p>
 
