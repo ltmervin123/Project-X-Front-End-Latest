@@ -57,6 +57,7 @@ export const useSignup = () => {
       });
       setStatus(response.status);
       setMessage(response.data.message);
+      return response.status;
     } catch (err) {
       setStatus(err.response ? err.response.status : 500);
       setError(err.response ? err.response.data.message : "Signup failed");

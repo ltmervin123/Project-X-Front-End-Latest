@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../components/ExpiredLink/Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const CompanyRegistrationCheckEmailConfirmationPage = ({ email }) => {
+const CompanyRegistrationCheckEmailConfirmationPage = () => {
+  const location = useLocation();
+  const email = location.state?.email;
   const [timeLeft, setTimeLeft] = useState(30); // Timer state
   const API = process.env.REACT_APP_API_URL;
-  const URL = `${API}/api/user/auth/forgot-password`;
-  const useremail = email;
+  const URL = `${API}/api/ai-referee/company-resend-link`;
+  const [resending, setResending] = useState(false);
 
   const navigate = useNavigate(); // Initialize navigate hook
 
@@ -19,7 +21,8 @@ const CompanyRegistrationCheckEmailConfirmationPage = ({ email }) => {
     }
   }, [timeLeft]);
 
-  const sendEmail = async () => {
+  const resendActivationLink = async () => {
+    setResending(true);
     try {
       const requestBody = { email };
       const response = await axios.post(URL, requestBody, {
@@ -27,12 +30,14 @@ const CompanyRegistrationCheckEmailConfirmationPage = ({ email }) => {
       });
     } catch (error) {
       console.error(error);
+    } finally {
+      setResending(false);
     }
   };
 
   const handleResendLink = async () => {
+    await resendActivationLink();
     setTimeLeft(30);
-    await sendEmail();
   };
   const handleRedirectToCompanyRegistration = () => {
     navigate("/company-registration");
@@ -101,7 +106,8 @@ const CompanyRegistrationCheckEmailConfirmationPage = ({ email }) => {
           <div className="forgot-header text-center">
             <h3>Check your email!</h3>
             <p className="mb-4">
-              Please check your email to activate your company account.
+              Please check your email <strong>{email}</strong> to activate your
+              company account.
             </p>
           </div>
           {timeLeft > 0 ? (
@@ -136,7 +142,10 @@ const CompanyRegistrationCheckEmailConfirmationPage = ({ email }) => {
               </p>
             </p>
           )}
-          <button className="redirect-to-login" onClick={handleRedirectToCompanyRegistration}>
+          <button
+            className="redirect-to-login"
+            onClick={handleRedirectToCompanyRegistration}
+          >
             Return to Registration
           </button>
         </div>

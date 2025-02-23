@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const CompanyRegistrationForm = () => {
   const SERVICE = "AI_REFERENCE";
-  const { signup, isLoading, error, message, status } = useSignup();
+  const { signup, isLoading, error, message } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false);
@@ -53,7 +53,7 @@ const CompanyRegistrationForm = () => {
 
   const disableButton = useMemo(() => {
     return validateForm || isLoading || !isChecked;
-  },[validateForm, isLoading, isChecked]);
+  }, [validateForm, isLoading, isChecked]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,15 +81,16 @@ const CompanyRegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(formData, SERVICE);
+    const status = await signup(formData, SERVICE);
+    const email = formData.email;
+    console.log(status);
     // Success registration reset the form and show the success message
     if (status === 201) {
-      if (message === "Company account has been created! Please check the registered email for activation") {
-        navigate("/company-email-verification"); // Navigate to the email verification page
-      }
+      navigate("/company-email-verification", { state: { email } }); // Navigate to the email verification page
       clearForm();
     }
-};
+  };
+
   return (
     <div className="company-reg-container d-flex align-items-center flex-column justify-content-center">
       <h4 className="text-center">Company Registration</h4>
@@ -317,7 +318,6 @@ const CompanyRegistrationForm = () => {
                     <option value="51+">51+ hires</option>
                   </select>
                 </div>
-
               </div>
             </Col>
 
