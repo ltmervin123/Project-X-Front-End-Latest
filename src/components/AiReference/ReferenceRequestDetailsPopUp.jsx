@@ -166,7 +166,7 @@ const ReferenceRequestDetailsPopUp = ({
             Send Reminder
           </button>
 
-          <button
+          {/* <button
             onClick={onViewReference}
             disabled={
               candidate.status === "New" ||
@@ -176,8 +176,11 @@ const ReferenceRequestDetailsPopUp = ({
           >
             {candidate.status === "Completed"
               ? "View Reference"
-              : candidate.status}
-          </button>
+              : candidate.status} 
+                      </button>*/}
+          {candidate.status === "Completed" && (
+            <button onClick={onViewReference}>View Reference</button>
+          )}
         </div>
       </Modal.Body>
     </Modal>
