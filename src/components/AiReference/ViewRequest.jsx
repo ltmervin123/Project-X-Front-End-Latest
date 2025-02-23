@@ -56,7 +56,7 @@ function ViewRequest({ referenceId, token }) {
         return "Job Responsibilities and Performance";
       case "skillAndCompetencies":
         return "Skills and Competencies";
-      case "workEhticAndBevaior":
+      case "workEthicAndBehavior":
         return "Work Ethic and Behavior";
       case "closingQuestions":
         return "Closing Questions";
