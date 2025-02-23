@@ -4,12 +4,13 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { useSignup } from "../../hook/useSignup";
 import DPAPopUp from "./DPAPopUp"; // Import the DPAPopUp modal component
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const CompanyRegistrationForm = () => {
   const SERVICE = "AI_REFERENCE";
   const { signup, isLoading, error, message, status } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState(false); // Separate state to keep checkbox unchecked until "Continue" is clicked
@@ -81,12 +82,14 @@ const CompanyRegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(formData, SERVICE);
-    //Success registration reset the form and show the success message
+    // Success registration reset the form and show the success message
     if (status === 201) {
+      if (message === "Company account has been created! Please check the registered email for activation") {
+        navigate("/company-email-verification"); // Navigate to the email verification page
+      }
       clearForm();
     }
-  };
-
+};
   return (
     <div className="company-reg-container d-flex align-items-center flex-column justify-content-center">
       <h4 className="text-center">Company Registration</h4>
@@ -314,8 +317,7 @@ const CompanyRegistrationForm = () => {
                     <option value="51+">51+ hires</option>
                   </select>
                 </div>
-                {/* Success message here */}
-                {message && <div>{message}</div>}
+
               </div>
             </Col>
 
