@@ -225,133 +225,101 @@ function ViewRequest({ referenceId, token }) {
     }
   }
 
-  // const downloadPDF = async () => {
-  //   saveDownloading(true);
-  //   const input = reportRef.current;
-  //   const canvas = await html2canvas(input, { scale: 2 }); // Higher scale for better quality
-  //   const imgData = canvas.toDataURL("image/png");
-
-  //   const pdf = new jsPDF("p", "mm", "a4");
-  //   const imgWidth = 190;
-  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //   pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
-  //   pdf.save(
-  //     `${referenceData?.referenceRequestId?.candidate}-reference-report.pdf`
-  //   ); // Save with candidate name
-  //   saveDownloading(false);
-  // };
-
-  // const downloadPDF = async () => {
-  //   saveDownloading(true);
-  //   const input = reportRef.current;
-
-  //   // Capture the element as an image with better quality
-  //   const canvas = await html2canvas(input, {
-  //     scale: 3, // Higher scale improves quality
-  //     useCORS: true, // Ensures external images load correctly
-  //     backgroundColor: null,
-  //   });
-
-  //   const imgData = canvas.toDataURL("image/jpeg", 0.8); // Use JPEG with compression for smaller file size
-
-  //   // Initialize PDF
-  //   const pdf = new jsPDF("p", "mm", "a4");
-  //   const pdfWidth = pdf.internal.pageSize.getWidth();
-  //   const pdfHeight = pdf.internal.pageSize.getHeight();
-
-  //   const imgWidth = pdfWidth - 20; // Leave some margins
-  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //   let y = 10; // Start position for first page
-
-  //   // If content is taller than a single A4 page, split into multiple pages
-  //   if (imgHeight > pdfHeight - 20) {
-  //     let position = 0;
-
-  //     while (position < canvas.height) {
-  //       const section = canvas
-  //         .getContext("2d")
-  //         .getImageData(
-  //           0,
-  //           position,
-  //           canvas.width,
-  //           pdfHeight * (canvas.width / pdfWidth)
-  //         );
-  //       const tempCanvas = document.createElement("canvas");
-  //       tempCanvas.width = canvas.width;
-  //       tempCanvas.height = section.height;
-  //       tempCanvas.getContext("2d").putImageData(section, 0, 0);
-
-  //       const sectionData = tempCanvas.toDataURL("image/jpeg", 0.8);
-  //       pdf.addImage(sectionData, "JPEG", 10, y, imgWidth, pdfHeight - 20);
-
-  //       position += pdfHeight * (canvas.width / pdfWidth);
-  //       if (position < canvas.height) pdf.addPage();
-  //     }
-  //   } else {
-  //     pdf.addImage(imgData, "JPEG", 10, y, imgWidth, imgHeight);
-  //   }
-
-  //   pdf.save(
-  //     `${referenceData?.referenceRequestId?.candidate}-reference-report.pdf`
-  //   );
-  //   saveDownloading(false);
-  // };
-
   const downloadPDF = async () => {
     saveDownloading(true);
     const input = reportRef.current;
 
-    // Capture the element as an image with better quality
+    // Convert signature image to Base64 (Handles Signed URLs)
+    const convertImageToBase64 = async (imageUrl) => {
+      try {
+        const response = await fetch(imageUrl, { mode: "cors" });
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        });
+      } catch (error) {
+        console.error("Error fetching signature image:", error);
+        return null;
+      }
+    };
+
+    // Fetch and convert the signature image (if available)
+    let signatureBase64 = null;
+    if (referenceData?.signatureImageURL) {
+      signatureBase64 = await convertImageToBase64(
+        referenceData.signatureImageURL
+      );
+    }
+
+    // Capture the report as an image
     const canvas = await html2canvas(input, {
-      scale: 3, // Higher scale improves quality
-      useCORS: true, // Ensures external images load correctly
-      allowTaint: false, // Prevents CORS issues
-      backgroundColor: "#ffffff", // Set background explicitly to white
+      scale: 3,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: "#ffffff",
     });
 
-    const imgData = canvas.toDataURL("image/jpeg", 0.8); // Use JPEG with compression for smaller file size
-
-    // Initialize PDF
+    const imgData = canvas.toDataURL("image/jpeg", 0.8);
     const pdf = new jsPDF("p", "mm", "a4");
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    const imgWidth = pdfWidth - 20; // Leave some margins
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const margin = 10; // Page margins
+    const contentWidth = pdfWidth - margin * 2;
+    const contentHeight = (canvas.height * contentWidth) / canvas.width;
 
-    let y = 10; // Start position for first page
+    let y = margin;
+    let position = 0;
+    const pageHeightLimit = pdfHeight - margin * 2; // Available height per page
 
-    // If content is taller than a single A4 page, split into multiple pages
-    if (imgHeight > pdfHeight - 20) {
-      let position = 0;
+    // Splitting content into multiple pages if necessary
+    while (position < canvas.height) {
+      const sectionCanvas = document.createElement("canvas");
+      sectionCanvas.width = canvas.width;
+      sectionCanvas.height = Math.min(
+        canvas.height - position,
+        (pageHeightLimit * canvas.width) / contentWidth
+      );
 
-      while (position < canvas.height) {
-        const section = canvas
-          .getContext("2d")
-          .getImageData(
-            0,
-            position,
-            canvas.width,
-            pdfHeight * (canvas.width / pdfWidth)
-          );
+      const ctx = sectionCanvas.getContext("2d");
+      ctx.drawImage(canvas, 0, -position, canvas.width, canvas.height);
 
-        const tempCanvas = document.createElement("canvas");
-        tempCanvas.width = canvas.width;
-        tempCanvas.height = section.height;
-        tempCanvas.getContext("2d").putImageData(section, 0, 0);
+      const sectionData = sectionCanvas.toDataURL("image/jpeg", 0.8);
+      pdf.addImage(
+        sectionData,
+        "JPEG",
+        margin,
+        y,
+        contentWidth,
+        pageHeightLimit
+      );
 
-        const sectionData = tempCanvas.toDataURL("image/jpeg", 0.8);
-        pdf.addImage(sectionData, "JPEG", 10, y, imgWidth, pdfHeight - 20);
-
-        position += pdfHeight * (canvas.width / pdfWidth);
-        if (position < canvas.height) pdf.addPage();
-      }
-    } else {
-      pdf.addImage(imgData, "JPEG", 10, y, imgWidth, imgHeight);
+      position += (pageHeightLimit * canvas.width) / contentWidth;
+      if (position < canvas.height) pdf.addPage();
     }
 
+    // Add signature to the last page
+    if (signatureBase64) {
+      if (position >= canvas.height) pdf.addPage(); // Ensure it's on a new page if needed
+
+      const signatureWidth = 50;
+      const signatureHeight = 20;
+      const signatureX = (pdfWidth - signatureWidth) / 2; // Centered
+      const signatureY = pdfHeight - 30; // Place near the bottom
+
+      pdf.addImage(
+        signatureBase64,
+        "PNG",
+        signatureX,
+        signatureY,
+        signatureWidth,
+        signatureHeight
+      );
+    }
+
+    // Save the generated PDF
     pdf.save(
       `${referenceData?.referenceRequestId?.candidate}-reference-report.pdf`
     );
