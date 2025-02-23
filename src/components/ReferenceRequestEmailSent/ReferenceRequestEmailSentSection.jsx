@@ -1,6 +1,9 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const ReferenceRequestEmailSentPopup = () => {
+  const location = useLocation();
+  const refereeEmail = location.state?.refereeEmail || "Not Available";
   // Retry email handler (you can expand this logic as needed)
   const handleCustomerService = () => {
     alert("Retrying email send...");
@@ -28,8 +31,8 @@ const ReferenceRequestEmailSentPopup = () => {
           </div>
           <p>
             {" "}
-            We have sent an email to <strong>sample@hr-hatch.com</strong> to
-            confirm your reference request.
+            We have sent an email to <strong>{refereeEmail}</strong> to confirm
+            your reference request.
           </p>
 
           <p className="w-100">
