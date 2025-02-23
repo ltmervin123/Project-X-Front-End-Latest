@@ -450,7 +450,7 @@ function ReviewYourReferenceCheckPage() {
                           {errorMessage && (
                             <p style={{ color: "red" }}>{errorMessage}</p>
                           )}
-                          <i>Supported Files: JPG, PNG, JPEG, JFIF.</i>
+                          <i className="py-3">Supported Files: JPG, PNG, JPEG, JFIF.</i>
                         </>
                       )}
                     </div>
