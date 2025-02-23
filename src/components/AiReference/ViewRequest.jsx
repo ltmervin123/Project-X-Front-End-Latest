@@ -1,7 +1,17 @@
-import React, { useState } from "react"; // Ensure useState is imported
+import React, { useState, useEffect, useRef } from "react"; // Ensure useState is imported
 import "../../styles/ViewRequest.css";
+import axios from "axios";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
-function ViewRequest() {
+function ViewRequest({ referenceId, token }) {
+  const reportRef = useRef();
+
+  const API = process.env.REACT_APP_API_URL;
+  const [fetchingRefence, setFetchingReference] = useState(false);
+  const [error, setError] = useState("");
+  const [referenceData, setReferenceData] = useState(null);
+  const [downloading, saveDownloading] = useState(false);
   // Updated questions and categories
   const updatedQuestions = [
     {
@@ -151,83 +161,389 @@ function ViewRequest() {
     }));
   };
 
+  const fetchReferenceByReferenceId = async () => {
+    try {
+      setFetchingReference(true);
+      const URL = `${API}/api/ai-referee/company-request-reference//get-reference/${referenceId}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        setReferenceData(response.data.referenceDetails);
+      }
+    } catch (error) {
+      setError(
+        error?.response?.data?.message ||
+          "An error occurred while fetching reference"
+      );
+    } finally {
+      setFetchingReference(false);
+    }
+  };
+
+  function formatDate(date) {
+    const newDate = new Date(date);
+    return newDate.toDateString();
+  }
+
+  function formatter(letter) {
+    if (!letter) {
+      return "";
+    }
+    return letter.charAt(0).toUpperCase() + letter.slice(1);
+  }
+
+  function formatCategories(letter) {
+    switch (letter) {
+      case "relationship":
+        return "Relationship";
+      case "jobResponsibilitiesAndPerformance":
+        return "Job Responsibilities and Performance";
+      case "skillAndCompetencies":
+        return "Skills and Competencies";
+      case "workEhticAndBevaior":
+        return "Work Ethic and Behavior";
+      case "closingQuestions":
+        return "Closing Questions";
+      case "strategicLeadershipAndVision":
+        return "Strategic Leadership and Vision";
+      case "businessImpactAndResults":
+        return "Business Impact and Results";
+      case "teamLeadershipAndOrganizationalDevelopment":
+        return "Team Leadership and Organizational Development";
+      case "decisionMakingAndProblemSolving":
+        return "Decision Making and Problem Solving";
+      case "innovationAndGrowth":
+        return "Innovation and Growth";
+      case "leadershipAndManagementSkills":
+        return "Leadership and Management Skills";
+      default:
+        return "Not Available";
+    }
+  }
+
+  // const downloadPDF = async () => {
+  //   saveDownloading(true);
+  //   const input = reportRef.current;
+  //   const canvas = await html2canvas(input, { scale: 2 }); // Higher scale for better quality
+  //   const imgData = canvas.toDataURL("image/png");
+
+  //   const pdf = new jsPDF("p", "mm", "a4");
+  //   const imgWidth = 190;
+  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //   pdf.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+  //   pdf.save(
+  //     `${referenceData?.referenceRequestId?.candidate}-reference-report.pdf`
+  //   ); // Save with candidate name
+  //   saveDownloading(false);
+  // };
+
+  // const downloadPDF = async () => {
+  //   saveDownloading(true);
+  //   const input = reportRef.current;
+
+  //   // Capture the element as an image with better quality
+  //   const canvas = await html2canvas(input, {
+  //     scale: 3, // Higher scale improves quality
+  //     useCORS: true, // Ensures external images load correctly
+  //     backgroundColor: null,
+  //   });
+
+  //   const imgData = canvas.toDataURL("image/jpeg", 0.8); // Use JPEG with compression for smaller file size
+
+  //   // Initialize PDF
+  //   const pdf = new jsPDF("p", "mm", "a4");
+  //   const pdfWidth = pdf.internal.pageSize.getWidth();
+  //   const pdfHeight = pdf.internal.pageSize.getHeight();
+
+  //   const imgWidth = pdfWidth - 20; // Leave some margins
+  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //   let y = 10; // Start position for first page
+
+  //   // If content is taller than a single A4 page, split into multiple pages
+  //   if (imgHeight > pdfHeight - 20) {
+  //     let position = 0;
+
+  //     while (position < canvas.height) {
+  //       const section = canvas
+  //         .getContext("2d")
+  //         .getImageData(
+  //           0,
+  //           position,
+  //           canvas.width,
+  //           pdfHeight * (canvas.width / pdfWidth)
+  //         );
+  //       const tempCanvas = document.createElement("canvas");
+  //       tempCanvas.width = canvas.width;
+  //       tempCanvas.height = section.height;
+  //       tempCanvas.getContext("2d").putImageData(section, 0, 0);
+
+  //       const sectionData = tempCanvas.toDataURL("image/jpeg", 0.8);
+  //       pdf.addImage(sectionData, "JPEG", 10, y, imgWidth, pdfHeight - 20);
+
+  //       position += pdfHeight * (canvas.width / pdfWidth);
+  //       if (position < canvas.height) pdf.addPage();
+  //     }
+  //   } else {
+  //     pdf.addImage(imgData, "JPEG", 10, y, imgWidth, imgHeight);
+  //   }
+
+  //   pdf.save(
+  //     `${referenceData?.referenceRequestId?.candidate}-reference-report.pdf`
+  //   );
+  //   saveDownloading(false);
+  // };
+
+  const downloadPDF = async () => {
+    saveDownloading(true);
+    const input = reportRef.current;
+
+    // Capture the element as an image with better quality
+    const canvas = await html2canvas(input, {
+      scale: 3, // Higher scale improves quality
+      useCORS: true, // Ensures external images load correctly
+      allowTaint: false, // Prevents CORS issues
+      backgroundColor: "#ffffff", // Set background explicitly to white
+    });
+
+    const imgData = canvas.toDataURL("image/jpeg", 0.8); // Use JPEG with compression for smaller file size
+
+    // Initialize PDF
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = pdfWidth - 20; // Leave some margins
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let y = 10; // Start position for first page
+
+    // If content is taller than a single A4 page, split into multiple pages
+    if (imgHeight > pdfHeight - 20) {
+      let position = 0;
+
+      while (position < canvas.height) {
+        const section = canvas
+          .getContext("2d")
+          .getImageData(
+            0,
+            position,
+            canvas.width,
+            pdfHeight * (canvas.width / pdfWidth)
+          );
+
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = canvas.width;
+        tempCanvas.height = section.height;
+        tempCanvas.getContext("2d").putImageData(section, 0, 0);
+
+        const sectionData = tempCanvas.toDataURL("image/jpeg", 0.8);
+        pdf.addImage(sectionData, "JPEG", 10, y, imgWidth, pdfHeight - 20);
+
+        position += pdfHeight * (canvas.width / pdfWidth);
+        if (position < canvas.height) pdf.addPage();
+      }
+    } else {
+      pdf.addImage(imgData, "JPEG", 10, y, imgWidth, imgHeight);
+    }
+
+    pdf.save(
+      `${referenceData?.referenceRequestId?.candidate}-reference-report.pdf`
+    );
+    saveDownloading(false);
+  };
+
+  // const getBase64ImageFromURL = async (url) => {
+  //   const response = await fetch(url, { mode: "cors" });
+  //   const blob = await response.blob();
+  //   return new Promise((resolve) => {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => resolve(reader.result);
+  //     reader.readAsDataURL(blob);
+  //   });
+  // };
+
+  // const downloadPDF = async () => {
+  //   saveDownloading(true);
+  //   const input = reportRef.current;
+
+  //   // Convert the signature image to Base64
+  //   const signatureImageURL = referenceData?.signatureImageURL || "";
+  //   let signatureBase64 = "";
+
+  //   if (signatureImageURL) {
+  //     try {
+  //       signatureBase64 = await getBase64ImageFromURL(signatureImageURL);
+  //     } catch (error) {
+  //       console.error("Failed to load signature image:", error);
+  //     }
+  //   }
+
+  //   // Generate Canvas
+  //   const canvas = await html2canvas(input, {
+  //     scale: 3,
+  //     useCORS: true,
+  //     allowTaint: true,
+  //     backgroundColor: null,
+  //   });
+
+  //   const imgData = canvas.toDataURL("image/jpeg", 0.8);
+  //   const pdf = new jsPDF("p", "mm", "a4");
+  //   const pdfWidth = pdf.internal.pageSize.getWidth();
+  //   const pdfHeight = pdf.internal.pageSize.getHeight();
+  //   const imgWidth = pdfWidth - 20;
+  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  //   let y = 10;
+
+  //   pdf.addImage(imgData, "JPEG", 10, y, imgWidth, imgHeight);
+
+  //   // If signature image exists, add it separately to ensure it is rendered correctly
+  //   if (signatureBase64) {
+  //     pdf.addImage(signatureBase64, "PNG", 10, y + imgHeight + 10, 50, 30); // Adjust size & position as needed
+  //   }
+
+  //   pdf.save(
+  //     `${referenceData?.referenceRequestId?.candidate}-reference-report.pdf`
+  //   );
+  //   saveDownloading(false);
+  // };
+
+  //fetching reference when the component mounts
+  useEffect(() => {
+    const fetchingRefenceWhenRender = async () => {
+      await fetchReferenceByReferenceId();
+    };
+
+    fetchingRefenceWhenRender();
+  }, []);
+
+  useEffect(() => {
+    console.log(referenceData);
+  }, [referenceData]);
+
+  if (fetchingRefence) {
+    return (
+      <div className="MockMainDashboard-content d-flex flex-column gap-2">
+        <h3>Loading Reference Request...</h3>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="MockMainDashboard-content d-flex flex-column gap-2">
+        <h3>{error}</h3>
+      </div>
+    );
+  }
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="ViewRequest-container">
-        <h4 className="color-orange mb-2">Standard Format</h4>
-        <p className="mb-2">
-          <b>Position: </b>
-          <span>[Insert Reference Name]</span>
-        </p>
-        <p className="mb-2">
-          <b>Candidate Name: </b>
-          <span>[Insert Candidate Name]</span>
-        </p>
-        <p className="mb-2">
-          <b>Referee Name: </b>
-          <span>[Insert Referee Name]</span>
-        </p>
-        <p className="mb-2">
-          <b>Referee Title: </b>
-          <span>[Insert Referee Title]</span>
-        </p>
-        {/* <p className="mb-2">
-          <b>Company Name: </b>
-          <span>[Insert Company Name]</span>
-        </p> */}
-        <p className="mb-2">
-          <b>Relationship to Candidate: </b>
-          <span>[e.g., Manager, Colleague, Direct Report]</span>
-        </p>
-        <p className="mb-2">
-          <b>Dates Worked Together:  </b>
-          <span>From [Start Date] to [End Date]</span>
-        </p>
+        <div ref={reportRef}>
+          <h4 className="color-orange mb-2">
+            {referenceData?.questionFormat || "Not Available"}
+          </h4>
+          <p className="mb-2">
+            <b>Position: </b>
+            <span>
+              {referenceData?.referenceRequestId?.position || "Not Available"}
+            </span>
+          </p>
+          <p className="mb-2">
+            <b>Candidate Name: </b>
+            <span>
+              {referenceData?.referenceRequestId?.candidate || "Not Available"}
+            </span>
+          </p>
+          <p className="mb-2">
+            <b>Referee Name: </b>
+            <span>
+              {referenceData?.referenceRequestId?.refereeName ||
+                "Not Available"}
+            </span>
+          </p>
+          <p className="mb-2">
+            <b>Referee Title: </b>
+            <span>{referenceData?.refereeTitle || "Not Available"}</span>
+          </p>
+          {/* <p className="mb-2">
+            <b>Company Name: </b>
+            <span>[Insert Company Name]</span>
+          </p> */}
+          <p className="mb-2">
+            <b>Relationship to Candidate: </b>
+            <span>
+              {formatter(referenceData?.refereeRelationshipWithCandidate)}
+            </span>
+          </p>
+          <p className="mb-2">
+            <b>Dates Worked Together: </b>
 
-        <div className="my-4">
-          {updatedQuestions.map((category) => (
-            <div key={category.category}>
-              <h5 className="color-gray">{category.category}</h5>
-              {category.questions.map((question) => (
-                <div key={question.id}>
-                  <div className="d-flex w-100">
-                    <p>
-                      <b>Question {question.id}:</b> {question.text}
-                    </p>
+            <span>
+              {/* From {"Not Available"} to {"Not Available"} */}
+              {"Not Available"}
+            </span>
+          </p>
+
+          <div className="my-4">
+            {referenceData?.referenceQuestion.map((item) => (
+              <div>
+                <h5 className="color-gray">
+                  {formatCategories(item.category)}
+                </h5>
+                {item.questions.map((question, index) => (
+                  <div>
+                    <div className="d-flex w-100">
+                      <p>
+                        <b>Question {index + 1}: </b>
+
+                        {question}
+                      </p>
+                    </div>
+
+                    <h6 className="color-gray">Normalized Answer:</h6>
+
+                    <div className="EnchanceAns-container mb-4">
+                      <p>{item.answers[index]}</p>
+                    </div>
                   </div>
-                  {/* <h6 className="color-gray">Original Answer:</h6>
+                ))}
+              </div>
+            ))}
+          </div>
 
-                  <div className="YourOriginalAns-container my-2">
-                    <p>{question.originalAnswer}</p>
-                  </div> */}
-                  <h6 className="color-gray">Normalized Answer:</h6>
+          <p className="signature-verif-title color-orange mb-2">
+            SIGNATURE AND VERIFICATION
+          </p>
+          <img
+            className="signature-feild"
+            src={referenceData?.signatureImageURL || ""}
+            alt="Signature here..."
+          />
 
-                  <div className="EnchanceAns-container mb-4">
-                    <p>{editedAnswers[question.id]}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
+          <p className="mb-2">
+            <b>Referee Name: </b>
+            <span>
+              {referenceData?.referenceRequestId?.refereeName ||
+                "Not Available"}
+            </span>
+          </p>
+          <p className=" mb-2">
+            <b>Date:</b>
+            <span> {formatDate(referenceData?.createdAt)}</span>
+          </p>
         </div>
 
-        <p className="signature-verif-title color-orange mb-2">
-          SIGNATURE AND VERIFICATION
-        </p>
-        <img className="signature-feild" src="https://tse3.mm.bing.net/th?id=OIP.FYbTZzL8uFZSPfh4mxRgcAHaC7&pid=Api&P=0&h=180" alt="Signature here..." />
-
-        <p className="mb-2">
-          
-          <b>Referee Name (Printed):</b>
-          <span> [Insert Name]</span>
-        </p>
-        <p className=" mb-2">
-          <b>Date:</b>
-          <span> [Insert Date]</span>
-        </p>
-
         <div className="d-flex justify-content-center">
-          <button>Download Report</button>
+          <button onClick={downloadPDF} disabled={downloading}>
+            {downloading ? "Downloading..." : "Download Reference Report"}
+          </button>
         </div>
       </div>
     </div>
