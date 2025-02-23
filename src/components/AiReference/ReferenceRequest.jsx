@@ -73,7 +73,6 @@ const ReferenceRequest = () => {
 
   const handleAddReference = async () => {
     await reFetchReference();
-    navigate("/AiReferenceRequestEmailSent");
   };
 
   const handleViewDetails = (candidate) => {

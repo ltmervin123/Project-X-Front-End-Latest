@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const AddRequestPopUp = ({ onClose, onAddRequest }) => {
+  const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER.token;
@@ -71,8 +72,11 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
   }, [selectedPosition]);
 
   const isFormValid =
-  selectedCandidate && refereeName && refereeEmail && selectedPosition && questionFormatType;
-
+    selectedCandidate &&
+    refereeName &&
+    refereeEmail &&
+    selectedPosition &&
+    questionFormatType;
 
   const handlePositionChange = (e) => {
     const jobName = e.target.value;
@@ -158,6 +162,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
 
       if (response.status === 201) {
         onAddRequest();
+        navigate("/AiReferenceRequestEmailSent", { state: { refereeEmail } });
         onClose();
       }
     } catch (error) {
