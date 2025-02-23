@@ -45,9 +45,9 @@ const ReferenceRequestEmailSentPopup = () => {
           </p>
           <button
             className="btn-activate-now"
-            onClick={() => (window.location.href = "/login")}
+            onClick={() => (window.location.href = "/AiReferenceRequest")}
           >
-            Back to Dashboard
+            Return
           </button>
         </div>
       </div>

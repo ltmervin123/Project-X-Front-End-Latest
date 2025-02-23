@@ -25,8 +25,7 @@ const CreatedAccountSection = () => {
           </div>
 
           <p>
-            You’ve successfully created an account. Please check the registered
-            email for activation.
+            You’ve successfully created an account. 
           </p>
           <button
             className="btn-activate-now"

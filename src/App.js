@@ -71,6 +71,9 @@ import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
 /*Company Expired/Invalid Link page*/
 import CompanyExpiredLink from "./page/CompanyExpiredLinkPage.jsx";
 
+/*Company Registration Check Email Confirmation page*/
+import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistrationCheckEmailConfirmationPage.jsx";
+
 // AiReferenceCheckVerificationPage
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
 
@@ -252,6 +255,11 @@ function App() {
         <Route
           path="/company-registration"
           element={<CompanyRegistrationPage />}
+        />
+        {/* CompanyRegistrationCheckEmailConfirmationPage */}
+        <Route
+          path="/company-email-verification"
+          element={<CompanyRegistrationCheckEmailConfirmationPage />}
         />
         {/* Password Changed */}
         <Route
