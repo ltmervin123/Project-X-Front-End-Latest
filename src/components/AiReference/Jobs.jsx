@@ -75,27 +75,14 @@ const Jobs = () => {
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div>
-        <h3>Jobs</h3>
-        <p>Manage and track your open positions</p>
-      </div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="d-flex align-items-center search-candidates">
-          <div className="search-wrapper position-relative">
-            <input
-              type="text"
-              placeholder="Search job name..."
-              className="form-control ps-4 pe-5"
-              value={searchQuery} // bind value to the searchQuery state
-              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
-            />
-
-            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
-          </div>
+      <div className="d-flex justify-content-between align-items-end mb-3">
+        <div>
+          <h3>Jobs</h3>
+          <p className="m-0">Manage and track your open positions.</p>
         </div>
         <button
           onClick={handleCreateNewJob}
-          className="btn-create-new-job mb-3 d-flex align-items-center justify-content-center gap-1"
+          className="btn-create-new-job d-flex align-items-center justify-content-center gap-1"
         >
           <svg
             width="30"
@@ -116,11 +103,26 @@ const Jobs = () => {
           <AddJobPopUp onClose={handleClosePopup} onAddJob={handleAddJob} />
         )}
       </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex align-items-center search-candidates ">
+          <div className="search-wrapper position-relative">
+            <input
+              type="text"
+              placeholder="Search job name..."
+              className="form-control ps-4 pe-5"
+              value={searchQuery} // bind value to the searchQuery state
+              onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
+            />
+
+            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+          </div>
+        </div>
+      </div>
 
       <div className="AiReference-active-jobs-container">
         <div className="AiReference-table-title">
           <h4>Active Jobs</h4>
-          <p>Manage and track your open positions</p>
+          <p>Manage and track your open positions.</p>
         </div>
 
         {activeJobs && activeJobs.length > 0 ? (

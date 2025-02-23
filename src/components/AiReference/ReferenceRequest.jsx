@@ -5,17 +5,19 @@ import { FaSearch } from "react-icons/fa";
 import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
 import ViewRequest from "./ViewRequest";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ReferenceRequest = () => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const companyId = USER?.id;
   const token = USER?.token;
+  const navigate = useNavigate();
+
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
   const [searchQuery, setSearchQuery] = useState("");
-
   const [reference, setReference] = useState(
     JSON.parse(localStorage.getItem("reference")) || []
   );
@@ -107,27 +109,17 @@ const ReferenceRequest = () => {
 
   // Conditional rendering based on showViewRequest state
   if (showViewRequest) {
-    return <ViewRequest />; // Render ViewRequest component
+    return <ViewRequest referenceId={selectedCandidate._id} token={token} />; // Render ViewRequest component
   }
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div>
-        <h3>Reference Request</h3>
-        <p>Manage and track reference checks for your candidates.</p>
-      </div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="d-flex align-items-center search-candidates">
-          <div className="search-wrapper position-relative">
-            <input
-              type="text"
-              placeholder="Search request..."
-              className="form-control ps-4 pe-5"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
-          </div>
+      <div className="d-flex justify-content-between align-items-end mb-3">
+        <div>
+          <h3>Reference Request</h3>
+          <p className="m-0">
+            Manage and track reference checks for your candidates.
+          </p>
         </div>
 
         <button
@@ -155,14 +147,28 @@ const ReferenceRequest = () => {
           />
         )}
       </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="d-flex align-items-center search-candidates">
+          <div className="search-wrapper position-relative">
+            <input
+              type="text"
+              placeholder="Search request..."
+              className="form-control ps-4 pe-5"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+          </div>
+        </div>
+      </div>
 
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
           <h4>Reference Requests Lists</h4>
+          <p>Overview of all reference requests.</p>
         </div>
         {reference && reference.length > 0 ? (
           <>
-            <p>Overview of all reference requests</p>
             <table>
               <thead>
                 <tr>

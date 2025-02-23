@@ -69,8 +69,9 @@
   padding: 20px;
   border-radius: 20px;
   overflow-x: auto;
-  height: 250px;
+  height: 290px;
   word-wrap: break-word;
+  margin: 0;
 }
 
 .standardized-answer-container{
@@ -108,8 +109,8 @@
   background: #319f432b;
   padding: 15px;
   border-radius: 10px;
-  overflow-y: auto;
-  height: 200px;
+  /* overflow-y: auto;
+  height: 200px; */
 
 }
 
@@ -210,14 +211,13 @@
   width: 100%;
   height: 40px;
   border-radius: 10px;
+  padding: 0px 10px;
 }
 .drawing-container > .drawing-container-box{
   width: 100%;
   border-radius: 10px;
 }
-.file-upload-container{
-  font-weight: 500;
-}
+
 .file-upload-area{
   height: 300px;
 }

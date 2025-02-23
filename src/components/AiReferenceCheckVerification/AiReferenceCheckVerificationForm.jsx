@@ -175,11 +175,11 @@ const AiReferenceCheckVerificationForm = ({
                   onChange={handleChange}
                 >
                   <option value="">Select Relationship</option>
-                  <option value="manager">Manager</option>
-                  <option value="colleague">Colleague</option>
-                  <option value="subordinate">Subordinate</option>
-                  <option value="mentor">Mentor</option>
-                  <option value="other">Other</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Colleague">Colleague</option>
+                  <option value="Subordinate">Subordinate</option>
+                  <option value="Mentor">Mentor</option>
+                  <option value="Other">Other</option>
                 </Form.Control>
               </Form.Group>
             </Col>

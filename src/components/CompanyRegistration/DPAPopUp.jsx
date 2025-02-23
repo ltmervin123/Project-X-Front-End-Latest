@@ -42,7 +42,7 @@ const DPAPopUp = ({ showModal, setShowModal, handleContinue }) => {
             </div>
             <div className="cr-section">
               <span className="cr-section-title">Data Collected:</span>
-              <p className="cr-cr-section-description">
+              <p className="cr-section-description">
                 The Company may collect the following personal data during the
                 subscription process:
                 <ul>

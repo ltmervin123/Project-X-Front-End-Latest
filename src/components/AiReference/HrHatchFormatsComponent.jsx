@@ -7,7 +7,7 @@ const HrHatchFormatsComponent = ({ hrHatchFormats, handleButtonClick }) => {
     <>
       <div className="AiReference-table-title">
         <h4>        <img src={logo} alt="Logo" width="125" height="18" />Question Formats</h4>
-        <p className="d-flex align-items-center">Standardized question sets provided by  <img src={logo} alt="Logo" width="102" height="14" /></p>
+        <p className="d-flex align-items-center">Standardized question sets provided by  <img src={logo} alt="Logo" width="99" height="14" />.</p>
       </div >
       <div className="d-flex justify-content-around align-items-center h-100 gap-3 hr-hatch-card-container">
         {hrHatchFormats.map((format, index) => (

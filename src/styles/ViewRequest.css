@@ -37,3 +37,10 @@
     font-weight: 600 !important;
     font-size: 20px;
 }
+.btn-okay{
+  background: var(--secondary-color);
+  color: var(--font-white);
+  padding: 5px 30px;
+  border: none;
+  border-radius: 20px;
+}

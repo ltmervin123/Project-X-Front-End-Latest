@@ -1,17 +1,52 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 const PremiumPackageSection = () => {
-  return (
-    <>
-      <section
-        className="premium-package-container d-flex align-items-center flex-column"
-        id="pricing"
-      >
-        <h1 id="mockpricing">
-          Pricing Plans 
+  const navigate = useNavigate(); // Initialize useNavigate hook
+  const [isVisible, setIsVisible] = useState(false);
+  const headerRef = useRef(null); // Reference to the <h1> element
 
-        </h1>
-        <div className="subcription-pricing-container d-flex align-items-center justify-content-center flex-wrap gap-5">
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          console.log(entry.isIntersecting); // Check if visibility is being detected
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect(); // Stop observing after visibility is detected
+          }
+        });
+      },
+      { threshold: 0.1 } // You can change this value to make it more or less sensitive
+    );
+    
+    const currentHeader = headerRef.current;
+    if (currentHeader) {
+      observer.observe(currentHeader);
+    }
+
+    return () => {
+      if (currentHeader) {
+        observer.disconnect(); // Clean up on component unmount
+      }
+    };
+  }, []);
+  
+  const handlePaymentMethod = () => {
+    navigate('/PaymentMethod'); // Navigate to the PaymentMethod page
+  };
+
+
+
+  return (
+    <section
+      id="pricing"
+      className={`premium-package-container d-flex align-items-center flex-column ${
+        isVisible ? "fade-in" : ""
+      }`}
+    >
+      <h1 id="mockpricing" ref={headerRef}>Pricing Plans</h1> {/* Added ref to <h1> */}
+      <div className="subcription-pricing-container d-flex align-items-center justify-content-center flex-wrap gap-5">
           <div className="subscription-card">
             <div className="subscription-card-bg d-flex flex-column gap-4">
                 <p className="subscription-title">Free</p>
@@ -29,7 +64,7 @@ const PremiumPackageSection = () => {
                   / 1 Round of Interview 
                 </div>
                 <div className="d-flex justify-content-center align-items-center subscription-button-container">
-                  <button className="btn-choose-plan">Choose Plan</button>
+                  <button className="btn-choose-plan"  onClick={handlePaymentMethod}>Choose Plan</button>
 
                 </div>
             </div>
@@ -65,7 +100,7 @@ const PremiumPackageSection = () => {
                   / 10 Rounds of Interview 
                 </div>
                 <div className="d-flex justify-content-center align-items-center subscription-button-container">
-                  <button className="btn-choose-plan">Choose Plan</button>
+                  <button className="btn-choose-plan"  onClick={handlePaymentMethod}>Choose Plan</button>
 
                 </div>
             </div>
@@ -116,7 +151,7 @@ const PremiumPackageSection = () => {
                   / Unlimited Rounds
                 </div>
                 <div className="d-flex justify-content-center align-items-center subscription-button-container">
-                  <button className="btn-choose-plan active">Choose Plan</button>
+                  <button className="btn-choose-plan active" onClick={handlePaymentMethod}>Choose Plan</button>
 
                 </div>
             </div>
@@ -157,8 +192,7 @@ const PremiumPackageSection = () => {
           </div>
 
         </div>
-      </section>
-    </>
+    </section>
   );
 };
 

@@ -29,7 +29,6 @@
   }
   
   
-  
   .cr-dpa-modal-agreement .modal-dialog {
     width: 100% !important;
     max-width: 800px !important;
@@ -48,8 +47,9 @@
     font-size: 24px;
   }
   
-  .cr-dpa-content > p {
-    font-size: 14px;
+  .cr-dpa-content > p,
+  .cr-dpa-content ul {
+    font-size: 12px;
   }
   .cr-section {
     width: 100%;
@@ -57,10 +57,10 @@
   }
   .cr-section > .cr-section-title {
     font-weight: 600;
-    font-size: 24px;
+    font-size: 20px;
   }
   .cr-section .cr-section-description {
-    font-size: 14px;
+    font-size: 12px;
   }
   .cr-section > .acceptance {
     color: #686868;
@@ -89,12 +89,12 @@
   
   /* Scrollbar styling */
   .cr-dpa-content::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
+    width: 8px; /* Width of the scrollbar */
   }
   
   .cr-dpa-content::-webkit-scrollbar-track {
     background: #D1D1D1;
-    width: 12px;
+    width:8px;
     border-radius: 6px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
