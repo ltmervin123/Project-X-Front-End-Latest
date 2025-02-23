@@ -109,8 +109,8 @@
   background: #319f432b;
   padding: 15px;
   border-radius: 10px;
-  overflow-y: auto;
-  height: 200px;
+  /* overflow-y: auto;
+  height: 200px; */
 
 }
 
