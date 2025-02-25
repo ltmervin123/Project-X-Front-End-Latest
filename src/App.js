@@ -217,12 +217,15 @@ function App() {
           </Route>
         </Route>
 
+        {/* AiReferenceCheckVerificationPage*/}
+        <Route
+          path="/reference-request/:token"
+          element={<AiReferenceCheckVerificationPage />}
+        />
+
         <Route element={<RequireAuthVefifyReferee />}>
           {/* Reference Verification page */}
-          <Route
-            path="/reference-completed"
-            element={<ReferenceVerification />}
-          />
+
           {/* ChooseYourInterviewMethodPage*/}
           <Route
             path="/reference-interview-method"
@@ -233,32 +236,33 @@ function App() {
             path="/reference-instructions"
             element={<ReferenceCheckInstructionsPage />}
           />
-                    {/* ReferenceCheckThankYouMsgPage*/}
-                      <Route
-            path="/reference-thankyou-msg"
-            element={<ReferenceCheckThankYouMsgPage />}
-          />
-          
+
           {/* ReferenceCheckQuestionnairePage*/}
           <Route
             path="/reference-questionnaire"
             element={<ReferenceCheckQuestionnairePage />}
           />
+
           {/* ReviewYourReferenceCheckPage*/}
           <Route
             path="/reference-review"
             element={<ReviewYourReferenceCheckPage />}
           />
+
+          {/* ReferenceCheckThankYouMsgPage*/}
+          <Route
+            path="/reference-thankyou-msg"
+            element={<ReferenceCheckThankYouMsgPage />}
+          />
+
+          <Route
+            path="/reference-completed"
+            element={<ReferenceVerification />}
+          />
         </Route>
 
         {/* reference expired link */}
         <Route path="/reference-expired-link" element={<ExpiredLink />} />
-
-        {/* AiReferenceCheckVerificationPage*/}
-        <Route
-          path="/reference-request/:token"
-          element={<AiReferenceCheckVerificationPage />}
-        />
 
         {/*Company Registration */}
         <Route
