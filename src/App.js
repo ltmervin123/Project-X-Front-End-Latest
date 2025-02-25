@@ -89,6 +89,9 @@ import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.js
 // ReferenceCheckInstructionsPage
 import ReferenceCheckInstructionsPage from "./page/ReferenceCheckInstructionsPage.jsx";
 
+// ReferenceCheckThankYouMsgPage
+import ReferenceCheckThankYouMsgPage from "./page/ReferenceCheckThankYouMsgPage.jsx";
+
 // ViewRequest
 import ViewRequest from "./components/AiReference/ViewRequest.jsx";
 
@@ -230,6 +233,12 @@ function App() {
             path="/reference-instructions"
             element={<ReferenceCheckInstructionsPage />}
           />
+                    {/* ReferenceCheckThankYouMsgPage*/}
+                      <Route
+            path="/reference-thankyou-msg"
+            element={<ReferenceCheckThankYouMsgPage />}
+          />
+          
           {/* ReferenceCheckQuestionnairePage*/}
           <Route
             path="/reference-questionnaire"

@@ -18,6 +18,10 @@ function ReviewYourReferenceCheckPage() {
   const [isDrawing, setIsDrawing] = useState(false);
   const canvasRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedAnswer, setEditedAnswer] = useState(
+    answers[currentQuestionIndex]
+  );
 
   //Set questions and answer to render on the UI
   useEffect(() => {
@@ -314,13 +318,47 @@ function ReviewYourReferenceCheckPage() {
                   {questions[currentQuestionIndex]}
                 </p>
               </div>
-
               {/* Standardized Answer Section */}
               <p className="stndard-label">
                 <strong>Normalize Answer:</strong>
               </p>
-              <div className="answer-container">
-                <p>{answers[currentQuestionIndex]}</p>
+              <div className="answer-container mb-3">
+                {isEditing ? (
+                  <textarea
+                    value={editedAnswer}
+                    onChange={(e) => setEditedAnswer(e.target.value)}
+                    rows={8}
+                    className="answer-textarea"
+                  />
+                ) : (
+                  <p>{answers[currentQuestionIndex]}</p>
+                )}
+              </div>
+              {/* Edit/Save Button */}
+              <div className="edit-save-button-container">
+                {isEditing ? (
+                  <button
+                    onClick={() => {
+                      setAnswers((prevAnswers) => {
+                        const newAnswers = [...prevAnswers];
+                        newAnswers[currentQuestionIndex] = editedAnswer; // Update the answer
+                        return newAnswers;
+                      });
+                      setIsEditing(false); // Exit edit mode
+                    }}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setEditedAnswer(answers[currentQuestionIndex]); // Set the current answer to edit
+                      setIsEditing(true); // Enter edit mode
+                    }}
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             </div>
 
@@ -374,7 +412,7 @@ function ReviewYourReferenceCheckPage() {
                   <p>Drawing container area</p>
                   <div
                     className="drawing-container-box w-100"
-                    style={{ width: "100%", height: "280px" }}
+                    style={{ width: "100%", height: "260px" }}
                   >
                     <canvas
                       ref={canvasRef}
@@ -410,7 +448,7 @@ function ReviewYourReferenceCheckPage() {
                       style={{
                         border: "1px solid black",
                         padding: "20px",
-                        height: "280px",
+                        height: "260px",
                         textAlign: "center",
                       }}
                     >

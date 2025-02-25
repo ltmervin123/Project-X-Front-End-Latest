@@ -133,7 +133,7 @@ function ReferenceCheckQuestionnairePage() {
   const handleFinish = () => {
     saveReferenceQuestionsData();
 
-    navigate("/reference-review");
+    navigate("/reference-thankyou-msg");
   };
 
   const startRecording = () => {
@@ -235,9 +235,8 @@ function ReferenceCheckQuestionnairePage() {
               placeholder={"Type your answer..."}
             />
             <div className="d-flex justify-content-center">
-              {currentQuestionIndex === questions.length - 1 &&
-              answered[currentQuestionIndex] ? (
-                <button onClick={handleFinish}>Finish</button>
+              {currentQuestionIndex === questions.length - 1 ? (
+                <button onClick={handleFinish}>Submit</button>
               ) : (
                 <button
                   onClick={handleSubmit}

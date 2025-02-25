@@ -223,6 +223,7 @@ background: #f9f9f9;
 .MockMainDashboard-content {
   padding: 10px 50px;
   width: 100% !important;
+  height: 100% !important;
   opacity: 0; /* Start with hidden */
   animation: fadeIn 1.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; /* Fade-in animation */
 }

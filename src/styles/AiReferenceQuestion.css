@@ -13,7 +13,7 @@
   border: 1px solid var(--card-color);
   border-radius: 20px;
   padding: 20px;
-  height: 70vh;
+  height: 60vh;
 }
 .AiReference-Question-Sets-Container {
   overflow-y: auto;
@@ -246,6 +246,6 @@
 /* Format format */
 .Format-Container{
   overflow-y: auto;
-  height: 50vh;
+  height: 40vh;
   padding-right: 10px;
 }

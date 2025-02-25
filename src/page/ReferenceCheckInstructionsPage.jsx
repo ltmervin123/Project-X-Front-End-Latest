@@ -6,7 +6,7 @@ const instructionData = [
   {
     title: "Step 1",
     description:
-      "You will be asked 10 questions about the candidate’s skills, work ethic, and performance. Provide honest and detailed responses based on your experience with them.",
+      "You will be asked 10 or more questions regarding the candidate’s skills, work ethic, and overall performance. Please provide honest, detailed, and specific responses based on your firsthand experience working with them. Your insights will help us make a well-informed hiring decision.",
     overlayLabel: "Answer Candidate Questions",
   },
   {
@@ -61,18 +61,18 @@ function ReferenceCheckInstructionsPage() {
             >
               <h3 className="text-center">{step.title}</h3>
               <svg
-                className="mb-1"
-                width="50"
-                height="51"
-                viewBox="0 0 50 51"
+                width="49"
+                height="58"
+                viewBox="0 0 49 58"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M0 0.000110541L1.60283 0.000109813L1.8501 27.3715L3.63064 25.4136L3.63064 1.587e-07L7.79062 1.68262e-06L7.79062 20.8493L17.9645 9.68481L18.3597 9.25392L19.0328 9.2574L21.7771 9.27434L34.083 33.5239L36.8752 33.5137L24.582 9.29454L28.8159 9.32168L30.6484 9.33537L30.6178 9.39976L30.7004 9.39976L43.3103 33.4931L49.6024 33.4696L36.8752 50.5L24.9166 33.5577L31.0782 33.5373L23.5575 19.1696L14.4255 29.0545L14.0306 29.4824L13.3532 29.4754L12.2892 29.4654L12.3021 29.4891L0.000635147 29.3636L0 0.000110541ZM5.05074 27.3578L12.7147 27.4392L22.4025 16.9571L19.5276 11.47L5.05074 27.3578Z"
+                  d="M7.27341 0.0958109L8.8357 0.454065L2.95883 27.1882L5.13194 25.6779L10.8122 0.9072L14.867 1.83701L10.2069 22.1588L22.6188 13.5508L23.1002 13.2191L23.7555 13.373L26.4266 14.0029L33.0012 40.3895L35.7249 41.0036L29.1561 14.6495L33.2768 15.6223L35.0599 16.0452L35.0157 16.1012L35.0961 16.1196L42.0019 42.4219L48.1401 43.8053L31.9283 57.5602L24.059 38.3737L30.0693 39.731L25.9503 24.0457L14.8399 31.6395L14.3593 31.9682L13.7006 31.81L12.6658 31.5625L12.6731 31.5885L0.710904 28.7165L7.27341 0.0958109ZM6.08156 27.8903L13.5334 29.6827L25.319 21.631L23.7433 15.6402L6.08156 27.8903Z"
                   fill="#686868"
                 />
               </svg>
+
               <div className="position-relative">
                 <div className="overlay-label-step">{step.overlayLabel}</div>
                 <p>{step.description}</p>

@@ -50,7 +50,7 @@
 }
 /*AiReference Maindashboard*/
 .AiReferenceMaindashboard {
-  padding: 30px;
+  padding: 10px;
 }
 .AiReferenceMaindashboard > h3 {
   color: var(--primary-color);
@@ -62,11 +62,11 @@
 .AiReferenceCard {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between cards */
-  padding: 20px;
+  gap: 10px; /* Space between cards */
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  height: 150px;
+  height: 120px;
   background: var(--font-white);
 }
 .AiReferenceCard > div p {

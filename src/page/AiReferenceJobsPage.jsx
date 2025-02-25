@@ -8,7 +8,6 @@ import "../styles/AiReferenceJobs.css";
 function AiReferenceCheckerPage() {
   return (
     <>
-      <div className="mock-background">
         <Header />
         <div className="MockMaindashboard-container h-100">
           <Row>
@@ -22,7 +21,6 @@ function AiReferenceCheckerPage() {
             </Col>
           </Row>
         </div>
-      </div>
     </>
   );
 }
