@@ -18,9 +18,9 @@ const ErrorGenerateFinalGreeting = ({ onRetry }) => {
               on your response. Please try again!
             </p>
             <div className="d-flex justify-content-center">
-              <Button className="btn-retry" onClick={onRetry}>
+              <button className="btn-retry" onClick={onRetry}>
                 Retry
-              </Button>
+              </button>
             </div>
           </Col>
         </Row>

@@ -158,6 +158,20 @@
   border-radius: 50px;
   border: none;
 }
+.custom-modal-job .modal-body .form-label{
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+  height: 38px;
+}
+.custom-modal-job .modal-body #dropdown-basic{
+  background: none;
+  color: var(--font-white) !important;
+  border: none;
+}
+.custom-modal-job .modal-body #dropdown-basic::after{
+  color: var(--text-color);
+}
 .custom-modal-job .modal-body .form-control,
 .custom-modal-job .modal-body .form-select {
   box-shadow: 0px 4px 4px #0000003d;

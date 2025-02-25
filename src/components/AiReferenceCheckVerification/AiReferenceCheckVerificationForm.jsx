@@ -20,15 +20,22 @@ const AiReferenceCheckVerificationForm = ({
     candidateName: "",
     startDate: "",
     endDate: "",
+    otherRelationship: "", // New field for "Other" relationship
   });
   const [processing, setProcessing] = useState(false);
+  const [isOtherSelected, setIsOtherSelected] = useState(false); // State to track if "Other" is selected
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
+
+    // Check if "Other" is selected
+    if (name === "relationship") {
+      setIsOtherSelected(value === "Other");
+    }
   };
 
   // Save referee data to local storage
@@ -72,7 +79,7 @@ const AiReferenceCheckVerificationForm = ({
       formData.refereeName &&
       formData.positionTitle &&
       formData.companyWorkedWith &&
-      formData.relationship &&
+      (isOtherSelected ? formData.otherRelationship : formData.relationship) && // Check for either relationship or otherRelationship
       formData.startDate &&
       formData.endDate
     );
@@ -172,20 +179,31 @@ const AiReferenceCheckVerificationForm = ({
 
               <Form.Group controlId="relationship">
                 <Form.Label>Relationship to the Candidate</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="relationship"
-                  value={formData.relationship}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Relationship</option>
-                  <option value="Manager">Manager</option>
-                  <option value="Colleague">Colleague</option>
-                  <option value="Subordinate">Subordinate</option>
-                  <option value="Mentor">Mentor</option>
-                  <option value="Other">Other</option>
-                </Form.Control>
+                {!isOtherSelected ? (
+                  <Form.Control
+                    as="select"
+                    name="relationship"
+                    value={formData.relationship}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Relationship</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Colleague">Colleague</option>
+                    <option value="Subordinate">Subordinate</option>
+                    <option value="Mentor">Mentor</option>
+                    <option value="Other">Other</option>
+                  </Form.Control>
+                ) : (
+                  <Form.Control
+                    type="text"
+                    name="otherRelationship"
+                    value={formData.otherRelationship} // Ensure this is correctly set
+                    onChange={handleChange} // Update state on change
+                    placeholder="Please specify your relationship"
+                  />
+                )}
               </Form.Group>
+
               <Form.Group controlId="date-worked-together">
                 <Form.Label>Date Worked Together</Form.Label>
                 <Row>
@@ -207,6 +225,8 @@ const AiReferenceCheckVerificationForm = ({
                       id="enddate"
                       value={formData.endDate}
                       onChange={handleChange}
+                      disabled={!formData.startDate} // Disable if startDate is filled
+                      min={formData.startDate} // Set minimum date to startDate
                     />
                   </Col>
                 </Row>

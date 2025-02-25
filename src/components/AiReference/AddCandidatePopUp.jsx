@@ -81,7 +81,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
             controlId="formJobName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
               Name
             </Form.Label>
             <Form.Control
@@ -96,7 +96,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
             controlId="formVacancies"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
               Email
             </Form.Label>
             <Form.Control
@@ -111,7 +111,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
             controlId="formHiringManager"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "150px" }}>
+            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
               Position
             </Form.Label>
             <Form.Select

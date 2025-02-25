@@ -131,6 +131,7 @@ const Jobs = () => {
               <tr>
                 <th>Job Name</th>
                 <th>Vacancies</th>
+                <th>Department</th>
                 <th>Hiring Manager</th>
                 <th>Created at</th>
               </tr>
@@ -149,6 +150,7 @@ const Jobs = () => {
                   <tr key={job._id}>
                     <td>{job.jobName}</td>
                     <td>{job.vacancies}</td>
+                    <td>{job.department}</td>
                     <td>{job.hiringManager}</td>
                     <td>{formatDate(job.createdAt)}</td>
                   </tr>
