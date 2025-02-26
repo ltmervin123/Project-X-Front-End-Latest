@@ -33,14 +33,26 @@ const AiReferenceCheckVerificationForm = ({
     }));
 
     // Check if "Other" is selected
-    if (name === "relationship") {
-      setIsOtherSelected(value === "Other");
+    if (name === "relationship" && value === "Other") {
+      setIsOtherSelected(true);
     }
   };
 
   // Save referee data to local storage
   const saveRefereeDataTemporary = () => {
-    localStorage.setItem("refereeData", JSON.stringify(formData));
+    // Create a copy of formData
+    let updatedFormData = { ...formData };
+
+    // Check if "Other" is selected and save the correct relationship
+    if (isOtherSelected) {
+      updatedFormData.relationship = updatedFormData.otherRelationship;
+    }
+
+    // Remove the `otherRelationship` property
+    delete updatedFormData.otherRelationship;
+
+    // Save the updated formData to localStorage
+    localStorage.setItem("refereeData", JSON.stringify(updatedFormData));
   };
 
   const handleSubmit = async (e) => {
@@ -79,7 +91,7 @@ const AiReferenceCheckVerificationForm = ({
       formData.refereeName &&
       formData.positionTitle &&
       formData.companyWorkedWith &&
-      (isOtherSelected ? formData.otherRelationship : formData.relationship) && // Check for either relationship or otherRelationship
+      (isOtherSelected ? formData.otherRelationship : formData.relationship) &&
       formData.startDate &&
       formData.endDate
     );
