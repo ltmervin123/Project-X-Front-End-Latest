@@ -8,7 +8,6 @@ import "../styles/AiReferenceMaindashboard.css";
 function AiReferenceMainDashboardPage() {
   return (
     <>
-      <div className="mock-background">
         <Header />
         <div className="MockMaindashboard-container ">
           <Row>
@@ -22,7 +21,6 @@ function AiReferenceMainDashboardPage() {
             </Col>
           </Row>
         </div>
-      </div>
     </>
   );
 }

@@ -4,6 +4,10 @@ import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
 import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
 import default_avatar_img from "../../assets/default.png"; // Import default avatar image
+import AddJobComponent from "./AddJobComponent";
+import AddCandidateComponent from "./AddCandidateComponent";
+import AddRequestComponent from "./AddRequestComponent";
+
 import axios from "axios";
 
 // Register all necessary components
@@ -48,6 +52,23 @@ const MainDashboard = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
   const token = USER?.token;
+  const [showJobForm, setShowJobForm] = useState(false); // State to control job form visibility
+  const [showAddCandidate, setShowAddCandidate] = useState(false); // New state for AddCandidateComponent
+  const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false); // New state for AddCandidateComponent
+
+  const handleShowAddCandidate = () => {
+    setShowAddCandidate(true); // Set to true to show AddCandidateComponent
+  };
+  const handleOpenJobForm = () => {
+    setShowJobForm(true); // Set to true to show the job form
+  };
+  const handleShowAddReferenceRequest = () => {
+    setShowAddReferenceRequest(true); // Set to true to show AddRequestComponent
+    setShowAddCandidate(false); // Hide AddCandidateComponent
+    setShowJobForm(false); // Set to true to show the job form
+
+  };
+
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
@@ -557,57 +578,91 @@ const MainDashboard = () => {
   }, []);
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div>
-        <h3 className="mb-3">Dashboard</h3>
-        <p>Manage and track your reference check processes.</p>
-      </div>
-      <div>
-        <Row className="mb-3">
-          {cardData.map((card, index) => (
-            <Col key={index} md={3}>
-              <div className="AiReferenceCard">
-                {/* Title and Count */}
-                <div className="h-100">
-                  <p className="d-flex title">
-                    <div
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        backgroundColor: card.color, // Dynamic color from card data
-                        marginRight: "10px", // Space between box and title
-                      }}
-                    ></div>
-                    {card.title}
-                  </p>
-                  <p className="d-flex align-items-center justify-content-center count">
-                    {card.count}
-                  </p>
+    {showAddCandidate ? (
+        <AddCandidateComponent onProceed={handleShowAddReferenceRequest} /> // Pass the updated function
+      ) : showJobForm ? (
+        <AddJobComponent onProceed={handleShowAddCandidate} />
+      ) : showAddReferenceRequest ? (
+        <AddRequestComponent />
+      ) : (
+        <>
+          <div>
+            <h3 className="mb-3">Dashboard</h3>
+            <p className="m-0">
+              Manage and track your reference check processes.
+            </p>
+          </div>
+          <div className="d-flex justify-content-end mb-3">
+            <button
+              className="btn-create-new-job d-flex align-items-center justify-content-center px-4 gap-1"
+              onClick={handleOpenJobForm}
+            >
+              Start Reference Check{" "}
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 17 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.39847 2.59891C9.611 2.38645 9.89922 2.26709 10.1997 2.26709C10.5003 2.26709 10.7885 2.38645 11.001 2.59891L16.101 7.69891C16.3135 7.91145 16.4328 8.19966 16.4328 8.50018C16.4328 8.8007 16.3135 9.08892 16.101 9.30145L11.001 14.4014C10.7873 14.6079 10.501 14.7221 10.2038 14.7195C9.90666 14.717 9.62241 14.5978 9.41228 14.3876C9.20215 14.1775 9.08296 13.8933 9.08038 13.5961C9.07779 13.2989 9.19203 13.0127 9.39847 12.7989L12.4664 9.63351H1.69974C1.39916 9.63351 1.11089 9.51411 0.898352 9.30157C0.685811 9.08903 0.566406 8.80076 0.566406 8.50018C0.566406 8.1996 0.685811 7.91133 0.898352 7.69879C1.11089 7.48625 1.39916 7.36685 1.69974 7.36685H12.4664L9.39847 4.20145C9.18601 3.98892 9.06665 3.7007 9.06665 3.40018C9.06665 3.09966 9.18601 2.81145 9.39847 2.59891Z"
+                  fill="white"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div>
+            <Row className="mb-3">
+              {cardData.map((card, index) => (
+                <Col key={index} md={3}>
+                  <div className="AiReferenceCard">
+                    {/* Title and Count */}
+                    <div className="h-100">
+                      <p className="d-flex title">
+                        <div
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            backgroundColor: card.color, // Dynamic color from card data
+                            marginRight: "10px", // Space between box and title
+                          }}
+                        ></div>
+                        {card.title}
+                      </p>
+                      <p className="d-flex align-items-center justify-content-center count">
+                        {card.count}
+                      </p>
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+          </div>
+          <Row>
+            <Col md="6">
+              <div className="line-bar-chart-container position-relative">
+                <p className="mb-3 line-title-overlay">
+                  Reference Check Overview
+                </p>
+                <div className="line-chart">
+                  <Line data={lineData} options={lineOptions} />
                 </div>
               </div>
             </Col>
-          ))}
-        </Row>
-      </div>
-
-      <Row>
-        <Col md="6">
-          <div className="line-bar-chart-container position-relative">
-            <p className="mb-3 line-title-overlay">Reference Check Overview</p>
-            <div className="line-chart">
-              <Line data={lineData} options={lineOptions} />
-            </div>
-          </div>
-        </Col>
-        <Col md="6">
-          <div className="line-bar-chart-container position-relative">
-            <p className="mb-3 bar-title-overlay">By Department</p>
-            <div className="bar-chart">
-              <Bar data={barData} options={barOptions} />
-            </div>
-          </div>
-        </Col>
-      </Row>
-      <LogContainer logData={logData} />
+            <Col md="6">
+              <div className="line-bar-chart-container position-relative">
+                <p className="mb-3 bar-title-overlay">By Department</p>
+                <div className="bar-chart">
+                  <Bar data={barData} options={barOptions} />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <LogContainer logData={logData} />
+        </>
+      )}
     </div>
   );
 };

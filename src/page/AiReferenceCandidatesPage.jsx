@@ -9,7 +9,6 @@ import "../styles/AiReferenceCandidates.css";
 function AiReferenceCandidatesPage() {
   return (
     <>
-      <div className="mock-background">
         <Header />
         <div className="MockMaindashboard-container h-100">
           <Row>
@@ -23,7 +22,6 @@ function AiReferenceCandidatesPage() {
             </Col>
           </Row>
         </div>
-      </div>
     </>
   );
 }

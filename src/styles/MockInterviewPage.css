@@ -668,10 +668,13 @@
   position: relative;
   overflow: auto;
 }
+
 .interview-question-container > p {
   margin: 0;
   position: relative;
 }
+
+  
 .interview-question-container > .interview-content {
   height: 50%;
 }
@@ -1274,3 +1277,23 @@
   color: var(--font-white);
 }
 
+  /* Customizing the scrollbar */
+
+  .interview-question-container::-webkit-scrollbar{
+    width: 8px !important; /* Scrollbar width */
+  }
+  
+  .interview-question-container::-webkit-scrollbar-thumb{
+  
+    background-color: var(--primary-color) !important; /* Scrollbar thumb color */
+    border-radius: 6px !important; /* Rounded corners */
+  }
+  
+  .interview-question-container::-webkit-scrollbar-thumb:hover{
+    background-color: var(--primary-color) !important; /* Scrollbar thumb color */
+  }
+  
+  .interview-question-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1 !important; /* Track color */
+    border-radius: 6px !important; /* Rounded corners for the track */
+  }

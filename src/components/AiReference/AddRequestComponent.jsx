@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const AddRequestPopUp = ({ onClose, onAddRequest }) => {
+
+const AddRequestComponent = () => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
@@ -22,6 +23,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
   const [referees, setReferees] = useState([
     { name: "", email: "", questionFormat: "" },
   ]);
+  const [referenceCreated, setReferenceCreated] = useState(false); // New state for job creation status
 
   // Memoize positions to avoid unnecessary re-renders
   const positions = useMemo(() => {
@@ -136,6 +138,8 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     setCandidates(filteredCandidates);
   }, [selectedPosition]);
 
+  // Create a ref for the form
+  const formRef = useRef(null);
   //To Do
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -164,9 +168,10 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
       });
 
       if (response.status === 201) {
-        onAddRequest();
+        setReferenceCreated(true);
+        console.log("Send Reference Request successfull:", response.data);
+
         navigate("/AiReferenceRequestEmailSent", { state: { refereeEmail } });
-        onClose();
       }
     } catch (error) {
       console.error(error);
@@ -175,30 +180,19 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     }
   };
 
+  const handleProceed = () => {
+    if (isFormValid) {
+      formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
+    }
+  };
   return (
-    <Modal
-      show={true}
-      onHide={onClose}
-      centered
-      className="custom-modal-job d-flex align-items-center justify-content-center"
-      backdrop={true}
-    >
-      <Modal.Body className="w-100">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h5 className="m-0">New Reference Request</h5>
-            <small>Create a new reference request for a candidate.</small>
-          </div>
-          <Button
-            className="closebtn"
-            variant="link"
-            onClick={onClose}
-            style={{ fontSize: "1.5rem", textDecoration: "none" }}
-          >
-            &times;
-          </Button>
-        </div>
-        <Form onSubmit={handleSubmit}>
+    <>
+      <div>
+        <h3 className="m-0">New Reference Request</h3>
+        <p>Create a new reference request for a candidate.</p>
+      </div>
+      <div className="job-container-form d-flex align-items-center justify-content-center w-100">
+        <Form ref={formRef} onSubmit={handleSubmit}>
           {/* Position input */}
           <Form.Group
             controlId="formPosition"
@@ -393,21 +387,21 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
               </div>
             ))}
           </div>
-
-          <div className="d-flex justify-content-end">
-            <button
-              className="btn-add-candidate"
-              type="submit"
-              // disabled={isLoading}
-              disabled={!isFormValid} // Disable if the form is not valid
-            >
-              {isLoading ? "Sending..." : "Send Request"}
-            </button>
-          </div>
         </Form>
-      </Modal.Body>
-    </Modal>
+      </div>
+      <div className="d-flex justify-content-end my-3">
+        <button
+          className="btn-proceed"
+          type="button"
+          onClick={handleProceed} // Call handleProceed on click
+          // disabled={isLoading}
+          disabled={!isFormValid || isLoading} 
+        >
+          {isLoading ? "Sending..." : "Send Reference Requests"}
+        </button>
+      </div>
+    </>
   );
 };
 
-export default AddRequestPopUp;
+export default AddRequestComponent;

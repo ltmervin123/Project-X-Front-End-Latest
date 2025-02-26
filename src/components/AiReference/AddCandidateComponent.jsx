@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
-const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
+const AddCandidateComponent = ({onProceed }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
@@ -12,6 +12,7 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
   const isFormValid = name && email && position;
+  const formRef = useRef(null); // Add this line
 
   const [positions, setPositions] = useState(() => {
     const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
@@ -42,8 +43,9 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
       });
 
       if (response.status === 201) {
-        onAddCandidate();
-        onClose();
+        onProceed();
+        console.log("Candidate added successfully:", response.data);
+
       }
     } catch (error) {
       console.error(error);
@@ -51,36 +53,28 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
       setIsLoading(false);
     }
   };
-
+  const handleProceed = () => {
+    // Add this function
+    if (isFormValid) {
+      formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
+    }
+  };
   return (
-    <Modal
-      show={true}
-      onHide={onClose}
-      centered
-      className="custom-modal-job"
-      backdrop={true}
-    >
-      <Modal.Body>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h5 className="m-0">Add New Candidate</h5>
-            <small>Enter the details of the new candidate below.</small>
-          </div>
-          <Button
-            className="closebtn"
-            variant="link"
-            onClick={onClose}
-            style={{ fontSize: "1.5rem", textDecoration: "none" }}
-          >
-            &times;
-          </Button>
-        </div>
-        <Form onSubmit={handleSubmit}>
+    <>
+      <div>
+        <h3 className="mb-3">Add New Candidate</h3>
+        <p>Enter the details of the new candidate below.</p>
+      </div>
+      <div className="job-container-form d-flex align-items-center justify-content-center w-100">
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <Form.Group
             controlId="formJobName"
-            className="d-flex align-items-center mb-3"
+            className="d-flex align-items-center mb-5"
           >
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
               Name
             </Form.Label>
             <Form.Control
@@ -93,9 +87,12 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
           </Form.Group>
           <Form.Group
             controlId="formVacancies"
-            className="d-flex align-items-center mb-3"
+            className="d-flex align-items-center mb-5"
           >
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
               Email
             </Form.Label>
             <Form.Control
@@ -108,9 +105,12 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
           </Form.Group>
           <Form.Group
             controlId="formHiringManager"
-            className="d-flex align-items-center mb-3"
+            className="d-flex align-items-center mb-5"
           >
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
               Position
             </Form.Label>
             <Form.Select
@@ -128,20 +128,22 @@ const AddCandidatePopUp = ({ onClose, onAddCandidate }) => {
               ))}
             </Form.Select>
           </Form.Group>
-
-          <div className="d-flex justify-content-end">
-            <button
-              className="btn-add-candidate"
-              type="submit"
-              disabled={isLoading || !isFormValid}
-            >
-              {isLoading ? "Adding..." : "Add Candidate"}
-            </button>
-          </div>
         </Form>
-      </Modal.Body>
-    </Modal>
+      </div>
+
+      <div className="d-flex justify-content-end my-3">
+        <button
+          className="btn-proceed"
+          type="button" // Change this line
+          onClick={handleProceed} // Change this line
+          disabled={isLoading || !isFormValid}
+        >
+          {isLoading ? "Adding..." : "Proceed"}{" "}
+          {/* Changed text to "Proceed" */}
+        </button>
+      </div>
+    </>
   );
 };
 
-export default AddCandidatePopUp;
+export default AddCandidateComponent;

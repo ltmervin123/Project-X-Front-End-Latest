@@ -8,7 +8,6 @@ import "../styles/AiReferenceQuestion.css";
 function AiReferenceQuestionPage() {
   return (
     <>
-      <div className="mock-background">
         <Header />
         <div className="MockMaindashboard-container h-100">
           <Row>
@@ -22,7 +21,6 @@ function AiReferenceQuestionPage() {
             </Col>
           </Row>
         </div>
-      </div>
     </>
   );
 }
