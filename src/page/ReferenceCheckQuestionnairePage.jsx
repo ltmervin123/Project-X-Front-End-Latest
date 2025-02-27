@@ -2,78 +2,59 @@ import React, { useState, useEffect, use } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
+import {
+  socket,
+  connectSocket,
+  disconnectSocket,
+} from "../utils/socket/socketSetup";
 import axios from "axios";
 function ReferenceCheckQuestionnairePage() {
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const location = useLocation();
   const selectedMethod = location.state?.selectedMethod;
+
+  // Retrieve stored data
   const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
   const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
     JSON.parse(localStorage.getItem("referenceQuestions")) || {};
-  const [questions, setQuestion] = useState([]);
+
+  // States
+  const [questions, setQuestions] = useState([]);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
   const [answered, setAnswered] = useState([]);
   const [inputedText, setInputedText] = useState("");
-  const [referenceQuestionsData, setReferenceQuestionsData] = useState({});
+  const [referenceQuestionsData, setReferenceQuestionsData] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [currentNormalizedAnswer, setCurrentNormalizedAnswer] = useState("");
-  const [normalizedAnswers, setNormalizedAnswers] = useState([]);
 
-  const prevQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
-
-  const nextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
-  };
-
+  // Format reference questions
   const formatReferenceQuestions = () => {
-    // Check if reference questions is not hr-hatch format return an empty array because its an Custom format
-    if (
-      !referenceQuestions ||
-      referenceQuestions.formatType !== "HR-HATCH-FORMAT"
-    ) {
-      return [];
-    }
+    if (referenceQuestions?.formatType !== "HR-HATCH-FORMAT") return [];
 
-    if (
-      !referenceQuestions.questions ||
-      typeof referenceQuestions.questions !== "object"
-    ) {
-      console.error("Questions object is missing or not valid.");
-      return [];
-    }
-
-    return Object.entries(referenceQuestions.questions) // Access nested `questions` object
-      .filter(([category, questions]) => Array.isArray(questions)) // Ensure values are arrays
-      .map(([category, questions]) => ({
+    return Object.entries(referenceQuestions.questions || {})
+      .filter(([_, qs]) => Array.isArray(qs))
+      .map(([category, qs]) => ({
         category,
-        questions: questions.map((q) =>
+        questions: qs.map((q) =>
           typeof q === "string"
             ? q.replace(/\$\{candidateName\}/g, candidateName)
             : q
         ),
-        answers: new Array(questions.length).fill(""),
-        normalizedAnswers: new Array(questions.length).fill(""),
+        answers: Array(qs.length).fill(""),
+        normalizedAnswers: Array(qs.length).fill(""),
       }));
   };
 
-  const handleFinish = () => {};
-
+  // Get questions based on format type
   const getQuestions = () => {
     switch (referenceQuestions.formatType) {
       case "HR-HATCH-FORMAT":
         return Object.values(referenceQuestions?.questions || {})
           .flat()
-          .map((q) => q.replace(/\$\{candidateName\}/g, candidateName)); // Replace placeholders
+          .map((q) => q.replace(/\$\{candidateName\}/g, candidateName));
       case "CUSTOM_FORMAT":
         return (referenceQuestions?.questions || []).map((q) =>
           q.replace(/\$\{candidateName\}/g, candidateName)
@@ -83,116 +64,133 @@ function ReferenceCheckQuestionnairePage() {
     }
   };
 
-  const handleTranscriptionChange = (event) => {
-    setTranscription(event.target.value);
-  };
-
-  const handleInputedTextChange = (event) => {
-    setInputedText(event.target.value);
-  };
-
-  const handleSubmit = async () => {
-    const updatedAnswers = [...answered];
-    updatedAnswers[currentQuestionIndex] = inputedText;
-    const updatedNormalizedAnswers = [...normalizedAnswers];
-    await handleNormalizedAnswers();
-    setAnswered(updatedAnswers);
-    attachAnswer();
-  };
-
-  const saveReferenceQuestionsData = () => {
-    localStorage.setItem(
-      "referenceQuestionsData",
-      JSON.stringify(referenceQuestionsData || [])
-    );
-  };
-
-  const attachAnswer = () => {
-    const currentQuestion = questions[currentQuestionIndex];
-    setReferenceQuestionsData((prevData) => {
-      return prevData
-        .map((categoryItem) => {
-          const { category, questions, answers } = categoryItem;
-          const questionIndex = questions.indexOf(currentQuestion);
-
-          if (questionIndex !== -1) {
-            const updatedAnswers = [...answers];
-            const updatedNormalizedAnswers = [...normalizedAnswers];
-
-            updatedAnswers.length = questions.length;
-            updatedNormalizedAnswers.length = questions.length;
-            updatedAnswers[questionIndex] = inputedText;
-            updatedNormalizedAnswers[questionIndex] =
-              currentNormalizedAnswer || "";
-            return { ...categoryItem, answers: [...updatedAnswers] };
-          }
-          return categoryItem;
-        })
-        .map((item) => ({ ...item }));
-    });
-    setInputedText("");
-    setCurrentNormalizedAnswer("");
-  };
-
-  const startRecording = () => {
-    setIsRecording(true);
-  };
-
-  const stopRecording = () => {
-    setIsRecording(false);
-  };
-
-  const handleNormalizedAnswers = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-      const URL = `${API}/api/ai-referee/reference/normalized-answer`;
-      const payload = { answer: inputedText };
-      const response = await axios.post(URL, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setCurrentNormalizedAnswer(response.data.normalizedAnswer);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Load questions from local storage
-  useEffect(() => {
-    if (questions.length === 0) {
-      setQuestion(getQuestions());
-      setAnswered(new Array(getQuestions().length).fill(""));
-      setReferenceQuestionsData(formatReferenceQuestions());
-    }
-  }, []);
-
-  //Check the last question if answer and navigate to thank you page
+  // Navigate to Thank You page when last question is answered
   useEffect(() => {
     if (
       currentQuestionIndex === questions.length - 1 &&
       answered[currentQuestionIndex]
     ) {
-      // Save data to local storage and navigate to thank you page
-      saveReferenceQuestionsData();
+      localStorage.setItem(
+        "referenceQuestionsData",
+        JSON.stringify(referenceQuestionsData)
+      );
       navigate("/reference-thankyou-msg");
     }
-  }, [currentNormalizedAnswer, answered]);
+  }, [
+    referenceQuestionsData,
+    answered,
+    currentQuestionIndex,
+    questions.length,
+    navigate,
+  ]);
 
-  // Prevent user from leaving the page
+  // Connect socket on mount
+  useEffect(() => {
+    // Connect to the socket when component mounts
+    connectSocket();
+
+    socket.on("connect", () => {
+      console.log("✅ Connected to the WebSocket server");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("⚠️ Disconnected from the server");
+    });
+
+    // Disconnect from the socket when component unmounts
+    return () => {
+      disconnectSocket();
+    };
+  }, []);
+  
+  // Prevent accidental page exit
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
-      event.returnValue = "Are you sure you want to leave this page?"; // Standard message for modern browsers
+      event.returnValue = "Are you sure you want to leave this page?";
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
+
+  // Load questions on mount
+  useEffect(() => {
+    const formattedQuestions = getQuestions();
+    setQuestions(formattedQuestions);
+    setAnswered(Array(formattedQuestions.length).fill(""));
+    setReferenceQuestionsData(formatReferenceQuestions());
+  }, []);
+
+  // Handle answer submission
+  const handleSubmit = async () => {
+    await attachAnswer();
+    setAnswered((prev) => {
+      const updatedAnswers = [...prev];
+      updatedAnswers[currentQuestionIndex] = inputedText;
+      return updatedAnswers;
+    });
+    setInputedText("");
+    nextQuestion();
+  };
+
+  // Attach answer to referenceQuestionsData
+  const attachAnswer = async () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const normalizedAnswer = await handleNormalizedAnswers();
+
+    setReferenceQuestionsData((prevData) =>
+      prevData.map((categoryItem) => {
+        const questionIndex = categoryItem.questions.indexOf(currentQuestion);
+        if (questionIndex !== -1) {
+          categoryItem.answers[questionIndex] = inputedText;
+          categoryItem.normalizedAnswers[questionIndex] =
+            normalizedAnswer || "No Normalized Answer Available";
+        }
+        return { ...categoryItem };
+      })
+    );
+  };
+
+  // Fetch normalized answer from API
+  const handleNormalizedAnswers = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${API}/api/ai-referee/reference/normalized-answer`,
+        { answer: inputedText },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data.normalizedAnswer || "";
+    } catch (error) {
+      console.error("Error fetching normalized answer:", error);
+      return "";
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //Handle text base answer change
+  const handleInputedTextChange = (event) => {
+    setInputedText(event.target.value);
+  };
+
+  //Start recording
+  const startRecording = () => {};
+
+  //Stop recording
+  const stopRecording = () => {};
+
+  // Navigation handlers
+  const prevQuestion = () =>
+    setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
+
+  const nextQuestion = () =>
+    setCurrentQuestionIndex((prev) =>
+      prev < questions.length - 1 ? prev + 1 : prev
+    );
 
   return (
     <div className="container-fluid main-container d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -228,7 +226,6 @@ function ReferenceCheckQuestionnairePage() {
             <h4>Transcription:</h4>
             <textarea
               value={transcription}
-              onChange={handleTranscriptionChange}
               rows="4"
               placeholder={"Transcription will appear here...."}
               disabled={true}
@@ -254,7 +251,9 @@ function ReferenceCheckQuestionnairePage() {
                     </button>
                   )
                 ) : (
-                  <button onClick={handleFinish}>Finish</button>
+                  <button onClick={() => navigate("/reference-thankyou-msg")}>
+                    Finish
+                  </button>
                 )}
               </div>
             </div>
@@ -264,10 +263,7 @@ function ReferenceCheckQuestionnairePage() {
             <h4>Answer:</h4>
             <textarea
               value={inputedText}
-              // disabled={
-              //   currentQuestionIndex === questions.length - 1 &&
-              //   answered[currentQuestionIndex]
-              // }
+              disabled={loading}
               onChange={handleInputedTextChange}
               rows="4"
               placeholder={"Type your answer..."}
