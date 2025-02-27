@@ -1,13 +1,10 @@
 import React, { useState, useEffect, use } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  FaMicrophone,
-  FaMicrophoneAltSlash,
-  FaMicrophoneSlash,
-} from "react-icons/fa";
-
+import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
+import axios from "axios";
 function ReferenceCheckQuestionnairePage() {
+  const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const location = useLocation();
   const selectedMethod = location.state?.selectedMethod;
@@ -15,15 +12,16 @@ function ReferenceCheckQuestionnairePage() {
   const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
     JSON.parse(localStorage.getItem("referenceQuestions")) || {};
-
   const [questions, setQuestion] = useState([]);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
-
   const [answered, setAnswered] = useState([]);
   const [inputedText, setInputedText] = useState("");
   const [referenceQuestionsData, setReferenceQuestionsData] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [currentNormalizedAnswer, setCurrentNormalizedAnswer] = useState("");
+  const [normalizedAnswers, setNormalizedAnswers] = useState([]);
 
   const prevQuestion = () => {
     if (currentQuestionIndex > 0) {
@@ -64,8 +62,11 @@ function ReferenceCheckQuestionnairePage() {
             : q
         ),
         answers: new Array(questions.length).fill(""),
+        normalizedAnswers: new Array(questions.length).fill(""),
       }));
   };
+
+  const handleFinish = () => {};
 
   const getQuestions = () => {
     switch (referenceQuestions.formatType) {
@@ -90,9 +91,11 @@ function ReferenceCheckQuestionnairePage() {
     setInputedText(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const updatedAnswers = [...answered];
     updatedAnswers[currentQuestionIndex] = inputedText;
+    const updatedNormalizedAnswers = [...normalizedAnswers];
+    await handleNormalizedAnswers();
     setAnswered(updatedAnswers);
     attachAnswer();
   };
@@ -114,37 +117,48 @@ function ReferenceCheckQuestionnairePage() {
 
           if (questionIndex !== -1) {
             const updatedAnswers = [...answers];
+            const updatedNormalizedAnswers = [...normalizedAnswers];
 
-            // ✅ Ensure array length matches questions length
             updatedAnswers.length = questions.length;
-
-            updatedAnswers[questionIndex] = inputedText; // Attach answer
-
+            updatedNormalizedAnswers.length = questions.length;
+            updatedAnswers[questionIndex] = inputedText;
+            updatedNormalizedAnswers[questionIndex] =
+              currentNormalizedAnswer || "";
             return { ...categoryItem, answers: [...updatedAnswers] };
           }
           return categoryItem;
         })
-        .map((item) => ({ ...item })); // **Ensure new reference**
+        .map((item) => ({ ...item }));
     });
     setInputedText("");
-  };
-
-  const handleFinish = () => {
-    saveReferenceQuestionsData();
-
-    navigate("/reference-thankyou-msg");
+    setCurrentNormalizedAnswer("");
   };
 
   const startRecording = () => {
     setIsRecording(true);
-
-    console.log("Recording started...");
   };
 
   const stopRecording = () => {
     setIsRecording(false);
+  };
 
-    console.log("Recording stopped...");
+  const handleNormalizedAnswers = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const URL = `${API}/api/ai-referee/reference/normalized-answer`;
+      const payload = { answer: inputedText };
+      const response = await axios.post(URL, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCurrentNormalizedAnswer(response.data.normalizedAnswer);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Load questions from local storage
@@ -155,6 +169,18 @@ function ReferenceCheckQuestionnairePage() {
       setReferenceQuestionsData(formatReferenceQuestions());
     }
   }, []);
+
+  //Check the last question if answer and navigate to thank you page
+  useEffect(() => {
+    if (
+      currentQuestionIndex === questions.length - 1 &&
+      answered[currentQuestionIndex]
+    ) {
+      // Save data to local storage and navigate to thank you page
+      saveReferenceQuestionsData();
+      navigate("/reference-thankyou-msg");
+    }
+  }, [currentNormalizedAnswer, answered]);
 
   // Prevent user from leaving the page
   useEffect(() => {
@@ -238,26 +264,22 @@ function ReferenceCheckQuestionnairePage() {
             <h4>Answer:</h4>
             <textarea
               value={inputedText}
-              disabled={
-                currentQuestionIndex === questions.length - 1 &&
-                answered[currentQuestionIndex]
-              }
+              // disabled={
+              //   currentQuestionIndex === questions.length - 1 &&
+              //   answered[currentQuestionIndex]
+              // }
               onChange={handleInputedTextChange}
               rows="4"
               placeholder={"Type your answer..."}
             />
             <div className="d-flex justify-content-center">
-              {currentQuestionIndex === questions.length - 1 ? (
-                <button onClick={handleFinish}>Submit</button>
-              ) : (
-                <button
-                  onClick={handleSubmit}
-                  disabled={!inputedText}
-                  className={!inputedText ? "disabled" : ""}
-                >
-                  Submit
-                </button>
-              )}
+              <button
+                onClick={handleSubmit}
+                disabled={!inputedText || loading}
+                className={!inputedText || loading ? "disabled" : ""}
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
             </div>
           </div>
         )}
