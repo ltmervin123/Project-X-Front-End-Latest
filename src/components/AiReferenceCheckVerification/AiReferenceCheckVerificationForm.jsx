@@ -125,6 +125,14 @@ const AiReferenceCheckVerificationForm = ({
     }
   };
 
+  //Debugging
+  useEffect(() => {
+    console.log("Current Date:", new Date().toISOString().split("T")[0]);
+    console.log("Current Date:");
+    console.log("Start Date:", formData.startDate);
+    console.log("End Date:", formData.endDate);
+  }, [formData.startDate, formData.endDate]);
+
   // Prevent user from leaving the page
   useEffect(() => {
     const handleBeforeUnload = (event) => {
