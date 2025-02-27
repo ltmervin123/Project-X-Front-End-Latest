@@ -19,6 +19,7 @@ function ReviewYourReferenceCheckPage() {
   const canvasRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showBothAnswers, setShowBothAnswers] = useState(false);
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
@@ -312,58 +313,96 @@ function ReviewYourReferenceCheckPage() {
 
             {/* Question Display */}
             <div className="ReviewYourReferenceCheck-box-item h-100">
-              <div className="question-container">
-                <p className="question-text">
+              <div className="question-container m-0">
+                <p className="question-text ">
                   <strong>Question {currentQuestionIndex + 1}:</strong>{" "}
                   {questions[currentQuestionIndex]}
                 </p>
+                <div className="d-flex justify-content-end gap-3">
+                  <span>
+                    {showBothAnswers ? "Original Answer" : " Show Both Answer"}
+                  </span>
+                  <label className="question-option-switch">
+                    <input
+                      type="checkbox"
+                      checked={showBothAnswers}
+                      onChange={() => setShowBothAnswers(!showBothAnswers)}
+                    />
+                    <span className="question-option-slider"></span>
+                  </label>
+                </div>
               </div>
-              {/* Standardized Answer Section */}
-              <p className="stndard-label">
-                <strong>Normalize Answer:</strong>
-              </p>
-              <div className="answer-container mb-3">
-                {isEditing ? (
-                  <textarea
-                    value={editedAnswer}
-                    onChange={(e) => setEditedAnswer(e.target.value)}
-                    rows={8}
-                    className="answer-textarea"
-                  />
-                ) : (
-                  <p>{answers[currentQuestionIndex]}</p>
-                )}
-              </div>
-              {/* Edit/Save Button */}
-              <div className="edit-save-button-container">
-                {isEditing ? (
-                  <button
-                    onClick={() => {
-                      setAnswers((prevAnswers) => {
-                        const newAnswers = [...prevAnswers];
-                        newAnswers[currentQuestionIndex] = editedAnswer; // Update the answer
-                        return newAnswers;
-                      });
-                      setIsEditing(false); // Exit edit mode
-                    }}
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setEditedAnswer(answers[currentQuestionIndex]); // Set the current answer to edit
-                      setIsEditing(true); // Enter edit mode
-                    }}
-                  >
-                    Edit
-                  </button>
-                )}
-              </div>
+
+              {/* Conditional Rendering for Edit/Save Button and Normalize Answer */}
+              {!showBothAnswers ? (
+                <>
+                  {/* Standardized Answer Section */}
+                  <p className="orig-label">
+                    <strong>Original Answer:</strong>
+                  </p>
+                  <div className="answer-container mb-3">
+                    <p>{answers[currentQuestionIndex]}</p>
+                  </div>
+
+                  {/* Normalize Answer Section */}
+                  <p className="normalize-label">
+                    <strong>Normalize Answer:</strong>
+                  </p>
+                  <div className="normalize-answer-container mb-3">
+                    <p>{answers[currentQuestionIndex]}</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Standardized Answer Section */}
+                  <p className="orig-label">
+                    <strong>Original Answer:</strong>
+                  </p>
+                  <div className="answer-container-extended mb-3">
+                    {isEditing ? (
+                      <textarea
+                        value={editedAnswer}
+                        onChange={(e) => setEditedAnswer(e.target.value)}
+                        rows={8}
+                        className="answer-textarea"
+                      />
+                    ) : (
+                      <p>{answers[currentQuestionIndex]}</p>
+                    )}
+                  </div>
+
+                  {/* Edit/Save Button */}
+                  <div className="edit-save-button-container">
+                    {isEditing ? (
+                      <button
+                        onClick={() => {
+                          setAnswers((prevAnswers) => {
+                            const newAnswers = [...prevAnswers];
+                            newAnswers[currentQuestionIndex] = editedAnswer; // Update the answer
+                            return newAnswers;
+                          });
+                          setIsEditing(false); // Exit edit mode
+                        }}
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setEditedAnswer(answers[currentQuestionIndex]); // Set the current answer to edit
+                          setIsEditing(true); // Enter edit mode
+                        }}
+                      >
+                        Edit
+                      </button>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Navigation Buttons */}
-            <div className="navigation-buttons gap-4 position-relative">
+            <div className="navigation-buttons gap-4 m-0 position-relative">
               <>
                 <button
                   className="prev-btn"

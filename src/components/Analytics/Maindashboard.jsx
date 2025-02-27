@@ -451,7 +451,7 @@ const MainDashboard = () => {
 
       <div className="chart-area-container ">
         {/* New Area Chart Slider Section */}
-        <div className="area-chart-container d-flex justify-content-start align-items-center gap-5">
+        <div className="area-chart-container d-flex justify-content-start align-items-center gap-3">
           <div className="carousel-controls">
             <Carousel
               className="chart-card-area-container"

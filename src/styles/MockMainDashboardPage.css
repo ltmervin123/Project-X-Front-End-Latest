@@ -14,9 +14,9 @@
 .mock-interview-summary {
   width: 30%;
 }
-/* .mock-background{
-background: #f9f9f9;
-} */
+.mock-background{
+background: var(--font-white);
+}
 
 .MockMaindashboard-container {
   padding: 0 !important;

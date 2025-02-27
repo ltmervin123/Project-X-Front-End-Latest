@@ -385,7 +385,7 @@ function createTooltipElement() {
               <p>Average scores across key competencies.</p>
             </div>
             <Row>
-              <Col md={8}>
+              <Col md={5}>
                 <div className="chart-container-report">
                   <Bar
                     data={candidateChartData}
@@ -402,7 +402,7 @@ function createTooltipElement() {
               <p>Overview of completed and pending reference checks.</p>
             </div>
             <Row>
-              <Col md={8}>
+              <Col md={5}>
                 <div className="chart-container-report">
                   <Bar
                     data={chartData}
@@ -410,7 +410,7 @@ function createTooltipElement() {
                   />
                 </div>
               </Col>
-              <Col md={4}>
+              <Col md={7}>
                 {/* Custom legend below the chart */}
                 <div className="custom-legend h-100 d-flex flex-column align-items-center justify-content-center">
                   <ul>
