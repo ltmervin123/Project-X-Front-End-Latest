@@ -32,18 +32,14 @@ function ReferenceCheckInstructionsPage() {
   // Handle the next step progression
   const handleNextStep = () => {
     if (currentStep < instructionData.length) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      console.log("Finishing the reference check process...");
-      // When all steps are complete, "Start Now" button should trigger the next action
+      setCurrentStep((preStep) => preStep + 1);
     }
   };
 
   // Handle the "Start Now" action and navigate to the next page
   const handleStartNow = () => {
-    console.log(`Selected method: ${selectedMethod}`);
     navigate("/reference-questionnaire", {
-      state: { selectedMethod: selectedMethod }, // Pass selectedMethod with the correct key
+      state: { selectedMethod: selectedMethod },
     });
   };
 
