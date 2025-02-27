@@ -23,7 +23,10 @@ const AiReferenceCheckVerificationForm = ({
     otherRelationship: "", // New field for "Other" relationship
   });
   const [processing, setProcessing] = useState(false);
-  const [isOtherSelected, setIsOtherSelected] = useState(false); // State to track if "Other" is selected
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString("en-CA")
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -121,6 +124,14 @@ const AiReferenceCheckVerificationForm = ({
       setProcessing(false);
     }
   };
+
+  //Debugging
+  useEffect(() => {
+    console.log("Current Date:", new Date().toISOString().split("T")[0]);
+    console.log("Current Date:");
+    console.log("Start Date:", formData.startDate);
+    console.log("End Date:", formData.endDate);
+  }, [formData.startDate, formData.endDate]);
 
   // Prevent user from leaving the page
   useEffect(() => {
@@ -227,6 +238,7 @@ const AiReferenceCheckVerificationForm = ({
                       id="startdate"
                       value={formData.startDate}
                       onChange={handleChange}
+                      max={currentDate}
                     />
                   </Col>
                   <Col md={6}>
@@ -237,8 +249,9 @@ const AiReferenceCheckVerificationForm = ({
                       id="enddate"
                       value={formData.endDate}
                       onChange={handleChange}
-                      disabled={!formData.startDate} // Disable if startDate is filled
-                      min={formData.startDate} // Set minimum date to startDate
+                      disabled={!formData.startDate}
+                      min={formData.startDate}
+                      max={currentDate}
                     />
                   </Col>
                 </Row>
