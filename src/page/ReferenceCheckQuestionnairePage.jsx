@@ -1,14 +1,13 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
-import {
-  socket,
-  connectSocket,
-  disconnectSocket,
-} from "../utils/socket/socketSetup";
+import ErrorAccessCam from "../components/Error/ErrorAccessCam";
+import TextBase from "../components/ReferenceCheckQuestionnaire/TextBase";
+import AudioBase from "../components/ReferenceCheckQuestionnaire/AudioBase";
+import loadingAnimation from "../assets/loading.gif";
+
 import axios from "axios";
-function ReferenceCheckQuestionnairePage() {
+const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,14 +20,18 @@ function ReferenceCheckQuestionnairePage() {
     JSON.parse(localStorage.getItem("referenceQuestions")) || {};
 
   // States
-  const [questions, setQuestions] = useState([]);
-  const [isRecording, setIsRecording] = useState(false);
-  const [transcription, setTranscription] = useState("");
-  const [answered, setAnswered] = useState([]);
-  const [inputedText, setInputedText] = useState("");
+  const [questions, setQuestions] = useState([]); //State the hold answers in array form
+  const [answered, setAnswered] = useState([]); //State that hold ans
+  const [currentAnswer, setCurrentAnswer] = useState("");
   const [referenceQuestionsData, setReferenceQuestionsData] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
+  const [micError, setMicError] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  //Refs
+  const audioRef = useRef(null);
 
   // Format reference questions
   const formatReferenceQuestions = () => {
@@ -64,6 +67,61 @@ function ReferenceCheckQuestionnairePage() {
     }
   };
 
+  const speak = async (text) => {
+    setIsSpeaking(true);
+    const token = localStorage.getItem("token");
+    const voice = "stella";
+    try {
+      const voiceType = voice.toLowerCase();
+      const payload = { text, voiceType };
+      const response = await axios.post(
+        `${API}/api/ai-referee/reference/question-to-audio`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { audio } = response.data;
+
+      const audioBlob = new Blob(
+        [Uint8Array.from(atob(audio), (c) => c.charCodeAt(0))],
+        {
+          type: "audio/mp3",
+        }
+      );
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audioElement = new Audio(audioUrl);
+
+      audioRef.current = audioElement;
+
+      // Return a promise that resolves when the audio ends
+      return new Promise((resolve, reject) => {
+        audioElement.onended = () => {
+          resolve();
+        };
+        audioElement.onerror = reject;
+        audioElement.play().catch(reject);
+      });
+    } catch (error) {
+      console.error("Error fetching audio:", error);
+    } finally {
+      setIsSpeaking(false);
+    }
+  };
+
+  //Audio clean up
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, [questions, currentQuestionIndex]);
+
   // Navigate to Thank You page when last question is answered
   useEffect(() => {
     if (
@@ -84,25 +142,6 @@ function ReferenceCheckQuestionnairePage() {
     navigate,
   ]);
 
-  // Connect socket on mount
-  useEffect(() => {
-    // Connect to the socket when component mounts
-    connectSocket();
-
-    socket.on("connect", () => {
-      console.log("✅ Connected to the WebSocket server");
-    });
-
-    socket.on("disconnect", () => {
-      console.log("⚠️ Disconnected from the server");
-    });
-
-    // Disconnect from the socket when component unmounts
-    return () => {
-      disconnectSocket();
-    };
-  }, []);
-  
   // Prevent accidental page exit
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -113,6 +152,26 @@ function ReferenceCheckQuestionnairePage() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
+  //Add a warning when user is navigating back to previous page
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      event.preventDefault();
+      const userConfirmed = window.confirm(
+        "Are you sure you want to go back? Your progress will be lost."
+      );
+      if (!userConfirmed) {
+        window.history.pushState(null, "", window.location.pathname); // Prevent going back
+      }
+    };
+
+    window.history.pushState(null, "", window.location.pathname); // Push state to prevent immediate back
+    window.addEventListener("popstate", handleBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, []);
+
   // Load questions on mount
   useEffect(() => {
     const formattedQuestions = getQuestions();
@@ -121,15 +180,50 @@ function ReferenceCheckQuestionnairePage() {
     setReferenceQuestionsData(formatReferenceQuestions());
   }, []);
 
+  useEffect(() => {
+    const initializeMicPermissionWhenRender = async () => {
+      if (selectedMethod === "VOICE_BASE") {
+        await initializeMicPermission();
+      }
+    };
+
+    initializeMicPermissionWhenRender();
+  }, []);
+
+  //Convert question into text to speech when thier is a question
+  useEffect(() => {
+    //Only speak when thier is question
+    const speakQuestion = async () => {
+      if (questions.length > 0) {
+        await speak(questions[currentQuestionIndex]);
+      }
+    };
+
+    speakQuestion();
+  }, [questions, currentQuestionIndex]);
+
+  //Function that asks for permission to use microphone
+  const initializeMicPermission = async () => {
+    setIsReattemptingCamera(true);
+    setMicError(false);
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (error) {
+      setMicError(true);
+    } finally {
+      setIsReattemptingCamera(false);
+    }
+  };
+
   // Handle answer submission
   const handleSubmit = async () => {
     await attachAnswer();
     setAnswered((prev) => {
       const updatedAnswers = [...prev];
-      updatedAnswers[currentQuestionIndex] = inputedText;
+      updatedAnswers[currentQuestionIndex] = currentAnswer;
       return updatedAnswers;
     });
-    setInputedText("");
+    setCurrentAnswer("");
     nextQuestion();
   };
 
@@ -142,7 +236,7 @@ function ReferenceCheckQuestionnairePage() {
       prevData.map((categoryItem) => {
         const questionIndex = categoryItem.questions.indexOf(currentQuestion);
         if (questionIndex !== -1) {
-          categoryItem.answers[questionIndex] = inputedText;
+          categoryItem.answers[questionIndex] = currentAnswer;
           categoryItem.normalizedAnswers[questionIndex] =
             normalizedAnswer || "No Normalized Answer Available";
         }
@@ -158,7 +252,7 @@ function ReferenceCheckQuestionnairePage() {
       const token = localStorage.getItem("token");
       const response = await axios.post(
         `${API}/api/ai-referee/reference/normalized-answer`,
-        { answer: inputedText },
+        { answer: currentAnswer },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -172,17 +266,6 @@ function ReferenceCheckQuestionnairePage() {
     }
   };
 
-  //Handle text base answer change
-  const handleInputedTextChange = (event) => {
-    setInputedText(event.target.value);
-  };
-
-  //Start recording
-  const startRecording = () => {};
-
-  //Stop recording
-  const stopRecording = () => {};
-
   // Navigation handlers
   const prevQuestion = () =>
     setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
@@ -191,6 +274,31 @@ function ReferenceCheckQuestionnairePage() {
     setCurrentQuestionIndex((prev) =>
       prev < questions.length - 1 ? prev + 1 : prev
     );
+
+  const handleSetAnswer = (answer) => {
+    setCurrentAnswer(answer);
+  };
+
+  if (isReattemptingCamera) {
+    return (
+      <div className="container-fluid main-container d-flex align-items-center justify-content-center flex-column positio-relative">
+        <div className="camera-retry-overlay">
+          <img
+            className="loadinganimation"
+            animation="border"
+            role="status"
+            src={loadingAnimation}
+            alt="loading..."
+          />
+          <p>Reattempting access to camera...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (micError) {
+    return <ErrorAccessCam onRetry={initializeMicPermission} />;
+  }
 
   return (
     <div className="container-fluid main-container d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -222,62 +330,21 @@ function ReferenceCheckQuestionnairePage() {
 
       <>
         {selectedMethod === "VOICE_BASE" ? (
-          <div className="transcription-answer-container">
-            <h4>Transcription:</h4>
-            <textarea
-              value={transcription}
-              rows="4"
-              placeholder={"Transcription will appear here...."}
-              disabled={true}
-            />
-            <div className="d-flex justify-content-center">
-              <div>
-                {currentQuestionIndex !== questions.length ? (
-                  isRecording ? (
-                    <button
-                      className="d-flex gap-2 align-items-center justify-content"
-                      onClick={stopRecording}
-                    >
-                      <FaMicrophoneAltSlash />
-                      Stop Recording
-                    </button>
-                  ) : (
-                    <button
-                      className="d-flex gap-2 align-items-center justify-content"
-                      onClick={startRecording}
-                    >
-                      <FaMicrophone />
-                      Start Recording
-                    </button>
-                  )
-                ) : (
-                  <button onClick={() => navigate("/reference-thankyou-msg")}>
-                    Finish
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
+          <AudioBase
+            setAnswer={handleSetAnswer}
+            handleSubmit={handleSubmit}
+            answer={currentAnswer}
+            loading={loading}
+            isSpeaking={isSpeaking}
+          />
         ) : (
-          <div className="transcription-answer-container">
-            <h4>Answer:</h4>
-            <textarea
-              value={inputedText}
-              disabled={loading}
-              onChange={handleInputedTextChange}
-              rows="4"
-              placeholder={"Type your answer..."}
-            />
-            <div className="d-flex justify-content-center">
-              <button
-                onClick={handleSubmit}
-                disabled={!inputedText || loading}
-                className={!inputedText || loading ? "disabled" : ""}
-              >
-                {loading ? "Submitting..." : "Submit"}
-              </button>
-            </div>
-          </div>
+          <TextBase
+            setAnswer={handleSetAnswer}
+            handleSubmit={handleSubmit}
+            answer={currentAnswer}
+            loading={loading}
+            isSpeaking={isSpeaking}
+          />
         )}
       </>
 
@@ -287,6 +354,6 @@ function ReferenceCheckQuestionnairePage() {
       <div className="blue-bg-right"></div>
     </div>
   );
-}
+};
 
 export default ReferenceCheckQuestionnairePage;
