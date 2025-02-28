@@ -103,7 +103,7 @@ const AiReferenceCheckVerificationForm = ({
   const getReferenceQuestions = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log("token", token);
+
       setProcessing(true);
       const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}`;
       const response = await axios.get(URL, {
@@ -124,14 +124,6 @@ const AiReferenceCheckVerificationForm = ({
       setProcessing(false);
     }
   };
-
-  //Debugging
-  useEffect(() => {
-    console.log("Current Date:", new Date().toISOString().split("T")[0]);
-    console.log("Current Date:");
-    console.log("Start Date:", formData.startDate);
-    console.log("End Date:", formData.endDate);
-  }, [formData.startDate, formData.endDate]);
 
   // Prevent user from leaving the page
   useEffect(() => {

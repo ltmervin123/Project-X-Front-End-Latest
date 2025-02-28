@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "../components/ExpiredLink/Header";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ReferenceCheckThankYouMsgPage = () => {
-    const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+  const { candidateName } = JSON.parse(localStorage.getItem("refereeData"));
+
   const handleFinish = () => {
     navigate("/reference-review");
   };
@@ -29,11 +30,12 @@ const ReferenceCheckThankYouMsgPage = () => {
           <div className="forgot-header text-center p-1">
             <p className="mb-5">
               Thank you for taking the time to provide a reference for
-              <strong> [Candidate Name]</strong>. Your insights are highly valued and appreciated.
+              <strong> {candidateName}</strong>. Your insights are highly valued
+              and appreciated.
             </p>
             <p className="mb-5"></p>
             <small
-            className="my-5"
+              className="my-5"
               style={{
                 fontSize: "12px",
               }}
@@ -43,10 +45,7 @@ const ReferenceCheckThankYouMsgPage = () => {
             </small>
           </div>
 
-          <button
-            className="redirect-to-login"
-            onClick={handleFinish}
-          >
+          <button className="redirect-to-login" onClick={handleFinish}>
             Finish
           </button>
         </div>
