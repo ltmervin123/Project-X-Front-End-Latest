@@ -1,115 +1,115 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { useSignup } from "../../hook/useSignup";
-import DPAPopUp from "./DPAPopUp"; // Import the DPAPopUp modal component
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import countriesData from "./../../countries+cities"; // Adjust the path to your JSON file
+import DPAPopUp from "./DPAPopUp";
+import { useNavigate } from "react-router-dom";
+import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 
 const CompanyRegistrationForm = () => {
   const SERVICE = "AI_REFERENCE";
-  const { signup, isLoading, error, message } = useSignup();
+  const { signup, isLoading, error } = useSignup();
+  const navigate = useNavigate();
+  const [countries, setCountries] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [agreeChecked, setAgreeChecked] = useState(false); // Separate state to keep checkbox unchecked until "Continue" is clicked
-  const [cities, setCities] = useState([]); // State to hold cities
-  const [selectedCountry, setSelectedCountry] = useState(""); // State to hold selected country
+  const [agreeChecked, setAgreeChecked] = useState(false);
 
-  const handleCheckboxChange = (e) => {
-    if (e.target.checked) {
-      if (!agreeChecked) {
-        setShowModal(true); // Show modal if the user hasn't agreed yet
-      } else {
-        setIsChecked(true); // Allow checking again without modal
-      }
-    } else {
-      setIsChecked(false);
-      setAgreeChecked(false); // Reset agreement state when unchecked
-    }
-  };
-
-  const handleContinue = () => {
-    setAgreeChecked(true); // Mark that the user has agreed
-    setIsChecked(true); // Keep the checkbox checked
-    setShowModal(false); // Close modal
-  };
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    location: "",
     size: "",
     industry: "",
     annualHiringVolume: "",
     firstName: "",
     lastName: "",
     positionTitle: "",
-    country: "", // Add this line
+    country: "",
     cities: "",
   });
 
+  useEffect(() => {
+    import("../../utils/countries/countries+cities.json").then((data) => {
+      setCountries(data.default);
+    });
+  }, []);
+
+  // Memoize filtered country data to prevent unnecessary re-renders
+  const selectedCountryData = useMemo(() => {
+    return (
+      countries.find((country) => country.name === formData.country) || {
+        cities: [],
+      }
+    );
+  }, [formData.country]);
+
   const validateForm = useMemo(() => {
-    return Object.values(formData).some((value) => value.trim() === "");
+    return Object.values(formData).every((value) => value.trim() !== "");
   }, [formData]);
 
   const disableButton = useMemo(() => {
-    return validateForm || isLoading || !isChecked;
+    return !validateForm || isLoading || !isChecked;
   }, [validateForm, isLoading, isChecked]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    if (name === "country") {
-      setSelectedCountry(value); // Update selected country
-    }
-  };
-  const clearForm = () => {
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      location: "",
-      size: "",
-      industry: "",
-      annualHiringVolume: "",
-      firstName: "",
-      lastName: "",
-      positionTitle: "",
-      country: "", // Add this line
-      cities: "",
-    });
-    setIsChecked(false);
+  }, []);
+
+  const handleCheckboxChange = useCallback(
+    (e) => {
+      if (e.target.checked) {
+        if (!agreeChecked) {
+          setShowModal(true);
+        } else {
+          setIsChecked(true);
+        }
+      } else {
+        setIsChecked(false);
+        setAgreeChecked(false);
+      }
+    },
+    [agreeChecked]
+  );
+
+  const handleContinue = () => {
+    setAgreeChecked(true);
+    setIsChecked(true);
+    setShowModal(false);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const status = await signup(formData, SERVICE);
-    const email = formData.email;
-    console.log(status);
-    // Success registration reset the form and show the success message
-    if (status === 201) {
-      navigate("/company-email-verification", { state: { email } }); // Navigate to the email verification page
-      clearForm();
-    }
-  };
-  useEffect(() => {
-    if (selectedCountry) {
-      const selectedCountryData = countriesData.find(
-        (country) => country.name === selectedCountry
-      );
-      if (selectedCountryData) {
-        setCities(selectedCountryData.cities);
-      } else {
-        setCities([]); // Clear cities if another country is selected
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const status = await signup(formData, SERVICE);
+      if (status === 201) {
+        navigate("/company-email-verification", {
+          state: { email: formData.email },
+        });
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          size: "",
+          industry: "",
+          annualHiringVolume: "",
+          firstName: "",
+          lastName: "",
+          positionTitle: "",
+          country: "",
+          cities: "",
+        });
+        setIsChecked(false);
       }
-    }
-  }, [selectedCountry]);
+    },
+    [formData, signup, navigate]
+  );
+
   return (
     <div className="company-reg-container d-flex align-items-center flex-column justify-content-center">
       <h4 className="text-center">Company Registration</h4>
@@ -215,21 +215,18 @@ const CompanyRegistrationForm = () => {
                 <Col md={6}>
                   <div className="mb-1">
                     <select
-                      name="location" // Change this to "location"
-                      value={formData.location}
+                      name="cities" // Change this to "location"
+                      value={formData.cities}
                       onChange={handleChange}
                       className="form-control"
                       id="city"
                     >
                       <option value="">Select City</option>
-                      {selectedCountry &&
-                        countriesData
-                          .find((country) => country.name === selectedCountry)
-                          ?.cities.map((city) => (
-                            <option key={city.id} value={city.name}>
-                              {city.name}
-                            </option>
-                          ))}
+                      {selectedCountryData.cities.map((city) => (
+                        <option key={city.id} value={city.name}>
+                          {city.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </Col>
@@ -243,7 +240,7 @@ const CompanyRegistrationForm = () => {
                       id="country"
                     >
                       <option value="">Select Country</option>
-                      {countriesData.map((country) => (
+                      {countries.map((country) => (
                         <option key={country.id} value={country.name}>
                           {country.name}
                         </option>
