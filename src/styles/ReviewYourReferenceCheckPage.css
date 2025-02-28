@@ -6,12 +6,46 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
-
+.ReviewYourReferenceCheck-Row {
+  display: flex;
+  width: 85%;
+  max-width: 1400px;
+  /* height: 90vh !important; */
+}
+.ReviewYourReferenceCheck-Row > .col-md-10 {
+  padding: 0;
+}
+.ReviewYourReferenceCheckAnswer-left-container {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  width: 100%;
+  height: 540px;
+  background: var(--font-white);
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 0px #00000059;
+  /* margin: 10vh 0vh !important; */
+  position: relative;
+  overflow: hidden; /* Ensure content doesn’t overflow the container */
+}
+.ReviewYourReferenceCheckAnswer-right-container {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  width: 100%;
+  height: 540px;
+  background: var(--font-white);
+  padding: 20px 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 0px #00000059;
+  /* margin: 10vh 0vh !important; */
+  position: relative;
+  overflow: hidden; /* Ensure content doesn’t overflow the container */
+}
 .ReviewYourReferenceCheck-container {
   display: flex;
   flex-direction: column; /* Arrange items vertically */
-  width: 80%;
-  max-width: 1300px;
+  width: 85%;
+  max-width: 1400px;
   height: 540px;
   background: var(--font-white);
   padding: 20px 40px;
@@ -43,9 +77,9 @@
   margin-bottom: 20px;
 }
 .question-indicator {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  width: 200px;
+  width: 160px;
   border-bottom: 3px solid var(--primary-color);
 }
 
@@ -70,7 +104,7 @@
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 24px; /* Adjusted for the new height */
 }
 
@@ -82,7 +116,7 @@
   left: 2px; /* Adjusted for centering */
   bottom: 2px; /* Adjusted for centering */
   background-color: white;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%; /* Keeps the button circular */
 }
 
@@ -98,18 +132,17 @@
   font-weight: 400;
 }
 .orig-label,
-.normalize-label{
+.normalize-label {
   color: var(--input-bg);
   font-weight: 300;
-
 }
 
 .answer-container,
 .normalize-answer-container {
   margin-bottom: 15px;
 }
-.answer-container{
-  background: #F2F3F7;
+.answer-container {
+  background: #f2f3f7;
   padding: 20px;
   border-radius: 20px;
   overflow-x: auto;
@@ -117,24 +150,23 @@
   word-wrap: break-word;
   margin: 0;
 }
-.answer-container-extended{
-  background: #F2F3F7;
+.answer-container-extended {
+  background: #f2f3f7;
   padding: 20px;
   border-radius: 20px;
   overflow-x: auto;
-  height: 244px;
+  height: 245px;
   word-wrap: break-word;
   margin: 0;
 }
-.normalize-answer-container{
+.normalize-answer-container {
   background: #319f4331;
   padding: 20px;
   border-radius: 20px;
   overflow-y: auto;
   overflow-x: hidden;
   height: 110px;
-    width: 100%;
-
+  width: 100%;
 }
 .answer-container-extended textarea {
   width: 100%;
@@ -160,14 +192,12 @@
   height: 500px !important;
 }
 
-
 .EnchanceAns-container {
   background: #319f432b;
   padding: 15px;
   border-radius: 10px;
   /* overflow-y: auto;
   height: 200px; */
-
 }
 
 .EnchanceAns-container p,
@@ -175,7 +205,7 @@
   margin: 0 !important;
   padding: 0;
 }
-.edit-save-button-container button{
+.edit-save-button-container button {
   background: var(--secondary-color);
   border-radius: 50px;
   padding: 5px 30px;
@@ -222,18 +252,17 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  font-size: 35px;
-  font-weight: 500;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 .prev-btn,
 .next-btn {
   color: var(--primary-color);
   cursor: pointer;
-  margin: 0 10px;
+  margin: 0 2px;
   background: none;
   border: none;
-
 }
 
 .prev-btn:disabled,
@@ -262,23 +291,67 @@
 .proceed-btn:hover {
   background: var(--secondary-color);
 }
+/*Selection Part for original and normalize answer*/
+.ReviewYourReferenceCheckAnswer-right-container > .answer-indicator-container{
+  height: 30%;
+}
+.ReviewYourReferenceCheckAnswer-right-container > .answer-indicator-container > p{
+  font-size: 14px;
+}
+.ReviewYourReferenceCheckAnswer-right-container > .buttons-container{
+  height: 40%;
 
-.ReviewYourReferenceCheck-container .selection-container > select{
+}
+.ReviewYourReferenceCheckAnswer-right-container > .buttons-container button{
+  height: 60px !important;
+box-shadow: 2px 2px 0px #00000059 !important;
+border: none;
+background: var(--font-white);
+border-radius: 10px;
+width: 100%;
+padding: 10px;
+}
+.ReviewYourReferenceCheckAnswer-right-container > .buttons-container button.active{
+  border: 1px solid var(--primary-color);
+}
+.ReviewYourReferenceCheckAnswer-right-container > .button-controller-container{
+  height: 30% !important;
+}
+.ReviewYourReferenceCheckAnswer-right-container > .button-controller-container button:nth-child(1){
+  color: var(--font-white);
+  background: var(--primary-color);
+  border: none;
+  border-radius: 50px;
+  width: 100%;
+  height: 40px;
+}
+.ReviewYourReferenceCheckAnswer-right-container > .button-controller-container button:nth-child(2){
+  color: var(--font-white);
+  background: var(--secondary-color);
+  border: none;
+  border-radius: 50px;
+  width: 100%;
+  height: 40px;
+}
+
+
+/* signature draw/image upload */
+.ReviewYourReferenceCheck-container .selection-container > select {
   width: 100%;
   height: 40px;
   border-radius: 10px;
   padding: 0px 10px;
 }
-.drawing-container > .drawing-container-box{
+.drawing-container > .drawing-container-box {
   width: 100%;
   border-radius: 10px;
 }
 
-.file-upload-area{
+.file-upload-area {
   height: 300px;
   border-radius: 10px;
 }
-.file-upload-container button{
+.file-upload-container button {
   width: 200px;
   height: 40px;
   border-radius: 50px;
@@ -287,11 +360,11 @@
   font-weight: 600;
   background: var(--secondary-color);
 }
-.drawing-container > .drawing-container-box >canvas{
+.drawing-container > .drawing-container-box > canvas {
   border-radius: 10px !important;
   width: 100%;
 }
-.ReviewYourReferenceCheck-button-controls > button{
+.ReviewYourReferenceCheck-button-controls > button {
   width: 200px;
   height: 40px;
   border-radius: 50px;
@@ -299,13 +372,17 @@
   color: var(--font-white);
   font-weight: 600;
 }
-.ReviewYourReferenceCheck-button-controls > button:nth-child(1){
+.ReviewYourReferenceCheck-button-controls > button:nth-child(1) {
   background: var(--primary-color);
 }
-.ReviewYourReferenceCheck-button-controls > button:nth-child(2){
+.ReviewYourReferenceCheck-button-controls > button:nth-child(2) {
   background: var(--secondary-color);
 }
-.signature-feild{
+.btn-proceed-submit:disabled {
+  background: var(--input-bg) !important;
+  cursor: not-allowed;
+}
+.signature-feild {
   background: var(--font-white);
   width: 300px;
   height: 100px;
