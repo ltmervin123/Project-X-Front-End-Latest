@@ -8,11 +8,36 @@ const AddRequestComponent = () => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER.token;
-  const [candidates, setCandidates] = useState([]);
-  const [selectedPosition, setSelectedPosition] = useState("");
-  const [selectedCandidate, setSelectedCandidate] = useState("");
-  const [selectedPositionId, setSelectedPositionId] = useState("");
-  const [selectedCandidateId, setSelectedCandidateId] = useState("");
+  const [positions, setPositions] = useState(() => {
+    const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+    const lastJob = jobs[jobs.length - 1];
+    return lastJob ? [{ jobName: lastJob.jobName, _id: lastJob._id }] : [];
+  });
+  const [candidates, setCandidates] = useState(() => {
+    const candidate = JSON.parse(localStorage.getItem("candidates")) || [];
+    const lastCandidate = candidate[candidate.length - 1];
+    return lastCandidate
+      ? [{ name: lastCandidate.name, _id: lastCandidate._id }]
+      : [];
+  });
+
+  //States
+
+  const [selectedPosition, setSelectedPosition] = useState(
+    positions[0]?.jobName
+  );
+  const [selectedPositionId, setSelectedPositionId] = useState(
+    positions[0]?._id
+  );
+  const [selectedCandidate, setSelectedCandidate] = useState(
+    candidates[0]?.name
+  );
+  const [selectedCandidateId, setSelectedCandidateId] = useState(
+    candidates[0]?._id
+  );
+  const [referees, setReferees] = useState([
+    { name: "", email: "", questionFormat: "" },
+  ]);
   const [selectedQuestion, setSelectedQuestion] = useState("");
   const [selectedQuestionId, setSelectedQuestionId] = useState("");
   const [refereeName, setRefereeName] = useState("");
@@ -20,19 +45,33 @@ const AddRequestComponent = () => {
   const [questionFormatType, setQuestionFormatType] = useState("");
   const [isCustomQuestion, setIsCustomQuestion] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [referees, setReferees] = useState([
-    { name: "", email: "", questionFormat: "" },
-  ]);
-  const [referenceCreated, setReferenceCreated] = useState(false); // New state for job creation status
+  const [referenceCreated, setReferenceCreated] = useState(false);
+  // useEffect(() => {
+  //   setCandidates(() => {
+  //     const candidate = JSON.parse(localStorage.getItem("candidates")) || [];
+  //     const lastCandidate = candidate[candidate.length - 1];
+  //     return lastCandidate
+  //       ? [{ name: lastCandidate.name, _id: lastCandidate._id }]
+  //       : [];
+  //   });
+  // }, []);
+
+  // const [candidates, setCandidates] = useState(() => {
+  //   const candidate = JSON.parse(localStorage.getItem("candidates")) || [];
+  //   const lastCandidate = candidate[candidate.length - 1];
+  //   return lastCandidate
+  //     ? [{ name: lastCandidate.name, _id: lastCandidate._id }]
+  //     : [];
+  // });
 
   // Memoize positions to avoid unnecessary re-renders
-  const positions = useMemo(() => {
-    const activeJobs = JSON.parse(localStorage.getItem("jobs")) || [];
-    return activeJobs.map((job) => ({
-      jobName: job.jobName,
-      _id: job._id,
-    }));
-  }, []);
+  // const positions = useMemo(() => {
+  //   const activeJobs = JSON.parse(localStorage.getItem("jobs")) || [];
+  //   return activeJobs.map((job) => ({
+  //     jobName: job.jobName,
+  //     _id: job._id,
+  //   }));
+  // }, []);
 
   const hrHatchQuestion = useMemo(() => {
     return [
@@ -62,45 +101,54 @@ const AddRequestComponent = () => {
     }));
   }, []);
 
+  const isFormValid = useMemo(() => {
+    return (
+      selectedCandidate &&
+      refereeName &&
+      refereeEmail &&
+      selectedPosition &&
+      questionFormatType
+    );
+  }, [
+    selectedCandidate,
+    refereeName,
+    refereeEmail,
+    selectedPosition,
+    questionFormatType,
+  ]);
+
   // Update candidates when selectedPosition changes
-  useEffect(() => {
-    if (!selectedPosition) {
-      setCandidates([]);
-      return;
-    }
-    const allCandidates = JSON.parse(localStorage.getItem("candidates")) || [];
-    const filteredCandidates = allCandidates
-      .filter((candidate) => candidate.position === selectedPosition)
-      .map((candidate) => candidate.name);
+  // useEffect(() => {
+  //   if (!selectedPosition) {
+  //     setCandidates([]);
+  //     return;
+  //   }
+  //   const allCandidates = JSON.parse(localStorage.getItem("candidates")) || [];
+  //   const filteredCandidates = allCandidates
+  //     .filter((candidate) => candidate.position === selectedPosition)
+  //     .map((candidate) => candidate.name);
 
-    setCandidates(filteredCandidates);
-  }, [selectedPosition]);
+  //   setCandidates(filteredCandidates);
+  // }, [selectedPosition]);
 
-  const isFormValid =
-    selectedCandidate &&
-    refereeName &&
-    refereeEmail &&
-    selectedPosition &&
-    questionFormatType;
+  // const handlePositionChange = (e) => {
+  //   const jobName = e.target.value;
+  //   const selectedPosition = positions.find(
+  //     (position) => position.jobName === jobName
+  //   );
+  //   const selectedPositionId = selectedPosition._id;
+  //   setSelectedPositionId(selectedPositionId);
+  //   setSelectedPosition(jobName);
+  // };
 
-  const handlePositionChange = (e) => {
-    const jobName = e.target.value;
-    const selectedPosition = positions.find(
-      (position) => position.jobName === jobName
-    );
-    const selectedPositionId = selectedPosition._id;
-    setSelectedPositionId(selectedPositionId);
-    setSelectedPosition(jobName);
-  };
-
-  const handleCandidateChange = (e) => {
-    const candidateName = e.target.value;
-    const selectedCandidate = candidates.find(
-      (candidate) => candidate.name === candidateName
-    );
-    setSelectedCandidate(candidateName);
-    setSelectedCandidateId(selectedCandidate._id);
-  };
+  // const handleCandidateChange = (e) => {
+  //   const candidateName = e.target.value;
+  //   const selectedCandidate = candidates.find(
+  //     (candidate) => candidate.name === candidateName
+  //   );
+  //   setSelectedCandidate(candidateName);
+  //   setSelectedCandidateId(selectedCandidate._id);
+  // };
 
   const handleQuestionFormatChange = (event) => {
     const questionName = event.target.value;
@@ -127,16 +175,16 @@ const AddRequestComponent = () => {
     setQuestionFormatType(format);
   };
 
-  useEffect(() => {
-    const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
-    const filteredCandidates = candidates
-      .filter((candidate) => candidate.position === selectedPosition)
-      .map((candidate) => ({
-        name: candidate.name,
-        _id: candidate._id,
-      }));
-    setCandidates(filteredCandidates);
-  }, [selectedPosition]);
+  // useEffect(() => {
+  //   const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
+  //   const filteredCandidates = candidates
+  //     .filter((candidate) => candidate.position === selectedPosition)
+  //     .map((candidate) => ({
+  //       name: candidate.name,
+  //       _id: candidate._id,
+  //     }));
+  //   setCandidates(filteredCandidates);
+  // }, [selectedPosition]);
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -169,8 +217,6 @@ const AddRequestComponent = () => {
 
       if (response.status === 201) {
         setReferenceCreated(true);
-        console.log("Send Reference Request successfull:", response.data);
-
         navigate("/AiReferenceRequestEmailSent", { state: { refereeEmail } });
       }
     } catch (error) {
@@ -202,13 +248,14 @@ const AddRequestComponent = () => {
               Position
             </Form.Label>
             <Form.Select
-              value={selectedPosition}
-              onChange={handlePositionChange}
+              value={positions}
+              // onChange={handlePositionChange}
+              disabled
               required
             >
-              <option value="" disabled>
+              {/* <option value="" disabled>
                 Select Position
-              </option>
+              </option> */}
               {positions.map((pos) => (
                 <option key={pos._id} value={pos.jobName}>
                   {pos.jobName}
@@ -226,25 +273,17 @@ const AddRequestComponent = () => {
               Candidate
             </Form.Label>
             <Form.Select
-              value={selectedCandidate}
-              onChange={handleCandidateChange}
-              disabled={!selectedPosition} // Disable if no position is selected
+              value={candidates.name}
+              // onChange={handleCandidateChange}
+              disabled // Disable if no position is selected
               required
             >
-              <option value="">Select Candidate</option>
-              {candidates && candidates.length > 0 ? (
-                candidates.map((candidate) => (
-                  <option key={candidate._id} value={candidate.name}>
-                    {candidate.name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  {selectedPosition
-                    ? "No candidates available"
-                    : "Select position first"}
+              {/* <option value="">Select Candidate</option> */}
+              {candidates.map((candidate) => (
+                <option key={candidate._id} value={candidate.name}>
+                  {candidate.name}
                 </option>
-              )}
+              ))}
             </Form.Select>
           </Form.Group>
 
@@ -395,7 +434,7 @@ const AddRequestComponent = () => {
           type="button"
           onClick={handleProceed} // Call handleProceed on click
           // disabled={isLoading}
-          disabled={!isFormValid || isLoading} 
+          disabled={!isFormValid || isLoading}
         >
           {isLoading ? "Sending..." : "Send Reference Requests"}
         </button>
