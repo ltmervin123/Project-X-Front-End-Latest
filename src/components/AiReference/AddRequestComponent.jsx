@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const AddRequestComponent = () => {
+  //Constants
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
@@ -11,9 +12,6 @@ const AddRequestComponent = () => {
   //States
   const [positions, setPositions] = useState([]);
   const [candidates, setCandidates] = useState([]);
-  const [hasSelectedQuestionFormat, setHasSelectedQuestionFormat] =
-    useState(false);
-  const [isCustomQuestion, setIsCustomQuestion] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [positionName, setPositionName] = useState("");
   const [positionId, setPositionId] = useState("");
@@ -26,11 +24,15 @@ const AddRequestComponent = () => {
       questionFormat: "",
       questionId: "",
       questionName: "",
+      hasSelectedQuestionFormat: false,
+      isCustomQuestion: false,
     },
   ]);
 
+  //Refs
   const formRef = useRef(null);
 
+  //Effects
   useEffect(() => {
     const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
     const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
@@ -50,6 +52,7 @@ const AddRequestComponent = () => {
     }
   }, []);
 
+  //Memoized values
   const hrHatchQuestion = useMemo(() => {
     return [
       {
@@ -89,95 +92,12 @@ const AddRequestComponent = () => {
     );
   }, [referees]);
 
+  //Utilities
   const isFormValid = useMemo(() => {
     return candidateName && validateReferees && positionName;
   }, [candidateName, positionName, validateReferees]);
 
-  const handleQuestionFormatChange = (event, index) => {
-    const question = event.target.value;
-
-    // Check if the user wants to change the question format
-    if (question === "change-format") {
-      setReferees((prevReferees) => {
-        const newReferees = [...prevReferees];
-        newReferees[index] = {
-          ...newReferees[index],
-          questionFormat: "",
-          questionName: "", // Reset to ensure "Choose HR-HATCH Question" appears
-          questionId: "",
-        };
-        return newReferees;
-      });
-      setHasSelectedQuestionFormat(false);
-      return;
-    }
-
-    const selectedQuestion = isCustomQuestion
-      ? customQuestion.find((q) => q.name === question)
-      : hrHatchQuestion.find((q) => q.name === question);
-
-    if (!selectedQuestion) return;
-
-    setReferees((prevReferees) => {
-      const newReferees = [...prevReferees];
-      newReferees[index] = {
-        ...newReferees[index],
-        questionName: selectedQuestion.name,
-        questionId: selectedQuestion._id,
-      };
-      return newReferees;
-    });
-  };
-
-  const handleSelectFormatTypeChanges = (format) => {
-    switch (format) {
-      case "HR-HATCH-FORMAT":
-        setIsCustomQuestion(false);
-        break;
-      case "CUSTOM_FORMAT":
-        setIsCustomQuestion(true);
-        break;
-      default:
-        setIsCustomQuestion(false);
-        break;
-    }
-    setHasSelectedQuestionFormat(true);
-  };
-
-  const handleRefereeQuestionFormatChange = (event, index) => {
-    const format = event.target.value;
-    const newReferees = [...referees];
-    newReferees[index].questionFormat = format;
-    setReferees(newReferees);
-    handleSelectFormatTypeChanges(format);
-  };
-
-  const handleRefereeNameChange = (event, index) => {
-    const newReferees = [...referees];
-    newReferees[index].name = event.target.value;
-    setReferees(newReferees);
-  };
-
-  const handleRefereeEmailChange = (event, index) => {
-    const newReferees = [...referees];
-    newReferees[index].email = event.target.value;
-    setReferees(newReferees);
-  };
-
-  const handleAddReferee = () => {
-    if (referees.length < 3) {
-      setReferees([...referees, { name: "", email: "", questionFormat: "" }]);
-    }
-  };
-
-  const handleAddRefereeDisabled = () => {
-    return referees.length > 3;
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await createReferenceRequest();
-  };
-
+  //Functions
   const createReferenceRequest = async () => {
     try {
       setIsLoading(true);
@@ -207,9 +127,97 @@ const AddRequestComponent = () => {
   };
 
   const handleProceed = () => {
-    if (isFormValid) {
-      formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
+    if (formRef.current.checkValidity()) {
+      formRef.current.requestSubmit(); // Ensures built-in validation before submission
+    } else {
+      formRef.current.reportValidity(); // Triggers native validation messages
     }
+  };
+
+  const handleQuestionFormatChange = (event, index) => {
+    const question = event.target.value;
+
+    // Check if the user wants to change the question format
+    if (question === "change-format") {
+      setReferees((prevReferees) => {
+        const newReferees = [...prevReferees];
+        newReferees[index] = {
+          ...newReferees[index],
+          questionFormat: "",
+          questionName: "",
+          questionId: "",
+          hasSelectedQuestionFormat: false,
+        };
+        return newReferees;
+      });
+
+      return;
+    }
+
+    const selectedQuestion = referees[index].isCustomQuestion
+      ? customQuestion.find((q) => q.name === question)
+      : hrHatchQuestion.find((q) => q.name === question);
+
+    if (!selectedQuestion) return;
+
+    setReferees((prevReferees) => {
+      const newReferees = [...prevReferees];
+      newReferees[index] = {
+        ...newReferees[index],
+        questionName: selectedQuestion.name,
+        questionId: selectedQuestion._id,
+      };
+      return newReferees;
+    });
+  };
+
+  const handleSelectFormatTypeChanges = (format) => {
+    switch (format) {
+      case "HR-HATCH-FORMAT":
+        return false;
+
+      case "CUSTOM_FORMAT":
+        return true;
+
+      default:
+        return false;
+    }
+  };
+
+  const handleRefereeQuestionFormatChange = (event, index) => {
+    const format = event.target.value;
+    const newReferees = [...referees];
+    newReferees[index].questionFormat = format;
+    newReferees[index].hasSelectedQuestionFormat = true;
+    newReferees[index].isCustomQuestion = handleSelectFormatTypeChanges(format);
+    setReferees(newReferees);
+  };
+
+  const handleRefereeNameChange = (event, index) => {
+    const newReferees = [...referees];
+    newReferees[index].name = event.target.value;
+    setReferees(newReferees);
+  };
+
+  const handleRefereeEmailChange = (event, index) => {
+    const newReferees = [...referees];
+    newReferees[index].email = event.target.value;
+    setReferees(newReferees);
+  };
+
+  const handleAddReferee = () => {
+    if (referees.length < 3) {
+      setReferees([...referees, { name: "", email: "", questionFormat: "" }]);
+    }
+  };
+
+  const handleAddRefereeDisabled = () => {
+    return referees.length >= 3;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await createReferenceRequest();
   };
 
   return (
@@ -259,7 +267,7 @@ const AddRequestComponent = () => {
             <button
               type="button"
               className={`add-referee ${
-                referees.length >= 3 ? "disabled" : ""
+                handleAddRefereeDisabled() ? "disabled" : ""
               }`}
               onClick={handleAddReferee}
               disabled={handleAddRefereeDisabled()}
@@ -298,10 +306,10 @@ const AddRequestComponent = () => {
                     onChange={(e) => handleRefereeEmailChange(e, index)}
                     placeholder="johndoe@gmail.com"
                     required
+                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                   />
                 </Form.Group>
 
-                {/* Reference Question dropdown */}
                 <Form.Group
                   controlId={`formQuestionFormat${index}`}
                   className="d-flex align-items-center mb-3"
@@ -310,9 +318,9 @@ const AddRequestComponent = () => {
                     Reference Question
                   </Form.Label>
 
-                  {!hasSelectedQuestionFormat ? (
+                  {!referee.hasSelectedQuestionFormat ? (
                     <Form.Select
-                      value={referee.questionFormat}
+                      value={referee?.questionFormat || ""}
                       onChange={(e) =>
                         handleRefereeQuestionFormatChange(e, index)
                       }
@@ -326,9 +334,9 @@ const AddRequestComponent = () => {
                     </Form.Select>
                   ) : (
                     <>
-                      {isCustomQuestion ? (
+                      {referee.isCustomQuestion ? (
                         <Form.Select
-                          value={referees[index]?.questionName || ""}
+                          value={referee?.questionName || ""}
                           onChange={(e) => handleQuestionFormatChange(e, index)}
                           required
                         >
@@ -352,7 +360,7 @@ const AddRequestComponent = () => {
                         </Form.Select>
                       ) : (
                         <Form.Select
-                          value={referees[index]?.questionName || ""}
+                          value={referee?.questionName || ""}
                           onChange={(e) => handleQuestionFormatChange(e, index)}
                           required
                         >
