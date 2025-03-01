@@ -51,11 +51,11 @@
   border-radius: 10px;
   font-size: 25px;
   position: relative;
-  background: #1877f2 !important;
+  background: var(--secondary-color) !important;
 }
 
 .referencecheckquestion-container button:disabled {
-  background: var(--input-bg) !important;
+  opacity: .7;
   cursor: not-allowed; 
 }
 
@@ -77,13 +77,14 @@
   background: var(--primary-color) !important;
   padding: 5px 25px;
   font-weight: 400;
+  width: 200px;
   border: none;
   color: var(--font-white);
   border-radius: 10px;
   font-size: 25px;
 }
 .transcription-answer-container button.disabled{
-  background: var(--input-bg) !important;
+  opacity: .7;
   cursor: not-allowed;
 }
 /* bg shapes */

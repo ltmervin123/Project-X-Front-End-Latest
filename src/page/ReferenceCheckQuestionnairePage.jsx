@@ -223,8 +223,7 @@ const ReferenceCheckQuestionnairePage = () => {
       updatedAnswers[currentQuestionIndex] = currentAnswer;
       return updatedAnswers;
     });
-    setCurrentAnswer("");
-    nextQuestion();
+
   };
 
   // Attach answer to referenceQuestionsData
@@ -270,10 +269,13 @@ const ReferenceCheckQuestionnairePage = () => {
   const prevQuestion = () =>
     setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
 
-  const nextQuestion = () =>
+  const nextQuestion = () =>{
+    setCurrentAnswer("");
     setCurrentQuestionIndex((prev) =>
       prev < questions.length - 1 ? prev + 1 : prev
     );
+
+  }
 
   const handleSetAnswer = (answer) => {
     setCurrentAnswer(answer);
@@ -281,7 +283,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   if (isReattemptingCamera) {
     return (
-      <div className="container-fluid main-container d-flex align-items-center justify-content-center flex-column positio-relative">
+      <div className="container-fluid d-flex align-items-center justify-content-center flex-column positio-relative">
         <div className="camera-retry-overlay">
           <img
             className="loadinganimation"

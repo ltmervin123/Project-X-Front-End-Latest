@@ -18,9 +18,7 @@
   --color-brown: #686868;
   --subcription-card-color: #f8f8f9;
 }
-body {
-  background: #EEEEED !important;
-}
+
 .bg-white-gray-gradient {
   background: rgb(255, 255, 255);
   background: linear-gradient(180deg, #ffffff 97%, #eeeeef 100%);

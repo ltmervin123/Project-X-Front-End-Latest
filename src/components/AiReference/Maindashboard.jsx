@@ -14,6 +14,10 @@ import axios from "axios";
 Chart.register(...registerables);
 
 const LogContainer = ({ logData }) => {
+  const handleToggleShowAll = (event) => {
+    event.preventDefault(); // Prevent default anchor behavior
+    setShowAll(!showAll);
+  };
   const [showAll, setShowAll] = useState(false);
   const displayedLogs = showAll ? logData : logData.slice(0, 4);
 
@@ -21,7 +25,7 @@ const LogContainer = ({ logData }) => {
     <div className="LogContainer my-4">
       <div className="d-flex justify-content-between align-items-center">
         <p className="mb-3">Recent Activities</p>
-        <a href="#" onClick={() => setShowAll(!showAll)}>
+        <a href="#" onClick={handleToggleShowAll}>
           {showAll ? "Show Less" : "View All"}
         </a>
       </div>

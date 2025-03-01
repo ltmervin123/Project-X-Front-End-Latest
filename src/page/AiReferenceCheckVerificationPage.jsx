@@ -61,14 +61,14 @@ function AiReferenceCheckVerificationPage() {
   }
 
   return (
-    <div className="container-fluid mock-background">
+    <>
       <Header />
       <AiReferenceCheckVerificationForm
         refereeName={refereeName}
         referenceId={referenceId}
         candidateName={candidateName}
       />
-    </div>
+    </>
   );
 }
 

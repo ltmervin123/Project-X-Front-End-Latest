@@ -14,8 +14,9 @@
 .mock-interview-summary {
   width: 30%;
 }
-.mock-background{
-background: var(--font-white);
+.mock-background {
+  background: var(--font-white);
+  height: 100%;
 }
 
 .MockMaindashboard-container {

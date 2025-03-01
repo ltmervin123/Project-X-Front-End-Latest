@@ -251,11 +251,11 @@ function ReviewYourReferenceCheckPage() {
 
   return (
     <div className="main-container d-flex flex-column align-items-center justify-content-center">
-      <h5 className="referencecheckquestiontitle text-left mb-2">
-        Review Your Responses
-      </h5>
       {!showSignatureSection ? (
         <Row className="ReviewYourReferenceCheck-Row">
+          <h5 className="referencecheckquestiontitle text-left mb-2">
+            Review Your Responses
+          </h5>
           <Col md={9}>
             <div className="ReviewYourReferenceCheckAnswer-left-container">
               <div className="question-indicator mb-2">
@@ -306,7 +306,7 @@ function ReviewYourReferenceCheckPage() {
                   Please choose how you'd like the answer to be presented
                 </p>
               </div>
-              <div className="buttons-container d-flex align-items-start justify-content-start flex-column gap-5">
+              <div className="buttons-container d-flex align-items-center justify-content-start flex-column gap-5">
                 <button
                   className={`d-flex align-items-center p-2 ${
                     activeAnswerType === "Original Answer" ? "active" : ""
@@ -325,6 +325,10 @@ function ReviewYourReferenceCheckPage() {
                 </button>
               </div>
               <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
+                <small>
+                  Clicking the skip button will select all answers from the
+                  original response
+                </small>
                 <button
                   onClick={() => setAnswers(answers.map((answer) => answer))}
                 >
