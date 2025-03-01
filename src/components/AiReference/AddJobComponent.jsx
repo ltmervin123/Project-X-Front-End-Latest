@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
 
-const AddJobComponent = ({ onProceed })=> {
+const AddJobComponent = ({ onProceed, refetch }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
@@ -12,7 +12,6 @@ const AddJobComponent = ({ onProceed })=> {
   const [department, setDepartment] = useState("");
   const [hiringManager, setHiringManager] = useState("");
   const [loading, setLoading] = useState(false);
-  const [jobCreated, setJobCreated] = useState(false); // New state for job creation status
   const isFormValid = jobName && vacancies && hiringManager;
 
   // Create a ref for the form
@@ -31,8 +30,7 @@ const AddJobComponent = ({ onProceed })=> {
         },
       });
       if (response.status === 201) {
-        console.log("Job added successfully:", response.data);
-        setJobCreated(true);
+        await refetch();
         onProceed();
       }
     } catch (error) {
@@ -42,22 +40,19 @@ const AddJobComponent = ({ onProceed })=> {
     }
   };
 
-  const handleProceed = () => {
-    if (isFormValid) {
-      formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
-      onProceed(); // Call onProceed to show AddRequestComponent
-    }
-  };
-
+  // const handleProceed = () => {
+  //   if (isFormValid) {
+  //     formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
+  //     onProceed(); // Call onProceed to show AddRequestComponent
+  //   }
+  // };
 
   return (
     <>
-        <div>
-          <h3 className="mb-3">Create New Job</h3>
-          <p >
-            Add a new job opening to the system. Fill out the details below.
-          </p>
-        </div>
+      <div>
+        <h3 className="mb-3">Create New Job</h3>
+        <p>Add a new job opening to the system. Fill out the details below.</p>
+      </div>
       <div className="job-container-form d-flex align-items-center justify-content-center w-100">
         <Form ref={formRef} onSubmit={handleSubmit}>
           <Form.Group
@@ -131,18 +126,17 @@ const AddJobComponent = ({ onProceed })=> {
             />
           </Form.Group>
         </Form>
-
       </div>
       <div className="d-flex justify-content-end my-3">
-          <button
-            className="btn-proceed"
-            type="button" // Change to type="button"
-            onClick={handleProceed} // Call handleProceed on click
-            disabled={loading || !isFormValid}
-          >
-            {loading ? "Creating Job..." : "Proceed"}
-          </button>
-        </div>
+        <button
+          className="btn-proceed"
+          type="button"
+          onClick={handleSubmit}
+          disabled={loading || !isFormValid}
+        >
+          {loading ? "Creating Job..." : "Proceed"}
+        </button>
+      </div>
     </>
   );
 };

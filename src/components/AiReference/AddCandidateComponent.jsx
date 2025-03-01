@@ -1,33 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
-const AddCandidateComponent = ({onProceed }) => {
+const AddCandidateComponent = ({ onProceed, refetch }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [position, setPosition] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
-  const isFormValid = name && email && position;
+
   const formRef = useRef(null); // Add this line
 
   const [positions, setPositions] = useState(() => {
     const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-    return jobs.map((job) => job.jobName);
+    const lastJob = jobs[jobs.length - 1];
+    return lastJob ? [{ name: lastJob.jobName, _id: lastJob._id }] : [];
   });
+  const [position, setPosition] = useState("");
+  const isFormValid = name && email && position;
 
-  const handlePositionChange = (e) => {
-    const value = e.target.value;
-    setPosition(value);
-    if (value === "Others") {
-      setIsOther(true);
-    } else {
-      setIsOther(false);
-    }
-  };
+  //Set the position when positions is loaded
+  useEffect(() => {
+    setPosition(positions[0]?.name);
+  }, [positions]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,9 +41,8 @@ const AddCandidateComponent = ({onProceed }) => {
       });
 
       if (response.status === 201) {
+        await refetch();
         onProceed();
-        console.log("Candidate added successfully:", response.data);
-
       }
     } catch (error) {
       console.error(error);
@@ -113,17 +110,10 @@ const AddCandidateComponent = ({onProceed }) => {
             >
               Position
             </Form.Label>
-            <Form.Select
-              value={position}
-              onChange={handlePositionChange}
-              required
-            >
-              <option value="" disabled>
-                Select a position
-              </option>
-              {positions.map((pos, index) => (
-                <option key={index} value={pos}>
-                  {pos}
+            <Form.Select value={position} disabled required>
+              {positions.map((position) => (
+                <option key={position._id} value={position.name}>
+                  {position.name}
                 </option>
               ))}
             </Form.Select>
@@ -134,12 +124,11 @@ const AddCandidateComponent = ({onProceed }) => {
       <div className="d-flex justify-content-end my-3">
         <button
           className="btn-proceed"
-          type="button" // Change this line
-          onClick={handleProceed} // Change this line
+          type="button"
+          onClick={handleProceed}
           disabled={isLoading || !isFormValid}
         >
           {isLoading ? "Adding..." : "Proceed"}{" "}
-          {/* Changed text to "Proceed" */}
         </button>
       </div>
     </>
