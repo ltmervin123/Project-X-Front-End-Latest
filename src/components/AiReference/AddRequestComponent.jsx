@@ -46,32 +46,6 @@ const AddRequestComponent = () => {
   const [isCustomQuestion, setIsCustomQuestion] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [referenceCreated, setReferenceCreated] = useState(false);
-  // useEffect(() => {
-  //   setCandidates(() => {
-  //     const candidate = JSON.parse(localStorage.getItem("candidates")) || [];
-  //     const lastCandidate = candidate[candidate.length - 1];
-  //     return lastCandidate
-  //       ? [{ name: lastCandidate.name, _id: lastCandidate._id }]
-  //       : [];
-  //   });
-  // }, []);
-
-  // const [candidates, setCandidates] = useState(() => {
-  //   const candidate = JSON.parse(localStorage.getItem("candidates")) || [];
-  //   const lastCandidate = candidate[candidate.length - 1];
-  //   return lastCandidate
-  //     ? [{ name: lastCandidate.name, _id: lastCandidate._id }]
-  //     : [];
-  // });
-
-  // Memoize positions to avoid unnecessary re-renders
-  // const positions = useMemo(() => {
-  //   const activeJobs = JSON.parse(localStorage.getItem("jobs")) || [];
-  //   return activeJobs.map((job) => ({
-  //     jobName: job.jobName,
-  //     _id: job._id,
-  //   }));
-  // }, []);
 
   const hrHatchQuestion = useMemo(() => {
     return [
@@ -117,39 +91,6 @@ const AddRequestComponent = () => {
     questionFormatType,
   ]);
 
-  // Update candidates when selectedPosition changes
-  // useEffect(() => {
-  //   if (!selectedPosition) {
-  //     setCandidates([]);
-  //     return;
-  //   }
-  //   const allCandidates = JSON.parse(localStorage.getItem("candidates")) || [];
-  //   const filteredCandidates = allCandidates
-  //     .filter((candidate) => candidate.position === selectedPosition)
-  //     .map((candidate) => candidate.name);
-
-  //   setCandidates(filteredCandidates);
-  // }, [selectedPosition]);
-
-  // const handlePositionChange = (e) => {
-  //   const jobName = e.target.value;
-  //   const selectedPosition = positions.find(
-  //     (position) => position.jobName === jobName
-  //   );
-  //   const selectedPositionId = selectedPosition._id;
-  //   setSelectedPositionId(selectedPositionId);
-  //   setSelectedPosition(jobName);
-  // };
-
-  // const handleCandidateChange = (e) => {
-  //   const candidateName = e.target.value;
-  //   const selectedCandidate = candidates.find(
-  //     (candidate) => candidate.name === candidateName
-  //   );
-  //   setSelectedCandidate(candidateName);
-  //   setSelectedCandidateId(selectedCandidate._id);
-  // };
-
   const handleQuestionFormatChange = (event) => {
     const questionName = event.target.value;
     const selectedQuestion = isCustomQuestion
@@ -174,17 +115,6 @@ const AddRequestComponent = () => {
     }
     setQuestionFormatType(format);
   };
-
-  // useEffect(() => {
-  //   const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
-  //   const filteredCandidates = candidates
-  //     .filter((candidate) => candidate.position === selectedPosition)
-  //     .map((candidate) => ({
-  //       name: candidate.name,
-  //       _id: candidate._id,
-  //     }));
-  //   setCandidates(filteredCandidates);
-  // }, [selectedPosition]);
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -272,13 +202,7 @@ const AddRequestComponent = () => {
             <Form.Label className="me-2" style={{ width: "220px" }}>
               Candidate
             </Form.Label>
-            <Form.Select
-              value={candidates.name}
-              // onChange={handleCandidateChange}
-              disabled // Disable if no position is selected
-              required
-            >
-              {/* <option value="">Select Candidate</option> */}
+            <Form.Select value={candidates.name} disabled required>
               {candidates.map((candidate) => (
                 <option key={candidate._id} value={candidate.name}>
                   {candidate.name}
@@ -321,7 +245,6 @@ const AddRequestComponent = () => {
                     {/* Display index + 1 for a 1-based index */}
                   </Form.Label>
                   <Form.Control
-                    // value={refereeName}
                     value={referee.name}
                     onChange={(e) => {
                       const newReferees = [...referees];
