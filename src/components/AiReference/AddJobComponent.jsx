@@ -23,7 +23,7 @@ const AddJobComponent = ({ onProceed, refetch }) => {
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/create-job`;
-      const payload = { jobName, vacancies, hiringManager };
+      const payload = { jobName, vacancies, hiringManager, department };
       const response = await axios.post(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
