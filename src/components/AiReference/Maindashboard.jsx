@@ -652,7 +652,7 @@ const MainDashboard = () => {
         <AddCandidateComponent
           onProceed={handleShowAddReferenceRequest}
           refetch={reFetchCandidates}
-        /> // Pass the updated function
+        />
       ) : showJobForm ? (
         <AddJobComponent
           onProceed={handleShowAddCandidate}

@@ -2,33 +2,47 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const AddRequestPopUp = ({ onClose, onAddRequest }) => {
+  //Constants
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER.token;
+
+  //States
   const [candidates, setCandidates] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState("");
   const [selectedCandidate, setSelectedCandidate] = useState("");
   const [selectedPositionId, setSelectedPositionId] = useState("");
   const [selectedCandidateId, setSelectedCandidateId] = useState("");
-  const [selectedQuestion, setSelectedQuestion] = useState("");
-  const [selectedQuestionId, setSelectedQuestionId] = useState("");
-  const [refereeName, setRefereeName] = useState("");
-  const [refereeEmail, setRefereeEmail] = useState("");
-  const [questionFormatType, setQuestionFormatType] = useState("");
-  const [isCustomQuestion, setIsCustomQuestion] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [referees, setReferees] = useState([
-    { name: "", email: "", questionFormat: "" },
+    {
+      name: "",
+      email: "",
+      questionFormat: "",
+      questionId: "",
+      questionName: "",
+      hasSelectedQuestionFormat: false,
+      isCustomQuestion: false,
+    },
   ]);
 
-  // Memoize positions to avoid unnecessary re-renders
+  //Memoized values
   const positions = useMemo(() => {
     const activeJobs = JSON.parse(localStorage.getItem("jobs")) || [];
     return activeJobs.map((job) => ({
       jobName: job.jobName,
       _id: job._id,
+    }));
+  }, []);
+
+  const customQuestion = useMemo(() => {
+    const questions = JSON.parse(localStorage.getItem("questions")) || [];
+    return questions.map((question) => ({
+      name: question.name,
+      _id: question._id,
     }));
   }, []);
 
@@ -52,15 +66,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     ];
   }, []);
 
-  const customQuestion = useMemo(() => {
-    const questions = JSON.parse(localStorage.getItem("questions")) || [];
-    return questions.map((question) => ({
-      name: question.name,
-      _id: question._id,
-    }));
-  }, []);
-
-  // Update candidates when selectedPosition changes
+  //Effects
   useEffect(() => {
     if (!selectedPosition) {
       setCandidates([]);
@@ -74,13 +80,65 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     setCandidates(filteredCandidates);
   }, [selectedPosition]);
 
-  const isFormValid =
-    selectedCandidate &&
-    refereeName &&
-    refereeEmail &&
-    selectedPosition &&
-    questionFormatType;
+  const validateReferees = useMemo(() => {
+    return referees.every(
+      (referee) =>
+        referee.name &&
+        referee.email &&
+        referee.questionFormat &&
+        referee.questionId &&
+        referee.questionName
+    );
+  }, [referees]);
 
+  //Utils
+  const isFormValid = useMemo(() => {
+    return selectedCandidate && validateReferees && selectedPosition;
+  }, [selectedCandidate, selectedPosition, validateReferees]);
+
+  useEffect(() => {
+    const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
+    const filteredCandidates = candidates
+      .filter((candidate) => candidate.position === selectedPosition)
+      .map((candidate) => ({
+        name: candidate.name,
+        _id: candidate._id,
+      }));
+    setCandidates(filteredCandidates);
+  }, [selectedPosition]);
+
+  //Functions
+  const createReferenceRequest = async () => {
+    try {
+      setIsLoading(true);
+      const URL = `${API}/api/ai-referee/company-request-reference/create-reference-request`;
+      const payload = {
+        positionId: selectedPositionId,
+        positionName: selectedPosition,
+        candidateId: selectedCandidateId,
+        candidateName: selectedCandidate,
+        referees,
+      };
+
+      const response = await axios.post(URL, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 201) {
+        onAddRequest();
+        navigate("/AiReferenceRequestEmailSent");
+        onClose();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //Handlers
   const handlePositionChange = (e) => {
     const jobName = e.target.value;
     const selectedPosition = positions.find(
@@ -100,79 +158,85 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     setSelectedCandidateId(selectedCandidate._id);
   };
 
-  const handleQuestionFormatChange = (event) => {
-    const questionName = event.target.value;
-    const selectedQuestion = isCustomQuestion
-      ? customQuestion.find((question) => question.name === questionName)
-      : hrHatchQuestion.find((question) => question.name === questionName);
-    setSelectedQuestionId(selectedQuestion._id);
-    setSelectedQuestion(questionName);
+  const handleQuestionFormatChange = (event, index) => {
+    const question = event.target.value;
+
+    if (event.target.value === "change-format") {
+      setReferees((prevReferees) => {
+        const newReferees = [...prevReferees];
+        newReferees[index] = {
+          ...newReferees[index],
+          questionFormat: "",
+          questionName: "",
+          questionId: "",
+          hasSelectedQuestionFormat: false,
+        };
+        return newReferees;
+      });
+
+      return;
+    }
+
+    const selectedQuestion = referees[index].isCustomQuestion
+      ? customQuestion.find((q) => q.name === question)
+      : hrHatchQuestion.find((q) => q.name === question);
+
+    setReferees((prevReferees) => {
+      const newReferees = [...prevReferees];
+      newReferees[index] = {
+        ...newReferees[index],
+        questionName: selectedQuestion.name,
+        questionId: selectedQuestion._id,
+      };
+      return newReferees;
+    });
   };
 
-  const handleSelectFormatTypeChanges = (event) => {
-    const format = event.target.value;
+  const handleSelectFormatTypeChanges = (format) => {
     switch (format) {
       case "HR-HATCH-FORMAT":
-        setIsCustomQuestion(false);
-        break;
+        return false;
       case "CUSTOM_FORMAT":
-        setIsCustomQuestion(true);
-        break;
+        return true;
       default:
-        setIsCustomQuestion(false);
-        break;
+        return false;
     }
-    setQuestionFormatType(format);
   };
 
-  useEffect(() => {
-    const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
-    const filteredCandidates = candidates
-      .filter((candidate) => candidate.position === selectedPosition)
-      .map((candidate) => ({
-        name: candidate.name,
-        _id: candidate._id,
-      }));
-    setCandidates(filteredCandidates);
-  }, [selectedPosition]);
+  const handleRefereeQuestionFormatChange = (event, index) => {
+    const format = event.target.value;
+    const newReferees = [...referees];
+    newReferees[index].questionFormat = format;
+    newReferees[index].hasSelectedQuestionFormat = true;
+    newReferees[index].isCustomQuestion = handleSelectFormatTypeChanges(format);
+    setReferees(newReferees);
+  };
 
-  //To Do
   const handleSubmit = async (e) => {
     e.preventDefault();
     await createReferenceRequest();
   };
 
-  const createReferenceRequest = async () => {
-    try {
-      setIsLoading(true);
-      const URL = `${API}/api/ai-referee/company-request-reference/create-reference-request`;
-      const payload = {
-        positionId: selectedPositionId,
-        positionName: selectedPosition,
-        candidateId: selectedCandidateId,
-        candidateName: selectedCandidate,
-        refereeName,
-        refereeEmail,
-        questionId: selectedQuestionId,
-        formatType: questionFormatType,
-      };
+  const handleAddRefereeDisabled = () => {
+    return referees.length >= 3;
+  };
 
-      const response = await axios.post(URL, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 201) {
-        onAddRequest();
-        navigate("/AiReferenceRequestEmailSent", { state: { refereeEmail } });
-        onClose();
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+  const handleAddReferee = () => {
+    if (referees.length < 3) {
+      setReferees([...referees, { name: "", email: "", questionFormat: "" }]);
     }
+  };
+
+  const handleRefereeNameChange = (event, index) => {
+    const newReferees = [...referees];
+    newReferees[index].name = event.target.value;
+    setReferees(newReferees);
+  };
+
+  const handleRefereeEmailChange = (event, index) => {
+    const newReferees = [...referees];
+    newReferees[index].email = event.target.value;
+    setReferees(newReferees);
   };
 
   return (
@@ -199,7 +263,6 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
           </Button>
         </div>
         <Form onSubmit={handleSubmit}>
-          {/* Position input */}
           <Form.Group
             controlId="formPosition"
             className="d-flex align-items-center mb-3"
@@ -223,7 +286,6 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             </Form.Select>
           </Form.Group>
 
-          {/* Candidate Name input */}
           <Form.Group
             controlId="formCandidateName"
             className="d-flex align-items-center mb-3"
@@ -234,7 +296,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             <Form.Select
               value={selectedCandidate}
               onChange={handleCandidateChange}
-              disabled={!selectedPosition} // Disable if no position is selected
+              disabled={!selectedPosition}
               required
             >
               <option value="">Select Candidate</option>
@@ -259,18 +321,12 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
               Referees
             </p>
             <button
+              type="button"
               className={`add-referee ${
-                referees.length >= 3 ? "disabled" : ""
+                handleAddRefereeDisabled() ? "disabled" : ""
               }`}
-              onClick={() => {
-                if (referees.length < 3) {
-                  setReferees([
-                    ...referees,
-                    { name: "", email: "", questionFormat: "" },
-                  ]);
-                }
-              }}
-              disabled={referees.length >= 3}
+              onClick={handleAddReferee}
+              disabled={handleAddRefereeDisabled()}
             >
               Add Referee
             </button>
@@ -278,29 +334,21 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
           <div className="referees-list-container">
             {referees.map((referee, index) => (
               <div key={index}>
-                {/* Referee's Name input */}
                 <Form.Group
                   controlId={`formRefereeName${index}`}
                   className="d-flex align-items-center mb-3"
                 >
                   <Form.Label className="me-2" style={{ width: "220px" }}>
                     Referee Name {index + 1}{" "}
-                    {/* Display index + 1 for a 1-based index */}
                   </Form.Label>
                   <Form.Control
-                    // value={refereeName}
                     value={referee.name}
-                    onChange={(e) => {
-                      const newReferees = [...referees];
-                      newReferees[index].name = e.target.value;
-                      setReferees(newReferees);
-                    }}
+                    onChange={(e) => handleRefereeNameChange(e, index)}
                     placeholder="Enter Referee Name"
                     required
                   />
                 </Form.Group>
 
-                {/* Referee's Email input */}
                 <Form.Group
                   controlId={`formRefereeEmail${index}`}
                   className="d-flex align-items-center mb-3"
@@ -310,19 +358,13 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
                   </Form.Label>
                   <Form.Control
                     type="email"
-                    // value={refereeEmail}
                     value={referee.email}
-                    onChange={(e) => {
-                      const newReferees = [...referees];
-                      newReferees[index].email = e.target.value;
-                      setReferees(newReferees);
-                    }}
+                    onChange={(e) => handleRefereeEmailChange(e, index)}
                     placeholder="johndoe@gmail.com"
                     required
                   />
                 </Form.Group>
 
-                {/* Reference Question dropdown */}
                 <Form.Group
                   controlId={`formQuestionFormat${index}`}
                   className="d-flex align-items-center mb-3"
@@ -331,15 +373,12 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
                     Reference Question
                   </Form.Label>
 
-                  {!questionFormatType ? (
+                  {!referee.hasSelectedQuestionFormat ? (
                     <Form.Select
-                      // value={questionFormatType}
-                      value={referee.questionFormat}
-                      onChange={(e) => {
-                        const newReferees = [...referees];
-                        newReferees[index].questionFormat = e.target.value;
-                        setReferees(newReferees);
-                      }}
+                      value={referee?.questionFormat || ""}
+                      onChange={(e) =>
+                        handleRefereeQuestionFormatChange(e, index)
+                      }
                       required
                     >
                       <option value="" disabled>
@@ -350,14 +389,17 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
                     </Form.Select>
                   ) : (
                     <>
-                      {isCustomQuestion ? (
+                      {referee.isCustomQuestion ? (
                         <Form.Select
-                          value={selectedQuestion}
-                          onChange={handleQuestionFormatChange}
+                          value={referee?.questionName || ""}
+                          onChange={(e) => handleQuestionFormatChange(e, index)}
                           required
                         >
                           <option value="" disabled>
                             Choose Custom Question
+                          </option>
+                          <option value="change-format">
+                            Change Question Format
                           </option>
                           {customQuestion && customQuestion.length > 0 ? (
                             customQuestion.map((question) => (
@@ -373,12 +415,15 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
                         </Form.Select>
                       ) : (
                         <Form.Select
-                          value={selectedQuestion}
-                          onChange={handleQuestionFormatChange}
+                          value={referee?.questionName || ""}
+                          onChange={(e) => handleQuestionFormatChange(e, index)}
                           required
                         >
                           <option value="" disabled>
                             Choose HR-HATCH Question
+                          </option>
+                          <option value="change-format">
+                            Change Question Format
                           </option>
                           {hrHatchQuestion.map((question) => (
                             <option key={question._id} value={question.name}>
@@ -398,8 +443,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
             <button
               className="btn-add-candidate"
               type="submit"
-              // disabled={isLoading}
-              disabled={!isFormValid} // Disable if the form is not valid
+              disabled={!isFormValid || isLoading}
             >
               {isLoading ? "Sending..." : "Send Request"}
             </button>
