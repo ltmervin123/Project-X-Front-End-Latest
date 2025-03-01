@@ -1,7 +1,14 @@
 import React from "react";
 import "../../styles/ReferenceCheckQuestionnairePage.css";
 
-const TextBase = ({ setAnswer, handleSubmit, answer, loading, isSpeaking }) => {
+const TextBase = ({
+  setAnswer,
+  handleSubmit,
+  answer,
+  loading,
+  isSpeaking,
+  isSubmitted,
+}) => {
   //Handle text base answer change
   const handleInputedTextChange = (event) => {
     setAnswer(event.target.value);
@@ -12,7 +19,7 @@ const TextBase = ({ setAnswer, handleSubmit, answer, loading, isSpeaking }) => {
       <h4>Answer:</h4>
       <textarea
         value={answer}
-        disabled={loading}
+        disabled={loading || isSubmitted} // Update this line
         onChange={handleInputedTextChange}
         rows="4"
         placeholder={"Type your answer..."}
@@ -20,8 +27,10 @@ const TextBase = ({ setAnswer, handleSubmit, answer, loading, isSpeaking }) => {
       <div className="d-flex justify-content-center">
         <button
           onClick={handleSubmit}
-          disabled={!answer || loading || isSpeaking}
-          className={!answer || loading ? "disabled" : ""}
+          disabled={!answer || loading || isSpeaking || isSubmitted} // Add isSubmitted here
+          className={
+            !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
+          } // Update className condition
         >
           {loading ? "Submitting..." : "Submit"}
         </button>

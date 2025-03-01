@@ -48,20 +48,21 @@
   font-weight: 400;
   border: none;
   color: var(--font-white);
-  border-radius: 10px;
+  border-radius: 50px;
   font-size: 25px;
   position: relative;
   background: var(--secondary-color) !important;
 }
 
 .referencecheckquestion-container button:disabled {
-  opacity: .7;
-  cursor: not-allowed; 
+  background: var(--input-bg) !important;
+
+  cursor: not-allowed;
 }
 
-.referencecheckquestion-container button > svg{
-    position: relative !important;
-    right: -40px !important;
+.referencecheckquestion-container button > svg {
+  position: relative !important;
+  right: -40px !important;
 }
 
 .transcription-answer-container textarea {
@@ -80,11 +81,12 @@
   width: 200px;
   border: none;
   color: var(--font-white);
-  border-radius: 10px;
+  border-radius: 50px;
   font-size: 25px;
 }
-.transcription-answer-container button.disabled{
-  opacity: .7;
+.transcription-answer-container button.disabled {
+  background: var(--input-bg) !important;
+
   cursor: not-allowed;
 }
 /* bg shapes */
@@ -125,16 +127,22 @@
   width: 5px; /* Scrollbar width */
 }
 
-.referencecheckquestion-container .question-container > p::-webkit-scrollbar-thumb {
+.referencecheckquestion-container
+  .question-container
+  > p::-webkit-scrollbar-thumb {
   background-color: var(--primary-color); /* Scrollbar thumb color */
   border-radius: 6px; /* Rounded corners */
 }
 
-.referencecheckquestion-container .question-container > p::-webkit-scrollbar-thumb:hover {
+.referencecheckquestion-container
+  .question-container
+  > p::-webkit-scrollbar-thumb:hover {
   background-color: var(--primary-color); /* Scrollbar thumb color */
 }
 
-.referencecheckquestion-container .question-container > p::-webkit-scrollbar-track {
+.referencecheckquestion-container
+  .question-container
+  > p::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }

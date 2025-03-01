@@ -29,6 +29,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [micError, setMicError] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false); // Add this line
 
   //Refs
   const audioRef = useRef(null);
@@ -215,15 +216,16 @@ const ReferenceCheckQuestionnairePage = () => {
     }
   };
 
-  // Handle answer submission
   const handleSubmit = async () => {
+    setIsSubmitted(true); // Add this line to set submitted state
     await attachAnswer();
     setAnswered((prev) => {
       const updatedAnswers = [...prev];
       updatedAnswers[currentQuestionIndex] = currentAnswer;
       return updatedAnswers;
     });
-
+    // Optionally, you can reset the current answer if needed
+    // setCurrentAnswer(""); // Uncomment if you want to clear the answer after submission
   };
 
   // Attach answer to referenceQuestionsData
@@ -269,13 +271,13 @@ const ReferenceCheckQuestionnairePage = () => {
   const prevQuestion = () =>
     setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
 
-  const nextQuestion = () =>{
-    setCurrentAnswer("");
+  const nextQuestion = () => {
+    setCurrentAnswer(""); // Reset the current answer
+    setIsSubmitted(false); // Reset the submitted state
     setCurrentQuestionIndex((prev) =>
       prev < questions.length - 1 ? prev + 1 : prev
     );
-
-  }
+  };
 
   const handleSetAnswer = (answer) => {
     setCurrentAnswer(answer);
@@ -322,10 +324,18 @@ const ReferenceCheckQuestionnairePage = () => {
             className={!answered[currentQuestionIndex] ? "disabled" : ""}
           >
             Next
-            <svg width="27" height="16" viewBox="0 0 27 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M26.7071 8.70711C27.0976 8.31658 27.0976 7.68342 26.7071 7.29289L20.3431 0.928932C19.9526 0.538408 19.3195 0.538408 18.9289 0.928932C18.5384 1.31946 18.5384 1.95262 18.9289 2.34315L24.5858 8L18.9289 13.6569C18.5384 14.0474 18.5384 14.6805 18.9289 15.0711C19.3195 15.4616 19.9526 15.4616 20.3431 15.0711L26.7071 8.70711ZM6.6645e-10 9L26 9L26 7L-6.6645e-10 7L6.6645e-10 9Z" fill="white"/>
-</svg>
-
+            <svg
+              width="27"
+              height="16"
+              viewBox="0 0 27 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M26.7071 8.70711C27.0976 8.31658 27.0976 7.68342 26.7071 7.29289L20.3431 0.928932C19.9526 0.538408 19.3195 0.538408 18.9289 0.928932C18.5384 1.31946 18.5384 1.95262 18.9289 2.34315L24.5858 8L18.9289 13.6569C18.5384 14.0474 18.5384 14.6805 18.9289 15.0711C19.3195 15.4616 19.9526 15.4616 20.3431 15.0711L26.7071 8.70711ZM6.6645e-10 9L26 9L26 7L-6.6645e-10 7L6.6645e-10 9Z"
+                fill="white"
+              />
+            </svg>
           </button>{" "}
         </div>
       </div>
@@ -338,6 +348,7 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             loading={loading}
             isSpeaking={isSpeaking}
+            isSubmitted={isSubmitted} // Add this line
           />
         ) : (
           <TextBase
@@ -346,6 +357,7 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             loading={loading}
             isSpeaking={isSpeaking}
+            isSubmitted={isSubmitted} // Add this line
           />
         )}
       </>

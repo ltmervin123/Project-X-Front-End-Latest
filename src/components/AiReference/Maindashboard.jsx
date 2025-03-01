@@ -602,7 +602,7 @@ const MainDashboard = () => {
     if (!abortController.signal.aborted) {
       timeoutRef.current = setTimeout(
         () => refetchAllData(timeoutRef, abortController),
-        20000
+        30000
       );
     }
   }
@@ -639,11 +639,11 @@ const MainDashboard = () => {
         "Are you sure you want to go back? Your progress will be lost."
       );
       if (!userConfirmed) {
-        window.history.pushState(null, "", window.location.pathname); // Prevent going back
+        window.history.pushState(null, "", window.location.pathname);
       }
     };
 
-    window.history.pushState(null, "", window.location.pathname); // Push state to prevent immediate back
+    window.history.pushState(null, "", window.location.pathname);
     window.addEventListener("popstate", handleBackButton);
 
     return () => {
@@ -698,15 +698,14 @@ const MainDashboard = () => {
               {cardData.map((card, index) => (
                 <Col key={index} md={3}>
                   <div className="AiReferenceCard">
-                    {/* Title and Count */}
                     <div className="h-100">
                       <p className="d-flex title">
                         <div
                           style={{
                             width: "20px",
                             height: "20px",
-                            backgroundColor: card.color, // Dynamic color from card data
-                            marginRight: "10px", // Space between box and title
+                            backgroundColor: card.color,
+                            marginRight: "10px",
                           }}
                         ></div>
                         {card.title}
@@ -743,6 +742,7 @@ const MainDashboard = () => {
           <LogContainer logData={logData} />
         </>
       )}
+      {/* <AddRequestComponent /> */}
     </div>
   );
 };

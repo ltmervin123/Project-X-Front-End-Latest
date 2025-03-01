@@ -30,6 +30,90 @@ function ReviewYourReferenceCheckPage() {
   const [selectedAnswerType, setSelectedAnswerType] = useState(null);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
+  const [submittedAnswers, setSubmittedAnswers] = useState([]);
+  const [isLastAnswerSaved, setIsLastAnswerSaved] = useState(false);
+  const [logs, setLogs] = useState([]);
+
+  const handleSkip = () => {
+    // Set the active answer type to "Original Answer"
+    const currentQuestion = currentQuestionIndex + 1; // Questions are 1-indexed
+    const currentAnswer = answers[currentQuestionIndex]; // Get the current answer
+    const newAnswer = {
+      questionNumber: currentQuestionIndex + 1, // Questions are 1-indexed
+      answerType: "Original Answer", // Set to Original Answer
+      answer: currentAnswer, // Use the current answer
+    };
+
+    // Update logs state instead of console logging
+    setLogs((prevLogs) => [
+      ...prevLogs,
+      `Saving answer for Question ${currentQuestionIndex + 1}: ${JSON.stringify(
+        newAnswer
+      )}`,
+    ]);
+
+    setSubmittedAnswers((prev) => [...prev, newAnswer]);
+
+    // Move to the next question
+    if (currentQuestionIndex < answers.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      setIsLastAnswerSaved(true); // Mark the last answer as saved
+            // Log all collected logs to the console
+            console.log("All logs:", [
+              ...logs,
+              `Final log for Question ${currentQuestion}: ${JSON.stringify(
+                newAnswer
+              )}`,
+            ]);
+          
+    }
+
+    // Reset active answer type and disable submit button
+    setActiveAnswerType(null); // Reset active answer type
+    setIsSubmitEnabled(false); // Disable the submit button
+  };
+
+  const saveAnswer = () => {
+    const currentQuestion = currentQuestionIndex + 1; // Questions are 1-indexed
+    const answerType = activeAnswerType;
+    const answer = answers[currentQuestionIndex];
+
+    const newAnswer = {
+      questionNumber: currentQuestion,
+      answerType,
+      answer,
+    };
+
+    // Update logs state instead of console logging
+    setLogs((prevLogs) => [
+      ...prevLogs,
+      `Saving answer for Question ${currentQuestion}: ${JSON.stringify(
+        newAnswer
+      )}`,
+    ]);
+
+    setSubmittedAnswers((prev) => [...prev, newAnswer]);
+
+    // Check if this is the last question
+    if (currentQuestionIndex === answers.length - 1) {
+      setIsLastAnswerSaved(true); // Mark the last answer as saved
+      // Log all collected logs to the console
+      console.log("All logs:", [
+        ...logs,
+        `Final log for Question ${currentQuestion}: ${JSON.stringify(
+          newAnswer
+        )}`,
+      ]);
+    } else {
+      // Move to the next question
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+
+    // Reset active answer type and disable submit button
+    setActiveAnswerType(null); // Reset active answer type
+    setIsSubmitEnabled(false); // Disable the submit button
+  };
 
   useEffect(() => {
     if (referenceQuestionsData.length > 0) {
@@ -212,10 +296,6 @@ function ReviewYourReferenceCheckPage() {
       });
 
       if (response.status === 201) {
-        // Log the selected answer type and the current answer
-        console.log(`Selected Answer Type: ${selectedAnswerType}`);
-        console.log(`Answer: ${answers[currentQuestionIndex]}`);
-
         // Move to the next answer
         if (currentQuestionIndex < answers.length - 1) {
           setCurrentQuestionIndex((prev) => prev + 1);
@@ -330,19 +410,34 @@ function ReviewYourReferenceCheckPage() {
                   original response
                 </small>
                 <button
-                  onClick={() => setAnswers(answers.map((answer) => answer))}
+                  onClick={() => {
+                    handleSkip(); // Move to the next question
+                  }}
                 >
                   Skip
                 </button>
-                <button
-                  className="btn-proceed-submit"
-                  onClick={submitReferenceCheck}
-                  disabled={!isSubmitEnabled}
-                >
-                  {currentQuestionIndex === answers.length - 1
-                    ? "Proceed"
-                    : "Submit"}
-                </button>
+
+                {isLastAnswerSaved ? (
+                  <button
+                    className="btn-proceed-submit"
+                    onClick={() => {
+                      handleProceed(); // Move to the next question
+                    }}
+                  >
+                    Proceed
+                  </button>
+                ) : (
+                  <button
+                    className="btn-proceed-submit"
+                    onClick={() => {
+                      saveAnswer(); // Save the current answer before submitting
+                      // submitReferenceCheck(); // Call the submit function
+                    }}
+                    disabled={!isSubmitEnabled} // This will disable the button after submission
+                  >
+                    Submit
+                  </button>
+                )}
               </div>
             </div>
           </Col>

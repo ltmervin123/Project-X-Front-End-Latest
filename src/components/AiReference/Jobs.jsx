@@ -150,7 +150,7 @@ const Jobs = () => {
                   <tr key={job._id}>
                     <td>{job.jobName}</td>
                     <td>{job.vacancies}</td>
-                    <td>{job.department}</td>
+                    <td>{job.department || "Department not specified"}</td>
                     <td>{job.hiringManager}</td>
                     <td>{formatDate(job.createdAt)}</td>
                   </tr>

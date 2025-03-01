@@ -1,6 +1,27 @@
 import React from 'react';
 
-const QuestionDisplay = ({ currentQuestionIndex, questions, answers, showBothAnswers, setShowBothAnswers, isEditing, editedAnswer, setEditedAnswer, setAnswers, setIsEditing }) => {
+const QuestionDisplay = ({
+  currentQuestionIndex,
+  questions,
+  answers,
+  showBothAnswers,
+  setShowBothAnswers,
+  isEditing,
+  editedAnswer,
+  setEditedAnswer,
+  setAnswers,
+  setIsEditing
+}) => {
+  const handleSave = () => {
+    setAnswers((prevAnswers) => {
+      const newAnswers = [...prevAnswers];
+      newAnswers[currentQuestionIndex] = editedAnswer; // Save the edited answer
+      return newAnswers;
+    });
+    setEditedAnswer(''); // Clear the edited answer after saving
+    setIsEditing(false); // Exit editing mode
+  };
+
   return (
     <div className="ReviewYourReferenceCheck-box-item h-100">
       <div className="question-container m-0">
@@ -48,14 +69,7 @@ const QuestionDisplay = ({ currentQuestionIndex, questions, answers, showBothAns
           </div>
           <div className="edit-save-button-container">
             {isEditing ? (
-              <button onClick={() => {
-                setAnswers((prevAnswers) => {
-                  const newAnswers = [...prevAnswers];
-                  newAnswers[currentQuestionIndex] = editedAnswer; // Save the edited answer
-                  return newAnswers;
-                });
-                setEditedAnswer(''); // Clear the edited answer after saving
-              }}>Save</button>
+              <button onClick={handleSave}>Save</button>
             ) : (
               <button onClick={() => {
                 setEditedAnswer(answers[currentQuestionIndex]); // Set the edited answer to the current answer
