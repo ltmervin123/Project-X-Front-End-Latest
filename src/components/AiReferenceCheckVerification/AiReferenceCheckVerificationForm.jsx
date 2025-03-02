@@ -8,6 +8,7 @@ const AiReferenceCheckVerificationForm = ({
   refereeName,
   referenceId,
   candidateName,
+  refereeId,
 }) => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
@@ -54,8 +55,8 @@ const AiReferenceCheckVerificationForm = ({
     // Remove the `otherRelationship` property
     delete updatedFormData.otherRelationship;
 
-    // Save the updated formData to localStorage
-    localStorage.setItem("refereeData", JSON.stringify(updatedFormData));
+    // Save the updated formData to session storage
+    sessionStorage.setItem("refereeData", JSON.stringify(updatedFormData));
   };
 
   const handleSubmit = async (e) => {
@@ -102,10 +103,10 @@ const AiReferenceCheckVerificationForm = ({
 
   const getReferenceQuestions = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       setProcessing(true);
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}`;
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}/${refereeId}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
