@@ -107,7 +107,12 @@ const AddRequestComponent = () => {
         positionName,
         candidateId,
         candidateName,
-        referees,
+        referees: referees.map((referee) => ({
+          name: referee.name,
+          email: referee.email,
+          questionId: referee.questionId,
+          questionFormat: referee.questionFormat,
+        })),
       };
 
       const response = await axios.post(URL, payload, {
@@ -210,11 +215,14 @@ const AddRequestComponent = () => {
       setReferees([...referees, { name: "", email: "", questionFormat: "" }]);
     }
   };
-  
-const handleDeleteReferee = (index) => {
-  const newReferees = referees.filter((_, i) => i !== index);
-  setReferees(newReferees);
-};
+
+  const handleDeleteReferee = (index) => {
+    setReferees((prevReferees) => {
+      const newReferees = [...prevReferees];
+      newReferees.splice(index, 1);
+      return newReferees;
+    });
+  };
 
   const handleAddRefereeDisabled = () => {
     return referees.length >= 3;
