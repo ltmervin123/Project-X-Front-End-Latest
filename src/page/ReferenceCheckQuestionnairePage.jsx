@@ -112,6 +112,13 @@ const ReferenceCheckQuestionnairePage = () => {
     }
   };
 
+  const initializeQuestions = () => {
+    const formattedQuestions = getQuestions();
+    setQuestions(formattedQuestions);
+    setAnswered(Array(formattedQuestions.length).fill(""));
+    setReferenceQuestionsData(formatReferenceQuestions());
+  };
+
   //Audio clean up
   useEffect(() => {
     return () => {
@@ -173,18 +180,24 @@ const ReferenceCheckQuestionnairePage = () => {
   }, []);
 
   // Load questions on mount
-  useEffect(() => {
-    const formattedQuestions = getQuestions();
-    setQuestions(formattedQuestions);
-    setAnswered(Array(formattedQuestions.length).fill(""));
-    setReferenceQuestionsData(formatReferenceQuestions());
-  }, []);
+  // useEffect(() => {
+  //   const formattedQuestions = getQuestions();
+  //   setQuestions(formattedQuestions);
+  //   setAnswered(Array(formattedQuestions.length).fill(""));
+  //   setReferenceQuestionsData(formatReferenceQuestions());
+  // }, []);
 
+  // Initialize microphone permission when voice-based method is selected
   useEffect(() => {
     const initializeMicPermissionWhenRender = async () => {
+      // Check if selected method is voice-based and initialize microphone permission and questions
       if (selectedMethod === "VOICE_BASE") {
         await initializeMicPermission();
+        initializeQuestions();
+        return;
       }
+      // Initialize questions when method is not voice-based
+      initializeQuestions();
     };
 
     initializeMicPermissionWhenRender();
