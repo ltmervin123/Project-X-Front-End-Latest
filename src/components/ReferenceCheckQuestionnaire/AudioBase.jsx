@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../../styles/ReferenceCheckQuestionnairePage.css";
 import { useNavigate } from "react-router-dom";
 import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
-
 import {
   socket,
   connectSocket,
@@ -15,6 +14,7 @@ const AudioBase = ({
   answer,
   loading,
   isSpeaking,
+  isSubmitted,
 }) => {
   // States
   const [isRecording, setIsRecording] = useState(false);

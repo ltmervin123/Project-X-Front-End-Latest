@@ -128,7 +128,7 @@ const ReferenceCheckQuestionnairePage = () => {
       currentQuestionIndex === questions.length - 1 &&
       answered[currentQuestionIndex]
     ) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         "referenceQuestionsData",
         JSON.stringify(referenceQuestionsData)
       );
@@ -223,8 +223,6 @@ const ReferenceCheckQuestionnairePage = () => {
       updatedAnswers[currentQuestionIndex] = currentAnswer;
       return updatedAnswers;
     });
-    // Optionally, you can reset the current answer if needed
-    // setCurrentAnswer(""); // Uncomment if you want to clear the answer after submission
   };
 
   // Attach answer to referenceQuestionsData
@@ -249,7 +247,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const handleNormalizedAnswers = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const response = await axios.post(
         `${API}/api/ai-referee/reference/normalized-answer`,
         { answer: currentAnswer },
@@ -271,8 +269,8 @@ const ReferenceCheckQuestionnairePage = () => {
     setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
 
   const nextQuestion = () => {
-    setCurrentAnswer(""); // Reset the current answer
-    setIsSubmitted(false); // Reset the submitted state
+    setCurrentAnswer("");
+    setIsSubmitted(false);
     setCurrentQuestionIndex((prev) =>
       prev < questions.length - 1 ? prev + 1 : prev
     );
@@ -319,7 +317,7 @@ const ReferenceCheckQuestionnairePage = () => {
         <div className="d-flex justify-content-end">
           <button
             onClick={nextQuestion}
-            disabled={!answered[currentQuestionIndex]} // Disable if no answer is provided
+            disabled={!answered[currentQuestionIndex] || isSpeaking}
             className={!answered[currentQuestionIndex] ? "disabled" : ""}
           >
             Next
