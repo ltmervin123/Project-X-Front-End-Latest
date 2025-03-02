@@ -73,7 +73,7 @@ const AudioBase = ({
       // Listen for transcription events
       socket.on("real-time-transcription", (data) => {
         if (data.isFinal) {
-          setAnswer((prevTanscription) => `${prevTanscription} ${data.text}`);
+          setAnswer((prevTranscription) => `${prevTranscription} ${data.text}`);
         }
       });
 

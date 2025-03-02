@@ -5,7 +5,6 @@ import ErrorAccessCam from "../components/Error/ErrorAccessCam";
 import TextBase from "../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../components/ReferenceCheckQuestionnaire/AudioBase";
 import loadingAnimation from "../assets/loading.gif";
-
 import axios from "axios";
 const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -14,10 +13,10 @@ const ReferenceCheckQuestionnairePage = () => {
   const selectedMethod = location.state?.selectedMethod;
 
   // Retrieve stored data
-  const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
+  const REFEREE = JSON.parse(sessionStorage.getItem("refereeData")) || {};
   const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
-    JSON.parse(localStorage.getItem("referenceQuestions")) || {};
+    JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
 
   // States
   const [questions, setQuestions] = useState([]); //State the hold answers in array form
@@ -70,7 +69,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   const speak = async (text) => {
     setIsSpeaking(true);
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const voice = "stella";
     try {
       const voiceType = voice.toLowerCase();

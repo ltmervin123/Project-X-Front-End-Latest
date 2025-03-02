@@ -114,7 +114,7 @@ const AiReferenceCheckVerificationForm = ({
       });
 
       if (response.status === 200) {
-        localStorage.setItem(
+        sessionStorage.setItem(
           "referenceQuestions",
           JSON.stringify(response.data)
         );
