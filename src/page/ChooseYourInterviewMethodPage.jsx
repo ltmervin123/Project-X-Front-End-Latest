@@ -3,15 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "../styles/ChooseYourInterviewMethodPage.css";
 
 function ChooseYourInterviewMethodPage() {
-  const [selectedMethod, setSelectedMethod] = useState("");
   const navigate = useNavigate();
 
   // Handle the method selection and navigate to next page
   const handleSelection = (method) => {
-    setSelectedMethod(method);
-    navigate("/reference-instructions", {
-      state: { selectedMethod: method }, // Pass selectedMethod with the correct key
-    });
+    JSON.stringify(sessionStorage.setItem("interview-method", method));
+    navigate("/reference-instructions");
   };
 
   return (
@@ -20,7 +17,9 @@ function ChooseYourInterviewMethodPage() {
         <h3>
           Choose Your <span className="color-orange">Interview Method</span>
         </h3>
-        <p>Select the type of response you'd like for the interview questions.</p>
+        <p>
+          Select the type of response you'd like for the interview questions.
+        </p>
 
         {/* Cards Container */}
         <div className="row d-flex justify-content-center align-items-center">
