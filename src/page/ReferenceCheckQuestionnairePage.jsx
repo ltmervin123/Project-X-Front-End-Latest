@@ -186,7 +186,6 @@ const ReferenceCheckQuestionnairePage = () => {
       // Check if selected method is voice-based and initialize microphone permission and questions
       if (selectedMethod === "VOICE_BASE") {
         await initializeMicPermission();
-        initializeQuestions();
         return;
       }
       // Initialize questions when method is not voice-based
@@ -215,6 +214,9 @@ const ReferenceCheckQuestionnairePage = () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
+
+      // Initialize questions after user allow microphone access
+      initializeQuestions();
     } catch (error) {
       setMicError(true);
     } finally {
