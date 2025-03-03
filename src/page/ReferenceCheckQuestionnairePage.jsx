@@ -6,6 +6,7 @@ import TextBase from "../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../components/ReferenceCheckQuestionnaire/AudioBase";
 import loadingAnimation from "../assets/loading.gif";
 import axios from "axios";
+
 const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
@@ -69,7 +70,6 @@ const ReferenceCheckQuestionnairePage = () => {
   };
 
   const speak = async (text) => {
-    setIsSpeaking(true);
     const token = sessionStorage.getItem("token");
     const voice = "stella";
     try {
@@ -108,8 +108,6 @@ const ReferenceCheckQuestionnairePage = () => {
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
-    } finally {
-      setIsSpeaking(false);
     }
   };
 
@@ -120,6 +118,10 @@ const ReferenceCheckQuestionnairePage = () => {
     setReferenceQuestionsData(formatReferenceQuestions());
   };
 
+  useEffect(() => {
+    console.log("isSpeaking", isSpeaking);
+  }, [isSpeaking]);
+
   //Audio clean up
   useEffect(() => {
     return () => {
@@ -128,7 +130,7 @@ const ReferenceCheckQuestionnairePage = () => {
         audioRef.current.currentTime = 0;
       }
     };
-  }, [questions, currentQuestionIndex]);
+  }, []);
 
   // Navigate to Thank You page when last question is answered
   useEffect(() => {
@@ -200,7 +202,9 @@ const ReferenceCheckQuestionnairePage = () => {
     //Only speak when their is question
     const speakQuestion = async () => {
       if (questions.length > 0) {
+        setIsSpeaking(true);
         await speak(questions[currentQuestionIndex]);
+        setIsSpeaking(false);
       }
     };
 
