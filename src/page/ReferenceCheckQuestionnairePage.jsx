@@ -5,7 +5,6 @@ import ErrorAccessCam from "../components/Error/ErrorAccessCam";
 import TextBase from "../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../components/ReferenceCheckQuestionnaire/AudioBase";
 import loadingAnimation from "../assets/loading.gif";
-
 import axios from "axios";
 const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -14,10 +13,10 @@ const ReferenceCheckQuestionnairePage = () => {
   const selectedMethod = location.state?.selectedMethod;
 
   // Retrieve stored data
-  const REFEREE = JSON.parse(localStorage.getItem("refereeData")) || {};
+  const REFEREE = JSON.parse(sessionStorage.getItem("refereeData")) || {};
   const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
-    JSON.parse(localStorage.getItem("referenceQuestions")) || {};
+    JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
 
   // States
   const [questions, setQuestions] = useState([]); //State the hold answers in array form
@@ -33,6 +32,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   //Refs
   const audioRef = useRef(null);
+  const streamRef = useRef(null);
 
   // Format reference questions
   const formatReferenceQuestions = () => {
@@ -70,7 +70,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   const speak = async (text) => {
     setIsSpeaking(true);
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const voice = "stella";
     try {
       const voiceType = voice.toLowerCase();
@@ -113,6 +113,13 @@ const ReferenceCheckQuestionnairePage = () => {
     }
   };
 
+  const initializeQuestions = () => {
+    const formattedQuestions = getQuestions();
+    setQuestions(formattedQuestions);
+    setAnswered(Array(formattedQuestions.length).fill(""));
+    setReferenceQuestionsData(formatReferenceQuestions());
+  };
+
   //Audio clean up
   useEffect(() => {
     return () => {
@@ -129,7 +136,7 @@ const ReferenceCheckQuestionnairePage = () => {
       currentQuestionIndex === questions.length - 1 &&
       answered[currentQuestionIndex]
     ) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         "referenceQuestionsData",
         JSON.stringify(referenceQuestionsData)
       );
@@ -173,19 +180,18 @@ const ReferenceCheckQuestionnairePage = () => {
     };
   }, []);
 
-  // Load questions on mount
-  useEffect(() => {
-    const formattedQuestions = getQuestions();
-    setQuestions(formattedQuestions);
-    setAnswered(Array(formattedQuestions.length).fill(""));
-    setReferenceQuestionsData(formatReferenceQuestions());
-  }, []);
 
+  // Initialize microphone permission when voice-based method is selected
   useEffect(() => {
     const initializeMicPermissionWhenRender = async () => {
+      // Check if selected method is voice-based and initialize microphone permission and questions
       if (selectedMethod === "VOICE_BASE") {
         await initializeMicPermission();
+        initializeQuestions();
+        return;
       }
+      // Initialize questions when method is not voice-based
+      initializeQuestions();
     };
 
     initializeMicPermissionWhenRender();
@@ -208,7 +214,8 @@ const ReferenceCheckQuestionnairePage = () => {
     setIsReattemptingCamera(true);
     setMicError(false);
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
     } catch (error) {
       setMicError(true);
     } finally {
@@ -224,8 +231,6 @@ const ReferenceCheckQuestionnairePage = () => {
       updatedAnswers[currentQuestionIndex] = currentAnswer;
       return updatedAnswers;
     });
-    // Optionally, you can reset the current answer if needed
-    // setCurrentAnswer(""); // Uncomment if you want to clear the answer after submission
   };
 
   // Attach answer to referenceQuestionsData
@@ -250,7 +255,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const handleNormalizedAnswers = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const response = await axios.post(
         `${API}/api/ai-referee/reference/normalized-answer`,
         { answer: currentAnswer },
@@ -272,8 +277,8 @@ const ReferenceCheckQuestionnairePage = () => {
     setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
 
   const nextQuestion = () => {
-    setCurrentAnswer(""); // Reset the current answer
-    setIsSubmitted(false); // Reset the submitted state
+    setCurrentAnswer("");
+    setIsSubmitted(false);
     setCurrentQuestionIndex((prev) =>
       prev < questions.length - 1 ? prev + 1 : prev
     );
@@ -320,7 +325,7 @@ const ReferenceCheckQuestionnairePage = () => {
         <div className="d-flex justify-content-end">
           <button
             onClick={nextQuestion}
-            disabled={!answered[currentQuestionIndex]} // Disable if no answer is provided
+            disabled={!answered[currentQuestionIndex] || isSpeaking}
             className={!answered[currentQuestionIndex] ? "disabled" : ""}
           >
             Next
@@ -348,7 +353,8 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             loading={loading}
             isSpeaking={isSpeaking}
-            isSubmitted={isSubmitted} // Add this line
+            isSubmitted={isSubmitted}
+            streamRef={streamRef}
           />
         ) : (
           <TextBase

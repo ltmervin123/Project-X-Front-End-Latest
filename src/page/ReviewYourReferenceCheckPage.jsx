@@ -10,9 +10,10 @@ function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const referenceQuestionsData =
-    JSON.parse(localStorage.getItem("referenceQuestionsData")) || [];
+    JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [normalizedAnswers, setNormalizedAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [signatureMethod, setSignatureMethod] = useState("Draw Signature");
@@ -59,14 +60,13 @@ function ReviewYourReferenceCheckPage() {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       setIsLastAnswerSaved(true); // Mark the last answer as saved
-            // Log all collected logs to the console
-            console.log("All logs:", [
-              ...logs,
-              `Final log for Question ${currentQuestion}: ${JSON.stringify(
-                newAnswer
-              )}`,
-            ]);
-          
+      // Log all collected logs to the console
+      console.log("All logs:", [
+        ...logs,
+        `Final log for Question ${currentQuestion}: ${JSON.stringify(
+          newAnswer
+        )}`,
+      ]);
     }
 
     // Reset active answer type and disable submit button
@@ -123,8 +123,12 @@ function ReviewYourReferenceCheckPage() {
       const allAnswers = referenceQuestionsData.flatMap(
         (item) => item.answers || []
       );
+      const allNormalizedAnswers = referenceQuestionsData.flatMap(
+        (item) => item.normalizedAnswers || []
+      );
       setQuestions(allQuestions);
       setAnswers(allAnswers);
+      setNormalizedAnswers(allNormalizedAnswers);
     }
   }, []);
 
@@ -347,6 +351,7 @@ function ReviewYourReferenceCheckPage() {
                 currentQuestionIndex={currentQuestionIndex}
                 questions={questions}
                 answers={answers}
+                normalizedAnswers={normalizedAnswers}
                 showBothAnswers={showBothAnswers}
                 setShowBothAnswers={setShowBothAnswers}
                 isEditing={isEditing}

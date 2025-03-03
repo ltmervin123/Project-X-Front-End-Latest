@@ -8,7 +8,33 @@
   --sidebar-bg: #f2f3f7;
   --btn-view-color: #319f43;
   --status-bg-fade-green: #319f4346;
+  --isDropdown-bgcolor: #B9B9B9;
 }
+/* .reference-dropdown-table{
+  background: var(--card-color);
+
+} */
+ .reference-candidate-name div:nth-child(2){
+
+  width :95%;
+}
+ .btn-view-details.isDropdown{
+  background: var(--isDropdown-bgcolor);
+ }
+ .btn-view-details.isDropdown:hover{
+  background: var(--isDropdown-bgcolor);
+ }
+.reference-dropdown-icon .rotate{
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+.reference-dropdown-table td:nth-child(1){
+  padding-left: 30px !important;
+}
+.reference-dropdown-table td:nth-child(1) div:nth-child(2){
+  width: 80% !important;
+}
+
 .custom-modal-reference .modal-dialog {
   width: 80% !important; /* Adjust the width to 80% of the parent container */
   max-width: 950px !important; /* Add a maximum width to prevent it from getting too large */
@@ -42,7 +68,8 @@
 .custom-modal-reference .Request-container-status span {
   background: var(--status-bg-fade-green);
   border-radius: 30px;
-  padding: 5px;
+  padding: 5px 10px 5px 8px;
+  color: var(--font-white);
 }
 .custom-modal-reference .candidate-info-container,
 .custom-modal-reference .reference-information-container {
@@ -53,7 +80,7 @@
   width: 30%;
 }
 .custom-modal-reference .Request-information-container div > p{
-width: 30%;
+width: 33%;
 }
 .custom-modal-reference .modal-body .button-controls-job > button:nth-child(1) {
   background: var(--secondary-color);

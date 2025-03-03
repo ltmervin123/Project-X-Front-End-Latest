@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const ReferenceCheckThankYouMsgPage = () => {
   const navigate = useNavigate();
-  const { candidateName } = JSON.parse(localStorage.getItem("refereeData"));
+  const { candidateName } = JSON.parse(sessionStorage.getItem("refereeData"));
 
   const handleFinish = () => {
     navigate("/reference-review");

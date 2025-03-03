@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../../styles/ReferenceCheckQuestionnairePage.css";
 import { useNavigate } from "react-router-dom";
 import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
-
 import {
   socket,
   connectSocket,
@@ -15,11 +14,18 @@ const AudioBase = ({
   answer,
   loading,
   isSpeaking,
+  isSubmitted,
+  streamRef,
 }) => {
   // States
   const [isRecording, setIsRecording] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [mediaStream, setMediaStream] = useState(null);
+  const mediaRecorder = useRef(null);
+
+  useEffect(() => {
+    if (streamRef.current) {
+      mediaRecorder.current = new MediaRecorder(streamRef.current);
+    }
+  }, [streamRef]);
 
   // Connect socket on mount
   useEffect(() => {
@@ -46,26 +52,22 @@ const AudioBase = ({
   //Clean up function when component unmounts
   useEffect(() => {
     return () => {
-      if (mediaRecorder) {
-        mediaRecorder.stop();
+      if (mediaRecorder.current) {
+        mediaRecorder.current.stop();
       }
-      if (mediaStream) {
-        mediaStream.getTracks().forEach((track) => track.stop());
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
       }
 
       console.log("Cleaning up...");
-      setMediaRecorder(null);
-      setMediaStream(null);
+      mediaRecorder.current = null;
+      streamRef.current = null;
     };
   }, []);
 
   //Start recording
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      setMediaStream(stream);
-      const recorder = new MediaRecorder(stream);
-      setMediaRecorder(recorder);
       setIsRecording(true);
 
       //Remove the previous event listener
@@ -73,17 +75,18 @@ const AudioBase = ({
       // Listen for transcription events
       socket.on("real-time-transcription", (data) => {
         if (data.isFinal) {
-          setAnswer((prevTanscription) => `${prevTanscription} ${data.text}`);
+          setAnswer((prevTranscription) => `${prevTranscription} ${data.text}`);
         }
       });
 
-      recorder.ondataavailable = (event) => {
+      mediaRecorder.current.ondataavailable = (event) => {
         if (event.data.size > 0) {
+          console.log("Sending audio data...");
           socket.emit("audio-stream", event.data);
         }
       };
 
-      recorder.start(100);
+      mediaRecorder.current.start(100);
     } catch (error) {
       console.error("Error starting recording:", error);
     }
@@ -91,8 +94,8 @@ const AudioBase = ({
 
   //Stop recording
   const stopRecording = async () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
+    if (mediaRecorder.current) {
+      mediaRecorder.current.stop();
 
       socket.emit("stop-transcription");
 

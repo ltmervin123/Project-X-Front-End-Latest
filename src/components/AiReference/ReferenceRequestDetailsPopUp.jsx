@@ -18,7 +18,6 @@ const ReferenceRequestDetailsPopUp = ({
         return "black"; // Default color for unknown statuses
     }
   };
-
   const formatDate = (date) => {
     if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
     return date.split("T")[0]; // Extract only YYYY-MM-DD
@@ -78,7 +77,14 @@ const ReferenceRequestDetailsPopUp = ({
                     </defs>
                   </svg>
                   &nbsp; Status: &nbsp;
-                  <span>Completed</span>
+                  <span
+                    style={{
+                      backgroundColor: getStatusColor(candidate.status),
+                    }}
+                  >
+                    {" "}
+                    {candidate.status || "N/A"}
+                  </span>{" "}
                 </p>
                 <p>
                   {/* update icon */}
@@ -218,62 +224,69 @@ const ReferenceRequestDetailsPopUp = ({
                 <div className="candidate-labels-and-details w-100">
                   <div className="d-flex">
                     <div className="candidate-labels">Name:</div>
-                    <div className="candidate-details">Jane Smith</div>
+                    <div className="candidate-details">
+                      {candidate.candidate || "N/A"}
+                    </div>
                   </div>
                   <div className="d-flex ">
                     <div className="candidate-labels">Email:</div>
-                    <div className="candidate-details">jane.smith@example.com</div>
+                    <div className="candidate-details">
+                      {candidate.candidateEmail || "N/A"}
+                    </div>
                   </div>
                   <div className="d-flex">
                     <div className="candidate-labels">Position:</div>
-                    <div className="candidate-details">Software Engineer</div>
+                    <div className="candidate-details">
+                      {candidate.position || "N/A"}
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="reference-information-container mt-3">
                 <b>Reference Information</b>
-              <div className="d-flex">
-                    <div className="reference-labels">Name:</div>
-                    <div className="reference-details">Bob Williams</div>
-                  </div>
-                  <div className="d-flex ">
-                    <div className="reference-labels">Email:</div>
-                    <div className="reference-details">bobwills@company.com</div>
-                  </div>
-                  <div className="d-flex">
-                    <div className="reference-labels">Relationship:</div>
-                    <div className="reference-details">Former Manager</div>
-                  </div>
+                <div className="d-flex">
+                  <div className="reference-labels">Name: </div>
+                  <div className="reference-details">Bob Williams</div>
+                </div>
+                <div className="d-flex ">
+                  <div className="reference-labels">Email:</div>
+                  <div className="reference-details">bobwills@company.com</div>
+                </div>
+                <div className="d-flex">
+                  <div className="reference-labels">Relationship:</div>
+                  <div className="reference-details">Former Manager</div>
+                </div>
               </div>
             </Col>
-              <Col md={12} className="mt-3">
-                <div className="Request-information-container w-100">
-                  <b>Request Information</b>
-                  <div className="d-flex align-items-center">
-                    <p>
-                      Question Format: <span></span>
-                    </p>
-                    <p>
-                      Date Sent: <span></span>
-                    </p>
-                    <p>
-                      Date Due: <span></span>
-                    </p>
-                  </div>
+            <Col md={12} className="mt-3">
+              <div className="Request-information-container w-100">
+                <b>Request Information</b>
+                <div className="d-flex align-items-center">
+                  <p>
+                    Question Format: <span></span>
+                  </p>
+                  <p>
+                    Date Sent:{" "}
+                    <span>{formatDate(candidate.dateSent) || "N/A"}</span>
+                  </p>
+                  <p>
+                    Date Due:{" "}
+                    <span>{formatDate(candidate.dueDate) || "N/A"}</span>
+                  </p>
                 </div>
-              </Col>
+              </div>
+            </Col>
           </Row>
 
           <div className="button-controls-job d-flex justify-content-center gap-3 w-100 mt-3">
             <button className="d-flex gap-2 align-items-center justify-content-center">
-
               Send Reminder
             </button>
 
-            {candidate.status === "Completed" && (
+            {/* {candidate.status === "Completed" && ( */}
               <button onClick={onViewReference}>View Reference</button>
-            )}
+            {/* )} */}
           </div>
         </div>
       </Modal.Body>

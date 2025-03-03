@@ -83,7 +83,8 @@
   background: var(--btn-view-color);
   text-decoration: none;
   color: var(--font-white);
-  padding: 8px 30px; /* Adjusted padding */
+  width: 120px;
+  padding: 8px; /* Adjusted padding */
   border-radius: 50px;
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */

@@ -13,11 +13,11 @@ const ReferenceRequest = () => {
   const companyId = USER?.id;
   const token = USER?.token;
   const navigate = useNavigate();
-
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
   const [searchQuery, setSearchQuery] = useState("");
+  const [showRefereeDropdown, setShowRefereeDropdown] = useState({}); // To manage dropdown visibility for each candidate
   const [reference, setReference] = useState(
     JSON.parse(localStorage.getItem("reference")) || []
   );
@@ -79,13 +79,25 @@ const ReferenceRequest = () => {
     setSelectedCandidate(candidate);
     setShowDetailsPopup(true);
   };
+  const handleViewReference = (referenceId) => {
+    setShowRefereeDropdown((prev) => {
+      // If the clicked reference is already open, close it; otherwise, open the clicked one and close others
+      const isOpen = prev[referenceId];
+      const newState = {};
+      // Close all dropdowns
+      reference.forEach((ref) => {
+        newState[ref.id] = false;
+      });
+      // If the clicked one was not open, open it
+      if (!isOpen) {
+        newState[referenceId] = true;
+      }
+      return newState;
+    });
+  };
 
   const handleCloseDetailsPopup = () => {
     setShowDetailsPopup(false);
-  };
-
-  const handleViewReference = () => {
-    setShowViewRequest(true); // Set to true to show ViewRequest component
   };
 
   const formatDate = (date) => {
@@ -173,7 +185,7 @@ const ReferenceRequest = () => {
               <thead>
                 <tr>
                   <th>Candidate</th>
-                  <th>Referee</th>
+                  {/* <th>Referee</th> */}
                   <th>Position</th>
                   <th>Status</th>
                   <th>Date Sent</th>
@@ -198,24 +210,106 @@ const ReferenceRequest = () => {
                         .includes(searchQuery.toLowerCase())
                   )
                   .map((reference) => (
-                    <tr key={reference.id}>
-                      <td>{reference.candidate}</td>
-                      <td>{reference.referee}</td>
-                      <td>{reference.position}</td>
-                      <td style={{ color: getStatusColor(reference.status) }}>
-                        {reference.status}
-                      </td>
-                      <td>{formatDate(reference.dateSent)}</td>
-                      <td>{formatDate(reference.dueDate)}</td>
-                      <td>
-                        <button
-                          className="btn-view-details"
-                          onClick={() => handleViewDetails(reference)}
-                        >
-                          View Details
-                        </button>
-                      </td>
-                    </tr>
+                    <React.Fragment key={reference._id}>
+                      <tr>
+                        <td className="reference-candidate-name d-flex align-items-center gap-3 ">
+                          <div className="reference-dropdown-icon">
+                            <svg
+                              width="9"
+                              height="7"
+                              viewBox="0 0 9 7"
+                              fill="none"
+                              className={`${
+                                showRefereeDropdown[reference._id]
+                                  ? "rotate"
+                                  : ""
+                              }`} // Add rotation class
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M3.73951 5.87734L0.240111 1.24127L1.14286 0.0960037L4.20491 4.15267L7.36518 0.143433L8.23988 1.30225L4.62823 5.88412C4.50851 6.03596 4.34763 6.12054 4.18097 6.11927C4.01431 6.118 3.85552 6.03098 3.73951 5.87734Z"
+                                fill="#686868"
+                              />
+                            </svg>
+                          </div>
+
+                          <div>
+                            {" "}
+                            {reference.candidate}
+                            <br />
+                            <small>{reference.candidateEmail}</small>
+                          </div>
+                        </td>
+                        <td>{reference.position}</td>
+                        <td style={{ color: getStatusColor(reference.status) }}>
+                          {reference.status}
+                        </td>
+                        <td>{formatDate(reference.dateSent)}</td>
+                        <td>{formatDate(reference.dueDate)}</td>
+                        <td>
+                          <button
+                            className={`btn-view-details ${
+                              showRefereeDropdown[reference._id]
+                                ? "isDropdown"
+                                : ""
+                            }`}
+                            onClick={() => handleViewReference(reference._id)} // Call the updated function
+                          >
+                            {showRefereeDropdown[reference._id]
+                              ? "Hide Referees"
+                              : "View Referee"}
+                          </button>
+                        </td>
+                      </tr>
+                      {showRefereeDropdown[reference._id] && ( // Render dropdown if visible
+                        <div className="reference-dropdown-table">
+                          <tr>
+                            <td className="d-flex align-items-start gap-2">
+                              <div>
+                                <svg
+                                  width="14"
+                                  height="16"
+                                  viewBox="0 0 8 10"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M4 0C5.105 0 6 0.994444 6 2.22222C6 3.45 5.105 4.44444 4 4.44444C2.895 4.44444 2 3.45 2 2.22222C2 0.994444 2.895 0 4 0ZM6 5.85556C6 6.44444 5.86 7.81667 4.905 9.35L4.5 6.66667L4.97 5.62222C4.66 5.58333 4.335 5.55556 4 5.55556C3.665 5.55556 3.34 5.58333 3.03 5.62222L3.5 6.66667L3.095 9.35C2.14 7.81667 2 6.44444 2 5.85556C0.805 6.24444 0 6.94444 0 7.77778V10H8V7.77778C8 6.94444 7.2 6.24444 6 5.85556Z"
+                                    fill="#F46A05"
+                                  />
+                                </svg>
+                              </div>
+
+                              <div className="w-100">
+                                {reference.referee}
+                                <br />
+                                <small>{reference.refereeEmail}</small>
+                              </div>
+                            </td>
+                            <td>{reference.position}</td>
+                            <td
+                              style={{
+                                color: getStatusColor(reference.status),
+                              }}
+                            >
+                              {reference.status}
+                            </td>
+                            <td>{formatDate(reference.dateSent)}</td>
+                            <td>{formatDate(reference.dueDate)}</td>
+                            <td>
+                              <button
+                                className="btn-view-details"
+                                onClick={() => handleViewDetails(reference._id)} // View details for the referee
+                              >
+                                View Details
+                              </button>
+                            </td>
+                          </tr>
+                        </div>
+                      )}
+                    </React.Fragment>
                   ))}
               </tbody>
             </table>

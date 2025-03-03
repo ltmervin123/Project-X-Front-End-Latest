@@ -756,10 +756,7 @@
   border: none;
 }
 
-.modal-dialog {
-  width: 600px !important;
-  max-width: 700px !important;
-}
+
 .dpa-container {
   overflow-y: hidden;
 }

@@ -29,10 +29,6 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
     },
   ]);
 
-  const handleDeleteReferee = (index) => {
-    const newReferees = referees.filter((_, i) => i !== index);
-    setReferees(newReferees);
-  };
   // Memoize positions to avoid unnecessary re-renders
   const positions = useMemo(() => {
     const activeJobs = JSON.parse(localStorage.getItem("jobs")) || [];
@@ -121,7 +117,12 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
         positionName: selectedPosition,
         candidateId: selectedCandidateId,
         candidateName: selectedCandidate,
-        referees,
+        referees: referees.map((referee) => ({
+          name: referee.name,
+          email: referee.email,
+          questionId: referee.questionId,
+          questionFormat: referee.questionFormat,
+        })),
       };
 
       const response = await axios.post(URL, payload, {
@@ -143,6 +144,14 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
   };
 
   //Handlers
+  const handleDeleteReferee = (index) => {
+    setReferees((prevReferees) => {
+      const newReferees = [...prevReferees];
+      newReferees.splice(index, 1);
+      return newReferees;
+    });
+  };
+
   const handlePositionChange = (e) => {
     const jobName = e.target.value;
     const selectedPosition = positions.find(

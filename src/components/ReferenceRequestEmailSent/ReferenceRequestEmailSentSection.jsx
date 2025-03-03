@@ -9,6 +9,7 @@ const ReferenceRequestEmailSentPopup = () => {
     alert("Retrying email send...");
     // Your retry logic would go here
   };
+  
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
