@@ -32,6 +32,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   //Refs
   const audioRef = useRef(null);
+  const streamRef = useRef(null);
 
   // Format reference questions
   const formatReferenceQuestions = () => {
@@ -179,13 +180,6 @@ const ReferenceCheckQuestionnairePage = () => {
     };
   }, []);
 
-  // Load questions on mount
-  // useEffect(() => {
-  //   const formattedQuestions = getQuestions();
-  //   setQuestions(formattedQuestions);
-  //   setAnswered(Array(formattedQuestions.length).fill(""));
-  //   setReferenceQuestionsData(formatReferenceQuestions());
-  // }, []);
 
   // Initialize microphone permission when voice-based method is selected
   useEffect(() => {
@@ -220,7 +214,8 @@ const ReferenceCheckQuestionnairePage = () => {
     setIsReattemptingCamera(true);
     setMicError(false);
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
     } catch (error) {
       setMicError(true);
     } finally {
@@ -358,7 +353,8 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             loading={loading}
             isSpeaking={isSpeaking}
-            isSubmitted={isSubmitted} // Add this line
+            isSubmitted={isSubmitted}
+            streamRef={streamRef}
           />
         ) : (
           <TextBase
