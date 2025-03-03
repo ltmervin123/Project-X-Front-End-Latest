@@ -4,7 +4,7 @@ import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import ReferenceRequest from "../../components/AiReference/ReferenceRequest";
 import "../../styles/AiReferenceJobs.css";
-import "../../styles/AiReferenceCandidates.css";
+import "../../styles/AiReferenceRequest.css";
 
 function AiReferenceRequestPage() {
   return (

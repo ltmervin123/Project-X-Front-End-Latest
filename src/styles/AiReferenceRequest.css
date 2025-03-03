@@ -1,0 +1,75 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --sidebar-bg: #f2f3f7;
+  --btn-view-color: #319f43;
+  --status-bg-fade-green: #319f4346;
+}
+.custom-modal-reference .modal-dialog {
+  width: 80% !important; /* Adjust the width to 80% of the parent container */
+  max-width: 950px !important; /* Add a maximum width to prevent it from getting too large */
+  height: 380px;
+  /* background: var(--primary-color); */
+}
+.custom-modal-reference .modal-body .reference-details > div {
+  border-bottom: 1px solid var(--text-color);
+}
+.custom-modal-reference .modal-body {
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+
+  border-radius: 20px; /* Slightly less rounded for a modern look */
+}
+.custom-modal-reference .Request-container-status,
+.custom-modal-reference .Request-information-container,
+.custom-modal-reference .candidate-info-container,
+.custom-modal-reference .reference-information-container {
+  background: var(--sidebar-bg);
+  padding: 15px;
+  border-radius: 20px;
+}
+.custom-modal-reference .Request-container-status p,
+.custom-modal-reference .Request-container-status span,
+.custom-modal-reference .Request-information-container p {
+  padding: 0;
+  margin: 0;
+}
+.custom-modal-reference .Request-container-status span {
+  background: var(--status-bg-fade-green);
+  border-radius: 30px;
+  padding: 5px;
+}
+.custom-modal-reference .candidate-info-container,
+.custom-modal-reference .reference-information-container {
+  height: 42%;
+}
+.custom-modal-reference .candidate-info-container .candidate-labels,
+.custom-modal-reference .reference-information-container .reference-labels {
+  width: 30%;
+}
+.custom-modal-reference .Request-information-container div > p{
+width: 30%;
+}
+.custom-modal-reference .modal-body .button-controls-job > button:nth-child(1) {
+  background: var(--secondary-color);
+
+  padding: 5px 10px;
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+  width: 200px;
+}
+.custom-modal-reference .modal-body .button-controls-job > button:nth-child(2) {
+  padding: 5px 10px;
+  background: var(--primary-color);
+
+  width: 200px;
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+}

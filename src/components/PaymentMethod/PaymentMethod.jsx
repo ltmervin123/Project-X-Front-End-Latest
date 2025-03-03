@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import "../../styles/PaymentMethod.css";
-import Paypay from "../../assets/Paypay.png";
-import RakutenPay from "../../assets/Rakuten Pay.png";
-import Konbini from "../../assets/Konbini.png";
+// payment icons
+import Mastercard from "../../assets/paymentmethodicons/Mastercard.png";
+import Visa from "../../assets/paymentmethodicons/Visa.png";
+import AmericanExpress from "../../assets/paymentmethodicons/American Express.png";
+import JCB from "../../assets/paymentmethodicons/JCB.png";
+import Dinners from "../../assets/paymentmethodicons/Dinners.png";
+import Stripes from "../../assets/paymentmethodicons/Stripes.png";
+import Paypay from "../../assets/paymentmethodicons/Paypay.png";
+import RakutenPay from "../../assets/paymentmethodicons/Rakuten Pay.png";
+import Konbini from "../../assets/paymentmethodicons/Konbini.png";
 import { useNavigate } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
 
@@ -10,52 +17,52 @@ function PaymentMethod() {
   const navigate = useNavigate();
 
   const handleReturnLandingPage = () => {
-      navigate("/"); // This will navigate to the landing page
-  }
+    navigate("/"); // This will navigate to the landing page
+  };
   const paymentForms = [
     {
       name: "Pay with Mastercard",
       input: [
         { name: "Card Number", type: "text", placeholder: "1234567890123456" },
-        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
-        { name: "CVV", type: "text", placeholder: "123" },
         { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+        { name: "CVV", type: "text", placeholder: "123" }, // Moved CVV up
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" }, // Moved Expiry Date down
       ],
     },
     {
       name: "Pay with Visa",
       input: [
         { name: "Card Number", type: "text", placeholder: "1234567890123456" },
-        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
-        { name: "CVV", type: "text", placeholder: "123" },
         { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+        { name: "CVV", type: "text", placeholder: "123" }, // Moved CVV up
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" }, // Moved Expiry Date down
       ],
     },
     {
       name: "Pay with American Express",
       input: [
-        { name: "Card Number", type: "text", placeholder: "123456789012345" },
-        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
-        { name: "CVV", type: "text", placeholder: "1234" },
+        { name: "Card Number", type: "text", placeholder: "1234567890123456" },
         { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+        { name: "CVV", type: "text", placeholder: "123" }, // Moved CVV up
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" }, // Moved Expiry Date down
       ],
     },
     {
       name: "Pay with JCB",
       input: [
         { name: "Card Number", type: "text", placeholder: "1234567890123456" },
-        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
-        { name: "CVV", type: "text", placeholder: "123" },
         { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+        { name: "CVV", type: "text", placeholder: "123" }, // Moved CVV up
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" }, // Moved Expiry Date down
       ],
     },
     {
       name: "Pay with Diners",
       input: [
-        { name: "Card Number", type: "text", placeholder: "123456789012345" },
-        { name: "Expiry Date", type: "text", placeholder: "MM/YY" },
-        { name: "CVV", type: "text", placeholder: "123" },
+        { name: "Card Number", type: "text", placeholder: "1234567890123456" },
         { name: "Cardholder Name", type: "text", placeholder: "John Doe" },
+        { name: "CVV", type: "text", placeholder: "123" }, // Moved CVV up
+        { name: "Expiry Date", type: "text", placeholder: "MM/YY" }, // Moved Expiry Date down
       ],
     },
   ];
@@ -72,7 +79,10 @@ function PaymentMethod() {
         <div className="PaymentMethod-content ">
           <Row className="PaymentMethod-row d-flex flex-row justify-content-between align-items-start h-100 ">
             <div className="PaymentMethod-btn-container">
-              <button className="btn-back-to-landing d-flex gap-2 align-items-center" onClick={handleReturnLandingPage}>
+              <button
+                className="btn-back-to-landing d-flex gap-2 align-items-center"
+                onClick={handleReturnLandingPage}
+              >
                 <svg
                   width="27"
                   height="16"
@@ -103,28 +113,13 @@ function PaymentMethod() {
                     <b>Credit/Debit Cards</b>
                     <small>Select your preferred card type.</small>
                   </div>
-                  <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start p-1 gap-3 row-gap-4">
+                  <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start gap-3 row-gap-4">
                     <button
                       className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
                       onClick={() => handlePaymentChange("Pay with Mastercard")}
                     >
                       <div>
-                        <svg
-                          width="53"
-                          height="33"
-                          viewBox="0 0 53 33"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M20.6445 16.5C20.6445 11.2292 23.1496 6.55415 27 3.52908C24.1703 1.32912 20.5982 0 16.7013 0C7.46899 0 0 7.37906 0 16.5C0 25.6209 7.46899 33 16.7011 33C20.598 33 24.1701 31.6709 27 29.4707C23.1496 26.4916 20.6445 21.7708 20.6445 16.5Z"
-                            fill="#EB001B"
-                          />
-                          <path
-                            d="M52.9998 16.5C52.9998 25.6207 45.8075 33 36.9174 33C33.1648 33 29.7251 31.6709 27 29.4707C30.7525 26.4459 33.1203 21.7708 33.1203 16.5C33.1203 11.2292 30.7078 6.55415 27 3.52908C29.7249 1.32912 33.1648 0 36.9174 0C45.8075 0 52.9998 7.42499 52.9998 16.5Z"
-                            fill="#F79E1B"
-                          />
-                        </svg>
+                        <img src={Mastercard} alt="" />
                       </div>
                       Mastercard
                     </button>
@@ -133,20 +128,7 @@ function PaymentMethod() {
                       onClick={() => handlePaymentChange("Pay with Visa")}
                     >
                       <div>
-                        <svg
-                          width="35"
-                          height="30"
-                          viewBox="0 0 35 30"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M0 3.75C0 1.6875 1.575 0 3.5 0H31.5C32.4283 0 33.3185 0.395088 33.9749 1.09835C34.6312 1.80161 35 2.75544 35 3.75V26.25C35 27.2446 34.6312 28.1984 33.9749 28.9017C33.3185 29.6049 32.4283 30 31.5 30H3.5C2.57174 30 1.6815 29.6049 1.02513 28.9017C0.368749 28.1984 0 27.2446 0 26.25V3.75ZM21.875 9.75C22.575 9.75 23.275 9.75 23.8 10.125L23.625 12H23.45C22.9234 11.6498 22.3195 11.4557 21.7 11.4375C20.825 11.4375 20.475 12 20.475 12.375C20.475 12.75 20.825 12.9375 21.7 13.3125C22.925 14.0625 23.45 14.8125 23.45 15.75C23.45 17.625 22.05 18.9375 19.6 18.9375C18.55 18.9375 17.675 18.5625 17.15 18.375L17.5 16.5H17.675C18.375 16.875 18.9 17.0625 19.775 17.0625C20.475 17.0625 21.175 16.6875 21.175 16.125C21.175 15.75 20.825 15.5625 19.95 15C19.075 14.625 18.025 13.875 18.025 12.5625C18.025 10.875 19.775 9.75 21.875 9.75ZM28 9.75H29.75L31.5 18.75H29.4L29.05 17.4375H26.25L25.725 18.75H23.45L26.775 10.5C26.95 9.9375 27.3 9.9375 28 9.9375V9.75ZM17.15 9.75H14.875L13.475 18.75H15.75L17.15 9.75ZM9.275 15.9375L9.1 14.625L8.225 10.5C8.225 9.9375 7.7 9.9375 7.175 9.75H3.675V9.9375L5.775 10.875L5.95 11.25L7.875 18.75H10.5L14 9.9375H11.725L9.45 15.9375H9.275Z"
-                            fill="#1706AC"
-                          />
-                        </svg>
+                        <img src={Visa} alt="" />
                       </div>
                       VISA
                     </button>
@@ -158,18 +140,7 @@ function PaymentMethod() {
                       }
                     >
                       <div>
-                        <svg
-                          width="55"
-                          height="34"
-                          viewBox="0 0 55 34"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M2.5592 0C1.14625 0 0 1.12687 0 2.51752V31.4825C0 32.8733 1.14642 34 2.5592 34H52.4408C53.8537 34 55 32.8731 55 31.4825V2.51752C55 1.12671 53.8536 0 52.4408 0H2.5592ZM2.0471 7.14314H6.05522L6.57255 8.18869V7.14309H11.2716L12.2994 9.43051L13.3015 7.14309H28.2236C28.9019 7.14309 29.5119 7.26663 29.9596 7.65915V7.14314H34.0433V7.65909C34.7468 7.27833 35.6169 7.14314 36.6077 7.14314H42.5271L43.0753 8.18869V7.14309H47.4581L48.0563 8.18869V7.14309H52.3256V16.0052H48.0115L47.1952 14.6635V16.0052H41.8121L41.2259 14.5924H39.9008L39.3027 16.0052H36.5079C35.4114 16.0052 34.5789 15.7491 34.0432 15.4655V16.0052H27.402V13.9935C27.402 13.7097 27.3508 13.6932 27.1768 13.6873H26.9276L26.9345 16.0052H14.092V14.9088L13.6314 16.0086H10.9484L10.4878 14.9258V16.0052H5.32124L4.73 14.5924H3.40483L2.81187 16.0052H0.185625V11.3559L2.0471 7.14314ZM0.185625 14.7819H1.85454L2.45091 13.3607H5.64783L6.23732 14.7819H9.36204V9.79086L11.5947 14.7819H12.9439L15.1697 9.7959L15.1766 14.7819H16.7509V8.41538H14.1935L12.3475 12.7348L10.3365 8.41549H7.83062V14.4419L5.21812 8.41538H2.93562L0.185625 14.7819V14.7819ZM17.9042 8.41533V14.7819H23.0261V13.4639H19.4373V12.1934H22.9401V10.889H19.4373V9.74187H23.0261V8.41543H17.9042V8.41533ZM24.1329 8.41533V14.7819H25.6729V12.4658H27.3246C27.8788 12.4658 28.2221 12.5143 28.447 12.7381C28.7271 13.0444 28.6893 13.5952 28.6893 13.9783L28.6962 14.7819H30.2483V13.5299C30.2483 12.9615 30.2112 12.6792 29.9939 12.3626C29.8569 12.1771 29.5693 11.9529 29.2325 11.8263C29.6318 11.6688 30.317 11.1443 30.317 10.1293C30.317 9.41924 30.0236 9.00426 29.5367 8.71997C29.0391 8.43557 28.4602 8.41543 27.6736 8.41543H24.1329V8.41533ZM31.1936 8.41533V14.7819H32.761V8.41538H31.1936V8.41533ZM36.6626 8.41533C35.6034 8.41533 34.8255 8.65002 34.3285 9.15813C33.668 9.84008 33.5001 10.7027 33.5001 11.6468C33.5001 12.8045 33.7815 13.5359 34.3217 14.0764C34.8574 14.6169 35.8021 14.7819 36.5492 14.7819H38.3487L38.9297 13.3607H42.1213L42.7195 14.7819H45.8493V10.004L48.7626 14.7819H50.942V8.41538H49.3676V12.8498L46.6657 8.41543H44.3248V14.4368L41.7226 8.41538H39.4195L37.2539 13.4217H36.5629C36.1583 13.4217 35.7287 13.3454 35.4921 13.0935C35.2064 12.7722 35.0693 12.2798 35.0693 11.5978C35.0693 10.9306 35.249 10.4244 35.511 10.1564C35.8161 9.86184 36.1326 9.77906 36.6935 9.77906H38.151V8.41538H36.6626L36.6626 8.41533ZM4.03562 9.46099L5.07721 12.0073H3.00096L4.03562 9.46099ZM40.5573 9.46099L41.6212 12.0073H39.4985L40.5573 9.46099ZM25.6558 9.73337H27.555C27.8236 9.73337 28.1033 9.74582 28.2854 9.84841C28.4854 9.94089 28.6086 10.1383 28.6086 10.4101C28.6086 10.6875 28.4906 10.9097 28.2906 11.0124C28.0787 11.139 27.8294 11.1444 27.5292 11.1444H25.6558V9.73331L25.6558 9.73337ZM11.0291 18.0557H19.3101L20.4978 19.4109L21.7679 18.0557H27.3108C27.9517 18.0557 29.0037 18.1211 29.4764 18.5735V18.0557H34.43C34.8954 18.0557 35.9034 18.1475 36.501 18.5735V18.0557H44.0103V18.5735C44.3836 18.2195 45.1734 18.0557 45.8459 18.0557H50.0517V18.5735C50.4931 18.2578 51.1152 18.0557 51.9732 18.0557H54.8177V19.3196H51.7567C50.1446 19.3196 49.5532 20.2881 49.5532 21.2094C49.5532 23.2193 51.3523 23.1269 52.7948 23.1754C53.0623 23.1754 53.2247 23.2189 53.3362 23.3158C53.4492 23.4039 53.5235 23.552 53.5235 23.7371C53.5235 23.9104 53.4501 24.0533 53.3431 24.1516C53.2196 24.2707 53.014 24.3089 52.7209 24.3089H49.7664V25.6709H52.7329C53.7174 25.6709 54.4446 25.3962 54.8178 24.8571V26.5084C54.2023 26.8022 53.3928 26.9178 52.5644 26.9178H48.5839V26.3493C48.1226 26.715 47.2906 26.9178 46.4939 26.9178H33.9435V24.8689C33.9435 24.6178 33.9177 24.6067 33.6634 24.6067H33.4658V26.9178H29.3339V24.5255C28.6424 24.8208 27.8586 24.8469 27.194 24.8368H26.7008V26.9212L21.6923 26.9178L20.4617 25.5389L19.1537 26.9178H11.0292V18.0557H11.0291ZM12.4127 19.328V25.6946H18.5023L20.4702 23.5865L22.3626 25.6946H25.3515V23.5594H27.2696C28.6134 23.5594 29.9474 23.1943 29.9474 21.426C29.9474 19.663 28.5756 19.328 27.3555 19.328H22.4433L20.4875 21.4158L18.5969 19.328H12.4127ZM30.6401 19.328V25.6946H32.1818V23.3699H33.8232C34.3834 23.3699 34.7263 23.4244 34.9507 23.6525C35.2362 23.9485 35.1982 24.5147 35.1982 24.8977V25.6946H36.74V24.4324C36.7337 23.8713 36.7025 23.5808 36.4856 23.2701C36.3546 23.0846 36.0764 22.8604 35.7345 22.7354C36.1388 22.5765 36.8222 22.0579 36.8225 21.0418C36.8225 20.3157 36.5183 19.9192 36.0335 19.6292C35.5295 19.3627 34.9617 19.328 34.1842 19.328L30.6401 19.328ZM37.6989 19.328V25.6946H42.8208V24.3732L39.227 24.3681V23.1009H42.7332V21.8015H39.227V20.6443H42.8208V19.328H37.6989ZM45.753 19.328C44.1435 19.328 43.5582 20.2996 43.5582 21.2229C43.5582 23.2375 45.3571 23.1454 46.7929 23.194C47.0602 23.194 47.222 23.2389 47.3394 23.3361C47.4448 23.4244 47.5268 23.5702 47.5268 23.7557C47.5268 23.9294 47.4502 24.0734 47.3446 24.1719C47.2152 24.2913 47.0102 24.3292 46.7189 24.3292H43.7404V25.6946H46.731C48.2793 25.6946 49.1424 25.0541 49.1424 23.6846C49.1424 23.0294 48.9824 22.6428 48.6835 22.3362C48.3358 21.9872 47.7638 21.8454 46.9304 21.8252L46.1037 21.8033C45.8421 21.8033 45.6675 21.7864 45.5055 21.7305C45.3124 21.6598 45.1704 21.4969 45.1704 21.2568C45.1704 21.0548 45.2325 20.9013 45.4007 20.7983C45.5551 20.6937 45.7369 20.6832 46.016 20.6832H48.8313V19.328H45.753ZM23.8098 20.0099V25.1024L21.4568 22.5155L23.8098 20.0099ZM13.9356 20.6477H17.7907L19.4734 22.5054L17.7168 24.3749H13.9356V23.1077H17.3112V21.8066H13.9356V20.6477ZM25.3326 20.6477H27.3435C27.9001 20.6477 28.2854 20.8723 28.2854 21.4344C28.2854 21.9903 27.917 22.2838 27.3246 22.2838H25.3325L25.3326 20.6477ZM32.2076 20.6477H34.1068C34.3812 20.6477 34.6559 20.6534 34.8424 20.7611C35.0422 20.8627 35.1604 21.0559 35.1604 21.3244C35.1604 21.593 35.0422 21.8092 34.8424 21.9268C34.6362 22.0458 34.381 22.057 34.081 22.057H32.2076V20.6477ZM52.0179 20.6917H54.8177V22.5104C54.7748 22.4558 54.7373 22.4019 54.6751 22.3531C54.3332 22.0029 53.7722 21.8593 52.9322 21.8388L52.1004 21.8168C51.8445 21.8168 51.6694 21.8001 51.5074 21.744C51.3084 21.6731 51.1722 21.5098 51.1722 21.2686C51.1722 21.0658 51.2354 20.9119 51.3974 20.8084C51.5538 20.7034 51.7384 20.6917 52.0179 20.6917Z"
-                            fill="#1877F2"
-                          />
-                        </svg>
+                        <img src={AmericanExpress} alt="" />
                       </div>
                       American Express
                     </button>
@@ -178,18 +149,7 @@ function PaymentMethod() {
                       onClick={() => handlePaymentChange("Pay with JCB")}
                     >
                       <div>
-                        <svg
-                          width="51"
-                          height="34"
-                          viewBox="0 0 51 34"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M47.6 34H3.4C2.49826 34 1.63346 33.6418 0.995837 33.0042C0.358213 32.3665 0 31.5017 0 30.6L0 3.4C0 2.49826 0.358213 1.63346 0.995837 0.995837C1.63346 0.358213 2.49826 0 3.4 0L47.6 0C48.5017 0 49.3665 0.358213 50.0042 0.995837C50.6418 1.63346 51 2.49826 51 3.4V30.6C51 31.5017 50.6418 32.3665 50.0042 33.0042C49.3665 33.6418 48.5017 34 47.6 34ZM20.706 20.0529V29.7514H26.8727C27.9872 29.7503 29.0556 29.3071 29.8437 28.5191C30.6317 27.7311 31.0749 26.6626 31.076 25.5482V4.53192H24.9107C23.796 4.53267 22.7272 4.9757 21.9388 5.76376C21.1505 6.55182 20.7071 7.6205 20.706 8.73517V14.2318C22.1799 13.1978 23.9713 12.7167 25.7649 12.8732L25.7366 12.8718C26.0076 12.8718 26.2933 12.8784 26.5937 12.8917C27.8063 12.971 28.9326 13.1509 30.022 13.4257L29.8917 13.3974V15.1768C28.9147 14.6519 27.8384 14.3377 26.7325 14.2545L26.7056 14.2531C26.5637 14.243 26.4214 14.2383 26.2792 14.2389C24.276 14.2389 23.0803 15.3241 23.0803 17.1402C23.0597 17.5498 23.1296 17.9589 23.2851 18.3384C23.4406 18.7179 23.6777 19.0584 23.9798 19.3359C24.2818 19.6133 24.6412 19.8207 25.0326 19.9434C25.4239 20.0661 25.8374 20.1011 26.2437 20.0458L26.2296 20.0472C26.3807 20.0472 26.5394 20.0406 26.7056 20.0274C27.8362 19.9346 28.9362 19.6127 29.9384 19.0811L29.8931 19.1037V20.8831H29.8803C28.8205 21.1496 27.7383 21.3175 26.6475 21.3846L26.5937 21.3874C26.2933 21.4006 26.0076 21.4072 25.7366 21.4072C23.943 21.555 22.1544 21.0693 20.6819 20.0345L20.706 20.0529ZM32.2986 21.1862V29.7316H38.4653C39.5798 29.7305 40.6482 29.2873 41.4362 28.4992C42.2243 27.7112 42.6675 26.6428 42.6686 25.5283V4.53333H36.5245C35.4103 4.53483 34.3422 4.9782 33.5545 5.76618C32.7668 6.55416 32.3238 7.6224 32.3227 8.73658V13.1013H38.2571L38.3322 13.0999C38.4521 13.0999 38.5697 13.1089 38.6849 13.1268L38.6722 13.1254C40.1115 13.1991 41.004 13.9499 41.004 15.0889C40.988 15.5913 40.7812 16.0688 40.4256 16.4241C40.0701 16.7794 39.5925 16.9858 39.0901 17.0014H39.0872V17.0482C40.5237 17.1445 41.4885 17.9619 41.4885 19.0797C41.4885 20.3178 40.3863 21.1806 38.811 21.1806L32.2986 21.1862ZM9.06667 20.8604V29.7004H15.2334C16.3469 29.6989 17.4143 29.2561 18.2019 28.4691C18.9895 27.682 19.433 26.6149 19.4352 25.5014V4.53475H13.2926C12.1784 4.53625 11.1103 4.97962 10.3226 5.7676C9.53488 6.55557 9.09187 7.62382 9.09075 8.738V19.1066C10.1419 19.669 11.3857 20.0161 12.7061 20.0543H12.7174C12.9991 20.088 13.2848 20.0615 13.5555 19.9767C13.8262 19.8919 14.0759 19.7507 14.2881 19.5623C14.5002 19.374 14.6701 19.1428 14.7864 18.884C14.9027 18.6253 14.9628 18.3448 14.9628 18.0611L14.9614 17.9718V17.9761V13.0801H18.564V17.9534C18.564 20.2371 16.8229 21.3959 13.3917 21.3959C11.8561 21.3959 10.3658 21.2018 8.94483 20.8363L9.06808 20.8632L9.06667 20.8604ZM34.3768 17.6276V19.8447H36.8007C36.8362 19.8447 36.8942 19.839 36.9509 19.8333C37.0076 19.8277 37.0642 19.822 37.1011 19.822C37.343 19.7709 37.56 19.6381 37.7156 19.4459C37.8711 19.2537 37.9558 19.0138 37.9553 18.7666V18.734V18.7354C37.9549 18.4862 37.8714 18.2443 37.7179 18.048C37.5644 17.8517 37.3499 17.7122 37.1082 17.6517L37.1011 17.6502C37.0207 17.6347 36.9392 17.6262 36.8574 17.6248L36.7993 17.6262H36.8022L34.3768 17.6276ZM34.3768 14.3494V16.3809H36.5727L36.6208 16.3823C36.6827 16.3814 36.7441 16.3723 36.8036 16.3554L36.7993 16.3568C37.0346 16.3187 37.2487 16.1982 37.4034 16.0169C37.5581 15.8356 37.6434 15.6052 37.644 15.3669C37.6447 15.1285 37.5607 14.8977 37.4071 14.7155C37.2534 14.5333 37.04 14.4116 36.805 14.3721L36.7993 14.3707L36.7002 14.3607H36.7058C36.6612 14.3544 36.6163 14.3501 36.5713 14.348H36.5698L34.3768 14.3494Z"
-                            fill="#686868"
-                          />
-                        </svg>
+                        <img src={JCB} alt="" />
                       </div>
                       JCB
                     </button>
@@ -198,18 +158,7 @@ function PaymentMethod() {
                       onClick={() => handlePaymentChange("Pay with Diners")}
                     >
                       <div>
-                        <svg
-                          width="46"
-                          height="34"
-                          viewBox="0 0 46 34"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M19.144 3.63495C11.4062 3.63495 5.1044 9.60032 5.1044 16.9768C5.1044 24.3314 11.4048 30.3186 19.144 30.3186C26.9063 30.3186 33.1836 24.3314 33.1836 16.9768C33.185 15.2244 32.8227 13.4889 32.1176 11.8696C31.4126 10.2503 30.3785 8.77903 29.0745 7.53988C27.7705 6.30073 26.2223 5.31802 24.5183 4.64798C22.8144 3.97793 20.9881 3.6337 19.144 3.63495ZM15.9572 24.8532C12.6266 23.647 10.2548 20.5735 10.2548 16.9754C10.2548 13.3773 12.6266 10.3052 15.9572 9.07577V24.8532ZM22.3294 24.8764V9.07577C25.66 10.3052 28.0318 13.3787 28.0318 16.9754C28.0318 20.5721 25.66 23.647 22.3294 24.8764ZM42.1663 0H3.83369C2.81728 0.00108466 1.84283 0.385264 1.12412 1.06825C0.405414 1.75124 0.00114139 2.67726 0 3.64315V30.3568C0.00114139 31.3227 0.405414 32.2488 1.12412 32.9317C1.84283 33.6147 2.81728 33.9989 3.83369 34H42.1663C43.1827 33.9989 44.1572 33.6147 44.8759 32.9317C45.5946 32.2488 45.9989 31.3227 46 30.3568V3.64315C45.9989 2.67726 45.5946 1.75124 44.8759 1.06825C44.1572 0.385264 43.1827 0.00108466 42.1663 0ZM26.3313 31.5699H19.1196C10.6386 31.5699 3.64395 25.0813 3.64395 17.1352C3.64395 8.43785 10.64 2.4274 19.1196 2.4274H26.3313C34.716 2.4274 42.3589 8.43785 42.3589 17.1352C42.3589 25.0813 34.716 31.5699 26.3313 31.5699Z"
-                            fill="#1877F2"
-                          />
-                        </svg>
+                        <img src={Dinners} alt="" />
                       </div>
                       Diners
                     </button>
@@ -220,21 +169,10 @@ function PaymentMethod() {
                     <b>E-Wallets and Others</b>
                     <small>Select your preferred payment options.</small>
                   </div>
-                  <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start p-1 gap-3 row-gap-4">
+                  <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start gap-3 row-gap-4">
                     <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
                       <div>
-                        <svg
-                          width="57"
-                          height="24"
-                          viewBox="0 0 57 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M57 12.4006C57 8.29909 55.0366 5.06275 51.2842 5.06275C47.5157 5.06275 45.2357 8.2992 45.2357 12.3686C45.2357 17.1909 47.9275 19.6262 51.7907 19.6262C53.675 19.6262 55.1 19.1936 56.1766 18.5849V15.3805C55.1001 15.9253 53.865 16.2618 52.2975 16.2618C50.7616 16.2618 49.4 15.717 49.2258 13.8265H56.9684C56.9684 13.6181 57 12.7851 57 12.4006ZM49.1783 10.8786C49.1783 9.06815 50.2709 8.31508 51.2684 8.31508C52.2342 8.31508 53.2634 9.06815 53.2634 10.8786H49.1783ZM39.1243 5.06275C37.5725 5.06275 36.575 5.79971 36.0209 6.31249L35.8149 5.31914H32.3317V24L36.29 23.151L36.3059 18.6169C36.8759 19.0335 37.715 19.6262 39.1083 19.6262C41.9425 19.6262 44.5233 17.3191 44.5233 12.2404C44.5075 7.59412 41.895 5.06275 39.1242 5.06275M38.1741 16.1015C37.2399 16.1015 36.6856 15.7651 36.3058 15.3485L36.2898 9.40453C36.7015 8.93996 37.2715 8.61958 38.1741 8.61958C39.6149 8.61958 40.6124 10.2537 40.6124 12.3525C40.6124 14.4994 39.6307 16.1015 38.1741 16.1015ZM26.885 4.11749L30.8592 3.25234V0L26.885 0.849161V4.11749ZM26.885 5.33514H30.8592V19.3538H26.885V5.33514ZM22.6259 6.52067L22.3725 5.33514H18.9525V19.3538H22.9109V9.85322C23.8449 8.61958 25.4283 8.84387 25.9192 9.02005V5.33514C25.4125 5.14284 23.56 4.79036 22.6259 6.52067ZM14.7091 1.85851L10.8458 2.69156L10.83 15.5247C10.83 17.896 12.5875 19.6422 14.9309 19.6422C16.2292 19.6422 17.1792 19.4019 17.7016 19.1136V15.8612C17.1951 16.0695 14.6933 16.8065 14.6933 14.4353V8.74766H17.7016V5.33514H14.6933L14.7091 1.85851ZM4.00581 9.40453C4.00581 8.77977 4.51246 8.53937 5.35177 8.53937C6.555 8.53937 8.07496 8.90796 9.27831 9.56483V5.79971C7.96419 5.27104 6.66588 5.06275 5.35177 5.06275C2.1375 5.06275 0 6.76107 0 9.59694C0 14.0187 6.01662 13.3138 6.01662 15.2205C6.01662 15.9573 5.38338 16.1977 4.49665 16.1977C3.18254 16.1977 1.50415 15.6529 0.174117 14.916V18.7291C1.64665 19.3699 3.135 19.6422 4.49665 19.6422C7.78996 19.6422 10.0542 17.9921 10.0542 15.1243C10.0383 10.3499 4.00581 11.1989 4.00581 9.40453Z"
-                            fill="#635BFF"
-                          />
-                        </svg>
+                        <img src={Stripes} alt="" />
                       </div>
                       Stripes
                     </button>
@@ -273,53 +211,102 @@ function PaymentMethod() {
                   </h4>
                 </div>
                 <div className="pay-form-content-infput-field w-100 d-flex flex-column justify-content-center align-items-center">
-                  <Form className="d-flex flex-row justify-content-center align-items-center flex-wrap">
-                    {selectedPayment.input.map((field, index) => (
-                      <Form.Group
-                        key={index}
-                        className="form-group d-flex flex-column justify-content-start align-items-start mb-3 m-2"
-                      >
-                        <Form.Label className="me-2" style={{ width: "150px" }}>
-                          {field.name}
-                        </Form.Label>
-                        <Form.Control
-                          type={field.type}
-                          placeholder={field.placeholder}
-                          autoComplete="off"
-                          maxLength={
-                            field.name === "Card Number"
-                              ? "19"
-                              : field.name === "Account Number"
-                              ? "19"
-                              : field.name === "Expiry Date"
-                              ? "7"
-                              : field.name === "CVV"
-                              ? "3"
-                              : undefined
-                          }
-                          onInput={
-                            field.name === "Card Number" ||
-                            field.name === "Account Number" ||
-                            field.name === "CVV"
-                              ? (e) =>
-                                  (e.target.value = e.target.value.replace(
-                                    /\D/g,
-                                    ""
-                                  ))
-                              : field.name === "Expiry Date"
-                              ? (e) => {
-                                  let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-                                  if (value.length > 2) {
-                                    value =
-                                      value.slice(0, 2) + "/" + value.slice(2); // Auto-insert "/"
-                                  }
-                                  e.target.value = value.slice(0, 5); // Limit to MM/YY format
-                                }
-                              : undefined
-                          }
-                        />
-                      </Form.Group>
-                    ))}
+                  <Form className="d-flex flex-column justify-content-start align-items-center">
+                    <Row className="w-100">
+                      <Col md={12} className="p-0 m-0">
+                        {/* Card Number Field */}
+                        <Form.Group className="form-group w-100 mb-3 my-0">
+                          <Form.Label
+                            className="me-2"
+                            style={{ width: "150px" }}
+                          >
+                            Card Number
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="1234567890123456"
+                            autoComplete="off"
+                            maxLength="19"
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(
+                                /\D/g,
+                                ""
+                              ))
+                            }
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
+                    {/* Row for Expiry Date and CVV */}
+                    <Row className="w-100">
+                      <Col md={6} className="p-0 m-0">
+                        <Form.Group className="form-group mb-3 my-0">
+                          <Form.Label
+                            className="me-2"
+                            style={{ width: "150px" }}
+                          >
+                            Expiry Date
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="MM/YY"
+                            autoComplete="off"
+                            maxLength="7"
+                            onInput={(e) => {
+                              let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                              if (value.length > 2) {
+                                value =
+                                  value.slice(0, 2) + "/" + value.slice(2); // Auto-insert "/"
+                              }
+                              e.target.value = value.slice(0, 5); // Limit to MM/YY format
+                            }}
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col md={6} className="p-0 m-0">
+                        <Form.Group className="form-group mb-3 my-0">
+                          <Form.Label
+                            className="me-2"
+                            style={{ width: "150px" }}
+                          >
+                            CVV
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="123"
+                            autoComplete="off"
+                            maxLength="3"
+                            onInput={(e) =>
+                              (e.target.value = e.target.value.replace(
+                                /\D/g,
+                                ""
+                              ))
+                            }
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
+                    <Row className="w-100">
+                      <Col md={12} className="p-0 m-0">
+                        {/* Cardholder Name Field */}
+                        <Form.Group className="form-group w-100 mb-3 my-0">
+                          <Form.Label
+                            className="me-2"
+                            style={{ width: "150px" }}
+                          >
+                            Cardholder Name
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="John Doe"
+                            autoComplete="off"
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+
                     <button className="btn-pay-now mx-2">Pay Now</button>
                   </Form>
                 </div>
