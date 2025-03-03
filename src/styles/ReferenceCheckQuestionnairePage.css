@@ -89,39 +89,7 @@
 
   cursor: not-allowed;
 }
-/* bg shapes */
-.orange-bg-bottom {
-  background: var(--primary-color);
-  width: 30%;
-  height: 2%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-.orange-bg-top {
-  background: var(--primary-color);
-  width: 30%;
-  height: 2%;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.blue-bg-left {
-  background: var(--secondary-color);
-  width: 1%;
-  height: 60%;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.blue-bg-right {
-  background: var(--secondary-color);
-  width: 1%;
-  height: 60%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
+
 /* Customizing the scrollbar */
 .referencecheckquestion-container .question-container > p::-webkit-scrollbar {
   width: 5px; /* Scrollbar width */

@@ -6,10 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import LandingPage from "./page/LandingPage.jsx";
 import MockLandingPage from "./page/MockLanding.jsx";
-import Login from "./page/LoginPage.jsx";
-import SignUp from "./page/SignUpPage.jsx";
 import MockInterviewPage from "./page/MockInterviewPage.jsx";
 import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
@@ -25,6 +22,15 @@ import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
 import FailedPage from "./page/LoginFailed.jsx";
 import SuccessPage from "./page/LoginSucess.jsx";
+
+/*Landing Page*/
+import LandingPage from "./page/LandingPage.jsx";
+
+/*Login Page */
+import Login from "./page/LoginPage.jsx";
+
+/*Mock Ai Signin Page */
+import SignUp from "./page/SignUpPage.jsx";
 
 /*Mock Ai */
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
@@ -58,12 +64,12 @@ import CreatedAccount from "./page/CreatedAccountPage.jsx";
 import OurParternersPage from "./page/OurPartnersPage.jsx";
 
 /*Ai Referee */
-import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
-import AiReferenceJobsPage from "./page/AiReferenceJobsPage.jsx";
-import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
-import AiReferenceRequestPage from "./page/AiReferenceRequestPage.jsx";
-import AiReferenceQuestionPage from "./page/AiReferenceQuestionPage.jsx";
-import AiReferenceReportsPage from "./page/AiReferenceReportsPage.jsx";
+import AiReferenceMainDashboardPage from "./page/AiReference/AiReferenceMainDashboardPage.jsx";
+import AiReferenceJobsPage from "./page/AiReference/AiReferenceJobsPage.jsx";
+import AiReferenceCandidatesPage from "./page/AiReference/AiReferenceCandidatesPage.jsx";
+import AiReferenceRequestPage from "./page/AiReference/AiReferenceRequestPage.jsx";
+import AiReferenceQuestionPage from "./page/AiReference/AiReferenceQuestionPage.jsx";
+import AiReferenceReportsPage from "./page/AiReference/AiReferenceReportsPage.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";

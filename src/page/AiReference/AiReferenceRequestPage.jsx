@@ -1,13 +1,15 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import Header from "../components/AiReference/Header";
-import Sidebar from "../components/AiReference/Sidebar";
-import ReferenceQuestion from "../components/AiReference/ReferenceQuestion";
-import "../styles/AiReferenceQuestion.css";
+import Header from "../../components/AiReference/Header";
+import Sidebar from "../../components/AiReference/Sidebar";
+import ReferenceRequest from "../../components/AiReference/ReferenceRequest";
+import "../../styles/AiReferenceJobs.css";
+import "../../styles/AiReferenceCandidates.css";
 
-function AiReferenceQuestionPage() {
+function AiReferenceRequestPage() {
   return (
     <>
+      <div className="mock-background">
         <Header />
         <div className="MockMaindashboard-container h-100">
           <Row>
@@ -17,12 +19,13 @@ function AiReferenceQuestionPage() {
             </Col>
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
-              <ReferenceQuestion />
+              <ReferenceRequest />
             </Col>
           </Row>
         </div>
+      </div>
     </>
   );
 }
 
-export default AiReferenceQuestionPage;
+export default AiReferenceRequestPage;

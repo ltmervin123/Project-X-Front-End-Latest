@@ -1,15 +1,15 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import Header from "../components/AiReference/Header";
-import Sidebar from "../components/AiReference/Sidebar";
-import Jobs from "../components/AiReference/Jobs";
-import "../styles/AiReferenceJobs.css";
+import Header from "../../components/AiReference/Header";
+import Sidebar from "../../components/AiReference/Sidebar";
+import Maindashboard from "../../components/AiReference/Maindashboard";
+import "../../styles/AiReferenceMaindashboard.css";
 
-function AiReferenceCheckerPage() {
+function AiReferenceMainDashboardPage() {
   return (
     <>
         <Header />
-        <div className="MockMaindashboard-container h-100">
+        <div className="MockMaindashboard-container ">
           <Row>
             {/* Sidebar with 3/12 width */}
             <Col md={2} className="p-0 MockSidebar">
@@ -17,7 +17,7 @@ function AiReferenceCheckerPage() {
             </Col>
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
-              <Jobs />
+              <Maindashboard />
             </Col>
           </Row>
         </div>
@@ -25,4 +25,4 @@ function AiReferenceCheckerPage() {
   );
 }
 
-export default AiReferenceCheckerPage;
+export default AiReferenceMainDashboardPage;

@@ -15,6 +15,7 @@
 }
 .company-registration-container {
   max-width: 1000px;
+  height: auto;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 8px;
@@ -22,10 +23,9 @@
 }
 
 .company-registration-container-form {
-  width: 70%;
+  width: 80%;
   max-width: 1300px;
   border-radius: 20px;
-  margin-bottom: 10vh !important;
 }
 .form-company-reg {
   padding: 10px 100px 30px 100px;

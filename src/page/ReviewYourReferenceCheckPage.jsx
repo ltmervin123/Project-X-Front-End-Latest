@@ -454,10 +454,7 @@ function ReviewYourReferenceCheckPage() {
           submitting={submitting}
         />
       )}
-      <div className="orange-bg-bottom"></div>
-      <div className="orange-bg-top"></div>
-      <div className="blue-bg-left"></div>
-      <div className="blue-bg-right"></div>
+
     </div>
   );
 }

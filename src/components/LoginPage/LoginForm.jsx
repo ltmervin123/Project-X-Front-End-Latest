@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import google from "../../assets/google-icon.png";
 import fb from "../../assets/fb-icon.png";
@@ -57,6 +56,7 @@ const LoginForm = () => {
             <form className="login-form" onSubmit={handleSubmit}>
               <div className="input-group mb-3">
                 <span className="input-group-text">
+                  {/* Email icon */}
                   <svg
                     width="50"
                     height="41"
@@ -144,6 +144,8 @@ const LoginForm = () => {
               </div>
               <div className="input-group mb-3 position-relative">
                 <span className="input-group-text">
+                  {/* Password icon */}
+
                   <svg
                     width="49"
                     height="49"
@@ -266,15 +268,6 @@ const LoginForm = () => {
                 </div>
               </div>
               <div className="mb-3 choose-services-container d-flex justify-content-center">
-                {/* <select
-                  className="form-control"
-                  value={service}
-                  onChange={(e) => setService(e.target.value)}
-                  required
-                >
-                  <option value={SERVICE[1]}>Mock AI</option>
-                  <option value={SERVICE[0]}> AI Reference Checker</option>
-                </select> */}
                 <CustomDropdown
                   options={SERVICE}
                   selectedOption={service}
@@ -284,7 +277,7 @@ const LoginForm = () => {
               <button
                 type="submit"
                 className="login-button"
-                disabled={!service || isLoading} // Disable if no service selected
+                disabled={!service || isLoading}
               >
                 {isLoading ? <LoadingScreen /> : "Log in"}
               </button>
@@ -293,16 +286,19 @@ const LoginForm = () => {
           <div className="signup-container text-center ">
             <p className="m-3">Or sign up using</p>
             <div className="social-icons">
+              {/* Google icon */}
               <button
                 className="social-icon-btn"
                 onClick={handleGoogleLogin}
-                disabled={service === SERVICE[0]} // Disable when service is "Ai Reference Checker"
+                disabled={service === SERVICE[0]}
               >
                 <img src={google} alt="Google" className="social-icon" />
               </button>
+              {/* Facebook icon */}
+
               <button
                 className="social-icon-btn"
-                disabled={service === SERVICE[0]} // Disable when service is "Ai Reference Checker"
+                disabled={service === SERVICE[0]}
               >
                 <img src={fb} alt="Facebook" className="social-icon" />
               </button>
@@ -323,10 +319,10 @@ const LoginForm = () => {
               onClick={() => {
                 switch (service) {
                   case SERVICE[1]:
-                    navigate("/signup"); // Navigate to signup for MOCK_AI
+                    navigate("/signup");
                     break;
                   case SERVICE[0]:
-                    navigate("/company-registration"); // Navigate to company registration for AI_REFERENCE
+                    navigate("/company-registration");
                     break;
                   default:
                     navigate("/login");
