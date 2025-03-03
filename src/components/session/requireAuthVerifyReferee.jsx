@@ -4,7 +4,7 @@ import axios from "axios";
 
 const RequireAuthVerifyReferee = () => {
   const API = process.env.REACT_APP_API_URL;
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const [isSessionValid, setIsSessionValid] = useState(null); // Initially null
 
   useEffect(() => {

@@ -11,7 +11,7 @@ export const socket = io(API, {
 });
 
 export const connectSocket = () => {
-  const token = localStorage.getItem("token") || null;
+  const token = sessionStorage.getItem("token") || null;
 
   if (!token) {
     console.error("No token found in localStorage. Socket connection aborted.");
