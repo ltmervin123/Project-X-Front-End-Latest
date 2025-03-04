@@ -135,12 +135,6 @@ function CompareResumes() {
         setIsExpanded(!isExpanded);
     };
 
-    // temp
-    setDocData([{
-        uri: "https://www2.hu-berlin.de/stadtlabor/wp-content/uploads/2021/12/sample3.docx",
-        fileType: "docx",
-        fileName: "sample3",
-    }]);
     return (
         <div className="ResumeFitOptimizer-container d-flex flex-column gap-2">
             <div className="compareresumes-container d-flex justify-content-center align-items-center flex-column gap-3">
@@ -201,7 +195,11 @@ function CompareResumes() {
                         )} */}
                         <div className={`resume-original-content-container ${isExpanded ? "expanded" : ""}`}>
                             <DocViewer
-                                documents={docData}
+                                documents={[{
+                                    uri: "https://www2.hu-berlin.de/stadtlabor/wp-content/uploads/2021/12/sample3.docx",
+                                    fileType: "docx",
+                                    fileName: "sample3",
+                                }]}
                                 pluginRenderers={DocViewerRenderers}
                                 style={{ height: "100%", width: "100%" }}
                                 config={{
