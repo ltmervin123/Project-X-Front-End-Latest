@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import "../styles/Error.css";
-import SuccessSection from "../components/LoginSuccess/MessageSection";
-import Header from "../components/LoginFailed/Header";
-import { useAuthContext } from "../hook/useAuthContext";
+import "../../styles/Error.css";
+import SuccessSection from "../../components/LoginSuccess/MessageSection";
+import Header from "../../components/LoginFailed/Header";
+import { useAuthContext } from "../../hook/useAuthContext";
 
 function SuccessPage() {
   const { dispatch } = useAuthContext();

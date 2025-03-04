@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import Maindashboard from "../../components/AiReference/Maindashboard";
-import "../../styles/AiReferenceMaindashboard.css";
+import "../../styles/AiReferenceStyles/AiReferenceMaindashboard.css";
 
 function AiReferenceMainDashboardPage() {
   return (

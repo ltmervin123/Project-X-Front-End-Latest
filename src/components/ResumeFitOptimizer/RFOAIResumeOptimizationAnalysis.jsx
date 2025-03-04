@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../assets/logo.png";
-import "../../styles/ResumeFitOptimizer.css";
-import { Button, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 function UploadDocs() {

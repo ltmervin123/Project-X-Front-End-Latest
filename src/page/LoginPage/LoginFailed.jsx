@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import "../styles/Error.css";
-import FailedSection from "../components/LoginFailed/MessageSection";
-import Header from "../components/LoginFailed/Header";
+import "../../styles/Error.css";
+import FailedSection from "../../components/LoginFailed/MessageSection";
+import Header from "../../components/LoginFailed/Header";
 
 function FailedPage() {
   useEffect(() => {

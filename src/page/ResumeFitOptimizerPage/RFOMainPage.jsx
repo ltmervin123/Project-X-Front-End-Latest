@@ -1,16 +1,18 @@
+// src/pages/RFOMainPage.js
 import React from "react";
+import Header from "../../components/Result/Header";
 import { Row, Col } from "react-bootstrap";
-import Header from "../../components/AiReference/Header";
-import Sidebar from "../../components/AiReference/Sidebar";
-import ReferenceReports from "../../components/AiReference/Reports";
-import "../../styles/AiReferenceReports.css";
+import Sidebar from "../../components/MockMainDashboard/Sidebar";
+import Main from "../../components/ResumeFitOptimizer/RFOMain";
+import "../../styles/ResumeFitOptimizerStyles/ResumeFitOptimizer.css";
 
-function AiReferenceReportsPage() {
+
+function RFOMainPage() {
   return (
     <>
       <div className="mock-background">
         <Header />
-        <div className="MockMaindashboard-container h-100">
+        <div className="MockMaindashboard-container">
           <Row>
             {/* Sidebar with 3/12 width */}
             <Col md={2} className="p-0 MockSidebar">
@@ -18,7 +20,7 @@ function AiReferenceReportsPage() {
             </Col>
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
-              <ReferenceReports />
+              <Main />
             </Col>
           </Row>
         </div>
@@ -27,4 +29,4 @@ function AiReferenceReportsPage() {
   );
 }
 
-export default AiReferenceReportsPage;
+export default RFOMainPage;

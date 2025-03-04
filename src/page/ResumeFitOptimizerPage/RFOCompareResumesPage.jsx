@@ -1,13 +1,13 @@
-// src/pages/MaindashboardPage.js
+// src/pages/RFOCompareResumesPage.js
 import React from "react";
-import "../styles/MockInterviewPage.css";
-import Header from "../components/Result/Header";
+import Header from "../../components/Result/Header";
 import { Row, Col } from "react-bootstrap";
-import Sidebar from "../components/MockMainDashboard/Sidebar";
-import RFOSaveAndExportResume from "../components/ResumeFitOptimizer/RFOSaveAndExportResume";
+import Sidebar from "../../components/MockMainDashboard/Sidebar";
+import RFOCompareResumes from "../../components/ResumeFitOptimizer/RFOCompareResumes";
+import "../../styles/ResumeFitOptimizerStyles/ResumeFitOptimizer.css";
 
 
-function MaindashboardPage() {
+function RFOCompareResumesPage() {
   return (
     <>
       <div className="mock-background">
@@ -20,7 +20,7 @@ function MaindashboardPage() {
             </Col>
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
-              <RFOSaveAndExportResume />
+              <RFOCompareResumes />
             </Col>
           </Row>
         </div>
@@ -29,4 +29,4 @@ function MaindashboardPage() {
   );
 }
 
-export default MaindashboardPage;
+export default RFOCompareResumesPage;

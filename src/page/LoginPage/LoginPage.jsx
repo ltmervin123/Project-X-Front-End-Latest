@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import "../styles/LoginPage.css";
-import "../styles/GlobalScrollColor.css";
-import Header from "../components/LoginPage/Header";
-import LoginForm from "../components/LoginPage/LoginForm";
+import "../../styles/LoginPage.css";
+import "../../styles/GlobalScrollColor.css";
+import Header from "../../components/LoginPage/Header";
+import LoginForm from "../../components/LoginPage/LoginForm";
 
 function LoginPage() {
   useEffect(() => {

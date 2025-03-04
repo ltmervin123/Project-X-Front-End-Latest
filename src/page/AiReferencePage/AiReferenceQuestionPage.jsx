@@ -2,14 +2,12 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import ReferenceRequest from "../../components/AiReference/ReferenceRequest";
-import "../../styles/AiReferenceJobs.css";
-import "../../styles/AiReferenceRequest.css";
+import ReferenceQuestion from "../../components/AiReference/ReferenceQuestion";
+import "../../styles/AiReferenceStyles/AiReferenceQuestion.css";
 
-function AiReferenceRequestPage() {
+function AiReferenceQuestionPage() {
   return (
     <>
-      <div className="mock-background">
         <Header />
         <div className="MockMaindashboard-container h-100">
           <Row>
@@ -19,13 +17,12 @@ function AiReferenceRequestPage() {
             </Col>
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
-              <ReferenceRequest />
+              <ReferenceQuestion />
             </Col>
           </Row>
         </div>
-      </div>
     </>
   );
 }
 
-export default AiReferenceRequestPage;
+export default AiReferenceQuestionPage;

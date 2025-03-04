@@ -1,18 +1,16 @@
-// src/pages/MaindashboardPage.js
 import React from "react";
-import "../styles/MockInterviewPage.css";
-import Header from "../components/Result/Header";
 import { Row, Col } from "react-bootstrap";
-import Sidebar from "../components/MockMainDashboard/Sidebar";
-import RTOAIResumeOptimizationAnalysis from "../components/ResumeFitOptimizer/RFOAIResumeOptimizationAnalysis";
+import Header from "../../components/AiReference/Header";
+import Sidebar from "../../components/AiReference/Sidebar";
+import ReferenceReports from "../../components/AiReference/Reports";
+import "../../styles/AiReferenceStyles/AiReferenceReports.css";
 
-
-function MaindashboardPage() {
+function AiReferenceReportsPage() {
   return (
     <>
       <div className="mock-background">
         <Header />
-        <div className="MockMaindashboard-container">
+        <div className="MockMaindashboard-container h-100">
           <Row>
             {/* Sidebar with 3/12 width */}
             <Col md={2} className="p-0 MockSidebar">
@@ -20,7 +18,7 @@ function MaindashboardPage() {
             </Col>
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
-              <RTOAIResumeOptimizationAnalysis />
+              <ReferenceReports />
             </Col>
           </Row>
         </div>
@@ -29,4 +27,4 @@ function MaindashboardPage() {
   );
 }
 
-export default MaindashboardPage;
+export default AiReferenceReportsPage;
