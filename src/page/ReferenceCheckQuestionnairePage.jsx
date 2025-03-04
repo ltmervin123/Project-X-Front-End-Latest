@@ -20,8 +20,8 @@ const ReferenceCheckQuestionnairePage = () => {
     JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
 
   // States
-  const [questions, setQuestions] = useState([]); //State the hold answers in array form
-  const [answered, setAnswered] = useState([]); //State that hold ans
+  const [questions, setQuestions] = useState([]);
+  const [answered, setAnswered] = useState([]);
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [referenceQuestionsData, setReferenceQuestionsData] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -29,7 +29,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [micError, setMicError] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false); // Add this line
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
@@ -127,7 +127,7 @@ const ReferenceCheckQuestionnairePage = () => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+         audioRef.current.currentTime = 0;
       }
     };
   }, []);
@@ -368,7 +368,7 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             loading={loading}
             isSpeaking={isSpeaking}
-            isSubmitted={isSubmitted} // Add this line
+            isSubmitted={isSubmitted} 
           />
         )}
       </>
