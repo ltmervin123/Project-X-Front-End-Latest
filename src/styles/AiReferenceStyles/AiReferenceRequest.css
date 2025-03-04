@@ -11,10 +11,22 @@
   --isDropdown-bgcolor: #B9B9B9;
 }
 
- .reference-candidate-name div:nth-child(2){
+.reference-dropdown-table {
+  width: 98%;
 
-  width :95%;
 }
+
+.reference-dropdown-table tbody{
+  overflow: none;
+  height: auto;
+}
+/* .status-bg-color{
+  width: 120px !important;
+  padding: 5px 10px;
+  border-radius: 50px;
+  text-align: center;
+  color: var(--font-white);
+} */
  .btn-view-details.isDropdown{
   background: var(--isDropdown-bgcolor);
  }
@@ -25,12 +37,7 @@
   transform: rotate(180deg);
   transition: transform 0.3s ease;
 }
-.reference-dropdown-table td:nth-child(1){
-  padding-left: 30px !important;
-}
-.reference-dropdown-table td:nth-child(1) div:nth-child(2){
-  width: 80% !important;
-}
+
 
 .custom-modal-reference .modal-dialog {
   width: 80% !important; /* Adjust the width to 80% of the parent container */
