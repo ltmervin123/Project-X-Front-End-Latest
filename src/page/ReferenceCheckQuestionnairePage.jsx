@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import ErrorAccessCam from "../components/Error/ErrorAccessCam";
+import ErrorAccessMic from "../components/Error/ErrorAccessMic";
 import TextBase from "../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../components/ReferenceCheckQuestionnaire/AudioBase";
 import loadingAnimation from "../assets/loading.gif";
 import axios from "axios";
+
 const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const location = useLocation();
-  const selectedMethod = location.state?.selectedMethod;
+  const selectedMethod = sessionStorage.getItem("interview-method");
 
   // Retrieve stored data
   const REFEREE = JSON.parse(sessionStorage.getItem("refereeData")) || {};
@@ -19,8 +20,8 @@ const ReferenceCheckQuestionnairePage = () => {
     JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
 
   // States
-  const [questions, setQuestions] = useState([]); //State the hold answers in array form
-  const [answered, setAnswered] = useState([]); //State that hold ans
+  const [questions, setQuestions] = useState([]);
+  const [answered, setAnswered] = useState([]);
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [referenceQuestionsData, setReferenceQuestionsData] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -28,7 +29,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [micError, setMicError] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false); // Add this line
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
@@ -69,7 +70,6 @@ const ReferenceCheckQuestionnairePage = () => {
   };
 
   const speak = async (text) => {
-    setIsSpeaking(true);
     const token = sessionStorage.getItem("token");
     const voice = "stella";
     try {
@@ -108,8 +108,6 @@ const ReferenceCheckQuestionnairePage = () => {
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
-    } finally {
-      setIsSpeaking(false);
     }
   };
 
@@ -120,15 +118,19 @@ const ReferenceCheckQuestionnairePage = () => {
     setReferenceQuestionsData(formatReferenceQuestions());
   };
 
+  useEffect(() => {
+    console.log("isSpeaking", isSpeaking);
+  }, [isSpeaking]);
+
   //Audio clean up
   useEffect(() => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+         audioRef.current.currentTime = 0;
       }
     };
-  }, [questions, currentQuestionIndex]);
+  }, []);
 
   // Navigate to Thank You page when last question is answered
   useEffect(() => {
@@ -180,14 +182,12 @@ const ReferenceCheckQuestionnairePage = () => {
     };
   }, []);
 
-
   // Initialize microphone permission when voice-based method is selected
   useEffect(() => {
     const initializeMicPermissionWhenRender = async () => {
       // Check if selected method is voice-based and initialize microphone permission and questions
       if (selectedMethod === "VOICE_BASE") {
         await initializeMicPermission();
-        initializeQuestions();
         return;
       }
       // Initialize questions when method is not voice-based
@@ -197,12 +197,14 @@ const ReferenceCheckQuestionnairePage = () => {
     initializeMicPermissionWhenRender();
   }, []);
 
-  //Convert question into text to speech when thier is a question
+  //Convert question into text to speech when their is a question
   useEffect(() => {
-    //Only speak when thier is question
+    //Only speak when their is question
     const speakQuestion = async () => {
       if (questions.length > 0) {
+        setIsSpeaking(true);
         await speak(questions[currentQuestionIndex]);
+        setIsSpeaking(false);
       }
     };
 
@@ -216,6 +218,9 @@ const ReferenceCheckQuestionnairePage = () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
+
+      // Initialize questions after user allow microphone access
+      initializeQuestions();
     } catch (error) {
       setMicError(true);
     } finally {
@@ -306,7 +311,7 @@ const ReferenceCheckQuestionnairePage = () => {
   }
 
   if (micError) {
-    return <ErrorAccessCam onRetry={initializeMicPermission} />;
+    return <ErrorAccessMic onRetry={initializeMicPermission} />;
   }
 
   return (
@@ -363,7 +368,7 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             loading={loading}
             isSpeaking={isSpeaking}
-            isSubmitted={isSubmitted} // Add this line
+            isSubmitted={isSubmitted} 
           />
         )}
       </>

@@ -142,7 +142,11 @@ const AudioBase = ({
               Stop Recording
             </button>
           ) : (
-            <button onClick={startRecording} disabled={isSpeaking}>
+            <button
+              onClick={startRecording}
+              disabled={isSpeaking}
+              className={isSpeaking ? "disabled" : ""}
+            >
               <FaMicrophone />
               Start Recording
             </button>

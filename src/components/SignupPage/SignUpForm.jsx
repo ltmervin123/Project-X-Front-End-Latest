@@ -11,7 +11,7 @@ function SignUpForm() {
   const [name, setName] = useState(""); // Added name state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signup, isLoading, error } = useSignup();
+  const { signup, isLoading, error, status } = useSignup();
   const [showPassword, setShowPassword] = useState(false);
   const SERVICE = "MOCK_AI";
   const [showModal, setShowModal] = useState(false);
