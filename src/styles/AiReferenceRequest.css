@@ -10,10 +10,7 @@
   --status-bg-fade-green: #319f4346;
   --isDropdown-bgcolor: #B9B9B9;
 }
-/* .reference-dropdown-table{
-  background: var(--card-color);
 
-} */
  .reference-candidate-name div:nth-child(2){
 
   width :95%;
@@ -71,6 +68,12 @@
   padding: 5px 10px 5px 8px;
   color: var(--font-white);
 }
+.custom-modal-reference .Request-container-status{
+  height: 20%;
+}
+.custom-modal-reference .Request-information-container{
+  height: 64%;
+}
 .custom-modal-reference .candidate-info-container,
 .custom-modal-reference .reference-information-container {
   height: 42%;
@@ -79,9 +82,7 @@
 .custom-modal-reference .reference-information-container .reference-labels {
   width: 30%;
 }
-.custom-modal-reference .Request-information-container div > p{
-width: 33%;
-}
+
 .custom-modal-reference .modal-body .button-controls-job > button:nth-child(1) {
   background: var(--secondary-color);
 

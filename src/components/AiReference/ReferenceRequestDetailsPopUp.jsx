@@ -104,115 +104,20 @@ const ReferenceRequestDetailsPopUp = ({
                   &nbsp; Update
                 </p>
               </div>
-              <div className="Request-container-status">
-                <b>Request Timeline:</b>
-                <div className="Reference-list-of-status">
-                  <div className=" d-flex gap-2 align-items-center">
-                    <svg
-                      width="20"
-                      height="30"
-                      viewBox="0 0 20 30"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9.5 10C10.6935 10 11.8381 9.52589 12.682 8.68198C13.5259 7.83807 14 6.69347 14 5.5C14 4.30653 13.5259 3.16193 12.682 2.31802C11.8381 1.47411 10.6935 1 9.5 1C8.30653 1 7.16193 1.47411 6.31802 2.31802C5.47411 3.16193 5 4.30653 5 5.5C5 6.69347 5.47411 7.83807 6.31802 8.68198C7.16193 9.52589 8.30653 10 9.5 10Z"
-                        fill="#319F43"
-                        stroke="#319F43"
-                        stroke-width="2"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M10 10.5C9.86739 10.5 9.74021 10.5527 9.64645 10.6464C9.55268 10.7402 9.5 10.8674 9.5 11V29C9.5 29.1326 9.55268 29.2598 9.64645 29.3536C9.74021 29.4473 9.86739 29.5 10 29.5C10.1326 29.5 10.2598 29.4473 10.3536 29.3536C10.4473 29.2598 10.5 29.1326 10.5 29V11C10.5 10.8674 10.4473 10.7402 10.3536 10.6464C10.2598 10.5527 10.1326 10.5 10 10.5Z"
-                        fill="#B9B9B9"
-                      />
-                    </svg>
-
-                    <div>
-                      Request Created
-                      <p>2022-01-01</p>
-                    </div>
-                  </div>
-                  <div className=" d-flex gap-2 align-items-center">
-                    <svg
-                      width="20"
-                      height="30"
-                      viewBox="0 0 20 30"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9.5 10C10.6935 10 11.8381 9.52589 12.682 8.68198C13.5259 7.83807 14 6.69347 14 5.5C14 4.30653 13.5259 3.16193 12.682 2.31802C11.8381 1.47411 10.6935 1 9.5 1C8.30653 1 7.16193 1.47411 6.31802 2.31802C5.47411 3.16193 5 4.30653 5 5.5C5 6.69347 5.47411 7.83807 6.31802 8.68198C7.16193 9.52589 8.30653 10 9.5 10Z"
-                        fill="#319F43"
-                        stroke="#319F43"
-                        stroke-width="2"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M10 10.5C9.86739 10.5 9.74021 10.5527 9.64645 10.6464C9.55268 10.7402 9.5 10.8674 9.5 11V29C9.5 29.1326 9.55268 29.2598 9.64645 29.3536C9.74021 29.4473 9.86739 29.5 10 29.5C10.1326 29.5 10.2598 29.4473 10.3536 29.3536C10.4473 29.2598 10.5 29.1326 10.5 29V11C10.5 10.8674 10.4473 10.7402 10.3536 10.6464C10.2598 10.5527 10.1326 10.5 10 10.5Z"
-                        fill="#B9B9B9"
-                      />
-                    </svg>
-
-                    <div>
-                      Email Sent to Referee
-                      <p>2022-01-2</p>
-                    </div>
-                  </div>
-                  <div className=" d-flex gap-2 align-items-center">
-                    <svg
-                      width="20"
-                      height="30"
-                      viewBox="0 0 20 30"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9.5 10C10.6935 10 11.8381 9.52589 12.682 8.68198C13.5259 7.83807 14 6.69347 14 5.5C14 4.30653 13.5259 3.16193 12.682 2.31802C11.8381 1.47411 10.6935 1 9.5 1C8.30653 1 7.16193 1.47411 6.31802 2.31802C5.47411 3.16193 5 4.30653 5 5.5C5 6.69347 5.47411 7.83807 6.31802 8.68198C7.16193 9.52589 8.30653 10 9.5 10Z"
-                        fill="#319F43"
-                        stroke="#319F43"
-                        stroke-width="2"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M10 10.5C9.86739 10.5 9.74021 10.5527 9.64645 10.6464C9.55268 10.7402 9.5 10.8674 9.5 11V29C9.5 29.1326 9.55268 29.2598 9.64645 29.3536C9.74021 29.4473 9.86739 29.5 10 29.5C10.1326 29.5 10.2598 29.4473 10.3536 29.3536C10.4473 29.2598 10.5 29.1326 10.5 29V11C10.5 10.8674 10.4473 10.7402 10.3536 10.6464C10.2598 10.5527 10.1326 10.5 10 10.5Z"
-                        fill="#B9B9B9"
-                      />
-                    </svg>
-                    <div>
-                      Referee Started Response
-                      <p>2022-01-03</p>
-                    </div>
-                  </div>
-                  <div className=" d-flex gap-2 align-items-center">
-                    <svg
-                      width="20"
-                      height="30"
-                      viewBox="0 0 20 30"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9.5 10C10.6935 10 11.8381 9.52589 12.682 8.68198C13.5259 7.83807 14 6.69347 14 5.5C14 4.30653 13.5259 3.16193 12.682 2.31802C11.8381 1.47411 10.6935 1 9.5 1C8.30653 1 7.16193 1.47411 6.31802 2.31802C5.47411 3.16193 5 4.30653 5 5.5C5 6.69347 5.47411 7.83807 6.31802 8.68198C7.16193 9.52589 8.30653 10 9.5 10Z"
-                        fill="#319F43"
-                        stroke="#319F43"
-                        stroke-width="2"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M10 10.5C9.86739 10.5 9.74021 10.5527 9.64645 10.6464C9.55268 10.7402 9.5 10.8674 9.5 11V29C9.5 29.1326 9.55268 29.2598 9.64645 29.3536C9.74021 29.4473 9.86739 29.5 10 29.5C10.1326 29.5 10.2598 29.4473 10.3536 29.3536C10.4473 29.2598 10.5 29.1326 10.5 29V11C10.5 10.8674 10.4473 10.7402 10.3536 10.6464C10.2598 10.5527 10.1326 10.5 10 10.5Z"
-                        fill="#B9B9B9"
-                      />
-                    </svg>
-                    <div>
-                      Reference Completed
-                      <p> 2022-01-04</p>
-                    </div>
-                  </div>
+              <div className="Request-information-container w-100">
+                <b>Request Information</b>
+                <div className="d-flex flex-column">
+                  <p>
+                    Question Format: <span></span>
+                  </p>
+                  <p>
+                    Date Sent:{" "}
+                    <span>{formatDate(candidate.dateSent) || "N/A"}</span>
+                  </p>
+                  <p>
+                    Date Due:{" "}
+                    <span>{formatDate(candidate.dueDate) || "N/A"}</span>
+                  </p>
                 </div>
               </div>
             </Col>
@@ -259,24 +164,7 @@ const ReferenceRequestDetailsPopUp = ({
                 </div>
               </div>
             </Col>
-            <Col md={12} className="mt-3">
-              <div className="Request-information-container w-100">
-                <b>Request Information</b>
-                <div className="d-flex align-items-center">
-                  <p>
-                    Question Format: <span></span>
-                  </p>
-                  <p>
-                    Date Sent:{" "}
-                    <span>{formatDate(candidate.dateSent) || "N/A"}</span>
-                  </p>
-                  <p>
-                    Date Due:{" "}
-                    <span>{formatDate(candidate.dueDate) || "N/A"}</span>
-                  </p>
-                </div>
-              </div>
-            </Col>
+
           </Row>
 
           <div className="button-controls-job d-flex justify-content-center gap-3 w-100 mt-3">
