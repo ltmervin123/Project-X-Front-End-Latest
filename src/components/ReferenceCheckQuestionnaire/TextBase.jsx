@@ -2,8 +2,8 @@ import React from "react";
 import "../../styles/ReferenceCheckQuestionnairePage.css";
 
 const TextBase = ({
-  setAnswer,
-  handleSubmit,
+  setTextBaseAnswer,
+  handleTextBaseSubmit,
   answer,
   loading,
   isSpeaking,
@@ -11,7 +11,7 @@ const TextBase = ({
 }) => {
   //Handle text base answer change
   const handleInputedTextChange = (event) => {
-    setAnswer(event.target.value);
+    setTextBaseAnswer(event.target.value);
   };
 
   return (
@@ -26,7 +26,7 @@ const TextBase = ({
       />
       <div className="d-flex justify-content-center">
         <button
-          onClick={handleSubmit}
+          onClick={handleTextBaseSubmit}
           disabled={!answer || loading || isSpeaking || isSubmitted} // Add isSubmitted here
           className={
             !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
