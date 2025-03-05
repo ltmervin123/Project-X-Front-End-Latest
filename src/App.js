@@ -307,7 +307,10 @@ function App() {
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
         <Route path="/ResumeFitOptimizer" element={<RFOMainPage />} />
-        <Route path="/ResumeFitOptimizer/UploadResume" element={<RFOUploadDocsPage />} />
+        <Route
+          path="/ResumeFitOptimizer/UploadResume"
+          element={<RFOUploadDocsPage />}
+        />
         <Route
           path="/ResumeFitOptimizer/AIResumeOptimizationAnalysis"
           element={<RFOAIResumeOptimizationAnalysis />}
