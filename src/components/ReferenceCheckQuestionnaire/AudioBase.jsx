@@ -11,6 +11,8 @@ import axios from "axios";
 const AudioBase = ({
   setAudioBaseAnswer,
   handleAudioBaseSubmit,
+  reTry,
+  onReTryRecording,
   isSubmitting,
   answer,
   isSpeaking,
@@ -22,7 +24,6 @@ const AudioBase = ({
   const [isRecording, setIsRecording] = useState(false);
   const [isSanitizingTranscription, setIsSanitizingTranscription] =
     useState(false);
-  const [reTry, setReTry] = useState(false);
   const mediaRecorder = useRef(null);
   const transcription = useRef("");
 
@@ -79,10 +80,10 @@ const AudioBase = ({
         handleAudioBaseSubmit(response.data.improvedTranscription);
       }
     } catch (error) {
-      console.error("Error improving transcription:", error);
+      console.error("Error improving transcription:", error); 
     } finally {
       setIsSanitizingTranscription(false);
-      setReTry(true);
+      onReTryRecording(true);
     }
   };
 
@@ -150,7 +151,7 @@ const AudioBase = ({
   };
 
   const handleReTry = () => {
-    setReTry(false);
+    onReTryRecording(false);
 
     clearTranscription();
     setAudioBaseAnswer("");

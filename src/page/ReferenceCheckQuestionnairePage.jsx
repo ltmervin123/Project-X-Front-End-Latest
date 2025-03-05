@@ -29,6 +29,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const [micError, setMicError] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reTry, setReTry] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
@@ -299,6 +300,10 @@ const ReferenceCheckQuestionnairePage = () => {
     setCurrentAnswer(answer);
   };
 
+  const onReTryRecording = (value) => {
+    setReTry(value);
+  };
+
   if (isReattemptingCamera) {
     return (
       <div className="container-fluid d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -361,6 +366,8 @@ const ReferenceCheckQuestionnairePage = () => {
           <AudioBase
             setAudioBaseAnswer={setAudioBaseAnswer}
             handleAudioBaseSubmit={handleAudioBaseSubmit}
+            reTry={reTry}
+            onReTryRecording={onReTryRecording}
             isSubmitting={isSubmitting}
             answer={currentAnswer}
             isSpeaking={isSpeaking}
