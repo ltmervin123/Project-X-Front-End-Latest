@@ -36,84 +36,46 @@ function ReviewYourReferenceCheckPage() {
   const [logs, setLogs] = useState([]);
 
   const handleSkip = () => {
-    // Set the active answer type to "Original Answer"
-    const currentQuestion = currentQuestionIndex + 1; // Questions are 1-indexed
-    const currentAnswer = answers[currentQuestionIndex]; // Get the current answer
-    const newAnswer = {
-      questionNumber: currentQuestionIndex + 1, // Questions are 1-indexed
-      answerType: "Original Answer", // Set to Original Answer
-      answer: currentAnswer, // Use the current answer
-    };
-
-    // Update logs state instead of console logging
-    setLogs((prevLogs) => [
-      ...prevLogs,
-      `Saving answer for Question ${currentQuestionIndex + 1}: ${JSON.stringify(
-        newAnswer
-      )}`,
-    ]);
-
-    setSubmittedAnswers((prev) => [...prev, newAnswer]);
-
-    // Move to the next question
-    if (currentQuestionIndex < answers.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    } else {
-      setIsLastAnswerSaved(true); // Mark the last answer as saved
-      // Log all collected logs to the console
-      console.log("All logs:", [
-        ...logs,
-        `Final log for Question ${currentQuestion}: ${JSON.stringify(
-          newAnswer
-        )}`,
-      ]);
-    }
-
-    // Reset active answer type and disable submit button
-    setActiveAnswerType(null); // Reset active answer type
-    setIsSubmitEnabled(false); // Disable the submit button
+    const newAnswer = questions.map((question, index) => {
+      return {
+        question,
+        answer: answers[index],
+      };
+    });
+    setSubmittedAnswers(newAnswer);
+    setShowSignatureSection(true);
   };
 
   const saveAnswer = () => {
-    const currentQuestion = currentQuestionIndex + 1; // Questions are 1-indexed
-    const answerType = activeAnswerType;
-    const answer = answers[currentQuestionIndex];
+    const currentQuestion = questions[currentQuestionIndex];
+    const selectedAnswer =
+      activeAnswerType === "Original Answer"
+        ? answers[currentQuestionIndex]
+        : normalizedAnswers[currentQuestionIndex];
 
     const newAnswer = {
-      questionNumber: currentQuestion,
-      answerType,
-      answer,
+      question: currentQuestion,
+      answer: selectedAnswer,
+      answerType: activeAnswerType,
     };
-
-    // Update logs state instead of console logging
-    setLogs((prevLogs) => [
-      ...prevLogs,
-      `Saving answer for Question ${currentQuestion}: ${JSON.stringify(
-        newAnswer
-      )}`,
-    ]);
 
     setSubmittedAnswers((prev) => [...prev, newAnswer]);
 
     // Check if this is the last question
     if (currentQuestionIndex === answers.length - 1) {
-      setIsLastAnswerSaved(true); // Mark the last answer as saved
-      // Log all collected logs to the console
-      console.log("All logs:", [
-        ...logs,
-        `Final log for Question ${currentQuestion}: ${JSON.stringify(
-          newAnswer
-        )}`,
-      ]);
+      setIsLastAnswerSaved(true);
     } else {
       // Move to the next question
       setCurrentQuestionIndex((prev) => prev + 1);
     }
 
-    // Reset active answer type and disable submit button
-    setActiveAnswerType(null); // Reset active answer type
-    setIsSubmitEnabled(false); // Disable the submit button
+    setActiveAnswerType(null);
+    setIsSubmitEnabled(false);
   };
+
+  useEffect(() => {
+    console.log(submittedAnswers);
+  }, [submittedAnswers]);
 
   useEffect(() => {
     if (referenceQuestionsData.length > 0) {
@@ -247,13 +209,25 @@ function ReviewYourReferenceCheckPage() {
     context.strokeStyle = "black";
   };
 
+  const getReferenceQuestionData = () => {
+    return referenceQuestionsData.map((categoryItem, index) => {
+      const questionIndex = categoryItem.questions.indexOf(
+        submittedAnswers[index].question
+      );
+      if (questionIndex !== -1) {
+        categoryItem.answers[questionIndex] = submittedAnswers[index].answer;
+      }
+      return { ...categoryItem };
+    });
+  };
+
   const submitReferenceCheck = async () => {
     const URL = `${API}/api/ai-referee/reference/create-reference`;
     const REFERENCE_DATA =
-      JSON.parse(localStorage.getItem("refereeData")) || {};
+      JSON.parse(sessionStorage.getItem("refereeData")) || {};
     const REFERENCE_QUESTIONS_DATA =
-      JSON.parse(localStorage.getItem("referenceQuestions")) || [];
-    const TOKEN = localStorage.getItem("token");
+      JSON.parse(sessionStorage.getItem("referenceQuestions")) || [];
+    const TOKEN = sessionStorage.getItem("token");
     const {
       referenceId,
       positionTitle,
@@ -262,7 +236,7 @@ function ReviewYourReferenceCheckPage() {
       endDate,
       startDate,
     } = REFERENCE_DATA;
-    const referenceQuestion = referenceQuestionsData;
+    const referenceQuestion = getReferenceQuestionData();
     const { format } = REFERENCE_QUESTIONS_DATA;
     const canvas = canvasRef.current;
     const workDuration = { endDate, startDate };
@@ -300,13 +274,13 @@ function ReviewYourReferenceCheckPage() {
       });
 
       if (response.status === 201) {
-        // Move to the next answer
-        if (currentQuestionIndex < answers.length - 1) {
-          setCurrentQuestionIndex((prev) => prev + 1);
-        } else {
-          // If it's the last answer, proceed to the signature section
-          setShowSignatureSection(true);
-        }
+        //Remove data from localstorage
+        sessionStorage.removeItem("refereeData");
+        sessionStorage.removeItem("referenceQuestions");
+        sessionStorage.removeItem("referenceQuestionsData");
+        sessionStorage.removeItem("token");
+        //Navigate to reference completed page
+        navigate("/reference-completed");
       }
     } catch (error) {
       console.error(error);
@@ -329,8 +303,6 @@ function ReviewYourReferenceCheckPage() {
   const handleAnswerSelection = (type) => {
     setActiveAnswerType(type);
     setIsSubmitEnabled(true);
-    console.log(`Selected Answer Type: ${type}`);
-    console.log(`Answer: ${answers[currentQuestionIndex]}`);
   };
 
   return (
@@ -416,7 +388,7 @@ function ReviewYourReferenceCheckPage() {
                 </small>
                 <button
                   onClick={() => {
-                    handleSkip(); // Move to the next question
+                    handleSkip();
                   }}
                 >
                   Skip
@@ -426,7 +398,7 @@ function ReviewYourReferenceCheckPage() {
                   <button
                     className="btn-proceed-submit"
                     onClick={() => {
-                      handleProceed(); // Move to the next question
+                      handleProceed();
                     }}
                   >
                     Proceed
@@ -435,10 +407,9 @@ function ReviewYourReferenceCheckPage() {
                   <button
                     className="btn-proceed-submit"
                     onClick={() => {
-                      saveAnswer(); // Save the current answer before submitting
-                      // submitReferenceCheck(); // Call the submit function
+                      saveAnswer();
                     }}
-                    disabled={!isSubmitEnabled} // This will disable the button after submission
+                    disabled={!isSubmitEnabled}
                   >
                     Submit
                   </button>
@@ -459,7 +430,6 @@ function ReviewYourReferenceCheckPage() {
           submitting={submitting}
         />
       )}
-
     </div>
   );
 }

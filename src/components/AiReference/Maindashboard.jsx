@@ -241,36 +241,6 @@ const MainDashboard = () => {
 
     getJobsWhenFirstRender();
   }, []);
-
-  // Calculate the count for each card
-  const activeJobCount =
-    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
-
-  const completedReferenceCount =
-    reference.filter((record) => record.status === "Completed").length || 0;
-
-  const pendingReferenceCount =
-    reference.filter(
-      (record) => record.status === "In Progress" || record.status === "New"
-    ).length || 0;
-
-  const totalCandidateCount = candidates.length || 0;
-
-  const cardData = [
-    { title: "Active Jobs", count: activeJobCount, color: "#1877F2" },
-    {
-      title: "Pending References",
-      count: pendingReferenceCount,
-      color: "#F8BD00",
-    },
-    {
-      title: "Completed References",
-      count: completedReferenceCount,
-      color: "#319F43",
-    },
-    { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
-  ];
-
   //This function return an array of months according to the reference data
   const getMonthlyCounts = (reference) => {
     const monthNames = [
@@ -299,10 +269,18 @@ const MainDashboard = () => {
         monthMap.set(month, { total: 0, completed: 0 });
       }
 
-      monthMap.get(month).total += 1;
-
-      if (record.status === "Completed") {
+      //Counting status and total referee for the all record
+      if (!record.referees && record.status === "Completed") {
+        monthMap.get(month).total += 1;
         monthMap.get(month).completed += 1;
+      } else {
+        monthMap.get(month).total += record.referees.length;
+        //Counting status and total referee for the individual referees
+        record.referees.forEach((referee) => {
+          if (referee.status === "Completed") {
+            monthMap.get(month).completed += 1;
+          }
+        });
       }
     });
 
@@ -321,6 +299,38 @@ const MainDashboard = () => {
   };
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);
+
+  // Calculate the count for each card
+  const activeJobCount =
+    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+
+  // const completedReferenceCount =
+  //   reference.filter((record) => record.status === "Completed").length || 0;
+
+  const completedReferenceCount = completedReferenceCounts || 0;
+
+  const pendingReferenceCount =
+    reference.filter(
+      (record) => record.status === "In Progress" || record.status === "New"
+    ).length || 0;
+
+  const totalCandidateCount = candidates.length || 0;
+
+  const cardData = [
+    { title: "Active Jobs", count: activeJobCount, color: "#1877F2" },
+    {
+      title: "Pending References",
+      count: pendingReferenceCount,
+      color: "#F8BD00",
+    },
+    {
+      title: "Completed References",
+      count: completedReferenceCount,
+      color: "#319F43",
+    },
+    { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
+  ];
+
   // Data for the line chart
   const lineData = {
     labels: months,
