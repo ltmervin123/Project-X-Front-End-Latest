@@ -22,6 +22,7 @@ const AudioBase = ({
   const [isRecording, setIsRecording] = useState(false);
   const [isSanitizingTranscription, setIsSanitizingTranscription] =
     useState(false);
+  const [reTry, setReTry] = useState(false);
   const mediaRecorder = useRef(null);
   const transcription = useRef("");
 
@@ -81,6 +82,7 @@ const AudioBase = ({
       console.error("Error improving transcription:", error);
     } finally {
       setIsSanitizingTranscription(false);
+      setReTry(true);
     }
   };
 
@@ -90,9 +92,7 @@ const AudioBase = ({
       if (!mediaRecorder.current) return;
 
       setIsRecording(true);
-      // Clear previous transcription
-      clearTranscription();
-      setAudioBaseAnswer("");
+
       // Remove previous event listener before adding a new one
       socket.off("real-time-transcription");
       socket.on("real-time-transcription", (data) => {
@@ -149,6 +149,13 @@ const AudioBase = ({
     clearTranscription();
   };
 
+  const handleReTry = () => {
+    setReTry(false);
+
+    clearTranscription();
+    setAudioBaseAnswer("");
+  };
+
   return (
     <div className="transcription-answer-container">
       <h4>Transcription:</h4>
@@ -160,19 +167,21 @@ const AudioBase = ({
       />
       <div className="d-flex justify-content-center">
         <div>
-          {isSanitizingTranscription || isSubmitting ? (
+          {reTry ? (
+            <button onClick={handleReTry}>Retry</button>
+          ) : isSanitizingTranscription || isSubmitting ? (
             <button disabled>Submitting...</button>
-          ) : isRecording ? (
-            <button onClick={stopRecording}>
-              <FaMicrophoneAltSlash /> Stop Recording
-            </button>
-          ) : (
+          ) : !isRecording ? (
             <button
+              className={isSpeaking ? "disabled" : ""}
               onClick={startRecording}
               disabled={isSpeaking}
-              className={isSpeaking ? "disabled" : ""}
             >
               <FaMicrophone /> Start Recording
+            </button>
+          ) : (
+            <button onClick={stopRecording}>
+              <FaMicrophoneAltSlash /> Stop Recording
             </button>
           )}
         </div>
