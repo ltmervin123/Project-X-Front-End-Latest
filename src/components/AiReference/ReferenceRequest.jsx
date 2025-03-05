@@ -189,7 +189,7 @@ const ReferenceRequest = () => {
         </div>
         {reference && reference.length > 0 ? (
           <>
-            <table className="table">
+            <table>
               <thead>
                 <tr>
                   <th>Candidate</th>
@@ -290,7 +290,7 @@ const ReferenceRequest = () => {
                         <div className="d-flex aling-items-center justify-content-center">
                           <div className="reference-dropdown-table">
                             <p>Referee for {reference.candidate}</p>{" "}
-                            <table className="table">
+                            <table>
                               <thead>
                                 <tr>
                                   <th>Name</th>

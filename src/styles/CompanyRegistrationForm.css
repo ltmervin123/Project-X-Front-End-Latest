@@ -23,30 +23,40 @@
 }
 
 .company-registration-container-form {
-  width: 80%;
-  max-width: 1300px;
+  width: 70%;
+  max-width: 900px;
   border-radius: 20px;
 }
 .form-company-reg {
   padding: 10px 100px 30px 100px;
   border-radius: 0px 0px 20px 20px;
   background: var(--font-white);
+  font-size: 13px;
 }
 .company-reg-title {
   border-radius: 20px 20px 0px 0px;
   background: var(--primary-color);
   padding: 30px 100px;
   color: var(--font-white);
+
 }
 .company-reg-title > p {
   font-weight: 200 !important;
+  font-size: 13px;
+
 }
 .company-registration-container-form input,
 .company-registration-container-form select {
   border-radius: 20px;
-  border: 2px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
   color: var(--input-bg);
   background: var(--font-white);
+  height: 30px;
+  font-size: 13px;
+
+}
+.company-registration-container-form .toggle-password > svg{
+  transform: translateY(-60%) !important;
 }
 .company-registration-container-form select {
   appearance: none;
@@ -59,7 +69,7 @@
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E'); /* SVG up arrow (flipped) */
 }
 .company-registration-container-form label {
-  margin-top: 5px;
+  margin: 0;
 }
 .company-registration-container-form .toggle-password{
   position: absolute;
@@ -89,5 +99,7 @@
 .company-registration-container-form .invalid-feedback{
   left: 12px;
 }
-
+.company-registration-container-form .cr-form-check-input{
+  font-size:13px;
+}
 

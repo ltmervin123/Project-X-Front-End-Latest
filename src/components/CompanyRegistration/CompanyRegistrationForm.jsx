@@ -281,17 +281,80 @@ const CompanyRegistrationForm = () => {
                       className="form-select"
                       id="industry"
                     >
-                      <option value="">Select Industry</option>
-                      <option value="Technology">Technology</option>
-                      <option value="Finance">Finance</option>
-                      <option value="Healthcare">Healthcare</option>
-                      <option value="Education">Education</option>
+                        <option value="">Select an Industry</option>
+                        <option value="advertising_marketing">
+                          Advertising & Marketing
+                        </option>
+                        <option value="aerospace_defense">
+                          Aerospace & Defense
+                        </option>
+                        <option value="agriculture_farming">
+                          Agriculture & Farming
+                        </option>
+                        <option value="automotive">Automotive</option>
+                        <option value="banking_financial_services">
+                          Banking & Financial Services
+                        </option>
+                        <option value="biotechnology_pharmaceuticals_life_science">
+                          Biotechnology, Pharmaceuticals & Life Science
+                        </option>
+                        <option value="construction_real_estate">
+                          Construction & Real Estate
+                        </option>
+                        <option value="business_strategy_it_consulting">
+                          Business, Strategy & IT Consulting
+                        </option>
+                        <option value="consumer_goods_fmcg">
+                          Consumer Goods (FMCG)
+                        </option>
+                        <option value="energy_utilities">
+                          Energy & Utilities
+                        </option>
+                        <option value="entertainment_media">
+                          Entertainment & Media
+                        </option>
+                        <option value="fashion_apparel">
+                          Fashion & Apparel
+                        </option>
+                        <option value="gaming">Gaming</option>
+                        <option value="government_public_sector">
+                          Government & Public Sector
+                        </option>
+                        <option value="healthcare_medical">
+                          Healthcare & Medical
+                        </option>
+                        <option value="hospitality_tourism">
+                          Hospitality & Tourism
+                        </option>
+                        <option value="human_resources_recruitment">
+                          Human Resources & Recruitment
+                        </option>
+                        <option value="insurance">Insurance</option>
+                        <option value="it_software_development">
+                          IT & Software Development
+                        </option>
+                        <option value="legal">Legal</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="mining_metals">Mining & Metals</option>
+                        <option value="retail_e_commerce">
+                          Retail & E-commerce
+                        </option>
+                        <option value="telecommunications">
+                          Telecommunications
+                        </option>
+                        <option value="logistics_warehouse_transportation_shipping">
+                          Logistics, Warehouse, Transportation & Shipping
+                        </option>
+                        <option value="venture_capital_private_equity">
+                          Venture Capital & Private Equity
+                        </option>
+                        <option value="other">Other</option>
                     </select>
                   </div>
                 </Col>
               </Row>
 
-              <div className="my-4">
+              <div className="my-1">
                 <h5>Person In-charge</h5>
 
                 <Row>
@@ -331,20 +394,39 @@ const CompanyRegistrationForm = () => {
                 </Row>
 
                 <div className="mb-1">
-                  <label htmlFor="position-title" className="form-label">
-                    Position Title
-                  </label>
-                  <input
+                  {/* <label htmlFor="position-title" className="form-label">
+                    Position Title How are you involved in the hiring process?
+                  </label> */}
+
+                  {/* <input
                     type="text"
                     name="positionTitle"
                     value={formData.positionTitle}
                     onChange={handleChange}
                     placeholder="Ex. HR Manager"
-                    className="form-control"
                     id="position-title"
-                  />
+                  /> */}
+                  <label htmlFor="hiring-involvement" className="form-label">
+                    How are you involved in the hiring process?
+                  </label>
+                  <select
+                    className="form-control"
+                    name="hiring-involvement"
+                    id="hiring-involvement"
+                  >
+                    <option value="">Select an option</option>
+                    <option value="HR_TA_Recruiter">HR / TA / Recruiter</option>
+                    <option value="Hiring_Manager_Line_Manager">
+                      Hiring Manager / Line Manager
+                    </option>
+                    <option value="Board_Member_Director">
+                      Board Member / Director
+                    </option>
+                    <option value="CEO_President">CEO / President</option>
+                  </select>
                 </div>
                 <Row>
+
                   <Col md={6}>
                     <div className="mb-1">
                       <label
