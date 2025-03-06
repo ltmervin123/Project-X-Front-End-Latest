@@ -304,10 +304,18 @@ const MainDashboard = () => {
   const activeJobCount =
     activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
 
-  // const completedReferenceCount =
-  //   reference.filter((record) => record.status === "Completed").length || 0;
-
-  const completedReferenceCount = completedReferenceCounts || 0;
+  const totalCompletedReference = reference.reduce((count, record) => {
+    if (record?.referees) {
+      record.referees.forEach((referee) => {
+        if (referee.status === "Completed") {
+          count++;
+        }
+      });
+    } else if (record.status === "Completed") {
+      count++;
+    }
+    return count;
+  }, 0);
 
   const pendingReferenceCount =
     reference.filter(
@@ -325,7 +333,7 @@ const MainDashboard = () => {
     },
     {
       title: "Completed References",
-      count: completedReferenceCount,
+      count: totalCompletedReference,
       color: "#319F43",
     },
     { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
