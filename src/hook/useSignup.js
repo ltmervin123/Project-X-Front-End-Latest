@@ -39,7 +39,7 @@ export const useSignup = () => {
         annualHiringVolume,
         firstName,
         lastName,
-        positionTitle,
+        hiringInvolvement,
       } = userDetail;
       const companyDetails = {
         name,
@@ -50,8 +50,9 @@ export const useSignup = () => {
         size,
         industry,
         annualHiringVolume,
+        hiringInvolvement,
       };
-      const personInChargeDetails = { firstName, lastName, positionTitle };
+      const personInChargeDetails = { firstName, lastName };
 
       const response = await axios.post(URL, {
         companyDetails,
