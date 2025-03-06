@@ -1,6 +1,15 @@
-import React from 'react';
+import React from "react";
 
-const SignatureSection = ({ signatureMethod, canvasRef, startDrawing, draw, stopDrawing, clearDrawing, submitReferenceCheck, submitting }) => {
+const SignatureSection = ({
+  signatureMethod,
+  canvasRef,
+  startDrawing,
+  draw,
+  stopDrawing,
+  clearDrawing,
+  submitReferenceCheck,
+  submitting,
+}) => {
   return (
     <div className="ReviewYourReferenceCheck-container">
       <h3>Select or Upload Image</h3>
@@ -16,10 +25,17 @@ const SignatureSection = ({ signatureMethod, canvasRef, startDrawing, draw, stop
         <>
           <div className="drawing-container">
             <p>Drawing container area</p>
-            <div className="drawing-container-box w-100" style={{ width: "100%", height: "260px" }}>
+            <div
+              className="drawing-container-box w-100"
+              style={{ width: "100%", height: "260px" }}
+            >
               <canvas
                 ref={canvasRef}
-                style={{ border: "1px solid black", width: "100%", height: "100%" }}
+                style={{
+                  border: "1px solid black",
+                  width: "100%",
+                  height: "100%",
+                }}
                 onMouseDown={startDrawing}
                 onMouseMove={draw}
                 onMouseUp={stopDrawing}

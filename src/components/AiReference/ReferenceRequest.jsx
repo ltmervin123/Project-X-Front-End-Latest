@@ -233,12 +233,10 @@ const ReferenceRequest = () => {
                         <td>
                           {reference.referees &&
                           Array.isArray(reference.referees) &&
+                          reference?.referees &&
                           reference.referees.length > 1
                             ? `${reference.referees.length} referees`
-                            : reference.referees &&
-                              reference.referees.length === 1
-                            ? "1 referee"
-                            : "No referees available"}
+                            : "1 referee"}
                         </td>
                         <td style={{ color: getStatusColor(reference.status) }}>
                           {reference.status}
