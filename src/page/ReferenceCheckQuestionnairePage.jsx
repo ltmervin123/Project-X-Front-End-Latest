@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/ReferenceCheckQuestionnairePage.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ErrorAccessMic from "../components/Error/ErrorAccessMic";
 import TextBase from "../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../components/ReferenceCheckQuestionnaire/AudioBase";
@@ -10,7 +10,6 @@ import axios from "axios";
 const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
-  const location = useLocation();
   const selectedMethod = sessionStorage.getItem("interview-method");
 
   // Retrieve stored data
@@ -29,7 +28,8 @@ const ReferenceCheckQuestionnairePage = () => {
   const [isReattemptingCamera, setIsReattemptingCamera] = useState(false);
   const [micError, setMicError] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reTry, setReTry] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
@@ -118,16 +118,12 @@ const ReferenceCheckQuestionnairePage = () => {
     setReferenceQuestionsData(formatReferenceQuestions());
   };
 
-  useEffect(() => {
-    console.log("isSpeaking", isSpeaking);
-  }, [isSpeaking]);
-
   //Audio clean up
   useEffect(() => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-         audioRef.current.currentTime = 0;
+        audioRef.current.currentTime = 0;
       }
     };
   }, []);
@@ -228,26 +224,38 @@ const ReferenceCheckQuestionnairePage = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    setIsSubmitted(true); // Add this line to set submitted state
-    await attachAnswer();
+  const handleTextBaseSubmit = async () => {
+    setIsSubmitting(true);
+    await attachAnswer(currentAnswer);
     setAnswered((prev) => {
       const updatedAnswers = [...prev];
       updatedAnswers[currentQuestionIndex] = currentAnswer;
       return updatedAnswers;
     });
+    setIsSubmitting(false);
+  };
+
+  const handleAudioBaseSubmit = async (answer) => {
+    setIsSubmitting(true);
+    await attachAnswer(answer);
+    setAnswered((prev) => {
+      const updatedAnswers = [...prev];
+      updatedAnswers[currentQuestionIndex] = answer;
+      return updatedAnswers;
+    });
+    setIsSubmitting(false);
   };
 
   // Attach answer to referenceQuestionsData
-  const attachAnswer = async () => {
+  const attachAnswer = async (answer) => {
     const currentQuestion = questions[currentQuestionIndex];
-    const normalizedAnswer = await handleNormalizedAnswers();
+    const normalizedAnswer = await handleNormalizedAnswers(answer);
 
     setReferenceQuestionsData((prevData) =>
       prevData.map((categoryItem) => {
         const questionIndex = categoryItem.questions.indexOf(currentQuestion);
         if (questionIndex !== -1) {
-          categoryItem.answers[questionIndex] = currentAnswer;
+          categoryItem.answers[questionIndex] = answer;
           categoryItem.normalizedAnswers[questionIndex] =
             normalizedAnswer || "No Normalized Answer Available";
         }
@@ -257,18 +265,18 @@ const ReferenceCheckQuestionnairePage = () => {
   };
 
   // Fetch normalized answer from API
-  const handleNormalizedAnswers = async () => {
+  const handleNormalizedAnswers = async (answer) => {
     try {
       setLoading(true);
       const token = sessionStorage.getItem("token");
       const response = await axios.post(
         `${API}/api/ai-referee/reference/normalized-answer`,
-        { answer: currentAnswer },
+        { answer: answer },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      return response.data.normalizedAnswer || "";
+      return response.data.normalizedAnswer || "No Normalized Answer Available";
     } catch (error) {
       console.error("Error fetching normalized answer:", error);
       return "";
@@ -276,21 +284,24 @@ const ReferenceCheckQuestionnairePage = () => {
       setLoading(false);
     }
   };
-
-  // Navigation handlers
-  const prevQuestion = () =>
-    setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
-
   const nextQuestion = () => {
     setCurrentAnswer("");
-    setIsSubmitted(false);
+    setIsSubmitting(false);
     setCurrentQuestionIndex((prev) =>
       prev < questions.length - 1 ? prev + 1 : prev
     );
   };
 
-  const handleSetAnswer = (answer) => {
+  const setTextBaseAnswer = (answer) => {
     setCurrentAnswer(answer);
+  };
+
+  const setAudioBaseAnswer = (answer) => {
+    setCurrentAnswer(answer);
+  };
+
+  const onReTryRecording = (value) => {
+    setReTry(value);
   };
 
   if (isReattemptingCamera) {
@@ -353,22 +364,23 @@ const ReferenceCheckQuestionnairePage = () => {
       <>
         {selectedMethod === "VOICE_BASE" ? (
           <AudioBase
-            setAnswer={handleSetAnswer}
-            handleSubmit={handleSubmit}
+            setAudioBaseAnswer={setAudioBaseAnswer}
+            handleAudioBaseSubmit={handleAudioBaseSubmit}
+            reTry={reTry}
+            onReTryRecording={onReTryRecording}
+            isSubmitting={isSubmitting}
             answer={currentAnswer}
-            loading={loading}
             isSpeaking={isSpeaking}
-            isSubmitted={isSubmitted}
             streamRef={streamRef}
           />
         ) : (
           <TextBase
-            setAnswer={handleSetAnswer}
-            handleSubmit={handleSubmit}
+            setTextBaseAnswer={setTextBaseAnswer}
+            handleTextBaseSubmit={handleTextBaseSubmit}
             answer={currentAnswer}
             loading={loading}
             isSpeaking={isSpeaking}
-            isSubmitted={isSubmitted} 
+            isSubmitted={isSubmitting}
           />
         )}
       </>

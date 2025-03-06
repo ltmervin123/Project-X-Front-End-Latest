@@ -241,36 +241,6 @@ const MainDashboard = () => {
 
     getJobsWhenFirstRender();
   }, []);
-
-  // Calculate the count for each card
-  const activeJobCount =
-    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
-
-  const completedReferenceCount =
-    reference.filter((record) => record.status === "Completed").length || 0;
-
-  const pendingReferenceCount =
-    reference.filter(
-      (record) => record.status === "In Progress" || record.status === "New"
-    ).length || 0;
-
-  const totalCandidateCount = candidates.length || 0;
-
-  const cardData = [
-    { title: "Active Jobs", count: activeJobCount, color: "#1877F2" },
-    {
-      title: "Pending References",
-      count: pendingReferenceCount,
-      color: "#F8BD00",
-    },
-    {
-      title: "Completed References",
-      count: completedReferenceCount,
-      color: "#319F43",
-    },
-    { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
-  ];
-
   //This function return an array of months according to the reference data
   const getMonthlyCounts = (reference) => {
     const monthNames = [
@@ -299,10 +269,18 @@ const MainDashboard = () => {
         monthMap.set(month, { total: 0, completed: 0 });
       }
 
-      monthMap.get(month).total += 1;
-
-      if (record.status === "Completed") {
+      //Counting status and total referee for the all record
+      if (!record.referees && record.status === "Completed") {
+        monthMap.get(month).total += 1;
         monthMap.get(month).completed += 1;
+      } else {
+        monthMap.get(month).total += record.referees.length;
+        //Counting status and total referee for the individual referees
+        record.referees.forEach((referee) => {
+          if (referee.status === "Completed") {
+            monthMap.get(month).completed += 1;
+          }
+        });
       }
     });
 
@@ -321,6 +299,54 @@ const MainDashboard = () => {
   };
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);
+
+  // Calculate the count for each card
+  const activeJobCount =
+    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+
+  const totalCompletedReference = reference.reduce((count, record) => {
+    if (record?.referees) {
+      record.referees.forEach((referee) => {
+        if (referee.status === "Completed") {
+          count++;
+        }
+      });
+    } else if (record.status === "Completed") {
+      count++;
+    }
+    return count;
+  }, 0);
+
+  const pendingReferenceCount = reference.reduce((count, record) => {
+    if (record?.referees) {
+      count += record.referees.filter(
+        (referee) => referee.status === "In Progress"
+      ).length;
+    } else if (record.status === "In Progress") {
+      count++;
+    }
+    return count;
+  }, 0);
+
+  console.log(pendingReferenceCount);
+
+  const totalCandidateCount = candidates.length || 0;
+
+  const cardData = [
+    { title: "Active Jobs", count: activeJobCount, color: "#1877F2" },
+    {
+      title: "Pending References",
+      count: pendingReferenceCount,
+      color: "#F8BD00",
+    },
+    {
+      title: "Completed References",
+      count: totalCompletedReference,
+      color: "#319F43",
+    },
+    { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
+  ];
+
   // Data for the line chart
   const lineData = {
     labels: months,
@@ -437,18 +463,37 @@ const MainDashboard = () => {
     },
   };
 
+  function getDepartmentCounts() {
+    const departmentCounts = {};
+
+    activeJobs.forEach((job) => {
+      if (job.department) {
+        departmentCounts[job.department] =
+          (departmentCounts[job.department] || 0) + 1;
+      }
+    });
+
+    const departments = Object.keys(departmentCounts);
+    const counts = Object.values(departmentCounts);
+
+    return { departments, counts };
+  }
+
+  const { departments, counts } = getDepartmentCounts();
+
   const barData = {
-    labels: ["Engineering", "Sales", "Marketing", "HR", "Finance", "Operation"], // Departments as labels
+    labels: departments,
     datasets: [
       {
         label: "Department References",
         backgroundColor: "#1877F2",
         borderColor: "transparent",
         borderWidth: 2,
-        data: [30, 25, 15, 10, 20, 40],
+        data: counts,
       },
     ],
   };
+
   const barOptions = {
     responsive: true,
     maintainAspectRatio: false,

@@ -13,12 +13,18 @@
 
 .reference-dropdown-table {
   width: 98%;
-
+}
+.reference-table{
+  height: 80% !important;
 }
 
 .reference-dropdown-table tbody{
   overflow: none;
   height: auto;
+}
+.Reference-Request span{
+font-weight: inherit !important;
+font-size: inherit;
 }
 /* .status-bg-color{
   width: 120px !important;

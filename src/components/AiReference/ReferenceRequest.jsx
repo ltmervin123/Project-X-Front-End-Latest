@@ -112,6 +112,23 @@ const ReferenceRequest = () => {
     }
   };
 
+  // Function to get the color based on status
+  const getStatusColorForCandidate = (status) => {
+    const statusParts = status.split(" ");
+    const count = parseInt(statusParts[0], 10);
+    const statusType = statusParts.slice(1).join(" ");
+
+    switch (statusType) {
+      case "In Progress":
+        return count > 0 ? "#F8BD00" : "black";
+      case "Completed":
+        return count > 0 ? "#1877F2" : "black";
+      case "New":
+        return count > 0 ? "#319F43" : "black";
+      default:
+        return "black";
+    }
+  };
   // Conditional rendering based on showViewRequest state
   if (showViewRequest) {
     return <ViewRequest referenceId={selectedCandidate._id} token={token} />; // Render ViewRequest component
@@ -132,6 +149,17 @@ const ReferenceRequest = () => {
 
       return candidateMatch || refereeMatch || positionMatch;
     });
+  const calculateCandidateStatus = (reference) => {
+    const statuses = reference.referees.map((referee) => referee.status);
+    const inProgressCount = statuses.filter(
+      (status) => status === "In Progress"
+    ).length;
+    const completedCount = statuses.filter(
+      (status) => status === "Completed"
+    ).length;
+
+    return { inProgressCount, completedCount };
+  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end mb-3">
@@ -182,24 +210,24 @@ const ReferenceRequest = () => {
         </div>
       </div>
 
-      <div className="AiReference-candidates-container">
+      <div className="AiReference-candidates-container Reference-Request">
         <div className="AiReference-table-title">
           <h4>Reference Requests Lists</h4>
           <p>Overview of all reference requests.</p>
         </div>
         {reference && reference.length > 0 ? (
           <>
-            <table>
+            <table className="reference-table">
               <thead>
                 <tr>
                   <th>Candidate</th>
                   {/* <th>Referee</th> */}
                   <th style={{ width: "200px" }}>Position</th>
-                  <th>Referees</th>
+                  <th style={{ width: "120px" }}>Referees</th>
                   <th>Status</th>
                   <th style={{ width: "120px" }}>Date Sent</th>
                   <th style={{ width: "120px" }}>Date Due</th>
-                  <th>Actions</th>
+                  <th style={{ width: "200px" }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -230,18 +258,47 @@ const ReferenceRequest = () => {
                       <tr>
                         <td>{reference.candidate}</td>
                         <td style={{ width: "200px" }}>{reference.position}</td>
-                        <td>
+                        <td style={{ width: "120px" }}>
                           {reference.referees &&
                           Array.isArray(reference.referees) &&
+                          reference?.referees &&
                           reference.referees.length > 1
                             ? `${reference.referees.length} referees`
-                            : reference.referees &&
-                              reference.referees.length === 1
-                            ? "1 referee"
-                            : "No referees available"}
+                            : "1 referee"}
                         </td>
-                        <td style={{ color: getStatusColor(reference.status) }}>
-                          {reference.status}
+                        <td>
+                          {(() => {
+                            const status = calculateCandidateStatus(reference);
+                            return (
+                              <>
+                                {status.inProgressCount === 0 &&
+                                status.completedCount === 0 ? (
+                                  <span style={{ color: "black" }}>
+                                    No Status
+                                  </span>
+                                ) : (
+                                  <>
+                                    {status.inProgressCount > 0 && (
+                                      <span style={{ color: "#F8BD00" }}>
+                                        {status.inProgressCount} In Progress
+                                      </span>
+                                    )}
+                                    {status.completedCount > 0 && (
+                                      <>
+                                        {status.inProgressCount > 0 && (
+                                          <>&nbsp;</>
+                                        )}{" "}
+                                        {/* Add space if In Progress is shown */}
+                                        <span style={{ color: "#1877F2" }}>
+                                          {status.completedCount} Completed
+                                        </span>
+                                      </>
+                                    )}
+                                  </>
+                                )}
+                              </>
+                            );
+                          })()}
                         </td>
                         <td style={{ width: "120px" }}>
                           {formatDate(reference.dateSent)}
@@ -249,44 +306,44 @@ const ReferenceRequest = () => {
                         <td style={{ width: "120px" }}>
                           {formatDate(reference.dueDate)}
                         </td>
-                        <td >
-                          <div className="d-flex align-items-center justify-content-center gap-2">
-                          <button
-                            className={`btn-view-details ${
-                              showDropDown && refereeList._id === reference._id
-                                ? "isDropdown"
-                                : ""
-                            }`}
-                            onClick={() => handleViewReference(reference._id)}
-                          >
-                            {showDropDown && refereeList._id === reference._id
-                              ? "View Reports"
-                              : "View Reports"}
-                          </button>
-                          <div className="reference-dropdown-icon">
-                            <svg
-                              width="9"
-                              height="7"
-                              viewBox="0 0 9 7"
-                              fill="none"
-                              className={`${
+                        <td style={{ width: "200px" }}>
+                          <div className="d-flex align-items-center justify-content-start gap-2">
+                            <button
+                              className={`btn-view-details ${
                                 showDropDown &&
                                 refereeList._id === reference._id
-                                  ? "rotate"
+                                  ? "isDropdown"
                                   : ""
                               }`}
-                              xmlns="http://www.w3.org/2000/svg"
+                              onClick={() => handleViewReference(reference._id)}
                             >
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M3.73951 5.87734L0.240111 1.24127L1.14286 0.0960037L4.20491 4.15267L7.36518 0.143433L8.23988 1.30225L4.62823 5.88412C4.50851 6.03596 4.34763 6.12054 4.18097 6.11927C4.01431 6.118 3.85552 6.03098 3.73951 5.87734Z"
-                                fill="#686868"
-                              />
-                            </svg>
+                              {showDropDown && refereeList._id === reference._id
+                                ? "View Reports"
+                                : "View Reports"}
+                            </button>
+                            <div className="reference-dropdown-icon">
+                              <svg
+                                width="9"
+                                height="7"
+                                viewBox="0 0 9 7"
+                                fill="none"
+                                className={`${
+                                  showDropDown &&
+                                  refereeList._id === reference._id
+                                    ? "rotate"
+                                    : ""
+                                }`}
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M3.73951 5.87734L0.240111 1.24127L1.14286 0.0960037L4.20491 4.15267L7.36518 0.143433L8.23988 1.30225L4.62823 5.88412C4.50851 6.03596 4.34763 6.12054 4.18097 6.11927C4.01431 6.118 3.85552 6.03098 3.73951 5.87734Z"
+                                  fill="#686868"
+                                />
+                              </svg>
+                            </div>
                           </div>
-                          </div>
- 
                         </td>
                       </tr>
                       {showDropDown && refereeList._id === reference._id && (
@@ -296,7 +353,7 @@ const ReferenceRequest = () => {
                             <table>
                               <thead>
                                 <tr>
-                                  <th>Name</th>
+                                  <th>Referee Name</th>
                                   <th>Status</th>
                                   <th>Date Sent</th>
                                   <th>Date Due</th>
@@ -366,12 +423,7 @@ const ReferenceRequest = () => {
                   ))}
               </tbody>
             </table>
-            <div className="d-flex justify-content-center w-100">
-              <div className="d-flex justify-content-center gap-5 mt-3 candidate-button-controls">
-                <button className="btn-export">Export Request</button>
-                <button className="btn-archive">Manage Templates</button>
-              </div>
-            </div>
+
           </>
         ) : (
           <div>No reference requests record</div>
