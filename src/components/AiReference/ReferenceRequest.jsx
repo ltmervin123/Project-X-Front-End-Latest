@@ -249,7 +249,8 @@ const ReferenceRequest = () => {
                         <td style={{ width: "120px" }}>
                           {formatDate(reference.dueDate)}
                         </td>
-                        <td className="d-flex gap-2 align-items-center">
+                        <td >
+                          <div className="d-flex align-items-center justify-content-center gap-2">
                           <button
                             className={`btn-view-details ${
                               showDropDown && refereeList._id === reference._id
@@ -284,6 +285,8 @@ const ReferenceRequest = () => {
                               />
                             </svg>
                           </div>
+                          </div>
+ 
                         </td>
                       </tr>
                       {showDropDown && refereeList._id === reference._id && (

@@ -12,7 +12,19 @@
 .ResumeFitOptimizer-contentainer {
     padding: 10px 50px;
     width: 100% !important;    
+    animation: fadeIn 1.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; /* Fade-in animation */
 }
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0; /* Fully transparent at the start */
+  }
+  100% {
+    opacity: 1; /* Fully visible at the end */
+  }
+}
+.Moc
 .ResumeFitOptimizer-content {
     height: 100%;
 }
