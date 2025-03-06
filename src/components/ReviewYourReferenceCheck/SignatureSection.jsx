@@ -44,7 +44,9 @@ const SignatureSection = ({
             </div>
           </div>
           <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
-            <button onClick={clearDrawing}>Clear</button>
+            <button onClick={clearDrawing} disabled={submitting}>
+              Clear
+            </button>
             <button onClick={submitReferenceCheck} disabled={submitting}>
               {submitting ? "Submitting..." : "Submit"}
             </button>

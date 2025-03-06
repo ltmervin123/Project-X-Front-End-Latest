@@ -33,7 +33,6 @@ function ReviewYourReferenceCheckPage() {
   const [activeAnswerType, setActiveAnswerType] = useState(null);
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const [isLastAnswerSaved, setIsLastAnswerSaved] = useState(false);
-  const [logs, setLogs] = useState([]);
 
   const handleSkip = () => {
     const newAnswer = questions.map((question, index) => {
@@ -332,7 +331,7 @@ function ReviewYourReferenceCheckPage() {
                 setAnswers={setAnswers}
                 setIsEditing={setIsEditing} // Pass the setIsEditing function here
               />
-              <div className="navigation-buttons gap-4 m-0 position-relative">
+              {/* <div className="navigation-buttons gap-4 m-0 position-relative">
                 <button
                   className="prev-btn"
                   onClick={handlePreviousQuestion}
@@ -348,7 +347,7 @@ function ReviewYourReferenceCheckPage() {
                 >
                   &gt;
                 </button>
-              </div>
+              </div> */}
             </div>
           </Col>
           <Col md={3}>

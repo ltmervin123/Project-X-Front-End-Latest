@@ -14,10 +14,11 @@ const ReferenceRequest = () => {
   const token = USER?.token;
   const navigate = useNavigate();
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
-  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  // const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
   const [searchQuery, setSearchQuery] = useState("");
-  const [refereeList, setRefereeList] = useState([]);
+  const [selectedCandidate, setSelectedCandidate] = useState([]);
+  const [selectedReferee, setSelectedReferee] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [reference, setReference] = useState(
@@ -75,19 +76,24 @@ const ReferenceRequest = () => {
     await reFetchReference();
   };
 
-  const handleViewDetails = (candidate) => {
-    setSelectedCandidate(candidate);
+  const handleViewDetails = (referee) => {
+    // setSelectedCandidate(candidate);
+    setSelectedReferee(referee);
     setShowDetailsPopup(true);
   };
-  const handleViewReference = (referenceId) => {
+  const handleSetCandidate = (referenceId) => {
     setShowDropDown((prev) => !prev);
     const referenceFound = reference.find((ref) => ref._id === referenceId);
-    setRefereeList(referenceFound);
+    setSelectedCandidate(referenceFound);
+  };
+
+  const handleViewRequest = () => {
+    setShowViewRequest(true);
   };
 
   useEffect(() => {
-    console.log("Referee Dropdown ", refereeList);
-  }, [refereeList]);
+    console.log("Referee Dropdown ", selectedCandidate);
+  }, [selectedCandidate]);
 
   const handleCloseDetailsPopup = () => {
     setShowDetailsPopup(false);
@@ -114,7 +120,13 @@ const ReferenceRequest = () => {
 
   // Conditional rendering based on showViewRequest state
   if (showViewRequest) {
-    return <ViewRequest referenceId={selectedCandidate._id} token={token} />; // Render ViewRequest component
+    return (
+      <ViewRequest
+        referenceId={selectedCandidate._id}
+        refereeId={selectedReferee._id}
+        token={token}
+      />
+    );
   }
   const filteredReferences = reference
     .slice()
@@ -250,14 +262,16 @@ const ReferenceRequest = () => {
                         <td className="d-flex gap-2 align-items-center">
                           <button
                             className={`btn-view-details ${
-                              showDropDown && refereeList._id === reference._id
+                              showDropDown &&
+                              selectedCandidate._id === reference._id
                                 ? "isDropdown"
                                 : ""
                             }`}
-                            onClick={() => handleViewReference(reference._id)}
+                            onClick={() => handleSetCandidate(reference._id)}
                           >
-                            {showDropDown && refereeList._id === reference._id
-                              ? "View Reports"
+                            {showDropDown &&
+                            selectedCandidate._id === reference._id
+                              ? "Hide Reports"
                               : "View Reports"}
                           </button>
                           <div className="reference-dropdown-icon">
@@ -268,7 +282,7 @@ const ReferenceRequest = () => {
                               fill="none"
                               className={`${
                                 showDropDown &&
-                                refereeList._id === reference._id
+                                selectedCandidate._id === reference._id
                                   ? "rotate"
                                   : ""
                               }`}
@@ -284,79 +298,94 @@ const ReferenceRequest = () => {
                           </div>
                         </td>
                       </tr>
-                      {showDropDown && refereeList._id === reference._id && (
-                        <div className="d-flex aling-items-center justify-content-center">
-                          <div className="reference-dropdown-table">
-                            <p>Referee for {reference.candidate}</p>{" "}
-                            <table>
-                              <thead>
-                                <tr>
-                                  <th>Name</th>
-                                  <th>Status</th>
-                                  <th>Date Sent</th>
-                                  <th>Date Due</th>
-                                  <th>Actions</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {showDropDown && refereeList?.referees ? (
-                                  refereeList.referees.map((referee) => (
-                                    <tr key={referee?._id}>
-                                      <td>{referee?.name}</td>
+                      {showDropDown &&
+                        selectedCandidate._id === reference._id && (
+                          <div className="d-flex aling-items-center justify-content-center">
+                            <div className="reference-dropdown-table">
+                              <p>Referee for {reference.candidate}</p>{" "}
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Date Sent</th>
+                                    <th>Date Due</th>
+                                    <th>Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {showDropDown &&
+                                  selectedCandidate?.referees ? (
+                                    selectedCandidate.referees.map(
+                                      (referee) => (
+                                        <tr key={referee?._id}>
+                                          <td>{referee?.name}</td>
+                                          <td
+                                            style={{
+                                              color: getStatusColor(
+                                                referee?.status
+                                              ),
+                                            }}
+                                          >
+                                            {referee?.status}{" "}
+                                          </td>
+                                          <td>
+                                            {formatDate(reference.dateSent)}
+                                          </td>
+                                          <td>
+                                            {formatDate(reference.dueDate)}
+                                          </td>
+                                          <td>
+                                            <button
+                                              className="btn-view-details"
+                                              onClick={() =>
+                                                handleViewDetails(referee)
+                                              }
+                                            >
+                                              View Details
+                                            </button>
+                                          </td>
+                                        </tr>
+                                      )
+                                    )
+                                  ) : (
+                                    <tr key={selectedCandidate?._id}>
+                                      <td>{selectedCandidate?.referee}</td>
+                                      <td>{selectedCandidate?.refereeEmail}</td>
                                       <td
                                         style={{
                                           color: getStatusColor(
-                                            referee?.status
+                                            selectedCandidate?.status
                                           ),
                                         }}
                                       >
-                                        {referee?.status}{" "}
+                                        {selectedCandidate?.status}{" "}
                                       </td>
-                                      <td>{formatDate(reference.dateSent)}</td>
-                                      <td>{formatDate(reference.dueDate)}</td>
+                                      <td>
+                                        {
+                                          selectedCandidate?.question
+                                            ?.formatType
+                                        }
+                                      </td>
                                       <td>
                                         <button
                                           className="btn-view-details"
                                           onClick={() =>
-                                            handleViewDetails(referee?._id)
+                                            handleViewDetails(
+                                              selectedCandidate?._id
+                                            )
                                           }
                                         >
                                           View Details
                                         </button>
                                       </td>
                                     </tr>
-                                  ))
-                                ) : (
-                                  <tr key={refereeList?._id}>
-                                    <td>{refereeList?.referee}</td>
-                                    <td>{refereeList?.refereeEmail}</td>
-                                    <td
-                                      style={{
-                                        color: getStatusColor(
-                                          refereeList?.status
-                                        ),
-                                      }}
-                                    >
-                                      {refereeList?.status}{" "}
-                                    </td>
-                                    <td>{refereeList?.question?.formatType}</td>
-                                    <td>
-                                      <button
-                                        className="btn-view-details"
-                                        onClick={() =>
-                                          handleViewDetails(refereeList?._id)
-                                        }
-                                      >
-                                        View Details
-                                      </button>
-                                    </td>
-                                  </tr>
-                                )}
-                              </tbody>
-                            </table>
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                     </React.Fragment>
                   ))}
               </tbody>
@@ -376,8 +405,9 @@ const ReferenceRequest = () => {
       {showDetailsPopup && selectedCandidate && (
         <ReferenceRequestDetailsPopUp
           candidate={selectedCandidate}
+          referee={selectedReferee}
           onClose={handleCloseDetailsPopup}
-          onViewReference={handleViewReference} // Add this line
+          onViewReference={handleViewRequest}
         />
       )}
     </div>
