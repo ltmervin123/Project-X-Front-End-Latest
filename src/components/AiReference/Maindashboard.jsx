@@ -455,18 +455,37 @@ const MainDashboard = () => {
     },
   };
 
+  function getDepartmentCounts() {
+    const departmentCounts = {};
+
+    activeJobs.forEach((job) => {
+      if (job.department) {
+        departmentCounts[job.department] =
+          (departmentCounts[job.department] || 0) + 1;
+      }
+    });
+
+    const departments = Object.keys(departmentCounts);
+    const counts = Object.values(departmentCounts);
+
+    return { departments, counts };
+  }
+
+  const { departments, counts } = getDepartmentCounts();
+
   const barData = {
-    labels: ["Engineering", "Sales", "Marketing", "HR", "Finance", "Operation"], // Departments as labels
+    labels: departments,
     datasets: [
       {
         label: "Department References",
         backgroundColor: "#1877F2",
         borderColor: "transparent",
         borderWidth: 2,
-        data: [30, 25, 15, 10, 20, 40],
+        data: counts,
       },
     ],
   };
+
   const barOptions = {
     responsive: true,
     maintainAspectRatio: false,
