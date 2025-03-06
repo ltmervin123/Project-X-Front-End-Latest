@@ -317,10 +317,18 @@ const MainDashboard = () => {
     return count;
   }, 0);
 
-  const pendingReferenceCount =
-    reference.filter(
-      (record) => record.status === "In Progress" || record.status === "New"
-    ).length || 0;
+  const pendingReferenceCount = reference.reduce((count, record) => {
+    if (record?.referees) {
+      count += record.referees.filter(
+        (referee) => referee.status === "In Progress"
+      ).length;
+    } else if (record.status === "In Progress") {
+      count++;
+    }
+    return count;
+  }, 0);
+
+  console.log(pendingReferenceCount);
 
   const totalCandidateCount = candidates.length || 0;
 
