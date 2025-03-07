@@ -13,6 +13,7 @@ function AiReferenceCheckVerificationPage() {
   const [refereeName, setRefereeName] = useState("");
   const [referenceId, setReferenceId] = useState("");
   const [refereeId, setRefereeId] = useState("");
+  const [companyId, setCompanyId] = useState("");
   const [candidateName, setCandidateName] = useState("");
   const [verifying, setVerifying] = useState(false);
 
@@ -37,6 +38,7 @@ function AiReferenceCheckVerificationPage() {
         setRefereeName(response.data.refereeName);
         setReferenceId(response.data.referenceId);
         setRefereeId(response.data.refereeId);
+        setCompanyId(response.data.companyId);
       }
     } catch (error) {
       setIsExpired(true); // Set expired state if an error occurs
@@ -70,6 +72,7 @@ function AiReferenceCheckVerificationPage() {
         referenceId={referenceId}
         candidateName={candidateName}
         refereeId={refereeId}
+        companyId={companyId}
       />
     </>
   );
