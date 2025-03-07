@@ -8,10 +8,16 @@ const TextBase = ({
   loading,
   isSpeaking,
   isSubmitted,
+  reTry,
+  onReTrySubmit,
 }) => {
-  //Handle text base answer change
   const handleInputedTextChange = (event) => {
     setTextBaseAnswer(event.target.value);
+  };
+
+  const handleReTry = () => {
+    onReTrySubmit(false);
+    setTextBaseAnswer("");
   };
 
   return (
@@ -25,15 +31,19 @@ const TextBase = ({
         placeholder={"Type your answer..."}
       />
       <div className="d-flex justify-content-center">
-        <button
-          onClick={handleTextBaseSubmit}
-          disabled={!answer || loading || isSpeaking || isSubmitted} // Add isSubmitted here
-          className={
-            !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
-          } // Update className condition
-        >
-          {loading ? "Submitting..." : "Submit"}
-        </button>
+        {reTry ? (
+          <button onClick={handleReTry}>Retry</button>
+        ) : (
+          <button
+            onClick={handleTextBaseSubmit}
+            disabled={!answer || loading || isSpeaking || isSubmitted} // Add isSubmitted here
+            className={
+              !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
+            }
+          >
+            {loading ? "Submitting..." : "Submit"}
+          </button>
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import axios from "axios";
 
 import html2pdf from "html2pdf.js";
 
-function ViewRequest({ referenceId, token }) {
+function ViewRequest({ referenceId, refereeId, token }) {
   const reportRef = useRef();
 
   const API = process.env.REACT_APP_API_URL;
@@ -16,7 +16,7 @@ function ViewRequest({ referenceId, token }) {
   const fetchReferenceByReferenceId = async () => {
     try {
       setFetchingReference(true);
-      const URL = `${API}/api/ai-referee/company-request-reference//get-reference/${referenceId}`;
+      const URL = `${API}/api/ai-referee/company-request-reference//get-reference/${referenceId}/${refereeId}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
