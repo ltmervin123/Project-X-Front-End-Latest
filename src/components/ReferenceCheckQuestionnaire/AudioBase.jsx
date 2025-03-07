@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../styles/ReferenceCheckQuestionnairePage.css";
 import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
-import {
-  socket,
-  connectSocket,
-  disconnectSocket,
-} from "../../utils/socket/socketSetup";
+import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
 
 const AudioBase = ({
@@ -43,13 +39,9 @@ const AudioBase = ({
   }, [streamRef]);
 
   useEffect(() => {
-    if (!socket.connected) {
-      connectSocket();
-    }
     socket.emit("startTranscription");
 
     return () => {
-      disconnectSocket();
       socket.off("real-time-transcription");
       socket.off("final-transcription");
       socket.off("transcription-complete");

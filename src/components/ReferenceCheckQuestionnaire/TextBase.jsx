@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../styles/ReferenceCheckQuestionnairePage.css";
+
 
 const TextBase = ({
   setTextBaseAnswer,

@@ -20,11 +20,13 @@ export const connectSocket = () => {
   if (!socket.connected) {
     socket.auth = { token };
     socket.connect();
+    console.log("Socket connected");
   }
 };
 
 export const disconnectSocket = () => {
   if (socket.connected) {
     socket.disconnect();
+    console.log("Socket disconnected");
   }
 };

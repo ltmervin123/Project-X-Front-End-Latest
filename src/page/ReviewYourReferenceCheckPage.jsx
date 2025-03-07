@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import QuestionDisplay from "../components/ReviewYourReferenceCheck/QuestionDisplay";
 import SignatureSection from "../components/ReviewYourReferenceCheck/SignatureSection";
+import { socket, disconnectSocket } from "../utils/socket/socketSetup";
 
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
@@ -242,6 +243,7 @@ function ReviewYourReferenceCheckPage() {
       companyWorkedWith,
       endDate,
       startDate,
+      companyId,
     } = REFERENCE_DATA;
     const referenceQuestion = getReferenceQuestionData();
     const { format } = REFERENCE_QUESTIONS_DATA;
@@ -283,6 +285,12 @@ function ReviewYourReferenceCheckPage() {
         sessionStorage.removeItem("referenceQuestions");
         sessionStorage.removeItem("referenceQuestionsData");
         sessionStorage.removeItem("token");
+
+        // Emit event to server
+        socket.emit("referenceCheckCompleted", { companyId });
+
+        // Disconnect socket
+        disconnectSocket();
         //Navigate to reference completed page
         navigate("/reference-completed");
       }
