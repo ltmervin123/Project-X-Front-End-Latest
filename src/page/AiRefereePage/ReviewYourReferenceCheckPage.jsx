@@ -28,12 +28,10 @@ function ReviewYourReferenceCheckPage() {
     answers[currentQuestionIndex]
   );
   const [errorMessage, setErrorMessage] = useState("");
-  const [selectedAnswerType, setSelectedAnswerType] = useState(null);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const [isLastAnswerSaved, setIsLastAnswerSaved] = useState(false);
-  const [logs, setLogs] = useState([]);
 
   const handleSkip = () => {
     const newAnswer = questions.map((question, index) => {
@@ -56,7 +54,6 @@ function ReviewYourReferenceCheckPage() {
     const newAnswer = {
       question: currentQuestion,
       answer: selectedAnswer,
-      answerType: activeAnswerType,
     };
 
     setSubmittedAnswers((prev) => [...prev, newAnswer]);
@@ -126,14 +123,14 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleDragOver = (e) => {
-    e.preventDefault(); // Prevent default behavior (Prevent file from being opened)
+    e.preventDefault();
   };
-  
+
   const handleFileDrop = (e) => {
-    e.preventDefault(); // Prevent default behavior
+    e.preventDefault();
     const files = e.dataTransfer.files;
     if (files.length > 0) {
-      handleFileSelect({ target: { files } }); // Call handleFileSelect with the dropped files
+      handleFileSelect({ target: { files } });
     }
   };
   const clearImage = () => {
@@ -253,7 +250,6 @@ function ReviewYourReferenceCheckPage() {
     try {
       setSubmitting(true);
       const formdata = new FormData();
-
       if (signatureMethod === "Draw Signature") {
         const signatureDataURL = canvas.toDataURL("image/png");
         const signatureBlob = dataURLtoBlob(signatureDataURL);
@@ -275,14 +271,12 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("file", uploadedFile);
       }
-
       const response = await axios.post(URL, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${TOKEN}`,
         },
       });
-
       if (response.status === 201) {
         //Remove data from localstorage
         sessionStorage.removeItem("refereeData");
@@ -342,7 +336,7 @@ function ReviewYourReferenceCheckPage() {
                 setAnswers={setAnswers}
                 setIsEditing={setIsEditing} // Pass the setIsEditing function here
               />
-              <div className="navigation-buttons gap-4 m-0 position-relative">
+              {/* <div className="navigation-buttons gap-4 m-0 position-relative">
                 <button
                   className="prev-btn"
                   onClick={handlePreviousQuestion}
@@ -358,7 +352,7 @@ function ReviewYourReferenceCheckPage() {
                 >
                   &gt;
                 </button>
-              </div>
+              </div> */}
             </div>
           </Col>
           <Col md={3}>
@@ -438,14 +432,14 @@ function ReviewYourReferenceCheckPage() {
           clearDrawing={clearDrawing}
           submitReferenceCheck={submitReferenceCheck}
           submitting={submitting}
-          handleFileDrop={handleFileDrop} // Ensure this is defined
-          handleDragOver={handleDragOver} // Ensure this is defined
+          handleFileDrop={handleFileDrop}
+          handleDragOver={handleDragOver}
           uploadedFile={uploadedFile}
           imagePreview={imagePreview}
           errorMessage={errorMessage}
           clearImage={clearImage}
-          setSignatureMethod={setSignatureMethod} // Pass this function
-          handleFileSelect={handleFileSelect} // Pass this function
+          setSignatureMethod={setSignatureMethod}
+          handleFileSelect={handleFileSelect}
         />
       )}
     </div>

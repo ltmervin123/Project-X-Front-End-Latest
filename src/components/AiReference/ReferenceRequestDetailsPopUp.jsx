@@ -3,6 +3,7 @@ import { Row, Col, Modal, Button } from "react-bootstrap";
 
 const ReferenceRequestDetailsPopUp = ({
   candidate,
+  referee,
   onClose,
   onViewReference,
 }) => {
@@ -79,11 +80,11 @@ const ReferenceRequestDetailsPopUp = ({
                   &nbsp; Status: &nbsp;
                   <span
                     style={{
-                      backgroundColor: getStatusColor(candidate.status),
+                      backgroundColor: getStatusColor(referee.status),
                     }}
                   >
                     {" "}
-                    {candidate.status || "N/A"}
+                    {referee.status || "N/A"}
                   </span>{" "}
                 </p>
                 <p>
@@ -108,7 +109,8 @@ const ReferenceRequestDetailsPopUp = ({
                 <b>Request Information</b>
                 <div className="d-flex flex-column">
                   <p>
-                    Question Format: <span></span>
+                    Question Format:{" "}
+                    <span>{referee.questionFormat || "N/A"}</span>
                   </p>
                   <p>
                     Date Sent:{" "}
@@ -152,29 +154,37 @@ const ReferenceRequestDetailsPopUp = ({
                 <b>Reference Information</b>
                 <div className="d-flex">
                   <div className="reference-labels">Name: </div>
-                  <div className="reference-details">Bob Williams</div>
+                  <div className="reference-details">
+                    {referee.name || "N/A"}
+                  </div>
                 </div>
                 <div className="d-flex ">
                   <div className="reference-labels">Email:</div>
-                  <div className="reference-details">bobwills@company.com</div>
+                  <div className="reference-details">
+                    {referee.email || "N/A"}
+                  </div>
                 </div>
                 <div className="d-flex">
                   <div className="reference-labels">Relationship:</div>
-                  <div className="reference-details">Former Manager</div>
+                  <div className="reference-details">N/A</div>
                 </div>
               </div>
             </Col>
-
           </Row>
 
           <div className="button-controls-job d-flex justify-content-center gap-3 w-100 mt-3">
-            <button className="d-flex gap-2 align-items-center justify-content-center">
-              Send Reminder
-            </button>
-
-            {/* {candidate.status === "Completed" && ( */}
-              <button onClick={onViewReference}>View Reference</button>
-            {/* )} */}
+            {referee.status === "Completeda" ? (
+              <button
+                className="d-flex gap-2 align-items-center justify-content-center"
+                onClick={onViewReference}
+              >
+                View Reference
+              </button>
+            ) : (
+              <button className="d-flex gap-2 align-items-center justify-content-center">
+                Send Reminder
+              </button>
+            )}
           </div>
         </div>
       </Modal.Body>

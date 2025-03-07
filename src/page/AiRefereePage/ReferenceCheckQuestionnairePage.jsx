@@ -233,6 +233,8 @@ const ReferenceCheckQuestionnairePage = () => {
       return updatedAnswers;
     });
     setIsSubmitting(false);
+
+    setReTry(true);
   };
 
   const handleAudioBaseSubmit = async (answer) => {
@@ -285,11 +287,14 @@ const ReferenceCheckQuestionnairePage = () => {
     }
   };
   const nextQuestion = () => {
+    setReTry(false);
     setCurrentAnswer("");
     setIsSubmitting(false);
-    setCurrentQuestionIndex((prev) =>
-      prev < questions.length - 1 ? prev + 1 : prev
-    );
+    if (answered[currentQuestionIndex]) {
+      setCurrentQuestionIndex((prev) =>
+        prev < questions.length - 1 ? prev + 1 : prev
+      );
+    }
   };
 
   const setTextBaseAnswer = (answer) => {
@@ -300,8 +305,13 @@ const ReferenceCheckQuestionnairePage = () => {
     setCurrentAnswer(answer);
   };
 
-  const onReTryRecording = (value) => {
+  const handleRetry = (value) => {
     setReTry(value);
+    setAnswered((prev) => {
+      const updatedAnswers = [...prev];
+      updatedAnswers[currentQuestionIndex] = "";
+      return updatedAnswers;
+    });
   };
 
   if (isReattemptingCamera) {
@@ -367,7 +377,7 @@ const ReferenceCheckQuestionnairePage = () => {
             setAudioBaseAnswer={setAudioBaseAnswer}
             handleAudioBaseSubmit={handleAudioBaseSubmit}
             reTry={reTry}
-            onReTryRecording={onReTryRecording}
+            onReTryRecording={handleRetry}
             isSubmitting={isSubmitting}
             answer={currentAnswer}
             isSpeaking={isSpeaking}
@@ -381,6 +391,8 @@ const ReferenceCheckQuestionnairePage = () => {
             loading={loading}
             isSpeaking={isSpeaking}
             isSubmitted={isSubmitting}
+            reTry={reTry}
+            onReTrySubmit={handleRetry}
           />
         )}
       </>

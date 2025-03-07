@@ -16,11 +16,11 @@ const QuestionDisplay = ({
   const handleSave = () => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
-      newAnswers[currentQuestionIndex] = editedAnswer; // Save the edited answer
+      newAnswers[currentQuestionIndex] = editedAnswer;
       return newAnswers;
     });
-    setEditedAnswer(""); // Clear the edited answer after saving
-    setIsEditing(false); // Exit editing mode
+    setEditedAnswer("");
+    setIsEditing(false);
   };
 
   return (
@@ -69,7 +69,7 @@ const QuestionDisplay = ({
             {isEditing ? (
               <textarea
                 value={editedAnswer}
-                onChange={(e) => setEditedAnswer(e.target.value)} // Update the editedAnswer state
+                onChange={(e) => setEditedAnswer(e.target.value)}
                 rows={8}
                 className="answer-textarea"
               />
@@ -83,8 +83,8 @@ const QuestionDisplay = ({
             ) : (
               <button
                 onClick={() => {
-                  setEditedAnswer(answers[currentQuestionIndex]); // Set the edited answer to the current answer
-                  setIsEditing(true); // Enable editing mode
+                  setEditedAnswer(answers[currentQuestionIndex]);
+                  setIsEditing(true);
                 }}
               >
                 Edit
