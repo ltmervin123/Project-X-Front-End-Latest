@@ -25,9 +25,9 @@ const CompanyRegistrationForm = () => {
     annualHiringVolume: "",
     firstName: "",
     lastName: "",
-    positionTitle: "",
     country: "",
     cities: "",
+    hiringInvolvement: "",
   });
 
   useEffect(() => {
@@ -100,9 +100,9 @@ const CompanyRegistrationForm = () => {
           annualHiringVolume: "",
           firstName: "",
           lastName: "",
-          positionTitle: "",
           country: "",
           cities: "",
+          hiringInvolvement: "",
         });
         setIsChecked(false);
       }
@@ -281,74 +281,74 @@ const CompanyRegistrationForm = () => {
                       className="form-select"
                       id="industry"
                     >
-                        <option value="">Select an Industry</option>
-                        <option value="advertising_marketing">
-                          Advertising & Marketing
-                        </option>
-                        <option value="aerospace_defense">
-                          Aerospace & Defense
-                        </option>
-                        <option value="agriculture_farming">
-                          Agriculture & Farming
-                        </option>
-                        <option value="automotive">Automotive</option>
-                        <option value="banking_financial_services">
-                          Banking & Financial Services
-                        </option>
-                        <option value="biotechnology_pharmaceuticals_life_science">
-                          Biotechnology, Pharmaceuticals & Life Science
-                        </option>
-                        <option value="construction_real_estate">
-                          Construction & Real Estate
-                        </option>
-                        <option value="business_strategy_it_consulting">
-                          Business, Strategy & IT Consulting
-                        </option>
-                        <option value="consumer_goods_fmcg">
-                          Consumer Goods (FMCG)
-                        </option>
-                        <option value="energy_utilities">
-                          Energy & Utilities
-                        </option>
-                        <option value="entertainment_media">
-                          Entertainment & Media
-                        </option>
-                        <option value="fashion_apparel">
-                          Fashion & Apparel
-                        </option>
-                        <option value="gaming">Gaming</option>
-                        <option value="government_public_sector">
-                          Government & Public Sector
-                        </option>
-                        <option value="healthcare_medical">
-                          Healthcare & Medical
-                        </option>
-                        <option value="hospitality_tourism">
-                          Hospitality & Tourism
-                        </option>
-                        <option value="human_resources_recruitment">
-                          Human Resources & Recruitment
-                        </option>
-                        <option value="insurance">Insurance</option>
-                        <option value="it_software_development">
-                          IT & Software Development
-                        </option>
-                        <option value="legal">Legal</option>
-                        <option value="manufacturing">Manufacturing</option>
-                        <option value="mining_metals">Mining & Metals</option>
-                        <option value="retail_e_commerce">
-                          Retail & E-commerce
-                        </option>
-                        <option value="telecommunications">
-                          Telecommunications
-                        </option>
-                        <option value="logistics_warehouse_transportation_shipping">
-                          Logistics, Warehouse, Transportation & Shipping
-                        </option>
-                        <option value="venture_capital_private_equity">
-                          Venture Capital & Private Equity
-                        </option>
-                        <option value="other">Other</option>
+                      <option value="">Select an Industry</option>
+                      <option value="Advertising & Marketing">
+                        Advertising & Marketing
+                      </option>
+                      <option value="Aerospace & Defense">
+                        Aerospace & Defense
+                      </option>
+                      <option value="Agriculture & Farming">
+                        Agriculture & Farming
+                      </option>
+                      <option value="Automotive">Automotive</option>
+                      <option value="Banking & Financial Services">
+                        Banking & Financial Services
+                      </option>
+                      <option value="Biotechnology, Pharmaceuticals & Life Science">
+                        Biotechnology, Pharmaceuticals & Life Science
+                      </option>
+                      <option value="Construction & Real Estate">
+                        Construction & Real Estate
+                      </option>
+                      <option value="Business, Strategy & IT Consulting">
+                        Business, Strategy & IT Consulting
+                      </option>
+                      <option value="Consumer Goods (FMCG)">
+                        Consumer Goods (FMCG)
+                      </option>
+                      <option value="Energy & Utilities">
+                        Energy & Utilities
+                      </option>
+                      <option value="Entertainment & Media">
+                        Entertainment & Media
+                      </option>
+                      <option value="Fashion & Apparel">
+                        Fashion & Apparel
+                      </option>
+                      <option value="Gaming">Gaming</option>
+                      <option value="Government & Public Sector">
+                        Government & Public Sector
+                      </option>
+                      <option value="Healthcare & Medical">
+                        Healthcare & Medical
+                      </option>
+                      <option value="Hospitality & Tourism">
+                        Hospitality & Tourism
+                      </option>
+                      <option value="Human Resources & Recruitment">
+                        Human Resources & Recruitment
+                      </option>
+                      <option value="Insurance">Insurance</option>
+                      <option value="IT & Software Development">
+                        IT & Software Development
+                      </option>
+                      <option value="Legal">Legal</option>
+                      <option value="Manufacturing">Manufacturing</option>
+                      <option value="Mining & Metals">Mining & Metals</option>
+                      <option value="Retail & E-commerce">
+                        Retail & E-commerce
+                      </option>
+                      <option value="Telecommunications">
+                        Telecommunications
+                      </option>
+                      <option value="Logistics, Warehouse, Transportation & Shipping">
+                        Logistics, Warehouse, Transportation & Shipping
+                      </option>
+                      <option value="Venture Capital & Private Equity">
+                        Venture Capital & Private Equity
+                      </option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                 </Col>
@@ -394,39 +394,30 @@ const CompanyRegistrationForm = () => {
                 </Row>
 
                 <div className="mb-1">
-                  {/* <label htmlFor="position-title" className="form-label">
-                    Position Title How are you involved in the hiring process?
-                  </label> */}
-
-                  {/* <input
-                    type="text"
-                    name="positionTitle"
-                    value={formData.positionTitle}
-                    onChange={handleChange}
-                    placeholder="Ex. HR Manager"
-                    id="position-title"
-                  /> */}
                   <label htmlFor="hiring-involvement" className="form-label">
                     How are you involved in the hiring process?
                   </label>
                   <select
                     className="form-control"
-                    name="hiring-involvement"
+                    name="hiringInvolvement"
                     id="hiring-involvement"
+                    value={formData.hiringInvolvement}
+                    onChange={handleChange}
                   >
                     <option value="">Select an option</option>
-                    <option value="HR_TA_Recruiter">HR / TA / Recruiter</option>
-                    <option value="Hiring_Manager_Line_Manager">
+                    <option value="HR / TA / Recruiter">
+                      HR / TA / Recruiter
+                    </option>
+                    <option value="Hiring Manager / Line Manager">
                       Hiring Manager / Line Manager
                     </option>
-                    <option value="Board_Member_Director">
+                    <option value="Board Member / Director">
                       Board Member / Director
                     </option>
-                    <option value="CEO_President">CEO / President</option>
+                    <option value="CEO / President">CEO / President</option>
                   </select>
                 </div>
                 <Row>
-
                   <Col md={6}>
                     <div className="mb-1">
                       <label
@@ -494,7 +485,6 @@ const CompanyRegistrationForm = () => {
             </label>
           </div>
 
-          {/* Add this line before the form ends */}
           <DPAPopUp
             showModal={showModal}
             setShowModal={setShowModal}
@@ -505,7 +495,7 @@ const CompanyRegistrationForm = () => {
             variant="primary"
             type="submit"
             disabled={disableButton}
-            className={`register-company-btn ${disableButton ? "disable" : ""}`} // Add "disable" class if disableButton is true
+            className={`register-company-btn ${disableButton ? "disable" : ""}`}
           >
             {!isLoading ? "Register Company" : "Processing..."}
           </button>
