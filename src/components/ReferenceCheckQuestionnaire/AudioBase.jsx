@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../../styles/ReferenceCheckQuestionnairePage.css";
 import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
 import {
   socket,

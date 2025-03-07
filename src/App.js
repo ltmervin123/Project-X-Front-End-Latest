@@ -57,7 +57,7 @@ import PassChanged from "./page/PassChangedPage.jsx";
 import ExpiredLink from "./page/ExpiredLinkPage.jsx";
 
 /*Reference Verification page*/
-import ReferenceVerification from "./page/ReferenceVerificationPage.jsx";
+import ReferenceVerification from "./page/AiRefereePage/ReferenceVerificationPage.jsx";
 
 /*Reference Verification page*/
 import CreatedAccount from "./page/CreatedAccountPage.jsx";
@@ -89,22 +89,22 @@ import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificatio
 import ChooseYourInterviewMethodPage from "./page/ChooseYourInterviewMethodPage.jsx";
 
 // ReferenceCheckQuestionnairePage
-import ReferenceCheckQuestionnairePage from "./page/ReferenceCheckQuestionnairePage.jsx";
+import ReferenceCheckQuestionnairePage from "./page/AiRefereePage/ReferenceCheckQuestionnairePage.jsx";
 
 // ReviewYourReferenceCheckPage
-import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.jsx";
+import ReviewYourReferenceCheckPage from "./page/AiRefereePage/ReviewYourReferenceCheckPage.jsx";
 
 // ReferenceCheckInstructionsPage
-import ReferenceCheckInstructionsPage from "./page/ReferenceCheckInstructionsPage.jsx";
+import ReferenceCheckInstructionsPage from "./page/AiRefereePage/ReferenceCheckInstructionsPage.jsx";
 
 // ReferenceCheckThankYouMsgPage
-import ReferenceCheckThankYouMsgPage from "./page/ReferenceCheckThankYouMsgPage.jsx";
+import ReferenceCheckThankYouMsgPage from "./page/AiRefereePage/ReferenceCheckThankYouMsgPage.jsx";
 
 // ViewRequest
 import ViewRequest from "./components/AiReference/ViewRequest.jsx";
 
 // ReferenceRequestEmailSentPage
-import ReferenceRequestEmailSentPage from "./page/ReferenceRequestEmailSentPage.jsx";
+import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
 
 // PaymentMethod
 import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";

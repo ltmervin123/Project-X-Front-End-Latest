@@ -49,7 +49,7 @@
 
 .AiReference-report-container tbody {
   display: block; /* Make tbody a block element */
-  max-height: 30vh; /* Set a max height for scrolling */
+  max-height: 25vh; /* Set a max height for scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
 }
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
-import "../styles/ReviewYourReferenceCheckPage.css";
+import "../../styles/AiRefereeStyles/ReviewYourReferenceCheckPage.css";
 import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import QuestionDisplay from "../components/ReviewYourReferenceCheck/QuestionDisplay";
-import SignatureSection from "../components/ReviewYourReferenceCheck/SignatureSection";
+import QuestionDisplay from "../../components/ReviewYourReferenceCheck/QuestionDisplay";
+import SignatureSection from "../../components/ReviewYourReferenceCheck/SignatureSection";
 
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();

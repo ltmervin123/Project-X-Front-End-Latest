@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../styles/ReferenceCheckQuestionnairePage.css";
+import "../../styles/AiRefereeStyles/ReferenceCheckQuestionnairePage.css";
 import { useNavigate } from "react-router-dom";
-import ErrorAccessMic from "../components/Error/ErrorAccessMic";
-import TextBase from "../components/ReferenceCheckQuestionnaire/TextBase";
-import AudioBase from "../components/ReferenceCheckQuestionnaire/AudioBase";
-import loadingAnimation from "../assets/loading.gif";
+import ErrorAccessMic from "../../components/Error/ErrorAccessMic";
+import TextBase from "../../components/ReferenceCheckQuestionnaire/TextBase";
+import AudioBase from "../../components/ReferenceCheckQuestionnaire/AudioBase";
+import loadingAnimation from "../../assets/loading.gif";
 import axios from "axios";
 
 const ReferenceCheckQuestionnairePage = () => {

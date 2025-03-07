@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/ReferenceCheckInstructionsPage.css";
+import "../../styles/AiRefereeStyles/ReferenceCheckInstructionsPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const instructionData = [

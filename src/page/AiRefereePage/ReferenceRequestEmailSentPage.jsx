@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/PassChanged.css";
-import Header from "../components/ExpiredLink/Header";
-import ReferenceRequestEmailSentSection from "../components/ReferenceRequestEmailSent/ReferenceRequestEmailSentSection.jsx";
+import "../../styles/PassChanged.css";
+import Header from "../../components/ExpiredLink/Header.jsx";
+import ReferenceRequestEmailSentSection from "../../components/ReferenceRequestEmailSent/ReferenceRequestEmailSentSection.jsx";
 function ReferenceRequestEmailSentPage() {
   return (
     <>

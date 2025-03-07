@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/ExpiredLink/Header";
+import Header from "../../components/ExpiredLink/Header";
 import { useNavigate } from "react-router-dom";
 
 const ReferenceCheckThankYouMsgPage = () => {
