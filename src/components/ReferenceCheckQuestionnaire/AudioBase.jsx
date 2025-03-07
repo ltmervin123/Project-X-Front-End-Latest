@@ -45,6 +45,7 @@ const AudioBase = ({
     if (!socket.connected) {
       connectSocket();
     }
+    socket.emit("startTranscription");
 
     return () => {
       disconnectSocket();
@@ -77,7 +78,7 @@ const AudioBase = ({
       if (response.status === 200) {
         setAudioBaseAnswer(response.data.improvedTranscription);
         handleAudioBaseSubmit(response.data.improvedTranscription);
-      } 
+      }
     } catch (error) {
       console.error("Error improving transcription:", error);
     } finally {
