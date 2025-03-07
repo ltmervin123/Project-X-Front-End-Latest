@@ -177,6 +177,8 @@ const VideoRecording = ({ interviewType, category }) => {
       clearTranscript();
     });
 
+    newSocket.emit("startTranscription");
+
     newSocket.on("reconnect_attempt", (attempt) => {
       console.log(`Reconnection attempt #${attempt}`);
     });
