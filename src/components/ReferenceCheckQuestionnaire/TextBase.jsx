@@ -25,7 +25,7 @@ const TextBase = ({
       <h4>Answer:</h4>
       <textarea
         value={answer}
-        disabled={loading || isSubmitted} // Update this line
+        disabled={loading || isSubmitted || reTry}
         onChange={handleInputedTextChange}
         rows="4"
         placeholder={"Type your answer..."}
