@@ -11,7 +11,7 @@ const ReferenceQuestion = () => {
   const API = process.env.REACT_APP_API_URL;
   const [selectedSet, setSelectedSet] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState("Custom Sets"); // Default to 'Custom Sets'
+  const [activeButton, setActiveButton] = useState("Custom Sets"); 
   const [flippedState, setFlippedState] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
   const handleButtonClick = (button) => {
@@ -23,7 +23,7 @@ const ReferenceQuestion = () => {
   );
 
   const formatDate = (date) => {
-    return date.split("T")[0]; // Extract only YYYY-MM-DD
+    return date.split("T")[0]; 
   };
 
   const fetchCustomReferenceQuestions = async () => {

@@ -78,9 +78,9 @@ const AudioBase = ({
       if (response.status === 200) {
         setAudioBaseAnswer(response.data.improvedTranscription);
         handleAudioBaseSubmit(response.data.improvedTranscription);
-      }
+      } 
     } catch (error) {
-      console.error("Error improving transcription:", error); 
+      console.error("Error improving transcription:", error);
     } finally {
       setIsSanitizingTranscription(false);
       onReTryRecording(true);
