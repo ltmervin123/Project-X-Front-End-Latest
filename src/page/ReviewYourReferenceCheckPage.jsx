@@ -28,7 +28,6 @@ function ReviewYourReferenceCheckPage() {
     answers[currentQuestionIndex]
   );
   const [errorMessage, setErrorMessage] = useState("");
-  const [selectedAnswerType, setSelectedAnswerType] = useState(null);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
@@ -55,7 +54,6 @@ function ReviewYourReferenceCheckPage() {
     const newAnswer = {
       question: currentQuestion,
       answer: selectedAnswer,
-      answerType: activeAnswerType,
     };
 
     setSubmittedAnswers((prev) => [...prev, newAnswer]);
@@ -125,14 +123,14 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleDragOver = (e) => {
-    e.preventDefault(); // Prevent default behavior (Prevent file from being opened)
+    e.preventDefault();
   };
-  
+
   const handleFileDrop = (e) => {
-    e.preventDefault(); // Prevent default behavior
+    e.preventDefault();
     const files = e.dataTransfer.files;
     if (files.length > 0) {
-      handleFileSelect({ target: { files } }); // Call handleFileSelect with the dropped files
+      handleFileSelect({ target: { files } });
     }
   };
   const clearImage = () => {
@@ -437,14 +435,14 @@ function ReviewYourReferenceCheckPage() {
           clearDrawing={clearDrawing}
           submitReferenceCheck={submitReferenceCheck}
           submitting={submitting}
-          handleFileDrop={handleFileDrop} // Ensure this is defined
-          handleDragOver={handleDragOver} // Ensure this is defined
+          handleFileDrop={handleFileDrop}
+          handleDragOver={handleDragOver}
           uploadedFile={uploadedFile}
           imagePreview={imagePreview}
           errorMessage={errorMessage}
           clearImage={clearImage}
-          setSignatureMethod={setSignatureMethod} // Pass this function
-          handleFileSelect={handleFileSelect} // Pass this function
+          setSignatureMethod={setSignatureMethod}
+          handleFileSelect={handleFileSelect}
         />
       )}
     </div>

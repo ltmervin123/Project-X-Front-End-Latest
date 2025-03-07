@@ -290,9 +290,11 @@ const ReferenceCheckQuestionnairePage = () => {
     setReTry(false);
     setCurrentAnswer("");
     setIsSubmitting(false);
-    setCurrentQuestionIndex((prev) =>
-      prev < questions.length - 1 ? prev + 1 : prev
-    );
+    if (answered[currentQuestionIndex]) {
+      setCurrentQuestionIndex((prev) =>
+        prev < questions.length - 1 ? prev + 1 : prev
+      );
+    }
   };
 
   const setTextBaseAnswer = (answer) => {
@@ -305,6 +307,11 @@ const ReferenceCheckQuestionnairePage = () => {
 
   const handleRetry = (value) => {
     setReTry(value);
+    setAnswered((prev) => {
+      const updatedAnswers = [...prev];
+      updatedAnswers[currentQuestionIndex] = "";
+      return updatedAnswers;
+    });
   };
 
   if (isReattemptingCamera) {
