@@ -173,12 +173,17 @@ const ReferenceRequestDetailsPopUp = ({
           </Row>
 
           <div className="button-controls-job d-flex justify-content-center gap-3 w-100 mt-3">
-            <button className="d-flex gap-2 align-items-center justify-content-center">
-              Send Reminder
-            </button>
-
-            {referee.status === "Completed" && (
-              <button onClick={onViewReference}>View Reference</button>
+            {referee.status === "Completeda" ? (
+              <button
+                className="d-flex gap-2 align-items-center justify-content-center"
+                onClick={onViewReference}
+              >
+                View Reference
+              </button>
+            ) : (
+              <button className="d-flex gap-2 align-items-center justify-content-center">
+                Send Reminder
+              </button>
             )}
           </div>
         </div>

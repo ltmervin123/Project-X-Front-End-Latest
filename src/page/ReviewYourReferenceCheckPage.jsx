@@ -250,7 +250,6 @@ function ReviewYourReferenceCheckPage() {
     try {
       setSubmitting(true);
       const formdata = new FormData();
-
       if (signatureMethod === "Draw Signature") {
         const signatureDataURL = canvas.toDataURL("image/png");
         const signatureBlob = dataURLtoBlob(signatureDataURL);
@@ -272,14 +271,12 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("file", uploadedFile);
       }
-
       const response = await axios.post(URL, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${TOKEN}`,
         },
       });
-
       if (response.status === 201) {
         //Remove data from localstorage
         sessionStorage.removeItem("refereeData");
