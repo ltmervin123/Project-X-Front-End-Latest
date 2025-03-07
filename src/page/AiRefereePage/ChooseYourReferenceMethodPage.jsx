@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/ChooseYourInterviewMethodPage.css";
+import "../../styles/AiRefereeStyles/ChooseYourReferenceMethodPage.css";
 
-function ChooseYourInterviewMethodPage() {
+function ChooseYourReferenceMethodPage() {
   const navigate = useNavigate();
 
   // Handle the method selection and navigate to next page
@@ -15,11 +15,10 @@ function ChooseYourInterviewMethodPage() {
     <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center">
       <div className="chooseyourinterviewmethod-container d-flex align-items-center justify-content-center flex-column">
         <h3>
-          Choose Your <span className="color-orange">Interview Method</span>
+        Choose Your <span className="color-orange"> Reference Method </span>
         </h3>
         <p>
-          Select the type of response you'd like for the interview questions.
-        </p>
+        Please select the type of response you prefer for the reference questions.        </p>
 
         {/* Cards Container */}
         <div className="row d-flex justify-content-center align-items-center">
@@ -84,4 +83,4 @@ function ChooseYourInterviewMethodPage() {
   );
 }
 
-export default ChooseYourInterviewMethodPage;
+export default ChooseYourReferenceMethodPage;

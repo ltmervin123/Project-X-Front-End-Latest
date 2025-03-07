@@ -26,7 +26,7 @@
 .ViewRequest-container > div > button{
     background: var(--secondary-color);
     color: var(--font-white);
-    border-radius: 10px;
+    border-radius: 50px;
     border: none;
     padding: 5px 15px;
 }

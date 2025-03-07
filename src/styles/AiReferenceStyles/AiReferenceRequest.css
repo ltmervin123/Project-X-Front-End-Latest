@@ -22,6 +22,30 @@
   overflow: none;
   height: auto;
 }
+.reference-table > thead > tr > th:nth-child(1),
+.reference-table > thead > tr > th:nth-child(2),
+.reference-table > tbody > tr > td:nth-child(1),
+.reference-table > tbody > tr > td:nth-child(2){
+  width: 15% !important; 
+}
+.reference-table > thead > tr > th:nth-child(3),
+.reference-table > tbody > tr > td:nth-child(3){
+
+  width: 10% !important;
+}
+.reference-table > thead > tr > th:nth-child(4),
+  .reference-table > tbody > tr > td:nth-child(4){
+  width: 20% !important;
+}
+.reference-table > thead > tr > th:nth-child(5),
+.reference-table > thead > tr > th:nth-child(6),
+.reference-table > tbody > tr > td:nth-child(5),
+.reference-table > tbody > tr > td:nth-child(6){
+  width: 12% !important;
+}
+.reference-table > thead > tr > th:nth-child(7){
+  width: 16% !important;
+}
 .Reference-Request span{
 font-weight: inherit !important;
 font-size: inherit;
@@ -96,20 +120,18 @@ font-size: inherit;
   width: 30%;
 }
 
-.custom-modal-reference .modal-body .button-controls-job > button:nth-child(1) {
-  background: var(--secondary-color);
+.custom-modal-reference .modal-body .button-controls-job > .btn-viewreference {
+  background: var(--primary-color);
 
-  padding: 5px 10px;
+  padding: 5px 15px;
   color: var(--font-white);
   border-radius: 50px;
   border: none;
-  width: 200px;
 }
-.custom-modal-reference .modal-body .button-controls-job > button:nth-child(2) {
-  padding: 5px 10px;
-  background: var(--primary-color);
+.custom-modal-reference .modal-body .button-controls-job > .btn-senRemider {
+  padding: 5px 15px;
+  background: var(--secondary-color);
 
-  width: 200px;
   color: var(--font-white);
   border-radius: 50px;
   border: none;

@@ -44,7 +44,7 @@ const CompanyProfile = () => {
   };
 
   return (
-    <Container className="user-profile-section">
+    <div className="user-profile-section">
       <div className="user-profile-container">
         <h4>COMPANY PROFILE</h4>
         <p>Manage your account settings and preferences.</p>
@@ -249,7 +249,7 @@ const CompanyProfile = () => {
           </div>
         </div>
       </Row> */}
-    </Container>
+    </div>
   );
 };
 

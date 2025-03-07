@@ -85,8 +85,8 @@ import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistr
 // AiReferenceCheckVerificationPage
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
 
-// ChooseYourInterviewMethodPage
-import ChooseYourInterviewMethodPage from "./page/ChooseYourInterviewMethodPage.jsx";
+// ChooseYourReferenceMethodPage
+import ChooseYourReferenceMethodPage from "./page/AiRefereePage/ChooseYourReferenceMethodPage.jsx";
 
 // ReferenceCheckQuestionnairePage
 import ReferenceCheckQuestionnairePage from "./page/AiRefereePage/ReferenceCheckQuestionnairePage.jsx";
@@ -234,10 +234,10 @@ function App() {
         <Route element={<RequireAuthVefifyReferee />}>
           {/* Reference Verification page */}
 
-          {/* ChooseYourInterviewMethodPage*/}
+          {/* ChooseYourReferenceMethodPage*/}
           <Route
             path="/reference-interview-method"
-            element={<ChooseYourInterviewMethodPage />}
+            element={<ChooseYourReferenceMethodPage />}
           />
           {/* ReferenceCheckInstructionsPage*/}
           <Route

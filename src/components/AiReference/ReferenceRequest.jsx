@@ -233,13 +233,12 @@ const ReferenceRequest = () => {
               <thead>
                 <tr>
                   <th>Candidate</th>
-                  {/* <th>Referee</th> */}
-                  <th style={{ width: "200px" }}>Position</th>
-                  <th style={{ width: "120px" }}>Referees</th>
+                  <th>Position</th>
+                  <th >Referees</th>
                   <th>Status</th>
-                  <th style={{ width: "120px" }}>Date Sent</th>
-                  <th style={{ width: "120px" }}>Date Due</th>
-                  <th style={{ width: "200px" }}>Actions</th>
+                  <th >Date Sent</th>
+                  <th >Date Due</th>
+                  <th >Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -269,8 +268,8 @@ const ReferenceRequest = () => {
                     <React.Fragment key={reference._id}>
                       <tr>
                         <td>{reference.candidate}</td>
-                        <td style={{ width: "200px" }}>{reference.position}</td>
-                        <td style={{ width: "120px" }}>
+                        <td>{reference.position}</td>
+                        <td >
                           {reference.referees &&
                           Array.isArray(reference.referees) &&
                           reference?.referees &&
@@ -312,10 +311,10 @@ const ReferenceRequest = () => {
                             );
                           })()}
                         </td>
-                        <td style={{ width: "120px" }}>
+                        <td >
                           {formatDate(reference.dateSent)}
                         </td>
-                        <td style={{ width: "120px" }}>
+                        <td  >
                           {formatDate(reference.dueDate)}
                         </td>
                         <td className="d-flex gap-2 align-items-center">
@@ -360,9 +359,9 @@ const ReferenceRequest = () => {
                       {showDropDown &&
                         selectedCandidate._id === reference._id && (
                           <div className="d-flex aling-items-center justify-content-center">
-                            <div className="reference-dropdown-table">
-                              <p>Referee for {reference.candidate}</p>{" "}
-                              <table>
+                            <div className="reference-dropdown-table mb-2">
+                              <b className="py-2 pb-2">Referee for {reference.candidate}</b>{" "}
+                              <table className="">
                                 <thead>
                                   <tr>
                                     <th>Name</th>
