@@ -10,9 +10,7 @@ export const socket = io(API, {
   transports: ["websocket"],
 });
 
-export const connectSocket = () => {
-  const token = sessionStorage.getItem("token") || null;
-
+export const connectSocket = (token) => {
   if (!token) {
     return;
   }
@@ -20,11 +18,13 @@ export const connectSocket = () => {
   if (!socket.connected) {
     socket.auth = { token };
     socket.connect();
+    console.log("Socket connected");
   }
 };
 
 export const disconnectSocket = () => {
   if (socket.connected) {
     socket.disconnect();
+    console.log("Socket disconnected");
   }
 };
