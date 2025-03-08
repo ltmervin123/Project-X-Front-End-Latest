@@ -490,7 +490,6 @@ const VideoRecording = ({ interviewType, category }) => {
   const stopRecording = async () => {
     // // Reset timer
     setTimer({ minutes: 0, seconds: 0 });
-    console.log("Timer Reset");
 
     // Set uploading state to true
     setIsUploading(true);

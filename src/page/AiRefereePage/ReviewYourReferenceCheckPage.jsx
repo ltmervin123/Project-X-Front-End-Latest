@@ -72,10 +72,6 @@ function ReviewYourReferenceCheckPage() {
   };
 
   useEffect(() => {
-    console.log(submittedAnswers);
-  }, [submittedAnswers]);
-
-  useEffect(() => {
     if (referenceQuestionsData.length > 0) {
       const allQuestions = referenceQuestionsData.flatMap(
         (item) => item.questions || []

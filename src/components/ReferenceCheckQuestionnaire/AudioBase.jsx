@@ -122,7 +122,6 @@ const AudioBase = ({
     // Final transcription event
     socket.once("final-transcription", (data) => {
       if (data?.isFinal) {
-        console.log("Final transcription:", data.text);
         setTranscription(data.text);
         setAudioBaseAnswer((prev) => `${prev} ${data.text}`);
       }
