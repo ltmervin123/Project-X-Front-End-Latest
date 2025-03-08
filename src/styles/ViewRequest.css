@@ -44,3 +44,10 @@
   border: none;
   border-radius: 20px;
 }
+.btn-back-to-reference-request{
+  background: var(--secondary-color);
+  color: var(--font-white);
+  padding: 5px 30px;
+  border: none;
+  border-radius: 20px;
+}

@@ -48,13 +48,13 @@ const LoginForm = () => {
         <div className="login-container">
           <div className="login-header text-center">
             <h2>LOG IN</h2>
-            <p>Welcome back, let’s dive in!</p>
+            <p className="mb-2">Welcome back, let’s dive in!</p>
           </div>
           <div className="account-details account-details-login">
             <h3>Account Details</h3>
             <p>Please enter your credentials to access your account.</p>
             <form className="login-form" onSubmit={handleSubmit}>
-              <div className="input-group mb-3">
+              <div className="input-group mb-2">
                 <span className="input-group-text">
                   {/* Email icon */}
                   <svg
@@ -142,7 +142,7 @@ const LoginForm = () => {
                   )}
                 </div>
               </div>
-              <div className="input-group mb-3 position-relative">
+              <div className="input-group mb-2 position-relative">
                 <span className="input-group-text">
                   {/* Password icon */}
 

@@ -66,7 +66,7 @@ function PaymentMethod() {
       ],
     },
   ];
-  const [selectedPayment, setSelectedPayment] = useState(paymentForms[0]);
+  const [selectedPayment, setSelectedPayment] = useState(paymentForms[1]);
 
   const handlePaymentChange = (paymentName) => {
     const newPayment = paymentForms.find((p) => p.name === paymentName);
@@ -77,52 +77,43 @@ function PaymentMethod() {
     <>
       <div className="PaymentMethod-contentainer d-flex flex-column justify-content-center align-items-center">
         <div className="PaymentMethod-content ">
-          <Row className="PaymentMethod-row d-flex flex-row justify-content-between align-items-start h-100 ">
-            <div className="PaymentMethod-btn-container">
-              <button
-                className="btn-back-to-landing d-flex gap-2 align-items-center"
-                onClick={handleReturnLandingPage}
+          <div className="PaymentMethod-btn-container mb-2">
+            <button
+              className="btn-back-to-landing d-flex gap-2 align-items-center"
+              onClick={handleReturnLandingPage}
+            >
+              <svg
+                width="27"
+                height="16"
+                viewBox="0 0 27 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <svg
-                  width="27"
-                  height="16"
-                  viewBox="0 0 27 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.292893 8.70711C-0.0976314 8.31658 -0.0976315 7.68342 0.292892 7.2929L6.65685 0.928934C7.04738 0.53841 7.68054 0.538409 8.07107 0.928934C8.46159 1.31946 8.46159 1.95262 8.07107 2.34315L2.41421 8L8.07107 13.6569C8.46159 14.0474 8.46159 14.6805 8.07107 15.0711C7.68054 15.4616 7.04738 15.4616 6.65686 15.0711L0.292893 8.70711ZM27 9L1 9L1 7L27 7L27 9Z"
-                    fill="white"
-                  />
-                </svg>
-                Back to Landing Page
-              </button>
-            </div>
+                <path
+                  d="M0.292893 8.70711C-0.0976314 8.31658 -0.0976315 7.68342 0.292892 7.2929L6.65685 0.928934C7.04738 0.53841 7.68054 0.538409 8.07107 0.928934C8.46159 1.31946 8.46159 1.95262 8.07107 2.34315L2.41421 8L8.07107 13.6569C8.46159 14.0474 8.46159 14.6805 8.07107 15.0711C7.68054 15.4616 7.04738 15.4616 6.65686 15.0711L0.292893 8.70711ZM27 9L1 9L1 7L27 7L27 9Z"
+                  fill="white"
+                />
+              </svg>
+              Back to Landing Page
+            </button>
+          </div>
+          <Row className="PaymentMethod-row d-flex  justify-content-center  h-100 ">
             <Col
               md={6}
-              className="PaymentMethod-col d-flex justify-content-center align-items-center flex-row gap-2"
+              className="PaymentMethod-col d-flex justify-content-center align-items-center flex-row "
             >
-              <div className="PaymentMethod-select-payment-methods-container d-flex justify-content-start align-items-center flex-column gap-2">
-                <div className="select-payment-methods-content-header w-100">
+              <div className="PaymentMethod-select-payment-methods-container d-flex justify-content-start align-items-start flex-column ">
+                <div className="select-payment-methods-content-header mb-3 w-100">
                   <h4 className="select-payment-methods-title">
                     Choose Your Payment Methods
                   </h4>
                 </div>
-                <Row className="select-payment-methods-content">
-                  <div className="select-payment-methods-content-header-text d-flex flex-column">
+                <Row className="select-payment-methods-content mb-5">
+                  <div className="select-payment-methods-content-header-text w-100 d-flex flex-column">
                     <b>Credit/Debit Cards</b>
                     <small>Select your preferred card type.</small>
                   </div>
-                  <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start gap-3 row-gap-4">
-                    <button
-                      className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
-                      onClick={() => handlePaymentChange("Pay with Mastercard")}
-                    >
-                      <div>
-                        <img src={Mastercard} alt="" />
-                      </div>
-                      Mastercard
-                    </button>
+                  <div className="select-payment-methods-content-selections my-2 d-flex align-items-center justify-content-start gap-3 row-gap-4">
                     <button
                       className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
                       onClick={() => handlePaymentChange("Pay with Visa")}
@@ -131,6 +122,15 @@ function PaymentMethod() {
                         <img src={Visa} alt="" />
                       </div>
                       VISA
+                    </button>
+                    <button
+                      className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center"
+                      onClick={() => handlePaymentChange("Pay with Mastercard")}
+                    >
+                      <div>
+                        <img src={Mastercard} alt="" />
+                      </div>
+                      Mastercard
                     </button>
 
                     <button
@@ -164,12 +164,12 @@ function PaymentMethod() {
                     </button>
                   </div>
                 </Row>
-                <Row className="select-payment-methods-content">
-                  <div className="select-payment-methods-content-header-text d-flex flex-column">
+                <Row className="select-payment-methods-content mb-5">
+                  <div className="select-payment-methods-content-header-text w-100 d-flex flex-column">
                     <b>E-Wallets and Others</b>
                     <small>Select your preferred payment options.</small>
                   </div>
-                  <div className="select-payment-methods-content-selections d-flex align-items-center justify-content-start gap-3 row-gap-4">
+                  <div className="select-payment-methods-content-selections my-2 d-flex align-items-center justify-content-start gap-3 row-gap-4">
                     <button className="payment-methods-btn box-show-044 d-flex flex-column justify-content-center align-items-center">
                       <div>
                         <img src={Stripes} alt="" />
@@ -202,112 +202,79 @@ function PaymentMethod() {
             </Col>
             <Col
               md={6}
-              className="PaymentMethod-col d-flex justify-content-center align-items-center flex-column gap-2"
+              className="PaymentMethod-col d-flex justify-content-center align-items-start flex-column gap-2"
             >
               <div className="PaymentMethod-pay-form-container">
-                <div className="PaymentMethod-pay-form-container-header">
+                <div className="PaymentMethod-pay-form-container-header mb-4">
                   <h4 className="PaymentMethod-pay-form-container-header-title">
                     {selectedPayment.name}
                   </h4>
                 </div>
-                <div className="pay-form-content-infput-field w-100 d-flex flex-column justify-content-center align-items-center">
+                <div className="pay-form-content-infput-field w-100 d-flex flex-column justify-content-center align-items-start">
                   <Form className="d-flex flex-column justify-content-start align-items-center">
-                    <Row className="w-100">
-                      <Col md={12} className="p-0 m-0">
-                        {/* Card Number Field */}
-                        <Form.Group className="form-group w-100 mb-3 my-0">
-                          <Form.Label
-                            className="me-2"
-                            style={{ width: "150px" }}
-                          >
-                            Card Number
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="1234567890123456"
-                            autoComplete="off"
-                            maxLength="19"
-                            onInput={(e) =>
-                              (e.target.value = e.target.value.replace(
-                                /\D/g,
-                                ""
-                              ))
-                            }
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
+                    {/* Card Number Field */}
+                    <Form.Group className="form-group w-100 mb-3 my-0">
+                      <Form.Label className="me-2" style={{ width: "150px" }}>
+                        Card Number
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="1234567890123456"
+                        autoComplete="off"
+                        maxLength="19"
+                        onInput={(e) =>
+                          (e.target.value = e.target.value.replace(/\D/g, ""))
+                        }
+                      />
+                    </Form.Group>
 
-                    {/* Row for Expiry Date and CVV */}
-                    <Row className="w-100">
-                      <Col md={6} className="p-0 m-0">
-                        <Form.Group className="form-group mb-3 my-0">
-                          <Form.Label
-                            className="me-2"
-                            style={{ width: "150px" }}
-                          >
-                            Expiry Date
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="MM/YY"
-                            autoComplete="off"
-                            maxLength="7"
-                            onInput={(e) => {
-                              let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-                              if (value.length > 2) {
-                                value =
-                                  value.slice(0, 2) + "/" + value.slice(2); // Auto-insert "/"
-                              }
-                              e.target.value = value.slice(0, 5); // Limit to MM/YY format
-                            }}
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={6} className="p-0 m-0">
-                        <Form.Group className="form-group mb-3 my-0">
-                          <Form.Label
-                            className="me-2"
-                            style={{ width: "150px" }}
-                          >
-                            CVV
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="123"
-                            autoComplete="off"
-                            maxLength="3"
-                            onInput={(e) =>
-                              (e.target.value = e.target.value.replace(
-                                /\D/g,
-                                ""
-                              ))
-                            }
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
+                    <Form.Group className="form-group w-100 mb-3 my-0">
+                      <Form.Label className="me-2" style={{ width: "150px" }}>
+                        Expiry Date
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="MM/YY"
+                        autoComplete="off"
+                        maxLength="7"
+                        onInput={(e) => {
+                          let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                          if (value.length > 2) {
+                            value = value.slice(0, 2) + "/" + value.slice(2); // Auto-insert "/"
+                          }
+                          e.target.value = value.slice(0, 5); // Limit to MM/YY format
+                        }}
+                      />
+                    </Form.Group>
 
-                    <Row className="w-100">
-                      <Col md={12} className="p-0 m-0">
-                        {/* Cardholder Name Field */}
-                        <Form.Group className="form-group w-100 mb-3 my-0">
-                          <Form.Label
-                            className="me-2"
-                            style={{ width: "150px" }}
-                          >
-                            Cardholder Name
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="John Doe"
-                            autoComplete="off"
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
+                    <Form.Group className="form-group w-100 mb-3 my-0">
+                      <Form.Label className="me-2" style={{ width: "150px" }}>
+                        CVV
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="123"
+                        autoComplete="off"
+                        maxLength="3"
+                        onInput={(e) =>
+                          (e.target.value = e.target.value.replace(/\D/g, ""))
+                        }
+                      />
+                    </Form.Group>
 
-                    <button className="btn-pay-now mx-2">Pay Now</button>
+                    {/* Cardholder Name Field */}
+                    <Form.Group className="form-group w-100 mb-4 my-0">
+                      <Form.Label className="me-2" style={{ width: "150px" }}>
+                        Cardholder Name
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="John Doe"
+                        autoComplete="off"
+                      />
+                    </Form.Group>
+
+                    <button className="btn-pay-now ">Pay Now</button>
                   </Form>
                 </div>
               </div>

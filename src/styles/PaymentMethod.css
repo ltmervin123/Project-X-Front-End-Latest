@@ -6,14 +6,17 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
+.bg-gray{
+  background: linear-gradient(180deg, rgba(253,251,251,1) 0%, rgba(235,237,238,1) 38%);
+}
 
 .PaymentMethod-contentainer {
-  height: 90vh !important;
+  height: 100vh !important;
   width: 100vw !important;
 }
 .PaymentMethod-content {
   height: 80%;
-  max-height: 800px !important;
+  max-height: 600px !important;
   width: 90%;
   max-width: 1300px;
 }
@@ -31,12 +34,10 @@
   -o-border-radius: 50px;
 
 }
-/* .PaymentMethod-content .PaymentMethod-row {
-background: var(--input-bg);
-} */
+
 .PaymentMethod-col {
   height: 100%;
-  max-height: 700px;
+  max-height: 520px;
   border-radius: 25px;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
@@ -45,19 +46,23 @@ background: var(--input-bg);
   padding: 30px;
 scale: .98;
   box-shadow: 0px 4px 4px #00000040;
+  background: var(--font-white) !important;
 }
 .PaymentMethod-select-payment-methods-container {
   height: 100%;
-  width: 100%;
+  width: 98%;
   overflow: hidden;
 }
+
+
 .select-payment-methods-content {
   width: 100%;
-  
+
 }
-.select-payment-methods-content-header-text {
-  padding-block: 20px;
-  padding-left: 0;
+
+
+.select-payment-methods-content-header-text small{
+  color: var(--input-bg);
 }
 .select-payment-methods-content-selections {
   display: flex;
@@ -65,7 +70,6 @@ scale: .98;
   justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 10px;
-  padding-left: 0;
 }
 .payment-methods-btn {
   background-color: white;
@@ -104,22 +108,23 @@ scale: .98;
 .pay-form-content-infput-field {
   height: 90%;
   overflow: auto;
+
 }
 .pay-form-content-infput-field > form {
   height: 100%;
   width: 100%;
-  margin-top: 22px;
-}
-.pay-form-content-infput-field > form > .form-group {
-  flex: 1 1 100%;
 }
 
+.pay-form-content-infput-field > form label{
+  font-weight: bold;
+}
 .pay-form-content-infput-field > form input{
     box-shadow: 0px 4px 4px #00000040;
     border-radius: 50px;
+    height: 40px;
 }
 .btn-pay-now {
-  padding: 5px 0px;
+  height: 40px !important;
   width: 100%;
   border: none;
   border-radius: 10px;

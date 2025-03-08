@@ -1,11 +1,18 @@
-import React, { useState, useEffect, useRef } from "react"; // Ensure useState is imported
+import React, { useState, useEffect, useRef } from "react"; 
 import "../../styles/ViewRequest.css";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import html2pdf from "html2pdf.js";
 
 function ViewRequest({ referenceId, refereeId, token }) {
   const reportRef = useRef();
+  const navigate = useNavigate();
+
+  const handleReturnReferenceRequest = () => {
+    navigate(0); 
+  };
+  
 
   const API = process.env.REACT_APP_API_URL;
   const [fetchingRefence, setFetchingReference] = useState(false);
@@ -147,6 +154,26 @@ function ViewRequest({ referenceId, refereeId, token }) {
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
+      <div className="w-100 mb-2">
+        <button
+          className="btn-back-to-reference-request d-flex gap-2 align-items-center"
+          onClick={handleReturnReferenceRequest}
+        >
+          <svg
+            width="27"
+            height="16"
+            viewBox="0 0 27 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.292893 8.70711C-0.0976314 8.31658 -0.0976315 7.68342 0.292892 7.2929L6.65685 0.928934C7.04738 0.53841 7.68054 0.538409 8.07107 0.928934C8.46159 1.31946 8.46159 1.95262 8.07107 2.34315L2.41421 8L8.07107 13.6569C8.46159 14.0474 8.46159 14.6805 8.07107 15.0711C7.68054 15.4616 7.04738 15.4616 6.65686 15.0711L0.292893 8.70711ZM27 9L1 9L1 7L27 7L27 9Z"
+              fill="white"
+            />
+          </svg>
+          Return to Reference Request
+        </button>
+      </div>
       <div className="ViewRequest-container">
         <div ref={reportRef}>
           <h4 className="color-orange mb-2">

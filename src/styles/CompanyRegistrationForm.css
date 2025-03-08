@@ -6,12 +6,15 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
-.company-register-page-container{
-  background: url("../assets/bg.png");
-  background-size: cover;
+.company-register-page-container {
+  background: linear-gradient(
+    180deg,
+    rgba(253, 251, 251, 1) 0%,
+    rgba(235, 237, 238, 1) 38%
+  );
 }
 .company-reg-container i {
-  font-size: 15px;
+  font-size: 13px;
 }
 .company-registration-container {
   max-width: 1000px;
@@ -38,12 +41,10 @@
   background: var(--primary-color);
   padding: 30px 100px;
   color: var(--font-white);
-
 }
 .company-reg-title > p {
   font-weight: 200 !important;
   font-size: 13px;
-
 }
 .company-registration-container-form input,
 .company-registration-container-form select {
@@ -53,9 +54,8 @@
   background: var(--font-white);
   height: 30px;
   font-size: 13px;
-
 }
-.company-registration-container-form .toggle-password > svg{
+.company-registration-container-form .toggle-password > svg {
   transform: translateY(-60%) !important;
 }
 .company-registration-container-form select {
@@ -71,7 +71,7 @@
 .company-registration-container-form label {
   margin: 0;
 }
-.company-registration-container-form .toggle-password{
+.company-registration-container-form .toggle-password {
   position: absolute;
   right: 15px;
   top: 75%;
@@ -86,7 +86,7 @@
   padding: 5px 15px;
   color: var(--font-white);
 }
-.register-company-btn.disable{
+.register-company-btn.disable {
   cursor: not-allowed !important;
   background: #1706ac92;
 }
@@ -96,10 +96,13 @@
   bottom: 20px;
   right: -30px;
 }
-.company-registration-container-form .invalid-feedback{
+.company-registration-container-form .invalid-feedback {
   left: 12px;
 }
-.company-registration-container-form .cr-form-check-input{
-  font-size:13px;
+.company-registration-container-form .cr-form-check-input {
+  font-size: 13px;
 }
-
+.form-company-reg > .cr-agreement-box-check{
+  width: 100% !important;
+  font-size: 13px !important;
+}

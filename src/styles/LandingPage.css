@@ -23,9 +23,11 @@
 
 /* Background gradient for sections */
 .bg-white-gray-gradient {
-  background: rgb(255, 255, 255);
-  background: linear-gradient(180deg, #ffffff 97%, #eeeeef 100%);
-  height: max-content;
+  background: linear-gradient(
+    180deg,
+    rgba(253, 251, 251, 1) 0%,
+    rgba(235, 237, 238, 1) 38%
+  );
 }
 
 /* Main container for the landing page */

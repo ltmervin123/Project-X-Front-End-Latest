@@ -128,7 +128,7 @@ const CompanyRegistrationForm = () => {
         <form onSubmit={handleSubmit} className="form-company-reg">
           <Row>
             <Col md={9}>
-              <div className="mb-1">
+              <div className="mb-2">
                 <label htmlFor="company-name" className="form-label">
                   Company Name
                 </label>
@@ -143,9 +143,9 @@ const CompanyRegistrationForm = () => {
                 />
               </div>
 
-              <Row className="mb-1">
+              <Row className="mb-2">
                 <Col md={6}>
-                  <div className="mb-1 position-relative">
+                  <div className="mb-2 position-relative">
                     <label htmlFor="email-address" className="form-label">
                       Email Address
                     </label>
@@ -170,7 +170,7 @@ const CompanyRegistrationForm = () => {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <div className="mb-1 position-relative">
+                  <div className="mb-2 position-relative">
                     <label htmlFor="password" className="form-label">
                       Password
                     </label>
@@ -208,12 +208,12 @@ const CompanyRegistrationForm = () => {
                   </div>
                 </Col>
               </Row>
-              <Row className="mb-1">
+              <Row className="mb-2">
                 <label htmlFor="city" className="form-label">
                   Location
                 </label>
                 <Col md={6}>
-                  <div className="mb-1">
+                  <div className="mb-2">
                     <select
                       name="cities" // Change this to "location"
                       value={formData.cities}
@@ -231,7 +231,7 @@ const CompanyRegistrationForm = () => {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <div className="mb-1">
+                  <div className="mb-2">
                     <select
                       name="country"
                       value={formData.country}
@@ -251,7 +251,7 @@ const CompanyRegistrationForm = () => {
               </Row>
               <Row className="mb-4">
                 <Col md={6}>
-                  <div className="mb-1">
+                  <div className="mb-2">
                     <label htmlFor="company-size" className="form-label">
                       Company Size
                     </label>
@@ -270,7 +270,7 @@ const CompanyRegistrationForm = () => {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <div className="mb-1">
+                  <div className="mb-2">
                     <label htmlFor="industry" className="form-label">
                       Industry
                     </label>
@@ -359,7 +359,7 @@ const CompanyRegistrationForm = () => {
 
                 <Row>
                   <Col md={6}>
-                    <div className="mb-1">
+                    <div className="mb-2">
                       <label htmlFor="first-name" className="form-label">
                         First Name
                       </label>
@@ -376,7 +376,7 @@ const CompanyRegistrationForm = () => {
                   </Col>
 
                   <Col md={6}>
-                    <div className="mb-1">
+                    <div className="mb-2">
                       <label htmlFor="last-name" className="form-label">
                         Last Name
                       </label>
@@ -393,7 +393,7 @@ const CompanyRegistrationForm = () => {
                   </Col>
                 </Row>
 
-                <div className="mb-1">
+                <div className="mb-2">
                   <label htmlFor="hiring-involvement" className="form-label">
                     How are you involved in the hiring process?
                   </label>
@@ -419,7 +419,7 @@ const CompanyRegistrationForm = () => {
                 </div>
                 <Row>
                   <Col md={6}>
-                    <div className="mb-1">
+                    <div className="mb-2">
                       <label
                         htmlFor="annual-hiring-volume"
                         className="form-label"
@@ -453,7 +453,7 @@ const CompanyRegistrationForm = () => {
             </Col>
           </Row>
 
-          <div className="cr-agreement-box-check d-flex align-items-center gap-2">
+          <div className="cr-agreement-box-check d-flex align-items-center gap-2 w-100">
             <input
               type="checkbox"
               id="cr-form-check-input"

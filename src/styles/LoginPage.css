@@ -155,7 +155,7 @@
 
 .input-group > div {
   position: relative;
-  width: 85%;
+  width: 86%;
 }
 .input-group.mb-3 {
   position: relative;
@@ -202,7 +202,7 @@
 
 .choose-services-container .login-custom-dropdown {
   appearance: none;
-  width: 100%;
+  width: 97%;
   border-radius: 50px !important;
   box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
   color: var(--input-bg) !important;
@@ -420,7 +420,7 @@
   font-size: 12px;
   word-wrap: break-word;
   width: 80%;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .social-icons {
