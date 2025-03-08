@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import QuestionDisplay from "../../components/ReviewYourReferenceCheck/QuestionDisplay";
 import SignatureSection from "../../components/ReviewYourReferenceCheck/SignatureSection";
-import { socket, disconnectSocket } from "../utils/socket/socketSetup";
+import { socket, disconnectSocket } from "../../utils/socket/socketSetup";
 
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
