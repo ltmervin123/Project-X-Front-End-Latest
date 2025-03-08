@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { connectSocket } from "../../utils/socket/socketSetup";
 
 const RequireAuthVerifyReferee = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -24,6 +25,7 @@ const RequireAuthVerifyReferee = () => {
 
         if (response.status === 200) {
           setIsSessionValid(true);
+          connectSocket(token);
         }
       } catch (error) {
         setIsSessionValid(false); // Mark as invalid

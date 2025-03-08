@@ -328,8 +328,6 @@ const MainDashboard = () => {
     return count;
   }, 0);
 
-  console.log(pendingReferenceCount);
-
   const totalCandidateCount = candidates.length || 0;
 
   const cardData = [

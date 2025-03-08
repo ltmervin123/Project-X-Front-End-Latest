@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
-import {
-  socket,
-  connectSocket,
-  disconnectSocket,
-} from "../../utils/socket/socketSetup";
+import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
 
 const AudioBase = ({
@@ -42,12 +38,9 @@ const AudioBase = ({
   }, [streamRef]);
 
   useEffect(() => {
-    if (!socket.connected) {
-      connectSocket();
-    }
+    socket.emit("startTranscription");
 
     return () => {
-      disconnectSocket();
       socket.off("real-time-transcription");
       socket.off("final-transcription");
       socket.off("transcription-complete");
@@ -77,7 +70,7 @@ const AudioBase = ({
       if (response.status === 200) {
         setAudioBaseAnswer(response.data.improvedTranscription);
         handleAudioBaseSubmit(response.data.improvedTranscription);
-      } 
+      }
     } catch (error) {
       console.error("Error improving transcription:", error);
     } finally {
@@ -129,7 +122,6 @@ const AudioBase = ({
     // Final transcription event
     socket.once("final-transcription", (data) => {
       if (data?.isFinal) {
-        console.log("Final transcription:", data.text);
         setTranscription(data.text);
         setAudioBaseAnswer((prev) => `${prev} ${data.text}`);
       }

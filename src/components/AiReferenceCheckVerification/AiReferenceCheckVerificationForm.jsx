@@ -9,6 +9,7 @@ const AiReferenceCheckVerificationForm = ({
   referenceId,
   candidateName,
   refereeId,
+  companyId,
 }) => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
@@ -88,7 +89,14 @@ const AiReferenceCheckVerificationForm = ({
         candidateName: candidateName,
       }));
     }
-  }, [refereeName, referenceId, candidateName]);
+
+    if (companyId) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        companyId: companyId,
+      }));
+    }
+  }, [refereeName, referenceId, candidateName, companyId]);
 
   const isFormValid = () => {
     return (

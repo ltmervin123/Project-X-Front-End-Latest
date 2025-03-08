@@ -91,10 +91,6 @@ const ReferenceRequest = () => {
     setShowViewRequest(true);
   };
 
-  useEffect(() => {
-    console.log("Referee Dropdown ", selectedCandidate);
-  }, [selectedCandidate]);
-
   const handleCloseDetailsPopup = () => {
     setShowDetailsPopup(false);
   };
@@ -234,11 +230,11 @@ const ReferenceRequest = () => {
                 <tr>
                   <th>Candidate</th>
                   <th>Position</th>
-                  <th >Referees</th>
+                  <th>Referees</th>
                   <th>Status</th>
-                  <th >Date Sent</th>
-                  <th >Date Due</th>
-                  <th >Actions</th>
+                  <th>Date Sent</th>
+                  <th>Date Due</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -269,7 +265,7 @@ const ReferenceRequest = () => {
                       <tr>
                         <td>{reference.candidate}</td>
                         <td>{reference.position}</td>
-                        <td >
+                        <td>
                           {reference.referees &&
                           Array.isArray(reference.referees) &&
                           reference?.referees &&
@@ -311,12 +307,8 @@ const ReferenceRequest = () => {
                             );
                           })()}
                         </td>
-                        <td >
-                          {formatDate(reference.dateSent)}
-                        </td>
-                        <td  >
-                          {formatDate(reference.dueDate)}
-                        </td>
+                        <td>{formatDate(reference.dateSent)}</td>
+                        <td>{formatDate(reference.dueDate)}</td>
                         <td className="d-flex gap-2 align-items-center">
                           <button
                             className={`btn-view-details ${
@@ -360,7 +352,9 @@ const ReferenceRequest = () => {
                         selectedCandidate._id === reference._id && (
                           <div className="d-flex aling-items-center justify-content-center">
                             <div className="reference-dropdown-table mb-2">
-                              <b className="py-2 pb-2">Referee for {reference.candidate}</b>{" "}
+                              <b className="py-2 pb-2">
+                                Referee for {reference.candidate}
+                              </b>{" "}
                               <table className="">
                                 <thead>
                                   <tr>
@@ -448,7 +442,6 @@ const ReferenceRequest = () => {
                   ))}
               </tbody>
             </table>
-
           </>
         ) : (
           <div>No reference requests record</div>
