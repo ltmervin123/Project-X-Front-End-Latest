@@ -10,9 +10,7 @@ export const socket = io(API, {
   transports: ["websocket"],
 });
 
-export const connectSocket = () => {
-  const token = sessionStorage.getItem("token") || null;
-
+export const connectSocket = (token) => {
   if (!token) {
     return;
   }

@@ -25,7 +25,7 @@ const RequireAuthVerifyReferee = () => {
 
         if (response.status === 200) {
           setIsSessionValid(true);
-          connectSocket();
+          connectSocket(token);
         }
       } catch (error) {
         setIsSessionValid(false); // Mark as invalid
