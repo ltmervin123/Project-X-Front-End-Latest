@@ -286,7 +286,7 @@ function ReviewYourReferenceCheckPage() {
         socket.emit("referenceCheckCompleted", { companyId });
 
         // Disconnect socket
-        disconnectSocket();
+        // disconnectSocket();
         //Navigate to reference completed page
         navigate("/reference-completed");
       }
