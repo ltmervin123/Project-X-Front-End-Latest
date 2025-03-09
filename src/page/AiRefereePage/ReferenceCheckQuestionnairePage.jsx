@@ -281,7 +281,7 @@ const ReferenceCheckQuestionnairePage = () => {
       return response.data.normalizedAnswer || "No Normalized Answer Available";
     } catch (error) {
       console.error("Error fetching normalized answer:", error);
-      return "";
+      return "No Normalized Answer Available";
     } finally {
       setLoading(false);
     }
