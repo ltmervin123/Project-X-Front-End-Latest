@@ -5,7 +5,7 @@ import axios from "axios";
 
 import html2pdf from "html2pdf.js";
 
-function ViewRequest({ referenceId, refereeId, token }) {
+function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const reportRef = useRef();
   const navigate = useNavigate();
 
@@ -230,39 +230,61 @@ function ViewRequest({ referenceId, refereeId, token }) {
           </p>
 
           <div className="my-4">
-            {referenceData?.referenceQuestion
-              .sort((a, b) => {
-                if (a.category === "jobResponsibilitiesAndPerformance")
-                  return -1;
-                if (b.category === "jobResponsibilitiesAndPerformance")
-                  return 1;
-                if (a.category === "closingQuestions") return 1;
-                if (b.category === "closingQuestions") return -1;
-                return 0;
-              })
-              .map((item) => (
-                <div key={item.category}>
-                  <h5 className="color-gray">
-                    {formatCategories(item.category)}
-                  </h5>
-                  {item.questions.map((question, index) => (
-                    <div key={index}>
-                      <div className="d-flex w-100">
-                        <p>
-                          <b>Question {index + 1}: </b>
-                          {question}
-                        </p>
-                      </div>
+            {refereeQuestionFormat === "HR-HATCH-FORMAT"
+              ? referenceData?.referenceQuestion
+                  .sort((a, b) => {
+                    if (a.category === "jobResponsibilitiesAndPerformance")
+                      return -1;
+                    if (b.category === "jobResponsibilitiesAndPerformance")
+                      return 1;
+                    if (a.category === "closingQuestions") return 1;
+                    if (b.category === "closingQuestions") return -1;
+                    return 0;
+                  })
+                  .map((item) => (
+                    <div key={item.category}>
+                      <h5 className="color-gray">
+                        {formatCategories(item.category)}
+                      </h5>
+                      {item.questions.map((question, index) => (
+                        <div key={index}>
+                          <div className="d-flex w-100">
+                            <p>
+                              <b>Question {index + 1}: </b>
+                              {question}
+                            </p>
+                          </div>
 
-                      <h6 className="color-gray">Normalized Answer:</h6>
+                          <h6 className="color-gray">Normalized Answer:</h6>
 
-                      <div className="EnchanceAns-container mb-4">
-                        <p>{item.answers[index]}</p>
-                      </div>
+                          <div className="EnchanceAns-container mb-4">
+                            <p>{item.answers[index]}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              ))}
+                  ))
+              : referenceData?.referenceQuestion.map((item) => (
+                  <div key={item.category}>
+                    <h5 className="color-gray">{item.category}</h5>
+                    {item.questions.map((question, index) => (
+                      <div key={index}>
+                        <div className="d-flex w-100">
+                          <p>
+                            <b>Question {index + 1}: </b>
+                            {question}
+                          </p>
+                        </div>
+
+                        <h6 className="color-gray">Normalized Answer:</h6>
+
+                        <div className="EnchanceAns-container mb-4">
+                          <p>{item.answers[index]}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
           </div>
 
           <p className="signature-verif-title color-orange mb-2">

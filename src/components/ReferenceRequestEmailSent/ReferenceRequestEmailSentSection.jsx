@@ -3,13 +3,16 @@ import { useLocation } from "react-router-dom";
 
 const ReferenceRequestEmailSentPopup = () => {
   const location = useLocation();
-  const refereeEmail = location.state?.refereeEmail || "Not Available";
+  const refereeEmails = location.state?.refereeEmail || [];
+
+  const emails =
+    refereeEmails.length > 0 ? refereeEmails.join(", ") : "No email found";
   // Retry email handler (you can expand this logic as needed)
   const handleCustomerService = () => {
     alert("Retrying email send...");
     // Your retry logic would go here
   };
-  
+
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
@@ -32,8 +35,8 @@ const ReferenceRequestEmailSentPopup = () => {
           </div>
           <p>
             {" "}
-            We have sent an email to <strong>{refereeEmail}</strong> to confirm
-            your reference request.
+            We have sent an email to <strong>{emails}</strong> to confirm your
+            reference request.
           </p>
 
           <p className="w-100">
