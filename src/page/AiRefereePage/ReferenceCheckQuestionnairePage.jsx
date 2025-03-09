@@ -352,7 +352,7 @@ const ReferenceCheckQuestionnairePage = () => {
           </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>
-        <div className="d-flex justify-content-end">
+        {/* <div className="d-flex justify-content-end">
           <button
             onClick={nextQuestion}
             disabled={!answered[currentQuestionIndex] || isSpeaking}
@@ -372,7 +372,7 @@ const ReferenceCheckQuestionnairePage = () => {
               />
             </svg>
           </button>{" "}
-        </div>
+        </div> */}
       </div>
 
       <>

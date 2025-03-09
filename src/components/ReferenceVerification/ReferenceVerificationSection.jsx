@@ -19,7 +19,7 @@ const ReferenceVerificationSection = () => {
           </p>
           <button
           className="btn-exit"
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = "/AiReferenceRequest")}
           >
             Exit
           </button>
