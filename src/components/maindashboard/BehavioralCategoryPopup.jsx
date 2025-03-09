@@ -103,7 +103,7 @@ const BehavioralCategoryPopup = ({
           </Button>
         </div>
 
-        <div className="behavioral-cards justify-content-between d-flex flex-wrap ">
+        <div className="behavioral-cards justify-content-center d-flex flex-wrap ">
           {categories.map((behavioral, index) => (
             <>
 
