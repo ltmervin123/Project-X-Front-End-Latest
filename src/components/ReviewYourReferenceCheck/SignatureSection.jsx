@@ -9,12 +9,12 @@ const SignatureSection = ({
   clearDrawing,
   submitReferenceCheck,
   submitting,
-  handleFileDrop, 
-  handleDragOver, 
-  uploadedFile, 
-  imagePreview, 
-  errorMessage, 
-  clearImage, 
+  handleFileDrop,
+  handleDragOver,
+  uploadedFile,
+  imagePreview,
+  errorMessage,
+  clearImage,
   setSignatureMethod,
   handleFileSelect,
 }) => {
@@ -27,7 +27,7 @@ const SignatureSection = ({
           name="signature-method"
           id="signature-method"
           className="mb-3"
-          onChange={(e) => setSignatureMethod(e.target.value)} // Ensure this is defined in the parent
+          onChange={(e) => setSignatureMethod(e.target.value)} 
           value={signatureMethod}
         >
           <option value="Draw Signature">Draw Signature</option>
@@ -113,9 +113,7 @@ const SignatureSection = ({
                     />
                   </svg>
 
-                  <p>
-                    Drop your signature image here or click to select
-                  </p>
+                  <p>Drop your signature image here or click to select</p>
                   <input
                     type="file"
                     id="file-upload"
@@ -133,19 +131,15 @@ const SignatureSection = ({
                   {errorMessage && (
                     <p style={{ color: "red" }}>{errorMessage}</p> // Ensure this is defined in the parent
                   )}
-                  <i className="py-3">
-                    Supported Files: JPG, PNG, JPEG, JFIF.
-                  </i>
+                  <i className="py-3">Supported Files: JPG, PNG, JPEG, JFIF.</i>
                 </>
               )}
             </div>
           </div>
           <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
-            <button onClick={clearImage}>Clear</button> {/* Ensure this is defined in the parent */}
-            <button
-              onClick={submitReferenceCheck}
-              disabled={submitting}
-            >
+            <button onClick={clearImage}>Clear</button>{" "}
+            {/* Ensure this is defined in the parent */}
+            <button onClick={submitReferenceCheck} disabled={submitting}>
               {submitting ? "Submitting..." : "Submit"}
             </button>
           </div>

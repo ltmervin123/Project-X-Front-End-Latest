@@ -257,19 +257,19 @@
 
 
 .result-red {
-  background-color: #b30000; 
+  background-color: #b30000 !important; 
 }
 
 .result-yellow {
-  background-color: #F8BD00; 
+  background-color: #F8BD00 !important; 
 }
 
 .result-orange {
-  background-color: #e65c00; 
+  background-color: #e65c00 !important; 
 }
 
 .result-green {
-  background-color: #009900; 
+  background-color: #009900 !important; 
 }
 .result-red-bg {
   background-color: #b30000; 

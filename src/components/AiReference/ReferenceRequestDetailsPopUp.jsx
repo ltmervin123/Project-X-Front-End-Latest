@@ -169,7 +169,7 @@ const ReferenceRequestDetailsPopUp = ({
             </Col>
           </Row>
 
-          <div className="button-controls-job d-flex justify-content-center gap-3 w-100 mt-3">
+          <div className="button-controls-job d-flex justify-content-center gap-3 w-100 mt-4">
             {referee.status === "Completed" ? (
               <button
                 className="btn-viewreference d-flex gap-2 align-items-center justify-content-center"
