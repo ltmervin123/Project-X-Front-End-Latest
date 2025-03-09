@@ -12,15 +12,17 @@ const RequireAuthAIReference = () => {
   const { user } = useAuthContext();
 
   useEffect(() => {
-    connectSocket(user.token);
+    if (user?.id) {
+      connectSocket(user.token);
 
-    const companyId = user.id;
-    //Company must create a room in order to receive the emitted reference check submit event
-    socket.emit("joinRoom", { companyId });
-    return () => {
-      socket.removeAllListeners();
-      disconnectSocket();
-    };
+      const companyId = user.id;
+      //Company must create a room in order to receive the emitted reference check submit event
+      socket.emit("joinRoom", { companyId });
+      return () => {
+        socket.removeAllListeners();
+        disconnectSocket();
+      };
+    }
   }, [user]);
 
   return user && user.token && user.service === SERVICE ? (
