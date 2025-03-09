@@ -113,7 +113,7 @@ const ReferenceRequest = () => {
   };
 
   const handleAddReference = async () => {
-    await reFetchReference();
+    await reFetchReference(abortControllerRef.current);
   };
 
   const handleViewDetails = (referee) => {
@@ -207,6 +207,7 @@ const ReferenceRequest = () => {
         referenceId={selectedCandidate._id}
         refereeId={selectedReferee._id}
         token={token}
+        refereeQuestionFormat={selectedReferee.questionFormat}
       />
     );
   }

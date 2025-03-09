@@ -123,7 +123,7 @@ const AddRequestComponent = ({ onReFetchReference }) => {
 
       if (response.status === 201) {
         await onReFetchReference();
-        navigate("/AiReferenceRequestEmailSent"); //To be created
+        navigate("/AiReferenceRequestEmailSent"); 
       }
     } catch (error) {
       console.error(error);
