@@ -330,6 +330,7 @@ const ReferenceRequest = () => {
                               height="7"
                               viewBox="0 0 9 7"
                               fill="none"
+                              onClick={() => handleSetCandidate(reference._id)}
                               className={`${
                                 showDropDown &&
                                 selectedCandidate._id === reference._id

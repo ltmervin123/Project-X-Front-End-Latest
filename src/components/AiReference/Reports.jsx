@@ -69,6 +69,7 @@ function createTooltipElement() {
 
   const barOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     indexAxis: "x", 
     plugins: {
       legend: {
