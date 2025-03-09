@@ -164,10 +164,10 @@ const ReferenceRequestDetailsPopUp = ({
                     {referee.email || "N/A"}
                   </div>
                 </div>
-                <div className="d-flex">
+                {/* <div className="d-flex">
                   <div className="reference-labels">Relationship:</div>
                   <div className="reference-details">N/A</div>
-                </div>
+                </div> */}
               </div>
             </Col>
           </Row>

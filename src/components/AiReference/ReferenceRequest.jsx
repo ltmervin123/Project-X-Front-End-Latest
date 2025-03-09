@@ -171,16 +171,7 @@ const ReferenceRequest = () => {
         return "black";
     }
   };
-  // Conditional rendering based on showViewRequest state
-  if (showViewRequest) {
-    return (
-      <ViewRequest
-        referenceId={selectedCandidate._id}
-        refereeId={selectedReferee._id}
-        token={token}
-      />
-    );
-  }
+
   const filteredReferences = reference
     .slice()
     .reverse()
@@ -208,6 +199,17 @@ const ReferenceRequest = () => {
 
     return { inProgressCount, completedCount };
   };
+
+  // Conditional rendering based on showViewRequest state
+  if (showViewRequest) {
+    return (
+      <ViewRequest
+        referenceId={selectedCandidate._id}
+        refereeId={selectedReferee._id}
+        token={token}
+      />
+    );
+  }
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end mb-3">
