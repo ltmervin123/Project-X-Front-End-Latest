@@ -7,7 +7,7 @@ import default_avatar_img from "../../assets/default.png"; // Import default ava
 import AddJobComponent from "./AddJobComponent";
 import AddCandidateComponent from "./AddCandidateComponent";
 import AddRequestComponent from "./AddRequestComponent";
-
+import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
 
 // Register all necessary components
@@ -67,9 +67,9 @@ const MainDashboard = () => {
     setShowJobForm(true); // Set to true to show the job form
   };
   const handleShowAddReferenceRequest = () => {
-    setShowAddReferenceRequest(true); // Set to true to show AddRequestComponent
-    setShowAddCandidate(false); // Hide AddCandidateComponent
-    setShowJobForm(false); // Set to true to show the job form
+    setShowAddReferenceRequest(true);
+    setShowAddCandidate(false);
+    setShowJobForm(false);
   };
 
   const [candidates, setCandidates] = useState(
@@ -142,13 +142,14 @@ const MainDashboard = () => {
       console.error(error);
     }
   };
-  const fetchCandidates = async () => {
+  const fetchCandidates = async ({ signal }) => {
     try {
       const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${id}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        signal,
       });
 
       if (response.status === 200) {
@@ -165,7 +166,6 @@ const MainDashboard = () => {
 
   const reFetchCandidates = async ({ signal } = {}) => {
     try {
-      localStorage.removeItem("candidates");
       await fetchCandidates(signal);
     } catch (error) {
       console.error(error);
@@ -174,8 +174,6 @@ const MainDashboard = () => {
 
   const reFetchUpdatedQuestions = async ({ signal } = {}) => {
     try {
-      //delete the old questions from local storage
-      localStorage.removeItem("questions");
       await fetchCustomReferenceQuestions(signal);
     } catch (error) {
       console.error(error);
@@ -184,7 +182,6 @@ const MainDashboard = () => {
 
   const reFetchReference = async ({ signal } = {}) => {
     try {
-      localStorage.removeItem("reference");
       await fetchReference(signal);
     } catch (error) {
       console.error(error);
@@ -193,54 +190,28 @@ const MainDashboard = () => {
 
   const refetchJobs = async ({ signal } = {}) => {
     try {
-      //delete the jobs from local storage
-      localStorage.removeItem("jobs");
-
       //fetch the jobs again
       await fetchJobs(signal);
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (questionSets.length === 0) {
-        await fetchCustomReferenceQuestions();
+    const handleReferenceSubmitted = async (data) => {
+      if (data?.completed) {
+        await handleRefetchCandidates();
+        await handleRefetchJobs();
+        await handleRefetchReference();
       }
     };
 
-    fetchData();
+    socket.off("referenceSubmitted");
+    socket.on("referenceSubmitted", (data) => {
+      handleReferenceSubmitted(data);
+    });
   }, []);
 
-  useEffect(() => {
-    const fetchCandidatesWhenRender = async () => {
-      if (!candidates || candidates.length === 0) {
-        await fetchCandidates();
-      }
-    };
-
-    fetchCandidatesWhenRender();
-  }, []);
-
-  useEffect(() => {
-    const getReferenceWhenFirstRender = async () => {
-      if (reference.length === 0) {
-        await fetchReference();
-      }
-    };
-
-    getReferenceWhenFirstRender();
-  }, []);
-
-  useEffect(() => {
-    const getJobsWhenFirstRender = async () => {
-      if (activeJobs.length === 0) {
-        await fetchJobs();
-      }
-    };
-
-    getJobsWhenFirstRender();
-  }, []);
   //This function return an array of months according to the reference data
   const getMonthlyCounts = (reference) => {
     const monthNames = [
@@ -645,7 +616,7 @@ const MainDashboard = () => {
     if (!abortController.signal.aborted) {
       timeoutRef.current = setTimeout(
         () => refetchAllData(timeoutRef, abortController),
-        30000
+        60000
       );
     }
   }
@@ -693,20 +664,30 @@ const MainDashboard = () => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, []);
+
+  const handleRefetchCandidates = async () => {
+    await fetchCandidates(abortControllerRef.current);
+  };
+  const handleRefetchJobs = async () => {
+    await fetchJobs(abortControllerRef.current);
+  };
+  const handleRefetchReference = async () => {
+    await fetchReference(abortControllerRef.current);
+  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       {showAddCandidate ? (
         <AddCandidateComponent
           onProceed={handleShowAddReferenceRequest}
-          refetch={reFetchCandidates}
+          refetch={handleRefetchCandidates}
         />
       ) : showJobForm ? (
         <AddJobComponent
           onProceed={handleShowAddCandidate}
-          refetch={fetchJobs}
+          refetch={handleRefetchJobs}
         />
       ) : showAddReferenceRequest ? (
-        <AddRequestComponent />
+        <AddRequestComponent onReFetchReference={handleRefetchReference} />
       ) : (
         <>
           <div>

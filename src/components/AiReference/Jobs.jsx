@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobPopUp from "./AddJobPopUp";
 import { FaSearch } from "react-icons/fa";
+
 import axios from "axios";
 
 const Jobs = () => {

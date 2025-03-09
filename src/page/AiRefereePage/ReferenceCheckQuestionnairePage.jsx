@@ -37,7 +37,11 @@ const ReferenceCheckQuestionnairePage = () => {
 
   // Format reference questions
   const formatReferenceQuestions = () => {
-    if (referenceQuestions?.formatType !== "HR-HATCH-FORMAT") return [];
+    if (
+      referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
+      referenceQuestions?.formatType !== "CUSTOM-FORMAT"
+    )
+      return [];
 
     return Object.entries(referenceQuestions.questions || {})
       .filter(([_, qs]) => Array.isArray(qs))
@@ -60,10 +64,10 @@ const ReferenceCheckQuestionnairePage = () => {
         return Object.values(referenceQuestions?.questions || {})
           .flat()
           .map((q) => q.replace(/\$\{candidateName\}/g, candidateName));
-      case "CUSTOM_FORMAT":
-        return (referenceQuestions?.questions || []).map((q) =>
-          q.replace(/\$\{candidateName\}/g, candidateName)
-        );
+      case "CUSTOM-FORMAT":
+        return Array.isArray(referenceQuestions.questions)
+          ? referenceQuestions.questions.flat()
+          : Object.values(referenceQuestions.questions || {}).flat();
       default:
         return [];
     }
@@ -281,7 +285,7 @@ const ReferenceCheckQuestionnairePage = () => {
       return response.data.normalizedAnswer || "No Normalized Answer Available";
     } catch (error) {
       console.error("Error fetching normalized answer:", error);
-      return "";
+      return "No Normalized Answer Available";
     } finally {
       setLoading(false);
     }

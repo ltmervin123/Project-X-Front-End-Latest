@@ -41,7 +41,7 @@ function AiReferenceCheckVerificationPage() {
         setCompanyId(response.data.companyId);
       }
     } catch (error) {
-      setIsExpired(true); // Set expired state if an error occurs
+      setIsExpired(true);
     } finally {
       setVerifying(false);
     }

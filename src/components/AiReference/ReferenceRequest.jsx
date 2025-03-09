@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddRequestPopUp from "./AddRequestPopUp";
 import { FaSearch } from "react-icons/fa";
@@ -6,6 +6,7 @@ import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
 import ViewRequest from "./ViewRequest";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../../utils/socket/socketSetup";
 
 const ReferenceRequest = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -14,8 +15,7 @@ const ReferenceRequest = () => {
   const token = USER?.token;
   const navigate = useNavigate();
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
-  // const [selectedCandidate, setSelectedCandidate] = useState(null);
-  const [showViewRequest, setShowViewRequest] = useState(false); // New state for toggling view
+  const [showViewRequest, setShowViewRequest] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCandidate, setSelectedCandidate] = useState([]);
   const [selectedReferee, setSelectedReferee] = useState([]);
@@ -24,14 +24,17 @@ const ReferenceRequest = () => {
   const [reference, setReference] = useState(
     JSON.parse(localStorage.getItem("reference")) || []
   );
+  const timeoutRef = useRef(null);
+  const abortControllerRef = useRef(new AbortController());
 
-  const fetchReference = async () => {
+  const fetchReference = async ({ signal } = {}) => {
     try {
       const URL = `${API}/api/ai-referee/company-request-reference/get-reference-request-by-companyId/${companyId}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        signal,
       });
 
       if (response.status === 200) {
@@ -45,23 +48,60 @@ const ReferenceRequest = () => {
       console.error(error);
     }
   };
-  const reFetchReference = async () => {
+  const reFetchReference = async ({ signal }) => {
     try {
-      localStorage.removeItem("reference");
-      await fetchReference();
+      await fetchReference(signal);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    const getReferenceWhenFirstRender = async () => {
-      if (reference.length === 0) {
-        await fetchReference();
+    const handleReferenceSubmitted = async (data) => {
+      if (data?.completed) {
+        await reFetchReference(abortControllerRef.current);
       }
     };
 
-    getReferenceWhenFirstRender();
+    socket.off("referenceSubmitted");
+    socket.on("referenceSubmitted", (data) => {
+      handleReferenceSubmitted(data);
+    });
+  }, []);
+
+  async function refetchAllData(timeoutRef, abortController) {
+    if (abortController.signal.aborted) return;
+
+    try {
+      await Promise.all([reFetchReference({ signal: abortController.signal })]);
+    } catch (error) {
+      if (error.name === "AbortError") {
+        console.error("Request aborted");
+        return;
+      }
+      console.error("Fetch error:", error);
+    }
+
+    if (!abortController.signal.aborted) {
+      timeoutRef.current = setTimeout(
+        () => refetchAllData(timeoutRef, abortController),
+        60000 // 1 minute
+      );
+    }
+  }
+
+  useEffect(() => {
+    refetchAllData(timeoutRef, abortControllerRef.current);
+
+    return () => {
+      // Clear timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // Abort fetch requests
+      abortControllerRef.current.abort();
+    };
   }, []);
 
   const handleAddNewRequest = () => {
@@ -73,7 +113,7 @@ const ReferenceRequest = () => {
   };
 
   const handleAddReference = async () => {
-    await reFetchReference();
+    await reFetchReference(abortControllerRef.current);
   };
 
   const handleViewDetails = (referee) => {
@@ -131,16 +171,7 @@ const ReferenceRequest = () => {
         return "black";
     }
   };
-  // Conditional rendering based on showViewRequest state
-  if (showViewRequest) {
-    return (
-      <ViewRequest
-        referenceId={selectedCandidate._id}
-        refereeId={selectedReferee._id}
-        token={token}
-      />
-    );
-  }
+
   const filteredReferences = reference
     .slice()
     .reverse()
@@ -168,6 +199,18 @@ const ReferenceRequest = () => {
 
     return { inProgressCount, completedCount };
   };
+
+  // Conditional rendering based on showViewRequest state
+  if (showViewRequest) {
+    return (
+      <ViewRequest
+        referenceId={selectedCandidate._id}
+        refereeId={selectedReferee._id}
+        token={token}
+        refereeQuestionFormat={selectedReferee.questionFormat}
+      />
+    );
+  }
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end mb-3">

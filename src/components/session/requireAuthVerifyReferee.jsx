@@ -1,12 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { connectSocket } from "../../utils/socket/socketSetup";
+import {
+  socket,
+  connectSocket,
+  disconnectSocket,
+} from "../../utils/socket/socketSetup";
 
 const RequireAuthVerifyReferee = () => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
-  const [isSessionValid, setIsSessionValid] = useState(null); // Initially null
+  const referenceData = sessionStorage.getItem("referenceData");
+  const [isSessionValid, setIsSessionValid] = useState(null);
 
   useEffect(() => {
     const validateSession = async () => {
@@ -24,8 +29,10 @@ const RequireAuthVerifyReferee = () => {
         );
 
         if (response.status === 200) {
-          setIsSessionValid(true);
           connectSocket(token);
+          const { companyId } = response.data;
+          socket.emit("joinRoom", { companyId });
+          setIsSessionValid(true);
         }
       } catch (error) {
         setIsSessionValid(false); // Mark as invalid
@@ -33,10 +40,14 @@ const RequireAuthVerifyReferee = () => {
     };
 
     validateSession();
+    return () => {
+      socket.removeAllListeners();
+      disconnectSocket();
+    };
   }, []);
 
   if (isSessionValid === null) {
-    return <div>Verifying session...</div>; // Show a loading state
+    return <div>Verifying session...</div>;
   }
 
   return isSessionValid ? (

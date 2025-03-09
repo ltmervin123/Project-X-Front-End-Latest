@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const AddRequestComponent = () => {
+const AddRequestComponent = ({ onReFetchReference }) => {
   //Constants
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
@@ -122,7 +122,10 @@ const AddRequestComponent = () => {
       });
 
       if (response.status === 201) {
-        navigate("/AiReferenceRequestEmailSent"); //To be created
+        await onReFetchReference();
+        navigate("/AiReferenceRequestEmailSent", {
+          state: { refereeEmail: referees.map((referee) => referee.email) },
+        });
       }
     } catch (error) {
       console.error(error);
@@ -133,9 +136,9 @@ const AddRequestComponent = () => {
 
   const handleProceed = () => {
     if (formRef.current.checkValidity()) {
-      formRef.current.requestSubmit(); // Ensures built-in validation before submission
+      formRef.current.requestSubmit();
     } else {
-      formRef.current.reportValidity(); // Triggers native validation messages
+      formRef.current.reportValidity();
     }
   };
 
@@ -181,7 +184,7 @@ const AddRequestComponent = () => {
       case "HR-HATCH-FORMAT":
         return false;
 
-      case "CUSTOM_FORMAT":
+      case "CUSTOM-FORMAT":
         return true;
 
       default:
@@ -248,12 +251,13 @@ const AddRequestComponent = () => {
             <Form.Label className="me-2" style={{ width: "220px" }}>
               Position
             </Form.Label>
-            <Form.Select value={positions} disabled required>
-              {positions.map((pos) => (
+            <Form.Select value={positionName} disabled required>
+              {/* {positions.map((pos) => (
                 <option key={pos._id} value={pos.jobName}>
                   {pos.jobName}
                 </option>
-              ))}
+              ))} */}
+              <option>{positionName}</option>
             </Form.Select>
           </Form.Group>
 
@@ -264,12 +268,13 @@ const AddRequestComponent = () => {
             <Form.Label className="me-2" style={{ width: "220px" }}>
               Candidate
             </Form.Label>
-            <Form.Select value={candidates.name} disabled required>
-              {candidates.map((candidate) => (
+            <Form.Select value={candidateName} disabled required>
+              {/* {candidates.map((candidate) => (
                 <option key={candidate._id} value={candidate.name}>
                   {candidate.name}
                 </option>
-              ))}
+              ))} */}
+              <option>{candidateName}</option>
             </Form.Select>
           </Form.Group>
 
@@ -360,7 +365,7 @@ const AddRequestComponent = () => {
                         Choose Question Format
                       </option>
                       <option value="HR-HATCH-FORMAT">HR-HATCH Format</option>
-                      <option value="CUSTOM_FORMAT">Custom Format</option>
+                      <option value="CUSTOM-FORMAT">Custom Format</option>
                     </Form.Select>
                   ) : (
                     <>

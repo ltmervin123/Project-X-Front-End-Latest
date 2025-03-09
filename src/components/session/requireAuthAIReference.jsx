@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthContext } from "../../hook/useAuthContext";
 import {
+  socket,
   connectSocket,
   disconnectSocket,
 } from "../../utils/socket/socketSetup";
@@ -11,11 +12,17 @@ const RequireAuthAIReference = () => {
   const { user } = useAuthContext();
 
   useEffect(() => {
-    connectSocket(user.token);
+    if (user?.id) {
+      connectSocket(user.token);
 
-    return () => {
-      disconnectSocket();
-    };
+      const companyId = user.id;
+      //Company must create a room in order to receive the emitted reference check submit event
+      socket.emit("joinRoom", { companyId });
+      return () => {
+        socket.removeAllListeners();
+        disconnectSocket();
+      };
+    }
   }, [user]);
 
   return user && user.token && user.service === SERVICE ? (

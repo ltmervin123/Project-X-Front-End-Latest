@@ -132,8 +132,10 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
       });
 
       if (response.status === 201) {
-        onAddRequest();
-        navigate("/AiReferenceRequestEmailSent");
+        await onAddRequest();
+        navigate("/AiReferenceRequestEmailSent", {
+          state: { refereeEmail: referees.map((referee) => referee.email) },
+        });
         onClose();
       }
     } catch (error) {
