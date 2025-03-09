@@ -920,7 +920,7 @@ const ResultSection = ({ interviewId }) => {
               <Col
                 md={7}
                 xs={12}
-                className="d-flex justify-content-between align-items-center gap-1"
+                className="d-flex justify-content-center align-items-center gap-1"
               >
                 <p className="rating-name1">
                   {currentViewData.labels.fifth}
@@ -976,7 +976,7 @@ const ResultSection = ({ interviewId }) => {
               <Col
                 md={7}
                 xs={12}
-                className="d-flex justify-content-between align-items-center gap-1"
+                className="d-flex justify-content-center align-items-center gap-1"
               >
                 <p className="rating-name1">
                   {currentViewData.labels.fifth}
@@ -1032,7 +1032,7 @@ const ResultSection = ({ interviewId }) => {
               <Col
                 md={7}
                 xs={12}
-                className="d-flex justify-content-between align-items-center gap-1"
+                className="d-flex justify-content-center align-items-center gap-1"
               >
                 <p className="rating-name1">
                   {currentViewData.labels.fifth}
@@ -1088,7 +1088,7 @@ const ResultSection = ({ interviewId }) => {
               <Col
                 md={7}
                 xs={12}
-                className="d-flex justify-content-between align-items-center gap-1"
+                className="d-flex justify-content-center align-items-center gap-1"
               >
                 <p className="rating-name1">
                   {currentViewData.labels.fifth}

@@ -157,7 +157,7 @@ const AudioBase = ({
         placeholder="Transcription will appear here...."
         disabled
       />
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center align-items-center my-2 mb-2">
         <div>
           {reTry ? (
             <button onClick={handleReTry}>Retry</button>

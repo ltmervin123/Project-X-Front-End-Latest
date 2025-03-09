@@ -848,7 +848,9 @@
 .pause-indicator-spinner {
   width: 20px !important;
   height: 20px !important;
-  position: absolute; /* Change to absolute positioning */
+  position: relative;
+  top: 2px;
+  right: 2px;
 }
 .btn-startinterview {
   background: var(--primary-color) !important;
