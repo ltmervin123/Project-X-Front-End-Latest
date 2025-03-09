@@ -196,45 +196,6 @@ const MainDashboard = () => {
       console.error(error);
     }
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      if (questionSets.length === 0) {
-        await fetchCustomReferenceQuestions();
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchCandidatesWhenRender = async () => {
-      if (!candidates || candidates.length === 0) {
-        await fetchCandidates();
-      }
-    };
-
-    fetchCandidatesWhenRender();
-  }, []);
-
-  useEffect(() => {
-    const getReferenceWhenFirstRender = async () => {
-      if (reference.length === 0) {
-        await fetchReference();
-      }
-    };
-
-    getReferenceWhenFirstRender();
-  }, []);
-
-  useEffect(() => {
-    const getJobsWhenFirstRender = async () => {
-      if (activeJobs.length === 0) {
-        await fetchJobs();
-      }
-    };
-
-    getJobsWhenFirstRender();
-  }, []);
 
   useEffect(() => {
     const handleReferenceSubmitted = async (data) => {
