@@ -6,6 +6,10 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const JoinCommunitySection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+  
+  // card index state
+  const [index, setIndex] = useState(0);
+  const cardsToShow = 3;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -13,11 +17,11 @@ const JoinCommunitySection = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            observer.unobserve(entry.target); // Stop observing after it becomes visible
+            observer.unobserve(entry.target); 
           }
         });
       },
-      { threshold: 0.5 } // Trigger when 50% of the element is visible
+      { threshold: 0.5 } 
     );
 
     if (sectionRef.current) {
@@ -77,8 +81,6 @@ const JoinCommunitySection = () => {
     },
   ];
 
-  const [index, setIndex] = useState(0);
-  const cardsToShow = 3; // Number of cards to show at once
 
   const handleSelect = (selectedIndex) => {
     const totalItems = Math.ceil(cardsData.length / cardsToShow);

@@ -178,7 +178,7 @@ font-weight: 500;
 }
 .input-group {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 10px;
 }
@@ -240,12 +240,12 @@ font-weight: 500;
 .privacy {
   display: flex !important;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   padding: 0 !important;
-  width: 98%;
+  width: 97%;
   border: 1px solid var(--font-white);
   border-radius: 50px;
-  margin: 20px 0px 50px 10px !important;
+  margin: 20px 0px 50px 5px !important;
 }
 .privacy > .checkbox-container {
   width: 20%;

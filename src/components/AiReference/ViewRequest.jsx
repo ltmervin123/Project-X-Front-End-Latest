@@ -1,11 +1,17 @@
-import React, { useState, useEffect, useRef } from "react"; // Ensure useState is imported
+import React, { useState, useEffect, useRef } from "react";
 import "../../styles/ViewRequest.css";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import html2pdf from "html2pdf.js";
 
-function ViewRequest({ referenceId, token }) {
+function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const reportRef = useRef();
+  const navigate = useNavigate();
+
+  const handleReturnReferenceRequest = () => {
+    navigate(0);
+  };
 
   const API = process.env.REACT_APP_API_URL;
   const [fetchingRefence, setFetchingReference] = useState(false);
@@ -16,7 +22,7 @@ function ViewRequest({ referenceId, token }) {
   const fetchReferenceByReferenceId = async () => {
     try {
       setFetchingReference(true);
-      const URL = `${API}/api/ai-referee/company-request-reference//get-reference/${referenceId}`;
+      const URL = `${API}/api/ai-referee/company-request-reference//get-reference/${referenceId}/${refereeId}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -147,6 +153,26 @@ function ViewRequest({ referenceId, token }) {
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
+      <div className="w-100 mb-2">
+        <button
+          className="btn-back-to-reference-request d-flex gap-2 align-items-center"
+          onClick={handleReturnReferenceRequest}
+        >
+          <svg
+            width="27"
+            height="16"
+            viewBox="0 0 27 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.292893 8.70711C-0.0976314 8.31658 -0.0976315 7.68342 0.292892 7.2929L6.65685 0.928934C7.04738 0.53841 7.68054 0.538409 8.07107 0.928934C8.46159 1.31946 8.46159 1.95262 8.07107 2.34315L2.41421 8L8.07107 13.6569C8.46159 14.0474 8.46159 14.6805 8.07107 15.0711C7.68054 15.4616 7.04738 15.4616 6.65686 15.0711L0.292893 8.70711ZM27 9L1 9L1 7L27 7L27 9Z"
+              fill="white"
+            />
+          </svg>
+          Return to Reference Request
+        </button>
+      </div>
       <div className="ViewRequest-container">
         <div ref={reportRef}>
           <h4 className="color-orange mb-2">
@@ -175,10 +201,7 @@ function ViewRequest({ referenceId, token }) {
             <b>Referee Title: </b>
             <span>{referenceData?.refereeTitle || "Not Available"}</span>
           </p>
-          {/* <p className="mb-2">
-            <b>Company Name: </b>
-            <span>[Insert Company Name]</span>
-          </p> */}
+
           <p className="mb-2">
             <b>Relationship to Candidate: </b>
             <span>
@@ -191,11 +214,11 @@ function ViewRequest({ referenceId, token }) {
             <span>
               {referenceData?.workDuration ? (
                 <>
-                  From{" "}
+                  <b>From</b>{" "}
                   {formatDateForWorkDuration(
                     referenceData?.workDuration?.startDate
                   )}{" "}
-                  To{" "}
+                  <b>To</b>{" "}
                   {formatDateForWorkDuration(
                     referenceData?.workDuration?.endDate
                   )}
@@ -207,30 +230,61 @@ function ViewRequest({ referenceId, token }) {
           </p>
 
           <div className="my-4">
-            {referenceData?.referenceQuestion.map((item) => (
-              <div>
-                <h5 className="color-gray">
-                  {formatCategories(item.category)}
-                </h5>
-                {item.questions.map((question, index) => (
-                  <div>
-                    <div className="d-flex w-100">
-                      <p>
-                        <b>Question {index + 1}: </b>
+            {refereeQuestionFormat === "HR-HATCH-FORMAT"
+              ? referenceData?.referenceQuestion
+                  .sort((a, b) => {
+                    if (a.category === "jobResponsibilitiesAndPerformance")
+                      return -1;
+                    if (b.category === "jobResponsibilitiesAndPerformance")
+                      return 1;
+                    if (a.category === "closingQuestions") return 1;
+                    if (b.category === "closingQuestions") return -1;
+                    return 0;
+                  })
+                  .map((item) => (
+                    <div key={item.category}>
+                      <h5 className="color-gray">
+                        {formatCategories(item.category)}
+                      </h5>
+                      {item.questions.map((question, index) => (
+                        <div key={index}>
+                          <div className="d-flex w-100">
+                            <p>
+                              <b>Question {index + 1}: </b>
+                              {question}
+                            </p>
+                          </div>
 
-                        {question}
-                      </p>
+                          <h6 className="color-gray">Normalized Answer:</h6>
+
+                          <div className="EnchanceAns-container mb-4">
+                            <p>{item.answers[index]}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
+                  ))
+              : referenceData?.referenceQuestion.map((item) => (
+                  <div key={item.category}>
+                    <h5 className="color-gray">{item.category}</h5>
+                    {item.questions.map((question, index) => (
+                      <div key={index}>
+                        <div className="d-flex w-100">
+                          <p>
+                            <b>Question {index + 1}: </b>
+                            {question}
+                          </p>
+                        </div>
 
-                    <h6 className="color-gray">Normalized Answer:</h6>
+                        <h6 className="color-gray">Normalized Answer:</h6>
 
-                    <div className="EnchanceAns-container mb-4">
-                      <p>{item.answers[index]}</p>
-                    </div>
+                        <div className="EnchanceAns-container mb-4">
+                          <p>{item.answers[index]}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
-              </div>
-            ))}
           </div>
 
           <p className="signature-verif-title color-orange mb-2">

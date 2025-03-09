@@ -85,7 +85,7 @@ const ResultSection = ({ interviewId }) => {
   };
 
   const handleReturn = () => {
-    navigate(-1); // Go back to the previous page
+    navigate("/analytics"); 
   };
 
   const handlePractice = () => {

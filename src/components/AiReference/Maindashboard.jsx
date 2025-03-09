@@ -4,12 +4,20 @@ import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
 import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
 import default_avatar_img from "../../assets/default.png"; // Import default avatar image
+import AddJobComponent from "./AddJobComponent";
+import AddCandidateComponent from "./AddCandidateComponent";
+import AddRequestComponent from "./AddRequestComponent";
+import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
 
 // Register all necessary components
 Chart.register(...registerables);
 
 const LogContainer = ({ logData }) => {
+  const handleToggleShowAll = (event) => {
+    event.preventDefault(); // Prevent default anchor behavior
+    setShowAll(!showAll);
+  };
   const [showAll, setShowAll] = useState(false);
   const displayedLogs = showAll ? logData : logData.slice(0, 4);
 
@@ -17,7 +25,7 @@ const LogContainer = ({ logData }) => {
     <div className="LogContainer my-4">
       <div className="d-flex justify-content-between align-items-center">
         <p className="mb-3">Recent Activities</p>
-        <a href="#" onClick={() => setShowAll(!showAll)}>
+        <a href="#" onClick={handleToggleShowAll}>
           {showAll ? "Show Less" : "View All"}
         </a>
       </div>
@@ -48,6 +56,22 @@ const MainDashboard = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
   const token = USER?.token;
+  const [showJobForm, setShowJobForm] = useState(false); // State to control job form visibility
+  const [showAddCandidate, setShowAddCandidate] = useState(false); // New state for AddCandidateComponent
+  const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false); // New state for AddCandidateComponent
+
+  const handleShowAddCandidate = () => {
+    setShowAddCandidate(true); // Set to true to show AddCandidateComponent
+  };
+  const handleOpenJobForm = () => {
+    setShowJobForm(true); // Set to true to show the job form
+  };
+  const handleShowAddReferenceRequest = () => {
+    setShowAddReferenceRequest(true);
+    setShowAddCandidate(false);
+    setShowJobForm(false);
+  };
+
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
@@ -118,13 +142,14 @@ const MainDashboard = () => {
       console.error(error);
     }
   };
-  const fetchCandidates = async () => {
+  const fetchCandidates = async ({ signal }) => {
     try {
       const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${id}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        signal,
       });
 
       if (response.status === 200) {
@@ -141,7 +166,6 @@ const MainDashboard = () => {
 
   const reFetchCandidates = async ({ signal } = {}) => {
     try {
-      localStorage.removeItem("candidates");
       await fetchCandidates(signal);
     } catch (error) {
       console.error(error);
@@ -150,8 +174,6 @@ const MainDashboard = () => {
 
   const reFetchUpdatedQuestions = async ({ signal } = {}) => {
     try {
-      //delete the old questions from local storage
-      localStorage.removeItem("questions");
       await fetchCustomReferenceQuestions(signal);
     } catch (error) {
       console.error(error);
@@ -160,7 +182,6 @@ const MainDashboard = () => {
 
   const reFetchReference = async ({ signal } = {}) => {
     try {
-      localStorage.removeItem("reference");
       await fetchReference(signal);
     } catch (error) {
       console.error(error);
@@ -169,66 +190,114 @@ const MainDashboard = () => {
 
   const refetchJobs = async ({ signal } = {}) => {
     try {
-      //delete the jobs from local storage
-      localStorage.removeItem("jobs");
-
       //fetch the jobs again
       await fetchJobs(signal);
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (questionSets.length === 0) {
-        await fetchCustomReferenceQuestions();
+    const handleReferenceSubmitted = async (data) => {
+      if (data?.completed) {
+        await handleRefetchCandidates();
+        await handleRefetchJobs();
+        await handleRefetchReference();
       }
     };
 
-    fetchData();
+    socket.off("referenceSubmitted");
+    socket.on("referenceSubmitted", (data) => {
+      handleReferenceSubmitted(data);
+    });
   }, []);
 
-  useEffect(() => {
-    const fetchCandidatesWhenRender = async () => {
-      if (!candidates || candidates.length === 0) {
-        await fetchCandidates();
+  //This function return an array of months according to the reference data
+  const getMonthlyCounts = (reference) => {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const monthMap = new Map();
+
+    // Initialize month map
+    reference.forEach((record) => {
+      const date = new Date(record.dateSent);
+      const month = monthNames[date.getMonth()];
+
+      if (!monthMap.has(month)) {
+        monthMap.set(month, { total: 0, completed: 0 });
       }
-    };
 
-    fetchCandidatesWhenRender();
-  }, []);
-
-  useEffect(() => {
-    const getReferenceWhenFirstRender = async () => {
-      if (reference.length === 0) {
-        await fetchReference();
+      //Counting status and total referee for the all record
+      if (!record.referees && record.status === "Completed") {
+        monthMap.get(month).total += 1;
+        monthMap.get(month).completed += 1;
+      } else {
+        monthMap.get(month).total += record.referees.length;
+        //Counting status and total referee for the individual referees
+        record.referees.forEach((referee) => {
+          if (referee.status === "Completed") {
+            monthMap.get(month).completed += 1;
+          }
+        });
       }
-    };
+    });
 
-    getReferenceWhenFirstRender();
-  }, []);
+    // Sort months based on order in the monthNames array
+    const months = Array.from(monthMap.keys()).sort(
+      (a, b) => monthNames.indexOf(a) - monthNames.indexOf(b)
+    );
+    const totalReferenceCount = months.map(
+      (month) => monthMap.get(month).total
+    );
+    const completedReferenceCounts = months.map(
+      (month) => monthMap.get(month).completed
+    );
 
-  useEffect(() => {
-    const getJobsWhenFirstRender = async () => {
-      if (activeJobs.length === 0) {
-        await fetchJobs();
-      }
-    };
-
-    getJobsWhenFirstRender();
-  }, []);
+    return { months, totalReferenceCount, completedReferenceCounts };
+  };
+  const { months, totalReferenceCount, completedReferenceCounts } =
+    getMonthlyCounts(reference);
 
   // Calculate the count for each card
   const activeJobCount =
     activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
 
-  const completedReferenceCount =
-    reference.filter((record) => record.status === "Completed").length || 0;
+  const totalCompletedReference = reference.reduce((count, record) => {
+    if (record?.referees) {
+      record.referees.forEach((referee) => {
+        if (referee.status === "Completed") {
+          count++;
+        }
+      });
+    } else if (record.status === "Completed") {
+      count++;
+    }
+    return count;
+  }, 0);
 
-  const pendingReferenceCount =
-    reference.filter(
-      (record) => record.status === "In Progress" || record.status === "New"
-    ).length || 0;
+  const pendingReferenceCount = reference.reduce((count, record) => {
+    if (record?.referees) {
+      count += record.referees.filter(
+        (referee) => referee.status === "In Progress"
+      ).length;
+    } else if (record.status === "In Progress") {
+      count++;
+    }
+    return count;
+  }, 0);
 
   const totalCandidateCount = candidates.length || 0;
 
@@ -241,27 +310,19 @@ const MainDashboard = () => {
     },
     {
       title: "Completed References",
-      count: completedReferenceCount,
+      count: totalCompletedReference,
       color: "#319F43",
     },
     { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
   ];
+
   // Data for the line chart
   const lineData = {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-    ],
+    labels: months,
     datasets: [
       {
         label: "Total",
-        data: [300, 320, 350, 380, 410, 440, 470, 500],
+        data: totalReferenceCount,
         fill: false,
         backgroundColor: "#1877F2",
         borderColor: "#1877F2",
@@ -269,7 +330,7 @@ const MainDashboard = () => {
       },
       {
         label: "Completed",
-        data: [120, 140, 160, 180, 200, 220, 240, 260],
+        data: completedReferenceCounts,
         fill: false,
         backgroundColor: "#319F43",
         borderColor: "#319F43",
@@ -288,7 +349,6 @@ const MainDashboard = () => {
       tooltipEl.innerHTML = "<table></table>";
       document.body.appendChild(tooltipEl);
     }
-
     return tooltipEl;
   };
 
@@ -372,18 +432,37 @@ const MainDashboard = () => {
     },
   };
 
+  function getDepartmentCounts() {
+    const departmentCounts = {};
+
+    activeJobs.forEach((job) => {
+      if (job.department) {
+        departmentCounts[job.department] =
+          (departmentCounts[job.department] || 0) + 1;
+      }
+    });
+
+    const departments = Object.keys(departmentCounts);
+    const counts = Object.values(departmentCounts);
+
+    return { departments, counts };
+  }
+
+  const { departments, counts } = getDepartmentCounts();
+
   const barData = {
-    labels: ["Engineering", "Sales", "Marketing", "HR", "Finance", "Operation"], // Departments as labels
+    labels: departments,
     datasets: [
       {
         label: "Department References",
         backgroundColor: "#1877F2",
         borderColor: "transparent",
         borderWidth: 2,
-        data: [30, 25, 15, 10, 20, 40],
+        data: counts,
       },
     ],
   };
+
   const barOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -537,7 +616,7 @@ const MainDashboard = () => {
     if (!abortController.signal.aborted) {
       timeoutRef.current = setTimeout(
         () => refetchAllData(timeoutRef, abortController),
-        10000
+        60000
       );
     }
   }
@@ -555,59 +634,139 @@ const MainDashboard = () => {
       abortControllerRef.current.abort();
     };
   }, []);
+
+  // Prevent accidental page exit
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "Are you sure you want to leave this page?";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
+
+  //Add a warning when user is navigating back to previous page
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      event.preventDefault();
+      const userConfirmed = window.confirm(
+        "Are you sure you want to go back? Your progress will be lost."
+      );
+      if (!userConfirmed) {
+        window.history.pushState(null, "", window.location.pathname);
+      }
+    };
+
+    window.history.pushState(null, "", window.location.pathname);
+    window.addEventListener("popstate", handleBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, []);
+
+  const handleRefetchCandidates = async () => {
+    await fetchCandidates(abortControllerRef.current);
+  };
+  const handleRefetchJobs = async () => {
+    await fetchJobs(abortControllerRef.current);
+  };
+  const handleRefetchReference = async () => {
+    await fetchReference(abortControllerRef.current);
+  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div>
-        <h3 className="mb-3">Dashboard</h3>
-        <p>Manage and track your reference check processes.</p>
-      </div>
-      <div>
-        <Row className="mb-3">
-          {cardData.map((card, index) => (
-            <Col key={index} md={3}>
-              <div className="AiReferenceCard">
-                {/* Title and Count */}
-                <div className="h-100">
-                  <p className="d-flex title">
-                    <div
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        backgroundColor: card.color, // Dynamic color from card data
-                        marginRight: "10px", // Space between box and title
-                      }}
-                    ></div>
-                    {card.title}
-                  </p>
-                  <p className="d-flex align-items-center justify-content-center count">
-                    {card.count}
-                  </p>
+      {showAddCandidate ? (
+        <AddCandidateComponent
+          onProceed={handleShowAddReferenceRequest}
+          refetch={handleRefetchCandidates}
+        />
+      ) : showJobForm ? (
+        <AddJobComponent
+          onProceed={handleShowAddCandidate}
+          refetch={handleRefetchJobs}
+        />
+      ) : showAddReferenceRequest ? (
+        <AddRequestComponent onReFetchReference={handleRefetchReference} />
+      ) : (
+        <>
+          <div>
+            <h3 className="mb-3">Dashboard</h3>
+            <p className="m-0">
+              Manage and track your reference check processes.
+            </p>
+          </div>
+          <div className="d-flex justify-content-end mb-3">
+            <button
+              className="btn-create-new-job d-flex align-items-center justify-content-center px-4 gap-1"
+              onClick={handleOpenJobForm}
+            >
+              Start Reference Check{" "}
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 17 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.39847 2.59891C9.611 2.38645 9.89922 2.26709 10.1997 2.26709C10.5003 2.26709 10.7885 2.38645 11.001 2.59891L16.101 7.69891C16.3135 7.91145 16.4328 8.19966 16.4328 8.50018C16.4328 8.8007 16.3135 9.08892 16.101 9.30145L11.001 14.4014C10.7873 14.6079 10.501 14.7221 10.2038 14.7195C9.90666 14.717 9.62241 14.5978 9.41228 14.3876C9.20215 14.1775 9.08296 13.8933 9.08038 13.5961C9.07779 13.2989 9.19203 13.0127 9.39847 12.7989L12.4664 9.63351H1.69974C1.39916 9.63351 1.11089 9.51411 0.898352 9.30157C0.685811 9.08903 0.566406 8.80076 0.566406 8.50018C0.566406 8.1996 0.685811 7.91133 0.898352 7.69879C1.11089 7.48625 1.39916 7.36685 1.69974 7.36685H12.4664L9.39847 4.20145C9.18601 3.98892 9.06665 3.7007 9.06665 3.40018C9.06665 3.09966 9.18601 2.81145 9.39847 2.59891Z"
+                  fill="white"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div>
+            <Row className="mb-3">
+              {cardData.map((card, index) => (
+                <Col key={index} md={3}>
+                  <div className="AiReferenceCard">
+                    <div className="h-100">
+                      <p className="d-flex title">
+                        <div
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            backgroundColor: card.color,
+                            marginRight: "10px",
+                          }}
+                        ></div>
+                        {card.title}
+                      </p>
+                      <p className="d-flex align-items-center justify-content-center count">
+                        {card.count}
+                      </p>
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+          </div>
+          <Row>
+            <Col md="6">
+              <div className="line-bar-chart-container position-relative">
+                <p className="mb-3 line-title-overlay">
+                  Reference Check Overview
+                </p>
+                <div className="line-chart">
+                  <Line data={lineData} options={lineOptions} />
                 </div>
               </div>
             </Col>
-          ))}
-        </Row>
-      </div>
-
-      <Row>
-        <Col md="6">
-          <div className="line-bar-chart-container position-relative">
-            <p className="mb-3 line-title-overlay">Reference Check Overview</p>
-            <div className="line-chart">
-              <Line data={lineData} options={lineOptions} />
-            </div>
-          </div>
-        </Col>
-        <Col md="6">
-          <div className="line-bar-chart-container position-relative">
-            <p className="mb-3 bar-title-overlay">By Department</p>
-            <div className="bar-chart">
-              <Bar data={barData} options={barOptions} />
-            </div>
-          </div>
-        </Col>
-      </Row>
-      <LogContainer logData={logData} />
+            <Col md="6">
+              <div className="line-bar-chart-container position-relative">
+                <p className="mb-3 bar-title-overlay">By Department</p>
+                <div className="bar-chart">
+                  <Bar data={barData} options={barOptions} />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <LogContainer logData={logData} />
+        </>
+      )}
+      {/* <AddRequestComponent /> */}
     </div>
   );
 };

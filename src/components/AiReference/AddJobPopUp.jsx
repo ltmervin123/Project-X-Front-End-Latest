@@ -10,6 +10,7 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
   const token = USER?.token;
   const [jobName, setJobName] = useState("");
   const [vacancies, setVacancies] = useState(1);
+  const [department, setDepartment] = useState(""); // New state for Department
   const [hiringManager, setHiringManager] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,8 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/create-job`;
-      const payload = { jobName, vacancies, hiringManager };
+      const payload = { jobName, vacancies, hiringManager, department };
+
       const response = await axios.post(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +71,10 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             controlId="formJobName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "220px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "220px", height: "38px" }}
+            >
               Job Name
             </Form.Label>
             <Form.Control
@@ -84,7 +89,10 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             controlId="formVacancies"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "220px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "220px", height: "38px" }}
+            >
               Vacancies
             </Form.Label>
             <Form.Control
@@ -96,10 +104,30 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             />
           </Form.Group>
           <Form.Group
+            controlId="formDepartment"
+            className="d-flex align-items-center mb-3"
+          >
+            <Form.Label
+              className="m-0"
+              style={{ width: "220px", height: "38px" }}
+            >
+              Department
+            </Form.Label>
+            <Form.Control
+              type="text"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group
             controlId="formHiringManager"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "220px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "220px", height: "38px" }}
+            >
               Hiring Manager
             </Form.Label>
             <Form.Control
@@ -110,8 +138,12 @@ const AddJobPopUp = ({ onClose, onAddJob }) => {
             />
           </Form.Group>
           <div className="d-flex justify-content-end">
-          <button className="btn-create-job" type="submit" disabled={loading || !isFormValid}>
-          {loading ? "Creating Job..." : "Create Job"}
+            <button
+              className="btn-create-job"
+              type="submit"
+              disabled={loading || !isFormValid}
+            >
+              {loading ? "Creating Job..." : "Create Job"}
             </button>
           </div>
         </Form>

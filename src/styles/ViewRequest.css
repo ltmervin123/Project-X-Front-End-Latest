@@ -26,7 +26,7 @@
 .ViewRequest-container > div > button{
     background: var(--secondary-color);
     color: var(--font-white);
-    border-radius: 10px;
+    border-radius: 50px;
     border: none;
     padding: 5px 15px;
 }
@@ -38,6 +38,13 @@
     font-size: 20px;
 }
 .btn-okay{
+  background: var(--secondary-color);
+  color: var(--font-white);
+  padding: 5px 30px;
+  border: none;
+  border-radius: 20px;
+}
+.btn-back-to-reference-request{
   background: var(--secondary-color);
   color: var(--font-white);
   padding: 5px 30px;

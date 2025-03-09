@@ -6,12 +6,12 @@ const CandidateDetailsPopUp = ({ candidates, onClose }) => {
   // Function to get the color based on status
   const getStatusColor = (status) => {
     switch (status) {
-      case "In Progress":
-        return "#F8BD00";
-      case "Completed":
-        return "#1877F2";
       case "New":
         return "#319F43";
+      case "Completed":
+        return "#1877F2";
+      case "Failed":
+        return "#FF0000";
       default:
         return "black"; // Default color for unknown statuses
     }

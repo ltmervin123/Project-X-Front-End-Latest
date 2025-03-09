@@ -8,6 +8,8 @@ const AiReferenceCheckVerificationForm = ({
   refereeName,
   referenceId,
   candidateName,
+  refereeId,
+  companyId,
 }) => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
@@ -20,20 +22,42 @@ const AiReferenceCheckVerificationForm = ({
     candidateName: "",
     startDate: "",
     endDate: "",
+    otherRelationship: "", // New field for "Other" relationship
   });
   const [processing, setProcessing] = useState(false);
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString("en-CA")
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
+
+    // Check if "Other" is selected
+    if (name === "relationship" && value === "Other") {
+      setIsOtherSelected(true);
+    }
   };
 
   // Save referee data to local storage
   const saveRefereeDataTemporary = () => {
-    localStorage.setItem("refereeData", JSON.stringify(formData));
+    // Create a copy of formData
+    let updatedFormData = { ...formData };
+
+    // Check if "Other" is selected and save the correct relationship
+    if (isOtherSelected) {
+      updatedFormData.relationship = updatedFormData.otherRelationship;
+    }
+
+    // Remove the `otherRelationship` property
+    delete updatedFormData.otherRelationship;
+
+    // Save the updated formData to session storage
+    sessionStorage.setItem("refereeData", JSON.stringify(updatedFormData));
   };
 
   const handleSubmit = async (e) => {
@@ -65,14 +89,21 @@ const AiReferenceCheckVerificationForm = ({
         candidateName: candidateName,
       }));
     }
-  }, [refereeName, referenceId, candidateName]);
+
+    if (companyId) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        companyId: companyId,
+      }));
+    }
+  }, [refereeName, referenceId, candidateName, companyId]);
 
   const isFormValid = () => {
     return (
       formData.refereeName &&
       formData.positionTitle &&
       formData.companyWorkedWith &&
-      formData.relationship &&
+      (isOtherSelected ? formData.otherRelationship : formData.relationship) &&
       formData.startDate &&
       formData.endDate
     );
@@ -80,10 +111,10 @@ const AiReferenceCheckVerificationForm = ({
 
   const getReferenceQuestions = async () => {
     try {
-      const token = localStorage.getItem("token");
-      console.log("token", token);
+      const token = sessionStorage.getItem("token");
+
       setProcessing(true);
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}`;
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}/${refereeId}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -91,7 +122,7 @@ const AiReferenceCheckVerificationForm = ({
       });
 
       if (response.status === 200) {
-        localStorage.setItem(
+        sessionStorage.setItem(
           "referenceQuestions",
           JSON.stringify(response.data)
         );
@@ -172,20 +203,31 @@ const AiReferenceCheckVerificationForm = ({
 
               <Form.Group controlId="relationship">
                 <Form.Label>Relationship to the Candidate</Form.Label>
-                <Form.Control
-                  as="select"
-                  name="relationship"
-                  value={formData.relationship}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Relationship</option>
-                  <option value="Manager">Manager</option>
-                  <option value="Colleague">Colleague</option>
-                  <option value="Subordinate">Subordinate</option>
-                  <option value="Mentor">Mentor</option>
-                  <option value="Other">Other</option>
-                </Form.Control>
+                {!isOtherSelected ? (
+                  <Form.Control
+                    as="select"
+                    name="relationship"
+                    value={formData.relationship}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Relationship</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Colleague">Colleague</option>
+                    <option value="Subordinate">Subordinate</option>
+                    <option value="Mentor">Mentor</option>
+                    <option value="Other">Other</option>
+                  </Form.Control>
+                ) : (
+                  <Form.Control
+                    type="text"
+                    name="otherRelationship"
+                    value={formData.otherRelationship} // Ensure this is correctly set
+                    onChange={handleChange} // Update state on change
+                    placeholder="Please specify your relationship"
+                  />
+                )}
               </Form.Group>
+
               <Form.Group controlId="date-worked-together">
                 <Form.Label>Date Worked Together</Form.Label>
                 <Row>
@@ -197,6 +239,7 @@ const AiReferenceCheckVerificationForm = ({
                       id="startdate"
                       value={formData.startDate}
                       onChange={handleChange}
+                      max={currentDate}
                     />
                   </Col>
                   <Col md={6}>
@@ -207,6 +250,9 @@ const AiReferenceCheckVerificationForm = ({
                       id="enddate"
                       value={formData.endDate}
                       onChange={handleChange}
+                      disabled={!formData.startDate}
+                      min={formData.startDate}
+                      max={currentDate}
                     />
                   </Col>
                 </Row>

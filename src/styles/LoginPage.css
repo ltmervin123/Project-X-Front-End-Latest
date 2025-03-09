@@ -29,7 +29,7 @@
 
 .main-login {
   width: 100%;
-  height: 90vh;
+  height: 85vh;
   margin: 0 !important;
   display: flex; /* Use flexbox for centering */
   align-items: center; /* Center vertically */
@@ -46,8 +46,8 @@
   );
   color: white;
   padding: 10px !important;
-  width: 550px;
-  max-height: 90vh; /* Added to prevent overflow */
+  width: 530px;
+  max-height: 85vh; /* Added to prevent overflow */
   height: auto !important;
   border-radius: 50px;
   display: flex;
@@ -56,11 +56,7 @@
   flex-direction: column;
   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
 }
-/* .login-container .login-header ,
-.login-container .signup-container {
-  transform: scale(0.8); 
-  transform-origin: center; 
-} */
+
 .login-avatar-container {
   height: 100%;
 }
@@ -74,7 +70,6 @@
   bottom: -250px;
 }
 .login-header {
-  /* background: var(--primary-color) !important; */
   margin-bottom: 10px;
 }
 
@@ -132,7 +127,7 @@
 
 .input-container input {
   width: 100%;
-  padding: 10px 10px 10px 40px; /* Adjust padding to make space for the icon */
+  padding: 10px 10px 10px 40px;
   border-radius: 50px !important;
   border: 2px solid var(--input-bg);
   box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
@@ -143,8 +138,8 @@
 
 .input-container .input-label {
   position: absolute;
-  left: 25px; /* Adjust to align with the input padding */
-  top: 12px;
+  left: 25px;
+  top: 10px;
   transition: all 0.3s ease;
   color: var(--input-bg);
   font-size: 16px;
@@ -160,19 +155,19 @@
 
 .input-group > div {
   position: relative;
-  width: 85%;
+  width: 86%;
 }
 .input-group.mb-3 {
-  position: relative; /* Ensures that the absolute positioning of children works */
+  position: relative;
 }
 
 .position-relative .toggle-password {
   position: absolute;
-  right: 15px; /* Adjust as necessary for spacing */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust for perfect centering */
-  z-index: 10; /* Ensure it appears above other elements */
-  cursor: pointer; /* Pointer cursor for better UX */
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
 }
 
 .input-group > span {
@@ -187,7 +182,7 @@
 .input-group > div > input[type="email"] {
   appearance: none;
   width: 100%;
-  padding: 10px 10px 10px 25px; /* Adjust padding as needed */
+  padding: 8px 10px 8px 25px; 
   border-radius: 50px !important;
   border: 2px solid var(--input-bg);
   box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
@@ -204,62 +199,21 @@
   border-color: var(--primary-color);
   box-shadow: 0 0 8px rgba(244, 106, 5, 0.4);
 }
-/*
-.choose-services-container select {
-  appearance: none;
-  width: 100%;
-  padding: 10px 10px 10px 25px; 
-  border-radius: 50px !important;
-  border: 2px solid var(--input-bg);
-  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
-  color: var(--input-bg);
-  position: relative;
 
-  background-color: rgba(255, 255, 255, 0.7) !important;
-}
-
- .choose-services-container select {
-  padding-right: 40px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E');
-  background-position: right 10px center;
-  background-repeat: no-repeat;
-  background-size: 12px 12px;
-  transition: background-image 0.3s ease;
-}
-
-.choose-services-container select:focus {
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E'); 
-}
-.choose-services-container > select > option {
-  background: none;
-  border: none;
-  color: var(--font-black) !important;
-  transition: color 0.3s ease;
-}
-
-.choose-services-container select option:hover {
-  color: var(--primary-color) !important;
-  background-color: transparent;
-} */
 .choose-services-container .login-custom-dropdown {
   appearance: none;
-  width: 100%;
+  width: 97%;
   border-radius: 50px !important;
   box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
   color: var(--input-bg) !important;
   position: relative;
   background: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-
 }
 
 .choose-services-container .login-custom-dropdown.open,
 .choose-services-container .dropdown-header.open {
-  border-radius: 20px 20px 0px 0px !important; /* Change border-radius when open */
+  border-radius: 20px 20px 0px 0px !important;
   border: none;
   background: var(--font-white) !important;
 }
@@ -271,8 +225,8 @@
 .choose-services-container .dropdown-header {
   padding-right: 40px;
   display: flex;
-  justify-content: space-between; /* Align text and arrow */
-  align-items: center; /* Center vertically */
+  justify-content: space-between;
+  align-items: center;
   background: transparent !important;
   border: 2px solid var(--input-bg);
 
@@ -291,10 +245,10 @@
   right: 0;
   background: var(--font-white) !important;
   border-top: none;
-  border-radius: 0px 0px 10px 10px; /* Rounded corners at the bottom */
+  border-radius: 0px 0px 10px 10px;
   z-index: 1000;
-  max-height: 200px; /* Limit height */
-  overflow-y: auto; /* Scroll if too many options */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .choose-services-container .dropdown-item {
@@ -302,20 +256,20 @@
 
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.2s; /* Smooth transition */
+  transition: background-color 0.2s;
 }
 
 .choose-services-container .dropdown-item:hover {
-  background-color: rgba(0, 0, 0, 0.1); /* Highlight on hover */
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .input-label {
   position: absolute;
   left: 25px;
-  top: 12px;
+  top: 10px;
   transition: all 0.3s ease;
   color: var(--input-bg);
   font-size: 16px;
-  pointer-events: none; /* Prevent label from capturing mouse events */
+  pointer-events: none;
 }
 
 .input-group > div > input:focus + .input-label,
@@ -326,7 +280,7 @@
 }
 
 .input-group > div > input.is-invalid + .input-label {
-  color: var(--font-black); /* Change label color if input is invalid */
+  color: var(--font-black);
 }
 
 .invalid-feedback {
@@ -336,8 +290,8 @@
   animation: fadeIn 0.3s ease;
   position: absolute;
   z-index: 1;
-  bottom: -18px; /* Adjust this value to create space for the error message */
-  left: 25px; /* Adjust this value as necessary */
+  bottom: -18px;
+  left: 25px;
 }
 .error-message {
   color: red;
@@ -349,7 +303,6 @@
   font-size: 20px;
   color: var(--input-bg);
   transition: color 0.3s ease;
-  /* margin-bottom: 5px; */
   position: absolute;
   transform: translateY(-50%);
   right: 4px;
@@ -381,8 +334,8 @@
 }
 
 .toggle-password.is-invalid > svg {
-  color: red; /* Changes the SVG's color to red. */
-  fill: red; /* If the SVG supports the 'fill' attribute, this will color its fill. */
+  color: red;
+  fill: red;
 }
 
 .forgot {
@@ -422,10 +375,10 @@
 
 .remember-box-check > input[type="checkbox"] {
   background-color: transparent !important;
-  appearance: none; /* Remove default browser styles */
+  appearance: none;
   cursor: pointer;
-  outline: none; /* Remove default focus outline */
-  box-shadow: none; /* Remove box-shadow effect */
+  outline: none;
+  box-shadow: none;
   border: 1px solid var(--font-white);
 }
 .remeber-box-check > input[type="checkbox"]:checked {
@@ -447,10 +400,9 @@
   left: 50%;
   transform: translateX(-50%);
 }
-/* Disabled button styles */
 .login-button:disabled {
   background: var(--font-white) !important;
-  cursor: not-allowed; /* Change cursor to not-allowed */
+  cursor: not-allowed;
 }
 .account-details-login h3 {
   position: absolute;
@@ -468,7 +420,7 @@
   font-size: 12px;
   word-wrap: break-word;
   width: 80%;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .social-icons {
@@ -480,12 +432,12 @@
 .social-icons button {
   background: none;
   border: none;
-  cursor: pointer; /* Default pointer cursor */
+  cursor: pointer;
 }
 
 .social-icons button:disabled {
-  cursor: not-allowed; /* Change cursor when disabled */
-  opacity: 0.5; /* Make the button look disabled */
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .social-icon {
@@ -498,7 +450,7 @@
 }
 
 .social-icons button:disabled .social-icon {
-  background: #e0e0e0; /* Lighter background for disabled state */
+  background: #e0e0e0;
 }
 
 .login-container > .signup-container {
@@ -608,7 +560,6 @@
   border: none;
 }
 .forgot-header {
-  /* background: var(--primary-color) !important; */
   margin-bottom: 10px;
 }
 
@@ -690,16 +641,16 @@
   margin-top: 10px;
   background: none !important;
   border: none !important;
-  cursor: pointer; /* Show pointer cursor when enabled */
+  cursor: pointer;
 }
 
 .resend-confirmation-link-disabled {
   background: none !important;
   border: none !important;
   margin-top: 10px;
-  color: #6251fb !important; /* Gray out the text when disabled */
-  text-decoration: none !important; /* Optionally remove the underline when disabled */
-  cursor: not-allowed !important; /* Change the cursor to indicate it's disabled */
+  color: #6251fb !important;
+  text-decoration: none !important;
+  cursor: not-allowed !important;
 }
 
 .reset-pass-container {
@@ -759,20 +710,20 @@
   animation: fadeIn 0.3s ease;
   position: absolute;
   z-index: 100;
-  bottom: 10px; /* Adjust this value to create space for the error message */
-  left: 25px; /* Adjust this value as necessary */
-  color: red; /* Set the text color */
-  display: block; /* Ensure it is visible */
+  bottom: 10px;
+  left: 25px;
+  color: red;
+  display: block;
 }
 .invalid-feedback2 {
   font-size: 12px;
   animation: fadeIn 0.3s ease;
   position: absolute;
   z-index: 100;
-  bottom: 10px; /* Adjust this value to create space for the error message */
-  left: 63px; /* Adjust this value as necessary */
-  color: red; /* Set the text color */
-  display: block; /* Ensure it is visible */
+  bottom: 10px;
+  left: 63px;
+  color: red;
+  display: block;
 }
 
 .expired-link-container {
@@ -805,14 +756,7 @@
   border: none;
 }
 
-/* DPA modal */
-/* .dpa-modal-agreement {
-  min-width: 700px !important;
-} */
-.modal-dialog {
-  width: 600px !important;
-  max-width: 700px !important;
-}
+
 .dpa-container {
   overflow-y: hidden;
 }
@@ -859,9 +803,8 @@
   -o-border-radius: 25px;
 }
 
-/* Scrollbar styling */
 .dpa-content::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
+  width: 12px;
 }
 
 .dpa-content::-webkit-scrollbar-track {
@@ -875,8 +818,8 @@
 }
 
 .dpa-content::-webkit-scrollbar-thumb {
-  background-color: #f46a05; /* Color of the scrollbar thumb */
-  border-radius: 6px; /* Rounded corners */
-  width: 12px; /* Set the width of the thumb */
-  height: 12px; /* Set the height to the same as the width for a circle */
+  background-color: #f46a05;
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
 }

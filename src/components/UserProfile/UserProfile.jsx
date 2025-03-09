@@ -45,7 +45,7 @@ const UserProfile = () => {
   };
 
   return (
-    <Container className="user-profile-section">
+    <div className="user-profile-section">
       <div className="user-profile-container">
 
       <h4>USER PROFILE</h4>
@@ -220,7 +220,7 @@ const UserProfile = () => {
             </div>
           </Row>
       
-    </Container>
+    </div>
   );
 };
 

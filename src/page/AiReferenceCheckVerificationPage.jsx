@@ -12,6 +12,8 @@ function AiReferenceCheckVerificationPage() {
   const [isExpired, setIsExpired] = useState(false);
   const [refereeName, setRefereeName] = useState("");
   const [referenceId, setReferenceId] = useState("");
+  const [refereeId, setRefereeId] = useState("");
+  const [companyId, setCompanyId] = useState("");
   const [candidateName, setCandidateName] = useState("");
   const [verifying, setVerifying] = useState(false);
 
@@ -31,13 +33,15 @@ function AiReferenceCheckVerificationPage() {
       );
 
       if (response.status === 200) {
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
         setCandidateName(response.data.candidateName);
         setRefereeName(response.data.refereeName);
         setReferenceId(response.data.referenceId);
+        setRefereeId(response.data.refereeId);
+        setCompanyId(response.data.companyId);
       }
     } catch (error) {
-      setIsExpired(true); // Set expired state if an error occurs
+      setIsExpired(true);
     } finally {
       setVerifying(false);
     }
@@ -61,14 +65,16 @@ function AiReferenceCheckVerificationPage() {
   }
 
   return (
-    <div className="container-fluid mock-background">
+    <>
       <Header />
       <AiReferenceCheckVerificationForm
         refereeName={refereeName}
         referenceId={referenceId}
         candidateName={candidateName}
+        refereeId={refereeId}
+        companyId={companyId}
       />
-    </div>
+    </>
   );
 }
 

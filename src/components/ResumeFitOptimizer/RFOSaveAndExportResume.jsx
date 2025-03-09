@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import logo from "../../assets/logo.png";
-import "../../styles/ResumeFitOptimizer.css";
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 
 function SaveAndExportResume() {
   // Step 1: State to track which resume is active

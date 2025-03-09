@@ -6,11 +6,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import LandingPage from "./page/LandingPage.jsx";
-import MockLandingPage from "./page/MockLanding.jsx";
-import Login from "./page/LoginPage.jsx";
-import SignUp from "./page/SignUpPage.jsx";
-import MockInterviewPage from "./page/MockInterviewPage.jsx";
+
 import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
@@ -23,20 +19,32 @@ import RequireAuthAIReference from "./components/session/requireAuthAIReference.
 import RequireAuthVefifyReferee from "./components/session/requireAuthVerifyReferee.jsx";
 import EnglishResumeBuilderPage from "./page/EnglishResumeBuilderPage.jsx";
 import { useAuthContext } from "./hook/useAuthContext";
-import FailedPage from "./page/LoginFailed.jsx";
-import SuccessPage from "./page/LoginSucess.jsx";
+
+/*Landing Page*/
+import LandingPage from "./page/LandingPage.jsx";
+
+/*Login Page */
+import Login from "./page/LoginPage/LoginPage.jsx";
+import FailedPage from "./page/LoginPage/LoginFailed.jsx";
+import SuccessPage from "./page/LoginPage/LoginSucess.jsx";
+
+/*Mock Ai Signin Page */
+import SignUp from "./page/SignUpPage.jsx";
 
 /*Mock Ai */
+import MockLandingPage from "./page/MockLanding.jsx";
+import MockInterviewPage from "./page/MockInterviewPage.jsx";
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
 import BehavioralVideoRecording from "./components/maindashboard/BehavioralVideoRecording";
 import VideoRecording from "./components/maindashboard/MockVideoRecording";
 
 // ResumeFitOptimizerPage
-import RTOUploadDocsPage from "./page/RTOUploadDocsPage.jsx";
-import RTOAIResumeOptimizationAnalysis from "./page/RTOAIResumeOptimizationAnalysisPage.jsx";
-import RFOCompareResumes from "./page/RFOCompareResumesPage.jsx";
-import RFOSaveAndExportResumePage from "./page/RFOSaveAndExportResumePage.jsx";
+import RFOMainPage from "./page/ResumeFitOptimizerPage/RFOMainPage.jsx";
+import RFOUploadDocsPage from "./page/ResumeFitOptimizerPage/RFOUploadDocsPage.jsx";
+import RFOAIResumeOptimizationAnalysis from "./page/ResumeFitOptimizerPage/RFOAIResumeOptimizationAnalysisPage.jsx";
+import RFOCompareResumes from "./page/ResumeFitOptimizerPage/RFOCompareResumesPage.jsx";
+import RFOSaveAndExportResumePage from "./page/ResumeFitOptimizerPage/RFOSaveAndExportResumePage.jsx";
 
 /*Forgot page*/
 import Forgotpassword from "./page/ForgotPassPage.jsx";
@@ -49,7 +57,7 @@ import PassChanged from "./page/PassChangedPage.jsx";
 import ExpiredLink from "./page/ExpiredLinkPage.jsx";
 
 /*Reference Verification page*/
-import ReferenceVerification from "./page/ReferenceVerificationPage.jsx";
+import ReferenceVerification from "./page/AiRefereePage/ReferenceVerificationPage.jsx";
 
 /*Reference Verification page*/
 import CreatedAccount from "./page/CreatedAccountPage.jsx";
@@ -58,12 +66,12 @@ import CreatedAccount from "./page/CreatedAccountPage.jsx";
 import OurParternersPage from "./page/OurPartnersPage.jsx";
 
 /*Ai Referee */
-import AiReferenceMainDashboardPage from "./page/AiReferenceMainDashboardPage.jsx";
-import AiReferenceJobsPage from "./page/AiReferenceJobsPage.jsx";
-import AiReferenceCandidatesPage from "./page/AiReferenceCandidatesPage.jsx";
-import AiReferenceRequestPage from "./page/AiReferenceRequestPage.jsx";
-import AiReferenceQuestionPage from "./page/AiReferenceQuestionPage.jsx";
-import AiReferenceReportsPage from "./page/AiReferenceReportsPage.jsx";
+import AiReferenceMainDashboardPage from "./page/AiReferencePage/AiReferenceMainDashboardPage.jsx";
+import AiReferenceJobsPage from "./page/AiReferencePage/AiReferenceJobsPage.jsx";
+import AiReferenceCandidatesPage from "./page/AiReferencePage/AiReferenceCandidatesPage.jsx";
+import AiReferenceRequestPage from "./page/AiReferencePage/AiReferenceRequestPage.jsx";
+import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionPage.jsx";
+import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
@@ -77,23 +85,26 @@ import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistr
 // AiReferenceCheckVerificationPage
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
 
-// ChooseYourInterviewMethodPage
-import ChooseYourInterviewMethodPage from "./page/ChooseYourInterviewMethodPage.jsx";
+// ChooseYourReferenceMethodPage
+import ChooseYourReferenceMethodPage from "./page/AiRefereePage/ChooseYourReferenceMethodPage.jsx";
 
 // ReferenceCheckQuestionnairePage
-import ReferenceCheckQuestionnairePage from "./page/ReferenceCheckQuestionnairePage.jsx";
+import ReferenceCheckQuestionnairePage from "./page/AiRefereePage/ReferenceCheckQuestionnairePage.jsx";
 
 // ReviewYourReferenceCheckPage
-import ReviewYourReferenceCheckPage from "./page/ReviewYourReferenceCheckPage.jsx";
+import ReviewYourReferenceCheckPage from "./page/AiRefereePage/ReviewYourReferenceCheckPage.jsx";
 
 // ReferenceCheckInstructionsPage
-import ReferenceCheckInstructionsPage from "./page/ReferenceCheckInstructionsPage.jsx";
+import ReferenceCheckInstructionsPage from "./page/AiRefereePage/ReferenceCheckInstructionsPage.jsx";
+
+// ReferenceCheckThankYouMsgPage
+import ReferenceCheckThankYouMsgPage from "./page/AiRefereePage/ReferenceCheckThankYouMsgPage.jsx";
 
 // ViewRequest
 import ViewRequest from "./components/AiReference/ViewRequest.jsx";
 
 // ReferenceRequestEmailSentPage
-import ReferenceRequestEmailSentPage from "./page/ReferenceRequestEmailSentPage.jsx";
+import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
 
 // PaymentMethod
 import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
@@ -214,42 +225,52 @@ function App() {
           </Route>
         </Route>
 
+        {/* AiReferenceCheckVerificationPage*/}
+        <Route
+          path="/reference-request/:token"
+          element={<AiReferenceCheckVerificationPage />}
+        />
+
         <Route element={<RequireAuthVefifyReferee />}>
           {/* Reference Verification page */}
-          <Route
-            path="/reference-completed"
-            element={<ReferenceVerification />}
-          />
-          {/* ChooseYourInterviewMethodPage*/}
+
+          {/* ChooseYourReferenceMethodPage*/}
           <Route
             path="/reference-interview-method"
-            element={<ChooseYourInterviewMethodPage />}
+            element={<ChooseYourReferenceMethodPage />}
           />
           {/* ReferenceCheckInstructionsPage*/}
           <Route
             path="/reference-instructions"
             element={<ReferenceCheckInstructionsPage />}
           />
+
           {/* ReferenceCheckQuestionnairePage*/}
           <Route
             path="/reference-questionnaire"
             element={<ReferenceCheckQuestionnairePage />}
           />
+
           {/* ReviewYourReferenceCheckPage*/}
           <Route
             path="/reference-review"
             element={<ReviewYourReferenceCheckPage />}
           />
+
+          {/* ReferenceCheckThankYouMsgPage*/}
+          <Route
+            path="/reference-thankyou-msg"
+            element={<ReferenceCheckThankYouMsgPage />}
+          />
+
+          <Route
+            path="/reference-completed"
+            element={<ReferenceVerification />}
+          />
         </Route>
 
         {/* reference expired link */}
         <Route path="/reference-expired-link" element={<ExpiredLink />} />
-
-        {/* AiReferenceCheckVerificationPage*/}
-        <Route
-          path="/reference-request/:token"
-          element={<AiReferenceCheckVerificationPage />}
-        />
 
         {/*Company Registration */}
         <Route
@@ -285,10 +306,14 @@ function App() {
         {/* OUr Partners */}
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
-        <Route path="/ResumeFitOptimizer" element={<RTOUploadDocsPage />} />
+        <Route path="/ResumeFitOptimizer" element={<RFOMainPage />} />
+        <Route
+          path="/ResumeFitOptimizer/UploadResume"
+          element={<RFOUploadDocsPage />}
+        />
         <Route
           path="/ResumeFitOptimizer/AIResumeOptimizationAnalysis"
-          element={<RTOAIResumeOptimizationAnalysis />}
+          element={<RFOAIResumeOptimizationAnalysis />}
         />
         <Route
           path="/ResumeFitOptimizer/CompareResumes"
