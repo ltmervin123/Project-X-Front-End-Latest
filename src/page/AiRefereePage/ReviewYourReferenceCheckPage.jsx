@@ -214,14 +214,23 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const getReferenceQuestionData = () => {
-    return referenceQuestionsData.map((categoryItem, index) => {
-      const questionIndex = categoryItem.questions.indexOf(
-        submittedAnswers[index].question
-      );
-      if (questionIndex !== -1) {
-        categoryItem.answers[questionIndex] = submittedAnswers[index].answer;
-      }
-      return { ...categoryItem };
+    return referenceQuestionsData.map((categoryItem) => {
+      // Clone answers array to avoid mutating the original data
+      const updatedAnswers = [...categoryItem.answers];
+
+      submittedAnswers.forEach(({ question, answer }) => {
+        const questionIndex = categoryItem.questions.findIndex(
+          (q) => q.trim() === question.trim()
+        );
+        if (questionIndex !== -1) {
+          updatedAnswers[questionIndex] = answer;
+        }
+      });
+
+      return {
+        ...categoryItem,
+        answers: updatedAnswers,
+      };
     });
   };
 
@@ -281,14 +290,11 @@ function ReviewYourReferenceCheckPage() {
         sessionStorage.removeItem("referenceQuestions");
         sessionStorage.removeItem("referenceQuestionsData");
         sessionStorage.removeItem("token");
-
         // Emit event to server
         socket.emit("referenceCheckCompleted", { companyId });
-
         //Navigate to reference completed page
         navigate("/reference-completed");
       }
-
     } catch (error) {
       console.error(error);
     } finally {

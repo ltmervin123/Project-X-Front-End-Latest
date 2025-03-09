@@ -245,6 +245,7 @@ const MainDashboard = () => {
       }
     };
 
+    socket.off("referenceSubmitted");
     socket.on("referenceSubmitted", (data) => {
       handleReferenceSubmitted(data);
     });

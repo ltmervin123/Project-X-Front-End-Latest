@@ -30,7 +30,6 @@ const RequireAuthVerifyReferee = () => {
 
         if (response.status === 200) {
           connectSocket(token);
-          console.log("response.data: ", response.data);
           const { companyId } = response.data;
           socket.emit("joinRoom", { companyId });
           setIsSessionValid(true);
