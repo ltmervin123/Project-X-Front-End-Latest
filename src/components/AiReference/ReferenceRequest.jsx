@@ -6,6 +6,7 @@ import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
 import ViewRequest from "./ViewRequest";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../../utils/socket/socketSetup";
 
 const ReferenceRequest = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -47,7 +48,6 @@ const ReferenceRequest = () => {
   };
   const reFetchReference = async () => {
     try {
-      localStorage.removeItem("reference");
       await fetchReference();
     } catch (error) {
       console.error(error);
@@ -62,6 +62,18 @@ const ReferenceRequest = () => {
     };
 
     getReferenceWhenFirstRender();
+  }, []);
+
+  useEffect(() => {
+    const handleReferenceSubmitted = async (data) => {
+      if (data?.completed) {
+        await reFetchReference();
+      }
+    };
+
+    socket.on("referenceSubmitted", (data) => {
+      handleReferenceSubmitted(data);
+    });
   }, []);
 
   const handleAddNewRequest = () => {

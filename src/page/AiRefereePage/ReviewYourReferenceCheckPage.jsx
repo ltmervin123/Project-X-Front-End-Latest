@@ -285,11 +285,10 @@ function ReviewYourReferenceCheckPage() {
         // Emit event to server
         socket.emit("referenceCheckCompleted", { companyId });
 
-        // Disconnect socket
-        // disconnectSocket();
         //Navigate to reference completed page
         navigate("/reference-completed");
       }
+
     } catch (error) {
       console.error(error);
     } finally {

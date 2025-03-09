@@ -132,7 +132,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
       });
 
       if (response.status === 201) {
-        onAddRequest();
+        await onAddRequest();
         navigate("/AiReferenceRequestEmailSent");
         onClose();
       }
