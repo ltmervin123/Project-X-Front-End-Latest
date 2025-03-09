@@ -6,15 +6,19 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
-.company-register-page-container{
-  background: url("../assets/bg.png");
-  background-size: cover;
+.company-register-page-container {
+  background: linear-gradient(
+    180deg,
+    rgba(253, 251, 251, 1) 0%,
+    rgba(235, 237, 238, 1) 38%
+  );
 }
 .company-reg-container i {
-  font-size: 15px;
+  font-size: 13px;
 }
 .company-registration-container {
   max-width: 1000px;
+  height: auto;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 8px;
@@ -22,15 +26,15 @@
 }
 
 .company-registration-container-form {
-  width: 80%;
-  max-width: 1200px;
+  width: 70%;
+  max-width: 900px;
   border-radius: 20px;
-  margin-bottom: 10vh !important;
 }
 .form-company-reg {
   padding: 10px 100px 30px 100px;
   border-radius: 0px 0px 20px 20px;
   background: var(--font-white);
+  font-size: 13px;
 }
 .company-reg-title {
   border-radius: 20px 20px 0px 0px;
@@ -40,13 +44,19 @@
 }
 .company-reg-title > p {
   font-weight: 200 !important;
+  font-size: 13px;
 }
 .company-registration-container-form input,
 .company-registration-container-form select {
   border-radius: 20px;
-  border: 2px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
   color: var(--input-bg);
   background: var(--font-white);
+  height: 30px;
+  font-size: 13px;
+}
+.company-registration-container-form .toggle-password > svg {
+  transform: translateY(-60%) !important;
 }
 .company-registration-container-form select {
   appearance: none;
@@ -59,9 +69,9 @@
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E'); /* SVG up arrow (flipped) */
 }
 .company-registration-container-form label {
-  margin-top: 5px;
+  margin: 0;
 }
-.company-registration-container-form .toggle-password{
+.company-registration-container-form .toggle-password {
   position: absolute;
   right: 15px;
   top: 75%;
@@ -76,7 +86,7 @@
   padding: 5px 15px;
   color: var(--font-white);
 }
-.register-company-btn.disable{
+.register-company-btn.disable {
   cursor: not-allowed !important;
   background: #1706ac92;
 }
@@ -86,8 +96,13 @@
   bottom: 20px;
   right: -30px;
 }
-.company-registration-container-form .invalid-feedback{
+.company-registration-container-form .invalid-feedback {
   left: 12px;
 }
-
-
+.company-registration-container-form .cr-form-check-input {
+  font-size: 13px;
+}
+.form-company-reg > .cr-agreement-box-check{
+  width: 100% !important;
+  font-size: 13px !important;
+}

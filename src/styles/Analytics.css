@@ -61,9 +61,7 @@
 .area-chart-container {
   border-radius: 8px; /* Rounded corners */
   text-align: center; /* Center the title */
-  height: 100%;
   padding: 0 !important;
-
 }
 
 .area-chart-container h5 , .chart-card > p{
@@ -81,13 +79,13 @@
   border-radius: 30px;
   padding: 20px 30px;
   width: 100%;
-  height: 50vh; /* Adjust height as necessary */
+  height: 42vh; /* Adjust height as necessary */
 
 }
 .chart-card {
   border-radius: 24px; /* Rounded corners */
   background: #F2F3F7;
-  height: 43vh !important;
+  height: 35vh !important;
   padding: 20px 0px;
 }
 .chart-card > p{
@@ -198,7 +196,7 @@
   border-radius: 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--primary-color);
-  height: 50vh;
+  height: 42vh !important; /* Adjust height as necessary */
   width: 60%;
   display: flex;
   flex-direction: column;
@@ -253,7 +251,7 @@
 /* Scrollable Table Body */
 .analytics-container tbody {
   display: block;
-  max-height: 35vh; /* Allow scrolling */
+  max-height: 30vh; /* Allow scrolling */
   overflow-y: auto;
   width: 100%;
 }

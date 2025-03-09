@@ -3,6 +3,7 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
+// Header component for the landing page navigation
 const Header = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState({
@@ -12,10 +13,12 @@ const Header = () => {
     pricing: false,
   });
 
+  // Handle mouse enter event for dropdowns
   const handleMouseEnter = (dropdownName) => {
     setShowDropdown((prev) => ({ ...prev, [dropdownName]: true }));
   };
 
+  // Handle mouse leave event for dropdowns
   const handleMouseLeave = (dropdownName) => {
     setShowDropdown((prev) => ({ ...prev, [dropdownName]: false }));
   };
@@ -49,7 +52,7 @@ const Header = () => {
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   className="noclickblue"
-                  onClick={() => navigate("/comingsoon")}
+                  onClick={() => navigate("/ResumeFitOptimizer")}
                 >
                   Resume Fit Optimizer
                 </NavDropdown.Item>

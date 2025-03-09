@@ -1,95 +1,114 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { useSignup } from "../../hook/useSignup";
-import DPAPopUp from "./DPAPopUp"; // Import the DPAPopUp modal component
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import DPAPopUp from "./DPAPopUp";
+import { useNavigate } from "react-router-dom";
+import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 
 const CompanyRegistrationForm = () => {
   const SERVICE = "AI_REFERENCE";
-  const { signup, isLoading, error, message } = useSignup();
+  const { signup, isLoading, error } = useSignup();
+  const navigate = useNavigate();
+  const [countries, setCountries] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
   const [showModal, setShowModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [agreeChecked, setAgreeChecked] = useState(false); // Separate state to keep checkbox unchecked until "Continue" is clicked
-
-  const handleCheckboxChange = (e) => {
-    if (e.target.checked) {
-      if (!agreeChecked) {
-        setShowModal(true); // Show modal if the user hasn't agreed yet
-      } else {
-        setIsChecked(true); // Allow checking again without modal
-      }
-    } else {
-      setIsChecked(false);
-      setAgreeChecked(false); // Reset agreement state when unchecked
-    }
-  };
-
-  const handleContinue = () => {
-    setAgreeChecked(true); // Mark that the user has agreed
-    setIsChecked(true); // Keep the checkbox checked
-    setShowModal(false); // Close modal
-  };
+  const [agreeChecked, setAgreeChecked] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    location: "",
     size: "",
     industry: "",
     annualHiringVolume: "",
     firstName: "",
     lastName: "",
-    positionTitle: "",
+    country: "",
+    cities: "",
+    hiringInvolvement: "",
   });
 
+  useEffect(() => {
+    import("../../utils/countries/countries+cities.json").then((data) => {
+      setCountries(data.default);
+    });
+  }, []);
+
+  // Memoize filtered country data to prevent unnecessary re-renders
+  const selectedCountryData = useMemo(() => {
+    return (
+      countries.find((country) => country.name === formData.country) || {
+        cities: [],
+      }
+    );
+  }, [formData.country]);
+
   const validateForm = useMemo(() => {
-    return Object.values(formData).some((value) => value.trim() === "");
+    return Object.values(formData).every((value) => value.trim() !== "");
   }, [formData]);
 
   const disableButton = useMemo(() => {
-    return validateForm || isLoading || !isChecked;
+    return !validateForm || isLoading || !isChecked;
   }, [validateForm, isLoading, isChecked]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+  }, []);
+
+  const handleCheckboxChange = useCallback(
+    (e) => {
+      if (e.target.checked) {
+        if (!agreeChecked) {
+          setShowModal(true);
+        } else {
+          setIsChecked(true);
+        }
+      } else {
+        setIsChecked(false);
+        setAgreeChecked(false);
+      }
+    },
+    [agreeChecked]
+  );
+
+  const handleContinue = () => {
+    setAgreeChecked(true);
+    setIsChecked(true);
+    setShowModal(false);
   };
 
-  const clearForm = () => {
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      location: "",
-      size: "",
-      industry: "",
-      annualHiringVolume: "",
-      firstName: "",
-      lastName: "",
-      positionTitle: "",
-    });
-    setIsChecked(false);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const status = await signup(formData, SERVICE);
-    const email = formData.email;
-    console.log(status);
-    // Success registration reset the form and show the success message
-    if (status === 201) {
-      navigate("/company-email-verification", { state: { email } }); // Navigate to the email verification page
-      clearForm();
-    }
-  };
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const status = await signup(formData, SERVICE);
+      if (status === 201) {
+        navigate("/company-email-verification", {
+          state: { email: formData.email },
+        });
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          size: "",
+          industry: "",
+          annualHiringVolume: "",
+          firstName: "",
+          lastName: "",
+          country: "",
+          cities: "",
+          hiringInvolvement: "",
+        });
+        setIsChecked(false);
+      }
+    },
+    [formData, signup, navigate]
+  );
 
   return (
     <div className="company-reg-container d-flex align-items-center flex-column justify-content-center">
@@ -109,7 +128,7 @@ const CompanyRegistrationForm = () => {
         <form onSubmit={handleSubmit} className="form-company-reg">
           <Row>
             <Col md={9}>
-              <div className="mb-3">
+              <div className="mb-2">
                 <label htmlFor="company-name" className="form-label">
                   Company Name
                 </label>
@@ -124,9 +143,9 @@ const CompanyRegistrationForm = () => {
                 />
               </div>
 
-              <Row className="mb-4">
+              <Row className="mb-2">
                 <Col md={6}>
-                  <div className="mb-3 position-relative">
+                  <div className="mb-2 position-relative">
                     <label htmlFor="email-address" className="form-label">
                       Email Address
                     </label>
@@ -151,7 +170,7 @@ const CompanyRegistrationForm = () => {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <div className="mb-3 position-relative">
+                  <div className="mb-2 position-relative">
                     <label htmlFor="password" className="form-label">
                       Password
                     </label>
@@ -189,25 +208,50 @@ const CompanyRegistrationForm = () => {
                   </div>
                 </Col>
               </Row>
-
-              <div className="mb-3">
-                <label htmlFor="location" className="form-label">
+              <Row className="mb-2">
+                <label htmlFor="city" className="form-label">
                   Location
                 </label>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  placeholder="Enter Company Location"
-                  className="form-control"
-                  id="location"
-                />
-              </div>
-
+                <Col md={6}>
+                  <div className="mb-2">
+                    <select
+                      name="cities" // Change this to "location"
+                      value={formData.cities}
+                      onChange={handleChange}
+                      className="form-control"
+                      id="city"
+                    >
+                      <option value="">Select City</option>
+                      {selectedCountryData.cities.map((city) => (
+                        <option key={city.id} value={city.name}>
+                          {city.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </Col>
+                <Col md={6}>
+                  <div className="mb-2">
+                    <select
+                      name="country"
+                      value={formData.country}
+                      onChange={handleChange}
+                      className="form-control"
+                      id="country"
+                    >
+                      <option value="">Select Country</option>
+                      {countries.map((country) => (
+                        <option key={country.id} value={country.name}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </Col>
+              </Row>
               <Row className="mb-4">
                 <Col md={6}>
-                  <div className="mb-3">
+                  <div className="mb-2">
                     <label htmlFor="company-size" className="form-label">
                       Company Size
                     </label>
@@ -226,7 +270,7 @@ const CompanyRegistrationForm = () => {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <div className="mb-3">
+                  <div className="mb-2">
                     <label htmlFor="industry" className="form-label">
                       Industry
                     </label>
@@ -237,23 +281,85 @@ const CompanyRegistrationForm = () => {
                       className="form-select"
                       id="industry"
                     >
-                      <option value="">Select Industry</option>
-                      <option value="Technology">Technology</option>
-                      <option value="Finance">Finance</option>
-                      <option value="Healthcare">Healthcare</option>
-                      <option value="Education">Education</option>
+                      <option value="">Select an Industry</option>
+                      <option value="Advertising & Marketing">
+                        Advertising & Marketing
+                      </option>
+                      <option value="Aerospace & Defense">
+                        Aerospace & Defense
+                      </option>
+                      <option value="Agriculture & Farming">
+                        Agriculture & Farming
+                      </option>
+                      <option value="Automotive">Automotive</option>
+                      <option value="Banking & Financial Services">
+                        Banking & Financial Services
+                      </option>
+                      <option value="Biotechnology, Pharmaceuticals & Life Science">
+                        Biotechnology, Pharmaceuticals & Life Science
+                      </option>
+                      <option value="Construction & Real Estate">
+                        Construction & Real Estate
+                      </option>
+                      <option value="Business, Strategy & IT Consulting">
+                        Business, Strategy & IT Consulting
+                      </option>
+                      <option value="Consumer Goods (FMCG)">
+                        Consumer Goods (FMCG)
+                      </option>
+                      <option value="Energy & Utilities">
+                        Energy & Utilities
+                      </option>
+                      <option value="Entertainment & Media">
+                        Entertainment & Media
+                      </option>
+                      <option value="Fashion & Apparel">
+                        Fashion & Apparel
+                      </option>
+                      <option value="Gaming">Gaming</option>
+                      <option value="Government & Public Sector">
+                        Government & Public Sector
+                      </option>
+                      <option value="Healthcare & Medical">
+                        Healthcare & Medical
+                      </option>
+                      <option value="Hospitality & Tourism">
+                        Hospitality & Tourism
+                      </option>
+                      <option value="Human Resources & Recruitment">
+                        Human Resources & Recruitment
+                      </option>
+                      <option value="Insurance">Insurance</option>
+                      <option value="IT & Software Development">
+                        IT & Software Development
+                      </option>
+                      <option value="Legal">Legal</option>
+                      <option value="Manufacturing">Manufacturing</option>
+                      <option value="Mining & Metals">Mining & Metals</option>
+                      <option value="Retail & E-commerce">
+                        Retail & E-commerce
+                      </option>
+                      <option value="Telecommunications">
+                        Telecommunications
+                      </option>
+                      <option value="Logistics, Warehouse, Transportation & Shipping">
+                        Logistics, Warehouse, Transportation & Shipping
+                      </option>
+                      <option value="Venture Capital & Private Equity">
+                        Venture Capital & Private Equity
+                      </option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                 </Col>
-
               </Row>
 
-              <div className="my-4">
+              <div className="my-1">
                 <h5>Person In-charge</h5>
 
                 <Row>
                   <Col md={6}>
-                    <div className="mb-3">
+                    <div className="mb-2">
                       <label htmlFor="first-name" className="form-label">
                         First Name
                       </label>
@@ -270,7 +376,7 @@ const CompanyRegistrationForm = () => {
                   </Col>
 
                   <Col md={6}>
-                    <div className="mb-3">
+                    <div className="mb-2">
                       <label htmlFor="last-name" className="form-label">
                         Last Name
                       </label>
@@ -287,38 +393,54 @@ const CompanyRegistrationForm = () => {
                   </Col>
                 </Row>
 
-                <div className="mb-3">
-                  <label htmlFor="position-title" className="form-label">
-                    Position Title
-                  </label>
-                  <input
-                    type="text"
-                    name="positionTitle"
-                    value={formData.positionTitle}
-                    onChange={handleChange}
-                    placeholder="Ex. HR Manager"
-                    className="form-control"
-                    id="position-title"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="annual-hiring-volume" className="form-label">
-                    Annual Hiring Volume
+                <div className="mb-2">
+                  <label htmlFor="hiring-involvement" className="form-label">
+                    How are you involved in the hiring process?
                   </label>
                   <select
-                    name="annualHiringVolume"
-                    value={formData.annualHiringVolume}
+                    className="form-control"
+                    name="hiringInvolvement"
+                    id="hiring-involvement"
+                    value={formData.hiringInvolvement}
                     onChange={handleChange}
-                    className="form-select"
-                    id="annual-hiring-volume"
                   >
-                    <option value="">Select Hiring Volume</option>
-                    <option value="1-10">1-10 hires</option>
-                    <option value="11-50">11-50 hires</option>
-                    <option value="51+">51+ hires</option>
+                    <option value="">Select an option</option>
+                    <option value="HR / TA / Recruiter">
+                      HR / TA / Recruiter
+                    </option>
+                    <option value="Hiring Manager / Line Manager">
+                      Hiring Manager / Line Manager
+                    </option>
+                    <option value="Board Member / Director">
+                      Board Member / Director
+                    </option>
+                    <option value="CEO / President">CEO / President</option>
                   </select>
                 </div>
+                <Row>
+                  <Col md={6}>
+                    <div className="mb-2">
+                      <label
+                        htmlFor="annual-hiring-volume"
+                        className="form-label"
+                      >
+                        Annual Hiring Volume
+                      </label>
+                      <select
+                        name="annualHiringVolume"
+                        value={formData.annualHiringVolume}
+                        onChange={handleChange}
+                        className="form-select"
+                        id="annual-hiring-volume"
+                      >
+                        <option value="">Select Hiring Volume</option>
+                        <option value="1-10">1-10 hires</option>
+                        <option value="11-50">11-50 hires</option>
+                        <option value="51+">51+ hires</option>
+                      </select>
+                    </div>
+                  </Col>
+                </Row>
               </div>
             </Col>
 
@@ -331,7 +453,7 @@ const CompanyRegistrationForm = () => {
             </Col>
           </Row>
 
-          <div className="cr-agreement-box-check d-flex align-items-center gap-2">
+          <div className="cr-agreement-box-check d-flex align-items-center gap-2 w-100">
             <input
               type="checkbox"
               id="cr-form-check-input"
@@ -363,7 +485,6 @@ const CompanyRegistrationForm = () => {
             </label>
           </div>
 
-          {/* Add this line before the form ends */}
           <DPAPopUp
             showModal={showModal}
             setShowModal={setShowModal}
@@ -374,7 +495,7 @@ const CompanyRegistrationForm = () => {
             variant="primary"
             type="submit"
             disabled={disableButton}
-            className={`register-company-btn ${disableButton ? "disable" : ""}`} // Add "disable" class if disableButton is true
+            className={`register-company-btn ${disableButton ? "disable" : ""}`}
           >
             {!isLoading ? "Register Company" : "Processing..."}
           </button>

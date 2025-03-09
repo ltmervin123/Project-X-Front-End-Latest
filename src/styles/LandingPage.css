@@ -1,38 +1,43 @@
 /* Import Roboto font from Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;700&display=swap");
+
 /* Global styles */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
+  box-sizing: border-box; /* Set box-sizing to border-box for all elements */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-family: "Roboto", sans-serif; /* Set font family to Roboto */
 }
 
+/* CSS Variables for color scheme */
 :root {
-  --primary-color: #f46a05;
-  --secondary-color: #1706ac;
-  --font-white: #fff;
-  --font-black: #000;
-  --acttivit-card-bg: #d9d9d9;
-  --exclusive-btn-color: #b90416;
-  --color-brown: #686868;
-  --subcription-card-color: #f8f8f9;
-}
-body {
-  background: #f9f9f9;
-}
-.bg-white-gray-gradient {
-  background: rgb(255, 255, 255);
-  background: linear-gradient(180deg, #ffffff 97%, #eeeeef 100%);
-  height: max-content;
+  --primary-color: #f46a05; /* Primary color for buttons and highlights */
+  --secondary-color: #1706ac; /* Secondary color for accents */
+  --font-white: #fff; /* White font color */
+  --font-black: #000; /* Black font color */
+  --acttivit-card-bg: #d9d9d9; /* Background color for activity cards */
+  --exclusive-btn-color: #b90416; /* Color for exclusive buttons */
+  --color-brown: #686868; /* Brown color for text */
+  --subcription-card-color: #f8f8f9; /* Background color for subscription cards */
 }
 
+/* Background gradient for sections */
+.bg-white-gray-gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(253, 251, 251, 1) 0%,
+    rgba(235, 237, 238, 1) 38%
+  );
+}
+
+/* Main container for the landing page */
 .main-container {
   position: relative;
   width: 100%;
   height: 100vh;
 }
 
+/* Header styles for the landing page */
 .landingHeader {
   background: var(--font-white) !important;
   width: 100%;
@@ -40,41 +45,12 @@ body {
   z-index: 100;
   padding: 20px 5% !important;
   margin: 0 !important;
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
-}
-.landingHeader > nav {
-  width: 100% !important;
 }
 
-.navbar > .landing-header {
-  padding: 0px 5% !important;
-  margin: 0 !important;
-  width: 100% !important;
-}
-
-.nav-dropdown {
-  background-color: var(--font-white);
-  /* Background color for dropdown */
-}
-
-.navbar .nav-item {
-  font-weight: 700;
-  color: var(--font-black) !important;
-  /* Text color for dropdown items */
-}
-
-.navbar .nav-item:hover {
-  color: var(--primary-color) !important;
-}
-.noclickblue:focus,
-.noclickblue:active {
-  background-color: none !important; /* Prevent background color change */
-  outline: none; /* Prevent focus outline */
-}
 .btn:focus,
 .btn:active {
-  background-color: none !important; /* Prevent background color change */
-  outline: none !important; /* Prevent focus outline */
+  background-color: none !important;
+  outline: none !important;
 }
 .noclickblue:hover {
   color: var(--primary-color) !important;
@@ -119,11 +95,6 @@ body {
   visibility: visible;
 }
 
-/* Ensure the dropdown menu is displayed on hover */
-.nav-dropdown:hover .dropdown-menu {
-  display: block !important;
-}
-
 .hover-dropdown:hover .dropdown-menu {
   display: block !important;
 }
@@ -133,31 +104,6 @@ body {
   color: var(--font-white) !important;
 }
 
-.border-triangle {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  height: 30px;
-  background: var(--primary-color);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-}
-.border-triangle1 {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  height: 30px;
-  background: #d9d9d9;
-  clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
-}
-.border-triangle2 {
-  width: 100% !important;
-  position: relative;
-  top: 0;
-  height: 30px;
-  background: #d9d9d9;
-  clip-path: polygon(50% 100%, 100% 0, 0 0); /* Flipped triangle */
-}
-/* Header */
 .menu-content {
   display: flex;
   align-items: center;
@@ -189,7 +135,6 @@ body {
   bottom: -1px;
 }
 
-/* Button styles using the primary color */
 .btn-signup {
   width: 200px;
   height: 50px;
@@ -211,7 +156,6 @@ body {
   border-radius: 50px !important;
   font-size: 20px !important;
   font-weight: 400;
-  /* margin-top: 20px; */
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
   position: relative;
 }
@@ -232,19 +176,19 @@ body {
   left: -10%;
   bottom: 10px !important;
   z-index: 1;
-  /* transform: scaleX(-1) !important; */
 }
 
-/* hero section*/
+/* Hero section styles */
 .content-slide-container {
-  width: 95%;
+  width: 95%; /* Width for the content slide container */
 }
 .content-slide-container > .carousel-inner {
-  height: 100%;
+  height: 100%; /* Full height for carousel inner */
 }
 .content-slide-container > .carousel-inner > .carousel-item {
-  height: 100%;
+  height: 100%; /* Full height for carousel items */
 }
+
 .custom-hero-container {
   width: 70% !important;
   height: 100% !important;
@@ -306,28 +250,25 @@ body {
   font-size: 18px;
   font-weight: 400;
 }
-/* Base Hero Container Style */
 .hero-container {
   position: relative;
   width: 100% !important;
   height: 100vh !important;
   padding: 0;
   padding-top: 50px;
-  opacity: 0; /* Start with hidden */
-  animation: fadeIn 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; /* Fade-in animation */
+  opacity: 0; 
+  animation: fadeIn 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; 
 }
 
-/* Keyframes for fade-in animation */
 @keyframes fadeIn {
   0% {
-    opacity: 0; /* Fully transparent at the start */
+    opacity: 0; 
   }
   100% {
-    opacity: 1; /* Fully visible at the end */
+    opacity: 1; 
   }
 }
 
-/* Fade-in active when element becomes visible */
 .hero-container.fade-in {
   animation: fadeIn 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
 }
@@ -359,7 +300,6 @@ body {
 .hero-container > h2 {
   font-size: 35px !important;
   font-weight: 200 !important;
-  /* font-family: 'Roboto', sans-serif; */
   margin: 0 !important;
   color: var(--font-black) !important;
 }
@@ -396,7 +336,7 @@ h2 > .quote {
   height: 50px;
   border: 1px solid #ffffff;
   border-radius: 50%;
-  overflow: hidden; /* Ensures images stay inside the circle */
+  overflow: hidden; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -406,16 +346,16 @@ h2 > .quote {
 .users-avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the avatar without stretching */
-  display: none; /* Hide image by default */
+  object-fit: cover; 
+  display: none; 
 }
 
 .users-avatar.has-image {
-  background-image: none; /* Remove gradient if an image exists */
+  background-image: none; 
 }
 
 .users-avatar.has-image img {
-  display: block; /* Show the image if the class is applied */
+  display: block; 
 }
 .avatars-1 {
   right: 0;
@@ -502,7 +442,6 @@ span#blueish-color-text {
   border-radius: 50px !important;
   font-size: 20px !important;
   font-weight: 400;
-  /* margin-top: 20px; */
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
   position: relative;
 }
@@ -520,43 +459,42 @@ span#blueish-color-text {
 }
 
 .heroavatar {
-  /* height: 20% !important; */
   max-height: 100% !important;
   width: 70% !important;
   margin: 20px;
   bottom: -20px;
-  display: block; /* Ensures the image is treated as a block element */
-  margin: 0 auto; /* Center the hero avatar */
-  position: relative; /* Position relative to allow absolute positioning of child elements */
+  display: block; 
+  margin: 0 auto; 
+  position: relative; 
   z-index: 20;
 }
 .hero-avatar-bg {
   margin-left: 40px;
-  position: relative; /* Position relative to allow absolute positioning of child elements */
+  position: relative; 
 }
 
 .hero-avatar-bg .image-grid {
   display: grid;
   grid-template-areas:
     "top-center top-center"
-    "bottom-left bottom-right"; /* Adjusted to span the bottom-center across both columns */
-  gap: 10px; /* Adjust the gap between images as needed */
-  position: absolute; /* Position the grid absolutely within the parent */
-  top: 0; /* Adjust as needed */
-  left: 0; /* Adjust as needed */
-  width: 100%; /* Full width of the parent */
-  height: 100%; /* Full height of the parent */
-  z-index: 0; /* Ensure it is behind the hero avatar */
+    "bottom-left bottom-right"; 
+  gap: 10px; 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  z-index: 0; 
 }
 
 .hero-avatar-bg .grid-image {
-  width: 100%; /* Make images responsive */
-  height: auto; /* Maintain aspect ratio */
+  width: 100%;
+  height: auto; 
 }
 
 .hero-avatar-bg .top-center {
   width: 100% !important;
-  grid-area: top-center; /* This will span the entire width of the bottom row */
+  grid-area: top-center; 
 }
 .hero-avatar-bg .bottom-left {
   grid-area: bottom-left;
@@ -565,33 +503,33 @@ span#blueish-color-text {
 }
 
 .hero-avatar-bg .bottom-right {
-  grid-area: bottom-right; /* Corrected selector */
+  grid-area: bottom-right;
   position: relative;
   top: -20px;
 }
 
-/*Did you know section*/
+/*Did you know section and its styles*/
 .did-you-know-container {
   width: 100%;
   padding: 5em 0em;
-  opacity: 0; /* Initially hidden */
-  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth fade-in */
+  opacity: 0; 
+  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); 
 }
 
 .did-you-know-container.fade-in {
-  opacity: 1; /* Fade in when this class is added */
+  opacity: 1; 
 }
 
 .did-you-know-container > div {
-  position: relative; /* Set the parent div to relative */
+  position: relative;
 }
 
 .did-you-know-container > div > img {
   width: 90px !important;
-  position: absolute; /* Change to absolute */
+  position: absolute; 
   z-index: 1;
-  left: -120px; /* Adjust as needed */
-  top: -50px; /* Adjust as needed */
+  left: -120px; 
+  top: -50px; 
 }
 
 .did-you-know-container > div > h1 {
@@ -633,38 +571,39 @@ span#blueish-color-text {
   height: 2px;
   background: #68686857;
 }
-/*Join Community*/
+
+/* Join Community section styles */
 .join-community-container {
   width: 100%;
   padding: 5em 0em;
   opacity: 0;
-  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth fade-in */
+  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); 
 }
 
 .join-community-container.fade-in {
-  opacity: 1; /* Fade in when this class is added */
+  opacity: 1; 
 }
 .join-community-card-container.animating {
-  transform: translateX(-10px); /* Slide effect */
+  transform: translateX(-10px); 
 }
 
 .join-community-container > div {
-  position: relative; /* Set the parent div to relative */
+  position: relative; 
 }
 
 .join-community-container > div > img {
   width: 90px !important;
-  position: absolute; /* Change to absolute */
+  position: absolute;
   z-index: 1;
-  right: -120px; /* Adjust as needed */
-  top: -90px; /* Adjust as needed */
+  right: -120px; 
+  top: -90px;
 }
 
 .join-community-container > div > h2 {
   color: var(--secondary-color);
   font-weight: 500;
-  text-align: center; /* Center the heading */
-  margin-bottom: 1em; /* Add some space below the heading */
+  text-align: center; 
+  margin-bottom: 1em; 
 }
 .join-community-container .content-slide-container {
   margin-top: 40px;
@@ -673,16 +612,16 @@ span#blueish-color-text {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2em; /* Space between cards */
+  gap: 2em; 
   margin-top: 50px;
 }
 
 .card-join-community {
-  background-color: var(--font-white); /* Card background color */
-  border-radius: 30px; /* Rounded corners */
+  background-color: var(--font-white); 
+  border-radius: 30px;
   box-shadow: 0px 10px 20px 1px #4040401a;
-  width: 340px; /* Fixed width for cards */
-  transition: transform 0.2s; /* Smooth hover effect */
+  width: 340px; 
+  transition: transform 0.2s; 
   padding: 5px 20px 20px 20px;
 }
 .card-join-community > div > div {
@@ -696,26 +635,25 @@ span#blueish-color-text {
   top: 0;
 }
 .join-community-card-container .card-join-community:hover {
-  transform: translateY(-5px); /* Lift effect on hover */
+  transform: translateY(-5px); 
 }
 
 .card-join-community .card-body {
   position: relative;
-  padding: 1.5em; /* Padding inside the card */
+  padding: 1.5em; 
 }
 
 .card-join-community .card-text {
-  font-size: 1em; /* Font size for the text */
-  color: var(--font-black); /* Text color */
+  font-size: 1em; 
+  color: var(--font-black); 
   width: 87%;
   font-weight: 300;
   height: 90px !important;
 }
 
 .card-join-community .card-author {
-  /* font-style: italic; */
-  margin-top: 0.5em; /* Space above author text */
-  color: var(--font-black); /* Author text color */
+  margin-top: 0.5em; 
+  color: var(--font-black); 
   font-weight: 500;
 }
 .join-community-container .button-controller {
@@ -733,37 +671,37 @@ span#blueish-color-text {
 }
 .join-community-container .button-controller {
   position: absolute;
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Adjust for centering */
-  width: 100%; /* Full width */
+  top: 50%; 
+  transform: translateY(-50%); 
+  width: 100%; 
   display: flex;
-  justify-content: space-between; /* Space buttons to the ends */
-  z-index: 10; /* Ensure it is above other elements */
+  justify-content: space-between;
+  z-index: 10; 
 }
 
 .join-community-container .carousel-button {
-  background-color: #d9d9d9; /* Button background color */
-  color: var(--font-black); /* Button text color */
-  border: none; /* Remove border */
-  border-radius: 50%; /* Rounded corners */
+  background-color: #d9d9d9; 
+  color: var(--font-black); 
+  border: none; 
+  border-radius: 50%;
   width: 40px;
   height: 40px;
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s; /* Smooth background color transition */
+  cursor: pointer; 
+  transition: background-color 0.3s; 
 }
 
 .join-community-container .carousel-button:hover {
-  background-color: #d9d9d9aa; /* Change color on hover */
+  background-color: #d9d9d9aa; 
 }
-/*mock interview section*/
+/*mock interview section and its styles*/
 .mock-interview-container {
   width: 100%;
-  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size: cover !important; /* Cover the entire area */
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; 
+  background-size: cover !important; 
 }
 .bundle-mock-interview-container {
-  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size: cover !important; /* Cover the entire area */
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; 
+  background-size: cover !important;
 }
 .mock-interview-container,
 .bundle-mock-interview-container {
@@ -801,7 +739,6 @@ span#blueish-color-text {
   width: 75% !important;
   max-width: 740px;
   margin: 0 auto;
-  /* Center the container */
   position: relative;
 }
 .custom-mock-interview-container h1 {
@@ -818,9 +755,6 @@ span#blueish-color-text {
   height: 70% !important;
   max-width: 800px;
 }
-/* .content-mock-interview-container > h1{
-  background: var(--color-brown);
-} */
 
 .content-bundle-mock {
   height: 300px !important;
@@ -905,7 +839,7 @@ span#blueish-color-text {
   margin-bottom: 50px;
 }
 
-/*Bundle Mock Interview*/
+/*Bundle Mock Interview and its styles*/
 .custom-bundle-mock-interview-container {
   height: 70% !important;
   max-width: 800px;
@@ -926,26 +860,26 @@ span#blueish-color-text {
   padding-right: 70px;
 }
 .bundle-mock-bg > .bundle-avatar {
-  position: absolute; /* Keep it absolute */
-  right: -50px; /* Align to the right */
-  top: -170px; /* Adjust the top position as needed */
-  height: auto; /* Set height to auto for responsiveness */
-  z-index: 1; /* Ensure it is above the background */
+  position: absolute; 
+  right: -50px; 
+  top: -170px; 
+  height: auto; 
+  z-index: 1; 
 }
 
 .bundle-avatar > svg {
   position: absolute;
-  z-index: -1; /* Keep SVG behind the image */
+  z-index: -1; 
   top: 120px;
-  max-height: 240px !important; /* Set height to auto for responsiveness */
-  height: 100%; /* Adjust height for better fit */
-  right: -20px; /* Align SVG to the right as well */
+  max-height: 240px !important; 
+  height: 100%; 
+  right: -20px; 
 }
 
 .bundle-avatar > img {
-  position: relative; /* Keep image relative to its container */
-  height: 250px; /* Set height to auto for responsiveness */
-  max-height: 50%; /* Ensure it doesn't overflow */
+  position: relative; 
+  height: 250px; 
+  max-height: 50%; 
   top: 120px;
   right: 100px;
 }
@@ -1047,20 +981,20 @@ span#blueish-color-text {
   font-size: 25px;
 }
 
-/*Premium Package Section*/
+/*Premium Package Section and its styles*/
 .bg-orange-gradient {
-  background: url("/src/assets/bg-pricing-about.png") no-repeat !important; /* Center the background */
-  background-size: cover !important; /* Cover the entire area */
+  background: url("/src/assets/bg-pricing-about.png") no-repeat !important; 
+  background-size: cover !important; 
 }
 
 .premium-package-container {
   padding: 5em 0em;
   opacity: 0;
-  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth fade-in */
+  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); 
 }
 
 .premium-package-container.fade-in {
-  opacity: 1; /* Fade in when this class is added */
+  opacity: 1; 
 }
 .premium-package-container > h1 {
   padding-bottom: 1em !important;
@@ -1170,15 +1104,16 @@ span#blueish-color-text {
   height: 100% !important;
   padding-top: 40px;
 }
-/*About Hr hatch*/
+
+/*About Hr hatch and its styles*/
 .about-hr-hatch-container {
   height: 90vh;
   padding: 0px;
   opacity: 0;
-  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth fade-in */
+  transition: opacity 3s cubic-bezier(0.25, 0.8, 0.25, 1); 
 }
 .about-hr-hatch-container.fade-in {
-  opacity: 1; /* Fade in when this class is added */
+  opacity: 1; 
 }
 
 .about-hr-hatch-container > h3 {
@@ -1218,28 +1153,28 @@ span#blueish-color-text {
 }
 
 .about-content-container > .about-avatar-bg {
-  background: url("/src/assets/about-bg.png") no-repeat center center; /* Center the background */
-  background-size: cover; /* Cover the entire area */
-  width: 70%; /* Ensure it takes full width */
-  height: 70%; /* Ensure it takes full height */
-  display: flex; /* Use flex to center the image */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
+  background: url("/src/assets/about-bg.png") no-repeat center center; 
+  background-size: cover;
+  width: 70%; 
+  height: 70%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
 }
 
 .about-avatar-bg > img {
   width: 50%;
 }
 
-/* footer */
-.footer-container{
-  opacity: 0; /* Start with hidden */
-  animation: fadeIn 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; /* Fade-in animation */
+/* footer and its styles */
+.footer-container {
+  opacity: 0; 
+  animation: fadeIn 3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; 
 }
 .footer-container-bg {
-  width: 100%; /* Use full width for better distribution */
-  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; /* Center the background */
-  background-size: 100% !important; /* Cover the entire area */
+  width: 100%; 
+  background: url("/src/assets/bg-mockaisection.png") no-repeat !important; 
+  background-size: 100% !important;
   box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);
   color: var(--font-black);
   padding: 1.5em 0;

@@ -188,6 +188,8 @@ const BasicVideoRecording = ({ interviewType, category }) => {
       clearTranscript();
     });
 
+    newSocket.emit("startTranscription");
+
     newSocket.on("reconnect_attempt", (attempt) => {
       console.log(`Reconnection attempt #${attempt}`);
     });
@@ -859,6 +861,28 @@ const BasicVideoRecording = ({ interviewType, category }) => {
     setShowSuccessPopup(true);
   };
 
+  // Fetch interview history from local storage
+  const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
+
+  // Fetch analytics if there are no interviews
+  useEffect(() => {
+    if (interviewHistory.length === 0) {
+      getAnalytics();
+    }
+  }, [interviewHistory, getAnalytics]);
+
+  // Get the latest interview item
+  const latestInterview = interviewHistory[interviewHistory.length - 1];
+
+  const handleViewResults = () => {
+    if (latestInterview) {
+      getAnalytics();
+      navigate(`/result/${latestInterview._id}`);
+    } else {
+      console.error("No interview found to view results.");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -1112,7 +1136,7 @@ const BasicVideoRecording = ({ interviewType, category }) => {
                     <div className="d-flex justify-content-center align-items-center view-result-container">
                       <Button
                         className="btn-viewresult"
-                        onClick={() => (window.location.href = "/analytics")}
+                        onClick={handleViewResults}
                       >
                         View your result
                       </Button>

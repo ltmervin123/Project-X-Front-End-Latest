@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import SuccessAvatar from "../../assets/logo1.png";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +8,33 @@ const InterviewSuccessfulPopup = () => {
   const navigate = useNavigate();
   const { getAnalytics } = useAnalytics();
 
+  // Fetch interview history from local storage
+  const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
+
+  // Fetch analytics if there are no interviews
+  useEffect(() => {
+    if (interviewHistory.length === 0) {
+      getAnalytics();
+    }
+  }, [interviewHistory, getAnalytics]);
+
+  // Get the latest interview item
+  const latestInterview = interviewHistory[interviewHistory.length - 1];
+
   const handleViewResults = () => {
-    getAnalytics();
-    navigate("/analytics");
+    if (latestInterview) {
+      getAnalytics();
+      navigate(`/result/${latestInterview._id}`);
+    } else {
+      console.error("No interview found to view results.");
+    }
   };
 
   const handleBackToInterview = () => {
     getAnalytics();
     navigate("/mockInterview");
   };
+
   return (
     <Modal
       show={true}

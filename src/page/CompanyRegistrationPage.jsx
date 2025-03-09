@@ -14,7 +14,7 @@ function CompanyRegistrationPage() {
 
   return (
     <>
-      <div className="container-fluid company-register-page-container">
+      <div className=" company-register-page-container">
         <Header />
         <CompanyRegistrationForm />
       </div>

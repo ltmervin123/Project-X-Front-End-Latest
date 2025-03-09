@@ -4,9 +4,6 @@ import Header from "../components/LandingPage/Header";
 import HeroSection from "../components/LandingPage/HeroSection";
 import DidYouKnowSection from "../components/LandingPage/DidYouKnowSection";
 import JoinCommunitySection from "../components/LandingPage/JoinCommunitySection";
-
-// import MockInterviewSection from "../components/LandingPage/MockInterviewSection";
-// import BundleMockInterviewSection from "../components/LandingPage/BundleMockInterviewSection";
 import PremiumPackageSection from "../components/LandingPage/PremiumPackageSection";
 import AboutHRHatchSection from "../components/LandingPage/AboutHRHatchSection";
 import Footer from "../components/LandingPage/Footer";
@@ -24,8 +21,6 @@ const LandingPage = () => {
           <DidYouKnowSection />
           <JoinCommunitySection />
         </div>
-        {/* <MockInterviewSection />
-        <BundleMockInterviewSection /> */}
         <div className="bg-orange-gradient">
           <PremiumPackageSection />
           <AboutHRHatchSection />

@@ -1,0 +1,301 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --sidebar-bg: #f2f3f7;
+  --btn-view-color: #319f43;
+}
+
+.btn-create-new-job {
+  background: var(--primary-color);
+  border: none;
+  color: var(--font-white);
+  font-size: 1.25rem; /* Use rem for scalability */
+  border-radius: 50px;
+  padding: 5px 25px 5px 15px; /* Increased padding for better touch targets */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.btn-create-new-job:hover {
+  background: darkorange; /* Darker shade on hover */
+}
+
+.AiReferenceCheckerContent {
+  border-radius: 20px; /* Slightly less rounded for a modern look */
+  border: 3px solid var(--primary-color);
+  padding: 40px; /* Adjusted padding */
+  height: 80vh;
+  background: var(--font-white);
+  margin: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+}
+
+.AiReference-active-jobs-container {
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  border-radius: 20px;
+  padding: 20px;
+  height: 60vh;
+}
+
+.AiReference-active-jobs-container table {
+  width: 100%;
+  height: 80%;
+  border-collapse: collapse; /* Ensure borders are collapsed */
+}
+
+.AiReference-active-jobs-container tbody {
+  display: block; /* Make tbody a block element */
+  max-height: 35vh; /* Set a max height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.AiReference-active-jobs-container tr {
+  display: table; /* Ensure rows are displayed as table rows */
+  table-layout: fixed; /* Prevent layout shifts */
+  width: 100%; /* Full width for rows */
+}
+.AiReference-active-jobs-container th {
+  color: var(--card-color);
+}
+.AiReference-active-jobs-container th,
+.AiReference-active-jobs-container td {
+  padding: 15px; /* Padding for table cells */
+  text-align: left; /* Align text to the left */
+}
+
+.AiReference-active-jobs-container .btn-view-details {
+  background: var(--btn-view-color);
+  text-decoration: none;
+  color: var(--font-white);
+  padding: 8px 30px; /* Adjusted padding */
+  border-radius: 50px;
+  border: none !important;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s;
+}
+
+.AiReference-active-jobs-container .btn-view-details:hover {
+  background: darkgreen;
+}
+.custom-modal-job .modal-dialog {
+  width: 60% !important; /* Adjust the width to 80% of the parent container */
+  max-width: 700px !important; /* Add a maximum width to prevent it from getting too large */
+  height: 380px;
+  /* background: var(--primary-color); */
+}
+.job-container-form{
+  border-radius: 20px;
+  background: var(--font-white) !important;
+  padding: 30px !important;
+  height: 58vh;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+}
+.job-container-form form{
+  width: 80%;
+}
+.job-container-form input,
+.job-container-form select{
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+
+}
+.job-container-form .btn-create-job {
+  background: var(--primary-color);
+  border-radius: 10px;
+  border: none;
+  width: 150px;
+  padding: 5px;
+  color: var(--font-white);
+}
+ .btn-proceed{
+  background: var(--primary-color);
+  border-radius: 50px;
+  border: none;
+  padding: 5px 30px;
+  color: var(--font-white);
+}
+.btn-proceed:disabled{
+  background: var(--card-color);
+}
+.custom-modal-job .modal-body {
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+
+  border-radius: 20px; /* Slightly less rounded for a modern look */
+}
+
+.custom-modal-job .modal-body .candidate-id {
+  font-weight: 300;
+  color: var(--card-color);
+}
+.custom-modal-job .modal-body .candidate-details > div {
+  border-bottom: 1px solid var(--text-color);
+}
+.custom-modal-job .modal-body > form > div input,
+.custom-modal-job .modal-body > form > div select {
+  border-radius: 50px;
+  border: 1px solid var(--avatar-bg);
+}
+.custom-modal-job .modal-body > form > div textarea {
+  border-radius: 20px;
+}
+
+.custom-modal-job .modal-body .candidate-details .card {
+  background: var(--font-white);
+  padding: 10px;
+  height: 120px;
+  width: 45%;
+  border: none;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+}
+.custom-modal-job .modal-body .candidate-details .card > p {
+  font-weight: 500 !important;
+}
+.custom-modal-job .modal-body .candidate-details .card > small {
+  color: var(--card-color);
+}
+.custom-modal-job .modal-body .candidate-details .card > small > span {
+  color: var(--text-color);
+}
+.custom-modal-job .modal-body .btn-create-job {
+  background: var(--primary-color);
+  border-radius: 10px;
+  border: none;
+  width: 150px;
+  padding: 5px;
+  color: var(--font-white);
+}
+.custom-modal-job .modal-body .btn-create-job:disabled {
+  background: var(--card-color);
+}
+
+.custom-modal-job .modal-body .button-controls-job > button:nth-child(1) {
+  background: var(--primary-color);
+  padding: 5px 10px;
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+  width: 200px;
+}
+
+.custom-modal-job .modal-body .button-controls-job > button:nth-child(2) {
+  background: var(--secondary-color);
+  padding: 5px 10px;
+  width: 200px;
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+}
+.custom-modal-job .modal-body .form-label{
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+  height: 38px;
+}
+.custom-modal-job .modal-body #dropdown-basic{
+  background: none;
+  color: var(--font-white) !important;
+  border: none;
+}
+.custom-modal-job .modal-body #dropdown-basic::after{
+  color: var(--text-color);
+}
+ .referees-list-container{
+height: 170px;
+overflow-y: auto;
+}
+.referees-list-container .referee-input{
+width: 90%;
+margin-right: 10px;
+}
+.referees-list-container button{
+  width: 7%;
+  box-shadow: 0px 4px 4px #0000003d;
+ border-radius: 15px;
+ height: 100%;
+ padding: .375rem ;
+ background: var(--font-white);
+ border: 1px solid var(--avatar-bg);
+}
+.add-referee{
+  background: var(--secondary-color);
+  padding: 5px 30px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+}
+.add-referee:disabled {
+  background-color: var(--card-color);
+  cursor: not-allowed;
+}
+.custom-modal-job .modal-body .form-control,
+.custom-modal-job .modal-body .form-select {
+  box-shadow: 0px 4px 4px #0000003d;
+}
+/* Apply custom styles to form controls and select dropdown */
+.custom-modal-job .modal-body .form-control,
+.custom-modal-job .modal-body .form-select {
+  box-shadow: 0px 4px 4px #0000003d;
+}
+/* Custom dropdown with background image for the icon */
+.custom-modal-job .modal-body .form-select {
+  position: relative;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  padding-right: 30px;  /* Space for the icon */
+  appearance: none !important;  /* Remove default arrow */
+  -webkit-appearance: none !important;  /* For Safari */
+  -moz-appearance: none !important;  /* For Firefox */
+  transition: background-image 0.3s ease; /* Smooth transition for the background */
+}
+
+/* Focus state when dropdown is open */
+.custom-modal-job .modal-body .form-select:focus {
+  outline: none;  /* Remove default focus outline */
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+}
+
+/* Ensure the background returns to default when not focused */
+.custom-modal-job .modal-body .form-select:not(:focus) {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+}
+
+
+/* Customizing the scrollbar */
+.AiReference-active-jobs-container tbody::-webkit-scrollbar,
+.referees-list-container::-webkit-scrollbar,
+select::-webkit-scrollbar{
+  width: 5px; /* Scrollbar width */
+}
+
+.AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb,
+ .referees-list-container::-webkit-scrollbar-thumb,
+ select::-webkit-scrollbar-thumb{
+
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb:hover,
+ .referees-list-container::-webkit-scrollbar-thumb:hover,
+ select::-webkit-scrollbar-thumb:hover{
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.AiReference-active-jobs-container tbody::-webkit-scrollbar-track,
+ .referees-list-container::-webkit-scrollbar-track,
+ select::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}

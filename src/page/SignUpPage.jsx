@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/SignUp.css";
-import SignUpForm from "../components/signup/SignUpForm";
+import SignUpForm from "../components/SignupPage/SignUpForm";
 
 function SignUpPage() {
   return (
@@ -35,7 +35,6 @@ function SignUpPage() {
             stroke="#F46A05"
           />
         </g>
-        {/* Include the existing defs from your original SVG */}
       </svg>
     </div>
   );

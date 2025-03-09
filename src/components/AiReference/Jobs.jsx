@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobPopUp from "./AddJobPopUp";
 import { FaSearch } from "react-icons/fa";
+
 import axios from "axios";
 
 const Jobs = () => {
@@ -131,6 +132,7 @@ const Jobs = () => {
               <tr>
                 <th>Job Name</th>
                 <th>Vacancies</th>
+                <th>Department</th>
                 <th>Hiring Manager</th>
                 <th>Created at</th>
               </tr>
@@ -149,6 +151,7 @@ const Jobs = () => {
                   <tr key={job._id}>
                     <td>{job.jobName}</td>
                     <td>{job.vacancies}</td>
+                    <td>{job.department || "Department not specified"}</td>
                     <td>{job.hiringManager}</td>
                     <td>{formatDate(job.createdAt)}</td>
                   </tr>

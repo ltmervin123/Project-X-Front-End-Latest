@@ -32,24 +32,27 @@ export const useSignup = () => {
         name,
         email,
         password,
-        location,
+        cities,
+        country,
         size,
         industry,
         annualHiringVolume,
         firstName,
         lastName,
-        positionTitle,
+        hiringInvolvement,
       } = userDetail;
       const companyDetails = {
         name,
         email,
         password,
-        location,
+        cities,
+        country,
         size,
         industry,
         annualHiringVolume,
+        hiringInvolvement,
       };
-      const personInChargeDetails = { firstName, lastName, positionTitle };
+      const personInChargeDetails = { firstName, lastName };
 
       const response = await axios.post(URL, {
         companyDetails,
@@ -76,20 +79,21 @@ export const useSignup = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      const data = await response.data;
+      // const data = await response.data;
 
-      const user = {
-        name: data.user.name,
-        email: data.user.email,
-        id: data.user._id,
-        token: data.user.token,
-      };
+      // const user = {
+      //   name: data.user.name,
+      //   email: data.user.email,
+      //   id: data.user._id,
+      //   token: data.user.token,
+      // };
 
-      if (response.status === 201) {
-        localStorage.setItem("user", JSON.stringify(user));
+      // if (response.status === 201) {
+      //   localStorage.setItem("user", JSON.stringify(user));
 
-        dispatch({ type: "LOGIN", payload: user });
-      }
+      //   dispatch({ type: "LOGIN", payload: user });
+      // }
+      setStatus(response.status);
       return true;
     } catch (err) {
       setError(err.response ? err.response.data.message : "Signup failed");
