@@ -8,7 +8,7 @@ const AddCandidateComponent = ({ onProceed, refetch }) => {
   const token = USER?.token;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
+  const [errorMessages, setErrorMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
 
@@ -29,6 +29,23 @@ const AddCandidateComponent = ({ onProceed, refetch }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessages({}); // Reset error messages
+
+    // Validation
+    const newErrorMessages = {};
+    if (name.length < 2) {
+      newErrorMessages.name = "Candidate name must be at least 2 characters.";
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      newErrorMessages.email = "Invalid email address.";
+    }
+
+    if (Object.keys(newErrorMessages).length > 0) {
+      setErrorMessages(newErrorMessages);
+      return; // Stop submission if there are validation errors
+    }
+
     const URL = `${API}/api/ai-referee/company-candidates/create-candidate`;
     const status = "New";
     setIsLoading(true);
@@ -50,17 +67,21 @@ const AddCandidateComponent = ({ onProceed, refetch }) => {
       setIsLoading(false);
     }
   };
+
   const handleProceed = () => {
     // Add this function
     if (isFormValid) {
       formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
     }
   };
+
   return (
     <>
       <div>
-        <h3 className="mb-3">Add New Candidate</h3>
-        <p>Enter the details of the new candidate below.</p>
+        <h3 className="mb-0">
+          Add New <span className="color-blue">Candidate</span>{" "}
+        </h3>
+        <p className="mb-2">Enter the details of the new candidate below.</p>
       </div>
       <div className="job-container-form d-flex align-items-center justify-content-center w-100">
         <Form ref={formRef} onSubmit={handleSubmit}>
@@ -74,13 +95,18 @@ const AddCandidateComponent = ({ onProceed, refetch }) => {
             >
               Name
             </Form.Label>
-            <Form.Control
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
-              required
-            />
+            <div className="w-100 position-relative">
+              <Form.Control
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="John Doe"
+                required
+              />
+              {errorMessages.name && (
+                <div className="px-3 py-1 text-danger">{errorMessages.name}</div>
+              )}
+            </div>
           </Form.Group>
           <Form.Group
             controlId="formVacancies"
@@ -92,13 +118,18 @@ const AddCandidateComponent = ({ onProceed, refetch }) => {
             >
               Email
             </Form.Label>
-            <Form.Control
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="sample@hrhatch.com"
-              required
-            />
+            <div className="w-100 position-relative">
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="sample@hrhatch.com"
+                required
+              />
+              {errorMessages.email && (
+                <div className="px-3 py-1 text-danger">{errorMessages.email}</div>
+              )}
+            </div>
           </Form.Group>
           <Form.Group
             controlId="formHiringManager"

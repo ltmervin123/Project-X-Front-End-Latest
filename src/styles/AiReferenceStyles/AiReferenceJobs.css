@@ -122,11 +122,40 @@
 .btn-proceed:disabled{
   background: var(--card-color);
 }
+.AiReference-active-jobs-container td{
+  height: auto;
+}
+.action-options {
+  position: relative; /* or fixed if you want it to stay in view */
+  left: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+  padding: 10px !important;
+  z-index: 1000;
+  width: auto;
+  max-height: 200px; /* Set a max height to prevent overflow */
+  overflow-y: auto; /* Allow scrolling if content exceeds max height */
+}
+.action-options p{
+  margin: 0 !important;
+}
+.action-options p:nth-child(2){
+  color: red;
+}
+.job-container-form .text-danger{
+  position: absolute;
+  font-size: 12px;
+}
+
+/* .action-options p > svg:nth-child(1){
+  fill: var(--card-color) !important;
+}
+.action-options svg:nth-child(2){
+  fill: var(--text-color) !important;
+} */
 .custom-modal-job .modal-body {
   width: 100%;
   height: 100%;
   padding: 40px;
-
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
 
@@ -134,9 +163,7 @@
   font-weight: 300;
   color: var(--card-color);
 }
-.custom-modal-job .modal-body .candidate-details > div {
-  border-bottom: 1px solid var(--text-color);
-}
+
 .custom-modal-job .modal-body > form > div input,
 .custom-modal-job .modal-body > form > div select {
   border-radius: 50px;
@@ -165,7 +192,7 @@
 }
 .custom-modal-job .modal-body .btn-create-job {
   background: var(--primary-color);
-  border-radius: 10px;
+  border-radius: 50px;
   border: none;
   width: 150px;
   padding: 5px;

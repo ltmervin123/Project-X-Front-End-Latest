@@ -347,8 +347,8 @@ const ReferenceQuestion = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3>Reference Question</h3>
-        <p>Manage your reference request.</p>
+        <h3 className="mb-0">Reference Question</h3>
+        <p className="mb-2">Manage your reference request.</p>
       </div>
       <div className="d-flex justify-content-center align-items-center button-controls-question gap-5 mb-3">
         <button

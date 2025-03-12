@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
-import { Form } from "react-bootstrap";
+// EditJobPopUp.jsx
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
-const AddJobComponent = ({ onProceed, refetch }) => {
+const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
@@ -11,65 +12,76 @@ const AddJobComponent = ({ onProceed, refetch }) => {
   const [vacancies, setVacancies] = useState(1);
   const [department, setDepartment] = useState("");
   const [hiringManager, setHiringManager] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errorMessages, setErrorMessages] = useState({});
-  
   const isFormValid = jobName && vacancies && hiringManager;
 
-  // Create a ref for the form
-  const formRef = useRef(null);
+  // Populate form fields with job details when the component mounts
+  useEffect(() => {
+    if (jobDetails) {
+      setJobName(jobDetails.jobName);
+      setVacancies(jobDetails.vacancies);
+      setDepartment(jobDetails.department);
+      setHiringManager(jobDetails.hiringManager);
+    }
+  }, [jobDetails]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Reset error messages
-    setErrorMessages({});
-
-    // Validation
-    const newErrorMessages = {};
-    if (jobName.length < 2) {
-      newErrorMessages.jobName = "Job name must be at least 2 characters.";
-    }
-    if (hiringManager.length < 2) {
-      newErrorMessages.hiringManager = "Hiring manager name must be at least 2 characters.";
-    }
-    
-    if (Object.keys(newErrorMessages).length > 0) {
-      setErrorMessages(newErrorMessages);
-      return; // Stop submission if there are validation errors
-    }
 
     try {
       setLoading(true);
-      const URL = `${API}/api/ai-referee/company-jobs/create-job`;
+      const URL = `${API}/api/ai-referee/company-jobs/update-job/${jobDetails.id}`; // Assuming jobDetails contains an id
       const payload = { jobName, vacancies, hiringManager, department };
-      const response = await axios.post(URL, payload, {
+
+      const response = await axios.put(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (response.status === 201) {
-        await refetch();
-        onProceed();
+
+      if (response.status === 200) {
+        onUpdateJob(); // Call the function to refresh the job list or update the UI
+        onClose();
       }
     } catch (error) {
       console.error(error);
+      setError("An error occurred while updating the job.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
-      <div>
-        <h3 className="mb-0">Create New <span className="color-blue">Job</span> </h3>
-        <p className="mb-2">Add a new job opening to the system. Fill out the details below.</p>
-      </div>
-      <div className="job-container-form d-flex align-items-center justify-content-center w-100">
-        <Form ref={formRef} onSubmit={handleSubmit}>
+    <Modal
+      show={true}
+      onHide={onClose}
+      centered
+      className="custom-modal-job"
+      backdrop={true}
+    >
+      <Modal.Body>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h5 className="m-0">Edit Job</h5>
+            <small>
+              Update the job details below.
+            </small>
+          </div>
+          <Button
+            className="closebtn"
+            variant="link"
+            onClick={onClose}
+            style={{ fontSize: "1.5rem", textDecoration: "none" }}
+          >
+            &times;
+          </Button>
+        </div>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <Form onSubmit={handleSubmit}>
           <Form.Group
             controlId="formJobName"
-            className="d-flex align-items-center mb-4"
+            className="d-flex align-items-center mb-3"
           >
             <Form.Label
               className="m-0"
@@ -77,21 +89,16 @@ const AddJobComponent = ({ onProceed, refetch }) => {
             >
               Job Name
             </Form.Label>
-            <div className="w-100">
-
             <Form.Control
               type="text"
               value={jobName}
               onChange={(e) => setJobName(e.target.value)}
-              placeholder=""
               required
             />
-            {errorMessages.jobName && <div className="px-3 py-1 text-danger">{errorMessages.jobName}</div>}
-            </div>
           </Form.Group>
           <Form.Group
             controlId="formVacancies"
-            className="d-flex align-items-center mb-4"
+            className="d-flex align-items-center mb-3"
           >
             <Form.Label
               className="m-0"
@@ -109,7 +116,7 @@ const AddJobComponent = ({ onProceed, refetch }) => {
           </Form.Group>
           <Form.Group
             controlId="formDepartment"
-            className="d-flex align-items-center mb-4"
+            className="d-flex align-items-center mb-3"
           >
             <Form.Label
               className="m-0"
@@ -126,7 +133,7 @@ const AddJobComponent = ({ onProceed, refetch }) => {
           </Form.Group>
           <Form.Group
             controlId="formHiringManager"
-            className="d-flex align-items-center mb-4"
+            className="d-flex align-items-center mb-3"
           >
             <Form.Label
               className="m-0"
@@ -134,31 +141,26 @@ const AddJobComponent = ({ onProceed, refetch }) => {
             >
               Hiring Manager
             </Form.Label>
-            <div className="w-100 position-relative">
             <Form.Control
               type="text"
               value={hiringManager}
               onChange={(e) => setHiringManager(e.target.value)}
               required
             />
-            {errorMessages.hiringManager && <div className="px-3 py-1 text-danger">{errorMessages.hiringManager}</div>}
-
-            </div>
           </Form.Group>
+          <div className="d-flex justify-content-end">
+            <button
+              className="btn-create-job"
+              type="submit"
+              disabled={loading || !isFormValid}
+            >
+              {loading ? "Updating Job..." : "Update Job"}
+            </button>
+          </div>
         </Form>
-      </div>
-      <div className="d-flex justify-content-end my-3">
-        <button
-          className="btn-proceed"
-          type="button"
-          onClick={handleSubmit}
-          disabled={loading || !isFormValid}
-        >
-          {loading ? "Creating Job..." : "Proceed"}
-        </button>
-      </div>
-    </>
+      </Modal.Body>
+    </Modal>
   );
 };
 
-export default AddJobComponent;
+export default EditJobPopUp;

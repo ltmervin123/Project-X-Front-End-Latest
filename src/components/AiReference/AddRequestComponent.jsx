@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const AddRequestComponent = ({ onReFetchReference }) => {
@@ -178,26 +178,13 @@ const AddRequestComponent = ({ onReFetchReference }) => {
       return newReferees;
     });
   };
-
-  const handleSelectFormatTypeChanges = (format) => {
-    switch (format) {
-      case "HR-HATCH-FORMAT":
-        return false;
-
-      case "CUSTOM-FORMAT":
-        return true;
-
-      default:
-        return false;
-    }
-  };
-
-  const handleRefereeQuestionFormatChange = (event, index) => {
-    const format = event.target.value;
+  const handleRefereeQuestionFormatChange = (selectedQuestion, index, format) => {
     const newReferees = [...referees];
+  
+    // Set the selected format
     newReferees[index].questionFormat = format;
-    newReferees[index].hasSelectedQuestionFormat = true;
-    newReferees[index].isCustomQuestion = handleSelectFormatTypeChanges(format);
+    newReferees[index].questionName = selectedQuestion;
+  
     setReferees(newReferees);
   };
 
@@ -239,8 +226,10 @@ const AddRequestComponent = ({ onReFetchReference }) => {
   return (
     <>
       <div>
-        <h3 className="m-0">New Reference Request</h3>
-        <p>Create a new reference request for a candidate.</p>
+        <h3 className="mb-0">
+          New Reference <span className="color-blue">Request</span>{" "}
+        </h3>
+        <p className="mb-2">Create a new reference request for a candidate.</p>
       </div>
       <div className="job-container-form d-flex align-items-center justify-content-center w-100">
         <Form ref={formRef} onSubmit={handleSubmit}>
@@ -329,6 +318,58 @@ const AddRequestComponent = ({ onReFetchReference }) => {
                 </Form.Group>
 
                 <Form.Group
+  controlId={`formQuestionFormat${index}`}
+  className="d-flex align-items-center mb-3"
+>
+  <Form.Label className="me-2" style={{ width: "220px" }}>
+    Reference Question
+  </Form.Label>
+  <div className="w-100  reference-question-format-container">
+
+    <Form.Select
+      className={referee.questionFormat === "HR-HATCH" && referee.questionName ? "format-select-active" : ""}
+      value={referee.questionFormat === "HR-HATCH" ? referee.questionName : ""}
+      onChange={(e) => {
+        const selectedQuestion = e.target.value;
+        handleRefereeQuestionFormatChange(selectedQuestion, index, "HR-HATCH");
+      }}
+    >
+      <option value="" disabled>
+        HR-HATCH
+      </option>
+      {hrHatchQuestion.map((question) => (
+        <option key={question._id} value={question.name}>
+          {question.name}
+        </option>
+      ))}
+    </Form.Select>
+
+    <Form.Select
+      className={referee.questionFormat === "CUSTOM" && referee.questionName ? "format-select-active" : ""}
+      value={referee.questionFormat === "CUSTOM" ? referee.questionName : ""}
+      onChange={(e) => {
+        const selectedQuestion = e.target.value;
+        handleRefereeQuestionFormatChange(selectedQuestion, index, "CUSTOM");
+      }}
+    >
+      <option value="" disabled>
+        Custom
+      </option>
+      {customQuestion && customQuestion.length > 0 ? (
+        customQuestion.map((question) => (
+          <option key={question._id} value={question.name}>
+            {question.name}
+          </option>
+        ))
+      ) : (
+        <option value="" disabled>
+          No custom questions available
+        </option>
+      )}
+    </Form.Select>
+  </div>
+</Form.Group>
+                <Form.Group
                   controlId={`formRefereeEmail${index}`}
                   className="d-flex align-items-center mb-3"
                 >
@@ -344,77 +385,6 @@ const AddRequestComponent = ({ onReFetchReference }) => {
                     pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                   />
                 </Form.Group>
-
-                <Form.Group
-                  controlId={`formQuestionFormat${index}`}
-                  className="d-flex align-items-center mb-3"
-                >
-                  <Form.Label className="me-2" style={{ width: "220px" }}>
-                    Reference Question
-                  </Form.Label>
-
-                  {!referee.hasSelectedQuestionFormat ? (
-                    <Form.Select
-                      value={referee?.questionFormat || ""}
-                      onChange={(e) =>
-                        handleRefereeQuestionFormatChange(e, index)
-                      }
-                      required
-                    >
-                      <option value="" disabled>
-                        Choose Question Format
-                      </option>
-                      <option value="HR-HATCH-FORMAT">HR-HATCH Format</option>
-                      <option value="CUSTOM-FORMAT">Custom Format</option>
-                    </Form.Select>
-                  ) : (
-                    <>
-                      {referee.isCustomQuestion ? (
-                        <Form.Select
-                          value={referee?.questionName || ""}
-                          onChange={(e) => handleQuestionFormatChange(e, index)}
-                          required
-                        >
-                          <option value="" disabled>
-                            Choose Custom Question
-                          </option>
-                          <option value="change-format">
-                            Change Question Format
-                          </option>
-                          {customQuestion && customQuestion.length > 0 ? (
-                            customQuestion.map((question) => (
-                              <option key={question._id} value={question.name}>
-                                {question.name}
-                              </option>
-                            ))
-                          ) : (
-                            <option value="" disabled>
-                              No custom questions available
-                            </option>
-                          )}
-                        </Form.Select>
-                      ) : (
-                        <Form.Select
-                          value={referee?.questionName || ""}
-                          onChange={(e) => handleQuestionFormatChange(e, index)}
-                          required
-                        >
-                          <option value="" disabled>
-                            Choose HR-HATCH Question
-                          </option>
-                          <option value="change-format">
-                            Change Question Format
-                          </option>
-                          {hrHatchQuestion.map((question) => (
-                            <option key={question._id} value={question.name}>
-                              {question.name}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      )}
-                    </>
-                  )}
-                </Form.Group>
               </div>
             ))}
           </div>
@@ -427,7 +397,7 @@ const AddRequestComponent = ({ onReFetchReference }) => {
           onClick={handleProceed}
           disabled={!isFormValid || isLoading}
         >
-          {isLoading ? "Sending..." : "Send Reference Requests"}
+          {isLoading ? "Sending..." : "Send Request"}
         </button>
       </div>
     </>

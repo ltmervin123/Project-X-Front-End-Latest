@@ -213,15 +213,15 @@ const ReferenceRequest = () => {
   }
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div className="d-flex justify-content-between align-items-end mb-3">
+      <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3>Reference Request</h3>
-          <p className="m-0">
+          <h3 className="mb-0">Reference Request</h3>
+          <p className="mb-2">
             Manage and track reference checks for your candidates.
           </p>
         </div>
 
-        <button
+        {/* <button
           onClick={handleAddNewRequest}
           className="btn-create-new-candidate d-flex align-items-center justify-content-center gap-1"
         >
@@ -244,7 +244,7 @@ const ReferenceRequest = () => {
             onClose={handleClosePopup}
             onAddRequest={handleAddReference}
           />
-        )}
+        )} */}
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
@@ -352,7 +352,7 @@ const ReferenceRequest = () => {
                         </td>
                         <td>{formatDate(reference.dateSent)}</td>
                         <td>{formatDate(reference.dueDate)}</td>
-                        <td className="d-flex gap-2 align-items-center">
+                        <td className="d-flex gap-2 align-items-center w-100">
                           <button
                             className={`btn-view-details ${
                               showDropDown &&

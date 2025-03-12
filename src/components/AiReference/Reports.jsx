@@ -277,8 +277,8 @@ function createTooltipElement() {
     return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div>
-        <h3>Analytics & Reports</h3>
-        <p>
+        <h3 className="mb-0">Analytics & Reports</h3>
+        <p  className="mb-2">
           Gain insights into your reference checking process and hiring
           efficiency.
         </p>

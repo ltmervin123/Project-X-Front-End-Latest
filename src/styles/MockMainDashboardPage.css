@@ -254,10 +254,10 @@
   font-weight: 700 !important;
 }
 
-.MockMainDashboard-content span {
+/* .MockMainDashboard-content span {
   font-weight: 700 !important;
   font-size: 12px;
-}
+} */
 
 .MockMainDashboard-content i {
   font-weight: 400;
