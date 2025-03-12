@@ -102,6 +102,8 @@ font-size: inherit;
   padding: 10px; /* Padding for table cells */
   word-wrap: break-word;
   text-align: left; /* Align text to the left */
+  font-weight: bold;
+
 }
 /* .AiReference-refReq-container td:nth-child(5){
   padding: 0;

@@ -83,6 +83,7 @@
 .AiReference-candidates-container td{
   width: 20%;
   padding-left: 0;
+  font-weight: bold;
 }
 .AiReference-candidates-container th:nth-child(4),
 .AiReference-candidates-container td:nth-child(4){

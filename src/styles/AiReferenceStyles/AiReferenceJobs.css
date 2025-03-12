@@ -124,6 +124,8 @@
 }
 .AiReference-active-jobs-container td{
   height: auto;
+  font-weight: bold;
+
 }
 .action-options {
   position: relative; /* or fixed if you want it to stay in view */
