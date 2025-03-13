@@ -12,7 +12,7 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
   const [hiringManager, setHiringManager] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
-  
+
   const isFormValid = jobName && vacancies && hiringManager;
 
   // Create a ref for the form
@@ -20,7 +20,7 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Reset error messages
     setErrorMessages({});
 
@@ -30,9 +30,10 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
       newErrorMessages.jobName = "Job name must be at least 2 characters.";
     }
     if (hiringManager.length < 2) {
-      newErrorMessages.hiringManager = "Hiring manager name must be at least 2 characters.";
+      newErrorMessages.hiringManager =
+        "Hiring manager name must be at least 2 characters.";
     }
-    
+
     if (Object.keys(newErrorMessages).length > 0) {
       setErrorMessages(newErrorMessages);
       return; // Stop submission if there are validation errors
@@ -53,6 +54,7 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
       }
     } catch (error) {
       console.error(error);
+      setErrorMessages({ jobName: error?.response?.data?.message });
     } finally {
       setLoading(false);
     }
@@ -61,8 +63,12 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
   return (
     <>
       <div>
-        <h3 className="mb-0">Create New <span className="color-blue">Job</span> </h3>
-        <p className="mb-2">Add a new job opening to the system. Fill out the details below.</p>
+        <h3 className="mb-0">
+          Create New <span className="color-blue">Job</span>{" "}
+        </h3>
+        <p className="mb-2">
+          Add a new job opening to the system. Fill out the details below.
+        </p>
       </div>
       <div className="job-container-form d-flex align-items-center justify-content-center w-100">
         <Form ref={formRef} onSubmit={handleSubmit}>
@@ -84,7 +90,11 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
                 placeholder=""
                 required
               />
-              {errorMessages.jobName && <div className="px-3 py-1 text-danger">{errorMessages.jobName}</div>}
+              {errorMessages.jobName && (
+                <div className="px-3 py-1 text-danger">
+                  {errorMessages.jobName}
+                </div>
+              )}
             </div>
           </Form.Group>
           <Form.Group
@@ -139,7 +149,11 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
                 onChange={(e) => setHiringManager(e.target.value)}
                 required
               />
-              {errorMessages.hiringManager && <div className="px-3 py-1 text-danger">{errorMessages.hiringManager}</div>}
+              {errorMessages.hiringManager && (
+                <div className="px-3 py-1 text-danger">
+                  {errorMessages.hiringManager}
+                </div>
+              )}
             </div>
           </Form.Group>
         </Form>
