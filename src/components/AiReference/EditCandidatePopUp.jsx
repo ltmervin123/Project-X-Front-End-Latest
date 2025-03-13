@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
-const EditCandidatePopUp = ({ onClose, onUpdateCandidate, candidateDetails }) => {
+const EditCandidatePopUp = ({
+  onClose,
+  onUpdateCandidate,
+  candidateDetails,
+}) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
@@ -39,7 +43,7 @@ const EditCandidatePopUp = ({ onClose, onUpdateCandidate, candidateDetails }) =>
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const URL = `${API}/api/ai-referee/company-candidates/update-candidate/${candidateDetails._id}`; // Assuming candidateDetails contains an _id
+    const URL = `${API}/api/ai-referee/company-candidates/update-candidate-by-id/${candidateDetails._id}`;
     setIsLoading(true);
     try {
       const payload = { name, email, position };
@@ -50,7 +54,7 @@ const EditCandidatePopUp = ({ onClose, onUpdateCandidate, candidateDetails }) =>
       });
 
       if (response.status === 200) {
-        onUpdateCandidate(); // Call the function to refresh the candidate list or update the UI
+        await onUpdateCandidate();
         onClose();
       }
     } catch (error) {
@@ -88,7 +92,10 @@ const EditCandidatePopUp = ({ onClose, onUpdateCandidate, candidateDetails }) =>
             controlId="formCandidateName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
               Name
             </Form.Label>
             <Form.Control
@@ -103,7 +110,10 @@ const EditCandidatePopUp = ({ onClose, onUpdateCandidate, candidateDetails }) =>
             controlId="formCandidateEmail"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
               Email
             </Form.Label>
             <Form.Control
@@ -118,13 +128,17 @@ const EditCandidatePopUp = ({ onClose, onUpdateCandidate, candidateDetails }) =>
             controlId="formCandidatePosition"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
               Position
             </Form.Label>
             <Form.Select
               value={position}
               onChange={handlePositionChange}
               required
+              disabled={true}
             >
               <option value="" disabled>
                 Select a position

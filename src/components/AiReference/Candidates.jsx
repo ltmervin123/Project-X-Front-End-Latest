@@ -58,8 +58,6 @@ const Candidates = () => {
   };
 
   const refetchCandidates = async () => {
-    //Remove the candidates from local storage
-    localStorage.removeItem("candidates");
     await fetchCandidates();
   };
 
@@ -117,17 +115,15 @@ const Candidates = () => {
   };
 
   const handleEditCandidate = (id) => {
-    const candidateToEdit = candidates.find(
-      (candidate) => candidate._id === id
-    );
-    setSelectedCandidate(candidateToEdit); // Set the selected candidate for editing
+    const candidateFound = candidates.find((candidate) => candidate._id === id);
+    setSelectedCandidate(candidateFound);
 
-    setShowEditPopup(true); // Show the edit
+    setShowEditPopup(true);
   };
   const handleClosePopup = () => {
     setShowPopup(false);
-    setShowEditPopup(false); // Close edit popup as well
-    setSelectedCandidate(null); // Reset selected candidate
+    setShowEditPopup(false);
+    setSelectedCandidate(null);
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -296,16 +292,16 @@ const Candidates = () => {
           candidates={selectedCandidate}
           onClose={handleCloseDetailsPopup}
           onEdit={() => {
-            handleCloseDetailsPopup(); // Close the details popup
-            handleEditCandidate(selectedCandidate._id); // Open the edit popup
-          }} // Pass the edit handler
+            handleCloseDetailsPopup();
+            handleEditCandidate(selectedCandidate._id);
+          }}
         />
       )}
       {showEditPopup && selectedCandidate && (
         <EditCandidatePopUp
           onClose={handleClosePopup}
           onUpdateCandidate={refetchCandidates}
-          candidateDetails={selectedCandidate} // Pass the selected candidate details to the edit popup
+          candidateDetails={selectedCandidate}
         />
       )}
     </div>
