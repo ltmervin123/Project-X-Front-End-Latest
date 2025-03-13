@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddRequestPopUp from "./AddRequestPopUp";
-import { FaSearch } from "react-icons/fa";
+import DeleteConfirmationReferenceRequestPopUp from "./DeleteConfirmationReferenceRequestPopUp"; // Import the confirmation popup
+import EditRequestPopUp from "./EditRequestPopUp"; // Add this line
+import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
 import ViewRequest from "./ViewRequest";
 import axios from "axios";
@@ -21,6 +23,13 @@ const ReferenceRequest = () => {
   const [selectedReferee, setSelectedReferee] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [selectedReference, setSelectedReference] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [visibleOptions, setVisibleOptions] = useState({});
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for delete confirmation
+  const [referenceToDelete, setReferenceToDelete] = useState(null); // State to hold the reference ID to delete
+
   const [reference, setReference] = useState(
     JSON.parse(localStorage.getItem("reference")) || []
   );
@@ -199,6 +208,46 @@ const ReferenceRequest = () => {
 
     return { inProgressCount, completedCount };
   };
+  const handleToggleOptions = (referenceId) => {
+    setVisibleOptions((prev) => ({
+      ...prev,
+      [referenceId]: !prev[referenceId],
+    }));
+  };
+
+  const handleEditReference = (referenceId) => {
+    const recordFound = reference.find((ref) => ref._id === referenceId);
+    if (recordFound) {
+      // Check if recordFound is valid
+      setSelectedReference(recordFound);
+      setShowEditPopup(true);
+    } else {
+      console.error("Reference not found for ID:", referenceId);
+    }
+  };
+  const handleDeleteReference = (referenceId) => {
+    setReferenceToDelete(referenceId); // Set the reference ID to delete
+    setShowDeleteConfirmation(true); // Show the delete confirmation popup
+  };
+  const confirmDeleteReference = async () => {
+    try {
+      const URL = `${API}/api/ai-referee/company-request-reference/delete-reference/${referenceToDelete}`;
+      const response = await axios.delete(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        await fetchReference(abortControllerRef.current);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setShowDeleteConfirmation(false); // Close the confirmation popup
+      setReferenceToDelete(null); // Reset the reference ID
+    }
+  };
 
   // Conditional rendering based on showViewRequest state
   if (showViewRequest) {
@@ -354,12 +403,7 @@ const ReferenceRequest = () => {
                         <td>{formatDate(reference.dueDate)}</td>
                         <td className="d-flex gap-2 align-items-center w-100">
                           <button
-                            className={`btn-view-details ${
-                              showDropDown &&
-                              selectedCandidate._id === reference._id
-                                ? "isDropdown"
-                                : ""
-                            }`}
+                            className="btn-view-details"
                             onClick={() => handleSetCandidate(reference._id)}
                           >
                             {showDropDown &&
@@ -367,118 +411,155 @@ const ReferenceRequest = () => {
                               ? "Hide Reports"
                               : "View Reports"}
                           </button>
-                          <div className="reference-dropdown-icon">
-                            <svg
-                              width="9"
-                              height="7"
-                              viewBox="0 0 9 7"
-                              fill="none"
-                              onClick={() => handleSetCandidate(reference._id)}
-                              className={`${
-                                showDropDown &&
-                                selectedCandidate._id === reference._id
-                                  ? "rotate"
-                                  : ""
-                              }`}
-                              xmlns="http://www.w3.org/2000/svg"
+                          <div className="position-relative">
+                            <p
+                              className="m-0"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleToggleOptions(reference._id)}
                             >
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M3.73951 5.87734L0.240111 1.24127L1.14286 0.0960037L4.20491 4.15267L7.36518 0.143433L8.23988 1.30225L4.62823 5.88412C4.50851 6.03596 4.34763 6.12054 4.18097 6.11927C4.01431 6.118 3.85552 6.03098 3.73951 5.87734Z"
-                                fill="#686868"
-                              />
-                            </svg>
+                              <svg
+                                width="23"
+                                height="23"
+                                viewBox="0 0 23 23"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M13.6562 18.6875C13.6562 19.2594 13.4291 19.8078 13.0247 20.2122C12.6203 20.6166 12.0719 20.8437 11.5 20.8438C10.9281 20.8437 10.3797 20.6166 9.9753 20.2122C9.57093 19.8078 9.34375 19.2594 9.34375 18.6875C9.34375 18.1156 9.57093 17.5672 9.9753 17.1628C10.3797 16.7584 10.9281 16.5312 11.5 16.5312C12.0719 16.5312 12.6203 16.7584 13.0247 17.1628C13.4291 17.5672 13.6562 18.1156 13.6562 18.6875ZM13.6562 11.5C13.6562 12.0719 13.4291 12.6203 13.0247 13.0247C12.6203 13.4291 12.0719 13.6562 11.5 13.6562C10.9281 13.6562 10.3797 13.4291 9.9753 13.0247C9.57093 12.6203 9.34375 12.0719 9.34375 11.5C9.34375 10.9281 9.57093 10.3797 9.9753 9.9753C10.3797 9.57093 10.9281 9.34375 11.5 9.34375C12.0719 9.34375 12.6203 9.57093 13.0247 9.9753C13.4291 10.3797 13.6562 10.9281 13.6562 11.5ZM13.6562 4.3125C13.6562 4.88437 13.4291 5.43282 13.0247 5.8372C12.6203 6.24157 12.0719 6.46875 11.5 6.46875C10.9281 6.46875 10.3797 6.24157 9.9753 5.8372C9.57093 5.43282 9.34375 4.88437 9.34375 4.3125C9.34375 3.74063 9.57093 3.19218 9.9753 2.7878C10.3797 2.38343 10.9281 2.15625 11.5 2.15625C12.0719 2.15625 12.6203 2.38343 13.0247 2.7878C13.4291 3.19218 13.6562 3.74063 13.6562 4.3125Z"
+                                  fill="black"
+                                />
+                              </svg>
+                              {visibleOptions[reference._id] && (
+                                <div className="action-options-reference">
+                                  <p
+                                    className="d-flex align-items-center gap-2"
+                                    onClick={() =>
+                                      handleEditReference(reference._id)
+                                    } // Ensure this line calls the edit function
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <FaEdit />
+                                    Edit
+                                  </p>
+                                  <p
+                                    className="d-flex align-items-center gap-2"
+                                    onClick={() =>
+                                      handleDeleteReference(reference._id)
+                                    }
+                                    style={{ cursor: "pointer", color: "red" }}
+                                  >
+                                    <FaTrash />
+                                    Delete
+                                  </p>
+                                </div>
+                              )}
+                            </p>
                           </div>
                         </td>
                       </tr>
                       {showDropDown &&
                         selectedCandidate._id === reference._id && (
-                          <div className="d-flex aling-items-center justify-content-center">
-                            <div className="reference-dropdown-table mb-2">
-                              <b className="py-2 pb-2">
-                                Referee for {reference.candidate}
-                              </b>{" "}
-                              <table className="">
-                                <thead>
-                                  <tr>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Date Sent</th>
-                                    <th>Date Due</th>
-                                    <th>Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {showDropDown &&
-                                  selectedCandidate?.referees ? (
-                                    selectedCandidate.referees.map(
-                                      (referee) => (
-                                        <tr key={referee?._id}>
-                                          <td>{referee?.name}</td>
-                                          <td
+                          <div className="d-flex align-items-center justify-content-start w-100">
+                            <div className="reference-dropdown-container w-100 mb-2">
+                              <b className="py-2 pb-2 mb-2">Referee</b>
+                              <div className="referee-list w-100 d-flex gap-2 ">
+                                {showDropDown && selectedCandidate?.referees ? (
+                                  selectedCandidate.referees.map((referee) => (
+                                    <div
+                                      className="referee-item"
+                                      key={referee?._id}
+                                    >
+                                      <div className="referee-details">
+                                        <div className="d-flex justify-content-between">
+                                          <span className="referee-name">
+                                            {referee?.name}
+                                          </span>
+                                          <span
+                                            className="referee-status"
                                             style={{
                                               color: getStatusColor(
                                                 referee?.status
                                               ),
                                             }}
                                           >
-                                            {referee?.status}{" "}
-                                          </td>
-                                          <td>
-                                            {formatDate(reference.dateSent)}
-                                          </td>
-                                          <td>
-                                            {formatDate(reference.dueDate)}
-                                          </td>
-                                          <td>
+                                            {referee?.status}
+                                          </span>
+                                        </div>
+                                        <div className="d-flex justify-content-between">
+                                          <div className="referee-left-container">
+                                            <p className="referee-position">
+                                              {referee?.position}
+                                              position diri addi
+                                            </p>
+                                            <p className="referee-email">
+                                              {referee?.email}
+                                            </p>
+                                          </div>
+                                          <div className="d-flex align-items-end">
                                             <button
                                               className="btn-view-details"
                                               onClick={() =>
                                                 handleViewDetails(referee)
                                               }
                                             >
-                                              View Details
+                                              View Referee
                                             </button>
-                                          </td>
-                                        </tr>
-                                      )
-                                    )
-                                  ) : (
-                                    <tr key={selectedCandidate?._id}>
-                                      <td>{selectedCandidate?.referee}</td>
-                                      <td>{selectedCandidate?.refereeEmail}</td>
-                                      <td
-                                        style={{
-                                          color: getStatusColor(
-                                            selectedCandidate?.status
-                                          ),
-                                        }}
-                                      >
-                                        {selectedCandidate?.status}{" "}
-                                      </td>
-                                      <td>
-                                        {
-                                          selectedCandidate?.question
-                                            ?.formatType
-                                        }
-                                      </td>
-                                      <td>
-                                        <button
-                                          className="btn-view-details"
-                                          onClick={() =>
-                                            handleViewDetails(
-                                              selectedCandidate?._id
-                                            )
-                                          }
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div
+                                    className="referee-item"
+                                    key={selectedCandidate?._id}
+                                  >
+                                    <div className="referee-details">
+                                      <div className="d-flex justify-content-between">
+                                        <span className="referee-name">
+                                          {selectedCandidate?.referee}
+                                        </span>
+                                        <span
+                                          className="referee-status"
+                                          style={{
+                                            color: getStatusColor(
+                                              selectedCandidate?.status
+                                            ),
+                                          }}
                                         >
-                                          View Details
-                                        </button>
-                                      </td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </table>
+                                          {selectedCandidate?.status}
+                                        </span>
+                                      </div>
+                                      <div className="d-flex justify-content-between">
+                                        <div className="referee-left-container">
+                                          <p className="referee-position">
+                                            {
+                                              selectedCandidate?.question
+                                                ?.formatType
+                                            }
+                                            position diri addi
+                                          </p>
+                                          <p className="referee-email">
+                                            {selectedCandidate?.refereeEmail}
+                                          </p>
+                                        </div>
+                                        <div className="d-flex align-items-end">
+                                          <button
+                                            className="btn-view-details"
+                                            onClick={() =>
+                                              handleViewDetails(
+                                                selectedCandidate?._id
+                                              )
+                                            }
+                                          >
+                                            View Referee
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
                         )}
@@ -491,7 +572,19 @@ const ReferenceRequest = () => {
           <div>No reference requests record</div>
         )}
       </div>
-
+      {showDeleteConfirmation && (
+        <DeleteConfirmationReferenceRequestPopUp
+          onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
+          onConfirmDelete={confirmDeleteReference} // Confirm deletion
+        />
+      )}
+      {showEditPopup && selectedReference && (
+        <EditRequestPopUp
+          onClose={() => setShowEditPopup(false)}
+          onEditRequest={handleAddReference}
+          requestData={selectedReference} // Ensure this is the correct prop
+        />
+      )}
       {showDetailsPopup && selectedCandidate && (
         <ReferenceRequestDetailsPopUp
           candidate={selectedCandidate}

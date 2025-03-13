@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditCandidatePopUp from "./EditCandidatePopUp";
+import DeleteConfirmationCandidatePopUp from "./DeleteConfirmationCandidatePopUp"; // Import the confirmation popup
 import AddCandidatePopUp from "./AddCandidatePopUp"; // Assuming you have a similar component for adding candidates
 import CandidateDetailsPopUp from "./CandidateDetailsPopUp";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
@@ -16,6 +17,8 @@ const Candidates = () => {
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showEditPopup, setShowEditPopup] = useState(false); // Add this line
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for delete confirmation
+const [candidateToDelete, setCandidateToDelete] = useState(null); // State to hold the candidate ID to delete
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
@@ -90,20 +93,25 @@ const Candidates = () => {
     }
   };
 
-  const handleDeleteCandidate = async (candidateId) => {
+  const handleDeleteCandidate = (candidateId) => {
+    setCandidateToDelete(candidateId); // Set the candidate ID to delete
+    setShowDeleteConfirmation(true); // Show the delete confirmation popup
+  };
+
+  const confirmDeleteCandidate = async () => {
     if (isDeleting) {
       return;
     }
-
+  
     try {
       setIsDeleting(true);
-      const URL = `${API}/api/ai-referee/company-candidates/delete-candidate-by-id/${candidateId}`;
+      const URL = `${API}/api/ai-referee/company-candidates/delete-candidate-by-id/${candidateToDelete}`;
       const response = await axios.delete(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (response.status === 200) {
         await refetchCandidates();
       }
@@ -111,6 +119,8 @@ const Candidates = () => {
       console.error(error);
     } finally {
       setIsDeleting(false);
+      setShowDeleteConfirmation(false); // Close the confirmation popup
+      setCandidateToDelete(null); // Reset the candidate ID
     }
   };
 
@@ -287,6 +297,12 @@ const Candidates = () => {
           <div>No candidate record</div>
         )}
       </div>
+      {showDeleteConfirmation && (
+  <DeleteConfirmationCandidatePopUp
+    onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
+    onConfirmDelete={confirmDeleteCandidate} // Confirm deletion
+  />
+)}
       {showDetailsPopup && selectedCandidate && (
         <CandidateDetailsPopUp
           candidates={selectedCandidate}

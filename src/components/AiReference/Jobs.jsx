@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobPopUp from "./AddJobPopUp";
 import EditJobPopUp from "./EditJobPopUp";
+import DeleteConfirmationJobPopUp from "./DeleteConfirmationJobPopUp"; // Add this line
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 
 import axios from "axios";
@@ -16,6 +17,8 @@ const Jobs = () => {
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // Add this line
+const [jobToDelete, setJobToDelete] = useState(null); // Add this line
   const [activeJobs, setActiveJobs] = useState(
     JSON.parse(localStorage.getItem("jobs")) || []
   );
@@ -90,20 +93,25 @@ const Jobs = () => {
     setShowEditPopup(true);
   };
 
-  const handleDeleteJob = async (jobId) => {
+  const handleDeleteJob = (jobId) => {
+    setJobToDelete(jobId); // Set the job ID to delete
+    setShowDeleteConfirmation(true); // Show the delete confirmation popup
+  };
+  
+  const confirmDeleteJob = async () => {
     if (isDeleting) {
       return;
     }
-    
+  
     try {
       setIsDeleting(true);
-      const URL = `${API}/api/ai-referee/company-jobs/delete-job-by-id/${jobId}`;
+      const URL = `${API}/api/ai-referee/company-jobs/delete-job-by-id/${jobToDelete}`;
       const response = await axios.delete(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (response.status === 200) {
         await refetchJobs();
       }
@@ -111,6 +119,8 @@ const Jobs = () => {
       console.error(error);
     } finally {
       setIsDeleting(false);
+      setShowDeleteConfirmation(false); // Close the confirmation popup
+      setJobToDelete(null); // Reset the job ID
     }
   };
 
@@ -268,6 +278,12 @@ const Jobs = () => {
           </div>
         )}
       </div>
+      {showDeleteConfirmation && (
+        <DeleteConfirmationJobPopUp
+          onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
+          onConfirmDelete={confirmDeleteJob} // Confirm deletion
+        />
+      )}
       {showEditPopup && (
         <EditJobPopUp
           onClose={handleClosePopup}

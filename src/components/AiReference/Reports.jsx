@@ -325,14 +325,7 @@ function createTooltipElement() {
         >
           Reports
         </button>
-        <button
-          className={`btn-custom ${
-            activeButton === "Candidates" ? "active" : ""
-          }`}
-          onClick={() => handleButtonClick("Candidates")}
-        >
-          Candidates
-        </button>
+
       </div>
 
       <div className="AiReference-report-container position-relative">
@@ -378,23 +371,6 @@ function createTooltipElement() {
                 </tbody>
               </tbody>
             </table>
-          </>
-        ) : activeButton === "Candidates" ? (
-          <>
-            <div className="AiReference-table-title">
-              <h4>Candidate Evaluation Summaries</h4>
-              <p>Average scores across key competencies.</p>
-            </div>
-            <Row>
-              <Col md={5}>
-                <div className="chart-container-report">
-                  <Bar
-                    data={candidateChartData}
-                    options={candidateChartOptions}
-                  />
-                </div>
-              </Col>
-            </Row>
           </>
         ) : (
           <>

@@ -7,9 +7,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
   const [currentCandidateIndex, setCurrentCandidateIndex] = useState(0);
-  const [candidates, setCandidates] = useState([
-    { name: "", email: "", position: "" },
-  ]);
+  const [candidates, setCandidates] = useState([]);
   const [errorMessages, setErrorMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [positions, setPositions] = useState(() => {
@@ -17,19 +15,21 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
     const lastJob = jobs[jobs.length - 1];
     return lastJob ? [{ name: lastJob.jobName, _id: lastJob._id }] : [];
   });
-
-  const isFormValid = candidates.every(
-    (candidate) => candidate.name && candidate.email && candidate.position
-  );
+ const isFormValid = candidates.every(candidate => 
+  candidate.name.trim() !== "" && 
+  candidate.email.trim() !== "" && 
+  candidate.position.trim() !== ""
+);
   useEffect(() => {
-    if (positions.length > 0) {
-      setCandidates((prev) => {
-        const updatedCandidates = [...prev];
-        updatedCandidates[currentCandidateIndex].position = positions[0]?.name;
-        return updatedCandidates;
-      });
+    if (positions.length > 0 && totalVacancies > 0) {
+      const newCandidates = Array.from({ length: totalVacancies }, () => ({
+        name: "", // Set name to an empty string
+        email: "", // Set email to an empty string
+        position: positions[0]?.name || "", // Ensure position is set correctly
+      }));
+      setCandidates(newCandidates);
     }
-  }, [positions]);
+  }, [positions, totalVacancies]);
 
   const handleInputChange = (index, field, value) => {
     setCandidates((prev) => {
@@ -39,14 +39,6 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
     });
   };
 
-  const handleAddCandidate = () => {
-    if (candidates.length < totalVacancies) {
-      setCandidates((prev) => [
-        ...prev,
-        { name: "", email: "", position: positions[0]?.name },
-      ]);
-    }
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessages({});
@@ -70,23 +62,6 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
     const status = "New";
     setIsLoading(true);
     try {
-      // const payload = {
-      //   name: currentCandidate.name,
-      //   email: currentCandidate.email,
-      //   position: currentCandidate.position,
-      //   status,
-      // };
-      // const response = await axios.post(URL, payload, {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-
-      // if (response.status === 201) {
-      //   await refetch();
-      //   onProceed();
-      // }
-
       const task = candidates.map(async (candidate) => {
         const payload = {
           name: candidate.name,
@@ -106,8 +81,8 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
 
       if (responses.every((response) => response.status === 201)) {
         await refetch();
-        onProceed();
-      }
+        onProceed(candidates); 
+            }
     } catch (error) {
       console.error(error);
     } finally {
@@ -141,7 +116,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
           </p>
           <Form.Group
             controlId="formHiringManager"
-            className="d-flex align-items-center mb-3"
+            className="d-flex align-items-center mb-4"
           >
             <Form.Label
               className="m-0"
@@ -150,7 +125,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
               Position
             </Form.Label>
             <Form.Select
-              value={candidates[currentCandidateIndex]?.position}
+              value={candidates[currentCandidateIndex]?.position || ""}
               onChange={(e) =>
                 handleInputChange(
                   currentCandidateIndex,
@@ -169,22 +144,10 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
             </Form.Select>
           </Form.Group>
 
-          <div className="d-flex justify-content-end mb-3">
-            <p className="m-0" style={{ width: "150px", height: "38px" }}></p>
-            <button
-              className="btn-add-candidate-component"
-              type="button"
-              onClick={handleAddCandidate}
-              disabled={candidates.length >= totalVacancies} // Disable button if limit is reached
-            >
-              Add Candidate
-            </button>
-          </div>
-
-          <div key={currentCandidateIndex} className="candidate-container mb-3">
+          <div key={currentCandidateIndex} className="candidate-container mb-4">
             <Form.Group
               controlId={`formJobName${currentCandidateIndex}`}
-              className="d-flex align-items-center mb-3"
+              className="d-flex align-items-center mb-4"
             >
               <Form.Label
                 className="m-0"
@@ -195,7 +158,6 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
               <div className="w-100 position-relative">
                 <Form.Control
                   type="text"
-                  value={candidates[currentCandidateIndex].name}
                   onChange={(e) =>
                     handleInputChange(
                       currentCandidateIndex,
@@ -203,8 +165,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
                       e.target.value
                     )
                   }
-                  placeholder="John Doe"
-                  required
+                  placeholder={`Candidate ${currentCandidateIndex + 1}`}                  required
                 />
                 {errorMessages.name && (
                   <div className="px-3 py-1 text-danger">
@@ -216,7 +177,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
 
             <Form.Group
               controlId={`formVacancies${currentCandidateIndex}`}
-              className="d-flex align-items-center mb-3"
+              className="d-flex align-items-center mb-4"
             >
               <Form.Label
                 className="m-0"
@@ -227,7 +188,6 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
               <div className="w-100 position-relative">
                 <Form.Control
                   type="email"
-                  value={candidates[currentCandidateIndex].email}
                   onChange={(e) =>
                     handleInputChange(
                       currentCandidateIndex,
@@ -235,8 +195,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
                       e.target.value
                     )
                   }
-                  placeholder="sample@hrhatch.com"
-                  required
+                  placeholder={`candidate${currentCandidateIndex + 1}@example.com`}                  required
                 />
                 {errorMessages.email && (
                   <div className="px-3 py-1 text-danger">

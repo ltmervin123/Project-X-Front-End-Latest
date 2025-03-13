@@ -130,11 +130,12 @@
 .action-options {
   position: relative; /* or fixed if you want it to stay in view */
   left: 10px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
   padding: 10px !important;
   z-index: 1000;
+  background: var(--font-white);
   width: auto;
-  max-height: 200px; /* Set a max height to prevent overflow */
+  font-size: 12px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
 }
 .action-options p{
@@ -147,7 +148,24 @@
   position: absolute;
   font-size: 12px;
 }
+.btn-no-delete-job{
+  background: var(--secondary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
 
+}
+.btn-yes-delete-job{
+  background: var(--primary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
 /* .action-options p > svg:nth-child(1){
   fill: var(--card-color) !important;
 }

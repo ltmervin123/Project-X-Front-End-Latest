@@ -67,10 +67,12 @@ const MainDashboard = () => {
   const handleOpenJobForm = () => {
     setShowJobForm(true); // Set to true to show the job form
   };
-  const handleShowAddReferenceRequest = () => {
+  const handleShowAddReferenceRequest = (candidates) => {
     setShowAddReferenceRequest(true);
     setShowAddCandidate(false);
     setShowJobForm(false);
+    // Store candidates in state or pass directly
+    setCandidates(candidates); // Store candidates if needed
   };
 
   const [candidates, setCandidates] = useState(
@@ -691,7 +693,10 @@ const MainDashboard = () => {
   setVacancies={setVacancies} // Pass the setVacancies function
 />
       ) : showAddReferenceRequest ? (
-        <AddRequestComponent onReFetchReference={handleRefetchReference} />
+        <AddRequestComponent 
+          onReFetchReference={handleRefetchReference} 
+          candidates={candidates} // Pass the candidates here
+        />
       ) : (
         <>
           <div>

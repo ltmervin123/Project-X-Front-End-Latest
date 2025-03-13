@@ -115,12 +115,31 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
             >
               Department
             </Form.Label>
-            <Form.Control
-              type="text"
+            <Form.Select
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
               required
-            />
+            >
+              <option value="">Select Department</option>
+              <option value="Sales">Sales</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Customer Service">Customer Service</option>
+              <option value="Human Resources (HR)">Human Resources (HR)</option>
+              <option value="Finance">Finance</option>
+              <option value="Accounting">Accounting</option>
+              <option value="Operations">Operations</option>
+              <option value="IT (Information Technology)">IT (Information Technology)</option>
+              <option value="Legal">Legal</option>
+              <option value="Administration">Administration</option>
+              <option value="Product Development">Product Development</option>
+              <option value="Research and Development (R&D)">Research and Development (R&D)</option>
+              <option value="Logistics, Supply Chain & Procurement">Logistics, Supply Chain & Procurement</option>
+              <option value="Business Development">Business Development</option>
+              <option value="Public Relations (PR)">Public Relations (PR)</option>
+              <option value="Design">Design</option>
+              <option value="Compliance">Compliance</option>
+              <option value="Risk Management">Risk Management</option>
+            </Form.Select>
           </Form.Group>
           <Form.Group
             controlId="formHiringManager"

@@ -11,16 +11,91 @@
   --isDropdown-bgcolor: #B9B9B9;
 }
 
-.reference-dropdown-table {
-  width: 98%;
-}
-.reference-table{
-  height: 80% !important;
+
+.referee-list {
+  display: flex;
 }
 
-.reference-dropdown-table tbody{
-  overflow: none;
-  height: auto;
+.referee-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.referee-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+}
+
+.referee-name,
+.referee-status,
+.referee-position,
+.referee-email {
+  margin: 2px 0;
+  font-size: 12px;
+}
+.referee-name,
+.referee-status{
+  width: 50%;
+}
+.referee-email {
+  width: 100%;
+  word-wrap: break-word;
+
+}
+.referee-left-container{
+  width: 50%;
+}
+.referee-status{
+  display: flex;
+  justify-content: end;
+}
+.btn-view-details {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-view-details:hover {
+  background-color: #0056b3;
+}
+.action-options-reference {
+  position: absolute; /* or fixed if you want it to stay in view */
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+  padding: 10px !important;
+  background: var(--font-white);
+  width: auto;
+  font-size: 12px;
+  left: -190%;
+  top: 140%;
+  z-index: 1; /* Ensure it appears above other elements */
+}
+
+.action-options-reference::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* Adjust this value to position the arrow */
+  left: 50px; /* Adjust this value to position the arrow */
+  border-width: 5px; /* Size of the arrow */
+  border-style: solid;
+  border-color: transparent transparent var(--sidebar-bg) transparent; /* Arrow color */
+  /* Adjust the left value to center the arrow if needed */
+}
+.action-options-reference p{
+  margin: 0 !important;
+}
+.action-options-reference p:nth-child(2){
+  color: red;
 }
 .reference-table > thead > tr > th:nth-child(1),
 .reference-table > thead > tr > th:nth-child(2),
@@ -63,10 +138,7 @@ font-size: inherit;
  .btn-view-details.isDropdown:hover{
   background: var(--isDropdown-bgcolor);
  }
-.reference-dropdown-icon .rotate{
-  transform: rotate(180deg);
-  transition: transform 0.3s ease;
-}
+
 .AiReference-refReq-container {
   background: var(--font-white);
   border: 1px solid var(--card-color);
@@ -132,10 +204,31 @@ font-size: inherit;
   background: darkgreen;
 }
 
+.btn-create-new-candidate:hover {
+  background: darkorange; /* Darker shade on hover */
+}
+.btn-no-delete{
+  background: var(--secondary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
+.btn-yes-delete{
+  background: var(--primary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
+
 .reference-question-format-container .form-select{
   --bs-form-select-bg-img:none ;
   text-align: center;
-  
 }
 .format-select-active {
   border: none; /* Change border color to blue */
