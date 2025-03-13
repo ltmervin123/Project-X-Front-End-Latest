@@ -19,6 +19,7 @@ const Candidates = () => {
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
+  const [isDeleting, setIsDeleting] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
   const fetchCandidates = async () => {
@@ -91,18 +92,37 @@ const Candidates = () => {
     }
   };
 
-  const handleDeleteCandidate = async (id) => {
-    // Logic to delete the candidate
-    await refetchCandidates(); // Refresh the candidates list after deletion
+  const handleDeleteCandidate = async (candidateId) => {
+    if (isDeleting) {
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      const URL = `${API}/api/ai-referee/company-candidates/delete-candidate-by-id/${candidateId}`;
+      const response = await axios.delete(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        await refetchCandidates();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
+
   const handleEditCandidate = (id) => {
     const candidateToEdit = candidates.find(
       (candidate) => candidate._id === id
     );
     setSelectedCandidate(candidateToEdit); // Set the selected candidate for editing
 
-    setShowEditPopup(true); // Show the edit 
-
+    setShowEditPopup(true); // Show the edit
   };
   const handleClosePopup = () => {
     setShowPopup(false);
@@ -272,15 +292,15 @@ const Candidates = () => {
         )}
       </div>
       {showDetailsPopup && selectedCandidate && (
-      <CandidateDetailsPopUp
-        candidates={selectedCandidate}
-        onClose={handleCloseDetailsPopup}
-        onEdit={() => {
-          handleCloseDetailsPopup(); // Close the details popup
-          handleEditCandidate(selectedCandidate._id); // Open the edit popup
-        }} // Pass the edit handler
-      />
-    )}
+        <CandidateDetailsPopUp
+          candidates={selectedCandidate}
+          onClose={handleCloseDetailsPopup}
+          onEdit={() => {
+            handleCloseDetailsPopup(); // Close the details popup
+            handleEditCandidate(selectedCandidate._id); // Open the edit popup
+          }} // Pass the edit handler
+        />
+      )}
       {showEditPopup && selectedCandidate && (
         <EditCandidatePopUp
           onClose={handleClosePopup}
