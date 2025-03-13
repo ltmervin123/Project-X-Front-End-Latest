@@ -14,7 +14,6 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const [hiringManager, setHiringManager] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const isFormValid = jobName && vacancies && hiringManager;
 
   // Populate form fields with job details when the component mounts
   useEffect(() => {
@@ -31,7 +30,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
 
     try {
       setLoading(true);
-      const URL = `${API}/api/ai-referee/company-jobs/update-job/${jobDetails.id}`; // Assuming jobDetails contains an id
+      const URL = `${API}/api/ai-referee/company-jobs/update-job-by-id/${jobDetails._id}`;
       const payload = { jobName, vacancies, hiringManager, department };
 
       const response = await axios.put(URL, payload, {
@@ -41,15 +40,20 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
       });
 
       if (response.status === 200) {
-        onUpdateJob(); // Call the function to refresh the job list or update the UI
+        await onUpdateJob();
         onClose();
       }
     } catch (error) {
-      console.error(error);
-      setError("An error occurred while updating the job.");
+      setError(
+        error.response?.data?.error || "An error occurred. Please try again."
+      );
     } finally {
       setLoading(false);
     }
+  };
+
+  const isFormValid = () => {
+    return jobName && vacancies && department && hiringManager;
   };
 
   return (
@@ -64,9 +68,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h5 className="m-0">Edit Job</h5>
-            <small>
-              Update the job details below.
-            </small>
+            <small>Update the job details below.</small>
           </div>
           <Button
             className="closebtn"
@@ -152,7 +154,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
             <button
               className="btn-create-job"
               type="submit"
-              disabled={loading || !isFormValid}
+              disabled={loading || !isFormValid()}
             >
               {loading ? "Updating Job..." : "Update Job"}
             </button>
