@@ -13,10 +13,9 @@ const Jobs = () => {
   const token = USER?.token;
   const [visibleOptions, setVisibleOptions] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
-
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
-
+  const [isDeleting, setIsDeleting] = useState(false);
   const [activeJobs, setActiveJobs] = useState(
     JSON.parse(localStorage.getItem("jobs")) || []
   );
@@ -91,7 +90,29 @@ const Jobs = () => {
     setShowEditPopup(true);
   };
 
-  const handleDeleteJob = () => {};
+  const handleDeleteJob = async (jobId) => {
+    if (isDeleting) {
+      return;
+    }
+    
+    try {
+      setIsDeleting(true);
+      const URL = `${API}/api/ai-referee/company-jobs/delete-job-by-id/${jobId}`;
+      const response = await axios.delete(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        await refetchJobs();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const handleClosePopup = () => {
     setShowPopup(false);
