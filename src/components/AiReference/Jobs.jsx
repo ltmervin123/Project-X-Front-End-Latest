@@ -12,7 +12,11 @@ const Jobs = () => {
   const id = USER?.id;
   const token = USER?.token;
   const [visibleOptions, setVisibleOptions] = useState({});
-  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+
   const [activeJobs, setActiveJobs] = useState(
     JSON.parse(localStorage.getItem("jobs")) || []
   );
@@ -41,9 +45,6 @@ const Jobs = () => {
 
   const refetchJobs = async () => {
     try {
-      //delete the jobs from local storage
-      localStorage.removeItem("jobs");
-
       //fetch the jobs again
       await fetchJobs();
     } catch (error) {
@@ -78,19 +79,16 @@ const Jobs = () => {
       [jobId]: !prev[jobId],
     }));
 
-    // Optionally, you can set the position of the options based on the click
     const optionsElement = document.getElementById(`options-${jobId}`);
     if (optionsElement) {
       optionsElement.style.top = `${clientY}px`; // Adjust as needed
     }
   };
 
-  const [showEditPopup, setShowEditPopup] = useState(false); // Add this line
-  const [selectedJob, setSelectedJob] = useState(null); // Add this line
   const handleEditJob = (jobId) => {
-    const jobToEdit = activeJobs.find((job) => job._id === jobId);
-    setSelectedJob(jobToEdit); // Set the selected job for editing
-    setShowEditPopup(true); // Show the edit popup
+    const recordFound = activeJobs.find((job) => job._id === jobId);
+    setSelectedJob(recordFound);
+    setShowEditPopup(true);
   };
 
   const handleDeleteJob = () => {};
@@ -213,13 +211,13 @@ const Jobs = () => {
                               id={`options-${job._id}`}
                               className="action-options"
                             >
-<p
-  className="d-flex align-items-center gap-2"
-  onClick={() => handleEditJob(job._id)} // Change this line
-  style={{
-    cursor: "pointer",
-  }}
->
+                              <p
+                                className="d-flex align-items-center gap-2"
+                                onClick={() => handleEditJob(job._id)} // Change this line
+                                style={{
+                                  cursor: "pointer",
+                                }}
+                              >
                                 <FaEdit />
                                 Edit
                               </p>
