@@ -59,7 +59,8 @@ const MainDashboard = () => {
   const [showJobForm, setShowJobForm] = useState(false); // State to control job form visibility
   const [showAddCandidate, setShowAddCandidate] = useState(false); // New state for AddCandidateComponent
   const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false); // New state for AddCandidateComponent
-
+  const [vacancies, setVacancies] = useState(1);
+  
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true); // Set to true to show AddCandidateComponent
   };
@@ -678,14 +679,17 @@ const MainDashboard = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       {showAddCandidate ? (
         <AddCandidateComponent
-          onProceed={handleShowAddReferenceRequest}
-          refetch={handleRefetchCandidates}
-        />
+        onProceed={handleShowAddReferenceRequest}
+        refetch={handleRefetchCandidates}
+        totalVacancies={vacancies} // Pass the vacancies here
+      />
       ) : showJobForm ? (
-        <AddJobComponent
-          onProceed={handleShowAddCandidate}
-          refetch={handleRefetchJobs}
-        />
+<AddJobComponent
+  onProceed={handleShowAddCandidate}
+  refetch={handleRefetchJobs}
+  vacancies={vacancies} // Pass the vacancies state
+  setVacancies={setVacancies} // Pass the setVacancies function
+/>
       ) : showAddReferenceRequest ? (
         <AddRequestComponent onReFetchReference={handleRefetchReference} />
       ) : (

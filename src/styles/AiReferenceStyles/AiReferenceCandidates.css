@@ -135,6 +135,22 @@
   background: var(--card-color) !important;
   cursor: not-allowed;
 }
+.btn-add-candidate-component {
+  background: var(--secondary-color);
+  border-radius: 50px;
+  border: none;
+  width: 100%;
+  padding: 5px;
+  color: var(--font-white);
+}
+.btn-add-candidate-component:disabled {
+  background: var(--card-color) !important;
+  cursor: not-allowed;
+}
+.add-candidate-controller button{
+background: none;
+border: none;
+}
 /* Customizing the scrollbar */
 .AiReference-candidates-container tbody::-webkit-scrollbar {
   width: 5px; /* Scrollbar width */

@@ -2,13 +2,12 @@ import React, { useState, useRef } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
 
-const AddJobComponent = ({ onProceed, refetch }) => {
+const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
   const token = USER?.token;
   const [jobName, setJobName] = useState("");
-  const [vacancies, setVacancies] = useState(1);
   const [department, setDepartment] = useState("");
   const [hiringManager, setHiringManager] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,15 +77,14 @@ const AddJobComponent = ({ onProceed, refetch }) => {
               Job Name
             </Form.Label>
             <div className="w-100">
-
-            <Form.Control
-              type="text"
-              value={jobName}
-              onChange={(e) => setJobName(e.target.value)}
-              placeholder=""
-              required
-            />
-            {errorMessages.jobName && <div className="px-3 py-1 text-danger">{errorMessages.jobName}</div>}
+              <Form.Control
+                type="text"
+                value={jobName}
+                onChange={(e) => setJobName(e.target.value)}
+                placeholder=""
+                required
+              />
+              {errorMessages.jobName && <div className="px-3 py-1 text-danger">{errorMessages.jobName}</div>}
             </div>
           </Form.Group>
           <Form.Group
@@ -102,8 +100,8 @@ const AddJobComponent = ({ onProceed, refetch }) => {
             <Form.Control
               type="number"
               min={1}
-              value={vacancies}
-              onChange={(e) => setVacancies(parseInt(e.target.value))}
+              value={vacancies} // Use the vacancies prop directly
+              onChange={(e) => setVacancies(parseInt(e.target.value))} // Update vacancies using setVacancies
               required
             />
           </Form.Group>
@@ -135,14 +133,13 @@ const AddJobComponent = ({ onProceed, refetch }) => {
               Hiring Manager
             </Form.Label>
             <div className="w-100 position-relative">
-            <Form.Control
-              type="text"
-              value={hiringManager}
-              onChange={(e) => setHiringManager(e.target.value)}
-              required
-            />
-            {errorMessages.hiringManager && <div className="px-3 py-1 text-danger">{errorMessages.hiringManager}</div>}
-
+              <Form.Control
+                type="text"
+                value={hiringManager}
+                onChange={(e) => setHiringManager(e.target.value)}
+                required
+              />
+              {errorMessages.hiringManager && <div className="px-3 py-1 text-danger">{errorMessages.hiringManager}</div>}
             </div>
           </Form.Group>
         </Form>
