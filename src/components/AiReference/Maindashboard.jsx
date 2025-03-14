@@ -60,7 +60,9 @@ const MainDashboard = () => {
   const [showAddCandidate, setShowAddCandidate] = useState(false); // New state for AddCandidateComponent
   const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false); // New state for AddCandidateComponent
   const [vacancies, setVacancies] = useState(1);
-  
+  const [addedJob, setAddedJob] = useState({});
+  const [addedCandidate, setAddedCandidate] = useState([]);
+
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true); // Set to true to show AddCandidateComponent
   };
@@ -681,21 +683,22 @@ const MainDashboard = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       {showAddCandidate ? (
         <AddCandidateComponent
-        onProceed={handleShowAddReferenceRequest}
-        refetch={handleRefetchCandidates}
-        totalVacancies={vacancies} // Pass the vacancies here
-      />
+          onProceed={handleShowAddReferenceRequest}
+          refetch={handleRefetchCandidates}
+          setAddedCandidate={setAddedCandidate}
+          addedJob={addedJob}
+        />
       ) : showJobForm ? (
-<AddJobComponent
-  onProceed={handleShowAddCandidate}
-  refetch={handleRefetchJobs}
-  vacancies={vacancies} // Pass the vacancies state
-  setVacancies={setVacancies} // Pass the setVacancies function
-/>
+        <AddJobComponent
+          onProceed={handleShowAddCandidate}
+          refetch={handleRefetchJobs}
+          setAddedJob={setAddedJob}
+        />
       ) : showAddReferenceRequest ? (
-        <AddRequestComponent 
-          onReFetchReference={handleRefetchReference} 
-          candidates={candidates} // Pass the candidates here
+        <AddRequestComponent
+          onReFetchReference={handleRefetchReference}
+          addedCandidate={addedCandidate}
+          addedJob={addedJob}
         />
       ) : (
         <>
@@ -726,7 +729,9 @@ const MainDashboard = () => {
                     />
                   </svg>
                 </button>
-                <i className="w-100 text-center my-1">"Click here to begin the reference check process."</i>
+                <i className="w-100 text-center my-1">
+                  "Click here to begin the reference check process."
+                </i>
               </Col>
               <Col md={6} className="p-0"></Col>
             </Row>

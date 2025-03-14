@@ -1,26 +1,27 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
-
-const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
+const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
-  const id = USER?.id;
   const token = USER?.token;
   const [jobName, setJobName] = useState("");
   const [department, setDepartment] = useState("");
   const [hiringManager, setHiringManager] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
-  
-  const isFormValid = jobName && vacancies && hiringManager;
+  const [vacancies, setVacancies] = useState(1);
 
   // Create a ref for the form
   const formRef = useRef(null);
 
+  const isFormValid = useMemo(() => {
+    return jobName && hiringManager && department && vacancies;
+  }, [jobName, hiringManager, department, vacancies]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Reset error messages
     setErrorMessages({});
 
@@ -30,12 +31,13 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
       newErrorMessages.jobName = "Job name must be at least 2 characters.";
     }
     if (hiringManager.length < 2) {
-      newErrorMessages.hiringManager = "Hiring manager name must be at least 2 characters.";
+      newErrorMessages.hiringManager =
+        "Hiring manager name must be at least 2 characters.";
     }
-    
+
     if (Object.keys(newErrorMessages).length > 0) {
       setErrorMessages(newErrorMessages);
-      return; // Stop submission if there are validation errors
+      return;
     }
 
     try {
@@ -48,11 +50,13 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
         },
       });
       if (response.status === 201) {
+        setAddedJob(response.data?.createdJob);
         await refetch();
         onProceed();
       }
     } catch (error) {
       console.error(error);
+      setErrorMessages({ jobName: error?.response?.data?.message });
     } finally {
       setLoading(false);
     }
@@ -61,8 +65,12 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
   return (
     <>
       <div>
-        <h3 className="mb-0">Create New <span className="color-blue">Job</span> </h3>
-        <p className="mb-2">Add a new job opening to the system. Fill out the details below.</p>
+        <h3 className="mb-0">
+          Create New <span className="color-blue">Job</span>{" "}
+        </h3>
+        <p className="mb-2">
+          Add a new job opening to the system. Fill out the details below.
+        </p>
       </div>
       <div className="job-container-form d-flex align-items-center justify-content-center w-100">
         <Form ref={formRef} onSubmit={handleSubmit}>
@@ -84,7 +92,11 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
                 placeholder=""
                 required
               />
-              {errorMessages.jobName && <div className="px-3 py-1 text-danger">{errorMessages.jobName}</div>}
+              {errorMessages.jobName && (
+                <div className="px-3 py-1 text-danger">
+                  {errorMessages.jobName}
+                </div>
+              )}
             </div>
           </Form.Group>
           <Form.Group
@@ -100,7 +112,7 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
             <Form.Control
               type="number"
               min={1}
-              value={vacancies} // Use the vacancies prop directly
+              value={vacancies}
               onChange={(e) => setVacancies(parseInt(e.target.value))} // Update vacancies using setVacancies
               required
             />
@@ -128,14 +140,22 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
               <option value="Finance">Finance</option>
               <option value="Accounting">Accounting</option>
               <option value="Operations">Operations</option>
-              <option value="IT (Information Technology)">IT (Information Technology)</option>
+              <option value="IT (Information Technology)">
+                IT (Information Technology)
+              </option>
               <option value="Legal">Legal</option>
               <option value="Administration">Administration</option>
               <option value="Product Development">Product Development</option>
-              <option value="Research and Development (R&D)">Research and Development (R&D)</option>
-              <option value="Logistics, Supply Chain & Procurement">Logistics, Supply Chain & Procurement</option>
+              <option value="Research and Development (R&D)">
+                Research and Development (R&D)
+              </option>
+              <option value="Logistics, Supply Chain & Procurement">
+                Logistics, Supply Chain & Procurement
+              </option>
               <option value="Business Development">Business Development</option>
-              <option value="Public Relations (PR)">Public Relations (PR)</option>
+              <option value="Public Relations (PR)">
+                Public Relations (PR)
+              </option>
               <option value="Design">Design</option>
               <option value="Compliance">Compliance</option>
               <option value="Risk Management">Risk Management</option>
@@ -158,7 +178,11 @@ const AddJobComponent = ({ onProceed, refetch, vacancies, setVacancies }) => {
                 onChange={(e) => setHiringManager(e.target.value)}
                 required
               />
-              {errorMessages.hiringManager && <div className="px-3 py-1 text-danger">{errorMessages.hiringManager}</div>}
+              {errorMessages.hiringManager && (
+                <div className="px-3 py-1 text-danger">
+                  {errorMessages.hiringManager}
+                </div>
+              )}
             </div>
           </Form.Group>
         </Form>

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
 
-const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
+const AddCandidateComponent = ({
+  onProceed,
+  refetch,
+  setAddedCandidate,
+  addedJob,
+}) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
@@ -10,26 +15,23 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
   const [candidates, setCandidates] = useState([]);
   const [errorMessages, setErrorMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [positions, setPositions] = useState(() => {
-    const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-    const lastJob = jobs[jobs.length - 1];
-    return lastJob ? [{ name: lastJob.jobName, _id: lastJob._id }] : [];
-  });
- const isFormValid = candidates.every(candidate => 
-  candidate.name.trim() !== "" && 
-  candidate.email.trim() !== "" && 
-  candidate.position.trim() !== ""
-);
+
+  const isFormValid = candidates.every(
+    (candidate) =>
+      candidate.name.trim() !== "" &&
+      candidate.email.trim() !== "" &&
+      candidate.position.trim() !== ""
+  );
+
   useEffect(() => {
-    if (positions.length > 0 && totalVacancies > 0) {
-      const newCandidates = Array.from({ length: totalVacancies }, () => ({
-        name: "", // Set name to an empty string
-        email: "", // Set email to an empty string
-        position: positions[0]?.name || "", // Ensure position is set correctly
-      }));
-      setCandidates(newCandidates);
-    }
-  }, [positions, totalVacancies]);
+    const newCandidates = Array.from({ length: addedJob.vacancies }, () => ({
+      name: "",
+      email: "",
+      position: addedJob.positionName,
+    }));
+
+    setCandidates(newCandidates);
+  }, []);
 
   const handleInputChange = (index, field, value) => {
     setCandidates((prev) => {
@@ -80,9 +82,12 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
       const responses = await Promise.all(task);
 
       if (responses.every((response) => response.status === 201)) {
+        setAddedCandidate(
+          responses.map((response) => response.data?.createdCandidate)
+        );
         await refetch();
-        onProceed(candidates); 
-            }
+        onProceed(candidates);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -102,6 +107,36 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
     }
   };
 
+  // Prevent accidental page exit
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "Are you sure you want to leave this page?";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
+
+  //Add a warning when user is navigating back to previous page
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      event.preventDefault();
+      const userConfirmed = window.confirm(
+        "Are you sure you want to go back? Your progress will be lost."
+      );
+      if (!userConfirmed) {
+        window.history.pushState(null, "", window.location.pathname);
+      }
+    };
+
+    window.history.pushState(null, "", window.location.pathname);
+    window.addEventListener("popstate", handleBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, []);
+
   return (
     <>
       <div>
@@ -111,7 +146,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
       <div className="job-container-form d-flex align-items-center justify-content-center w-100">
         <Form onSubmit={handleSubmit}>
           <p>
-            Candidate {currentCandidateIndex + 1} of {totalVacancies}
+            Candidate {currentCandidateIndex + 1} of {addedJob?.vacancies}
             <span> * Fill in the required Information</span>
           </p>
           <Form.Group
@@ -136,11 +171,9 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
               required
               disabled
             >
-              {positions.map((position) => (
-                <option key={position._id} value={position.name}>
-                  {position.name}
-                </option>
-              ))}
+              <option key={addedJob.positionId} value={addedJob.positionName}>
+                {addedJob.positionName}
+              </option>
             </Form.Select>
           </Form.Group>
 
@@ -157,6 +190,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
               </Form.Label>
               <div className="w-100 position-relative">
                 <Form.Control
+                  value={candidates[currentCandidateIndex]?.name}
                   type="text"
                   onChange={(e) =>
                     handleInputChange(
@@ -165,7 +199,8 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
                       e.target.value
                     )
                   }
-                  placeholder={`Candidate ${currentCandidateIndex + 1}`}                  required
+                  placeholder={`Candidate ${currentCandidateIndex + 1}`}
+                  required
                 />
                 {errorMessages.name && (
                   <div className="px-3 py-1 text-danger">
@@ -187,6 +222,7 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
               </Form.Label>
               <div className="w-100 position-relative">
                 <Form.Control
+                  value={candidates[currentCandidateIndex]?.email}
                   type="email"
                   onChange={(e) =>
                     handleInputChange(
@@ -195,7 +231,10 @@ const AddCandidateComponent = ({ onProceed, refetch, totalVacancies }) => {
                       e.target.value
                     )
                   }
-                  placeholder={`candidate${currentCandidateIndex + 1}@example.com`}                  required
+                  placeholder={`candidate${
+                    currentCandidateIndex + 1
+                  }@example.com`}
+                  required
                 />
                 {errorMessages.email && (
                   <div className="px-3 py-1 text-danger">
