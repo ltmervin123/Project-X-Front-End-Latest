@@ -36,12 +36,7 @@ const TextBase = ({
             <>
               {" "}
               <button onClick={handleReTry}>Retry</button>
-              <button
-                onClick={nextQuestion} // Ensure you have access to nextQuestion function
-
-              >
-                Next
-              </button>
+              <button onClick={nextQuestion}>Next</button>
             </>
           ) : (
             <>

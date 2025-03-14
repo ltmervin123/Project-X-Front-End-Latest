@@ -69,7 +69,10 @@ const IdUploadSection = ({
                   />
                   <p>File uploaded: {frontIdFile.name}</p>
                 </div>
-                <button onClick={triggerFrontFileInput} disabled={!selectedIdType}>
+                <button
+                  onClick={triggerFrontFileInput}
+                  disabled={!selectedIdType}
+                >
                   Select File
                 </button>
                 <input
@@ -83,7 +86,10 @@ const IdUploadSection = ({
             ) : (
               <>
                 <div className="front-id-img-container d-flex"></div>
-                <button onClick={triggerFrontFileInput} disabled={!selectedIdType}>
+                <button
+                  onClick={triggerFrontFileInput}
+                  disabled={!selectedIdType}
+                >
                   Select File
                 </button>
                 <input
@@ -114,7 +120,10 @@ const IdUploadSection = ({
                   />
                   <p>File uploaded: {backIdFile.name}</p>
                 </div>
-                <button onClick={triggerBackFileInput} disabled={!selectedIdType}>
+                <button
+                  onClick={triggerBackFileInput}
+                  disabled={!selectedIdType}
+                >
                   Select File
                 </button>
                 <input
@@ -128,7 +137,10 @@ const IdUploadSection = ({
             ) : (
               <>
                 <div className="back-id-img-container d-flex"></div>
-                <button onClick={triggerBackFileInput} disabled={!selectedIdType}>
+                <button
+                  onClick={triggerBackFileInput}
+                  disabled={!selectedIdType}
+                >
                   Select File
                 </button>
                 <input
@@ -145,15 +157,17 @@ const IdUploadSection = ({
       </div>
 
       <div className="IdUploadSection-button-controls d-flex gap-3 my-3 w-100 justify-content-center">
-  <button onClick={clearBothIds} disabled={!frontIdFile && !backIdFile}>Clear</button>
+        <button onClick={clearBothIds} disabled={!frontIdFile && !backIdFile}>
+          Clear
+        </button>
 
-  <button
-    onClick={submitIdUpload}
-    disabled={submitting || !frontIdFile || !backIdFile}
-  >
-    {submitting ? "Submitting..." : "Submit"}
-  </button>
-</div>
+        <button
+          onClick={submitIdUpload}
+          disabled={submitting || !frontIdFile || !backIdFile}
+        >
+          {submitting ? "Submitting..." : "Submit"}
+        </button>
+      </div>
     </div>
   );
 };

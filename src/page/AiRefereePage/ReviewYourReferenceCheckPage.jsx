@@ -7,7 +7,7 @@ import QuestionDisplay from "../../components/ReviewYourReferenceCheck/QuestionD
 import SignatureSection from "../../components/ReviewYourReferenceCheck/SignatureSection";
 import IdUploadSection from "../../components/ReviewYourReferenceCheck/IdUploadSection"; // Ensure this path is correct
 import SkipConfirmationPopUp from "../../components/ReviewYourReferenceCheck/SkipConfirmationPopUp";
-import { socket, disconnectSocket } from "../../utils/socket/socketSetup";
+import { socket } from "../../utils/socket/socketSetup";
 
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function ReviewYourReferenceCheckPage() {
     JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [aiEnhancedAnswers, setAiEnhancedAnswers] = useState([]); // Change this line
+  const [aiEnhancedAnswers, setAiEnhancedAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [signatureMethod, setSignatureMethod] = useState("Draw Signature");
@@ -39,7 +39,7 @@ function ReviewYourReferenceCheckPage() {
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
 
   const handleSkip = () => {
-    setShowSkipConfirmation(true); // Show the confirmation popup
+    setShowSkipConfirmation(true);
   };
   const handleConfirmSkip = () => {
     const newAnswer = questions.map((question, index) => {
@@ -50,11 +50,19 @@ function ReviewYourReferenceCheckPage() {
     });
     setSubmittedAnswers(newAnswer);
     setShowSignatureSection(true);
-    setShowSkipConfirmation(false); // Close the popup
+    setShowSkipConfirmation(false);
+  };
+
+  const handleUpdateEnhanceAnswer = (updatedAnswer) => {
+    setAiEnhancedAnswers((prevAnswers) => {
+      const newAnswers = [...prevAnswers];
+      newAnswers[currentQuestionIndex] = updatedAnswer;
+      return newAnswers;
+    });
   };
 
   const handleCancelSkip = () => {
-    setShowSkipConfirmation(false); // Close the popup
+    setShowSkipConfirmation(false);
   };
 
   const saveAnswer = () => {
@@ -92,8 +100,7 @@ function ReviewYourReferenceCheckPage() {
         (item) => item.answers || []
       );
       const allAiEnhancedAnswers = referenceQuestionsData.flatMap(
-        // Change this line
-        (item) => item.aiEnhancedAnswers || [] // Change this line
+        (item) => item.normalizedAnswers || []
       );
       setQuestions(allQuestions);
       setAnswers(allAnswers);
@@ -346,7 +353,7 @@ function ReviewYourReferenceCheckPage() {
       console.error("No file selected");
     }
   };
-  
+
   const handleBackIdSelect = (e) => {
     const file = e.target.files && e.target.files[0]; // Check if files exist
     if (file) {
@@ -427,7 +434,8 @@ function ReviewYourReferenceCheckPage() {
                   editedAnswer={editedAnswer}
                   setEditedAnswer={setEditedAnswer}
                   setAnswers={setAnswers}
-                  setIsEditing={setIsEditing} // Pass the setIsEditing function here
+                  setIsEditing={setIsEditing}
+                  handleUpdateEnhanceAnswer={handleUpdateEnhanceAnswer}
                 />
               </div>
             </Col>
@@ -516,13 +524,13 @@ function ReviewYourReferenceCheckPage() {
                       original response
                     </small>
                     <button
-  onClick={() => {
-    handleSkip();
-  }}
-  disabled={isLastAnswerSaved} // Disable the button if isLastAnswerSaved is true
->
-  Skip
-</button>
+                      onClick={() => {
+                        handleSkip();
+                      }}
+                      disabled={isLastAnswerSaved} // Disable the button if isLastAnswerSaved is true
+                    >
+                      Skip
+                    </button>
 
                     {isLastAnswerSaved ? (
                       <button

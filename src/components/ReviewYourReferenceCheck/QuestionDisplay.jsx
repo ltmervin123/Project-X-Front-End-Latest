@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 const QuestionDisplay = ({
   currentQuestionIndex,
   questions,
   answers,
-  aiEnhancedAnswers, // Changed from normalizedAnswers to aiEnhancedAnswers
+  aiEnhancedAnswers,
   showBothAnswers,
   setShowBothAnswers,
   isEditing,
@@ -12,15 +13,48 @@ const QuestionDisplay = ({
   setEditedAnswer,
   setAnswers,
   setIsEditing,
+  handleUpdateEnhanceAnswer,
 }) => {
-  const handleSave = () => {
+  const API = process.env.REACT_APP_API_URL;
+  const token = sessionStorage.getItem("token");
+  const [updating, setUpdating] = useState(false);
+
+  const handleSave = async () => {
+    // Save edited answer
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
       newAnswers[currentQuestionIndex] = editedAnswer;
       return newAnswers;
     });
+
+    // Fetch normalized answer from API
+    await handleNormalizedAnswers();
+
     setEditedAnswer("");
     setIsEditing(false);
+  };
+
+  // Fetch normalized answer from API
+  const handleNormalizedAnswers = async () => {
+    try {
+      setUpdating(true);
+
+      const response = await axios.post(
+        `${API}/api/ai-referee/reference/normalized-answer`,
+        { answer: editedAnswer },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.status === 200) {
+        handleUpdateEnhanceAnswer(response?.data?.normalizedAnswer);
+      }
+    } catch (error) {
+      console.error("Error fetching normalized answer:", error);
+    } finally {
+      setUpdating(false);
+    }
   };
 
   return (
@@ -53,11 +87,16 @@ const QuestionDisplay = ({
           <div className="answer-container mb-3">
             <p>{answers[currentQuestionIndex]}</p>
           </div>
-          <p className="ai-enhanced-label"> {/* Changed label */}
+          <p className="ai-enhanced-label">
+            {" "}
+            {/* Changed label */}
             <strong>AI Enhanced Answer:</strong> {/* Changed label */}
           </p>
-          <div className="ai-enhanced-answer-container mb-3"> {/* Changed class name */}
-            <p>{aiEnhancedAnswers[currentQuestionIndex]}</p> {/* Changed variable */}
+          <div className="ai-enhanced-answer-container mb-3">
+            {" "}
+            {/* Changed class name */}
+            <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>{" "}
+            {/* Changed variable */}
           </div>
         </>
       ) : (
@@ -79,7 +118,13 @@ const QuestionDisplay = ({
           </div>
           <div className="edit-save-button-container">
             {isEditing ? (
-              <button className="btn-save" onClick={handleSave}>Save</button>
+              <button
+                className="btn-save"
+                onClick={handleSave}
+                disabled={updating}
+              >
+                {updating ? "Saving..." : "Save"}
+              </button>
             ) : (
               <button
                 className="btn-edit"

@@ -57,13 +57,47 @@ const ReferenceCheckQuestionnairePage = () => {
       }));
   };
 
-  // Get questions based on format type
   const getQuestions = () => {
     switch (referenceQuestions.formatType) {
-      case "HR-HATCH-FORMAT":
-        return Object.values(referenceQuestions?.questions || {})
-          .flat()
-          .map((q) => q.replace(/\$\{candidateName\}/g, candidateName));
+      case "HR-HATCH-FORMAT": {
+        const format = referenceQuestions.format;
+        const categoryOrder = {
+          "Standard Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "skillAndCompetencies",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Management Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "leadershipAndManagementSkills",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Executive Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "strategicLeadershipAndVision",
+            "businessImpactAndResults",
+            "teamLeadershipAndOrganizationalDevelopment",
+            "decisionMakingAndProblemSolving",
+            "innovationAndGrowth",
+            "closingQuestions",
+          ],
+        };
+
+        const orderedCategories = categoryOrder[format];
+        if (!orderedCategories) return [];
+
+        return orderedCategories.flatMap(
+          (category) =>
+            referenceQuestions.questions[category]?.map((q) =>
+              q.replace(/\$\{candidateName\}/g, candidateName)
+            ) || []
+        );
+      }
       case "CUSTOM-FORMAT":
         return Array.isArray(referenceQuestions.questions)
           ? referenceQuestions.questions.flat()
@@ -352,7 +386,6 @@ const ReferenceCheckQuestionnairePage = () => {
           </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>
-
       </div>
 
       <>
@@ -367,20 +400,19 @@ const ReferenceCheckQuestionnairePage = () => {
             isSpeaking={isSpeaking}
             streamRef={streamRef}
             nextQuestion={nextQuestion} // Pass nextQuestion function here
-
           />
         ) : (
-<TextBase
-  setTextBaseAnswer={setTextBaseAnswer}
-  handleTextBaseSubmit={handleTextBaseSubmit}
-  answer={currentAnswer}
-  loading={loading}
-  isSpeaking={isSpeaking}
-  isSubmitted={isSubmitting}
-  reTry={reTry}
-  onReTrySubmit={handleRetry}
-  nextQuestion={nextQuestion} // Pass nextQuestion function here
-/>
+          <TextBase
+            setTextBaseAnswer={setTextBaseAnswer}
+            handleTextBaseSubmit={handleTextBaseSubmit}
+            answer={currentAnswer}
+            loading={loading}
+            isSpeaking={isSpeaking}
+            isSubmitted={isSubmitting}
+            reTry={reTry}
+            onReTrySubmit={handleRetry}
+            nextQuestion={nextQuestion} // Pass nextQuestion function here
+          />
         )}
       </>
     </div>
