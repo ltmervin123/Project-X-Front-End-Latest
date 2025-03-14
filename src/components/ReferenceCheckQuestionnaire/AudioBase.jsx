@@ -158,10 +158,19 @@ const AudioBase = ({
         placeholder="Transcription will appear here...."
         disabled
       />
-      <div className="d-flex justify-content-center align-items-center my-5 mb-2">
+      <div className="d-flex justify-content-center align-items-center my-2 mb-2">
       <div className="d-flex justify-content-center gap-3">
       {reTry ? (
-            <button onClick={handleReTry}>Retry</button>
+        <>
+                    <button onClick={handleReTry}>Retry</button>
+        {/* Add the Next button here */}
+        <button
+          onClick={nextQuestion} // Call the nextQuestion function
+
+        >
+          Next
+        </button>
+        </>
           ) : isSanitizingTranscription || isSubmitting ? (
             <button disabled>Submitting...</button>
           ) : !isRecording ? (
@@ -178,16 +187,7 @@ const AudioBase = ({
             </button>
           )}
         </div>
-        {/* Add the Next button here */}
-        <button
-          onClick={nextQuestion} // Call the nextQuestion function
-          disabled={!answer || isSubmitting || isSanitizingTranscription} // Disable if no answer or submitting
-          className={
-            !answer || isSubmitting || isSanitizingTranscription ? "disabled" : ""
-          }
-        >
-          Next
-        </button>
+
       </div>
     </div>
   );

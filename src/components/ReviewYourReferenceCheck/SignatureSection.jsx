@@ -7,7 +7,7 @@ const SignatureSection = ({
   draw,
   stopDrawing,
   clearDrawing,
-  submitReferenceCheck,
+handleProceedIDUpload,
   submitting,
   handleFileDrop,
   handleDragOver,
@@ -19,9 +19,9 @@ const SignatureSection = ({
   handleFileSelect,
 }) => {
   return (
-    <div className="ReviewYourReferenceCheck-container">
-      <h3>Select or Upload Image</h3>
-      <div className="selection-container">
+    <div className="ReviewYourReferenceCheck-container d-flex align-items-center justify-content-center w-100">
+
+      <div className="selection-container d-flex align-items-start justify-content-start  flex-column ">
         <p>Signature Method</p>
         <select
           name="signature-method"
@@ -57,13 +57,13 @@ const SignatureSection = ({
               />
             </div>
           </div>
-          <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
+          <div className="ReviewYourReferenceCheck-button-controls d-flex gap-3 my-3 w-100 justify-content-center m-2">
             <button onClick={clearDrawing} disabled={submitting}>
               Clear
             </button>
-            <button onClick={submitReferenceCheck} disabled={submitting}>
-              {submitting ? "Submitting..." : "Submit"}
-            </button>
+            <button onClick={handleProceedIDUpload} disabled={submitting}>
+  Proceed
+</button>
           </div>
         </>
       ) : (
@@ -77,7 +77,7 @@ const SignatureSection = ({
               style={{
                 border: "1px solid black",
                 padding: "20px",
-                height: "280px",
+                height: "260px",
                 textAlign: "center",
               }}
             >
@@ -131,17 +131,17 @@ const SignatureSection = ({
                   {errorMessage && (
                     <p style={{ color: "red" }}>{errorMessage}</p> // Ensure this is defined in the parent
                   )}
-                  <i className="py-3">Supported Files: JPG, PNG, JPEG, JFIF.</i>
+                  {/* <i className="py-3">Supported Files: JPG, PNG, JPEG, JFIF.</i> */}
                 </>
               )}
             </div>
           </div>
-          <div className="ReviewYourReferenceCheck-button-controls d-flex gap-5 w-100 justify-content-center m-2">
+          <div className="ReviewYourReferenceCheck-button-controls d-flex gap-3 my-3 w-100 justify-content-center m-2">
             <button onClick={clearImage}>Clear</button>{" "}
             {/* Ensure this is defined in the parent */}
-            <button onClick={submitReferenceCheck} disabled={submitting}>
-              {submitting ? "Submitting..." : "Submit"}
-            </button>
+            <button onClick={handleProceedIDUpload} disabled={submitting}>
+  Proceed
+</button>
           </div>
         </>
       )}

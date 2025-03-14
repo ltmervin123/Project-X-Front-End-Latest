@@ -10,7 +10,6 @@ const TextBase = ({
   reTry,
   onReTrySubmit,
   nextQuestion, // Add this line
-
 }) => {
   const handleInputedTextChange = (event) => {
     setTextBaseAnswer(event.target.value);
@@ -31,35 +30,36 @@ const TextBase = ({
         rows="4"
         placeholder={"Type your answer..."}
       />
-            <div className="d-flex justify-content-center align-items-center my-2 mb-2">
+      <div className="d-flex justify-content-center align-items-center my-2 mb-2">
+        <div className="d-flex justify-content-center gap-3">
+          {reTry ? (
+            <>
+              {" "}
+              <button onClick={handleReTry}>Retry</button>
+              <button
+                onClick={nextQuestion} // Ensure you have access to nextQuestion function
 
-<div className="d-flex justify-content-center gap-3">
-  {reTry ? (
-    <button onClick={handleReTry}>Retry</button>
-  ) : (
-    <>
-      <button
-        onClick={handleTextBaseSubmit}
-        disabled={!answer || loading || isSpeaking || isSubmitted}
-        className={
-          !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
-        }
-      >
-        {loading ? "Submitting..." : "Submit"}
-      </button>
-      <button
-        onClick={nextQuestion} // Ensure you have access to nextQuestion function
-        disabled={!answer || loading || isSpeaking || isSubmitted}
-        className={
-          !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
-        }
-      >
-        Next
-      </button>
-    </>
-  )}
-</div>
-</div>
+              >
+                Next
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={handleTextBaseSubmit}
+                disabled={!answer || loading || isSpeaking || isSubmitted}
+                className={
+                  !answer || loading || isSpeaking || isSubmitted
+                    ? "disabled"
+                    : ""
+                }
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

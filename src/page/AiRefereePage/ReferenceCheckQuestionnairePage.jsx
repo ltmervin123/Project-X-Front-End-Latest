@@ -366,18 +366,21 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             isSpeaking={isSpeaking}
             streamRef={streamRef}
+            nextQuestion={nextQuestion} // Pass nextQuestion function here
+
           />
         ) : (
-          <TextBase
-            setTextBaseAnswer={setTextBaseAnswer}
-            handleTextBaseSubmit={handleTextBaseSubmit}
-            answer={currentAnswer}
-            loading={loading}
-            isSpeaking={isSpeaking}
-            isSubmitted={isSubmitting}
-            reTry={reTry}
-            onReTrySubmit={handleRetry}
-          />
+<TextBase
+  setTextBaseAnswer={setTextBaseAnswer}
+  handleTextBaseSubmit={handleTextBaseSubmit}
+  answer={currentAnswer}
+  loading={loading}
+  isSpeaking={isSpeaking}
+  isSubmitted={isSubmitting}
+  reTry={reTry}
+  onReTrySubmit={handleRetry}
+  nextQuestion={nextQuestion} // Pass nextQuestion function here
+/>
         )}
       </>
     </div>

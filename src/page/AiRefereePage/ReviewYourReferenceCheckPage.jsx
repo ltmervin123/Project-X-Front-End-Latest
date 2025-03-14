@@ -5,6 +5,8 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import QuestionDisplay from "../../components/ReviewYourReferenceCheck/QuestionDisplay";
 import SignatureSection from "../../components/ReviewYourReferenceCheck/SignatureSection";
+import IdUploadSection from "../../components/ReviewYourReferenceCheck/IdUploadSection"; // Ensure this path is correct
+import SkipConfirmationPopUp from "../../components/ReviewYourReferenceCheck/SkipConfirmationPopUp";
 import { socket, disconnectSocket } from "../../utils/socket/socketSetup";
 
 function ReviewYourReferenceCheckPage() {
@@ -14,12 +16,13 @@ function ReviewYourReferenceCheckPage() {
     JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [normalizedAnswers, setNormalizedAnswers] = useState([]);
+  const [aiEnhancedAnswers, setAiEnhancedAnswers] = useState([]); // Change this line
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [signatureMethod, setSignatureMethod] = useState("Draw Signature");
   const [imagePreview, setImagePreview] = useState(null);
   const [showSignatureSection, setShowSignatureSection] = useState(false);
+  const [showIdUploadSection, setShowIdUploadSection] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
   const canvasRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
@@ -33,8 +36,12 @@ function ReviewYourReferenceCheckPage() {
   const [activeAnswerType, setActiveAnswerType] = useState(null);
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const [isLastAnswerSaved, setIsLastAnswerSaved] = useState(false);
+  const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
 
   const handleSkip = () => {
+    setShowSkipConfirmation(true); // Show the confirmation popup
+  };
+  const handleConfirmSkip = () => {
     const newAnswer = questions.map((question, index) => {
       return {
         question,
@@ -43,6 +50,11 @@ function ReviewYourReferenceCheckPage() {
     });
     setSubmittedAnswers(newAnswer);
     setShowSignatureSection(true);
+    setShowSkipConfirmation(false); // Close the popup
+  };
+
+  const handleCancelSkip = () => {
+    setShowSkipConfirmation(false); // Close the popup
   };
 
   const saveAnswer = () => {
@@ -50,7 +62,7 @@ function ReviewYourReferenceCheckPage() {
     const selectedAnswer =
       activeAnswerType === "Original Answer"
         ? answers[currentQuestionIndex]
-        : normalizedAnswers[currentQuestionIndex];
+        : aiEnhancedAnswers[currentQuestionIndex];
 
     const newAnswer = {
       question: currentQuestion,
@@ -79,12 +91,13 @@ function ReviewYourReferenceCheckPage() {
       const allAnswers = referenceQuestionsData.flatMap(
         (item) => item.answers || []
       );
-      const allNormalizedAnswers = referenceQuestionsData.flatMap(
-        (item) => item.normalizedAnswers || []
+      const allAiEnhancedAnswers = referenceQuestionsData.flatMap(
+        // Change this line
+        (item) => item.aiEnhancedAnswers || [] // Change this line
       );
       setQuestions(allQuestions);
       setAnswers(allAnswers);
-      setNormalizedAnswers(allNormalizedAnswers);
+      setAiEnhancedAnswers(allAiEnhancedAnswers);
     }
   }, []);
 
@@ -318,139 +331,232 @@ function ReviewYourReferenceCheckPage() {
     setIsSubmitEnabled(true);
   };
 
+  const handleProceedIDUpload = () => {
+    setShowSignatureSection(false);
+    setShowIdUploadSection(true); // Add this line
+  };
+  const [frontIdFile, setFrontIdFile] = useState(null);
+  const [backIdFile, setBackIdFile] = useState(null);
+
+  const handleFrontIdSelect = (e) => {
+    const file = e.target.files && e.target.files[0]; // Check if files exist
+    if (file) {
+      setFrontIdFile(file);
+    } else {
+      console.error("No file selected");
+    }
+  };
+  
+  const handleBackIdSelect = (e) => {
+    const file = e.target.files && e.target.files[0]; // Check if files exist
+    if (file) {
+      setBackIdFile(file);
+    } else {
+      console.error("No file selected");
+    }
+  };
+  const clearFrontId = () => {
+    setFrontIdFile(null);
+  };
+
+  const clearBackId = () => {
+    setBackIdFile(null);
+  };
+
+  const submitIdUpload = () => {
+    // Implement your submission logic here
+  };
   return (
     <div className="main-container d-flex flex-column align-items-center justify-content-center">
-      {!showSignatureSection ? (
-        <Row className="ReviewYourReferenceCheck-Row">
-          <h5 className="referencecheckquestiontitle text-left mb-2">
-            Review Your Responses
-          </h5>
-          <Col md={9}>
-            <div className="ReviewYourReferenceCheckAnswer-left-container">
-              <div className="question-indicator mb-2">
-                <p className="m-0">
-                  Question {currentQuestionIndex + 1} to {questions.length}
-                </p>
-              </div>
-              <QuestionDisplay
-                currentQuestionIndex={currentQuestionIndex}
-                questions={questions}
-                answers={answers}
-                normalizedAnswers={normalizedAnswers}
-                showBothAnswers={showBothAnswers}
-                setShowBothAnswers={setShowBothAnswers}
-                isEditing={isEditing}
-                editedAnswer={editedAnswer}
-                setEditedAnswer={setEditedAnswer}
-                setAnswers={setAnswers}
-                setIsEditing={setIsEditing} // Pass the setIsEditing function here
-              />
-              {/* <div className="navigation-buttons gap-4 m-0 position-relative">
-                <button
-                  className="prev-btn"
-                  onClick={handlePreviousQuestion}
-                  disabled={currentQuestionIndex === 0}
-                >
-                  &lt;
-                </button>
-                <p className="m-0">{currentQuestionIndex + 1}</p>
-                <button
-                  className="next-btn"
-                  onClick={handleNextQuestion}
-                  disabled={currentQuestionIndex === answers.length - 1}
-                >
-                  &gt;
-                </button>
-              </div> */}
-            </div>
+      <Row className="ReviewYourReferenceCheck-Row">
+        <h5 className="referencecheckquestiontitle text-left mb-2">
+          Review Your Responses
+        </h5>
+        {showSignatureSection ? (
+          <Col md={12}>
+            <SignatureSection
+              signatureMethod={signatureMethod}
+              canvasRef={canvasRef}
+              startDrawing={startDrawing}
+              draw={draw}
+              stopDrawing={stopDrawing}
+              clearDrawing={clearDrawing}
+              // submitReferenceCheck={submitReferenceCheck}
+              handleProceedIDUpload={handleProceedIDUpload}
+              submitting={submitting}
+              handleFileDrop={handleFileDrop}
+              handleDragOver={handleDragOver}
+              uploadedFile={uploadedFile}
+              imagePreview={imagePreview}
+              errorMessage={errorMessage}
+              clearImage={clearImage}
+              setSignatureMethod={setSignatureMethod}
+              handleFileSelect={handleFileSelect}
+            />
           </Col>
-          <Col md={3}>
-            <div className="ReviewYourReferenceCheckAnswer-right-container">
-              <div className="answer-indicator-container">
-                <div className="question-indicator mb-0">
+        ) : showIdUploadSection ? (
+          <>
+            <IdUploadSection
+              frontIdFile={frontIdFile}
+              backIdFile={backIdFile}
+              handleFrontIdSelect={handleFrontIdSelect}
+              handleBackIdSelect={handleBackIdSelect}
+              clearFrontId={clearFrontId}
+              clearBackId={clearBackId}
+              submitIdUpload={submitIdUpload}
+              submitting={submitting}
+            />
+          </>
+        ) : (
+          <>
+            <Col md={!showBothAnswers ? 9 : 12}>
+              <div className="ReviewYourReferenceCheckAnswer-left-container">
+                <div className="question-indicator mb-2">
                   <p className="m-0">
-                    Answer {currentQuestionIndex + 1} to {questions.length}
+                    Question {currentQuestionIndex + 1} to {questions.length}
                   </p>
                 </div>
-                <p className="my-2">
-                  Please choose how you'd like the answer to be presented
-                </p>
+                <QuestionDisplay
+                  currentQuestionIndex={currentQuestionIndex}
+                  questions={questions}
+                  answers={answers}
+                  aiEnhancedAnswers={aiEnhancedAnswers}
+                  showBothAnswers={showBothAnswers}
+                  setShowBothAnswers={setShowBothAnswers}
+                  isEditing={isEditing}
+                  editedAnswer={editedAnswer}
+                  setEditedAnswer={setEditedAnswer}
+                  setAnswers={setAnswers}
+                  setIsEditing={setIsEditing} // Pass the setIsEditing function here
+                />
               </div>
-              <div className="buttons-container d-flex align-items-center justify-content-start flex-column gap-5">
-                <button
-                  className={`d-flex align-items-center p-2 ${
-                    activeAnswerType === "Original Answer" ? "active" : ""
-                  }`}
-                  onClick={() => handleAnswerSelection("Original Answer")}
-                >
-                  <p className="m-0">Original Answer</p>
-                </button>
-                <button
-                  className={`d-flex align-items-center p-2 ${
-                    activeAnswerType === "Normalize Answer" ? "active" : ""
-                  }`}
-                  onClick={() => handleAnswerSelection("Normalize Answer")}
-                >
-                  <p className="m-0">Normalize Answer</p>
-                </button>
-              </div>
-              <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
-                <small>
-                  Clicking the skip button will select all answers from the
-                  original response
-                </small>
-                <button
-                  onClick={() => {
-                    handleSkip();
-                  }}
-                >
-                  Skip
-                </button>
+            </Col>
+            {/* Conditionally render the right column based on isEditing */}
+            {!showBothAnswers && (
+              <Col md={3}>
+                <div className="ReviewYourReferenceCheckAnswer-right-container">
+                  <div className="answer-indicator-container">
+                    <div className="question-indicator mb-0">
+                      <p className="m-0">
+                        Answer {currentQuestionIndex + 1} to {questions.length}
+                      </p>
+                    </div>
+                    <p className="my-2">
+                      Please choose how you'd like the answer to be presented
+                    </p>
+                  </div>
+                  <div className="buttons-container d-flex align-items-start justify-content-start flex-column gap-2">
+                    {isLastAnswerSaved ? (
+                      <div className="d-flex h-100 w-100 justify-content-center align-items-center">
+                        <svg
+                          width="129"
+                          height="129"
+                          viewBox="0 0 129 129"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M64.5 0C28.8779 0 0 28.8779 0 64.5C0 100.124 28.8779 129 64.5 129C100.124 129 129 100.124 129 64.5C129 28.8779 100.124 0 64.5 0ZM64.5 121.064C33.3808 121.064 8.0625 95.6192 8.0625 64.4997C8.0625 33.3805 33.3808 8.06225 64.5 8.06225C95.6192 8.06225 120.938 33.3806 120.938 64.4997C120.938 95.6189 95.6192 121.064 64.5 121.064ZM90.2415 40.899L52.3981 78.9802L35.356 61.9381C33.7817 60.3639 31.23 60.3639 29.6537 61.9381C28.0795 63.5123 28.0795 66.0641 29.6537 67.6383L49.6064 87.593C51.1806 89.1652 53.7324 89.1652 55.3086 87.593C55.49 87.4116 55.6454 87.214 55.7865 87.0085L95.9458 46.6011C97.518 45.0269 97.518 42.4751 95.9458 40.899C94.3696 39.3248 91.8178 39.3248 90.2415 40.899Z"
+                            fill="#F46A05"
+                          />
+                        </svg>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="originalAnswer"
+                            checked={activeAnswerType === "Original Answer"}
+                            onChange={() => {
+                              if (activeAnswerType === "Original Answer") {
+                                setActiveAnswerType(null); // Uncheck if already checked
+                              } else {
+                                setActiveAnswerType("Original Answer");
+                              }
+                              setIsSubmitEnabled(true);
+                            }}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="originalAnswer"
+                          >
+                            Original Answer
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="aiEnhancedAnswer"
+                            checked={activeAnswerType === "AI Enhanced Answer"}
+                            onChange={() => {
+                              if (activeAnswerType === "AI Enhanced Answer") {
+                                setActiveAnswerType(null); // Uncheck if already checked
+                              } else {
+                                setActiveAnswerType("AI Enhanced Answer");
+                              }
+                              setIsSubmitEnabled(true);
+                            }}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="aiEnhancedAnswer"
+                          >
+                            AI Enhanced Answer
+                          </label>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
+                    <small className="mb-2 w-100">
+                      Clicking the skip button will select all answers from the
+                      original response
+                    </small>
+                    <button
+  onClick={() => {
+    handleSkip();
+  }}
+  disabled={isLastAnswerSaved} // Disable the button if isLastAnswerSaved is true
+>
+  Skip
+</button>
 
-                {isLastAnswerSaved ? (
-                  <button
-                    className="btn-proceed-submit"
-                    onClick={() => {
-                      handleProceed();
-                    }}
-                  >
-                    Proceed
-                  </button>
-                ) : (
-                  <button
-                    className="btn-proceed-submit"
-                    onClick={() => {
-                      saveAnswer();
-                    }}
-                    disabled={!isSubmitEnabled}
-                  >
-                    Submit
-                  </button>
-                )}
-              </div>
-            </div>
-          </Col>
-        </Row>
-      ) : (
-        <SignatureSection
-          signatureMethod={signatureMethod}
-          canvasRef={canvasRef}
-          startDrawing={startDrawing}
-          draw={draw}
-          stopDrawing={stopDrawing}
-          clearDrawing={clearDrawing}
-          submitReferenceCheck={submitReferenceCheck}
-          submitting={submitting}
-          handleFileDrop={handleFileDrop}
-          handleDragOver={handleDragOver}
-          uploadedFile={uploadedFile}
-          imagePreview={imagePreview}
-          errorMessage={errorMessage}
-          clearImage={clearImage}
-          setSignatureMethod={setSignatureMethod}
-          handleFileSelect={handleFileSelect}
-        />
-      )}
+                    {isLastAnswerSaved ? (
+                      <button
+                        className="btn-proceed-submit"
+                        onClick={() => {
+                          handleProceed();
+                        }}
+                      >
+                        Proceed
+                      </button>
+                    ) : (
+                      <button
+                        className="btn-proceed-submit"
+                        onClick={() => {
+                          saveAnswer();
+                        }}
+                        disabled={!isSubmitEnabled}
+                      >
+                        Submit
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </Col>
+            )}
+            {showSkipConfirmation && (
+              <SkipConfirmationPopUp
+                onClose={handleCancelSkip}
+                onConfirmSkip={handleConfirmSkip}
+              />
+            )}
+          </>
+        )}
+      </Row>
     </div>
   );
 }
