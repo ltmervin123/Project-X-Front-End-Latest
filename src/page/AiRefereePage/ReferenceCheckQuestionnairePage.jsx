@@ -35,7 +35,28 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
-  // Format reference questions
+  // // Format reference questions
+  // const formatReferenceQuestions = () => {
+  //   if (
+  //     referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
+  //     referenceQuestions?.formatType !== "CUSTOM-FORMAT"
+  //   )
+  //     return [];
+
+  //   return Object.entries(referenceQuestions.questions || {})
+  //     .filter(([_, qs]) => Array.isArray(qs))
+  //     .map(([category, qs]) => ({
+  //       category,
+  //       questions: qs.map((q) =>
+  //         typeof q === "string"
+  //           ? q.replace(/\$\{candidateName\}/g, candidateName)
+  //           : q
+  //       ),
+  //       answers: Array(qs.length).fill(""),
+  //       normalizedAnswers: Array(qs.length).fill(""),
+  //     }));
+  // };
+
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -43,27 +64,116 @@ const ReferenceCheckQuestionnairePage = () => {
     )
       return [];
 
-    return Object.entries(referenceQuestions.questions || {})
-      .filter(([_, qs]) => Array.isArray(qs))
-      .map(([category, qs]) => ({
-        category,
-        questions: qs.map((q) =>
-          typeof q === "string"
-            ? q.replace(/\$\{candidateName\}/g, candidateName)
-            : q
-        ),
-        answers: Array(qs.length).fill(""),
-        normalizedAnswers: Array(qs.length).fill(""),
-      }));
-  };
-
-  // Get questions based on format type
-  const getQuestions = () => {
     switch (referenceQuestions.formatType) {
       case "HR-HATCH-FORMAT":
-        return Object.values(referenceQuestions?.questions || {})
-          .flat()
-          .map((q) => q.replace(/\$\{candidateName\}/g, candidateName));
+        const categoryOrder = {
+          "Standard Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "skillAndCompetencies",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Management Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "leadershipAndManagementSkills",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Executive Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "strategicLeadershipAndVision",
+            "businessImpactAndResults",
+            "teamLeadershipAndOrganizationalDevelopment",
+            "decisionMakingAndProblemSolving",
+            "innovationAndGrowth",
+            "closingQuestions",
+          ],
+        };
+
+        const format = referenceQuestions.format;
+        const orderedCategories = categoryOrder[format] || [];
+
+        // Filter out categories base on the question format
+        return orderedCategories
+          .map((category) => {
+            const qs = referenceQuestions.questions[category];
+            if (!qs) return null;
+
+            return {
+              category,
+              questions: qs.map((q) =>
+                typeof q === "string"
+                  ? q.replace(/\$\{candidateName\}/g, candidateName)
+                  : q
+              ),
+              answers: Array(qs.length).fill(""),
+              normalizedAnswers: Array(qs.length).fill(""),
+            };
+          })
+          .filter(Boolean);
+      case "CUSTOM-FORMAT":
+        return Object.entries(referenceQuestions.questions || {})
+          .filter(([_, qs]) => Array.isArray(qs))
+          .map(([category, qs]) => ({
+            category,
+            questions: qs.map((q) =>
+              typeof q === "string"
+                ? q.replace(/\$\{candidateName\}/g, candidateName)
+                : q
+            ),
+            answers: Array(qs.length).fill(""),
+            normalizedAnswers: Array(qs.length).fill(""),
+          }));
+
+      default:
+        return [];
+    }
+  };
+
+  const getQuestions = () => {
+    switch (referenceQuestions.formatType) {
+      case "HR-HATCH-FORMAT": {
+        const format = referenceQuestions.format;
+        const categoryOrder = {
+          "Standard Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "skillAndCompetencies",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Management Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "leadershipAndManagementSkills",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Executive Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "strategicLeadershipAndVision",
+            "businessImpactAndResults",
+            "teamLeadershipAndOrganizationalDevelopment",
+            "decisionMakingAndProblemSolving",
+            "innovationAndGrowth",
+            "closingQuestions",
+          ],
+        };
+
+        const orderedCategories = categoryOrder[format];
+        if (!orderedCategories) return [];
+
+        return orderedCategories.flatMap(
+          (category) =>
+            referenceQuestions.questions[category]?.map((q) =>
+              q.replace(/\$\{candidateName\}/g, candidateName)
+            ) || []
+        );
+      }
       case "CUSTOM-FORMAT":
         return Array.isArray(referenceQuestions.questions)
           ? referenceQuestions.questions.flat()
@@ -352,7 +462,6 @@ const ReferenceCheckQuestionnairePage = () => {
           </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>
-
       </div>
 
       <>
@@ -367,20 +476,19 @@ const ReferenceCheckQuestionnairePage = () => {
             isSpeaking={isSpeaking}
             streamRef={streamRef}
             nextQuestion={nextQuestion} // Pass nextQuestion function here
-
           />
         ) : (
-<TextBase
-  setTextBaseAnswer={setTextBaseAnswer}
-  handleTextBaseSubmit={handleTextBaseSubmit}
-  answer={currentAnswer}
-  loading={loading}
-  isSpeaking={isSpeaking}
-  isSubmitted={isSubmitting}
-  reTry={reTry}
-  onReTrySubmit={handleRetry}
-  nextQuestion={nextQuestion} // Pass nextQuestion function here
-/>
+          <TextBase
+            setTextBaseAnswer={setTextBaseAnswer}
+            handleTextBaseSubmit={handleTextBaseSubmit}
+            answer={currentAnswer}
+            loading={loading}
+            isSpeaking={isSpeaking}
+            isSubmitted={isSubmitting}
+            reTry={reTry}
+            onReTrySubmit={handleRetry}
+            nextQuestion={nextQuestion} // Pass nextQuestion function here
+          />
         )}
       </>
     </div>

@@ -7,16 +7,14 @@ import QuestionDisplay from "../../components/ReviewYourReferenceCheck/QuestionD
 import SignatureSection from "../../components/ReviewYourReferenceCheck/SignatureSection";
 import IdUploadSection from "../../components/ReviewYourReferenceCheck/IdUploadSection"; // Ensure this path is correct
 import SkipConfirmationPopUp from "../../components/ReviewYourReferenceCheck/SkipConfirmationPopUp";
-import { socket, disconnectSocket } from "../../utils/socket/socketSetup";
+import { socket } from "../../utils/socket/socketSetup";
 
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
-  const referenceQuestionsData =
-    JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [aiEnhancedAnswers, setAiEnhancedAnswers] = useState([]); // Change this line
+  const [aiEnhancedAnswers, setAiEnhancedAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [signatureMethod, setSignatureMethod] = useState("Draw Signature");
@@ -28,18 +26,24 @@ function ReviewYourReferenceCheckPage() {
   const [submitting, setSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showBothAnswers, setShowBothAnswers] = useState(false);
-  const [editedAnswer, setEditedAnswer] = useState(
-    answers[currentQuestionIndex]
-  );
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const [isLastAnswerSaved, setIsLastAnswerSaved] = useState(false);
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
+  const [frontIdFile, setFrontIdFile] = useState(null);
+  const [backIdFile, setBackIdFile] = useState(null);
+  const [savedSignature, setSavedSignature] = useState(null);
+
+  const [editedAnswer, setEditedAnswer] = useState(
+    answers[currentQuestionIndex]
+  );
+  const referenceQuestionsData =
+    JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
 
   const handleSkip = () => {
-    setShowSkipConfirmation(true); // Show the confirmation popup
+    setShowSkipConfirmation(true);
   };
   const handleConfirmSkip = () => {
     const newAnswer = questions.map((question, index) => {
@@ -50,11 +54,19 @@ function ReviewYourReferenceCheckPage() {
     });
     setSubmittedAnswers(newAnswer);
     setShowSignatureSection(true);
-    setShowSkipConfirmation(false); // Close the popup
+    setShowSkipConfirmation(false);
+  };
+
+  const handleUpdateEnhanceAnswer = (updatedAnswer) => {
+    setAiEnhancedAnswers((prevAnswers) => {
+      const newAnswers = [...prevAnswers];
+      newAnswers[currentQuestionIndex] = updatedAnswer;
+      return newAnswers;
+    });
   };
 
   const handleCancelSkip = () => {
-    setShowSkipConfirmation(false); // Close the popup
+    setShowSkipConfirmation(false);
   };
 
   const saveAnswer = () => {
@@ -92,8 +104,7 @@ function ReviewYourReferenceCheckPage() {
         (item) => item.answers || []
       );
       const allAiEnhancedAnswers = referenceQuestionsData.flatMap(
-        // Change this line
-        (item) => item.aiEnhancedAnswers || [] // Change this line
+        (item) => item.normalizedAnswers || []
       );
       setQuestions(allQuestions);
       setAnswers(allAnswers);
@@ -227,24 +238,73 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const getReferenceQuestionData = () => {
-    return referenceQuestionsData.map((categoryItem) => {
-      // Clone answers array to avoid mutating the original data
-      const updatedAnswers = [...categoryItem.answers];
+    //Attach the submitted answers to its respective question
+    const organizedReferenceQuestionData = referenceQuestionsData.map(
+      (categoryItem) => {
+        const updatedAnswers = [...categoryItem.answers];
 
-      submittedAnswers.forEach(({ question, answer }) => {
-        const questionIndex = categoryItem.questions.findIndex(
-          (q) => q.trim() === question.trim()
-        );
-        if (questionIndex !== -1) {
-          updatedAnswers[questionIndex] = answer;
-        }
-      });
+        submittedAnswers.forEach(({ question, answer }) => {
+          const questionIndex = categoryItem.questions.findIndex(
+            (q) => q.trim() === question.trim()
+          );
+          if (questionIndex !== -1) {
+            updatedAnswers[questionIndex] = answer;
+          }
+        });
 
-      return {
-        ...categoryItem,
-        answers: updatedAnswers,
-      };
-    });
+        return {
+          ...categoryItem,
+          answers: updatedAnswers,
+        };
+      }
+    );
+
+    //return organizedReferenceQuestionData and exclude the normalizedAnswers
+    return organizedReferenceQuestionData.map(
+      ({ normalizedAnswers, ...rest }) => rest
+    );
+  };
+
+  const dataURLtoBlob = (dataURL) => {
+    const byteString = atob(dataURL.split(",")[1]);
+    const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      uint8Array[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([uint8Array], { type: mimeString });
+  };
+
+  const handleProceedIDUpload = () => {
+    if (canvasRef.current) {
+      const signatureDataURL = canvasRef.current.toDataURL("image/png");
+      setSavedSignature(signatureDataURL);
+    }
+    setShowSignatureSection(false);
+    setShowIdUploadSection(true);
+  };
+
+  const handleFrontIdSelect = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setFrontIdFile(file);
+    }
+  };
+
+  const handleBackIdSelect = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setBackIdFile(file);
+    }
+  };
+
+  const clearFrontId = () => {
+    setFrontIdFile(null);
+  };
+
+  const clearBackId = () => {
+    setBackIdFile(null);
   };
 
   const submitReferenceCheck = async () => {
@@ -265,14 +325,12 @@ function ReviewYourReferenceCheckPage() {
     } = REFERENCE_DATA;
     const referenceQuestion = getReferenceQuestionData();
     const { format } = REFERENCE_QUESTIONS_DATA;
-    const canvas = canvasRef.current;
     const workDuration = { endDate, startDate };
     try {
       setSubmitting(true);
       const formdata = new FormData();
       if (signatureMethod === "Draw Signature") {
-        const signatureDataURL = canvas.toDataURL("image/png");
-        const signatureBlob = dataURLtoBlob(signatureDataURL);
+        const signatureBlob = dataURLtoBlob(savedSignature);
         formdata.append("referenceRequestId", referenceId);
         formdata.append("refereeTitle", positionTitle);
         formdata.append("refereeRelationshipWithCandidate", relationship);
@@ -280,7 +338,9 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("questionFormat", format);
         formdata.append("companyWorkedWith", companyWorkedWith);
         formdata.append("workDuration", JSON.stringify(workDuration));
-        formdata.append("file", signatureBlob, "signature.png");
+        formdata.append("signatureFile", signatureBlob, "signature.png");
+        formdata.append("frontIdFile", frontIdFile);
+        formdata.append("backIdFile", backIdFile);
       } else {
         formdata.append("referenceRequestId", referenceId);
         formdata.append("refereeTitle", positionTitle);
@@ -289,7 +349,9 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("questionFormat", format);
         formdata.append("companyWorkedWith", companyWorkedWith);
         formdata.append("workDuration", JSON.stringify(workDuration));
-        formdata.append("file", uploadedFile);
+        formdata.append("signatureFile", uploadedFile);
+        formdata.append("frontIdFile", frontIdFile);
+        formdata.append("backIdFile", backIdFile);
       }
       const response = await axios.post(URL, formdata, {
         headers: {
@@ -315,57 +377,40 @@ function ReviewYourReferenceCheckPage() {
     }
   };
 
-  const dataURLtoBlob = (dataURL) => {
-    const byteString = atob(dataURL.split(",")[1]);
-    const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uint8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      uint8Array[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([uint8Array], { type: mimeString });
+  const submitIdUpload = async () => {
+    await submitReferenceCheck();
   };
 
-  const handleAnswerSelection = (type) => {
-    setActiveAnswerType(type);
-    setIsSubmitEnabled(true);
-  };
+  // Prevent accidental page exit
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "Are you sure you want to leave this page?";
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
 
-  const handleProceedIDUpload = () => {
-    setShowSignatureSection(false);
-    setShowIdUploadSection(true); // Add this line
-  };
-  const [frontIdFile, setFrontIdFile] = useState(null);
-  const [backIdFile, setBackIdFile] = useState(null);
+  //Add a warning when user is navigating back to previous page
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      event.preventDefault();
+      const userConfirmed = window.confirm(
+        "Are you sure you want to go back? Your progress will be lost."
+      );
+      if (!userConfirmed) {
+        window.history.pushState(null, "", window.location.pathname); // Prevent going back
+      }
+    };
 
-  const handleFrontIdSelect = (e) => {
-    const file = e.target.files && e.target.files[0]; // Check if files exist
-    if (file) {
-      setFrontIdFile(file);
-    } else {
-      console.error("No file selected");
-    }
-  };
-  
-  const handleBackIdSelect = (e) => {
-    const file = e.target.files && e.target.files[0]; // Check if files exist
-    if (file) {
-      setBackIdFile(file);
-    } else {
-      console.error("No file selected");
-    }
-  };
-  const clearFrontId = () => {
-    setFrontIdFile(null);
-  };
+    window.history.pushState(null, "", window.location.pathname); // Push state to prevent immediate back
+    window.addEventListener("popstate", handleBackButton);
 
-  const clearBackId = () => {
-    setBackIdFile(null);
-  };
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, []);
 
-  const submitIdUpload = () => {
-    // Implement your submission logic here
-  };
   return (
     <div className="main-container d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
@@ -392,6 +437,7 @@ function ReviewYourReferenceCheckPage() {
               clearImage={clearImage}
               setSignatureMethod={setSignatureMethod}
               handleFileSelect={handleFileSelect}
+              setSavedSignature={setSavedSignature}
             />
           </Col>
         ) : showIdUploadSection ? (
@@ -427,7 +473,8 @@ function ReviewYourReferenceCheckPage() {
                   editedAnswer={editedAnswer}
                   setEditedAnswer={setEditedAnswer}
                   setAnswers={setAnswers}
-                  setIsEditing={setIsEditing} // Pass the setIsEditing function here
+                  setIsEditing={setIsEditing}
+                  handleUpdateEnhanceAnswer={handleUpdateEnhanceAnswer}
                 />
               </div>
             </Col>
@@ -516,13 +563,13 @@ function ReviewYourReferenceCheckPage() {
                       original response
                     </small>
                     <button
-  onClick={() => {
-    handleSkip();
-  }}
-  disabled={isLastAnswerSaved} // Disable the button if isLastAnswerSaved is true
->
-  Skip
-</button>
+                      onClick={() => {
+                        handleSkip();
+                      }}
+                      disabled={isLastAnswerSaved} // Disable the button if isLastAnswerSaved is true
+                    >
+                      Skip
+                    </button>
 
                     {isLastAnswerSaved ? (
                       <button
