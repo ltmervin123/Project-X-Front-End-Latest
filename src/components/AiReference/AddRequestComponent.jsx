@@ -85,42 +85,44 @@ const AddRequestComponent = ({
   }, [reference]);
 
   //Functions
-  // const createReferenceRequest = async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     const URL = `${API}/api/ai-referee/company-request-reference/create-reference-request`;
-  //     const payload = {
-  //       positionId,
-  //       positionName,
-  //       candidateId,
-  //       candidateName,
-  //       referees: referees.map((referee) => ({
-  //         name: referee.name,
-  //         email: referee.email,
-  //         questionId: referee.questionId,
-  //         questionFormat: referee.questionFormat,
-  //       })),
-  //     };
+  const createReferenceRequest = async () => {
+    try {
+      setIsLoading(true);
+      const URL = `${API}/api/ai-referee/company-request-reference/create-reference-request`;
 
-  //     const response = await axios.post(URL, payload, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
+      const task = reference.map((refData) => {
+        const payload = {
+          positionId: refData.positionId,
+          positionName: refData.positionName,
+          candidateId: refData.candidateId,
+          candidateName: refData.candidateName,
+          referees: refData.referees.map((referee) => ({
+            name: referee.name,
+            email: referee.email,
+            questionId: referee.questionId,
+            questionFormat: referee.questionFormat,
+          })),
+        };
 
-  //     if (response.status === 201) {
-  //       await onReFetchReference();
-  //       // navigate("/AiReferenceRequestEmailSent", {
-  //       //   state: { refereeEmail: referees.map((referee) => referee.email) },
-  //       // });
-  //       navigate("/AiReferenceRequestEmailSent");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+        return axios.post(URL, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      });
+
+      const responses = await Promise.all(task);
+
+      if (responses.every((response) => response.status === 201)) {
+        await onReFetchReference();
+        navigate("/AiReferenceRequestEmailSent");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleProceed = () => {
     if (formRef.current.checkValidity()) {
@@ -185,8 +187,8 @@ const AddRequestComponent = ({
   };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-    // await createReferenceRequest();
+    e.preventDefault();
+    await createReferenceRequest();
   };
   const handleNext = () => {
     if (currentReferenceIndex < addedCandidate.length - 1) {
