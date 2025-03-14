@@ -64,19 +64,18 @@ const AddCandidateComponent = ({
     const status = "New";
     setIsLoading(true);
     try {
-      const task = candidates.map(async (candidate) => {
+      const task = candidates.map((candidate) => {
         const payload = {
           name: candidate.name,
           email: candidate.email,
           position: candidate.position,
           status,
         };
-        const response = await axios.post(URL, payload, {
+        return axios.post(URL, payload, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        return response;
       });
 
       const responses = await Promise.all(task);

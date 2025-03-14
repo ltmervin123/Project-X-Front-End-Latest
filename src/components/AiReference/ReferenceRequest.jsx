@@ -221,8 +221,6 @@ const ReferenceRequest = () => {
       // Check if recordFound is valid
       setSelectedReference(recordFound);
       setShowEditPopup(true);
-    } else {
-      console.error("Reference not found for ID:", referenceId);
     }
   };
   const handleDeleteReference = (referenceId) => {
@@ -489,7 +487,6 @@ const ReferenceRequest = () => {
                                           <div className="referee-left-container">
                                             <p className="referee-position">
                                               {referee?.position}
-                                              position diri addi
                                             </p>
                                             <p className="referee-email">
                                               {referee?.email}

@@ -56,25 +56,23 @@ const MainDashboard = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
   const token = USER?.token;
-  const [showJobForm, setShowJobForm] = useState(false); // State to control job form visibility
-  const [showAddCandidate, setShowAddCandidate] = useState(false); // New state for AddCandidateComponent
-  const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false); // New state for AddCandidateComponent
-  const [vacancies, setVacancies] = useState(1);
+  const [showJobForm, setShowJobForm] = useState(false);
+  const [showAddCandidate, setShowAddCandidate] = useState(false);
+  const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false);
   const [addedJob, setAddedJob] = useState({});
   const [addedCandidate, setAddedCandidate] = useState([]);
 
   const handleShowAddCandidate = () => {
-    setShowAddCandidate(true); // Set to true to show AddCandidateComponent
+    setShowAddCandidate(true);
   };
   const handleOpenJobForm = () => {
-    setShowJobForm(true); // Set to true to show the job form
+    setShowJobForm(true);
   };
   const handleShowAddReferenceRequest = (candidates) => {
     setShowAddReferenceRequest(true);
     setShowAddCandidate(false);
     setShowJobForm(false);
-    // Store candidates in state or pass directly
-    setCandidates(candidates); // Store candidates if needed
+    setCandidates(candidates);
   };
 
   const [candidates, setCandidates] = useState(
@@ -473,14 +471,13 @@ const MainDashboard = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false, // Hides the legend
+        display: false,
       },
       tooltip: {
-        enabled: false, // Disable the default tooltip
+        enabled: false,
         external: function (context) {
           const tooltipEl = document.getElementById("chartjs-tooltip");
 
-          // Ensure the tooltip element exists, create if it doesn't
           let tooltipElement = tooltipEl;
           if (!tooltipElement) {
             tooltipElement = document.createElement("div");
@@ -491,13 +488,11 @@ const MainDashboard = () => {
 
           const tooltipModel = context.tooltip;
 
-          // If tooltip is not visible, hide it
           if (tooltipModel.opacity === 0) {
             tooltipElement.style.opacity = 0;
             return;
           }
 
-          // Positioning the tooltip
           const position = context.chart.canvas.getBoundingClientRect();
           tooltipElement.style.opacity = 1;
           tooltipElement.style.backgroundColor = "#fff";
@@ -516,8 +511,8 @@ const MainDashboard = () => {
 
           // Populate the custom tooltip content
           const dataIndex = tooltipModel.dataPoints[0].dataIndex;
-          const department = context.chart.data.labels[dataIndex]; // Access the department from labels
-          const value = context.chart.data.datasets[0].data[dataIndex]; // Access the data value
+          const department = context.chart.data.labels[dataIndex]; 
+          const value = context.chart.data.datasets[0].data[dataIndex]; 
 
           const innerHtml = `
             <table class="tooltip-bar-chart">
@@ -533,13 +528,13 @@ const MainDashboard = () => {
     scales: {
       x: {
         grid: {
-          display: false, // Disable grid on the x-axis
+          display: false, 
         },
         ticks: {
           font: {
-            size: 12, // Adjust the font size of the x-axis labels if needed
+            size: 12, 
           },
-          color: "#000", // Change the label color if necessary
+          color: "#000", 
         },
       },
       y: {
