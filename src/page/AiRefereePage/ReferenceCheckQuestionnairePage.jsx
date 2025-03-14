@@ -133,24 +133,31 @@ const ReferenceCheckQuestionnairePage = () => {
   }, []);
 
   // Navigate to Thank You page when last question is answered
-  useEffect(() => {
-    if (
-      currentQuestionIndex === questions.length - 1 &&
-      answered[currentQuestionIndex]
-    ) {
-      sessionStorage.setItem(
-        "referenceQuestionsData",
-        JSON.stringify(referenceQuestionsData)
-      );
-      navigate("/reference-thankyou-msg");
-    }
-  }, [
-    referenceQuestionsData,
-    answered,
-    currentQuestionIndex,
-    questions.length,
-    navigate,
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     currentQuestionIndex === questions.length - 1 &&
+  //     answered[currentQuestionIndex]
+  //   ) {
+  //     sessionStorage.setItem(
+  //       "referenceQuestionsData",
+  //       JSON.stringify(referenceQuestionsData)
+  //     );
+  //     navigate("/reference-thankyou-msg");
+  //   }
+  // }, [
+  //   referenceQuestionsData,
+  //   answered,
+  //   currentQuestionIndex,
+  //   questions.length,
+  //   navigate,
+  // ]);
+  const handleProceed = () => {
+    sessionStorage.setItem(
+      "referenceQuestionsData",
+      JSON.stringify(referenceQuestionsData)
+    );
+    navigate("/reference-thankyou-msg");
+  };
 
   // Prevent accidental page exit
   useEffect(() => {
@@ -294,11 +301,11 @@ const ReferenceCheckQuestionnairePage = () => {
     setReTry(false);
     setCurrentAnswer("");
     setIsSubmitting(false);
-    if (answered[currentQuestionIndex]) {
-      setCurrentQuestionIndex((prev) =>
-        prev < questions.length - 1 ? prev + 1 : prev
-      );
+
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
     }
+    // Don't increment if it's the last question
   };
 
   const setTextBaseAnswer = (answer) => {
@@ -352,7 +359,6 @@ const ReferenceCheckQuestionnairePage = () => {
           </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>
-
       </div>
 
       <>
@@ -366,21 +372,26 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             isSpeaking={isSpeaking}
             streamRef={streamRef}
-            nextQuestion={nextQuestion} // Pass nextQuestion function here
-
+            isLastQuestion={currentQuestionIndex === questions.length - 1}
+            handleProceed={handleProceed}
+            nextQuestion={nextQuestion}
           />
         ) : (
-<TextBase
-  setTextBaseAnswer={setTextBaseAnswer}
-  handleTextBaseSubmit={handleTextBaseSubmit}
-  answer={currentAnswer}
-  loading={loading}
-  isSpeaking={isSpeaking}
-  isSubmitted={isSubmitting}
-  reTry={reTry}
-  onReTrySubmit={handleRetry}
-  nextQuestion={nextQuestion} // Pass nextQuestion function here
-/>
+          <TextBase
+            setTextBaseAnswer={setTextBaseAnswer}
+            handleTextBaseSubmit={handleTextBaseSubmit}
+            answer={currentAnswer}
+            loading={loading}
+            isSpeaking={isSpeaking}
+            isSubmitted={isSubmitting}
+            reTry={reTry}
+            onReTrySubmit={handleRetry}
+            
+            isLastQuestion={currentQuestionIndex === questions.length - 1}
+            handleProceed={handleProceed}
+            nextQuestion={nextQuestion}
+
+          />
         )}
       </>
     </div>

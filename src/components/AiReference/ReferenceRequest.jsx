@@ -458,22 +458,22 @@ const ReferenceRequest = () => {
                       {showDropDown &&
                         selectedCandidate._id === reference._id && (
                           <div className="d-flex align-items-center justify-content-start w-100">
-                            <div className="reference-dropdown-container w-100 mb-2">
-                              <b className="py-2 pb-2 mb-2">Referee</b>
-                              <div className="referee-list w-100 d-flex gap-2 ">
+                            <div className="reference-dropdown-container mb-2">
+                              <b className="py-2 pb-2 ">Referee</b>
+                              <div className="referee-list w-100 d-flex gap-2 mt-2">
                                 {showDropDown && selectedCandidate?.referees ? (
                                   selectedCandidate.referees.map((referee) => (
                                     <div
-                                      className="referee-item"
+                                      className="referee-item mb-4"
                                       key={referee?._id}
                                     >
                                       <div className="referee-details">
                                         <div className="d-flex justify-content-between">
-                                          <span className="referee-name">
+                                          <span className="referee-name mb-1">
                                             {referee?.name}
                                           </span>
                                           <span
-                                            className="referee-status"
+                                            className="referee-status mb-1"
                                             style={{
                                               color: getStatusColor(
                                                 referee?.status

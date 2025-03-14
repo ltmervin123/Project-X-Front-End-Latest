@@ -9,7 +9,9 @@ const TextBase = ({
   isSubmitted,
   reTry,
   onReTrySubmit,
-  nextQuestion, // Add this line
+  isLastQuestion,
+  handleProceed,
+  nextQuestion,
 }) => {
   const handleInputedTextChange = (event) => {
     setTextBaseAnswer(event.target.value);
@@ -34,14 +36,12 @@ const TextBase = ({
         <div className="d-flex justify-content-center gap-3">
           {reTry ? (
             <>
-              {" "}
               <button onClick={handleReTry}>Retry</button>
-              <button
-                onClick={nextQuestion} // Ensure you have access to nextQuestion function
-
-              >
-                Next
-              </button>
+        {isLastQuestion ? (
+          <button onClick={handleProceed}>Proceed</button>
+        ) : (
+          <button onClick={nextQuestion}>Next</button>
+        )}
             </>
           ) : (
             <>

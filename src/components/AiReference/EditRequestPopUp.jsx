@@ -14,11 +14,11 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
   const [positions, setPositions] = useState([]);
   const [candidates, setCandidates] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [positionName, setPositionName] = useState(
-    requestData?.positionName || ""
+  const [position, setPositionName] = useState(
+    requestData?.position || ""
   );
-  const [candidateName, setCandidateName] = useState(
-    requestData?.candidateName || ""
+  const [candidate, setCandidateName] = useState(
+    requestData?.candidate || ""
   );
   const [referees, setReferees] = useState(requestData?.referees || []);
 
@@ -31,8 +31,8 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
   }, [referees]);
 
   const isFormValid = useMemo(() => {
-    return candidateName && validateReferees && positionName;
-  }, [candidateName, positionName, validateReferees]);
+    return candidate && validateReferees && position;
+  }, [candidate, position, validateReferees]);
 
   const formRef = useRef(null);
 
@@ -116,10 +116,18 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
   ) => {
     const newReferees = [...referees];
     newReferees[index].questionFormat = format;
-    newReferees[index].questionName = selectedQuestion;
+    newReferees[index].questionName = selectedQuestion?.name;
+    newReferees[index].questionId = selectedQuestion?._id;
+    newReferees[index].activeDropdown = format;
+  
+    if (format === "HR-HATCH-FORMAT") {
+      newReferees[index].isHrHatchOpen = false;
+    } else if (format === "CUSTOM-FORMAT") {
+      newReferees[index].isCustomOpen = false;
+    }
+  
     setReferees(newReferees);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Add your update logic here
@@ -137,8 +145,8 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
             <Form.Label className="me-2" style={{ width: "220px" }}>
               Position
             </Form.Label>
-            <Form.Select value={positionName} disabled required>
-              <option>{positionName}</option>
+            <Form.Select value={position} disabled required>
+              <option>{position}</option>
             </Form.Select>
           </Form.Group>
 
@@ -149,8 +157,8 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
             <Form.Label className="me-2" style={{ width: "220px" }}>
               Candidate
             </Form.Label>
-            <Form.Select value={candidateName} disabled required>
-              <option>{candidateName}</option>
+            <Form.Select value={candidate} disabled required>
+              <option>{candidate}</option>
             </Form.Select>
           </Form.Group>
 
@@ -207,82 +215,78 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
                 </Form.Group>
 
                 <Form.Group
-                  controlId={`formQuestionFormat${index}`}
-                  className="d-flex align-items-center mb-3"
-                >
-                  <Form.Label className="me-2" style={{ width: "220px" }}>
-                    Reference Question
-                  </Form.Label>
-                  <div className="w-100 reference-question-format-container d-flex gap-2">
-                    <Form.Select
-                      className={
-                        referee.questionFormat === "HR-HATCH" &&
-                        referee.questionName
-                          ? "format-select-active"
-                          : ""
-                      }
-                      value={
-                        referee.questionFormat === "HR-HATCH"
-                          ? referee.questionName
-                          : ""
-                      }
-                      onChange={(e) => {
-                        const selectedQuestion = e.target.value;
-                        handleRefereeQuestionFormatChange(
-                          selectedQuestion,
-                          index,
-                          "HR-HATCH"
-                        );
-                      }}
-                    >
-                      <option value="" disabled>
-                        HR-HATCH
-                      </option>
-                      {hrHatchQuestion.map((question) => (
-                        <option key={question._id} value={question.name}>
-                          {question.name}
-                        </option>
-                      ))}
-                    </Form.Select>
+  controlId={`formQuestionFormat${index}`}
+  className="d-flex align-items-center mb-3"
+>
+  <Form.Label className="me-2" style={{ width: "220px" }}>
+    Reference Question
+  </Form.Label>
+  <div className="w-100 reference-question-format-container d-flex gap-2">
+    {/* Custom Dropdown for HR-HATCH */}
+    <div className="custom-dropdown-ref-req">
+      <div
+        className={`dropdown-header-ref-req ${referee.activeDropdown === "HR-HATCH-FORMAT" ? 'active' : ''}`}
+        onClick={() => {
+          const newReferees = [...referees];
+          newReferees[index].isHrHatchOpen = !newReferees[index].isHrHatchOpen;
+          setReferees(newReferees);
+        }}
+      >
+        {referee.questionFormat === "HR-HATCH-FORMAT" ? referee.questionName : "HR-HATCH"}
+      </div>
+      {referee.isHrHatchOpen && (
+        <div className="dropdown-list-ref-req">
+          {hrHatchQuestion.map((question) => (
+            <div
+              key={question._id}
+              className="dropdown-item-ref-req"
+              onClick={() => {
+                handleRefereeQuestionFormatChange(question, index, "HR-HATCH-FORMAT");
+              }}
+            >
+              {question.name}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
 
-                    <Form.Select
-                      className={
-                        referee.questionFormat === "CUSTOM" &&
-                        referee.questionName
-                          ? "format-select-active"
-                          : ""
-                      }
-                      value={
-                        referee.questionFormat === "CUSTOM"
-                          ? referee.questionName
-                          : ""
-                      }
-                      onChange={(e) => {
-                        const selectedQuestion = e.target.value;
-                        handleRefereeQuestionFormatChange(
-                          selectedQuestion,
-                          index,
-                          "CUSTOM"
-                        );
-                      }}
-                    >
-                      <option value="" disabled>
-                        Custom
-                      </option>
-                      {customQuestion && customQuestion.length > 0 ? (
-                        customQuestion.map((question) => (
-                          <option key={question._id} value={question.name}>
-                            {question.name}
-                          </option>
-                        ))
-                      ) : (
-                        <option value="" disabled>
-                          No custom questions available
-                        </option>
-                      )}
-                    </Form.Select>
-                  </div>
-                </Form.Group>
+    {/* Custom Dropdown for CUSTOM */}
+    <div className="custom-dropdown-ref-req">
+      <div
+        className={`dropdown-header-ref-req ${referee.activeDropdown === "CUSTOM-FORMAT" ? 'active' : ''}`}
+        onClick={() => {
+          const newReferees = [...referees];
+          newReferees[index].isCustomOpen = !newReferees[index].isCustomOpen;
+          setReferees(newReferees);
+        }}
+      >
+        {referee.questionFormat === "CUSTOM-FORMAT" ? referee.questionName : "Custom"}
+      </div>
+      {referee.isCustomOpen && (
+        <div className="dropdown-list-ref-req">
+          {customQuestion.length > 0 ? (
+            customQuestion.map((question) => (
+              <div
+                key={question._id}
+                className="dropdown-item-ref-req"
+                onClick={() => {
+                  handleRefereeQuestionFormatChange(question, index, "CUSTOM-FORMAT");
+                }}
+              >
+                {question.name}
+              </div>
+            ))
+          ) : (
+            <div className="dropdown-item-ref-req" disabled>
+              No custom questions available
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</Form.Group>
 
                 <Form.Group
                   controlId={`formRefereeEmail${index}`}

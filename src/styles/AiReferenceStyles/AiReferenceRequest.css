@@ -11,13 +11,20 @@
   --isDropdown-bgcolor: #B9B9B9;
 }
 
+.reference-dropdown-container{
+  border-bottom: 2px solid var(--text-color);
+  width: 98%;
 
+}
+.reference-dropdown-container > b{
+  color: var(--card-color);
+}
 .referee-list {
   display: flex;
 }
 
 .referee-item {
-  width: 100%;
+  width: 33%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,7 +33,9 @@
   margin-bottom: 5px;
   border-radius: 5px;
 }
-
+.referee-label{
+  color: var(--card-color);
+}
 .referee-details {
   display: flex;
   flex-direction: column;
@@ -225,16 +234,51 @@ font-size: inherit;
   padding: 8px 30px; /* Adjusted padding */
 
 }
+.custom-dropdown-ref-req {
+  position: relative;
+  width: 100%;
+  
+}
 
-.reference-question-format-container .form-select{
-  --bs-form-select-bg-img:none ;
-  text-align: center;
+.custom-dropdown-ref-req .dropdown-header-ref-req {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 50px !important;
+text-align: center;
+background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 12px 12px;
+  transition: background-image 0.3s ease;
 }
-.format-select-active {
-  border: none; /* Change border color to blue */
-  background: var(--primary-color);
-  color: var(--font-white);
+
+.custom-dropdown-ref-req .dropdown-list-ref-req {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 1000;
 }
+
+.custom-dropdown-ref-req .dropdown-item-ref-req {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.custom-dropdown-ref-req .dropdown-item-ref-req:hover {
+  background-color: #f0f0f0;
+}
+.dropdown-header-ref-req.active{
+  background: var(--primary-color) !important;
+  color: var(--font-white) !important;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+}
+
 .custom-modal-reference .modal-dialog {
   width: 80% !important; /* Adjust the width to 80% of the parent container */
   max-width: 950px !important; /* Add a maximum width to prevent it from getting too large */

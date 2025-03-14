@@ -139,18 +139,19 @@ const AddCandidateComponent = ({
   return (
     <>
       <div>
-        <h3>Add New Candidate</h3>
-        <p>Enter the details of the new candidate below.</p>
+        <h3 className="mb-0">Add New Candidate</h3>
+        <p className="mb-2">Enter the details of the new candidate below.</p>
       </div>
-      <div className="job-container-form d-flex align-items-center justify-content-center w-100">
-        <Form onSubmit={handleSubmit}>
-          <p>
+      <div className="job-container-form d-flex align-items-center justify-content-center w-100 flex-column">
+      <b className="d-flex justify-content-start">
             Candidate {currentCandidateIndex + 1} of {addedJob?.vacancies}
-            <span> * Fill in the required Information</span>
-          </p>
+            <span>&nbsp; * Fill in the required Information</span>
+          </b>
+        <Form onSubmit={handleSubmit}>
+ 
           <Form.Group
             controlId="formHiringManager"
-            className="d-flex align-items-center mb-4"
+            className="d-flex align-items-center my-5 mb-4"
           >
             <Form.Label
               className="m-0"
@@ -291,7 +292,7 @@ const AddCandidateComponent = ({
         </Form>
       </div>
 
-      <div className="d-flex justify-content-end my-3">
+      <div className="d-flex justify-content-end mt-3">
         <button
           className="btn-proceed"
           type="button"

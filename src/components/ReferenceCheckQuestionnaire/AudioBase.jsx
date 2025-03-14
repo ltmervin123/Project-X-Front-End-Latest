@@ -12,6 +12,8 @@ const AudioBase = ({
   answer,
   isSpeaking,
   streamRef,
+  isLastQuestion,
+  handleProceed,
   nextQuestion, // Add this line
 }) => {
   const API = process.env.REACT_APP_API_URL;
@@ -161,18 +163,16 @@ const AudioBase = ({
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
       <div className="d-flex justify-content-center gap-3">
       {reTry ? (
-        <>
-                    <button onClick={handleReTry}>Retry</button>
-        {/* Add the Next button here */}
-        <button
-          onClick={nextQuestion} // Call the nextQuestion function
-
-        >
-          Next
-        </button>
-        </>
+      <>
+        <button onClick={handleReTry}>Retry</button>
+        {isLastQuestion ? (
+          <button onClick={handleProceed}>Proceed</button>
+        ) : (
+          <button onClick={nextQuestion}>Next</button>
+        )}
+      </>
           ) : isSanitizingTranscription || isSubmitting ? (
-            <button disabled>Submitting...</button>
+            <button disabled>Saving...</button>
           ) : !isRecording ? (
             <button
               className={isSpeaking ? "disabled" : ""}

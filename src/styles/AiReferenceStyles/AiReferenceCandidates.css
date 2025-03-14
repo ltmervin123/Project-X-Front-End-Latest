@@ -171,6 +171,9 @@
 background: none;
 border: none;
 }
+.add-candidate-controller span{
+  font-size: 29px !important;
+}
 /* Customizing the scrollbar */
 .AiReference-candidates-container tbody::-webkit-scrollbar {
   width: 5px; /* Scrollbar width */

@@ -89,14 +89,26 @@
   /* background: var(--primary-color); */
 }
 .job-container-form{
+  
   border-radius: 20px;
   background: var(--font-white) !important;
   padding: 30px !important;
-  height: 58vh;
+  height: 64vh;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+}
+.job-container-form > b{
+  width:75%;
+  max-width: 800px;
 }
 .job-container-form form{
   width:65%;
+  max-width: 600px;
+}
+.job-container-form .form-label{
+font-weight: bold;
+display: flex;
+justify-content: start;
+align-items: center;
 }
 .job-container-form input,
 .job-container-form select{
@@ -147,6 +159,9 @@
 .job-container-form .text-danger{
   position: absolute;
   font-size: 12px;
+}
+.job-container-form > b > span{
+  color: var(--card-color);
 }
 .btn-no-delete-job{
   background: var(--secondary-color);
@@ -254,7 +269,7 @@
   color: var(--text-color);
 }
  .referees-list-container{
-height: 170px;
+height: 172px;
 overflow-y: auto;
 }
 .referees-list-container .referee-input{

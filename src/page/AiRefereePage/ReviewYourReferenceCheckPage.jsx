@@ -28,6 +28,9 @@ function ReviewYourReferenceCheckPage() {
   const [submitting, setSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showBothAnswers, setShowBothAnswers] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState(
+    Array(questions.length).fill(null)
+  );
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
@@ -35,53 +38,62 @@ function ReviewYourReferenceCheckPage() {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
-  const [isLastAnswerSaved, setIsLastAnswerSaved] = useState(false);
-  const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
+  const allQuestionsAnswered = submittedAnswers.length === questions.length;
+    const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
 
   const handleSkip = () => {
     setShowSkipConfirmation(true); // Show the confirmation popup
   };
   const handleConfirmSkip = () => {
-    const newAnswer = questions.map((question, index) => {
-      return {
-        question,
-        answer: answers[index],
-      };
-    });
-    setSubmittedAnswers(newAnswer);
+    // Auto-select original answers for unanswered questions
+    const autoSelected = selectedAnswers.map((answer, index) => 
+      answer || "Original Answer"
+    );
+    setSelectedAnswers(autoSelected);
+  
+    // Populate submittedAnswers with auto-selected answers
+    const newSubmittedAnswers = questions.map((question, index) => ({
+      question: question,
+      answer: autoSelected[index] === "Original Answer" 
+        ? answers[index] 
+        : aiEnhancedAnswers[index]
+    }));
+    setSubmittedAnswers(newSubmittedAnswers);
+  
     setShowSignatureSection(true);
-    setShowSkipConfirmation(false); // Close the popup
+    setShowSkipConfirmation(false);
   };
 
   const handleCancelSkip = () => {
     setShowSkipConfirmation(false); // Close the popup
   };
 
-  const saveAnswer = () => {
-    const currentQuestion = questions[currentQuestionIndex];
-    const selectedAnswer =
-      activeAnswerType === "Original Answer"
-        ? answers[currentQuestionIndex]
-        : aiEnhancedAnswers[currentQuestionIndex];
+// Update the saveAnswer function
+const saveAnswer = () => {
+  const currentQuestion = questions[currentQuestionIndex];
+  const selectedType = selectedAnswers[currentQuestionIndex];
+  const selectedAnswer = selectedType === "Original Answer" 
+    ? answers[currentQuestionIndex] 
+    : aiEnhancedAnswers[currentQuestionIndex];
 
-    const newAnswer = {
-      question: currentQuestion,
-      answer: selectedAnswer,
-    };
+  const newSelectedAnswers = [...selectedAnswers];
+  newSelectedAnswers[currentQuestionIndex] = selectedType;
+  setSelectedAnswers(newSelectedAnswers);
 
-    setSubmittedAnswers((prev) => [...prev, newAnswer]);
-
-    // Check if this is the last question
-    if (currentQuestionIndex === answers.length - 1) {
-      setIsLastAnswerSaved(true);
-    } else {
-      // Move to the next question
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
-
-    setActiveAnswerType(null);
-    setIsSubmitEnabled(false);
+  const newAnswer = {
+    question: currentQuestion,
+    answer: selectedAnswer,
   };
+
+  setSubmittedAnswers((prev) => [...prev, newAnswer]);
+  
+  // Always move to next question if not last
+  if (currentQuestionIndex < questions.length - 1) {
+    setCurrentQuestionIndex(prev => prev + 1);
+  }
+  
+  setIsSubmitEnabled(false);
+};
 
   useEffect(() => {
     if (referenceQuestionsData.length > 0) {
@@ -98,6 +110,7 @@ function ReviewYourReferenceCheckPage() {
       setQuestions(allQuestions);
       setAnswers(allAnswers);
       setAiEnhancedAnswers(allAiEnhancedAnswers);
+      setSelectedAnswers(Array(allQuestions.length).fill(null));
     }
   }, []);
 
@@ -327,10 +340,11 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleAnswerSelection = (type) => {
-    setActiveAnswerType(type);
+    const newSelectedAnswers = [...selectedAnswers];
+    newSelectedAnswers[currentQuestionIndex] = type;
+    setSelectedAnswers(newSelectedAnswers);
     setIsSubmitEnabled(true);
   };
-
   const handleProceedIDUpload = () => {
     setShowSignatureSection(false);
     setShowIdUploadSection(true); // Add this line
@@ -346,7 +360,7 @@ function ReviewYourReferenceCheckPage() {
       console.error("No file selected");
     }
   };
-  
+
   const handleBackIdSelect = (e) => {
     const file = e.target.files && e.target.files[0]; // Check if files exist
     if (file) {
@@ -413,9 +427,10 @@ function ReviewYourReferenceCheckPage() {
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
                   <p className="m-0">
-                    Question {currentQuestionIndex + 1} to {questions.length}
+                    Question {currentQuestionIndex + 1} of {questions.length}
                   </p>
                 </div>
+
                 <QuestionDisplay
                   currentQuestionIndex={currentQuestionIndex}
                   questions={questions}
@@ -427,7 +442,9 @@ function ReviewYourReferenceCheckPage() {
                   editedAnswer={editedAnswer}
                   setEditedAnswer={setEditedAnswer}
                   setAnswers={setAnswers}
-                  setIsEditing={setIsEditing} // Pass the setIsEditing function here
+                  setIsEditing={setIsEditing}
+                  handlePreviousQuestion={handlePreviousQuestion}
+                  handleNextQuestion={handleNextQuestion}
                 />
               </div>
             </Col>
@@ -446,7 +463,7 @@ function ReviewYourReferenceCheckPage() {
                     </p>
                   </div>
                   <div className="buttons-container d-flex align-items-start justify-content-start flex-column gap-2">
-                    {isLastAnswerSaved ? (
+                  {allQuestionsAnswered ? (
                       <div className="d-flex h-100 w-100 justify-content-center align-items-center">
                         <svg
                           width="129"
@@ -468,14 +485,17 @@ function ReviewYourReferenceCheckPage() {
                             type="checkbox"
                             className="form-check-input"
                             id="originalAnswer"
-                            checked={activeAnswerType === "Original Answer"}
+                            checked={
+                              selectedAnswers[currentQuestionIndex] ===
+                              "Original Answer"
+                            }
                             onChange={() => {
-                              if (activeAnswerType === "Original Answer") {
-                                setActiveAnswerType(null); // Uncheck if already checked
-                              } else {
-                                setActiveAnswerType("Original Answer");
-                              }
-                              setIsSubmitEnabled(true);
+                              handleAnswerSelection(
+                                selectedAnswers[currentQuestionIndex] ===
+                                  "Original Answer"
+                                  ? null
+                                  : "Original Answer"
+                              );
                             }}
                           />
                           <label
@@ -490,14 +510,17 @@ function ReviewYourReferenceCheckPage() {
                             type="checkbox"
                             className="form-check-input"
                             id="aiEnhancedAnswer"
-                            checked={activeAnswerType === "AI Enhanced Answer"}
+                            checked={
+                              selectedAnswers[currentQuestionIndex] ===
+                              "AI Enhanced Answer"
+                            }
                             onChange={() => {
-                              if (activeAnswerType === "AI Enhanced Answer") {
-                                setActiveAnswerType(null); // Uncheck if already checked
-                              } else {
-                                setActiveAnswerType("AI Enhanced Answer");
-                              }
-                              setIsSubmitEnabled(true);
+                              handleAnswerSelection(
+                                selectedAnswers[currentQuestionIndex] ===
+                                  "AI Enhanced Answer"
+                                  ? null
+                                  : "AI Enhanced Answer"
+                              );
                             }}
                           />
                           <label
@@ -516,34 +539,27 @@ function ReviewYourReferenceCheckPage() {
                       original response
                     </small>
                     <button
-  onClick={() => {
-    handleSkip();
-  }}
-  disabled={isLastAnswerSaved} // Disable the button if isLastAnswerSaved is true
->
-  Skip
-</button>
+                      onClick={() => {
+                        handleSkip();
+                      }}
+                      disabled={allQuestionsAnswered} 
+                    >
+                      Skip
+                    </button>
 
-                    {isLastAnswerSaved ? (
-                      <button
-                        className="btn-proceed-submit"
-                        onClick={() => {
-                          handleProceed();
-                        }}
-                      >
-                        Proceed
-                      </button>
-                    ) : (
-                      <button
-                        className="btn-proceed-submit"
-                        onClick={() => {
-                          saveAnswer();
-                        }}
-                        disabled={!isSubmitEnabled}
-                      >
-                        Submit
-                      </button>
-                    )}
+                    {allQuestionsAnswered  ? (
+  <button className="btn-proceed-submit" onClick={handleProceed}>
+    Proceed
+  </button>
+) : (
+  <button
+    className="btn-proceed-submit"
+    onClick={() => { saveAnswer(); }}
+    disabled={!isSubmitEnabled}
+  >
+    Submit
+  </button>
+)}
                   </div>
                 </div>
               </Col>

@@ -707,7 +707,7 @@ const MainDashboard = () => {
             <Row className="w-100">
               <Col md={6} className=" start-reference-check-container">
                 <button
-                  className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-1 "
+                  className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-3 "
                   onClick={handleOpenJobForm}
                 >
                   Start Reference Check{" "}
