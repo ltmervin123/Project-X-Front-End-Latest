@@ -208,11 +208,23 @@ const ReferenceRequest = () => {
 
     return { inProgressCount, completedCount };
   };
-  const handleToggleOptions = (referenceId) => {
-    setVisibleOptions((prev) => ({
-      ...prev,
-      [referenceId]: !prev[referenceId],
-    }));
+  const handleToggleOptions = (candidateId, event) => {
+    const { clientY } = event; // Get the Y position of the click
+    setVisibleOptions((prev) => {
+      // If the clicked candidate's options are already visible, hide it; otherwise, show it
+      if (prev[candidateId]) {
+        return { ...prev, [candidateId]: false };
+      }
+      // Hide options for all other candidates and show options for the clicked candidate
+      const updatedOptions = {};
+      updatedOptions[candidateId] = true;
+      return updatedOptions;
+    });
+  
+    const optionsElement = document.getElementById(`options-${candidateId}`);
+    if (optionsElement) {
+      optionsElement.style.top = `${clientY}px`; // Adjust the positioning as needed
+    }
   };
 
   const handleEditReference = (referenceId) => {
@@ -310,7 +322,7 @@ const ReferenceRequest = () => {
 
       <div className="AiReference-candidates-container Reference-Request">
         <div className="AiReference-table-title">
-          <h4>Reference Requests Lists</h4>
+          <h4 className="mb-0">Reference Requests Lists</h4>
           <p>Overview of all reference requests.</p>
         </div>
         {reference && reference.length > 0 ? (
@@ -410,11 +422,11 @@ const ReferenceRequest = () => {
                               : "View Reports"}
                           </button>
                           <div className="position-relative">
-                            <p
-                              className="m-0"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => handleToggleOptions(reference._id)}
-                            >
+                          <p
+  className="m-0"
+  style={{ cursor: "pointer" }}
+  onClick={(e) => handleToggleOptions(reference._id, e)} // Pass the candidate's ID and event to handleToggleOptions
+>
                               <svg
                                 width="23"
                                 height="23"
@@ -429,7 +441,7 @@ const ReferenceRequest = () => {
                               </svg>
                               {visibleOptions[reference._id] && (
                                 <div className="action-options-reference">
-                                  <p
+                                  {/* <p
                                     className="d-flex align-items-center gap-2"
                                     onClick={() =>
                                       handleEditReference(reference._id)
@@ -438,7 +450,7 @@ const ReferenceRequest = () => {
                                   >
                                     <FaEdit />
                                     Edit
-                                  </p>
+                                  </p> */}
                                   <p
                                     className="d-flex align-items-center gap-2"
                                     onClick={() =>
@@ -575,13 +587,13 @@ const ReferenceRequest = () => {
           onConfirmDelete={confirmDeleteReference} // Confirm deletion
         />
       )}
-      {showEditPopup && selectedReference && (
+      {/* {showEditPopup && selectedReference && (
         <EditRequestPopUp
           onClose={() => setShowEditPopup(false)}
           onEditRequest={handleAddReference}
-          requestData={selectedReference} // Ensure this is the correct prop
+          requestData={selectedReference} 
         />
-      )}
+      )} */}
       {showDetailsPopup && selectedCandidate && (
         <ReferenceRequestDetailsPopUp
           candidate={selectedCandidate}

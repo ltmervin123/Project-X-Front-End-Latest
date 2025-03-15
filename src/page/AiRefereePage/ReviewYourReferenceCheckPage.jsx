@@ -438,7 +438,7 @@ function ReviewYourReferenceCheckPage() {
   };
 
   return (
-    <div className="main-container d-flex flex-column align-items-center justify-content-center">
+    <div className="main-container login-page-container d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
         <h5 className="referencecheckquestiontitle text-left mb-2">
           Review Your Responses

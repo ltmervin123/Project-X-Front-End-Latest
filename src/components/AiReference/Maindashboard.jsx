@@ -9,6 +9,7 @@ import AddCandidateComponent from "./AddCandidateComponent";
 import AddRequestComponent from "./AddRequestComponent";
 import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // Register all necessary components
 Chart.register(...registerables);
@@ -52,6 +53,7 @@ const LogContainer = ({ logData }) => {
 };
 
 const MainDashboard = () => {
+  const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
@@ -274,50 +276,70 @@ const MainDashboard = () => {
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);
 
-  // Calculate the count for each card
-  const activeJobCount =
-    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+// Calculate the count for each card
+const activeJobCount =
+  activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
 
-  const totalCompletedReference = reference.reduce((count, record) => {
-    if (record?.referees) {
-      record.referees.forEach((referee) => {
-        if (referee.status === "Completed") {
-          count++;
-        }
-      });
-    } else if (record.status === "Completed") {
-      count++;
-    }
-    return count;
-  }, 0);
+const totalCompletedReference = reference.reduce((count, record) => {
+  // Check if the record has referees
+  if (record?.referees) {
+    record.referees.forEach((referee) => {
+      // Count only if the referee's status is "Completed" and the candidate is not null
+      if (referee.status === "Completed" && record.candidate !== null) {
+        count++;
+      }
+    });
+  } 
+  // Check if the record itself is "Completed" and the candidate is not null
+  else if (record.status === "Completed" && record.candidate !== null) {
+    count++;
+  }
+  return count;
+}, 0);
 
-  const pendingReferenceCount = reference.reduce((count, record) => {
-    if (record?.referees) {
-      count += record.referees.filter(
-        (referee) => referee.status === "In Progress"
-      ).length;
-    } else if (record.status === "In Progress") {
-      count++;
-    }
-    return count;
-  }, 0);
+const pendingReferenceCount = reference.reduce((count, record) => {
+  // Check if the record has referees
+  if (record?.referees) {
+    // Count only those referees whose status is "In Progress" and the candidate is not null
+    count += record.referees.filter(
+      (referee) => referee.status === "In Progress" && record.candidate !== null
+    ).length;
+  } 
+  // Check if the record itself is "In Progress" and the candidate is not null
+  else if (record.status === "In Progress" && record.candidate !== null) {
+    count++;
+  }
+  return count;
+}, 0);
 
-  const totalCandidateCount = candidates.length || 0;
+const totalCandidateCount = candidates.length || 0;
 
-  const cardData = [
-    { title: "Active Jobs", count: activeJobCount, color: "#1877F2" },
-    {
-      title: "Pending References",
-      count: pendingReferenceCount,
-      color: "#F8BD00",
-    },
-    {
-      title: "Completed References",
-      count: totalCompletedReference,
-      color: "#319F43",
-    },
-    { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
-  ];
+const cardData = [
+  {
+    title: "Active Jobs",
+    count: activeJobCount,
+    color: "#1877F2",
+    path: "/AiReferenceJobs",
+  },
+  {
+    title: "Pending References",
+    count: pendingReferenceCount,
+    color: "#F8BD00",
+    path: "/AiReferenceRequest",
+  },
+  {
+    title: "Completed References",
+    count: totalCompletedReference,
+    color: "#319F43",
+    path: "/AiReferenceRequest",
+  },
+  {
+    title: "Total Candidates",
+    count: totalCandidateCount,
+    color: "#686868",
+    path: "/AiReferenceCandidates",
+  },
+];
 
   // Data for the line chart
   const lineData = {
@@ -511,8 +533,8 @@ const MainDashboard = () => {
 
           // Populate the custom tooltip content
           const dataIndex = tooltipModel.dataPoints[0].dataIndex;
-          const department = context.chart.data.labels[dataIndex]; 
-          const value = context.chart.data.datasets[0].data[dataIndex]; 
+          const department = context.chart.data.labels[dataIndex];
+          const value = context.chart.data.datasets[0].data[dataIndex];
 
           const innerHtml = `
             <table class="tooltip-bar-chart">
@@ -528,13 +550,13 @@ const MainDashboard = () => {
     scales: {
       x: {
         grid: {
-          display: false, 
+          display: false,
         },
         ticks: {
           font: {
-            size: 12, 
+            size: 12,
           },
-          color: "#000", 
+          color: "#000",
         },
       },
       y: {
@@ -736,7 +758,10 @@ const MainDashboard = () => {
             <Row className="mb-3">
               {cardData.map((card, index) => (
                 <Col key={index} md={3}>
-                  <div className="AiReferenceCard">
+                  <div
+                    className="AiReferenceCard"
+                    onClick={() => navigate(card.path)}
+                  >
                     <div className="h-100">
                       <p className="d-flex title">
                         <div

@@ -454,7 +454,15 @@ background: var(--input-bg) !important;
 .preferred-id-container,
 .upload-id-container{
   width: 70%;
-  
+}
+.preferred-id-container > p,
+.selection-container > p,
+.drawing-container > p,
+.file-upload-container > p,
+.upload-id-container > p,
+.front-id-container > p,
+.back-id-container > p{
+  font-weight: bold;
 }
 .drawing-container  .front-id-container,
 .drawing-container  .back-id-container {
@@ -468,6 +476,7 @@ background: var(--input-bg) !important;
 border-radius: 10px;
 border: 1px solid var(--input-bg);
 padding: 20px;
+
 }
 .front-id-container > div button,
 .back-id-container > div button,

@@ -332,7 +332,7 @@ function createTooltipElement() {
         {activeButton === "Reports" ? (
           <>
             <div className="AiReference-table-title">
-              <h4>Recent Reports</h4>
+              <h4 className="mb-0">Recent Reports</h4>
               <p>Download or view detailed reports.</p>
             </div>
             <table>
@@ -375,7 +375,7 @@ function createTooltipElement() {
         ) : (
           <>
             <div className="AiReference-table-title">
-              <h4>Reference Check Analytics</h4>
+              <h4 className="mb-0">Reference Check Analytics</h4>
               <p>Overview of completed and pending reference checks.</p>
             </div>
             <Row>

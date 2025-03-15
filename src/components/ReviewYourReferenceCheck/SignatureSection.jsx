@@ -26,7 +26,7 @@ const SignatureSection = ({
         <select
           name="signature-method"
           id="signature-method"
-          className="mb-3"
+          className="mb-3 form-select"
           onChange={(e) => setSignatureMethod(e.target.value)}
           value={signatureMethod}
         >

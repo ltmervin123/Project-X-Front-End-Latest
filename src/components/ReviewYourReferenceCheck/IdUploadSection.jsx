@@ -39,7 +39,7 @@ const IdUploadSection = ({
         <select
           name="preferred-id"
           id="preferred-id"
-          className="mb-3"
+          className="mb-3 form-select"
           value={selectedIdType}
           onChange={handleIdTypeChange}
         >
@@ -58,7 +58,7 @@ const IdUploadSection = ({
           <div className="d-flex justify-content-between w-100">
             {frontIdFile ? (
               <div className="d-flex justify-content-between align-items-center w-100">
-                <div className="front-id-img-container d-flex">
+                <div className="front-id-img-container d-flex align-items-center ">
                   <img
                     src={URL.createObjectURL(frontIdFile)}
                     alt="Front ID"
@@ -67,7 +67,7 @@ const IdUploadSection = ({
                       maxHeight: "50px",
                     }}
                   />
-                  <p>File uploaded: {frontIdFile.name}</p>
+                  <p className="m-0">File uploaded: {frontIdFile.name}</p>
                 </div>
                 <button
                   onClick={triggerFrontFileInput}
@@ -109,7 +109,7 @@ const IdUploadSection = ({
           <div className="d-flex justify-content-between w-100">
             {backIdFile ? (
               <div className="d-flex justify-content-between align-items-center w-100">
-                <div className="back-id-img-container d-flex">
+                <div className="back-id-img-container d-flex align-items-center ">
                   <img
                     src={URL.createObjectURL(backIdFile)}
                     alt="Back ID"
@@ -118,7 +118,7 @@ const IdUploadSection = ({
                       maxHeight: "50px",
                     }}
                   />
-                  <p>File uploaded: {backIdFile.name}</p>
+                  <p className="m-0">File uploaded: {backIdFile.name}</p>
                 </div>
                 <button
                   onClick={triggerBackFileInput}

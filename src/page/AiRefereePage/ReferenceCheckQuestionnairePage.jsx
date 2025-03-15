@@ -457,7 +457,7 @@ const ReferenceCheckQuestionnairePage = () => {
   }
 
   return (
-    <div className="container-fluid main-container d-flex align-items-center justify-content-center flex-column positio-relative">
+    <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
       <h2 className="referencecheckquestiontitle text-left mb-2">
         Reference Check Questionnaire
       </h2>

@@ -178,6 +178,8 @@
   border-left: 4px solid var(--sidebar-bg);
   font-size: 15px;
   transition: all 0.3s ease; /* Add transition to all properties */
+  display: flex;
+  align-items: center;
 }
 
 .MockMain-sidebar > button {
@@ -191,6 +193,7 @@
   width: 100%;
   padding: 0;
   transition: all 0.3s ease; /* Transition on becoming active */
+
 }
 
 .MockMain-sidebar > a.active-link svg {

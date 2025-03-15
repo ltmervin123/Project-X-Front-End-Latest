@@ -404,7 +404,7 @@ const ReferenceQuestion = () => {
         ) : (
           <>
             <div className="AiReference-table-title">
-              <h4>Custom Question Sets</h4>
+              <h4 className="mb-0">Custom Question Sets</h4>
               <p>Your tailored reference check questions.</p>
             </div>
             <div className="d-flex justify-content-between align-items-center mb-3">

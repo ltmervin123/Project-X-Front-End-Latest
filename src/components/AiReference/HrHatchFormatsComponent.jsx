@@ -1,20 +1,23 @@
 import React from 'react';
-import logo from "../../assets/logo.png"; // Adjust the path to your logo image
 
 const HrHatchFormatsComponent = ({ hrHatchFormats, handleButtonClick }) => {
   return (
     <>
       <div className="AiReference-table-title">
-        <h4>
-          <img src={logo} alt="Logo" width="125" height="18" />
-          Question Formats
+        <h4 className='mb-0'>
+        <span className='color-orange'>HR</span>
+        -HΛTCH          Question Formats
         </h4>
         <p className="d-flex align-items-center">
-          Standardized question sets provided by{" "}
-          <img src={logo} alt="Logo" width="99" height="14" />.
+          Standardized question sets provided by&nbsp;
+          <b>          
+          <span className='color-orange'> HR</span>
+          -HΛTCH</b>
+          
+          .
         </p>
       </div>
-      <div className="d-flex justify-content-around align-items-center h-100 gap-3 hr-hatch-card-container">
+      <div className="d-flex justify-content-around align-items-center h-100 gap-3 hr-hatch-card-container mt-2">
         {hrHatchFormats.map((format, index) => (
           <div
             key={index}

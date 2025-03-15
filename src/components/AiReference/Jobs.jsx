@@ -19,6 +19,7 @@ const Jobs = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // Add this line
 const [jobToDelete, setJobToDelete] = useState(null); // Add this line
+
   const [activeJobs, setActiveJobs] = useState(
     JSON.parse(localStorage.getItem("jobs")) || []
   );
@@ -73,19 +74,25 @@ const [jobToDelete, setJobToDelete] = useState(null); // Add this line
   const handleAddJob = () => {
     refetchJobs();
   };
-
   const handleToggleOptions = (jobId, event) => {
     const { clientY } = event; // Get the Y position of the click
-    setVisibleOptions((prev) => ({
-      ...prev,
-      [jobId]: !prev[jobId],
-    }));
-
+    setVisibleOptions((prev) => {
+      // If the clicked jobId is already visible, hide it; otherwise, show it
+      if (prev[jobId]) {
+        return { ...prev, [jobId]: false };
+      }
+      // Hide options for all other jobs and show options for the clicked job
+      const updatedOptions = {};
+      updatedOptions[jobId] = true;
+      return updatedOptions;
+    });
+  
     const optionsElement = document.getElementById(`options-${jobId}`);
     if (optionsElement) {
       optionsElement.style.top = `${clientY}px`; // Adjust as needed
     }
   };
+  
 
   const handleEditJob = (jobId) => {
     const recordFound = activeJobs.find((job) => job._id === jobId);
@@ -177,7 +184,7 @@ const [jobToDelete, setJobToDelete] = useState(null); // Add this line
 
       <div className="AiReference-active-jobs-container">
         <div className="AiReference-table-title">
-          <h4>Active Jobs</h4>
+          <h4 className="mb-0">Active Jobs</h4>
           <p>Manage and track your open positions.</p>
         </div>
 
@@ -214,16 +221,12 @@ const [jobToDelete, setJobToDelete] = useState(null); // Add this line
                       <td>{formatDate(job.createdAt)}</td>
                       <td>
                         <div className="position-relative d-flex align-items-center w-100">
-                          <p
-                            className="m-0"
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              setVisibleOptions((prev) => ({
-                                ...prev,
-                                [job._id]: !showOptions,
-                              }))
-                            } // Toggle options
-                          >
+                        <p
+  className="m-0"
+  style={{ cursor: "pointer" }}
+  onClick={(e) => handleToggleOptions(job._id, e)} // Toggle options
+>
+
                             <svg
                               width="23"
                               height="23"

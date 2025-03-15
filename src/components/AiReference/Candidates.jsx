@@ -135,6 +135,25 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
     setShowEditPopup(false);
     setSelectedCandidate(null);
   };
+  const handleToggleOptions = (candidateId, event) => {
+    const { clientY } = event; // Get the Y position of the click
+    setVisibleOptions((prev) => {
+      // If the clicked candidate's options are already visible, hide it; otherwise, show it
+      if (prev[candidateId]) {
+        return { ...prev, [candidateId]: false };
+      }
+      // Hide options for all other candidates and show options for the clicked candidate
+      const updatedOptions = {};
+      updatedOptions[candidateId] = true;
+      return updatedOptions;
+    });
+  
+    const optionsElement = document.getElementById(`options-${candidateId}`);
+    if (optionsElement) {
+      optionsElement.style.top = `${clientY}px`; // Adjust the positioning as needed
+    }
+  };
+  
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
@@ -188,7 +207,7 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
 
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
-          <h4>Candidate Lists</h4>
+          <h4 className="mb-0">Candidate Lists</h4>
           <p>Overview of all candidates in the system.</p>
         </div>
 
@@ -234,12 +253,8 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
                           <p
                             className="m-0"
                             style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              setVisibleOptions((prev) => ({
-                                ...prev,
-                                [candidate._id]: !prev[candidate._id], // Toggle options for the specific candidate
-                              }))
-                            } // Toggle options
+                            onClick={(e) => handleToggleOptions(candidate._id, e)} // Pass the candidate's ID and event to handleToggleOptions
+
                           >
                             <svg
                               width="23"
@@ -255,37 +270,26 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
                             </svg>
                           </p>
                           {visibleOptions[candidate._id] && (
-                            <div
-                              id={`options-${candidate._id}`}
-                              className="action-options"
-                            >
-                              <p
-                                className="d-flex align-items-center gap-2"
-                                onClick={() =>
-                                  handleEditCandidate(candidate._id)
-                                } // Change this line
-                                style={{
-                                  cursor: "pointer",
-                                }}
-                              >
-                                <FaEdit />
-                                Edit
-                              </p>
-                              <p
-                                className="d-flex align-items-center gap-2"
-                                onClick={() =>
-                                  handleDeleteCandidate(candidate._id)
-                                }
-                                style={{
-                                  cursor: "pointer",
-                                  color: "red",
-                                }}
-                              >
-                                <FaTrash />
-                                Delete
-                              </p>
-                            </div>
-                          )}
+  <div id={`options-${candidate._id}`} className="action-options">
+    <p
+      className="d-flex align-items-center gap-2"
+      onClick={() => handleEditCandidate(candidate._id)}
+      style={{ cursor: "pointer" }}
+    >
+      <FaEdit />
+      Edit
+    </p>
+    <p
+      className="d-flex align-items-center gap-2"
+      onClick={() => handleDeleteCandidate(candidate._id)}
+      style={{ cursor: "pointer", color: "red" }}
+    >
+      <FaTrash />
+      Delete
+    </p>
+  </div>
+)}
+
                         </div>
                       </td>
                     </tr>
