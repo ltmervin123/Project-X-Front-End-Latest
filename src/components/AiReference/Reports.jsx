@@ -277,8 +277,8 @@ function createTooltipElement() {
     return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div>
-        <h3>Analytics & Reports</h3>
-        <p>
+        <h3 className="mb-0">Analytics & Reports</h3>
+        <p  className="mb-2">
           Gain insights into your reference checking process and hiring
           efficiency.
         </p>
@@ -325,21 +325,14 @@ function createTooltipElement() {
         >
           Reports
         </button>
-        <button
-          className={`btn-custom ${
-            activeButton === "Candidates" ? "active" : ""
-          }`}
-          onClick={() => handleButtonClick("Candidates")}
-        >
-          Candidates
-        </button>
+
       </div>
 
       <div className="AiReference-report-container position-relative">
         {activeButton === "Reports" ? (
           <>
             <div className="AiReference-table-title">
-              <h4>Recent Reports</h4>
+              <h4 className="mb-0">Recent Reports</h4>
               <p>Download or view detailed reports.</p>
             </div>
             <table>
@@ -379,27 +372,10 @@ function createTooltipElement() {
               </tbody>
             </table>
           </>
-        ) : activeButton === "Candidates" ? (
-          <>
-            <div className="AiReference-table-title">
-              <h4>Candidate Evaluation Summaries</h4>
-              <p>Average scores across key competencies.</p>
-            </div>
-            <Row>
-              <Col md={5}>
-                <div className="chart-container-report">
-                  <Bar
-                    data={candidateChartData}
-                    options={candidateChartOptions}
-                  />
-                </div>
-              </Col>
-            </Row>
-          </>
         ) : (
           <>
             <div className="AiReference-table-title">
-              <h4>Reference Check Analytics</h4>
+              <h4 className="mb-0">Reference Check Analytics</h4>
               <p>Overview of completed and pending reference checks.</p>
             </div>
             <Row>

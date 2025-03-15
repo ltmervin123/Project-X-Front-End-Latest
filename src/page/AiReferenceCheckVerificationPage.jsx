@@ -66,6 +66,8 @@ function AiReferenceCheckVerificationPage() {
 
   return (
     <>
+          <div className=" login-page-container AiReferenceCheckVerification-page-container">
+
       <Header />
       <AiReferenceCheckVerificationForm
         refereeName={refereeName}
@@ -74,6 +76,7 @@ function AiReferenceCheckVerificationPage() {
         refereeId={refereeId}
         companyId={companyId}
       />
+      </div>
     </>
   );
 }

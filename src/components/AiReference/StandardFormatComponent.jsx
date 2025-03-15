@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../assets/logo.png"; // Adjust the path to your logo image
 
 const StandardFormatComponent = ({
   StandardQuestionsSets,
@@ -11,8 +10,10 @@ const StandardFormatComponent = ({
     <>
       <div className="AiReference-table-title">
         {/* format will depend on selectedFormat */}
-        <h4 className="color-green">Standard Formats</h4> 
-        <p>Standardized question sets provided by<img src={logo} alt="Logo" width="99" height="14" />.</p>
+        <h4 className="color-green mb-0">Standard Formats</h4> 
+        <p>Standardized question sets provided by<b>      
+          <span className='color-orange'> HR</span>
+          -HΛTCH</b>.</p>
       </div>
       <div className="Format-Container">
 

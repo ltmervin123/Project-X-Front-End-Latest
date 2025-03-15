@@ -19,6 +19,33 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const [referenceData, setReferenceData] = useState(null);
   const [downloading, setDownloading] = useState(false);
 
+  const categoryOrder = {
+    "Standard Format": [
+      "relationship",
+      "jobResponsibilitiesAndPerformance",
+      "skillAndCompetencies",
+      "workEthicAndBehavior",
+      "closingQuestions",
+    ],
+    "Management Format": [
+      "relationship",
+      "jobResponsibilitiesAndPerformance",
+      "leadershipAndManagementSkills",
+      "workEthicAndBehavior",
+      "closingQuestions",
+    ],
+    "Executive Format": [
+      "relationship",
+      "jobResponsibilitiesAndPerformance",
+      "strategicLeadershipAndVision",
+      "businessImpactAndResults",
+      "teamLeadershipAndOrganizationalDevelopment",
+      "decisionMakingAndProblemSolving",
+      "innovationAndGrowth",
+      "closingQuestions",
+    ],
+  };
+
   const fetchReferenceByReferenceId = async () => {
     try {
       setFetchingReference(true);
@@ -233,13 +260,10 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
             {refereeQuestionFormat === "HR-HATCH-FORMAT"
               ? referenceData?.referenceQuestion
                   .sort((a, b) => {
-                    if (a.category === "jobResponsibilitiesAndPerformance")
-                      return -1;
-                    if (b.category === "jobResponsibilitiesAndPerformance")
-                      return 1;
-                    if (a.category === "closingQuestions") return 1;
-                    if (b.category === "closingQuestions") return -1;
-                    return 0;
+                    const order = categoryOrder[refereeQuestionFormat] || [];
+                    return (
+                      order.indexOf(a.category) - order.indexOf(b.category)
+                    );
                   })
                   .map((item) => (
                     <div key={item.category}>

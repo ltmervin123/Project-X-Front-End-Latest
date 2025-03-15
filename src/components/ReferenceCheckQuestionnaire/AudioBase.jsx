@@ -12,6 +12,9 @@ const AudioBase = ({
   answer,
   isSpeaking,
   streamRef,
+  isLastQuestion,
+  handleProceed,
+  nextQuestion, // Add this line
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
@@ -158,25 +161,33 @@ const AudioBase = ({
         disabled
       />
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
-        <div>
-          {reTry ? (
-            <button onClick={handleReTry}>Retry</button>
+      <div className="d-flex justify-content-center gap-3">
+      {reTry ? (
+      <>
+        <button onClick={handleReTry}>Retry</button>
+        {isLastQuestion ? (
+          <button onClick={handleProceed}>Proceed</button>
+        ) : (
+          <button onClick={nextQuestion}>Next</button>
+        )}
+      </>
           ) : isSanitizingTranscription || isSubmitting ? (
-            <button disabled>Submitting...</button>
+            <button disabled>Saving...</button>
           ) : !isRecording ? (
             <button
               className={isSpeaking ? "disabled" : ""}
               onClick={startRecording}
               disabled={isSpeaking}
             >
-              <FaMicrophone /> Start Recording
+             Start
             </button>
           ) : (
             <button onClick={stopRecording}>
-              <FaMicrophoneAltSlash /> Stop Recording
+              Stop 
             </button>
           )}
         </div>
+
       </div>
     </div>
   );

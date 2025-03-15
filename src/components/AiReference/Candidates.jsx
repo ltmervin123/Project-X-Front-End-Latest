@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import EditCandidatePopUp from "./EditCandidatePopUp";
+import DeleteConfirmationCandidatePopUp from "./DeleteConfirmationCandidatePopUp"; // Import the confirmation popup
 import AddCandidatePopUp from "./AddCandidatePopUp"; // Assuming you have a similar component for adding candidates
 import CandidateDetailsPopUp from "./CandidateDetailsPopUp";
-import { FaSearch } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import axios from "axios";
 
 const Candidates = () => {
@@ -13,10 +15,14 @@ const Candidates = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-
+  const [visibleOptions, setVisibleOptions] = useState({});
+  const [showEditPopup, setShowEditPopup] = useState(false); // Add this line
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for delete confirmation
+  const [candidateToDelete, setCandidateToDelete] = useState(null); // State to hold the candidate ID to delete
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
+  const [isDeleting, setIsDeleting] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
   const fetchCandidates = async () => {
@@ -42,9 +48,7 @@ const Candidates = () => {
 
   useEffect(() => {
     const fetchCandidatesWhenRender = async () => {
-      if (!candidates || candidates.length === 0) {
-        await fetchCandidates();
-      }
+      await fetchCandidates();
     };
 
     fetchCandidatesWhenRender();
@@ -54,13 +58,7 @@ const Candidates = () => {
     setShowPopup(true);
   };
 
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
-
   const refetchCandidates = async () => {
-    //Remove the candidates from local storage
-    localStorage.removeItem("candidates");
     await fetchCandidates();
   };
 
@@ -93,17 +91,78 @@ const Candidates = () => {
     }
   };
 
+  const handleDeleteCandidate = (candidateId) => {
+    setCandidateToDelete(candidateId); // Set the candidate ID to delete
+    setShowDeleteConfirmation(true); // Show the delete confirmation popup
+  };
+
+  const confirmDeleteCandidate = async () => {
+    if (isDeleting) {
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      const URL = `${API}/api/ai-referee/company-candidates/delete-candidate-by-id/${candidateToDelete}`;
+      const response = await axios.delete(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        await refetchCandidates();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteConfirmation(false); // Close the confirmation popup
+      setCandidateToDelete(null); // Reset the candidate ID
+    }
+  };
+
+  const handleEditCandidate = (id) => {
+    const candidateFound = candidates.find((candidate) => candidate._id === id);
+    setSelectedCandidate(candidateFound);
+
+    setShowEditPopup(true);
+  };
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setShowEditPopup(false);
+    setSelectedCandidate(null);
+  };
+  const handleToggleOptions = (candidateId, event) => {
+    const { clientY } = event; // Get the Y position of the click
+    setVisibleOptions((prev) => {
+      // If the clicked candidate's options are already visible, hide it; otherwise, show it
+      if (prev[candidateId]) {
+        return { ...prev, [candidateId]: false };
+      }
+      // Hide options for all other candidates and show options for the clicked candidate
+      const updatedOptions = {};
+      updatedOptions[candidateId] = true;
+      return updatedOptions;
+    });
+  
+    const optionsElement = document.getElementById(`options-${candidateId}`);
+    if (optionsElement) {
+      optionsElement.style.top = `${clientY}px`; // Adjust the positioning as needed
+    }
+  };
+  
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div className="d-flex justify-content-between align-items-end mb-3">
+      <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3>Candidates</h3>
-          <p className="m-0">
+          <h3 className="mb-0">Candidates</h3>
+          <p className="mb-2">
             Manage and track your potential hires through the reference checking
             process.
           </p>
         </div>
-        <button
+        {/* <button
           onClick={handleAddNewCandidate}
           className="btn-create-new-candidate d-flex align-items-center justify-content-center gap-1"
         >
@@ -126,7 +185,7 @@ const Candidates = () => {
             onClose={handleClosePopup}
             onAddCandidate={handleAddCandidate}
           />
-        )}
+        )} */}
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
@@ -146,7 +205,7 @@ const Candidates = () => {
 
       <div className="AiReference-candidates-container">
         <div className="AiReference-table-title">
-          <h4>Candidate Lists</h4>
+          <h4 className="mb-0">Candidate Lists</h4>
           <p>Overview of all candidates in the system.</p>
         </div>
 
@@ -180,34 +239,87 @@ const Candidates = () => {
                       <td style={{ color: getStatusColor(candidate.status) }}>
                         {candidate.status}
                       </td>
+
                       <td>
-                        <button
-                          className="btn-view-details"
-                          onClick={() => handleViewDetails(candidate)}
-                        >
-                          View Details
-                        </button>{" "}
+                        <div className="position-relative d-flex align-items-center w-100">
+                          <button
+                            className="btn-view-details"
+                            onClick={() => handleViewDetails(candidate)}
+                          >
+                            View Details
+                          </button>{" "}
+                          <p
+                            className="m-0"
+                            style={{ cursor: "pointer" }}
+                            onClick={(e) => handleToggleOptions(candidate._id, e)} // Pass the candidate's ID and event to handleToggleOptions
+
+                          >
+                            <svg
+                              width="23"
+                              height="23"
+                              viewBox="0 0 23 23"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M13.6562 18.6875C13.6562 19.2594 13.4291 19.8078 13.0247 20.2122C12.6203 20.6166 12.0719 20.8437 11.5 20.8438C10.9281 20.8437 10.3797 20.6166 9.9753 20.2122C9.57093 19.8078 9.34375 19.2594 9.34375 18.6875C9.34375 18.1156 9.57093 17.5672 9.9753 17.1628C10.3797 16.7584 10.9281 16.5312 11.5 16.5312C12.0719 16.5312 12.6203 16.7584 13.0247 17.1628C13.4291 17.5672 13.6562 18.1156 13.6562 18.6875ZM13.6562 11.5C13.6562 12.0719 13.4291 12.6203 13.0247 13.0247C12.6203 13.4291 12.0719 13.6562 11.5 13.6562C10.9281 13.6562 10.3797 13.4291 9.9753 13.0247C9.57093 12.6203 9.34375 12.0719 9.34375 11.5C9.34375 10.9281 9.57093 10.3797 9.9753 9.9753C10.3797 9.57093 10.9281 9.34375 11.5 9.34375C12.0719 9.34375 12.6203 9.57093 13.0247 9.9753C13.4291 10.3797 13.6562 10.9281 13.6562 11.5ZM13.6562 4.3125C13.6562 4.88437 13.4291 5.43282 13.0247 5.8372C12.6203 6.24157 12.0719 6.46875 11.5 6.46875C10.9281 6.46875 10.3797 6.24157 9.9753 5.8372C9.57093 5.43282 9.34375 4.88437 9.34375 4.3125C9.34375 3.74063 9.57093 3.19218 9.9753 2.7878C10.3797 2.38343 10.9281 2.15625 11.5 2.15625C12.0719 2.15625 12.6203 2.38343 13.0247 2.7878C13.4291 3.19218 13.6562 3.74063 13.6562 4.3125Z"
+                                fill="black"
+                              />
+                            </svg>
+                          </p>
+                          {visibleOptions[candidate._id] && (
+  <div id={`options-${candidate._id}`} className="action-options">
+    <p
+      className="d-flex align-items-center gap-2"
+      onClick={() => handleEditCandidate(candidate._id)}
+      style={{ cursor: "pointer" }}
+    >
+      <FaEdit />
+      Edit
+    </p>
+    <p
+      className="d-flex align-items-center gap-2"
+      onClick={() => handleDeleteCandidate(candidate._id)}
+      style={{ cursor: "pointer", color: "red" }}
+    >
+      <FaTrash />
+      Delete
+    </p>
+  </div>
+)}
+
+                        </div>
                       </td>
                     </tr>
                   ))}
               </tbody>
             </table>
-            <div className="d-flex justify-content-center w-100">
-              <div className="d-flex justify-content-center align-items-center gap-5 candidate-button-controls h-100">
-                <button className="btn-archive">
-                  Archive Inactive Candidates
-                </button>
-              </div>
-            </div>
           </>
         ) : (
           <div>No candidate record</div>
         )}
       </div>
+      {showDeleteConfirmation && (
+        <DeleteConfirmationCandidatePopUp
+          onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
+          onConfirmDelete={confirmDeleteCandidate} // Confirm deletion
+        />
+      )}
       {showDetailsPopup && selectedCandidate && (
         <CandidateDetailsPopUp
           candidates={selectedCandidate}
           onClose={handleCloseDetailsPopup}
+          onEdit={() => {
+            handleCloseDetailsPopup();
+            handleEditCandidate(selectedCandidate._id);
+          }}
+        />
+      )}
+      {showEditPopup && selectedCandidate && (
+        <EditCandidatePopUp
+          onClose={handleClosePopup}
+          onUpdateCandidate={refetchCandidates}
+          candidateDetails={selectedCandidate}
         />
       )}
     </div>

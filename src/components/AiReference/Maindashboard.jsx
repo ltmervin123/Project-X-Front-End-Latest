@@ -9,6 +9,7 @@ import AddCandidateComponent from "./AddCandidateComponent";
 import AddRequestComponent from "./AddRequestComponent";
 import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // Register all necessary components
 Chart.register(...registerables);
@@ -19,7 +20,7 @@ const LogContainer = ({ logData }) => {
     setShowAll(!showAll);
   };
   const [showAll, setShowAll] = useState(false);
-  const displayedLogs = showAll ? logData : logData.slice(0, 4);
+  const displayedLogs = showAll ? logData : logData.slice(0, 2);
 
   return (
     <div className="LogContainer my-4">
@@ -52,24 +53,28 @@ const LogContainer = ({ logData }) => {
 };
 
 const MainDashboard = () => {
+  const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
   const token = USER?.token;
-  const [showJobForm, setShowJobForm] = useState(false); // State to control job form visibility
-  const [showAddCandidate, setShowAddCandidate] = useState(false); // New state for AddCandidateComponent
-  const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false); // New state for AddCandidateComponent
+  const [showJobForm, setShowJobForm] = useState(false);
+  const [showAddCandidate, setShowAddCandidate] = useState(false);
+  const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false);
+  const [addedJob, setAddedJob] = useState({});
+  const [addedCandidate, setAddedCandidate] = useState([]);
 
   const handleShowAddCandidate = () => {
-    setShowAddCandidate(true); // Set to true to show AddCandidateComponent
+    setShowAddCandidate(true);
   };
   const handleOpenJobForm = () => {
-    setShowJobForm(true); // Set to true to show the job form
+    setShowJobForm(true);
   };
-  const handleShowAddReferenceRequest = () => {
+  const handleShowAddReferenceRequest = (candidates) => {
     setShowAddReferenceRequest(true);
     setShowAddCandidate(false);
     setShowJobForm(false);
+    setCandidates(candidates);
   };
 
   const [candidates, setCandidates] = useState(
@@ -271,50 +276,70 @@ const MainDashboard = () => {
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);
 
-  // Calculate the count for each card
-  const activeJobCount =
-    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+// Calculate the count for each card
+const activeJobCount =
+  activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
 
-  const totalCompletedReference = reference.reduce((count, record) => {
-    if (record?.referees) {
-      record.referees.forEach((referee) => {
-        if (referee.status === "Completed") {
-          count++;
-        }
-      });
-    } else if (record.status === "Completed") {
-      count++;
-    }
-    return count;
-  }, 0);
+const totalCompletedReference = reference.reduce((count, record) => {
+  // Check if the record has referees
+  if (record?.referees) {
+    record.referees.forEach((referee) => {
+      // Count only if the referee's status is "Completed" and the candidate is not null
+      if (referee.status === "Completed" && record.candidate !== null) {
+        count++;
+      }
+    });
+  } 
+  // Check if the record itself is "Completed" and the candidate is not null
+  else if (record.status === "Completed" && record.candidate !== null) {
+    count++;
+  }
+  return count;
+}, 0);
 
-  const pendingReferenceCount = reference.reduce((count, record) => {
-    if (record?.referees) {
-      count += record.referees.filter(
-        (referee) => referee.status === "In Progress"
-      ).length;
-    } else if (record.status === "In Progress") {
-      count++;
-    }
-    return count;
-  }, 0);
+const pendingReferenceCount = reference.reduce((count, record) => {
+  // Check if the record has referees
+  if (record?.referees) {
+    // Count only those referees whose status is "In Progress" and the candidate is not null
+    count += record.referees.filter(
+      (referee) => referee.status === "In Progress" && record.candidate !== null
+    ).length;
+  } 
+  // Check if the record itself is "In Progress" and the candidate is not null
+  else if (record.status === "In Progress" && record.candidate !== null) {
+    count++;
+  }
+  return count;
+}, 0);
 
-  const totalCandidateCount = candidates.length || 0;
+const totalCandidateCount = candidates.length || 0;
 
-  const cardData = [
-    { title: "Active Jobs", count: activeJobCount, color: "#1877F2" },
-    {
-      title: "Pending References",
-      count: pendingReferenceCount,
-      color: "#F8BD00",
-    },
-    {
-      title: "Completed References",
-      count: totalCompletedReference,
-      color: "#319F43",
-    },
-    { title: "Total Candidates", count: totalCandidateCount, color: "#686868" },
-  ];
+const cardData = [
+  {
+    title: "Active Jobs",
+    count: activeJobCount,
+    color: "#1877F2",
+    path: "/AiReferenceJobs",
+  },
+  {
+    title: "Pending References",
+    count: pendingReferenceCount,
+    color: "#F8BD00",
+    path: "/AiReferenceRequest",
+  },
+  {
+    title: "Completed References",
+    count: totalCompletedReference,
+    color: "#319F43",
+    path: "/AiReferenceRequest",
+  },
+  {
+    title: "Total Candidates",
+    count: totalCandidateCount,
+    color: "#686868",
+    path: "/AiReferenceCandidates",
+  },
+];
 
   // Data for the line chart
   const lineData = {
@@ -468,14 +493,13 @@ const MainDashboard = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false, // Hides the legend
+        display: false,
       },
       tooltip: {
-        enabled: false, // Disable the default tooltip
+        enabled: false,
         external: function (context) {
           const tooltipEl = document.getElementById("chartjs-tooltip");
 
-          // Ensure the tooltip element exists, create if it doesn't
           let tooltipElement = tooltipEl;
           if (!tooltipElement) {
             tooltipElement = document.createElement("div");
@@ -486,13 +510,11 @@ const MainDashboard = () => {
 
           const tooltipModel = context.tooltip;
 
-          // If tooltip is not visible, hide it
           if (tooltipModel.opacity === 0) {
             tooltipElement.style.opacity = 0;
             return;
           }
 
-          // Positioning the tooltip
           const position = context.chart.canvas.getBoundingClientRect();
           tooltipElement.style.opacity = 1;
           tooltipElement.style.backgroundColor = "#fff";
@@ -511,8 +533,8 @@ const MainDashboard = () => {
 
           // Populate the custom tooltip content
           const dataIndex = tooltipModel.dataPoints[0].dataIndex;
-          const department = context.chart.data.labels[dataIndex]; // Access the department from labels
-          const value = context.chart.data.datasets[0].data[dataIndex]; // Access the data value
+          const department = context.chart.data.labels[dataIndex];
+          const value = context.chart.data.datasets[0].data[dataIndex];
 
           const innerHtml = `
             <table class="tooltip-bar-chart">
@@ -528,13 +550,13 @@ const MainDashboard = () => {
     scales: {
       x: {
         grid: {
-          display: false, // Disable grid on the x-axis
+          display: false,
         },
         ticks: {
           font: {
-            size: 12, // Adjust the font size of the x-axis labels if needed
+            size: 12,
           },
-          color: "#000", // Change the label color if necessary
+          color: "#000",
         },
       },
       y: {
@@ -680,48 +702,66 @@ const MainDashboard = () => {
         <AddCandidateComponent
           onProceed={handleShowAddReferenceRequest}
           refetch={handleRefetchCandidates}
+          setAddedCandidate={setAddedCandidate}
+          addedJob={addedJob}
         />
       ) : showJobForm ? (
         <AddJobComponent
           onProceed={handleShowAddCandidate}
           refetch={handleRefetchJobs}
+          setAddedJob={setAddedJob}
         />
       ) : showAddReferenceRequest ? (
-        <AddRequestComponent onReFetchReference={handleRefetchReference} />
+        <AddRequestComponent
+          onReFetchReference={handleRefetchReference}
+          addedCandidate={addedCandidate}
+          addedJob={addedJob}
+        />
       ) : (
         <>
           <div>
-            <h3 className="mb-3">Dashboard</h3>
-            <p className="m-0">
+            <h3 className="mb-0">Dashboard</h3>
+            <p className="mb-2">
               Manage and track your reference check processes.
             </p>
           </div>
-          <div className="d-flex justify-content-end mb-3">
-            <button
-              className="btn-create-new-job d-flex align-items-center justify-content-center px-4 gap-1"
-              onClick={handleOpenJobForm}
-            >
-              Start Reference Check{" "}
-              <svg
-                width="17"
-                height="17"
-                viewBox="0 0 17 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9.39847 2.59891C9.611 2.38645 9.89922 2.26709 10.1997 2.26709C10.5003 2.26709 10.7885 2.38645 11.001 2.59891L16.101 7.69891C16.3135 7.91145 16.4328 8.19966 16.4328 8.50018C16.4328 8.8007 16.3135 9.08892 16.101 9.30145L11.001 14.4014C10.7873 14.6079 10.501 14.7221 10.2038 14.7195C9.90666 14.717 9.62241 14.5978 9.41228 14.3876C9.20215 14.1775 9.08296 13.8933 9.08038 13.5961C9.07779 13.2989 9.19203 13.0127 9.39847 12.7989L12.4664 9.63351H1.69974C1.39916 9.63351 1.11089 9.51411 0.898352 9.30157C0.685811 9.08903 0.566406 8.80076 0.566406 8.50018C0.566406 8.1996 0.685811 7.91133 0.898352 7.69879C1.11089 7.48625 1.39916 7.36685 1.69974 7.36685H12.4664L9.39847 4.20145C9.18601 3.98892 9.06665 3.7007 9.06665 3.40018C9.06665 3.09966 9.18601 2.81145 9.39847 2.59891Z"
-                  fill="white"
-                />
-              </svg>
-            </button>
+          <div className="d-flex justify-content-start mb-3 w-100">
+            <Row className="w-100">
+              <Col md={6} className=" start-reference-check-container">
+                <button
+                  className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-3 "
+                  onClick={handleOpenJobForm}
+                >
+                  Start Reference Check{" "}
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 17 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.39847 2.59891C9.611 2.38645 9.89922 2.26709 10.1997 2.26709C10.5003 2.26709 10.7885 2.38645 11.001 2.59891L16.101 7.69891C16.3135 7.91145 16.4328 8.19966 16.4328 8.50018C16.4328 8.8007 16.3135 9.08892 16.101 9.30145L11.001 14.4014C10.7873 14.6079 10.501 14.7221 10.2038 14.7195C9.90666 14.717 9.62241 14.5978 9.41228 14.3876C9.20215 14.1775 9.08296 13.8933 9.08038 13.5961C9.07779 13.2989 9.19203 13.0127 9.39847 12.7989L12.4664 9.63351H1.69974C1.39916 9.63351 1.11089 9.51411 0.898352 9.30157C0.685811 9.08903 0.566406 8.80076 0.566406 8.50018C0.566406 8.1996 0.685811 7.91133 0.898352 7.69879C1.11089 7.48625 1.39916 7.36685 1.69974 7.36685H12.4664L9.39847 4.20145C9.18601 3.98892 9.06665 3.7007 9.06665 3.40018C9.06665 3.09966 9.18601 2.81145 9.39847 2.59891Z"
+                      fill="white"
+                    />
+                  </svg>
+                </button>
+                <i className="w-100 text-center my-1">
+                  "Click here to begin the reference check process."
+                </i>
+              </Col>
+              <Col md={6} className="p-0"></Col>
+            </Row>
           </div>
 
           <div>
             <Row className="mb-3">
               {cardData.map((card, index) => (
                 <Col key={index} md={3}>
-                  <div className="AiReferenceCard">
+                  <div
+                    className="AiReferenceCard"
+                    onClick={() => navigate(card.path)}
+                  >
                     <div className="h-100">
                       <p className="d-flex title">
                         <div

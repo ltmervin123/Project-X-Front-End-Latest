@@ -9,6 +9,9 @@ const TextBase = ({
   isSubmitted,
   reTry,
   onReTrySubmit,
+  isLastQuestion,
+  handleProceed,
+  nextQuestion,
 }) => {
   const handleInputedTextChange = (event) => {
     setTextBaseAnswer(event.target.value);
@@ -29,20 +32,33 @@ const TextBase = ({
         rows="4"
         placeholder={"Type your answer..."}
       />
-      <div className="d-flex justify-content-center">
-        {reTry ? (
-          <button onClick={handleReTry}>Retry</button>
+      <div className="d-flex justify-content-center align-items-center my-2 mb-2">
+        <div className="d-flex justify-content-center gap-3">
+          {reTry ? (
+            <>
+              <button onClick={handleReTry}>Retry</button>
+        {isLastQuestion ? (
+          <button onClick={handleProceed}>Proceed</button>
         ) : (
-          <button
-            onClick={handleTextBaseSubmit}
-            disabled={!answer || loading || isSpeaking || isSubmitted} // Add isSubmitted here
-            className={
-              !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
-            }
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </button>
+          <button onClick={nextQuestion}>Next</button>
         )}
+            </>
+          ) : (
+            <>
+              <button
+                onClick={handleTextBaseSubmit}
+                disabled={!answer || loading || isSpeaking || isSubmitted}
+                className={
+                  !answer || loading || isSpeaking || isSubmitted
+                    ? "disabled"
+                    : ""
+                }
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

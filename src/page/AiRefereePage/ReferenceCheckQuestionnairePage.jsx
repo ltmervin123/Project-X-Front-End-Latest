@@ -35,7 +35,28 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
-  // Format reference questions
+  // // Format reference questions
+  // const formatReferenceQuestions = () => {
+  //   if (
+  //     referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
+  //     referenceQuestions?.formatType !== "CUSTOM-FORMAT"
+  //   )
+  //     return [];
+
+  //   return Object.entries(referenceQuestions.questions || {})
+  //     .filter(([_, qs]) => Array.isArray(qs))
+  //     .map(([category, qs]) => ({
+  //       category,
+  //       questions: qs.map((q) =>
+  //         typeof q === "string"
+  //           ? q.replace(/\$\{candidateName\}/g, candidateName)
+  //           : q
+  //       ),
+  //       answers: Array(qs.length).fill(""),
+  //       normalizedAnswers: Array(qs.length).fill(""),
+  //     }));
+  // };
+
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -43,27 +64,116 @@ const ReferenceCheckQuestionnairePage = () => {
     )
       return [];
 
-    return Object.entries(referenceQuestions.questions || {})
-      .filter(([_, qs]) => Array.isArray(qs))
-      .map(([category, qs]) => ({
-        category,
-        questions: qs.map((q) =>
-          typeof q === "string"
-            ? q.replace(/\$\{candidateName\}/g, candidateName)
-            : q
-        ),
-        answers: Array(qs.length).fill(""),
-        normalizedAnswers: Array(qs.length).fill(""),
-      }));
-  };
-
-  // Get questions based on format type
-  const getQuestions = () => {
     switch (referenceQuestions.formatType) {
       case "HR-HATCH-FORMAT":
-        return Object.values(referenceQuestions?.questions || {})
-          .flat()
-          .map((q) => q.replace(/\$\{candidateName\}/g, candidateName));
+        const categoryOrder = {
+          "Standard Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "skillAndCompetencies",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Management Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "leadershipAndManagementSkills",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Executive Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "strategicLeadershipAndVision",
+            "businessImpactAndResults",
+            "teamLeadershipAndOrganizationalDevelopment",
+            "decisionMakingAndProblemSolving",
+            "innovationAndGrowth",
+            "closingQuestions",
+          ],
+        };
+
+        const format = referenceQuestions.format;
+        const orderedCategories = categoryOrder[format] || [];
+
+        // Filter out categories base on the question format
+        return orderedCategories
+          .map((category) => {
+            const qs = referenceQuestions.questions[category];
+            if (!qs) return null;
+
+            return {
+              category,
+              questions: qs.map((q) =>
+                typeof q === "string"
+                  ? q.replace(/\$\{candidateName\}/g, candidateName)
+                  : q
+              ),
+              answers: Array(qs.length).fill(""),
+              normalizedAnswers: Array(qs.length).fill(""),
+            };
+          })
+          .filter(Boolean);
+      case "CUSTOM-FORMAT":
+        return Object.entries(referenceQuestions.questions || {})
+          .filter(([_, qs]) => Array.isArray(qs))
+          .map(([category, qs]) => ({
+            category,
+            questions: qs.map((q) =>
+              typeof q === "string"
+                ? q.replace(/\$\{candidateName\}/g, candidateName)
+                : q
+            ),
+            answers: Array(qs.length).fill(""),
+            normalizedAnswers: Array(qs.length).fill(""),
+          }));
+
+      default:
+        return [];
+    }
+  };
+
+  const getQuestions = () => {
+    switch (referenceQuestions.formatType) {
+      case "HR-HATCH-FORMAT": {
+        const format = referenceQuestions.format;
+        const categoryOrder = {
+          "Standard Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "skillAndCompetencies",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Management Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "leadershipAndManagementSkills",
+            "workEthicAndBehavior",
+            "closingQuestions",
+          ],
+          "Executive Format": [
+            "relationship",
+            "jobResponsibilitiesAndPerformance",
+            "strategicLeadershipAndVision",
+            "businessImpactAndResults",
+            "teamLeadershipAndOrganizationalDevelopment",
+            "decisionMakingAndProblemSolving",
+            "innovationAndGrowth",
+            "closingQuestions",
+          ],
+        };
+
+        const orderedCategories = categoryOrder[format];
+        if (!orderedCategories) return [];
+
+        return orderedCategories.flatMap(
+          (category) =>
+            referenceQuestions.questions[category]?.map((q) =>
+              q.replace(/\$\{candidateName\}/g, candidateName)
+            ) || []
+        );
+      }
       case "CUSTOM-FORMAT":
         return Array.isArray(referenceQuestions.questions)
           ? referenceQuestions.questions.flat()
@@ -133,24 +243,31 @@ const ReferenceCheckQuestionnairePage = () => {
   }, []);
 
   // Navigate to Thank You page when last question is answered
-  useEffect(() => {
-    if (
-      currentQuestionIndex === questions.length - 1 &&
-      answered[currentQuestionIndex]
-    ) {
-      sessionStorage.setItem(
-        "referenceQuestionsData",
-        JSON.stringify(referenceQuestionsData)
-      );
-      navigate("/reference-thankyou-msg");
-    }
-  }, [
-    referenceQuestionsData,
-    answered,
-    currentQuestionIndex,
-    questions.length,
-    navigate,
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     currentQuestionIndex === questions.length - 1 &&
+  //     answered[currentQuestionIndex]
+  //   ) {
+  //     sessionStorage.setItem(
+  //       "referenceQuestionsData",
+  //       JSON.stringify(referenceQuestionsData)
+  //     );
+  //     navigate("/reference-thankyou-msg");
+  //   }
+  // }, [
+  //   referenceQuestionsData,
+  //   answered,
+  //   currentQuestionIndex,
+  //   questions.length,
+  //   navigate,
+  // ]);
+  const handleProceed = () => {
+    sessionStorage.setItem(
+      "referenceQuestionsData",
+      JSON.stringify(referenceQuestionsData)
+    );
+    navigate("/reference-thankyou-msg");
+  };
 
   // Prevent accidental page exit
   useEffect(() => {
@@ -294,11 +411,11 @@ const ReferenceCheckQuestionnairePage = () => {
     setReTry(false);
     setCurrentAnswer("");
     setIsSubmitting(false);
-    if (answered[currentQuestionIndex]) {
-      setCurrentQuestionIndex((prev) =>
-        prev < questions.length - 1 ? prev + 1 : prev
-      );
+
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
     }
+    // Don't increment if it's the last question
   };
 
   const setTextBaseAnswer = (answer) => {
@@ -340,7 +457,7 @@ const ReferenceCheckQuestionnairePage = () => {
   }
 
   return (
-    <div className="container-fluid main-container d-flex align-items-center justify-content-center flex-column positio-relative">
+    <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
       <h2 className="referencecheckquestiontitle text-left mb-2">
         Reference Check Questionnaire
       </h2>
@@ -351,27 +468,6 @@ const ReferenceCheckQuestionnairePage = () => {
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
           <p>{questions[currentQuestionIndex]}</p>
-        </div>
-        <div className="d-flex justify-content-end">
-          <button
-            onClick={nextQuestion}
-            disabled={!answered[currentQuestionIndex] || isSpeaking}
-            className={!answered[currentQuestionIndex] ? "disabled" : ""}
-          >
-            Next
-            <svg
-              width="27"
-              height="16"
-              viewBox="0 0 27 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M26.7071 8.70711C27.0976 8.31658 27.0976 7.68342 26.7071 7.29289L20.3431 0.928932C19.9526 0.538408 19.3195 0.538408 18.9289 0.928932C18.5384 1.31946 18.5384 1.95262 18.9289 2.34315L24.5858 8L18.9289 13.6569C18.5384 14.0474 18.5384 14.6805 18.9289 15.0711C19.3195 15.4616 19.9526 15.4616 20.3431 15.0711L26.7071 8.70711ZM6.6645e-10 9L26 9L26 7L-6.6645e-10 7L6.6645e-10 9Z"
-                fill="white"
-              />
-            </svg>
-          </button>{" "}
         </div>
       </div>
 
@@ -386,6 +482,9 @@ const ReferenceCheckQuestionnairePage = () => {
             answer={currentAnswer}
             isSpeaking={isSpeaking}
             streamRef={streamRef}
+            isLastQuestion={currentQuestionIndex === questions.length - 1}
+            handleProceed={handleProceed}
+            nextQuestion={nextQuestion}
           />
         ) : (
           <TextBase
@@ -397,6 +496,11 @@ const ReferenceCheckQuestionnairePage = () => {
             isSubmitted={isSubmitting}
             reTry={reTry}
             onReTrySubmit={handleRetry}
+            
+            isLastQuestion={currentQuestionIndex === questions.length - 1}
+            handleProceed={handleProceed}
+            nextQuestion={nextQuestion}
+
           />
         )}
       </>

@@ -33,10 +33,10 @@ const ReferenceRequestEmailSentPopup = () => {
 
             <h2 className="fs-4">Email Sent</h2>
           </div>
+
           <p>
-            {" "}
-            We have sent an email to <strong>{emails}</strong> to confirm your
-            reference request.
+            We have sent reference requests for the listed candidates and their
+            referees for confirmation.
           </p>
 
           <p className="w-100">
