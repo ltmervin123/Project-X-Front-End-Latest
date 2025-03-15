@@ -286,7 +286,7 @@ function createTooltipElement() {
       <Row>
         {cardData.map((card, index) => (
           <Col key={index} md={3}>
-            <div className="AiReferenceCard">
+            <div className="AiReferenceCard-report">
               {/* Title and Count */}
               <div className="h-100">
                 <p className="d-flex title">
@@ -310,7 +310,7 @@ function createTooltipElement() {
         ))}
       </Row>
 
-      <div className="d-flex justify-content-center gap-5 button-controls-report">
+      <div className="d-flex justify-content-center gap-4 button-controls-report">
         <button
           className={`btn-custom ${
             activeButton === "Overview" ? "active" : ""

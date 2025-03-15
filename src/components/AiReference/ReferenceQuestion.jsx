@@ -350,7 +350,7 @@ const ReferenceQuestion = () => {
         <h3 className="mb-0">Reference Question</h3>
         <p className="mb-2">Manage your reference request.</p>
       </div>
-      <div className="d-flex justify-content-center align-items-center button-controls-question gap-5 mb-3">
+      <div className="d-flex justify-content-center align-items-center button-controls-question gap-4 mb-3">
         <button
           className={`btn-custome-sets ${
             activeButton === "Custom Sets" ? "active" : ""
@@ -488,7 +488,7 @@ const ReferenceQuestion = () => {
                       </div>
                       {selectedSet === item._id && (
                         <div className="dropdown-content-q-sets mt-3">
-                          <p className="w-100 d-flex justify-content-between">
+                          <p className="w-100 d-flex justify-content-between pb-2">
                             {item.description}{" "}
                             <div className="d-flex justify-content-center gap-3">
                               <svg

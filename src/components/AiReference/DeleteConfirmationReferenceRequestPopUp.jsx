@@ -22,8 +22,8 @@ const DeleteConfirmationReferenceRequestPopUp = ({ onClose, onConfirmDelete }) =
             &times;
           </Button>
         </div>
-        <div className="d-flex justify-content-center align-items-center flex-column">
-          <p>Would you like to confirm to delete this reference request?</p>
+        <div className="d-flex justify-content-center align-items-center flex-column p-2">
+          <p className="text-center">Would you like to confirm to delete this reference request?</p>
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button className="btn-no-delete" onClick={onClose}>
               No

@@ -16,9 +16,9 @@ const DeleteConfirmationJobPopUp = ({ onClose, onConfirmDelete }) => {
             &times;
           </Button>
         </div>
-        <div className="d-flex justify-content-center align-items-center flex-column">
+        <div className="d-flex justify-content-center align-items-center flex-column p-2">
           {/* <p>Would you like to confirm to delete this job?</p> */}
-          <p>
+          <p className="text-center">
             Are you sure you want to delete this job? Deleting this job will
             also remove all associated candidates and their reference records.
           </p>

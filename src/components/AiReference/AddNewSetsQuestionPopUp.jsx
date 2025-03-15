@@ -176,7 +176,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
 
               {/* Progress bar and count */}
               <div style={{ width: "95%" }}>
-                <p className="mb-3">{questions.length} of 10 Questions</p>
+                <p className="mb-2">{questions.length} of 10 Questions</p>
                 <ProgressBar
                   className="progress-bar-for-question"
                   now={progress}
@@ -204,7 +204,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             </div>
           )}
 
-          <div className="d-flex justify-content-end mt-3">
+          <div className="d-flex justify-content-end align-items-start">
             <div className="d-flex justify-content-end mt-3">
               <button
                 className={`btn-add-candidate ${

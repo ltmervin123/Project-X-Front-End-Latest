@@ -66,6 +66,47 @@ word-wrap: break-word;
 /* .AiReference-report-container td:nth-child(5){
   padding: 0;
 } */
+.AiReferenceCard-report {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between cards */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  height: 20vh;
+  background: var(--font-white);
+
+}
+.AiReferenceCard-report  > div p {
+  font-weight: 500;
+  height: 10%;
+  margin: 0;
+}
+.AiReferenceCard-report  .title {
+  font-weight: bold !important;
+  color: var(--card-color);
+}
+
+.AiReferenceCard-report  .count {
+  font-size: 35px !important;
+  font-weight: bold !important;
+  margin: 0;
+  height: 90%;
+  width: 100%;
+}
+
+.AiReferenceCard-report  .value {
+  font-size: 35px !important;
+  font-weight: bold !important;
+  margin: 0;
+  padding-top: 10%;
+  height: 70%;
+  width: 100%;
+}
+.AiReferenceCard-report  small {
+  color: var(--card-color);
+}
+
 .AiReference-report-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;

@@ -84,8 +84,8 @@
   padding: 10px !important;
   background: var(--font-white);
   width: auto;
-  font-size: 12px;
-  left: -190%;
+  font-size: 15px;
+  left: -240%;
   top: 140%;
   z-index: 1; /* Ensure it appears above other elements */
 }
@@ -241,7 +241,7 @@ font-size: inherit;
 }
 
 .custom-dropdown-ref-req .dropdown-header-ref-req {
-  padding: 10px;
+  padding: 5px 30px;
   border: 1px solid #ccc;
   cursor: pointer;
   border-radius: 50px !important;
@@ -264,7 +264,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 }
 
 .custom-dropdown-ref-req .dropdown-item-ref-req {
-  padding: 10px;
+  padding: 5px ;
   cursor: pointer;
 }
 

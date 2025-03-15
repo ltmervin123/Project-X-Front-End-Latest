@@ -33,6 +33,7 @@
   background: var(--font-white);
   box-shadow: 0 4px 4px 0px #00000059;
 }
+
 .referencecheckquestion-container .question-container > .question-title {
   font-weight: 600 !important;
   height: auto !important;
@@ -89,10 +90,13 @@
   gap: 5px;
 }
 .transcription-answer-container button:nth-child(1){
-  background: var(--primary-color) !important;
+  background: var(--primary-color);
 }
 .transcription-answer-container button:nth-child(2){
   background: var(--secondary-color) !important;
+}
+.btn-stop-transcript{
+background: var(--secondary-color) !important;
 }
 .transcription-answer-container button svg{
   height: 20px;

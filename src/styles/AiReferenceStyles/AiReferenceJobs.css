@@ -102,7 +102,7 @@
 }
 .job-container-form form{
   width:65%;
-  max-width: 600px;
+  max-width: 620px;
 }
 .job-container-form .form-label{
 font-weight: bold;
@@ -147,7 +147,7 @@ align-items: center;
   z-index: 1000;
   background: var(--font-white);
   width: auto;
-  font-size: 12px;
+  font-size: 15px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
 }
 .action-options p{

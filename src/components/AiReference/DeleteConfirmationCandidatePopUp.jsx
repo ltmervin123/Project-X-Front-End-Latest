@@ -16,9 +16,9 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete }) => {
             &times;
           </Button>
         </div>
-        <div className="d-flex justify-content-center align-items-center flex-column">
+        <div className="d-flex justify-content-center align-items-center flex-column p-2">
           {/* <p>Would you like to confirm to delete this candidate?</p> */}
-          <p>
+          <p className="text-center">
             Are you sure you want to delete this candidate? Deleting this
             candidate will also remove all associated reference records.
           </p>
