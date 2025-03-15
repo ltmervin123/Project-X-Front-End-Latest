@@ -3,16 +3,10 @@ import { Modal, Button } from "react-bootstrap";
 
 const DeleteConfirmationJobPopUp = ({ onClose, onConfirmDelete }) => {
   return (
-    <Modal
-      show={true}
-      onHide={onClose}
-      centered
-      backdrop={true}
-    >
+    <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
-       <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-          </div>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div></div>
           <Button
             className="closebtn"
             variant="link"
@@ -23,8 +17,15 @@ const DeleteConfirmationJobPopUp = ({ onClose, onConfirmDelete }) => {
           </Button>
         </div>
         <div className="d-flex justify-content-center align-items-center flex-column">
-
-          <p>Would you like to confirm to delete this job?</p>
+          {/* <p>Would you like to confirm to delete this job?</p> */}
+          <p>
+            Are you sure you want to delete this job? Deleting this job will
+            also remove all associated candidates and their reference records.
+          </p>
+          {/* <p>
+            Deleting this job will also remove all associated candidates and
+            their reference records.{" "}
+          </p> */}
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button className="btn-no-delete-job" onClick={onClose}>
               No

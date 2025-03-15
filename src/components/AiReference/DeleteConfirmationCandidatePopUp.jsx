@@ -3,16 +3,10 @@ import { Modal, Button } from "react-bootstrap";
 
 const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete }) => {
   return (
-    <Modal
-      show={true}
-      onHide={onClose}
-      centered
-      backdrop={true}
-    >
+    <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-          </div>
+          <div></div>
           <Button
             className="closebtn"
             variant="link"
@@ -23,12 +17,20 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete }) => {
           </Button>
         </div>
         <div className="d-flex justify-content-center align-items-center flex-column">
-          <p>Would you like to confirm to delete this candidate?</p>
+          {/* <p>Would you like to confirm to delete this candidate?</p> */}
+          <p>
+            Are you sure you want to delete this candidate? Deleting this
+            candidate will also remove all associated reference records.
+          </p>
+          {/* <p>This action will also delete all associated reference records.</p> */}
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button className="btn-no-delete-candidate" onClick={onClose}>
               No
             </button>
-            <button className="btn-yes-delete-candidate" onClick={onConfirmDelete}>
+            <button
+              className="btn-yes-delete-candidate"
+              onClick={onConfirmDelete}
+            >
               Yes
             </button>
           </div>
