@@ -117,7 +117,7 @@ const CompanyRegistrationForm = () => {
         Join our platform and start hiring top talent today!
       </i>
 
-      <div className="my-4 company-registration-container-form">
+      <div className="my-2 company-registration-container-form">
         <div className="company-reg-title">
           <h5 className="m-0">Register Your Company</h5>
           <p className="m-0">

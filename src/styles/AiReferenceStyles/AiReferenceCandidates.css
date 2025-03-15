@@ -40,6 +40,24 @@
 .btn-create-new-candidate:hover {
   background: darkorange; /* Darker shade on hover */
 }
+.btn-no-delete-candidate{
+  background: var(--secondary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
+.btn-yes-delete-candidate{
+  background: var(--primary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
 .AiReference-candidates-container {
   background: var(--font-white);
   border: 1px solid var(--card-color);
@@ -52,7 +70,7 @@
 }
 .AiReference-candidates-container table {
   width: 100%;
-  height: 67%;
+  height: 80%;
   border-collapse: collapse; /* Ensure borders are collapsed */
 }
 
@@ -79,6 +97,20 @@
 /* .AiReference-candidates-container td:nth-child(5){
   padding: 0;
 } */
+.AiReference-candidates-container th,
+.AiReference-candidates-container td{
+  width: 20%;
+  padding-left: 0;
+  font-weight: bold;
+}
+.AiReference-candidates-container th:nth-child(4),
+.AiReference-candidates-container td:nth-child(4){
+  width: 15%;
+}
+.AiReference-candidates-container th:nth-child(5),
+.AiReference-candidates-container td:nth-child(5){
+  width:25%;
+}
 .AiReference-candidates-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;
@@ -86,6 +118,8 @@
   width: 120px;
   padding: 8px; /* Adjusted padding */
   border-radius: 50px;
+  height: auto;
+
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
@@ -96,27 +130,18 @@
   background: darkgreen;
 }
 
-.candidate-button-controls {
-  width: 60%;
-}
-.candidate-button-controls > .btn-export {
-  background: var(--card-color);
-  border: none;
-  color: var(--font-white);
+.candidate-button-controller button{
   border-radius: 50px;
-  padding: 5px 20px;
-  height: 40px;
-
-  /* width: 230px; */
+  border: none;
+  width: 150px;
+  padding: 5px;
+  color: var(--font-white);
 }
-.candidate-button-controls > .btn-archive {
+.candidate-button-controller button:nth-child(1){
+  background: var(--secondary-color);
+}
+.candidate-button-controller button:nth-child(2){
   background: var(--primary-color);
-  border: none;
-  color: var(--font-white);
-  border-radius: 50px;
-  padding: 5px 20px;
-  height: 40px;
-  /* width: 230px; */
 }
 .btn-add-candidate {
   background: var(--primary-color);
@@ -129,6 +154,25 @@
 .btn-add-candidate:disabled {
   background: var(--card-color) !important;
   cursor: not-allowed;
+}
+.btn-add-candidate-component {
+  background: var(--secondary-color);
+  border-radius: 50px;
+  border: none;
+  width: 100%;
+  padding: 5px;
+  color: var(--font-white);
+}
+.btn-add-candidate-component:disabled {
+  background: var(--card-color) !important;
+  cursor: not-allowed;
+}
+.add-candidate-controller button{
+background: none;
+border: none;
+}
+.add-candidate-controller span{
+  font-size: 29px !important;
 }
 /* Customizing the scrollbar */
 .AiReference-candidates-container tbody::-webkit-scrollbar {

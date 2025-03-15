@@ -89,14 +89,26 @@
   /* background: var(--primary-color); */
 }
 .job-container-form{
+  
   border-radius: 20px;
   background: var(--font-white) !important;
   padding: 30px !important;
-  height: 58vh;
+  height: 64vh;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
+.job-container-form > b{
+  width:75%;
+  max-width: 800px;
+}
 .job-container-form form{
-  width: 80%;
+  width:65%;
+  max-width: 600px;
+}
+.job-container-form .form-label{
+font-weight: bold;
+display: flex;
+justify-content: start;
+align-items: center;
 }
 .job-container-form input,
 .job-container-form select{
@@ -122,11 +134,63 @@
 .btn-proceed:disabled{
   background: var(--card-color);
 }
+.AiReference-active-jobs-container td{
+  height: auto;
+  font-weight: bold;
+
+}
+.action-options {
+  position: relative; /* or fixed if you want it to stay in view */
+  left: 10px;
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+  padding: 10px !important;
+  z-index: 1000;
+  background: var(--font-white);
+  width: auto;
+  font-size: 12px;
+  overflow-y: auto; /* Allow scrolling if content exceeds max height */
+}
+.action-options p{
+  margin: 0 !important;
+}
+.action-options p:nth-child(2){
+  color: red;
+}
+.job-container-form .text-danger{
+  position: absolute;
+  font-size: 12px;
+}
+.job-container-form > b > span{
+  color: var(--card-color);
+}
+.btn-no-delete-job{
+  background: var(--secondary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
+.btn-yes-delete-job{
+  background: var(--primary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
+/* .action-options p > svg:nth-child(1){
+  fill: var(--card-color) !important;
+}
+.action-options svg:nth-child(2){
+  fill: var(--text-color) !important;
+} */
 .custom-modal-job .modal-body {
   width: 100%;
   height: 100%;
   padding: 40px;
-
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
 
@@ -134,9 +198,7 @@
   font-weight: 300;
   color: var(--card-color);
 }
-.custom-modal-job .modal-body .candidate-details > div {
-  border-bottom: 1px solid var(--text-color);
-}
+
 .custom-modal-job .modal-body > form > div input,
 .custom-modal-job .modal-body > form > div select {
   border-radius: 50px;
@@ -165,7 +227,7 @@
 }
 .custom-modal-job .modal-body .btn-create-job {
   background: var(--primary-color);
-  border-radius: 10px;
+  border-radius: 50px;
   border: none;
   width: 150px;
   padding: 5px;
@@ -207,7 +269,7 @@
   color: var(--text-color);
 }
  .referees-list-container{
-height: 170px;
+height: 172px;
 overflow-y: auto;
 }
 .referees-list-container .referee-input{

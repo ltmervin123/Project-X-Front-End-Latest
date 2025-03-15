@@ -136,13 +136,13 @@
   font-weight: 400;
 }
 .orig-label,
-.normalize-label {
+.ai-enhanced-label {
   color: var(--input-bg);
   font-weight: 300;
 }
 
 .answer-container,
-.normalize-answer-container {
+.ai-enhanced-answer-container {
   margin-bottom: 15px;
 }
 .answer-container {
@@ -163,7 +163,7 @@
   word-wrap: break-word;
   margin: 0;
 }
-.normalize-answer-container {
+.ai-enhanced-answer-container {
   background: #319f4331;
   padding: 20px;
   border-radius: 20px;
@@ -183,7 +183,7 @@
 }
 
 .answer-container p,
-.normalize-answer-container p {
+.ai-enhanced-answer-container p {
   margin: 0;
   padding: 0;
 }
@@ -216,8 +216,14 @@
   color: var(--font-white);
   border: none;
   font-size: 15px;
+  width: 100px;
 }
-
+.edit-save-button-container .btn-save{
+  background: var(--primary-color);
+}
+.edit-save-button-container .btn-edit{
+  background: var(--secondary-color);
+}
 .ReviewYourReferenceCheck-dropdown-content button {
   background: #ffdcc2;
   border-radius: 50px;
@@ -295,7 +301,7 @@
 .proceed-btn:hover {
   background: var(--secondary-color);
 }
-/*Selection Part for original and normalize answer*/
+/*Selection Part for original and ai-enhanced answer*/
 .ReviewYourReferenceCheckAnswer-right-container > .answer-indicator-container {
   height: 20%;
 }
@@ -307,15 +313,7 @@
 .ReviewYourReferenceCheckAnswer-right-container > .buttons-container {
   height: 50%;
 }
-.ReviewYourReferenceCheckAnswer-right-container > .buttons-container button {
-  height: 60px !important;
-  box-shadow: 0px 2px 2px #00000059 !important;
-  border: none;
-  background: var(--font-white);
-  border-radius: 10px;
-  width: 100%;
-  padding: 10px;
-}
+
 .ReviewYourReferenceCheckAnswer-right-container
   > .buttons-container
   button.active {
@@ -324,6 +322,9 @@
 }
 .ReviewYourReferenceCheckAnswer-right-container > .button-controller-container {
   height: 30% !important;
+}
+.ReviewYourReferenceCheckAnswer-right-container > .button-controller-container button:disabled{
+background: var(--input-bg) !important;
 }
 .ReviewYourReferenceCheckAnswer-right-container
   > .button-controller-container > small{
@@ -337,39 +338,61 @@
   button:nth-child(2) {
   color: var(--font-white);
   background: var(--secondary-color);
-
   border: none;
   border-radius: 50px;
-  width: 100%;
-  height: 40px;
+  font-size: 15px;
+  width: 120px;
+  height: 30px;
 }
 .ReviewYourReferenceCheckAnswer-right-container
   > .button-controller-container
   button:nth-child(3) {
   color: var(--font-white);
   background: var(--primary-color);
+  font-size: 15px;
 
   border: none;
   border-radius: 50px;
-  width: 100%;
-  height: 40px;
+  width: 120px;
+  height: 30px;
 }
 
+
+
+
+
 /* signature draw/image upload */
-.ReviewYourReferenceCheck-container .selection-container > select {
-  width: 100%;
+.ReviewYourReferenceCheck-container .selection-container,
+.ReviewYourReferenceCheck-container .preferred-id-container{
+  width: 70%;
+}
+.ReviewYourReferenceCheck-container .selection-container > select,
+.ReviewYourReferenceCheck-container .preferred-id-container > select  {
+  width: 60%;
   height: 40px;
-  border-radius: 10px;
-  padding: 0px 10px;
+  border-radius: 50px;
+  padding: 0px 20px 0px 10px;
+  box-shadow: 0 4px 4px 0px #00000059;
+
+}
+.drawing-container{
+  width: 70%;
+  
 }
 .drawing-container > .drawing-container-box {
   width: 100%;
   border-radius: 10px;
-}
+  box-shadow: 0 4px 4px 0px #00000059;
 
+}
+.file-upload-container{
+  width: 70%;
+
+}
 .file-upload-area {
-  height: 300px;
   border-radius: 10px;
+  box-shadow: 0 4px 4px 0px #00000059;
+
 }
 .file-upload-container button {
   width: 200px;
@@ -385,12 +408,14 @@
   width: 100%;
 }
 .ReviewYourReferenceCheck-button-controls > button {
-  width: 200px;
-  height: 40px;
+  width: 150px !important;
+  padding: 5px 35px;
+  font-size: 15px;
   border-radius: 50px;
   border: none;
   color: var(--font-white);
   font-weight: 600;
+  
 }
 .ReviewYourReferenceCheck-button-controls > button:nth-child(1) {
   background: var(--primary-color);
@@ -408,26 +433,116 @@
   height: 100px;
   border-bottom: 1px solid var(--font-black);
 }
+.btn-no-skip{
+  background: var(--secondary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
 
+}
+.btn-yes-skip{
+  background: var(--primary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+}
+
+.preferred-id-container,
+.upload-id-container{
+  width: 70%;
+}
+.preferred-id-container > p,
+.selection-container > p,
+.drawing-container > p,
+.file-upload-container > p,
+.upload-id-container > p,
+.front-id-container > p,
+.back-id-container > p{
+  font-weight: bold;
+}
+.drawing-container  .front-id-container,
+.drawing-container  .back-id-container {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0px #00000059;
+}
+.front-id-container > div,
+ .back-id-container > div{
+  background: #F2F3F7;
+border-radius: 10px;
+border: 1px solid var(--input-bg);
+padding: 20px;
+
+}
+.front-id-container > div button,
+.back-id-container > div button,
+.front-id-container > div input,
+.back-id-container > div input
+{
+  background: var(--secondary-color);
+  width: 150px;
+  font-size: 15px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+}
+.front-id-container > div button:disabled ,
+.back-id-container > div button:disabled ,
+.front-id-container > div input:disabled ,
+.back-id-container > div input:disabled {
+  background: var(--input-bg) !important;
+
+}
+.front-id-img-container,
+.back-id-img-container{
+width: 80%;
+}
+.IdUploadSection-button-controls > button {
+  width: 150px !important;
+  padding: 5px 35px;
+  font-size: 15px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  font-weight: 600;
+  
+}
+.IdUploadSection-button-controls > button:disabled {
+background: var(--input-bg) !important;
+  
+}
+.IdUploadSection-button-controls > button:nth-child(1) {
+  background: var(--secondary-color);
+
+}
+.IdUploadSection-button-controls > button:nth-child(2) {
+  background: var(--primary-color);
+
+}
 /* Customizing the scrollbar */
 .answer-container::-webkit-scrollbar,
-.normalize-answer-container::-webkit-scrollbar {
+.ai-enhanced-answer-container::-webkit-scrollbar {
   width: 8px; /* Scrollbar width */
 }
 
 .answer-container::-webkit-scrollbar-thumb,
-.normalize-answer-container::-webkit-scrollbar-thumb {
+.ai-enhanced-answer-container::-webkit-scrollbar-thumb {
   background-color: var(--primary-color); /* Scrollbar thumb color */
   border-radius: 6px; /* Rounded corners */
 }
 
 .answer-container::-webkit-scrollbar-thumb:hover,
-.normalize-answer-container::-webkit-scrollbar-thumb:hover {
+.ai-enhanced-answer-container::-webkit-scrollbar-thumb:hover {
   background-color: var(--primary-color); /* Scrollbar thumb color */
 }
 
 .answer-container::-webkit-scrollbar-track,
-.normalize-answer-container::-webkit-scrollbar-track {
+.ai-enhanced-answer-container::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }

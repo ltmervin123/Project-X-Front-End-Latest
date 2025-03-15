@@ -6,13 +6,7 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
-.company-register-page-container {
-  background: linear-gradient(
-    180deg,
-    rgba(253, 251, 251, 1) 0%,
-    rgba(235, 237, 238, 1) 38%
-  );
-}
+
 .company-reg-container i {
   font-size: 13px;
 }
@@ -21,14 +15,17 @@
   height: auto;
   margin: 0 auto;
   background-color: #fff;
+  
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .company-registration-container-form {
   width: 70%;
-  max-width: 900px;
+  max-width: 820px;
   border-radius: 20px;
+  border: 1px solid #dedede;
+
 }
 .form-company-reg {
   padding: 10px 100px 30px 100px;

@@ -152,8 +152,8 @@ const AiReferenceCheckVerificationForm = ({
       <i className="text-center">
         Your insights are valuable in helping us make informed decisions.
       </i>
-
-      <div className="my-4 AiReferenceCheckVerification-container-form">
+<div className="d-flex align-items-center justify-content-center h-100 w-100 my-2 ">
+<div className=" AiReferenceCheckVerification-container-form">
         <div className="AiReferenceCheckVerification-title">
           <h5 className="m-0">Verify Your Information</h5>
           <p className="m-0">
@@ -279,6 +279,8 @@ const AiReferenceCheckVerificationForm = ({
           </div>
         </Form>
       </div>
+</div>
+
     </div>
   );
 };

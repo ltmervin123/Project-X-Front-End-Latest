@@ -10,7 +10,7 @@ const ManagementFormatComponent = ({
   return (
     <>
       <div className="AiReference-table-title">
-        <h4 className="color-blue1">Management Formats</h4>
+        <h4 className="color-blue1 mb-0">Management Formats</h4>
         <p> Questions tailored for managerial and leadership roles.</p>
       </div>
       <div className="Format-Container">

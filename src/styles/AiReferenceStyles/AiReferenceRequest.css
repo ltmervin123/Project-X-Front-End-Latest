@@ -11,16 +11,100 @@
   --isDropdown-bgcolor: #B9B9B9;
 }
 
-.reference-dropdown-table {
+.reference-dropdown-container{
+  border-bottom: 2px solid var(--text-color);
   width: 98%;
+
 }
-.reference-table{
-  height: 80% !important;
+.reference-dropdown-container > b{
+  color: var(--card-color);
+}
+.referee-list {
+  display: flex;
 }
 
-.reference-dropdown-table tbody{
-  overflow: none;
-  height: auto;
+.referee-item {
+  width: 33%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+.referee-label{
+  color: var(--card-color);
+}
+.referee-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+}
+
+.referee-name,
+.referee-status,
+.referee-position,
+.referee-email {
+  margin: 2px 0;
+  font-size: 12px;
+}
+.referee-name,
+.referee-status{
+  width: 50%;
+}
+.referee-email {
+  width: 100%;
+  word-wrap: break-word;
+
+}
+.referee-left-container{
+  width: 50%;
+}
+.referee-status{
+  display: flex;
+  justify-content: end;
+}
+.btn-view-details {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-view-details:hover {
+  background-color: #0056b3;
+}
+.action-options-reference {
+  position: absolute; /* or fixed if you want it to stay in view */
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+  padding: 10px !important;
+  background: var(--font-white);
+  width: auto;
+  font-size: 12px;
+  left: -190%;
+  top: 140%;
+  z-index: 1; /* Ensure it appears above other elements */
+}
+
+.action-options-reference::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* Adjust this value to position the arrow */
+  left: 50px; /* Adjust this value to position the arrow */
+  border-width: 5px; /* Size of the arrow */
+  border-style: solid;
+  border-color: transparent transparent var(--sidebar-bg) transparent; /* Arrow color */
+  /* Adjust the left value to center the arrow if needed */
+}
+.action-options-reference p{
+  margin: 0 !important;
+}
+.action-options-reference p:nth-child(2){
+  color: red;
 }
 .reference-table > thead > tr > th:nth-child(1),
 .reference-table > thead > tr > th:nth-child(2),
@@ -63,11 +147,137 @@ font-size: inherit;
  .btn-view-details.isDropdown:hover{
   background: var(--isDropdown-bgcolor);
  }
-.reference-dropdown-icon .rotate{
-  transform: rotate(180deg);
-  transition: transform 0.3s ease;
+
+.AiReference-refReq-container {
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  border-radius: 20px;
+  padding: 20px;
+  height: 60vh;
+}
+.AiReference-refReq-container > div {
+  height: 15%;
+}
+.AiReference-refReq-container table {
+  width: 100%;
+  height: 80%;
+  border-collapse: collapse; /* Ensure borders are collapsed */
 }
 
+.AiReference-refReq-container tbody {
+  display: block; /* Make tbody a block element */
+  overflow-y: auto; /* Enable vertical scrolling */
+  height: 100%;
+}
+
+.AiReference-refReq-container tr {
+  display: table; /* Ensure rows are displayed as table rows */
+  table-layout: fixed; /* Prevent layout shifts */
+  width: 100%; /* Full width for rows */
+}
+.AiReference-refReq-container th {
+  color: var(--card-color);
+}
+.AiReference-refReq-container th,
+.AiReference-refReq-container td {
+  padding: 10px; /* Padding for table cells */
+  word-wrap: break-word;
+  text-align: left; /* Align text to the left */
+  font-weight: bold;
+
+}
+/* .AiReference-refReq-container td:nth-child(5){
+  padding: 0;
+} */
+.AiReference-refReq-container th,
+.AiReference-refReq-container td{
+  width: 20%;
+  padding-left: 0;
+}
+
+
+.AiReference-refReq-container .btn-view-details {
+  background: var(--btn-view-color);
+  text-decoration: none;
+  color: var(--font-white);
+  width: 120px;
+  padding: 8px; /* Adjusted padding */
+  border-radius: 50px;
+  border: none !important;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.AiReference-refReq-container .btn-view-details:hover {
+  background: darkgreen;
+}
+
+.btn-create-new-candidate:hover {
+  background: darkorange; /* Darker shade on hover */
+}
+.btn-no-delete{
+  background: var(--secondary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
+.btn-yes-delete{
+  background: var(--primary-color);
+  width: 100px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px; /* Adjusted padding */
+
+}
+.custom-dropdown-ref-req {
+  position: relative;
+  width: 100%;
+  
+}
+
+.custom-dropdown-ref-req .dropdown-header-ref-req {
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 50px !important;
+text-align: center;
+background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 12px 12px;
+  transition: background-image 0.3s ease;
+}
+
+.custom-dropdown-ref-req .dropdown-list-ref-req {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 1000;
+}
+
+.custom-dropdown-ref-req .dropdown-item-ref-req {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.custom-dropdown-ref-req .dropdown-item-ref-req:hover {
+  background-color: #f0f0f0;
+}
+.dropdown-header-ref-req.active{
+  background: var(--primary-color) !important;
+  color: var(--font-white) !important;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+}
 
 .custom-modal-reference .modal-dialog {
   width: 80% !important; /* Adjust the width to 80% of the parent container */

@@ -7,7 +7,7 @@ import ReferenceVerificationSection from "../../components/ReferenceVerification
 function ReferenceVerificationPage() {
   return (
     <>
-      <div className="container-fluid mock-background">
+      <div className="container-fluid mock-background login-page-container">
         <Header />
         <ReferenceVerificationSection />
       </div>

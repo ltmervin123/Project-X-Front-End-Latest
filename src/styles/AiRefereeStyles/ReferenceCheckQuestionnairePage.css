@@ -75,18 +75,24 @@
   color: var(--input-bg);
 }
 .transcription-answer-container button {
-  background: var(--primary-color) !important;
+
   padding: 5px 35px;
   font-weight: 400;
-  /* width: 200px; */
+  width: 150px !important;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   color: var(--font-white);
   border-radius: 50px;
-  font-size: 25px;
+  font-size: 15px;
   gap: 5px;
+}
+.transcription-answer-container button:nth-child(1){
+  background: var(--primary-color) !important;
+}
+.transcription-answer-container button:nth-child(2){
+  background: var(--secondary-color) !important;
 }
 .transcription-answer-container button svg{
   height: 20px;
