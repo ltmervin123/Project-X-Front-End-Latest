@@ -28,6 +28,7 @@ const AddCandidateComponent = ({
       name: "",
       email: "",
       position: addedJob.positionName,
+      positionId: addedJob.positionId,
     }));
 
     setCandidates(newCandidates);
@@ -69,6 +70,7 @@ const AddCandidateComponent = ({
           name: candidate.name,
           email: candidate.email,
           position: candidate.position,
+          positionId: candidate.positionId,
           status,
         };
         return axios.post(URL, payload, {
@@ -143,12 +145,11 @@ const AddCandidateComponent = ({
         <p className="mb-2">Enter the details of the new candidate below.</p>
       </div>
       <div className="job-container-form d-flex align-items-center justify-content-center w-100 flex-column">
-      <b className="d-flex justify-content-start">
-            Candidate {currentCandidateIndex + 1} of {addedJob?.vacancies}
-            <span>&nbsp; * Fill in the required Information</span>
-          </b>
+        <b className="d-flex justify-content-start">
+          Candidate {currentCandidateIndex + 1} of {addedJob?.vacancies}
+          <span>&nbsp; * Fill in the required Information</span>
+        </b>
         <Form onSubmit={handleSubmit}>
- 
           <Form.Group
             controlId="formHiringManager"
             className="d-flex align-items-center my-5 mb-4"

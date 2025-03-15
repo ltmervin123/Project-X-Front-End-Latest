@@ -18,8 +18,7 @@ const Jobs = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // Add this line
-const [jobToDelete, setJobToDelete] = useState(null); // Add this line
-
+  const [jobToDelete, setJobToDelete] = useState(null); // Add this line
   const [activeJobs, setActiveJobs] = useState(
     JSON.parse(localStorage.getItem("jobs")) || []
   );
@@ -57,9 +56,7 @@ const [jobToDelete, setJobToDelete] = useState(null); // Add this line
 
   useEffect(() => {
     const getJobsWhenFirstRender = async () => {
-      if (activeJobs.length === 0) {
-        await fetchJobs();
-      }
+      await fetchJobs();
     };
 
     getJobsWhenFirstRender();
@@ -104,12 +101,12 @@ const [jobToDelete, setJobToDelete] = useState(null); // Add this line
     setJobToDelete(jobId); // Set the job ID to delete
     setShowDeleteConfirmation(true); // Show the delete confirmation popup
   };
-  
+
   const confirmDeleteJob = async () => {
     if (isDeleting) {
       return;
     }
-  
+
     try {
       setIsDeleting(true);
       const URL = `${API}/api/ai-referee/company-jobs/delete-job-by-id/${jobToDelete}`;
@@ -118,7 +115,7 @@ const [jobToDelete, setJobToDelete] = useState(null); // Add this line
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (response.status === 200) {
         await refetchJobs();
       }
