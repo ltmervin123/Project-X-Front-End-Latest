@@ -15,7 +15,7 @@ const QuestionDisplay = ({
   setIsEditing,
   handleUpdateEnhanceAnswer,
   handlePreviousQuestion,
-  handleNextQuestion
+  handleNextQuestion,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
@@ -61,8 +61,6 @@ const QuestionDisplay = ({
 
   return (
     <div className="ReviewYourReferenceCheck-box-item h-100">
-
-
       <div className="question-container m-0">
         <p className="question-text ">
           <strong>Question {currentQuestionIndex + 1}:</strong>{" "}
@@ -138,8 +136,8 @@ const QuestionDisplay = ({
           </div>
         </>
       )}
-            {/* Navigation Buttons */}
-            <div className="d-flex justify-content-center align-items-center gap-3 my-3 add-candidate-controller">
+      {/* Navigation Buttons */}
+      {/* <div className="d-flex justify-content-center align-items-center gap-3 my-3 add-candidate-controller">
         <button
           type="button"
           onClick={handlePreviousQuestion}
@@ -175,14 +173,15 @@ const QuestionDisplay = ({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path fillRule="evenodd"
+            <path
+              fillRule="evenodd"
               clipRule="evenodd"
               d="M14.517 14.5231L3.203 25.8371L0.375 23.0091L10.275 13.1091L0.375 3.2091L3.203 0.381104L14.517 11.6951C14.8919 12.0702 15.1026 12.5788 15.1026 13.1091C15.1026 13.6394 14.8919 14.148 14.517 14.5231Z"
               fill="#F46A05"
             />
           </svg>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
