@@ -29,13 +29,12 @@ function ReviewYourReferenceCheckPage() {
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array(questions.length).fill(null)
   );
-
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const allQuestionsAnswered = submittedAnswers.length === questions.length;
-    const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
+  const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
   const [frontIdFile, setFrontIdFile] = useState(null);
   const [backIdFile, setBackIdFile] = useState(null);
   const [savedSignature, setSavedSignature] = useState(null);
@@ -51,20 +50,21 @@ function ReviewYourReferenceCheckPage() {
   };
   const handleConfirmSkip = () => {
     // Auto-select original answers for unanswered questions
-    const autoSelected = selectedAnswers.map((answer, index) => 
-      answer || "Original Answer"
+    const autoSelected = selectedAnswers.map(
+      (answer, index) => answer || "Original Answer"
     );
     setSelectedAnswers(autoSelected);
-  
+
     // Populate submittedAnswers with auto-selected answers
     const newSubmittedAnswers = questions.map((question, index) => ({
       question: question,
-      answer: autoSelected[index] === "Original Answer" 
-        ? answers[index] 
-        : aiEnhancedAnswers[index]
+      answer:
+        autoSelected[index] === "Original Answer"
+          ? answers[index]
+          : aiEnhancedAnswers[index],
     }));
     setSubmittedAnswers(newSubmittedAnswers);
-  
+
     setShowSignatureSection(true);
     setShowSkipConfirmation(false);
   };
@@ -81,32 +81,33 @@ function ReviewYourReferenceCheckPage() {
     setShowSkipConfirmation(false);
   };
 
-// Update the saveAnswer function
-const saveAnswer = () => {
-  const currentQuestion = questions[currentQuestionIndex];
-  const selectedType = selectedAnswers[currentQuestionIndex];
-  const selectedAnswer = selectedType === "Original Answer" 
-    ? answers[currentQuestionIndex] 
-    : aiEnhancedAnswers[currentQuestionIndex];
+  // Update the saveAnswer function
+  const saveAnswer = () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const selectedType = selectedAnswers[currentQuestionIndex];
+    const selectedAnswer =
+      selectedType === "Original Answer"
+        ? answers[currentQuestionIndex]
+        : aiEnhancedAnswers[currentQuestionIndex];
 
-  const newSelectedAnswers = [...selectedAnswers];
-  newSelectedAnswers[currentQuestionIndex] = selectedType;
-  setSelectedAnswers(newSelectedAnswers);
+    const newSelectedAnswers = [...selectedAnswers];
+    newSelectedAnswers[currentQuestionIndex] = selectedType;
+    setSelectedAnswers(newSelectedAnswers);
 
-  const newAnswer = {
-    question: currentQuestion,
-    answer: selectedAnswer,
+    const newAnswer = {
+      question: currentQuestion,
+      answer: selectedAnswer,
+    };
+
+    setSubmittedAnswers((prev) => [...prev, newAnswer]);
+
+    // Always move to next question if not last
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+
+    setIsSubmitEnabled(false);
   };
-
-  setSubmittedAnswers((prev) => [...prev, newAnswer]);
-  
-  // Always move to next question if not last
-  if (currentQuestionIndex < questions.length - 1) {
-    setCurrentQuestionIndex(prev => prev + 1);
-  }
-  
-  setIsSubmitEnabled(false);
-};
 
   useEffect(() => {
     if (referenceQuestionsData.length > 0) {
@@ -125,6 +126,10 @@ const saveAnswer = () => {
       setSelectedAnswers(Array(allQuestions.length).fill(null));
     }
   }, []);
+
+  useEffect(() => {
+    console.log("Submitted Answer: ", submittedAnswers);
+  }, [submittedAnswers]);
 
   const handleProceed = () => {
     setShowSignatureSection(true);
@@ -425,14 +430,12 @@ const saveAnswer = () => {
     };
   }, []);
 
-
   const handleAnswerSelection = (type) => {
     const newSelectedAnswers = [...selectedAnswers];
     newSelectedAnswers[currentQuestionIndex] = type;
     setSelectedAnswers(newSelectedAnswers);
     setIsSubmitEnabled(true);
   };
-
 
   return (
     <div className="main-container d-flex flex-column align-items-center justify-content-center">
@@ -449,7 +452,6 @@ const saveAnswer = () => {
               draw={draw}
               stopDrawing={stopDrawing}
               clearDrawing={clearDrawing}
-              // submitReferenceCheck={submitReferenceCheck}
               handleProceedIDUpload={handleProceedIDUpload}
               submitting={submitting}
               handleFileDrop={handleFileDrop}
@@ -460,7 +462,6 @@ const saveAnswer = () => {
               clearImage={clearImage}
               setSignatureMethod={setSignatureMethod}
               handleFileSelect={handleFileSelect}
-              setSavedSignature={setSavedSignature}
             />
           </Col>
         ) : showIdUploadSection ? (
@@ -498,6 +499,7 @@ const saveAnswer = () => {
                   setEditedAnswer={setEditedAnswer}
                   setAnswers={setAnswers}
                   setIsEditing={setIsEditing}
+                  handleUpdateEnhanceAnswer={handleUpdateEnhanceAnswer}
                   handlePreviousQuestion={handlePreviousQuestion}
                   handleNextQuestion={handleNextQuestion}
                 />
@@ -518,7 +520,7 @@ const saveAnswer = () => {
                     </p>
                   </div>
                   <div className="buttons-container d-flex align-items-start justify-content-start flex-column gap-2">
-                  {allQuestionsAnswered ? (
+                    {allQuestionsAnswered ? (
                       <div className="d-flex h-100 w-100 justify-content-center align-items-center">
                         <svg
                           width="129"
@@ -597,24 +599,27 @@ const saveAnswer = () => {
                       onClick={() => {
                         handleSkip();
                       }}
-                      disabled={allQuestionsAnswered} 
+                      disabled={allQuestionsAnswered}
                     >
                       Skip
                     </button>
 
-                    {allQuestionsAnswered  ? (
-  <button className="btn-proceed-submit" onClick={handleProceed}>
-    Proceed
-  </button>
-) : (
-  <button
-    className="btn-proceed-submit"
-    onClick={() => { saveAnswer(); }}
-    disabled={!isSubmitEnabled}
-  >
-    Submit
-  </button>
-)}
+                    {allQuestionsAnswered ? (
+                      <button
+                        className="btn-proceed-submit"
+                        onClick={handleProceed}
+                      >
+                        Proceed
+                      </button>
+                    ) : (
+                      <button
+                        className="btn-proceed-submit"
+                        onClick={saveAnswer}
+                        disabled={!isSubmitEnabled}
+                      >
+                        Submit
+                      </button>
+                    )}
                   </div>
                 </div>
               </Col>
