@@ -18,7 +18,7 @@ const Candidates = () => {
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showEditPopup, setShowEditPopup] = useState(false); // Add this line
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for delete confirmation
-const [candidateToDelete, setCandidateToDelete] = useState(null); // State to hold the candidate ID to delete
+  const [candidateToDelete, setCandidateToDelete] = useState(null); // State to hold the candidate ID to delete
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
@@ -48,9 +48,7 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
 
   useEffect(() => {
     const fetchCandidatesWhenRender = async () => {
-      if (!candidates || candidates.length === 0) {
-        await fetchCandidates();
-      }
+      await fetchCandidates();
     };
 
     fetchCandidatesWhenRender();
@@ -102,7 +100,7 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
     if (isDeleting) {
       return;
     }
-  
+
     try {
       setIsDeleting(true);
       const URL = `${API}/api/ai-referee/company-candidates/delete-candidate-by-id/${candidateToDelete}`;
@@ -111,7 +109,7 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (response.status === 200) {
         await refetchCandidates();
       }
@@ -298,11 +296,11 @@ const [candidateToDelete, setCandidateToDelete] = useState(null); // State to ho
         )}
       </div>
       {showDeleteConfirmation && (
-  <DeleteConfirmationCandidatePopUp
-    onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
-    onConfirmDelete={confirmDeleteCandidate} // Confirm deletion
-  />
-)}
+        <DeleteConfirmationCandidatePopUp
+          onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
+          onConfirmDelete={confirmDeleteCandidate} // Confirm deletion
+        />
+      )}
       {showDetailsPopup && selectedCandidate && (
         <CandidateDetailsPopUp
           candidates={selectedCandidate}
