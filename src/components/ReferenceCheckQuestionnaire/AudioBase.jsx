@@ -161,16 +161,26 @@ const AudioBase = ({
         disabled
       />
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
-      <div className="d-flex justify-content-center gap-3">
-      {reTry ? (
-      <>
-        <button onClick={handleReTry}>Retry</button>
-        {isLastQuestion ? (
-          <button onClick={handleProceed}>Proceed</button>
-        ) : (
-          <button onClick={nextQuestion}>Next</button>
-        )}
-      </>
+        <div className="d-flex justify-content-center gap-3">
+          {reTry ? (
+            <>
+              <button onClick={handleReTry}>Retry</button>
+              {isLastQuestion ? (
+                <button
+                  disabled={!transcription.current}
+                  onClick={handleProceed}
+                >
+                  Proceed
+                </button>
+              ) : (
+                <button
+                  disabled={!transcription.current}
+                  onClick={nextQuestion}
+                >
+                  Next
+                </button>
+              )}
+            </>
           ) : isSanitizingTranscription || isSubmitting ? (
             <button disabled>Saving...</button>
           ) : !isRecording ? (
@@ -179,7 +189,7 @@ const AudioBase = ({
               onClick={startRecording}
               disabled={isSpeaking}
             >
-             Start
+              Start
             </button>
           ) : (
             <button className="btn-stop-transcript" onClick={stopRecording}>
@@ -187,7 +197,6 @@ const AudioBase = ({
             </button>
           )}
         </div>
-
       </div>
     </div>
   );
