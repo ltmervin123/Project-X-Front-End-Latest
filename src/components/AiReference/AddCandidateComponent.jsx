@@ -245,7 +245,7 @@ const AddCandidateComponent = ({
               </div>
             </Form.Group>
           </div>
-          <div className="d-flex justify-content-center align-items-center gap-3 my-3 add-candidate-controller">
+          <div className="d-flex justify-content-center align-items-center gap-3  add-candidate-controller">
             <button
               type="button"
               onClick={handlePrevious}

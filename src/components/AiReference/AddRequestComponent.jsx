@@ -15,6 +15,7 @@ const AddRequestComponent = ({
 
   //States
   const [currentReferenceIndex, setCurrentReferenceIndex] = useState(0);
+  const [currentRefereeIndex, setCurrentRefereeIndex] = useState(0);
   const [reference, setReference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   //Refs
@@ -84,6 +85,13 @@ const AddRequestComponent = ({
     });
   }, [reference]);
 
+  useEffect(() => {
+    setCurrentRefereeIndex(0);
+  }, [currentReferenceIndex]);
+
+  const currentReferee = reference[currentReferenceIndex]?.referees[currentRefereeIndex];
+
+  
   //Functions
   const createReferenceRequest = async () => {
     try {
