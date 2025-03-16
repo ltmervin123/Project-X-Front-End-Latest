@@ -549,8 +549,8 @@ const ReferenceQuestion = () => {
       {/* AddNewSetsQuestionPopUp Modal */}
       {isModalOpen && (
         <AddNewSetsQuestionPopUp
-          onClose={() => setIsModalOpen(false)} // Close modal
-          reFetchUpdatedQuestions={reFetchUpdatedQuestions} // Refetch questions after adding
+          onClose={() => setIsModalOpen(false)}
+          reFetchUpdatedQuestions={reFetchUpdatedQuestions} 
         />
       )}
     </div>

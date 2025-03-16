@@ -71,6 +71,7 @@ const Jobs = () => {
   const handleAddJob = () => {
     refetchJobs();
   };
+  
   const handleToggleOptions = (jobId, event) => {
     const { clientY } = event; // Get the Y position of the click
     setVisibleOptions((prev) => {
@@ -83,13 +84,12 @@ const Jobs = () => {
       updatedOptions[jobId] = true;
       return updatedOptions;
     });
-  
+
     const optionsElement = document.getElementById(`options-${jobId}`);
     if (optionsElement) {
       optionsElement.style.top = `${clientY}px`; // Adjust as needed
     }
   };
-  
 
   const handleEditJob = (jobId) => {
     const recordFound = activeJobs.find((job) => job._id === jobId);
@@ -123,15 +123,14 @@ const Jobs = () => {
       console.error(error);
     } finally {
       setIsDeleting(false);
-      setShowDeleteConfirmation(false); // Close the confirmation popup
-      setJobToDelete(null); // Reset the job ID
+      setShowDeleteConfirmation(false);
     }
   };
 
   const handleClosePopup = () => {
     setShowPopup(false);
-    setShowEditPopup(false); // Close edit popup as well
-    setSelectedJob(null); // Reset selected job
+    setShowEditPopup(false);
+    setSelectedJob(null);
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -218,12 +217,11 @@ const Jobs = () => {
                       <td>{formatDate(job.createdAt)}</td>
                       <td>
                         <div className="position-relative d-flex align-items-center w-100">
-                        <p
-  className="m-0"
-  style={{ cursor: "pointer" }}
-  onClick={(e) => handleToggleOptions(job._id, e)} // Toggle options
->
-
+                          <p
+                            className="m-0"
+                            style={{ cursor: "pointer" }}
+                            onClick={(e) => handleToggleOptions(job._id, e)} // Toggle options
+                          >
                             <svg
                               width="23"
                               height="23"
@@ -280,8 +278,9 @@ const Jobs = () => {
       </div>
       {showDeleteConfirmation && (
         <DeleteConfirmationJobPopUp
-          onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
-          onConfirmDelete={confirmDeleteJob} // Confirm deletion
+          onClose={() => setShowDeleteConfirmation(false)}
+          onConfirmDelete={confirmDeleteJob}
+          isDeleting={isDeleting}
         />
       )}
       {showEditPopup && (

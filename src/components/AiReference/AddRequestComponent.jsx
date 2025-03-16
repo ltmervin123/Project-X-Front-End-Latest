@@ -94,6 +94,7 @@ const AddRequestComponent = ({
   const currentReferee =
     reference[currentReferenceIndex]?.referees[currentRefereeIndex];
 
+
   //Functions
   const createReferenceRequest = async () => {
     try {
@@ -153,6 +154,7 @@ const handleConfirmSubmit = async () => {
   ) => {
     const newReferees = [...reference];
 
+
     // Set the selected format
     newReferees[currentReferenceIndex].referees[index].questionFormat = format;
     newReferees[currentReferenceIndex].referees[index].questionName =
@@ -160,8 +162,10 @@ const handleConfirmSubmit = async () => {
     newReferees[currentReferenceIndex].referees[index].questionId =
       selectedQuestion?._id;
 
+
     // Set active dropdown
     newReferees[currentReferenceIndex].referees[index].activeDropdown = format;
+
 
     // Close the dropdown after selection
     if (format === "HR-HATCH-FORMAT") {
@@ -169,6 +173,7 @@ const handleConfirmSubmit = async () => {
     } else if (format === "CUSTOM-FORMAT") {
       newReferees[currentReferenceIndex].referees[index].isCustomOpen = false;
     }
+
 
     setReference(newReferees);
   };
@@ -201,6 +206,9 @@ const handleConfirmSubmit = async () => {
   };
 
   const handleDeleteReferee = (index) => {
+    if (reference[currentReferenceIndex]?.referees.length === 1) {
+      return;
+    }
     const newReferees = [...reference];
     newReferees[currentReferenceIndex]?.referees.splice(index, 1);
     setReference(newReferees);
@@ -352,7 +360,7 @@ const handleConfirmSubmit = async () => {
                     />
                     <button
                       onClick={() => handleDeleteReferee(index)}
-                      disabled={reference.length <= 1}
+                      disabled={reference.length === 1}
                     >
                       <svg
                         width="20"
@@ -378,7 +386,7 @@ const handleConfirmSubmit = async () => {
                     >
                       Reference Format
                     </Form.Label>
-                    <div className="w-100 reference-question-format-container d-flex gap-2">
+                    <div className="w-100 reference-question-format-container d-flex gap-4">
                       {/* Custom Dropdown for HR-HATCH */}
                       <div className="custom-dropdown-ref-req">
                         <div
@@ -473,6 +481,7 @@ const handleConfirmSubmit = async () => {
                         )}
                       </div>
                     </div>
+
                   </Form.Group>
                   <Form.Group
                     controlId={`formRefereeEmail${index}`}

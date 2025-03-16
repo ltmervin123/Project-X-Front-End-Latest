@@ -45,6 +45,7 @@
 
 .instruction-card h3 {
   color: var(--primary-color);
+
 }
 
 .instruction-card p {
@@ -72,6 +73,7 @@ height: 40px;
   top: -5%;
   left: 50%;
   transform: translateX(-50%);
+  font-size: 15px;
   text-align: center;
   color: var(--font-white);
 }

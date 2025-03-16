@@ -7,6 +7,33 @@ import AudioBase from "../../components/ReferenceCheckQuestionnaire/AudioBase";
 import loadingAnimation from "../../assets/loading.gif";
 import axios from "axios";
 
+const CATEGORY_ORDER = {
+  "Standard Format": [
+    "relationship",
+    "jobResponsibilitiesAndPerformance",
+    "skillAndCompetencies",
+    "workEthicAndBehavior",
+    "closingQuestions",
+  ],
+  "Management Format": [
+    "relationship",
+    "jobResponsibilitiesAndPerformance",
+    "leadershipAndManagementSkills",
+    "workEthicAndBehavior",
+    "closingQuestions",
+  ],
+  "Executive Format": [
+    "relationship",
+    "jobResponsibilitiesAndPerformance",
+    "strategicLeadershipAndVision",
+    "businessImpactAndResults",
+    "teamLeadershipAndOrganizationalDevelopment",
+    "decisionMakingAndProblemSolving",
+    "innovationAndGrowth",
+    "closingQuestions",
+  ],
+};
+
 const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
@@ -35,28 +62,6 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
-  // // Format reference questions
-  // const formatReferenceQuestions = () => {
-  //   if (
-  //     referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
-  //     referenceQuestions?.formatType !== "CUSTOM-FORMAT"
-  //   )
-  //     return [];
-
-  //   return Object.entries(referenceQuestions.questions || {})
-  //     .filter(([_, qs]) => Array.isArray(qs))
-  //     .map(([category, qs]) => ({
-  //       category,
-  //       questions: qs.map((q) =>
-  //         typeof q === "string"
-  //           ? q.replace(/\$\{candidateName\}/g, candidateName)
-  //           : q
-  //       ),
-  //       answers: Array(qs.length).fill(""),
-  //       normalizedAnswers: Array(qs.length).fill(""),
-  //     }));
-  // };
-
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -66,35 +71,8 @@ const ReferenceCheckQuestionnairePage = () => {
 
     switch (referenceQuestions.formatType) {
       case "HR-HATCH-FORMAT":
-        const categoryOrder = {
-          "Standard Format": [
-            "relationship",
-            "jobResponsibilitiesAndPerformance",
-            "skillAndCompetencies",
-            "workEthicAndBehavior",
-            "closingQuestions",
-          ],
-          "Management Format": [
-            "relationship",
-            "jobResponsibilitiesAndPerformance",
-            "leadershipAndManagementSkills",
-            "workEthicAndBehavior",
-            "closingQuestions",
-          ],
-          "Executive Format": [
-            "relationship",
-            "jobResponsibilitiesAndPerformance",
-            "strategicLeadershipAndVision",
-            "businessImpactAndResults",
-            "teamLeadershipAndOrganizationalDevelopment",
-            "decisionMakingAndProblemSolving",
-            "innovationAndGrowth",
-            "closingQuestions",
-          ],
-        };
-
         const format = referenceQuestions.format;
-        const orderedCategories = categoryOrder[format] || [];
+        const orderedCategories = CATEGORY_ORDER[format] || [];
 
         // Filter out categories base on the question format
         return orderedCategories
@@ -137,34 +115,8 @@ const ReferenceCheckQuestionnairePage = () => {
     switch (referenceQuestions.formatType) {
       case "HR-HATCH-FORMAT": {
         const format = referenceQuestions.format;
-        const categoryOrder = {
-          "Standard Format": [
-            "relationship",
-            "jobResponsibilitiesAndPerformance",
-            "skillAndCompetencies",
-            "workEthicAndBehavior",
-            "closingQuestions",
-          ],
-          "Management Format": [
-            "relationship",
-            "jobResponsibilitiesAndPerformance",
-            "leadershipAndManagementSkills",
-            "workEthicAndBehavior",
-            "closingQuestions",
-          ],
-          "Executive Format": [
-            "relationship",
-            "jobResponsibilitiesAndPerformance",
-            "strategicLeadershipAndVision",
-            "businessImpactAndResults",
-            "teamLeadershipAndOrganizationalDevelopment",
-            "decisionMakingAndProblemSolving",
-            "innovationAndGrowth",
-            "closingQuestions",
-          ],
-        };
 
-        const orderedCategories = categoryOrder[format];
+        const orderedCategories = CATEGORY_ORDER[format];
         if (!orderedCategories) return [];
 
         return orderedCategories.flatMap(
@@ -242,25 +194,6 @@ const ReferenceCheckQuestionnairePage = () => {
     };
   }, []);
 
-  // Navigate to Thank You page when last question is answered
-  // useEffect(() => {
-  //   if (
-  //     currentQuestionIndex === questions.length - 1 &&
-  //     answered[currentQuestionIndex]
-  //   ) {
-  //     sessionStorage.setItem(
-  //       "referenceQuestionsData",
-  //       JSON.stringify(referenceQuestionsData)
-  //     );
-  //     navigate("/reference-thankyou-msg");
-  //   }
-  // }, [
-  //   referenceQuestionsData,
-  //   answered,
-  //   currentQuestionIndex,
-  //   questions.length,
-  //   navigate,
-  // ]);
   const handleProceed = () => {
     sessionStorage.setItem(
       "referenceQuestionsData",
@@ -496,11 +429,9 @@ const ReferenceCheckQuestionnairePage = () => {
             isSubmitted={isSubmitting}
             reTry={reTry}
             onReTrySubmit={handleRetry}
-            
             isLastQuestion={currentQuestionIndex === questions.length - 1}
             handleProceed={handleProceed}
             nextQuestion={nextQuestion}
-
           />
         )}
       </>

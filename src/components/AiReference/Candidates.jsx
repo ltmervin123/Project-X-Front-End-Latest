@@ -145,13 +145,13 @@ const Candidates = () => {
       updatedOptions[candidateId] = true;
       return updatedOptions;
     });
-  
+
     const optionsElement = document.getElementById(`options-${candidateId}`);
     if (optionsElement) {
       optionsElement.style.top = `${clientY}px`; // Adjust the positioning as needed
     }
   };
-  
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
@@ -251,8 +251,9 @@ const Candidates = () => {
                           <p
                             className="m-0"
                             style={{ cursor: "pointer" }}
-                            onClick={(e) => handleToggleOptions(candidate._id, e)} // Pass the candidate's ID and event to handleToggleOptions
-
+                            onClick={(e) =>
+                              handleToggleOptions(candidate._id, e)
+                            } // Pass the candidate's ID and event to handleToggleOptions
                           >
                             <svg
                               width="23"
@@ -268,26 +269,32 @@ const Candidates = () => {
                             </svg>
                           </p>
                           {visibleOptions[candidate._id] && (
-  <div id={`options-${candidate._id}`} className="action-options">
-    <p
-      className="d-flex align-items-center gap-2"
-      onClick={() => handleEditCandidate(candidate._id)}
-      style={{ cursor: "pointer" }}
-    >
-      <FaEdit />
-      Edit
-    </p>
-    <p
-      className="d-flex align-items-center gap-2"
-      onClick={() => handleDeleteCandidate(candidate._id)}
-      style={{ cursor: "pointer", color: "red" }}
-    >
-      <FaTrash />
-      Delete
-    </p>
-  </div>
-)}
-
+                            <div
+                              id={`options-${candidate._id}`}
+                              className="action-options"
+                            >
+                              <p
+                                className="d-flex align-items-center gap-2"
+                                onClick={() =>
+                                  handleEditCandidate(candidate._id)
+                                }
+                                style={{ cursor: "pointer" }}
+                              >
+                                <FaEdit />
+                                Edit
+                              </p>
+                              <p
+                                className="d-flex align-items-center gap-2"
+                                onClick={() =>
+                                  handleDeleteCandidate(candidate._id)
+                                }
+                                style={{ cursor: "pointer", color: "red" }}
+                              >
+                                <FaTrash />
+                                Delete
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -301,8 +308,9 @@ const Candidates = () => {
       </div>
       {showDeleteConfirmation && (
         <DeleteConfirmationCandidatePopUp
-          onClose={() => setShowDeleteConfirmation(false)} // Close the confirmation popup
-          onConfirmDelete={confirmDeleteCandidate} // Confirm deletion
+          onClose={() => setShowDeleteConfirmation(false)}
+          onConfirmDelete={confirmDeleteCandidate}
+          isDeleting={isDeleting}
         />
       )}
       {showDetailsPopup && selectedCandidate && (

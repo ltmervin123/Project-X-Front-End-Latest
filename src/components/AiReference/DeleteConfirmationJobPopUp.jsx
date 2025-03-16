@@ -1,7 +1,11 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const DeleteConfirmationJobPopUp = ({ onClose, onConfirmDelete }) => {
+const DeleteConfirmationJobPopUp = ({
+  onClose,
+  onConfirmDelete,
+  isDeleting,
+}) => {
   return (
     <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
@@ -17,21 +21,25 @@ const DeleteConfirmationJobPopUp = ({ onClose, onConfirmDelete }) => {
           </Button>
         </div>
         <div className="d-flex justify-content-center align-items-center flex-column p-2">
-          {/* <p>Would you like to confirm to delete this job?</p> */}
           <p className="text-center">
             Are you sure you want to delete this job? Deleting this job will
             also remove all associated candidates and their reference records.
           </p>
-          {/* <p>
-            Deleting this job will also remove all associated candidates and
-            their reference records.{" "}
-          </p> */}
+
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
-            <button className="btn-no-delete-job" onClick={onClose}>
+            <button
+              className="btn-no-delete-job"
+              disabled={isDeleting}
+              onClick={onClose}
+            >
               No
             </button>
-            <button className="btn-yes-delete-job" onClick={onConfirmDelete}>
-              Yes
+            <button
+              className="btn-yes-delete-job"
+              disabled={isDeleting}
+              onClick={onConfirmDelete}
+            >
+              {isDeleting ? "Deleting..." : "Yes"}
             </button>
           </div>
         </div>
