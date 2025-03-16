@@ -276,70 +276,71 @@ const MainDashboard = () => {
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);
 
-// Calculate the count for each card
-const activeJobCount =
-  activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+  // Calculate the count for each card
+  const activeJobCount =
+    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
 
-const totalCompletedReference = reference.reduce((count, record) => {
-  // Check if the record has referees
-  if (record?.referees) {
-    record.referees.forEach((referee) => {
-      // Count only if the referee's status is "Completed" and the candidate is not null
-      if (referee.status === "Completed" && record.candidate !== null) {
-        count++;
-      }
-    });
-  } 
-  // Check if the record itself is "Completed" and the candidate is not null
-  else if (record.status === "Completed" && record.candidate !== null) {
-    count++;
-  }
-  return count;
-}, 0);
+  const totalCompletedReference = reference.reduce((count, record) => {
+    // Check if the record has referees
+    if (record?.referees) {
+      record.referees.forEach((referee) => {
+        // Count only if the referee's status is "Completed" and the candidate is not null
+        if (referee.status === "Completed" && record.candidate !== null) {
+          count++;
+        }
+      });
+    }
+    // Check if the record itself is "Completed" and the candidate is not null
+    else if (record.status === "Completed" && record.candidate !== null) {
+      count++;
+    }
+    return count;
+  }, 0);
 
-const pendingReferenceCount = reference.reduce((count, record) => {
-  // Check if the record has referees
-  if (record?.referees) {
-    // Count only those referees whose status is "In Progress" and the candidate is not null
-    count += record.referees.filter(
-      (referee) => referee.status === "In Progress" && record.candidate !== null
-    ).length;
-  } 
-  // Check if the record itself is "In Progress" and the candidate is not null
-  else if (record.status === "In Progress" && record.candidate !== null) {
-    count++;
-  }
-  return count;
-}, 0);
+  const pendingReferenceCount = reference.reduce((count, record) => {
+    // Check if the record has referees
+    if (record?.referees) {
+      // Count only those referees whose status is "In Progress" and the candidate is not null
+      count += record.referees.filter(
+        (referee) =>
+          referee.status === "In Progress" && record.candidate !== null
+      ).length;
+    }
+    // Check if the record itself is "In Progress" and the candidate is not null
+    else if (record.status === "In Progress" && record.candidate !== null) {
+      count++;
+    }
+    return count;
+  }, 0);
 
-const totalCandidateCount = candidates.length || 0;
+  const totalCandidateCount = candidates.length || 0;
 
-const cardData = [
-  {
-    title: "Active Jobs",
-    count: activeJobCount,
-    color: "#1877F2",
-    path: "/AiReferenceJobs",
-  },
-  {
-    title: "Pending References",
-    count: pendingReferenceCount,
-    color: "#F8BD00",
-    path: "/AiReferenceRequest",
-  },
-  {
-    title: "Completed References",
-    count: totalCompletedReference,
-    color: "#319F43",
-    path: "/AiReferenceRequest",
-  },
-  {
-    title: "Total Candidates",
-    count: totalCandidateCount,
-    color: "#686868",
-    path: "/AiReferenceCandidates",
-  },
-];
+  const cardData = [
+    {
+      title: "Active Jobs",
+      count: activeJobCount,
+      color: "#1877F2",
+      path: "/AiReferenceJobs",
+    },
+    {
+      title: "Pending References",
+      count: pendingReferenceCount,
+      color: "#F8BD00",
+      path: "/AiReferenceRequest",
+    },
+    {
+      title: "Completed References",
+      count: totalCompletedReference,
+      color: "#319F43",
+      path: "/AiReferenceRequest",
+    },
+    {
+      title: "Total Candidates",
+      count: totalCandidateCount,
+      color: "#686868",
+      path: "/AiReferenceCandidates",
+    },
+  ];
 
   // Data for the line chart
   const lineData = {
