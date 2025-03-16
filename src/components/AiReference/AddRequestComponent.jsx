@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import SubmitConfirmationReferenceRequestPopUp from '../AiReference/SubmitConfirmationReferenceRequestPopUp'; // Adjust the path as necessary
+import SubmitConfirmationReferenceRequestPopUp from "../AiReference/SubmitConfirmationReferenceRequestPopUp"; // Adjust the path as necessary
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const MAX_REFEREES = 3;
+const MIN_REFEREES = 1;
 const AddRequestComponent = ({
   onReFetchReference,
   addedCandidate,
@@ -94,7 +96,6 @@ const AddRequestComponent = ({
   const currentReferee =
     reference[currentReferenceIndex]?.referees[currentRefereeIndex];
 
-
   //Functions
   const createReferenceRequest = async () => {
     try {
@@ -135,17 +136,17 @@ const AddRequestComponent = ({
     }
   };
 
-const handleProceed = () => {
-  if (formRef.current.checkValidity()) {
-    setShowConfirmationPopup(true); // Show the confirmation popup
-  } else {
-    formRef.current.reportValidity();
-  }
-};
-const handleConfirmSubmit = async () => {
-  setShowConfirmationPopup(false); // Close the popup
-  await createReferenceRequest(); // Call the function to create the reference request
-};
+  const handleProceed = () => {
+    if (formRef.current.checkValidity()) {
+      setShowConfirmationPopup(true); // Show the confirmation popup
+    } else {
+      formRef.current.reportValidity();
+    }
+  };
+  const handleConfirmSubmit = async () => {
+    setShowConfirmationPopup(false); // Close the popup
+    await createReferenceRequest(); // Call the function to create the reference request
+  };
 
   const handleRefereeQuestionFormatChange = (
     selectedQuestion,
@@ -154,7 +155,6 @@ const handleConfirmSubmit = async () => {
   ) => {
     const newReferees = [...reference];
 
-
     // Set the selected format
     newReferees[currentReferenceIndex].referees[index].questionFormat = format;
     newReferees[currentReferenceIndex].referees[index].questionName =
@@ -162,10 +162,8 @@ const handleConfirmSubmit = async () => {
     newReferees[currentReferenceIndex].referees[index].questionId =
       selectedQuestion?._id;
 
-
     // Set active dropdown
     newReferees[currentReferenceIndex].referees[index].activeDropdown = format;
-
 
     // Close the dropdown after selection
     if (format === "HR-HATCH-FORMAT") {
@@ -173,7 +171,6 @@ const handleConfirmSubmit = async () => {
     } else if (format === "CUSTOM-FORMAT") {
       newReferees[currentReferenceIndex].referees[index].isCustomOpen = false;
     }
-
 
     setReference(newReferees);
   };
@@ -215,7 +212,7 @@ const handleConfirmSubmit = async () => {
   };
 
   const handleAddRefereeDisabled = () => {
-    return reference[currentReferenceIndex]?.referees.length >= 3;
+    return reference[currentReferenceIndex]?.referees.length === MAX_REFEREES;
   };
 
   const handleSubmit = async (e) => {
@@ -360,7 +357,7 @@ const handleConfirmSubmit = async () => {
                     />
                     <button
                       onClick={() => handleDeleteReferee(index)}
-                      disabled={reference.length === 1}
+                      disabled={referee.length === MIN_REFEREES}
                     >
                       <svg
                         width="20"
@@ -481,7 +478,6 @@ const handleConfirmSubmit = async () => {
                         )}
                       </div>
                     </div>
-
                   </Form.Group>
                   <Form.Group
                     controlId={`formRefereeEmail${index}`}
@@ -564,11 +560,11 @@ const handleConfirmSubmit = async () => {
         </button>
       </div>
       {showConfirmationPopup && (
-  <SubmitConfirmationReferenceRequestPopUp
-    onClose={() => setShowConfirmationPopup(false)}
-    onConfirmSubmit={handleConfirmSubmit}
-  />
-)}
+        <SubmitConfirmationReferenceRequestPopUp
+          onClose={() => setShowConfirmationPopup(false)}
+          onConfirmSubmit={handleConfirmSubmit}
+        />
+      )}
     </>
   );
 };
