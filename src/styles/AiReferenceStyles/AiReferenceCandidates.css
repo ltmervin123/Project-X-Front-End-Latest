@@ -42,20 +42,20 @@
 }
 .btn-no-delete-candidate{
   background: var(--secondary-color);
-  width: 100px;
+  width: 120px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
-  padding: 8px 30px; /* Adjusted padding */
+  padding: 5px 30px; /* Adjusted padding */
 
 }
 .btn-yes-delete-candidate{
   background: var(--primary-color);
-  width: 100px;
+  width: 120px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
-  padding: 8px 30px; /* Adjusted padding */
+  padding: 5px 30px; /* Adjusted padding */
 
 }
 .AiReference-candidates-container {
@@ -166,6 +166,9 @@
 .btn-add-candidate-component:disabled {
   background: var(--card-color) !important;
   cursor: not-allowed;
+}
+.add-candidate-controller{
+  height: 10%;
 }
 .add-candidate-controller button{
 background: none;
