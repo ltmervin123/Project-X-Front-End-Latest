@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import SubmitConfirmationReferenceRequestPopUp from "../AiReference/SubmitConfirmationReferenceRequestPopUp"; // Adjust the path as necessary
+import SubmitConfirmationReferenceRequestPopUp from "../AiReference/SubmitConfirmationReferenceRequestPopUp";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const MAX_REFEREES = 3;
@@ -25,6 +25,7 @@ const AddRequestComponent = ({
   const [isLoading, setIsLoading] = useState(false);
   //Refs
   const formRef = useRef(null);
+
   useEffect(() => {
     setReference((prev) =>
       addedCandidate.map((candidate) => ({
@@ -32,22 +33,22 @@ const AddRequestComponent = ({
         positionName: addedJob.positionName,
         candidateId: candidate.candidateId,
         candidateName: candidate.candidateName,
-        selectedFormat: "", // or default to "HR-HATCH-FORMAT"
+        selectedFormat: "",
         referees: [
           {
             name: "",
             email: "",
-            questionFormat: "", // initially empty
+            questionFormat: "",
             questionId: "",
             questionName: "",
           },
         ],
-        isHrHatchOpen: false, // candidate-level state
-        isCustomOpen: false, // candidate-level state
+        isHrHatchOpen: false,
+        isCustomOpen: false,
       }))
     );
-  }, [addedCandidate, addedJob]);
-  //Memoized values
+  }, []);
+
   const hrHatchQuestion = useMemo(() => {
     return [
       {
@@ -95,8 +96,8 @@ const AddRequestComponent = ({
     setCurrentRefereeIndex(0);
   }, [currentReferenceIndex]);
 
-  const currentReferee =
-    reference[currentReferenceIndex]?.referees[currentRefereeIndex];
+  // const currentReferee =
+  //   reference[currentReferenceIndex]?.referees[currentRefereeIndex];
 
   //Functions
   const createReferenceRequest = async () => {
@@ -145,42 +146,32 @@ const AddRequestComponent = ({
       formRef.current.reportValidity();
     }
   };
+
   const handleConfirmSubmit = async () => {
-    setShowConfirmationPopup(false); // Close the popup
-    await createReferenceRequest(); // Call the function to create the reference request
+    setShowConfirmationPopup(false);
+    await createReferenceRequest();
   };
+
   const handleRefereeQuestionFormatChange = (selectedQuestion, format) => {
     const newReferees = [...reference];
     const currentCandidate = newReferees[currentReferenceIndex];
 
-    // Log the selected question and format
-    console.log("Selected Question:", selectedQuestion);
-    console.log("Selected Format:", format);
-
-    // Update the candidate's selectedFormat
     currentCandidate.selectedFormat = format;
 
-    // Update all referees' questionFormat, questionId, questionName
-    currentCandidate.referees.forEach(referee => {
-        referee.questionFormat = format;
-        referee.questionName = selectedQuestion?.name;
-        referee.questionId = selectedQuestion?._id;
+    currentCandidate.referees.forEach((referee) => {
+      referee.questionFormat = format;
+      referee.questionName = selectedQuestion?.name;
+      referee.questionId = selectedQuestion?._id;
     });
 
-    // Log the updated referees
-    console.log("Updated Referees:", currentCandidate.referees);
-
-    currentCandidate.referees.forEach(referee => {
-    // Close both dropdowns at the candidate level
-    referee.isHrHatchOpen = false; // Close HR-HATCH dropdown
-    referee.isCustomOpen = false; // Close CUSTOM dropdown
+    currentCandidate.referees.forEach((referee) => {
+      referee.isHrHatchOpen = false;
+      referee.isCustomOpen = false;
     });
-
-    // Log the state of the dropdowns
-    console.log("Closing Dropdowns - isHrHatchOpen:", currentCandidate.isHrHatchOpen, "isCustomOpen:", currentCandidate.isCustomOpen);
 
     setReference(newReferees);
-};
+  };
+
   const handleRefereeNameChange = (event, index) => {
     const newReferees = [...reference];
     newReferees[currentReferenceIndex].referees[index].name =
@@ -200,29 +191,30 @@ const AddRequestComponent = ({
       const newReferees = [...reference];
       const currentCandidate = newReferees[currentReferenceIndex];
       const existingReferees = currentCandidate.referees;
-  
+
       // Inherit format from first existing referee (if available)
-      const baseReferee = existingReferees.length > 0 
-        ? existingReferees[0] 
-        : { 
-            questionFormat: "", 
-            questionId: "", 
-            questionName: "" 
-          };
-  
+      const baseReferee =
+        existingReferees.length > 0
+          ? existingReferees[0]
+          : {
+              questionFormat: "",
+              questionId: "",
+              questionName: "",
+            };
+
       currentCandidate.referees.push({
         name: "",
         email: "",
         questionFormat: baseReferee.questionFormat,
         questionId: baseReferee.questionId,
-        questionName: baseReferee.questionName
+        questionName: baseReferee.questionName,
       });
-      
+
       setReference(newReferees);
     }
   };
   const handleDeleteReferee = (index) => {
-    if (reference[currentReferenceIndex]?.referees.length === 1) {
+    if (reference[currentReferenceIndex]?.referees.length === MIN_REFEREES) {
       return;
     }
     const newReferees = [...reference];
@@ -234,10 +226,6 @@ const AddRequestComponent = ({
     return reference[currentReferenceIndex]?.referees.length === MAX_REFEREES;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await createReferenceRequest();
-  };
   const handleNext = () => {
     if (currentReferenceIndex < addedCandidate.length - 1) {
       setCurrentReferenceIndex((prev) => prev + 1);
@@ -293,7 +281,7 @@ const AddRequestComponent = ({
           Candidate {currentReferenceIndex + 1} of {addedCandidate.length}
           <span>&nbsp; * Fill in the required Information</span>
         </b>
-        <Form ref={formRef} onSubmit={handleSubmit}>
+        <Form ref={formRef}>
           <Form.Group
             controlId="formPosition"
             className="d-flex align-items-center mt-3 mb-3"
@@ -305,9 +293,7 @@ const AddRequestComponent = ({
               value={reference[currentReferenceIndex]?.positionName}
               disabled
               required
-              />
-            
-
+            />
           </Form.Group>
 
           <Form.Group
@@ -336,24 +322,29 @@ const AddRequestComponent = ({
               {/* Custom Dropdown for HR-HATCH */}
               <div className="custom-dropdown-ref-req">
                 <div
-className={`dropdown-header-ref-req ${
-  reference[currentReferenceIndex]?.referees?.every(
-      r => r.questionFormat === "HR-HATCH-FORMAT"
-  ) && !reference[currentReferenceIndex]?.referees[0]?.isHrHatchOpen
-      ? "active"
-      : ""
-} ${reference[currentReferenceIndex]?.referees[0]?.isHrHatchOpen ? "dropdown-open" : ""}`}
+                  className={`dropdown-header-ref-req ${
+                    reference[currentReferenceIndex]?.referees?.every(
+                      (r) => r.questionFormat === "HR-HATCH-FORMAT"
+                    ) &&
+                    !reference[currentReferenceIndex]?.referees[0]
+                      ?.isHrHatchOpen
+                      ? "active"
+                      : ""
+                  } ${
+                    reference[currentReferenceIndex]?.referees[0]?.isHrHatchOpen
+                      ? "dropdown-open"
+                      : ""
+                  }`}
                   onClick={() => {
                     const newReferees = [...reference];
                     const currentRef = newReferees[currentReferenceIndex];
                     const currentState = currentRef.referees[0].isHrHatchOpen; // Assuming all have the same state
-                    currentRef.referees.forEach(referee => {
-                      referee.isHrHatchOpen = !currentState; // Toggle current state
-                      referee.isCustomOpen = false; // Close CUSTOM dropdown
+                    currentRef.referees.forEach((referee) => {
+                      referee.isHrHatchOpen = !currentState;
+                      referee.isCustomOpen = false;
                     });
                     setReference(newReferees);
                   }}
-                  
                 >
                   {reference[currentReferenceIndex]?.referees[0]
                     ?.questionFormat === "HR-HATCH-FORMAT"
@@ -369,7 +360,10 @@ className={`dropdown-header-ref-req ${
                         key={question._id}
                         className="dropdown-item-ref-req"
                         onClick={() => {
-                          handleRefereeQuestionFormatChange(question, "HR-HATCH-FORMAT");
+                          handleRefereeQuestionFormatChange(
+                            question,
+                            "HR-HATCH-FORMAT"
+                          );
                         }}
                       >
                         {question.name}
@@ -382,23 +376,29 @@ className={`dropdown-header-ref-req ${
               {/* Custom Dropdown for CUSTOM */}
               <div className="custom-dropdown-ref-req">
                 <div
-className={`dropdown-header-ref-req ${
-  reference[currentReferenceIndex]?.referees?.every(
-      r => r.questionFormat === "CUSTOM-FORMAT"
-  ) && !reference[currentReferenceIndex]?.referees[0]?.isCustomOpen
-      ? "active"
-      : ""
-} ${reference[currentReferenceIndex]?.referees[0]?.isCustomOpen ? "dropdown-open" : ""}`}
-onClick={() => {
+                  className={`dropdown-header-ref-req ${
+                    reference[currentReferenceIndex]?.referees?.every(
+                      (r) => r.questionFormat === "CUSTOM-FORMAT"
+                    ) &&
+                    !reference[currentReferenceIndex]?.referees[0]?.isCustomOpen
+                      ? "active"
+                      : ""
+                  } ${
+                    reference[currentReferenceIndex]?.referees[0]?.isCustomOpen
+                      ? "dropdown-open"
+                      : ""
+                  }`}
+                  onClick={() => {
                     const newReferees = [...reference];
                     const currentRef = newReferees[currentReferenceIndex];
                     const currentState = currentRef.referees[0].isCustomOpen; // Assuming all have the same state
-                    currentRef.referees.forEach(referee => {
+                    currentRef.referees.forEach((referee) => {
                       referee.isCustomOpen = !currentState; // Toggle current state
                       referee.isHrHatchOpen = false; // Close HR-HATCH dropdown
                     });
                     setReference(newReferees);
-                  }}           >
+                  }}
+                >
                   {reference[currentReferenceIndex]?.referees[0]
                     ?.questionFormat === "CUSTOM-FORMAT"
                     ? reference[currentReferenceIndex]?.referees[0]
@@ -414,9 +414,11 @@ onClick={() => {
                           key={question._id}
                           className="dropdown-item-ref-req"
                           onClick={() => {
-                            handleRefereeQuestionFormatChange(question, "CUSTOM-FORMAT");
+                            handleRefereeQuestionFormatChange(
+                              question,
+                              "CUSTOM-FORMAT"
+                            );
                           }}
-                          
                         >
                           {question.name}
                         </div>
@@ -472,7 +474,11 @@ onClick={() => {
                       placeholder="Enter Referee Name"
                       className="referee-input "
                     />
-                    <button onClick={() => handleDeleteReferee(index)} className="d-flex align-items-center justify-content-center">
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteReferee(index)}
+                      className="d-flex align-items-center justify-content-center"
+                    >
                       <svg
                         width="16"
                         height="18"
