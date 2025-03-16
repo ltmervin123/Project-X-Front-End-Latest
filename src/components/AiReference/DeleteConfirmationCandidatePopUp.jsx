@@ -1,7 +1,11 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete }) => {
+const DeleteConfirmationCandidatePopUp = ({
+  onClose,
+  onConfirmDelete,
+  isDeleting,
+}) => {
   return (
     <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
@@ -24,14 +28,19 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete }) => {
           </p>
           {/* <p>This action will also delete all associated reference records.</p> */}
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
-            <button className="btn-no-delete-candidate" onClick={onClose}>
+            <button
+              className="btn-no-delete-candidate"
+              disabled={isDeleting}
+              onClick={onClose}
+            >
               No
             </button>
             <button
               className="btn-yes-delete-candidate"
+              disabled={isDeleting}
               onClick={onConfirmDelete}
             >
-              Yes
+              {isDeleting ? "Deleting..." : "Yes"}
             </button>
           </div>
         </div>

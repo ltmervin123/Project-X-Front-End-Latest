@@ -32,6 +32,10 @@ const IdUploadSection = ({
     setSelectedIdType(event.target.value);
   };
 
+  const hasNoId = () => {
+    return !frontIdFile || !backIdFile;
+  };
+
   return (
     <div className="ReviewYourReferenceCheck-container d-flex flex-column align-items-center justify-content-center w-100">
       <div className="preferred-id-container mb-3">
@@ -157,14 +161,11 @@ const IdUploadSection = ({
       </div>
 
       <div className="IdUploadSection-button-controls d-flex gap-3 my-3 w-100 justify-content-center">
-        <button onClick={clearBothIds} disabled={!frontIdFile && !backIdFile}>
+        <button onClick={clearBothIds} disabled={submitting || hasNoId()}>
           Clear
         </button>
 
-        <button
-          onClick={submitIdUpload}
-          disabled={submitting || !frontIdFile || !backIdFile}
-        >
+        <button onClick={submitIdUpload} disabled={submitting || hasNoId()}>
           {submitting ? "Submitting..." : "Submit"}
         </button>
       </div>

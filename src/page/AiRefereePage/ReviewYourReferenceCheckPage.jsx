@@ -127,10 +127,6 @@ function ReviewYourReferenceCheckPage() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Submitted Answer: ", submittedAnswers);
-  }, [submittedAnswers]);
-
   const handleProceed = () => {
     setShowSignatureSection(true);
   };
