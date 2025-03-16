@@ -152,15 +152,15 @@ const AddCandidateComponent = ({
         <Form onSubmit={handleSubmit}>
           <Form.Group
             controlId="formHiringManager"
-            className="d-flex align-items-center my-5 mb-4"
+            className="d-flex align-items-center  mb-4"
           >
             <Form.Label
               className="m-0"
-              style={{ width: "150px", height: "38px" }}
+              style={{ width: "220px", height: "38px" }}
             >
               Position
             </Form.Label>
-            <Form.Select
+            <Form.Control
               value={candidates[currentCandidateIndex]?.position || ""}
               onChange={(e) =>
                 handleInputChange(
@@ -171,11 +171,7 @@ const AddCandidateComponent = ({
               }
               required
               disabled
-            >
-              <option key={addedJob.positionId} value={addedJob.positionName}>
-                {addedJob.positionName}
-              </option>
-            </Form.Select>
+            />
           </Form.Group>
 
           <div key={currentCandidateIndex} className="candidate-container mb-4">
@@ -185,7 +181,7 @@ const AddCandidateComponent = ({
             >
               <Form.Label
                 className="m-0"
-                style={{ width: "150px", height: "38px" }}
+                style={{ width: "220px", height: "38px" }}
               >
                 Name
               </Form.Label>
@@ -217,7 +213,7 @@ const AddCandidateComponent = ({
             >
               <Form.Label
                 className="m-0"
-                style={{ width: "150px", height: "38px" }}
+                style={{ width: "220px", height: "38px" }}
               >
                 Email
               </Form.Label>
@@ -245,7 +241,9 @@ const AddCandidateComponent = ({
               </div>
             </Form.Group>
           </div>
-          <div className="d-flex justify-content-center align-items-center gap-3 my-3 add-candidate-controller">
+
+        </Form>
+        <div className="d-flex justify-content-center align-items-center gap-3  add-candidate-controller">
             <button
               type="button"
               onClick={handlePrevious}
@@ -290,7 +288,6 @@ const AddCandidateComponent = ({
               </svg>
             </button>
           </div>
-        </Form>
       </div>
 
       <div className="d-flex justify-content-end mt-3">

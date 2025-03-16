@@ -18,8 +18,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => { // Add onEd
   };
 
   const formatDate = (date) => {
-    if (!date) return ""; // Return an empty string or a fallback value if the date is invalid
-    return date.split("T")[0]; // Extract only YYYY-MM-DD
+    return date.split("T")[0];
   };
 
   return (

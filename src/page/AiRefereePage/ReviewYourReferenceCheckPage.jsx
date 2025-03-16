@@ -38,7 +38,7 @@ function ReviewYourReferenceCheckPage() {
   const [frontIdFile, setFrontIdFile] = useState(null);
   const [backIdFile, setBackIdFile] = useState(null);
   const [savedSignature, setSavedSignature] = useState(null);
-
+  const [isCanvaEmpty, setIsCanvaEmpty] = useState(true);
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
@@ -127,10 +127,6 @@ function ReviewYourReferenceCheckPage() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Submitted Answer: ", submittedAnswers);
-  }, [submittedAnswers]);
-
   const handleProceed = () => {
     setShowSignatureSection(true);
   };
@@ -196,9 +192,11 @@ function ReviewYourReferenceCheckPage() {
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
     setIsDrawing(false);
+    setIsCanvaEmpty(true);
   };
 
   const startDrawing = (e) => {
+    setIsCanvaEmpty(false);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     const rect = canvas.getBoundingClientRect();
@@ -296,6 +294,9 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleProceedIDUpload = () => {
+    if (isCanvaEmpty) {
+      return;
+    }
     if (canvasRef.current) {
       const signatureDataURL = canvasRef.current.toDataURL("image/png");
       setSavedSignature(signatureDataURL);
@@ -462,6 +463,7 @@ function ReviewYourReferenceCheckPage() {
               clearImage={clearImage}
               setSignatureMethod={setSignatureMethod}
               handleFileSelect={handleFileSelect}
+              isCanvaEmpty={isCanvaEmpty}
             />
           </Col>
         ) : showIdUploadSection ? (

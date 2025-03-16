@@ -1,18 +1,15 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const DeleteConfirmationReferenceRequestPopUp = ({ onClose, onConfirmDelete }) => {
+const SubmitConfirmationReferenceRequestPopUp = ({
+  onClose,
+  onConfirmSubmit,
+}) => {
   return (
-    <Modal
-      show={true}
-      onHide={onClose}
-      centered
-      backdrop={true}
-    >
+    <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-          </div>
+          <div></div>
           <Button
             className="closebtn"
             variant="link"
@@ -23,12 +20,18 @@ const DeleteConfirmationReferenceRequestPopUp = ({ onClose, onConfirmDelete }) =
           </Button>
         </div>
         <div className="d-flex justify-content-center align-items-center flex-column p-2">
-          <p className="text-center">Would you like to confirm to delete this reference request?</p>
+          <p className="text-center">
+            Would you like to send the request? You can’t edit the information
+            once it is submitted.
+          </p>
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
-            <button className="btn-no-delete" onClick={onClose}>
+            <button className="btn-no-submit-request" onClick={onClose}>
               No
             </button>
-            <button className="btn-yes-delete" onClick={onConfirmDelete}>
+            <button
+              className="btn-yes-submit-request"
+              onClick={onConfirmSubmit}
+            >
               Yes
             </button>
           </div>
@@ -38,4 +41,4 @@ const DeleteConfirmationReferenceRequestPopUp = ({ onClose, onConfirmDelete }) =
   );
 };
 
-export default DeleteConfirmationReferenceRequestPopUp;
+export default SubmitConfirmationReferenceRequestPopUp;

@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import SubmitConfirmationReferenceRequestPopUp from "../AiReference/SubmitConfirmationReferenceRequestPopUp";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const MAX_REFEREES = 3;
+const MIN_REFEREES = 1;
 const AddRequestComponent = ({
   onReFetchReference,
   addedCandidate,
@@ -15,6 +18,7 @@ const AddRequestComponent = ({
 
   //States
   const [currentReferenceIndex, setCurrentReferenceIndex] = useState(0);
+  const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
   const [reference, setReference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   //Refs
@@ -27,6 +31,7 @@ const AddRequestComponent = ({
         positionName: addedJob.positionName,
         candidateId: candidate.candidateId,
         candidateName: candidate.candidateName,
+        selectedFormat: "",
         referees: [
           {
             name: "",
@@ -36,11 +41,12 @@ const AddRequestComponent = ({
             questionName: "",
           },
         ],
+        isHrHatchOpen: false,
+        isCustomOpen: false,
       }))
     );
   }, []);
 
-  //Memoized values
   const hrHatchQuestion = useMemo(() => {
     return [
       {
@@ -126,38 +132,37 @@ const AddRequestComponent = ({
 
   const handleProceed = () => {
     if (formRef.current.checkValidity()) {
-      formRef.current.requestSubmit();
+      setShowConfirmationPopup(true);
     } else {
       formRef.current.reportValidity();
     }
   };
 
-  const handleRefereeQuestionFormatChange = (
-    selectedQuestion,
-    index,
-    format
-  ) => {
+  const handleConfirmSubmit = async () => {
+    setShowConfirmationPopup(false);
+    await createReferenceRequest();
+  };
+
+  const handleRefereeQuestionFormatChange = (selectedQuestion, format) => {
     const newReferees = [...reference];
-  
-    // Set the selected format
-    newReferees[currentReferenceIndex].referees[index].questionFormat = format;
-    newReferees[currentReferenceIndex].referees[index].questionName =
-      selectedQuestion?.name;
-    newReferees[currentReferenceIndex].referees[index].questionId =
-      selectedQuestion?._id;
-  
-    // Set active dropdown
-    newReferees[currentReferenceIndex].referees[index].activeDropdown = format;
-  
-    // Close the dropdown after selection
-    if (format === "HR-HATCH-FORMAT") {
-      newReferees[currentReferenceIndex].referees[index].isHrHatchOpen = false;
-    } else if (format === "CUSTOM-FORMAT") {
-      newReferees[currentReferenceIndex].referees[index].isCustomOpen = false;
-    }
-  
+    const currentCandidate = newReferees[currentReferenceIndex];
+
+    currentCandidate.selectedFormat = format;
+
+    currentCandidate.referees.forEach((referee) => {
+      referee.questionFormat = format;
+      referee.questionName = selectedQuestion?.name;
+      referee.questionId = selectedQuestion?._id;
+    });
+
+    currentCandidate.referees.forEach((referee) => {
+      referee.isHrHatchOpen = false;
+      referee.isCustomOpen = false;
+    });
+
     setReference(newReferees);
   };
+
   const handleRefereeNameChange = (event, index) => {
     const newReferees = [...reference];
     newReferees[currentReferenceIndex].referees[index].name =
@@ -175,31 +180,42 @@ const AddRequestComponent = ({
   const handleAddReferee = () => {
     if (reference[currentReferenceIndex]?.referees.length < 3) {
       const newReferees = [...reference];
-      newReferees[currentReferenceIndex].referees.push({
+      const currentCandidate = newReferees[currentReferenceIndex];
+      const existingReferees = currentCandidate.referees;
+
+      const baseReferee =
+        existingReferees.length > 0
+          ? existingReferees[0]
+          : {
+              questionFormat: "",
+              questionId: "",
+              questionName: "",
+            };
+
+      currentCandidate.referees.push({
         name: "",
         email: "",
-        questionFormat: "",
-        questionId: "",
-        questionName: "",
+        questionFormat: baseReferee.questionFormat,
+        questionId: baseReferee.questionId,
+        questionName: baseReferee.questionName,
       });
+
       setReference(newReferees);
     }
   };
-
   const handleDeleteReferee = (index) => {
+    if (reference[currentReferenceIndex]?.referees.length === MIN_REFEREES) {
+      return;
+    }
     const newReferees = [...reference];
     newReferees[currentReferenceIndex]?.referees.splice(index, 1);
     setReference(newReferees);
   };
 
   const handleAddRefereeDisabled = () => {
-    return reference[currentReferenceIndex]?.referees.length >= 3;
+    return reference[currentReferenceIndex]?.referees.length === MAX_REFEREES;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await createReferenceRequest();
-  };
   const handleNext = () => {
     if (currentReferenceIndex < addedCandidate.length - 1) {
       setCurrentReferenceIndex((prev) => prev + 1);
@@ -250,57 +266,171 @@ const AddRequestComponent = ({
         </h3>
         <p className="mb-2">Create a new reference request for a candidate.</p>
       </div>
-      <div className="job-container-form d-flex align-items-center justify-content-center w-100 flex-column">
-      <b className="d-flex justify-content-start">
-            Candidate {currentReferenceIndex + 1} of {addedCandidate.length}
-            <span>&nbsp; * Fill in the required Information</span>
-
-          </b>
-        <Form ref={formRef} onSubmit={handleSubmit}>
+      <div className="request-container-form d-flex align-items-center justify-content-center w-100 flex-column">
+        <b className="d-flex justify-content-start">
+          Candidate {currentReferenceIndex + 1} of {addedCandidate.length}
+          <span>&nbsp; * Fill in the required Information</span>
+        </b>
+        <Form ref={formRef}>
           <Form.Group
             controlId="formPosition"
             className="d-flex align-items-center mt-3 mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "220px" }}>
+            <Form.Label className="me-2 mb-0" style={{ width: "220px" }}>
               Position
             </Form.Label>
-            <Form.Select
+            <Form.Control
               value={reference[currentReferenceIndex]?.positionName}
               disabled
               required
-            >
-              <option>{reference[currentReferenceIndex]?.positionName}</option>
-            </Form.Select>
+            />
           </Form.Group>
 
           <Form.Group
             controlId="formCandidateName"
             className="d-flex align-items-center mb-3"
           >
-            <Form.Label className="me-2" style={{ width: "220px" }}>
+            <Form.Label className="me-2 mb-0" style={{ width: "220px" }}>
               Candidate
             </Form.Label>
-            <Form.Select
+            <Form.Control
               value={reference[currentReferenceIndex]?.candidateName}
               disabled
               required
-            >
-              <option
-                key={reference[currentReferenceIndex]?.candidateId}
-                value={reference[currentReferenceIndex]?.candidateName}
-              >
-                {reference[currentReferenceIndex]?.candidateName}
-              </option>
-            </Form.Select>
+            />
+          </Form.Group>
+
+          <Form.Group
+            controlId="formReferenceFormat"
+            className="d-flex align-items-center mt-3 mb-3"
+          >
+            <Form.Label className="me-2 mb-0" style={{ width: "220px" }}>
+              Reference Format
+            </Form.Label>
+            <div className="w-100 reference-question-format-container d-flex gap-4">
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    reference[currentReferenceIndex]?.referees?.every(
+                      (r) => r.questionFormat === "HR-HATCH-FORMAT"
+                    ) &&
+                    !reference[currentReferenceIndex]?.referees[0]
+                      ?.isHrHatchOpen
+                      ? "active"
+                      : ""
+                  } ${
+                    reference[currentReferenceIndex]?.referees[0]?.isHrHatchOpen
+                      ? "dropdown-open"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    const newReferees = [...reference];
+                    const currentRef = newReferees[currentReferenceIndex];
+                    const currentState = currentRef.referees[0].isHrHatchOpen;
+                    currentRef.referees.forEach((referee) => {
+                      referee.isHrHatchOpen = !currentState;
+                      referee.isCustomOpen = false;
+                    });
+                    setReference(newReferees);
+                  }}
+                >
+                  {reference[currentReferenceIndex]?.referees[0]
+                    ?.questionFormat === "HR-HATCH-FORMAT"
+                    ? reference[currentReferenceIndex]?.referees[0]
+                        ?.questionName || "HR-HATCH"
+                    : "HR-HATCH"}
+                </div>
+                {reference[currentReferenceIndex]?.referees[0]
+                  ?.isHrHatchOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {hrHatchQuestion.map((question) => (
+                      <div
+                        key={question._id}
+                        className="dropdown-item-ref-req"
+                        onClick={() => {
+                          handleRefereeQuestionFormatChange(
+                            question,
+                            "HR-HATCH-FORMAT"
+                          );
+                        }}
+                      >
+                        {question.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    reference[currentReferenceIndex]?.referees?.every(
+                      (r) => r.questionFormat === "CUSTOM-FORMAT"
+                    ) &&
+                    !reference[currentReferenceIndex]?.referees[0]?.isCustomOpen
+                      ? "active"
+                      : ""
+                  } ${
+                    reference[currentReferenceIndex]?.referees[0]?.isCustomOpen
+                      ? "dropdown-open"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    const newReferees = [...reference];
+                    const currentRef = newReferees[currentReferenceIndex];
+                    const currentState = currentRef.referees[0].isCustomOpen;
+                    currentRef.referees.forEach((referee) => {
+                      referee.isCustomOpen = !currentState;
+                      referee.isHrHatchOpen = false;
+                    });
+                    setReference(newReferees);
+                  }}
+                >
+                  {reference[currentReferenceIndex]?.referees[0]
+                    ?.questionFormat === "CUSTOM-FORMAT"
+                    ? reference[currentReferenceIndex]?.referees[0]
+                        ?.questionName || "Custom"
+                    : "Custom"}
+                </div>
+                {reference[currentReferenceIndex]?.referees[0]
+                  ?.isCustomOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {customQuestion.length > 0 ? (
+                      customQuestion.map((question) => (
+                        <div
+                          key={question._id}
+                          className="dropdown-item-ref-req"
+                          onClick={() => {
+                            handleRefereeQuestionFormatChange(
+                              question,
+                              "CUSTOM-FORMAT"
+                            );
+                          }}
+                        >
+                          {question.name}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="dropdown-item-ref-req" disabled>
+                        No custom questions available
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
           </Form.Group>
 
           <div className="d-flex justify-content-between mb-3">
-            <p className="mb-0 referee-label" style={{ width: "240px" }}>
+            <p
+              className="mb-0 d-flex align-items-center referee-label"
+              style={{ width: "150px" }}
+            >
               Referees
             </p>
             <button
               type="button"
-              className={`w-100 add-referee ${
+              className={`add-referee ${
                 handleAddRefereeDisabled() ? "disabled" : ""
               }`}
               onClick={handleAddReferee}
@@ -309,6 +439,7 @@ const AddRequestComponent = ({
               Add Referee
             </button>
           </div>
+
           <div className="referees-list-container">
             {reference[currentReferenceIndex]?.referees.map(
               (referee, index) => (
@@ -317,8 +448,11 @@ const AddRequestComponent = ({
                     controlId={`formRefereeName${index}`}
                     className="d-flex align-items-center mb-3"
                   >
-                    <Form.Label className="me-2" style={{ width: "220px" }}>
-                      Referee Name {index + 1}{" "}
+                    <Form.Label
+                      className="me-2 mb-0"
+                      style={{ width: "220px" }}
+                    >
+                      Referee {index + 1}{" "}
                     </Form.Label>
                     <Form.Control
                       value={referee.name}
@@ -327,12 +461,13 @@ const AddRequestComponent = ({
                       className="referee-input "
                     />
                     <button
+                      type="button"
                       onClick={() => handleDeleteReferee(index)}
-                      disabled={reference.length <= 1}
+                      className="d-flex align-items-center justify-content-center"
                     >
                       <svg
-                        width="20"
-                        height="24"
+                        width="16"
+                        height="18"
                         viewBox="0 0 30 34"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -344,84 +479,15 @@ const AddRequestComponent = ({
                       </svg>
                     </button>
                   </Form.Group>
-                  <Form.Group
-  controlId={`formQuestionFormat${index}`}
-  className="d-flex align-items-center mb-3"
->
-  <Form.Label className="me-2" style={{ width: "220px" }}>
-    Reference Question
-  </Form.Label>
-  <div className="w-100 reference-question-format-container d-flex gap-2">
-    {/* Custom Dropdown for HR-HATCH */}
-    <div className="custom-dropdown-ref-req">
-      <div
-        className={`dropdown-header-ref-req ${referee.activeDropdown === "HR-HATCH-FORMAT" ? 'active' : ''}`}
-        onClick={() => {
-          const newReferees = [...reference];
-          newReferees[currentReferenceIndex].referees[index].isHrHatchOpen = !newReferees[currentReferenceIndex].referees[index].isHrHatchOpen;
-          setReference(newReferees);
-        }}
-      >
-        {referee.questionFormat === "HR-HATCH-FORMAT" ? referee.questionName : "HR-HATCH"}
-      </div>
-      {referee.isHrHatchOpen && (
-        <div className="dropdown-list-ref-req">
-          {hrHatchQuestion.map((question) => (
-            <div
-              key={question._id}
-              className="dropdown-item-ref-req"
-              onClick={() => {
-                handleRefereeQuestionFormatChange(question, index, "HR-HATCH-FORMAT");
-              }}
-            >
-              {question.name}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
 
-    {/* Custom Dropdown for CUSTOM */}
-    <div className="custom-dropdown-ref-req">
-      <div
-        className={`dropdown-header-ref-req ${referee.activeDropdown === "CUSTOM-FORMAT" ? 'active' : ''}`}
-        onClick={() => {
-          const newReferees = [...reference];
-          newReferees[currentReferenceIndex].referees[index].isCustomOpen = !newReferees[currentReferenceIndex].referees[index].isCustomOpen;
-          setReference(newReferees);
-        }}
-      >
-        {referee.questionFormat === "CUSTOM-FORMAT" ? referee.questionName : "Custom"}
-      </div>
-      {referee.isCustomOpen && (
-        <div className="dropdown-list-ref-req">
-          {customQuestion.length > 0 ? (
-            customQuestion.map((question) => (
-              <div
-                key={question._id}
-                className="dropdown-item-ref-req"
-                onClick={() => {
-                  handleRefereeQuestionFormatChange(question, index, "CUSTOM-FORMAT");
-                }}
-              >
-                {question.name}
-              </div>
-            ))
-          ) : (
-            <div className="dropdown-item-ref-req" disabled>
-              No custom questions available
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  </div>
-</Form.Group>
                   <Form.Group
                     controlId={`formRefereeEmail${index}`}
                     className="d-flex align-items-center mb-3"
                   >
-                    <Form.Label className="me-2" style={{ width: "220px" }}>
+                    <Form.Label
+                      className="me-2 mb-0"
+                      style={{ width: "220px" }}
+                    >
                       Email
                     </Form.Label>
                     <Form.Control
@@ -437,52 +503,52 @@ const AddRequestComponent = ({
               )
             )}
           </div>
-          <div className="d-flex justify-content-center align-items-center gap-3 add-candidate-controller">
-            <button
-              type="button"
-              onClick={handlePrevious}
-              disabled={currentReferenceIndex === 0}
-            >
-              <svg
-                width="16"
-                height="26"
-                viewBox="0 0 16 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M0.887082 11.5348L12.1048 0.12528L14.9566 2.92921L5.14091 12.9128L15.1245 22.7285L12.3205 25.5804L0.911051 14.3627C0.532944 13.9908 0.318009 13.484 0.313514 12.9537C0.309019 12.4234 0.515332 11.913 0.887082 11.5348Z"
-                  fill="#F46A05"
-                />
-              </svg>
-            </button>
-            <span className="d-flex align-items-center">
-              {currentReferenceIndex + 1}
-            </span>
-            <button
-              type="button"
-              onClick={handleNext}
-              disabled={currentReferenceIndex === addedCandidate.length - 1}
-            >
-              <svg
-                width="16"
-                height="26"
-                viewBox="0 0 16 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M14.517 14.5231L3.203 25.8371L0.375 23.0091L10.275 13.1091L0.375 3.2091L3.203 0.381104L14.517 11.6951C14.8919 12.0702 15.1026 12.5788 15.1026 13.1091C15.1026 13.6394 14.8919 14.148 14.517 14.5231Z"
-                  fill="#F46A05"
-                />
-              </svg>
-            </button>
-          </div>
         </Form>
+        <div className="d-flex justify-content-center align-items-center gap-3 add-ref-req-controller">
+          <button
+            type="button"
+            onClick={handlePrevious}
+            disabled={currentReferenceIndex === 0}
+          >
+            <svg
+              width="16"
+              height="26"
+              viewBox="0 0 16 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0.887082 11.5348L12.1048 0.12528L14.9566 2.92921L5.14091 12.9128L15.1245 22.7285L12.3205 25.5804L0.911051 14.3627C0.532944 13.9908 0.318009 13.484 0.313514 12.9537C0.309019 12.4234 0.515332 11.913 0.887082 11.5348Z"
+                fill="#F46A05"
+              />
+            </svg>
+          </button>
+          <span className="d-flex align-items-center">
+            {currentReferenceIndex + 1}
+          </span>
+          <button
+            type="button"
+            onClick={handleNext}
+            disabled={currentReferenceIndex === addedCandidate.length - 1}
+          >
+            <svg
+              width="16"
+              height="26"
+              viewBox="0 0 16 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M14.517 14.5231L3.203 25.8371L0.375 23.0091L10.275 13.1091L0.375 3.2091L3.203 0.381104L14.517 11.6951C14.8919 12.0702 15.1026 12.5788 15.1026 13.1091C15.1026 13.6394 14.8919 14.148 14.517 14.5231Z"
+                fill="#F46A05"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
       <div className="d-flex justify-content-end mt-3">
         <button
@@ -494,6 +560,12 @@ const AddRequestComponent = ({
           {isLoading ? "Sending..." : "Send Request"}
         </button>
       </div>
+      {showConfirmationPopup && (
+        <SubmitConfirmationReferenceRequestPopUp
+          onClose={() => setShowConfirmationPopup(false)}
+          onConfirmSubmit={handleConfirmSubmit}
+        />
+      )}
     </>
   );
 };

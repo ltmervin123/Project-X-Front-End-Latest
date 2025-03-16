@@ -186,6 +186,7 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
             </div>
           </Form.Group>
         </Form>
+        
       </div>
       <div className="d-flex justify-content-end mt-3">
         <button
