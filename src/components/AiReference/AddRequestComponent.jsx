@@ -18,9 +18,7 @@ const AddRequestComponent = ({
 
   //States
   const [currentReferenceIndex, setCurrentReferenceIndex] = useState(0);
-  const [currentRefereeIndex, setCurrentRefereeIndex] = useState(0);
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
-  const [referenceFormat, setReferenceFormat] = useState("");
   const [reference, setReference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   //Refs
@@ -92,13 +90,6 @@ const AddRequestComponent = ({
     });
   }, [reference]);
 
-  useEffect(() => {
-    setCurrentRefereeIndex(0);
-  }, [currentReferenceIndex]);
-
-  // const currentReferee =
-  //   reference[currentReferenceIndex]?.referees[currentRefereeIndex];
-
   //Functions
   const createReferenceRequest = async () => {
     try {
@@ -141,7 +132,7 @@ const AddRequestComponent = ({
 
   const handleProceed = () => {
     if (formRef.current.checkValidity()) {
-      setShowConfirmationPopup(true); // Show the confirmation popup
+      setShowConfirmationPopup(true);
     } else {
       formRef.current.reportValidity();
     }
@@ -192,7 +183,6 @@ const AddRequestComponent = ({
       const currentCandidate = newReferees[currentReferenceIndex];
       const existingReferees = currentCandidate.referees;
 
-      // Inherit format from first existing referee (if available)
       const baseReferee =
         existingReferees.length > 0
           ? existingReferees[0]
@@ -310,7 +300,6 @@ const AddRequestComponent = ({
             />
           </Form.Group>
 
-          {/* Reference Format Dropdown */}
           <Form.Group
             controlId="formReferenceFormat"
             className="d-flex align-items-center mt-3 mb-3"
@@ -319,7 +308,6 @@ const AddRequestComponent = ({
               Reference Format
             </Form.Label>
             <div className="w-100 reference-question-format-container d-flex gap-4">
-              {/* Custom Dropdown for HR-HATCH */}
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
@@ -338,7 +326,7 @@ const AddRequestComponent = ({
                   onClick={() => {
                     const newReferees = [...reference];
                     const currentRef = newReferees[currentReferenceIndex];
-                    const currentState = currentRef.referees[0].isHrHatchOpen; // Assuming all have the same state
+                    const currentState = currentRef.referees[0].isHrHatchOpen;
                     currentRef.referees.forEach((referee) => {
                       referee.isHrHatchOpen = !currentState;
                       referee.isCustomOpen = false;
@@ -373,7 +361,6 @@ const AddRequestComponent = ({
                 )}
               </div>
 
-              {/* Custom Dropdown for CUSTOM */}
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
@@ -391,10 +378,10 @@ const AddRequestComponent = ({
                   onClick={() => {
                     const newReferees = [...reference];
                     const currentRef = newReferees[currentReferenceIndex];
-                    const currentState = currentRef.referees[0].isCustomOpen; // Assuming all have the same state
+                    const currentState = currentRef.referees[0].isCustomOpen;
                     currentRef.referees.forEach((referee) => {
-                      referee.isCustomOpen = !currentState; // Toggle current state
-                      referee.isHrHatchOpen = false; // Close HR-HATCH dropdown
+                      referee.isCustomOpen = !currentState;
+                      referee.isHrHatchOpen = false;
                     });
                     setReference(newReferees);
                   }}
@@ -433,7 +420,7 @@ const AddRequestComponent = ({
               </div>
             </div>
           </Form.Group>
-          {/* Add Referee Button */}
+
           <div className="d-flex justify-content-between mb-3">
             <p
               className="mb-0 d-flex align-items-center referee-label"
@@ -454,7 +441,6 @@ const AddRequestComponent = ({
           </div>
 
           <div className="referees-list-container">
-            {/* Referee 1 */}
             {reference[currentReferenceIndex]?.referees.map(
               (referee, index) => (
                 <div key={index}>
