@@ -8,8 +8,8 @@ const TranscriptionWarning = ({ onClose }) => {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div></div>
         </div>
-        <div className="d-flex justify-content-center align-items-center flex-column">
-          <p>
+        <div className="d-flex justify-content-center align-items-center flex-column p-2">
+          <p className="text-center">
             No response detected. Please speak your answer before submitting.
           </p>
 

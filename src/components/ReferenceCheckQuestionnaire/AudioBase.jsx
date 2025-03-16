@@ -199,7 +199,7 @@ const AudioBase = ({
             </button>
           ) : (
             <button className="btn-stop-transcript" onClick={stopRecording}>
-              Stop 
+              Stop
             </button>
           )}
         </div>
