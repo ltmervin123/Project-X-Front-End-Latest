@@ -3,6 +3,8 @@ import { Form, Row, Col } from "react-bootstrap";
 import SubmitConfirmationReferenceRequestPopUp from "../AiReference/SubmitConfirmationReferenceRequestPopUp"; // Adjust the path as necessary
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const MAX_REFEREES = 3;
+const MIN_REFEREES = 1;
 const AddRequestComponent = ({
   onReFetchReference,
   addedCandidate,
@@ -229,7 +231,7 @@ const AddRequestComponent = ({
   };
 
   const handleAddRefereeDisabled = () => {
-    return reference[currentReferenceIndex]?.referees.length >= 3;
+    return reference[currentReferenceIndex]?.referees.length === MAX_REFEREES;
   };
 
   const handleSubmit = async (e) => {
