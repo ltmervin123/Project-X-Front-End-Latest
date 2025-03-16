@@ -9,17 +9,18 @@ const instructionData = [
       "You will be asked 10 or more questions regarding the candidate’s skills, work ethic, and overall performance. Please provide honest, detailed, and specific responses based on your firsthand experience working with them. Your insights will help us make a well-informed hiring decision.",
     overlayLabel: "Answer Candidate Questions",
   },
+
   {
     title: "Step 2",
     description:
-      "Sign using your mouse/touchpad or upload a scanned signature. Ensure it is clear and legible.",
-    overlayLabel: "Provide Your Signature",
+      "Review all your answers and select your preferred answer whether original answer and AI enhanced answer.",
+    overlayLabel: "Review your Answer",
   },
   {
     title: "Step 3",
     description:
-      "Check all answers for accuracy. Click Submit and wait for a confirmation message.",
-    overlayLabel: "Review & Submit",
+      "Sign using your mouse or touchpad, or upload a scanned signature and your ID. Make sure it is clear and legible for verification purposes. Clicking submit and wait for the confirmation.",
+    overlayLabel: "Provide Signature and Valid ID",
   },
 ];
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
 import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
+import TranscriptionWarning from "./TranscriptionWarning";
 
 const AudioBase = ({
   setAudioBaseAnswer,
@@ -14,12 +14,13 @@ const AudioBase = ({
   streamRef,
   isLastQuestion,
   handleProceed,
-  nextQuestion, // Add this line
+  nextQuestion,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
   // States
   const [isRecording, setIsRecording] = useState(false);
+  const [hasTranscription, setHasTranscription] = useState(true);
   const [isSanitizingTranscription, setIsSanitizingTranscription] =
     useState(false);
   const mediaRecorder = useRef(null);
@@ -64,6 +65,12 @@ const AudioBase = ({
   }, []);
 
   const improveTranscription = async (answer) => {
+    if (transcription.current.trim() === "") {
+      setAudioBaseAnswer("");
+      setHasTranscription(false);
+      return;
+    }
+
     try {
       setIsSanitizingTranscription(true);
       const URL = `${API}/api/ai-referee/reference/improve-transcription`;
@@ -93,6 +100,7 @@ const AudioBase = ({
       socket.off("real-time-transcription");
       socket.on("real-time-transcription", (data) => {
         if (data.isFinal) {
+          console.log("Final transcription:", data.text);
           setTranscription(data.text);
           setAudioBaseAnswer((prev) => `${prev} ${data.text}`);
         }
@@ -151,6 +159,10 @@ const AudioBase = ({
     setAudioBaseAnswer("");
   };
 
+  const handleOncloseWarning = () => {
+    setHasTranscription(true);
+  };
+
   return (
     <div className="transcription-answer-container">
       <h4>Transcription:</h4>
@@ -161,16 +173,20 @@ const AudioBase = ({
         disabled
       />
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
-      <div className="d-flex justify-content-center gap-3">
-      {reTry ? (
-      <>
-        <button onClick={handleReTry}>Retry</button>
-        {isLastQuestion ? (
-          <button onClick={handleProceed}>Proceed</button>
-        ) : (
-          <button onClick={nextQuestion}>Next</button>
-        )}
-      </>
+        <div className="d-flex justify-content-center gap-3">
+          {reTry ? (
+            <>
+              <button onClick={handleReTry}>Retry</button>
+              {isLastQuestion ? (
+                <button disabled={!answer} onClick={handleProceed}>
+                  Proceed
+                </button>
+              ) : (
+                <button disabled={!answer} onClick={nextQuestion}>
+                  Next
+                </button>
+              )}
+            </>
           ) : isSanitizingTranscription || isSubmitting ? (
             <button disabled>Saving...</button>
           ) : !isRecording ? (
@@ -179,16 +195,18 @@ const AudioBase = ({
               onClick={startRecording}
               disabled={isSpeaking}
             >
-             Start
+              Start
             </button>
           ) : (
-            <button onClick={stopRecording}>
-              Stop 
+            <button className="btn-stop-transcript" onClick={stopRecording}>
+              Stop
             </button>
           )}
         </div>
-
       </div>
+      {!hasTranscription ? (
+        <TranscriptionWarning onClose={handleOncloseWarning} />
+      ) : null}
     </div>
   );
 };
