@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"; // Import useState
+import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
@@ -14,13 +14,40 @@ import { useNavigate } from "react-router-dom";
 // Register all necessary components
 Chart.register(...registerables);
 
-const LogContainer = ({ logData }) => {
+const LogContainer = ({ completedRecords }) => {
   const handleToggleShowAll = (event) => {
     event.preventDefault(); // Prevent default anchor behavior
     setShowAll(!showAll);
   };
   const [showAll, setShowAll] = useState(false);
-  const displayedLogs = showAll ? logData : logData.slice(0, 2);
+
+  function timeAgo(timestamp) {
+    const now = new Date();
+    const past = new Date(timestamp);
+    const seconds = Math.floor((now - past) / 1000);
+
+    const intervals = {
+      year: 31536000,
+      month: 2592000,
+      week: 604800,
+      day: 86400,
+      hour: 3600,
+      minute: 60,
+      second: 1,
+    };
+
+    for (let unit in intervals) {
+      const interval = Math.floor(seconds / intervals[unit]);
+      if (interval >= 1) {
+        return `${interval} ${unit}${interval !== 1 ? "s" : ""} ago`;
+      }
+    }
+    return "just now";
+  }
+
+  const displayedLogs = showAll
+    ? completedRecords
+    : completedRecords.slice(0, 2);
 
   return (
     <div className="LogContainer my-4">
@@ -31,22 +58,33 @@ const LogContainer = ({ logData }) => {
         </a>
       </div>
       <div className="list-log-container">
-        {displayedLogs.map((log) => (
-          <div
-            key={log.id}
-            className="log-item d-flex align-items-center mb-3 gap-3"
-          >
-            {/* Circle with first letter of name */}
-            <div className="avatar-letter d-flex align-items-center justify-content-center">
-              {log.name.charAt(0)}
-            </div>
-            <div>
-              <strong>{log.name}</strong> completed a reference check for{" "}
-              <strong>{log.referenceFor}</strong>
-              <div className="text-muted">{log.time}</div>
-            </div>
-          </div>
-        ))}
+        {
+          // Display the logs
+          completedRecords.length > 0 ? (
+            displayedLogs
+              .slice()
+              .reverse()
+              .map((log, index) => (
+                <div
+                  key={index}
+                  className="log-item d-flex align-items-center mb-3 gap-3"
+                >
+                  <div className="avatar-letter d-flex align-items-center justify-content-center">
+                    {log.refereeName.charAt(0)}
+                  </div>
+                  <div>
+                    <strong>{log.refereeName}</strong> completed a reference
+                    check for <strong>{log.candidateName}</strong>
+                    <div className="text-muted">
+                      {timeAgo(log.completedDate)}
+                    </div>
+                  </div>
+                </div>
+              ))
+          ) : (
+            <div>No recent activities</div>
+          )
+        }
       </div>
     </div>
   );
@@ -89,20 +127,45 @@ const MainDashboard = () => {
   const [questionSets, setQuestionSets] = useState(
     JSON.parse(localStorage.getItem("questions")) || []
   );
+  const [completedRecords, setCompletedRecords] = useState(
+    JSON.parse(localStorage.getItem("completedReference")) || []
+  );
   const timeoutRef = useRef(null);
   const abortControllerRef = useRef(new AbortController());
 
-  const fetchCustomReferenceQuestions = async ({ signal } = {}) => {
+  const fetchCompletedRecords = async ({ signal }) => {
     try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
-      const reponse = await axios.get(URL, {
+      const URL = `${API}/api/ai-referee/company-request-reference/get-completed-reference/${id}`;
+      const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
           signal,
         },
       });
-      localStorage.setItem("questions", JSON.stringify(reponse.data.questions));
-      setQuestionSets(reponse.data.questions);
+      localStorage.setItem(
+        "completedReference",
+        JSON.stringify(response.data.result)
+      );
+      setCompletedRecords(response.data.result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchCustomReferenceQuestions = async ({ signal } = {}) => {
+    try {
+      const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
+      const response = await axios.get(URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          signal,
+        },
+      });
+      localStorage.setItem(
+        "questions",
+        JSON.stringify(response.data.questions)
+      );
+      setQuestionSets(response.data.questions);
     } catch (error) {
       console.error(error);
     }
@@ -188,6 +251,14 @@ const MainDashboard = () => {
   const reFetchReference = async ({ signal } = {}) => {
     try {
       await fetchReference(signal);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const reFetchCompletedReference = async ({ signal } = {}) => {
+    try {
+      await fetchCompletedRecords(signal);
     } catch (error) {
       console.error(error);
     }
@@ -574,51 +645,6 @@ const MainDashboard = () => {
     },
   };
 
-  const logData = [
-    {
-      id: 1,
-      name: "John Doe",
-      referenceFor: "Jane Smith",
-      time: "2 hours ago",
-      avatar: default_avatar_img,
-    },
-    {
-      id: 2,
-      name: "Kirk Delagente",
-      referenceFor: "Jane Smith",
-      time: "2 hours ago",
-      avatar: default_avatar_img,
-    },
-    {
-      id: 3,
-      name: "John Doe",
-      referenceFor: "Jane Smith",
-      time: "2 hours ago",
-      avatar: default_avatar_img,
-    },
-    {
-      id: 4,
-      name: "Kirk Delagente",
-      referenceFor: "Jane Smith",
-      time: "2 hours ago",
-      avatar: default_avatar_img,
-    },
-    {
-      id: 5,
-      name: "John Doe",
-      referenceFor: "Jane Smith",
-      time: "2 hours ago",
-      avatar: default_avatar_img,
-    },
-    {
-      id: 6,
-      name: "Kirk Delagente",
-      referenceFor: "Jane Smith",
-      time: "2 hours ago",
-      avatar: default_avatar_img,
-    },
-  ];
-
   async function refetchAllData(timeoutRef, abortController) {
     if (abortController.signal.aborted) return; // Stop execution if aborted
 
@@ -627,6 +653,7 @@ const MainDashboard = () => {
         reFetchCandidates({ signal: abortController.signal }),
         refetchJobs({ signal: abortController.signal }),
         reFetchReference({ signal: abortController.signal }),
+        reFetchCompletedReference({ signal: abortController.signal }),
       ]);
     } catch (error) {
       if (error.name === "AbortError") {
@@ -696,6 +723,10 @@ const MainDashboard = () => {
   };
   const handleRefetchReference = async () => {
     await fetchReference(abortControllerRef.current);
+  };
+
+  const handleRefetchCompletedRecords = async () => {
+    await fetchCompletedRecords(abortControllerRef.current);
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -804,7 +835,7 @@ const MainDashboard = () => {
               </div>
             </Col>
           </Row>
-          <LogContainer logData={logData} />
+          <LogContainer completedRecords={completedRecords} />
         </>
       )}
       {/* <AddRequestComponent /> */}
