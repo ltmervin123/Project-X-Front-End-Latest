@@ -30,19 +30,21 @@ const AddRequestComponent = ({
         positionName: addedJob.positionName,
         candidateId: candidate.candidateId,
         candidateName: candidate.candidateName,
+        selectedFormat: "", // or default to "HR-HATCH-FORMAT"
         referees: [
           {
             name: "",
             email: "",
-            questionFormat: referenceFormat, // Set the initial format
+            questionFormat: "", // initially empty
             questionId: "",
             questionName: "",
           },
         ],
+        isHrHatchOpen: false, // candidate-level state
+        isCustomOpen: false, // candidate-level state
       }))
     );
-  }, [addedCandidate, addedJob, referenceFormat]);
-
+  }, [addedCandidate, addedJob]);
   //Memoized values
   const hrHatchQuestion = useMemo(() => {
     return [
@@ -145,33 +147,38 @@ const AddRequestComponent = ({
     setShowConfirmationPopup(false); // Close the popup
     await createReferenceRequest(); // Call the function to create the reference request
   };
-
-  const handleRefereeQuestionFormatChange = (
-    selectedQuestion,
-    index,
-    format
-  ) => {
+  const handleRefereeQuestionFormatChange = (selectedQuestion, format) => {
     const newReferees = [...reference];
+    const currentCandidate = newReferees[currentReferenceIndex];
 
-    // Set the selected format
-    newReferees[currentReferenceIndex].referees[index].questionFormat = format;
-    newReferees[currentReferenceIndex].referees[index].questionName =
-      selectedQuestion?.name;
-    newReferees[currentReferenceIndex].referees[index].questionId =
-      selectedQuestion?._id;
+    // Log the selected question and format
+    console.log("Selected Question:", selectedQuestion);
+    console.log("Selected Format:", format);
 
-    // Set active dropdown
-    newReferees[currentReferenceIndex].referees[index].activeDropdown = format;
+    // Update the candidate's selectedFormat
+    currentCandidate.selectedFormat = format;
 
-    // Close the dropdown after selection
-    if (format === "HR-HATCH-FORMAT") {
-      newReferees[currentReferenceIndex].referees[index].isHrHatchOpen = false;
-    } else if (format === "CUSTOM-FORMAT") {
-      newReferees[currentReferenceIndex].referees[index].isCustomOpen = false;
-    }
+    // Update all referees' questionFormat, questionId, questionName
+    currentCandidate.referees.forEach(referee => {
+        referee.questionFormat = format;
+        referee.questionName = selectedQuestion?.name;
+        referee.questionId = selectedQuestion?._id;
+    });
+
+    // Log the updated referees
+    console.log("Updated Referees:", currentCandidate.referees);
+
+    currentCandidate.referees.forEach(referee => {
+    // Close both dropdowns at the candidate level
+    referee.isHrHatchOpen = false; // Close HR-HATCH dropdown
+    referee.isCustomOpen = false; // Close CUSTOM dropdown
+    });
+
+    // Log the state of the dropdowns
+    console.log("Closing Dropdowns - isHrHatchOpen:", currentCandidate.isHrHatchOpen, "isCustomOpen:", currentCandidate.isCustomOpen);
 
     setReference(newReferees);
-  };
+};
   const handleRefereeNameChange = (event, index) => {
     const newReferees = [...reference];
     newReferees[currentReferenceIndex].referees[index].name =
@@ -189,17 +196,29 @@ const AddRequestComponent = ({
   const handleAddReferee = () => {
     if (reference[currentReferenceIndex]?.referees.length < 3) {
       const newReferees = [...reference];
-      newReferees[currentReferenceIndex].referees.push({
+      const currentCandidate = newReferees[currentReferenceIndex];
+      const existingReferees = currentCandidate.referees;
+  
+      // Inherit format from first existing referee (if available)
+      const baseReferee = existingReferees.length > 0 
+        ? existingReferees[0] 
+        : { 
+            questionFormat: "", 
+            questionId: "", 
+            questionName: "" 
+          };
+  
+      currentCandidate.referees.push({
         name: "",
         email: "",
-        questionFormat: "",
-        questionId: "",
-        questionName: "",
+        questionFormat: baseReferee.questionFormat,
+        questionId: baseReferee.questionId,
+        questionName: baseReferee.questionName
       });
+      
       setReference(newReferees);
     }
   };
-
   const handleDeleteReferee = (index) => {
     if (reference[currentReferenceIndex]?.referees.length === 1) {
       return;
@@ -280,13 +299,13 @@ const AddRequestComponent = ({
             <Form.Label className="me-2 mb-0" style={{ width: "220px" }}>
               Position
             </Form.Label>
-            <Form.Select
+            <Form.Control
               value={reference[currentReferenceIndex]?.positionName}
               disabled
               required
-            >
-              <option>{reference[currentReferenceIndex]?.positionName}</option>
-            </Form.Select>
+              />
+            
+
           </Form.Group>
 
           <Form.Group
@@ -296,13 +315,11 @@ const AddRequestComponent = ({
             <Form.Label className="me-2 mb-0" style={{ width: "220px" }}>
               Candidate
             </Form.Label>
-            <Form.Select
+            <Form.Control
               value={reference[currentReferenceIndex]?.candidateName}
               disabled
               required
-            >
-              <option>{reference[currentReferenceIndex]?.candidateName}</option>
-            </Form.Select>
+            />
           </Form.Group>
 
           {/* Reference Format Dropdown */}
@@ -317,25 +334,24 @@ const AddRequestComponent = ({
               {/* Custom Dropdown for HR-HATCH */}
               <div className="custom-dropdown-ref-req">
                 <div
-                  className={`dropdown-header-ref-req ${
-                    reference[currentReferenceIndex]?.referees[0]
-                      ?.questionFormat === "HR-HATCH-FORMAT"
-                      ? "active"
-                      : ""
-                  } ${
-                    reference[currentReferenceIndex]?.referees[0]?.isHrHatchOpen
-                      ? "dropdown-open"
-                      : ""
-                  }`} // Add dropdown-open class if open
+className={`dropdown-header-ref-req ${
+  reference[currentReferenceIndex]?.referees?.every(
+      r => r.questionFormat === "HR-HATCH-FORMAT"
+  ) && !reference[currentReferenceIndex]?.referees[0]?.isHrHatchOpen
+      ? "active"
+      : ""
+} ${reference[currentReferenceIndex]?.referees[0]?.isHrHatchOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     const newReferees = [...reference];
-                    newReferees[
-                      currentReferenceIndex
-                    ].referees[0].isHrHatchOpen =
-                      !newReferees[currentReferenceIndex].referees[0]
-                        .isHrHatchOpen;
+                    const currentRef = newReferees[currentReferenceIndex];
+                    const currentState = currentRef.referees[0].isHrHatchOpen; // Assuming all have the same state
+                    currentRef.referees.forEach(referee => {
+                      referee.isHrHatchOpen = !currentState; // Toggle current state
+                      referee.isCustomOpen = false; // Close CUSTOM dropdown
+                    });
                     setReference(newReferees);
                   }}
+                  
                 >
                   {reference[currentReferenceIndex]?.referees[0]
                     ?.questionFormat === "HR-HATCH-FORMAT"
@@ -351,11 +367,7 @@ const AddRequestComponent = ({
                         key={question._id}
                         className="dropdown-item-ref-req"
                         onClick={() => {
-                          handleRefereeQuestionFormatChange(
-                            question,
-                            0, // Assuming you want to set this for the first referee
-                            "HR-HATCH-FORMAT"
-                          );
+                          handleRefereeQuestionFormatChange(question, "HR-HATCH-FORMAT");
                         }}
                       >
                         {question.name}
@@ -368,26 +380,23 @@ const AddRequestComponent = ({
               {/* Custom Dropdown for CUSTOM */}
               <div className="custom-dropdown-ref-req">
                 <div
-                  className={`dropdown-header-ref-req ${
-                    reference[currentReferenceIndex]?.referees[0]
-                      ?.questionFormat === "CUSTOM-FORMAT"
-                      ? "active"
-                      : ""
-                  } ${
-                    reference[currentReferenceIndex]?.referees[0]?.isCustomOpen
-                      ? "dropdown-open"
-                      : ""
-                  }`} // Add dropdown-open class if open
-                  onClick={() => {
+className={`dropdown-header-ref-req ${
+  reference[currentReferenceIndex]?.referees?.every(
+      r => r.questionFormat === "CUSTOM-FORMAT"
+  ) && !reference[currentReferenceIndex]?.referees[0]?.isCustomOpen
+      ? "active"
+      : ""
+} ${reference[currentReferenceIndex]?.referees[0]?.isCustomOpen ? "dropdown-open" : ""}`}
+onClick={() => {
                     const newReferees = [...reference];
-                    newReferees[
-                      currentReferenceIndex
-                    ].referees[0].isCustomOpen =
-                      !newReferees[currentReferenceIndex].referees[0]
-                        .isCustomOpen;
+                    const currentRef = newReferees[currentReferenceIndex];
+                    const currentState = currentRef.referees[0].isCustomOpen; // Assuming all have the same state
+                    currentRef.referees.forEach(referee => {
+                      referee.isCustomOpen = !currentState; // Toggle current state
+                      referee.isHrHatchOpen = false; // Close HR-HATCH dropdown
+                    });
                     setReference(newReferees);
-                  }}
-                >
+                  }}           >
                   {reference[currentReferenceIndex]?.referees[0]
                     ?.questionFormat === "CUSTOM-FORMAT"
                     ? reference[currentReferenceIndex]?.referees[0]
@@ -403,12 +412,9 @@ const AddRequestComponent = ({
                           key={question._id}
                           className="dropdown-item-ref-req"
                           onClick={() => {
-                            handleRefereeQuestionFormatChange(
-                              question,
-                              0, // Assuming you want to set this for the first referee
-                              "CUSTOM-FORMAT"
-                            );
+                            handleRefereeQuestionFormatChange(question, "CUSTOM-FORMAT");
                           }}
+                          
                         >
                           {question.name}
                         </div>
@@ -464,10 +470,10 @@ const AddRequestComponent = ({
                       placeholder="Enter Referee Name"
                       className="referee-input "
                     />
-                    <button onClick={() => handleDeleteReferee(index)}>
+                    <button onClick={() => handleDeleteReferee(index)} className="d-flex align-items-center justify-content-center">
                       <svg
-                        width="20"
-                        height="24"
+                        width="16"
+                        height="18"
                         viewBox="0 0 30 34"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -504,7 +510,7 @@ const AddRequestComponent = ({
             )}
           </div>
         </Form>
-        <div className="d-flex justify-content-center align-items-center gap-3 add-candidate-controller">
+        <div className="d-flex justify-content-center align-items-center gap-3 add-ref-req-controller">
           <button
             type="button"
             onClick={handlePrevious}

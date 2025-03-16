@@ -160,7 +160,7 @@ const AddCandidateComponent = ({
             >
               Position
             </Form.Label>
-            <Form.Select
+            <Form.Control
               value={candidates[currentCandidateIndex]?.position || ""}
               onChange={(e) =>
                 handleInputChange(
@@ -171,11 +171,7 @@ const AddCandidateComponent = ({
               }
               required
               disabled
-            >
-              <option key={addedJob.positionId} value={addedJob.positionName}>
-                {addedJob.positionName}
-              </option>
-            </Form.Select>
+            />
           </Form.Group>
 
           <div key={currentCandidateIndex} className="candidate-container mb-4">

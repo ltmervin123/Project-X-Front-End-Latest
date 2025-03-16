@@ -235,7 +235,7 @@ font-size: inherit;
 
 }
 .request-container-form{
-  height: 64vh;
+ min-height: 64vh;
 position: relative;
   border-radius: 20px;
   background: var(--font-white) !important;
@@ -294,6 +294,24 @@ font-size: 15px;
    background: var(--font-white);
    border: 1px solid var(--avatar-bg);
   }
+  .add-ref-req-controller{
+    height: 9%;
+    margin-top: 1%;
+    
+  }
+  .add-ref-req-controller button{
+  background: none !important;
+  border: none !important;
+  }
+  .add-ref-req-controller span{
+    font-size: 20px !important;
+  }
+  .add-ref-req-controller svg{
+    height:18px !important;
+  }
+  .add-ref-req-controller button:disabled svg path {
+    fill:var(--avatar-bg) !important; /* Blue color for disabled state */
+  }
 .custom-dropdown-ref-req {
   position: relative;
   width: 100%;
@@ -315,12 +333,14 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
 
 .custom-dropdown-ref-req .dropdown-list-ref-req {
   position: absolute;
-  top: 100%;
+  top: 101%;
   left: 0;
   right: 0;
   border: 1px solid #ccc;
   background: white;
   z-index: 1000;
+  border-radius: 0px 0px 10px 10px;
+  border-top: none;
 }
 
 .custom-dropdown-ref-req .dropdown-item-ref-req {
@@ -332,7 +352,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   background-color: #f0f0f0;
 }
 .dropdown-header-ref-req.active{
-  background: var(--primary-color) !important;
+  background: var(--primary-color) ;
   color: var(--font-white) !important;
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
   background-position: right 10px center !important;
@@ -343,6 +363,10 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
   background-position: right 10px center !important;
   background-repeat: no-repeat !important;
+  border-radius: 10px 10px 0px 0px !important;
+  border-bottom: none !important;
+background-color: none !important;
+color: var(--text-color) !important;
 }
 .btn-no-submit-request{
   background: var(--secondary-color);

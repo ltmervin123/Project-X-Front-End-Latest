@@ -168,7 +168,8 @@
   cursor: not-allowed;
 }
 .add-candidate-controller{
-  height: 10%;
+  height: 9%;
+  margin-top: 1%;
 }
 .add-candidate-controller button{
 background: none;

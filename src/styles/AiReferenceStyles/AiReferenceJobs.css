@@ -93,7 +93,7 @@
   border-radius: 20px;
   background: var(--font-white) !important;
   padding: 30px !important;
-  height: 64vh;
+  height: 65vh;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
 .job-container-form > b{
