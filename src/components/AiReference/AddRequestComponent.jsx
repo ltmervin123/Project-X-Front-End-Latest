@@ -89,9 +89,9 @@ const AddRequestComponent = ({
     setCurrentRefereeIndex(0);
   }, [currentReferenceIndex]);
 
-  const currentReferee = reference[currentReferenceIndex]?.referees[currentRefereeIndex];
+  const currentReferee =
+    reference[currentReferenceIndex]?.referees[currentRefereeIndex];
 
-  
   //Functions
   const createReferenceRequest = async () => {
     try {
@@ -146,24 +146,24 @@ const AddRequestComponent = ({
     format
   ) => {
     const newReferees = [...reference];
-  
+
     // Set the selected format
     newReferees[currentReferenceIndex].referees[index].questionFormat = format;
     newReferees[currentReferenceIndex].referees[index].questionName =
       selectedQuestion?.name;
     newReferees[currentReferenceIndex].referees[index].questionId =
       selectedQuestion?._id;
-  
+
     // Set active dropdown
     newReferees[currentReferenceIndex].referees[index].activeDropdown = format;
-  
+
     // Close the dropdown after selection
     if (format === "HR-HATCH-FORMAT") {
       newReferees[currentReferenceIndex].referees[index].isHrHatchOpen = false;
     } else if (format === "CUSTOM-FORMAT") {
       newReferees[currentReferenceIndex].referees[index].isCustomOpen = false;
     }
-  
+
     setReference(newReferees);
   };
   const handleRefereeNameChange = (event, index) => {
@@ -195,6 +195,9 @@ const AddRequestComponent = ({
   };
 
   const handleDeleteReferee = (index) => {
+    if (reference[currentReferenceIndex]?.referees.length === 1) {
+      return;
+    }
     const newReferees = [...reference];
     newReferees[currentReferenceIndex]?.referees.splice(index, 1);
     setReference(newReferees);
@@ -259,11 +262,10 @@ const AddRequestComponent = ({
         <p className="mb-2">Create a new reference request for a candidate.</p>
       </div>
       <div className="job-container-form d-flex align-items-center justify-content-center w-100 flex-column">
-      <b className="d-flex justify-content-start">
-            Candidate {currentReferenceIndex + 1} of {addedCandidate.length}
-            <span>&nbsp; * Fill in the required Information</span>
-
-          </b>
+        <b className="d-flex justify-content-start">
+          Candidate {currentReferenceIndex + 1} of {addedCandidate.length}
+          <span>&nbsp; * Fill in the required Information</span>
+        </b>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <Form.Group
             controlId="formPosition"
@@ -336,7 +338,7 @@ const AddRequestComponent = ({
                     />
                     <button
                       onClick={() => handleDeleteReferee(index)}
-                      disabled={reference.length <= 1}
+                      disabled={reference.length === 1}
                     >
                       <svg
                         width="20"
@@ -353,78 +355,108 @@ const AddRequestComponent = ({
                     </button>
                   </Form.Group>
                   <Form.Group
-  controlId={`formQuestionFormat${index}`}
-  className="d-flex align-items-center mb-3"
->
-  <Form.Label className="me-2" style={{ width: "220px" }}>
-    Reference Question
-  </Form.Label>
-  <div className="w-100 reference-question-format-container d-flex gap-2">
-    {/* Custom Dropdown for HR-HATCH */}
-    <div className="custom-dropdown-ref-req">
-      <div
-        className={`dropdown-header-ref-req ${referee.activeDropdown === "HR-HATCH-FORMAT" ? 'active' : ''}`}
-        onClick={() => {
-          const newReferees = [...reference];
-          newReferees[currentReferenceIndex].referees[index].isHrHatchOpen = !newReferees[currentReferenceIndex].referees[index].isHrHatchOpen;
-          setReference(newReferees);
-        }}
-      >
-        {referee.questionFormat === "HR-HATCH-FORMAT" ? referee.questionName : "HR-HATCH"}
-      </div>
-      {referee.isHrHatchOpen && (
-        <div className="dropdown-list-ref-req">
-          {hrHatchQuestion.map((question) => (
-            <div
-              key={question._id}
-              className="dropdown-item-ref-req"
-              onClick={() => {
-                handleRefereeQuestionFormatChange(question, index, "HR-HATCH-FORMAT");
-              }}
-            >
-              {question.name}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+                    controlId={`formQuestionFormat${index}`}
+                    className="d-flex align-items-center mb-3"
+                  >
+                    <Form.Label className="me-2" style={{ width: "220px" }}>
+                      Reference Question
+                    </Form.Label>
+                    <div className="w-100 reference-question-format-container d-flex gap-2">
+                      {/* Custom Dropdown for HR-HATCH */}
+                      <div className="custom-dropdown-ref-req">
+                        <div
+                          className={`dropdown-header-ref-req ${
+                            referee.activeDropdown === "HR-HATCH-FORMAT"
+                              ? "active"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            const newReferees = [...reference];
+                            newReferees[currentReferenceIndex].referees[
+                              index
+                            ].isHrHatchOpen =
+                              !newReferees[currentReferenceIndex].referees[
+                                index
+                              ].isHrHatchOpen;
+                            setReference(newReferees);
+                          }}
+                        >
+                          {referee.questionFormat === "HR-HATCH-FORMAT"
+                            ? referee.questionName
+                            : "HR-HATCH"}
+                        </div>
+                        {referee.isHrHatchOpen && (
+                          <div className="dropdown-list-ref-req">
+                            {hrHatchQuestion.map((question) => (
+                              <div
+                                key={question._id}
+                                className="dropdown-item-ref-req"
+                                onClick={() => {
+                                  handleRefereeQuestionFormatChange(
+                                    question,
+                                    index,
+                                    "HR-HATCH-FORMAT"
+                                  );
+                                }}
+                              >
+                                {question.name}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
 
-    {/* Custom Dropdown for CUSTOM */}
-    <div className="custom-dropdown-ref-req">
-      <div
-        className={`dropdown-header-ref-req ${referee.activeDropdown === "CUSTOM-FORMAT" ? 'active' : ''}`}
-        onClick={() => {
-          const newReferees = [...reference];
-          newReferees[currentReferenceIndex].referees[index].isCustomOpen = !newReferees[currentReferenceIndex].referees[index].isCustomOpen;
-          setReference(newReferees);
-        }}
-      >
-        {referee.questionFormat === "CUSTOM-FORMAT" ? referee.questionName : "Custom"}
-      </div>
-      {referee.isCustomOpen && (
-        <div className="dropdown-list-ref-req">
-          {customQuestion.length > 0 ? (
-            customQuestion.map((question) => (
-              <div
-                key={question._id}
-                className="dropdown-item-ref-req"
-                onClick={() => {
-                  handleRefereeQuestionFormatChange(question, index, "CUSTOM-FORMAT");
-                }}
-              >
-                {question.name}
-              </div>
-            ))
-          ) : (
-            <div className="dropdown-item-ref-req" disabled>
-              No custom questions available
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  </div>
-</Form.Group>
+                      {/* Custom Dropdown for CUSTOM */}
+                      <div className="custom-dropdown-ref-req">
+                        <div
+                          className={`dropdown-header-ref-req ${
+                            referee.activeDropdown === "CUSTOM-FORMAT"
+                              ? "active"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            const newReferees = [...reference];
+                            newReferees[currentReferenceIndex].referees[
+                              index
+                            ].isCustomOpen =
+                              !newReferees[currentReferenceIndex].referees[
+                                index
+                              ].isCustomOpen;
+                            setReference(newReferees);
+                          }}
+                        >
+                          {referee.questionFormat === "CUSTOM-FORMAT"
+                            ? referee.questionName
+                            : "Custom"}
+                        </div>
+                        {referee.isCustomOpen && (
+                          <div className="dropdown-list-ref-req">
+                            {customQuestion.length > 0 ? (
+                              customQuestion.map((question) => (
+                                <div
+                                  key={question._id}
+                                  className="dropdown-item-ref-req"
+                                  onClick={() => {
+                                    handleRefereeQuestionFormatChange(
+                                      question,
+                                      index,
+                                      "CUSTOM-FORMAT"
+                                    );
+                                  }}
+                                >
+                                  {question.name}
+                                </div>
+                              ))
+                            ) : (
+                              <div className="dropdown-item-ref-req" disabled>
+                                No custom questions available
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </Form.Group>
                   <Form.Group
                     controlId={`formRefereeEmail${index}`}
                     className="d-flex align-items-center mb-3"
