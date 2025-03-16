@@ -12,8 +12,8 @@ const instructionData = [
   {
     title: "Step 2",
     description:
-      "Sign using your mouse/touchpad or upload a scanned signature. Ensure it is clear and legible.",
-    overlayLabel: "Provide Your Signature",
+      "Sign using your mouse or touchpad, or upload a scanned signature and your ID. Make sure it is clear and legible for verification purposes.",
+    overlayLabel: "Provide Signature & Valid ID",
   },
   {
     title: "Step 3",
