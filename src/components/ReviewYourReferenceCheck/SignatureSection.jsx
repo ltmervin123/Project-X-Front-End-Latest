@@ -17,7 +17,7 @@ const SignatureSection = ({
   clearImage,
   setSignatureMethod,
   handleFileSelect,
-  setSavedSignature,
+  isCanvaEmpty,
 }) => {
   return (
     <div className="ReviewYourReferenceCheck-container d-flex align-items-center justify-content-center w-100">
@@ -58,10 +58,16 @@ const SignatureSection = ({
             </div>
           </div>
           <div className="ReviewYourReferenceCheck-button-controls d-flex gap-3 my-3 w-100 justify-content-center m-2">
-            <button onClick={clearDrawing} disabled={submitting}>
+            <button
+              onClick={clearDrawing}
+              disabled={submitting || isCanvaEmpty}
+            >
               Clear
             </button>
-            <button onClick={handleProceedIDUpload} disabled={submitting}>
+            <button
+              onClick={handleProceedIDUpload}
+              disabled={submitting || isCanvaEmpty}
+            >
               Proceed
             </button>
           </div>

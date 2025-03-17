@@ -1,7 +1,10 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const SubmitConfirmationReferenceRequestPopUp = ({ onClose, onConfirmSubmit }) => {
+const SubmitConfirmationReferenceRequestPopUp = ({
+  onClose,
+  onConfirmSubmit,
+}) => {
   return (
     <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
