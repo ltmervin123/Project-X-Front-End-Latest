@@ -25,7 +25,7 @@ function ReviewYourReferenceCheckPage() {
   const canvasRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [showBothAnswers, setShowBothAnswers] = useState(false);
+    const [showBothAnswers, setShowBothAnswers] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array(questions.length).fill(null)
   );
@@ -45,29 +45,40 @@ function ReviewYourReferenceCheckPage() {
   const referenceQuestionsData =
     JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
 
-  const handleSkip = () => {
-    setShowSkipConfirmation(true);
-  };
-  const handleConfirmSkip = () => {
-    // Auto-select original answers for unanswered questions
-    const autoSelected = selectedAnswers.map(
-      (answer, index) => answer || "Original Answer"
-    );
-    setSelectedAnswers(autoSelected);
-
-    // Populate submittedAnswers with auto-selected answers
-    const newSubmittedAnswers = questions.map((question, index) => ({
-      question: question,
-      answer:
-        autoSelected[index] === "Original Answer"
+    const handleSkip = () => {
+      setShowSkipConfirmation(true);
+    };
+    
+    const handleConfirmSkip = () => {
+    
+      // Auto-select "Original Answer" for unanswered questions
+      const newSelectedAnswers = [...selectedAnswers];
+      console.log("Current selected answers before skip:", newSelectedAnswers);
+    
+      questions.forEach((_, index) => {
+        if (newSelectedAnswers[index] === null) { // Check if the answer is not selected
+          newSelectedAnswers[index] = "Original Answer"; // Set to "Original Answer"
+        }
+      });
+    
+      setSelectedAnswers(newSelectedAnswers);
+    
+      // Populate submittedAnswers with auto-selected answers
+      const newSubmittedAnswers = questions.map((question, index) => {
+        const answer = newSelectedAnswers[index] === "Original Answer"
           ? answers[index]
-          : aiEnhancedAnswers[index],
-    }));
-    setSubmittedAnswers(newSubmittedAnswers);
-
-    setShowSignatureSection(true);
-    setShowSkipConfirmation(false);
-  };
+          : aiEnhancedAnswers[index];
+        return {
+          question: question,
+          answer: answer,
+        };
+      });
+    
+      setSubmittedAnswers(newSubmittedAnswers);
+    
+      setShowSignatureSection(true);
+      setShowSkipConfirmation(false);
+    };
 
   const handleUpdateEnhanceAnswer = (updatedAnswer) => {
     setAiEnhancedAnswers((prevAnswers) => {
@@ -588,8 +599,7 @@ function ReviewYourReferenceCheckPage() {
                   </div>
                   <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
                     <small className="mb-2 w-100">
-                      Clicking the skip button will select all answers from the
-                      original response
+                    You can click 'Skip' to use your original answers for the remaining questions, except for those that have already been submitted.
                     </small>
                     <button
                       onClick={() => {

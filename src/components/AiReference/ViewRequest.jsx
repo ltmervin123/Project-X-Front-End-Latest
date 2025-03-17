@@ -257,63 +257,75 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           </p>
 
           <div className="my-4">
-            {refereeQuestionFormat === "HR-HATCH-FORMAT"
-              ? referenceData?.referenceQuestion
-                  .sort((a, b) => {
-                    const order = categoryOrder[refereeQuestionFormat] || [];
-                    return (
-                      order.indexOf(a.category) - order.indexOf(b.category)
-                    );
-                  })
-                  .map((item) => (
-                    <div key={item.category}>
-                      <h5 className="color-gray">
-                        {formatCategories(item.category)}
-                      </h5>
-                      {item.questions.map((question, index) => (
-                        <div key={index}>
-                          <div className="d-flex w-100">
-                            <p>
-                              <b>Question {index + 1}: </b>
-                              {question}
-                            </p>
-                          </div>
+          {refereeQuestionFormat === "HR-HATCH-FORMAT"
+  ? referenceData?.referenceQuestion
+      .sort((a, b) => {
+        const order = categoryOrder[refereeQuestionFormat] || [];
+        return (
+          order.indexOf(a.category) - order.indexOf(b.category)
+        );
+      })
+      .map((item) => (
+        <div key={item.category}>
+          <h5 className="color-gray mt-5">
+            {formatCategories(item.category)}
+          </h5>
+          {item.questions.map((question, index) => (
+            <div key={index}>
+              <div className="d-flex w-100 mt-4">
+                <p className="mb-2">
+                  <b>Question {index + 1}: </b>
+                  {question}
+                </p>
+              </div>
 
-                          <h6 className="color-gray">Normalized Answer:</h6>
+              <h6 className="color-gray mb-2">
+                {item.answers[index] === "Normalized Answer" ? "Original Answer:" : "AI Enhanced Answer:"}
+              </h6>
 
-                          <div className="EnchanceAns-container mb-4">
-                            <p>{item.answers[index]}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ))
-              : referenceData?.referenceQuestion.map((item) => (
-                  <div key={item.category}>
-                    <h5 className="color-gray">{item.category}</h5>
-                    {item.questions.map((question, index) => (
-                      <div key={index}>
-                        <div className="d-flex w-100">
-                          <p>
-                            <b>Question {index + 1}: </b>
-                            {question}
-                          </p>
-                        </div>
+              <div className={item.answers[index] === "Normalized Answer" ? "OriginalAns-container mb-4" : "AIEnchanceAns-container mb-4"}>
+                <p>{item.answers[index]}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))
+  : referenceData?.referenceQuestion.map((item) => (
+      <div key={item.category}>
+        <h5 className="color-gray">{item.category}</h5>
+        {item.questions.map((question, index) => (
+          <div key={index}>
+            <div className="d-flex w-100 mt-4">
+              <p className="mb-2">
+                <b>Question {index + 1}: </b>
+                {question}
+              </p>
+            </div>
 
-                        <h6 className="color-gray">Normalized Answer:</h6>
+            <h6 className="color-gray mb-2">
+              {item.answers[index] === "Normalized Answer" ? "Original Answer:" : "AI Enhanced Answer:"}
+            </h6>
 
-                        <div className="EnchanceAns-container mb-4">
-                          <p>{item.answers[index]}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+            <div className={item.answers[index] === "Normalized Answer" ? "OriginalAns-container mb-4" : "AIEnchanceAns-container mb-4"}>
+              <p>{item.answers[index]}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    ))}
           </div>
 
-          <p className="signature-verif-title color-orange mb-2">
+          <p className="signature-verif-title color-orange mt-5 mb-3">
             SIGNATURE AND VERIFICATION
           </p>
+          <div className="w-100 uploaded-id-container d-flex gap-3 mb-3">
+            <div>
+              <img src="../assets/logo.png" alt="" />
+            </div>
+            <div>
+              <img src="../assets/logo.png" alt="" />
+            </div>
+          </div>
           <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}

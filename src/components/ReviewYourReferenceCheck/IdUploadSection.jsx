@@ -33,7 +33,7 @@ const IdUploadSection = ({
   };
 
   const hasNoId = () => {
-    return !frontIdFile || !backIdFile;
+    return !frontIdFile || (selectedIdType !== "Passport" && !backIdFile);
   };
 
   return (
@@ -108,55 +108,60 @@ const IdUploadSection = ({
           </div>
         </div>
 
+
         <div className="back-id-container mb-3">
-          <p>Back ID page</p>
-          <div className="d-flex justify-content-between w-100">
-            {backIdFile ? (
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <div className="back-id-img-container d-flex align-items-center ">
-                  <img
-                    src={URL.createObjectURL(backIdFile)}
-                    alt="Back ID"
-                    style={{
-                      maxWidth: "50px",
-                      maxHeight: "50px",
-                    }}
-                  />
-                  <p className="m-0">File uploaded: {backIdFile.name}</p>
-                </div>
-                <button
-                  onClick={triggerBackFileInput}
-                  disabled={!selectedIdType}
-                >
-                  Select File
-                </button>
-                <input
-                  type="file"
-                  id="backIdInput"
-                  accept="image/*"
-                  onChange={handleBackIdSelect}
-                  style={{ display: "none" }} // Hide the file input
-                />
+          {/* {selectedIdType !== "Passport" && (
+            <>
+              <p>Back ID page</p>
+              <div className="d-flex justify-content-between w-100">
+                {backIdFile ? (
+                  <div className="d-flex justify-content-between align-items-center w-100">
+                    <div className="back-id-img-container d-flex align-items-center ">
+                      <img
+                        src={URL.createObjectURL(backIdFile)}
+                        alt="Back ID"
+                        style={{
+                          maxWidth: "50px",
+                          maxHeight: "50px",
+                        }}
+                      />
+                      <p className="m-0">File uploaded: {backIdFile.name}</p>
+                    </div>
+                    <button
+                      onClick={triggerBackFileInput}
+                      disabled={!selectedIdType}
+                    >
+                      Select File
+                    </button>
+                    <input
+                      type="file"
+                      id="backIdInput"
+                      accept="image/*"
+                      onChange={handleBackIdSelect}
+                      style={{ display: "none" }} // Hide the file input
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="back-id-img-container d-flex"></div>
+                    <button
+                      onClick={triggerBackFileInput}
+                      disabled={!selectedIdType}
+                    >
+                      Select File
+                    </button>
+                    <input
+                      type="file"
+                      id="backIdInput"
+                      accept="image/*"
+                      onChange={handleBackIdSelect}
+                      style={{ display: "none" }} // Hide the file input
+                    />
+                  </>
+                )}
               </div>
-            ) : (
-              <>
-                <div className="back-id-img-container d-flex"></div>
-                <button
-                  onClick={triggerBackFileInput}
-                  disabled={!selectedIdType}
-                >
-                  Select File
-                </button>
-                <input
-                  type="file"
-                  id="backIdInput"
-                  accept="image/*"
-                  onChange={handleBackIdSelect}
-                  style={{ display: "none" }} // Hide the file input
-                />
-              </>
-            )}
-          </div>
+            </>
+          )} */}
         </div>
       </div>
 
