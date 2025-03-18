@@ -8,6 +8,8 @@ function MainDashboard() {
   const username = user ? user.name.split(" ")[0] : "Guest";
   const navigate = useNavigate();
 
+  // For fade in smooth animation 
+
   const handleResumeBuilderClick = () => {
     navigate(`/comingsoon`);
   };

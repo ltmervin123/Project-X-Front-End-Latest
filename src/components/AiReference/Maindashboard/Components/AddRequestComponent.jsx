@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import SubmitConfirmationReferenceRequestPopUp from "../AiReference/SubmitConfirmationReferenceRequestPopUp";
+import SubmitConfirmationReferenceRequestPopUp from "../PopUpComponents/SubmitConfirmationReferenceRequestPopUp";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const MAX_REFEREES = 3;

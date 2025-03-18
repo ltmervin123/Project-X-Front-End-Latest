@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import EditCandidatePopUp from "./EditCandidatePopUp";
-import DeleteConfirmationCandidatePopUp from "./DeleteConfirmationCandidatePopUp"; // Import the confirmation popup
-import AddCandidatePopUp from "./AddCandidatePopUp"; // Assuming you have a similar component for adding candidates
-import CandidateDetailsPopUp from "./CandidateDetailsPopUp";
+import EditCandidatePopUp from "./PopUpComponents/EditCandidatePopUp";
+import DeleteConfirmationCandidatePopUp from "./PopUpComponents/DeleteConfirmationCandidatePopUp"; // Import the confirmation popup
+import CandidateDetailsPopUp from "./PopUpComponents/CandidateDetailsPopUp";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import axios from "axios";
 
@@ -24,6 +23,19 @@ const Candidates = () => {
   );
   const [isDeleting, setIsDeleting] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+
+  // For fade in smooth animation
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isContainerVisible, setIsContainerVisible] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsSearchVisible(true), 300),
+      setTimeout(() => setIsContainerVisible(true), 700),
+    ];
+
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
 
   const fetchCandidates = async () => {
     try {
@@ -189,7 +201,11 @@ const Candidates = () => {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
-          <div className="search-wrapper position-relative">
+          <div
+            className={`search-wrapper position-relative fade-in ${
+              isSearchVisible ? "visible" : ""
+            }`}
+          >
             <input
               type="text"
               placeholder="Search candidates..."
@@ -203,7 +219,11 @@ const Candidates = () => {
         </div>
       </div>
 
-      <div className="AiReference-candidates-container">
+      <div
+        className={`AiReference-candidates-container fade-in ${
+          isSearchVisible ? "visible" : ""
+        }`}
+      >
         <div className="AiReference-table-title">
           <h4 className="mb-0">Candidate Lists</h4>
           <p>Overview of all candidates in the system.</p>
@@ -299,6 +319,17 @@ const Candidates = () => {
                       </td>
                     </tr>
                   ))}
+                {candidates.filter((candidate) =>
+                  candidate.name
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+                ).length === 0 && (
+                  <tr>
+                    <td colSpan="5" className="text-center">
+                      Candidate not found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </>
