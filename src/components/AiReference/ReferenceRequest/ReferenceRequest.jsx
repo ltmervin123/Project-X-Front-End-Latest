@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddRequestPopUp from "./AddRequestPopUp";
-import DeleteConfirmationReferenceRequestPopUp from "./DeleteConfirmationReferenceRequestPopUp"; // Import the confirmation popup
-import EditRequestPopUp from "./EditRequestPopUp"; // Add this line
+import AddRequestPopUp from "../AddRequestPopUp";
+import DeleteConfirmationReferenceRequestPopUp from "./PopUpComponents/DeleteConfirmationReferenceRequestPopUp"; // Import the confirmation popup
+import EditRequestPopUp from "./PopUpComponents/EditRequestPopUp"; // Add this line
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
-import ViewRequest from "./ViewRequest";
+import ReferenceRequestDetailsPopUp from "./PopUpComponents/ReferenceRequestDetailsPopUp";
+import ViewRequest from "./Components/ViewRequest";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { socket } from "../../utils/socket/socketSetup";
+import { socket } from "../../../utils/socket/socketSetup";
 
 const ReferenceRequest = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -29,6 +29,26 @@ const ReferenceRequest = () => {
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for delete confirmation
   const [referenceToDelete, setReferenceToDelete] = useState(null); // State to hold the reference ID to delete
+
+  // For fade in smooth animation
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isContainerVisible, setIsContainerVisible] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsSearchVisible(true), 100),
+      setTimeout(() => setIsContainerVisible(true), 500),
+    ];
+
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
+
+  const toggleDropdown = () => {
+    setTimeout(() => {
+      setIsExpanded(true);
+    }, 50); 
+  };
 
   const [reference, setReference] = useState(
     JSON.parse(localStorage.getItem("reference")) || []
@@ -131,11 +151,17 @@ const ReferenceRequest = () => {
     setShowDetailsPopup(true);
   };
   const handleSetCandidate = (referenceId) => {
-    setShowDropDown((prev) => !prev);
     const referenceFound = reference.find((ref) => ref._id === referenceId);
     setSelectedCandidate(referenceFound);
-  };
 
+    // Show the dropdown immediately when a candidate is selected
+    setShowDropDown(true);
+    setIsExpanded(false);
+    // If the dropdown is already shown, set a timeout to hide it after 2 seconds
+    if (showDropDown) {
+      setShowDropDown(false);
+    }
+  };
   const handleViewRequest = () => {
     setShowViewRequest(true);
   };
@@ -220,7 +246,7 @@ const ReferenceRequest = () => {
       updatedOptions[candidateId] = true;
       return updatedOptions;
     });
-  
+
     const optionsElement = document.getElementById(`options-${candidateId}`);
     if (optionsElement) {
       optionsElement.style.top = `${clientY}px`; // Adjust the positioning as needed
@@ -307,7 +333,9 @@ const ReferenceRequest = () => {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
-          <div className="search-wrapper position-relative">
+          <div className={`search-wrapper position-relative fade-in ${
+            isSearchVisible ? "visible" : ""
+          }`}>
             <input
               type="text"
               placeholder="Search request..."
@@ -320,7 +348,10 @@ const ReferenceRequest = () => {
         </div>
       </div>
 
-      <div className="AiReference-candidates-container Reference-Request">
+      <div 
+      className={`AiReference-candidates-container Reference-Request fade-in ${
+        isSearchVisible ? "visible" : ""
+      }`}>
         <div className="AiReference-table-title">
           <h4 className="mb-0">Reference Requests Lists</h4>
           <p>Overview of all reference requests.</p>
@@ -414,7 +445,10 @@ const ReferenceRequest = () => {
                         <td className="d-flex gap-2 align-items-center w-100">
                           <button
                             className="btn-view-details"
-                            onClick={() => handleSetCandidate(reference._id)}
+                            onClick={() => {
+                              handleSetCandidate(reference._id);
+                              toggleDropdown();
+                            }}
                           >
                             {showDropDown &&
                             selectedCandidate._id === reference._id
@@ -422,11 +456,13 @@ const ReferenceRequest = () => {
                               : "View Reports"}
                           </button>
                           <div className="position-relative">
-                          <p
-  className="m-0"
-  style={{ cursor: "pointer" }}
-  onClick={(e) => handleToggleOptions(reference._id, e)} // Pass the candidate's ID and event to handleToggleOptions
->
+                            <p
+                              className="m-0"
+                              style={{ cursor: "pointer" }}
+                              onClick={(e) =>
+                                handleToggleOptions(reference._id, e)
+                              } // Pass the candidate's ID and event to handleToggleOptions
+                            >
                               <svg
                                 width="23"
                                 height="23"
@@ -470,7 +506,11 @@ const ReferenceRequest = () => {
                       {showDropDown &&
                         selectedCandidate._id === reference._id && (
                           <div className="d-flex align-items-center justify-content-start w-100">
-                            <div className="reference-dropdown-container mb-2">
+                            <div
+                              className={`reference-dropdown-container mb-2 ${
+                                isExpanded ? "expanded" : ""
+                              }`}
+                            >
                               <b className="py-2 pb-2 ">Referee</b>
                               <div className="referee-list w-100 d-flex gap-2 mt-2">
                                 {showDropDown && selectedCandidate?.referees ? (
@@ -479,7 +519,7 @@ const ReferenceRequest = () => {
                                       className="referee-item mb-4"
                                       key={referee?._id}
                                     >
-                                      <div className="referee-details">
+                                      <div classNamesv="referee-details">
                                         <div className="d-flex justify-content-between">
                                           <span className="referee-name mb-1">
                                             {referee?.name}
@@ -574,6 +614,18 @@ const ReferenceRequest = () => {
                         )}
                     </React.Fragment>
                   ))}
+                  {reference.filter(ref => {
+      const candidateMatch = ref.candidate && ref.candidate.toLowerCase().includes(searchQuery.toLowerCase());
+      const refereeMatch = ref.referee && ref.referee.toLowerCase().includes(searchQuery.toLowerCase());
+      const positionMatch = ref.position && ref.position.toLowerCase().includes(searchQuery.toLowerCase());
+      return candidateMatch || refereeMatch || positionMatch;
+    }).length === 0 && (
+      <tr>
+        <td colSpan="7" className="text-center">
+          Reference requests not found
+        </td>
+      </tr>
+    )}
               </tbody>
             </table>
           </>

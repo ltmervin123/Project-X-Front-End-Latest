@@ -127,7 +127,7 @@ const CompanyRegistrationForm = () => {
 
         <form onSubmit={handleSubmit} className="form-company-reg">
           <Row>
-            <Col md={9}>
+            <Col md={12}>
               <div className="mb-2">
                 <label htmlFor="company-name" className="form-label">
                   Company Name
@@ -444,13 +444,7 @@ const CompanyRegistrationForm = () => {
               </div>
             </Col>
 
-            <Col md={3} className="d-flex align-items-start position-relative">
-              <img
-                src={RegisterCompanyAvatar}
-                className="companyregisteravatar"
-                alt="Register Avatar"
-              />
-            </Col>
+
           </Row>
 
           <div className="cr-agreement-box-check d-flex align-items-center gap-2 w-100">

@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import Maindashboard from "../../components/AiReference/Maindashboard";
+import Maindashboard from "../../components/AiReference/Maindashboard/Maindashboard";
 import "../../styles/AiReferenceStyles/AiReferenceMaindashboard.css";
 
 function AiReferenceMainDashboardPage() {

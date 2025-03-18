@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import ReferenceQuestion from "../../components/AiReference/ReferenceQuestion";
+import ReferenceQuestion from "../../components/AiReference/ReferenceQuestion/ReferenceQuestion";
 import "../../styles/AiReferenceStyles/AiReferenceQuestion.css";
 
 function AiReferenceQuestionPage() {

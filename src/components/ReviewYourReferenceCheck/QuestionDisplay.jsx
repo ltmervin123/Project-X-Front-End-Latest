@@ -6,44 +6,53 @@ const QuestionDisplay = ({
   questions,
   answers,
   aiEnhancedAnswers,
-  showBothAnswers,
-  setShowBothAnswers,
-  isEditing,
-  editedAnswer,
-  setEditedAnswer,
   setAnswers,
   setIsEditing,
   handleUpdateEnhanceAnswer,
-  handlePreviousQuestion,
-  handleNextQuestion,
+  isEditing,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
   const [updating, setUpdating] = useState(false);
+  const [editedOriginalAnswer, setEditedOriginalAnswer] = useState("");
+  const [editedAIEnhancedAnswer, setEditedAIEnhancedAnswer] = useState("");
+  const [editingType, setEditingType] = useState(null);
 
-  const handleSave = async () => {
-    // Save edited answer
+  const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
-      newAnswers[currentQuestionIndex] = editedAnswer;
+      newAnswers[currentQuestionIndex] = editedOriginalAnswer;
       return newAnswers;
     });
-
-    // Fetch normalized answer from API
     await handleNormalizedAnswers();
-
-    setEditedAnswer("");
+    setEditedOriginalAnswer("");
+    setEditedAIEnhancedAnswer("");
     setIsEditing(false);
+    setEditingType(null);
   };
 
-  // Fetch normalized answer from API
+  const handleSaveAIEnhancedAnswer = () => {
+    handleUpdateEnhanceAnswer(editedAIEnhancedAnswer);
+    setEditedOriginalAnswer("");
+    setEditedAIEnhancedAnswer("");
+    setIsEditing(false);
+    setEditingType(null);
+  };
+
+  const handleDiscard = () => {
+    setEditedOriginalAnswer("");
+    setEditedAIEnhancedAnswer("");
+    setIsEditing(false);
+    setEditingType(null);
+  };
+
   const handleNormalizedAnswers = async () => {
     try {
       setUpdating(true);
 
       const response = await axios.post(
         `${API}/api/ai-referee/reference/normalized-answer`,
-        { answer: editedAnswer },
+        { answer: editedOriginalAnswer },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -66,122 +75,145 @@ const QuestionDisplay = ({
           <strong>Question {currentQuestionIndex + 1}:</strong>{" "}
           {questions[currentQuestionIndex]}
         </p>
-        <div className="d-flex justify-content-end gap-3">
-          <span>
-            {showBothAnswers ? "Edit Original Answer  " : "Show Both Answers"}
-          </span>
-          <label className="question-option-switch">
-            <input
-              type="checkbox"
-              checked={!showBothAnswers}
-              onChange={() => setShowBothAnswers(!showBothAnswers)}
-            />
-            <span className="question-option-slider"></span>
-          </label>
-        </div>
       </div>
 
-      {!showBothAnswers ? (
-        <>
-          <p className="orig-label">
-            <strong>Original Answer:</strong>
-          </p>
-          <div className="answer-container mb-3">
-            <p>{answers[currentQuestionIndex]}</p>
-          </div>
-          <p className="ai-enhanced-label">
-            <strong>AI Enhanced Answer:</strong>
-          </p>
-          <div className="ai-enhanced-answer-container mb-3">
-            <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>
-          </div>
-        </>
-      ) : (
-        <>
-          <p className="orig-label">
-            <strong>Original Answer:</strong>
-          </p>
-          <div className="answer-container-extended mb-3">
-            {isEditing ? (
-              <textarea
-                value={editedAnswer}
-                onChange={(e) => setEditedAnswer(e.target.value)}
-                rows={8}
-                className="answer-textarea"
+      <p className="orig-label d-flex justify-content-between align-items-center">
+        <strong>Original Answer:</strong>
+        {isEditing && editingType === "original" ? null : (
+          <button
+            className="btn-edit"
+            onClick={() => {
+              setEditedOriginalAnswer(answers[currentQuestionIndex]);
+              setIsEditing(true);
+              setEditingType("original"); // Set editing type to original
+            }}
+          >
+            <svg
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 5H3C2.46957 5 1.96086 5.21071 1.58579 5.58579C1.21071 5.96086 1 6.46957 1 7V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H12C12.5304 18 13.0391 17.7893 13.4142 17.4142C13.7893 17.0391 14 16.5304 14 16V15"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
-            ) : (
-              <p>{answers[currentQuestionIndex]}</p>
-            )}
-          </div>
-          <div className="edit-save-button-container">
-            {isEditing ? (
-              <button
-                className="btn-save"
-                onClick={handleSave}
-                disabled={updating}
-              >
-                {updating ? "Saving..." : "Save"}
-              </button>
-            ) : (
-              <button
-                className="btn-edit"
-                onClick={() => {
-                  setEditedAnswer(answers[currentQuestionIndex]);
-                  setIsEditing(true);
-                }}
-              >
-                Edit
-              </button>
-            )}
-          </div>
-        </>
+              <path
+                d="M13 3.00011L16 6.00011M17.385 4.58511C17.7788 4.19126 18.0001 3.65709 18.0001 3.10011C18.0001 2.54312 17.7788 2.00895 17.385 1.61511C16.9912 1.22126 16.457 1 15.9 1C15.343 1 14.8088 1.22126 14.415 1.61511L6 10.0001V13.0001H9L17.385 4.58511Z"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Edit Answers
+          </button>
+        )}
+      </p>
+      <div className={`answer-container mb-3 ${isEditing ? "edit" : ""}`}>
+        {" "}
+        {isEditing && editingType === "original" ? (
+          <textarea
+            value={editedOriginalAnswer}
+            onChange={(e) => setEditedOriginalAnswer(e.target.value)}
+            rows={2}
+            className="answer-textarea"
+          />
+        ) : (
+          <p>{answers[currentQuestionIndex]}</p>
+        )}
+      </div>
+
+      {isEditing && editingType === "original" && (
+        <div className="action-buttons d-flex gap-3 mb-3">
+          <button
+            className={`btn-save ${updating ? "disabled" : ""}`}
+            onClick={handleSaveOriginalAnswer}
+            disabled={updating}
+          >
+            {updating ? "Saving..." : "Save"}
+          </button>
+          <button
+            className={`btn-discard ${updating ? "disabled" : ""}`}
+            onClick={handleDiscard}
+            disabled={updating}
+          >
+            Discard
+          </button>
+        </div>
       )}
-      {/* Navigation Buttons */}
-      {/* <div className="d-flex justify-content-center align-items-center gap-3 my-3 add-candidate-controller">
-        <button
-          type="button"
-          onClick={handlePreviousQuestion}
-          disabled={currentQuestionIndex === 0}
-        >
-          <svg
-            width="16"
-            height="26"
-            viewBox="0 0 16 26"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+
+      <p className="ai-enhanced-label d-flex justify-content-between align-items-center">
+        <strong>AI Enhanced Answer:</strong>
+        {isEditing && editingType === "aiEnhanced" ? null : (
+          <button
+            className="btn-edit"
+            onClick={() => {
+              setEditedAIEnhancedAnswer(
+                aiEnhancedAnswers[currentQuestionIndex]
+              );
+              setIsEditing(true);
+              setEditingType("aiEnhanced");
+            }}
           >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M0.887082 11.5348L12.1048 0.12528L14.9566 2.92921L5.14091 12.9128L15.1245 22.7285L12.3205 25.5804L0.911051 14.3627C0.532944 13.9908 0.318009 13.484 0.313514 12.9537C0.309019 12.4234 0.515332 11.913 0.887082 11.5348Z"
-              fill="#F46A05"
-            />
-          </svg>
-        </button>
-        <span className="d-flex align-items-center">
-          {currentQuestionIndex + 1}
-        </span>
-        <button
-          type="button"
-          onClick={handleNextQuestion}
-          disabled={currentQuestionIndex === questions.length - 1}
-        >
-          <svg
-            width="16"
-            height="26"
-            viewBox="0 0 16 26"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M14.517 14.5231L3.203 25.8371L0.375 23.0091L10.275 13.1091L0.375 3.2091L3.203 0.381104L14.517 11.6951C14.8919 12.0702 15.1026 12.5788 15.1026 13.1091C15.1026 13.6394 14.8919 14.148 14.517 14.5231Z"
-              fill="#F46A05"
-            />
-          </svg>
-        </button>
-      </div> */}
+            <svg
+              width="19"
+              height="19"
+              viewBox="0 0 19 19"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 5H3C2.46957 5 1.96086 5.21071 1.58579 5.58579C1.21071 5.96086 1 6.46957 1 7V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H12C12.5304 18 13.0391 17.7893 13.4142 17.4142C13.7893 17.0391 14 16.5304 14 16V15"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M13 3.00011L16 6.00011M17.385 4.58511C17.7788 4.19126 18.0001 3.65709 18.0001 3.10011C18.0001 2.54312 17.7788 2.00895 17.385 1.61511C16.9912 1.22126 16.457 1 15.9 1C15.343 1 14.8088 1.22126 14.415 1.61511L6 10.0001V13.0001H9L17.385 4.58511Z"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Edit Answers
+          </button>
+        )}
+      </p>
+      <div
+        className={`ai-enhanced-answer-container mb-3 ${
+          isEditing ? "edit" : ""
+        }`}
+      >
+        {" "}
+        {isEditing && editingType === "aiEnhanced" ? (
+          <textarea
+            value={editedAIEnhancedAnswer}
+            onChange={(e) => setEditedAIEnhancedAnswer(e.target.value)}
+            rows={2}
+            className="answer-textarea"
+          />
+        ) : (
+          <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>
+        )}
+      </div>
+
+      {isEditing && editingType === "aiEnhanced" && (
+        <div className="action-buttons d-flex gap-3 mb-3">
+          <button className="btn-save" onClick={handleSaveAIEnhancedAnswer}>
+            Save
+          </button>
+          <button className="btn-discard" onClick={handleDiscard}>
+            Discard
+          </button>
+        </div>
+      )}
     </div>
   );
 };

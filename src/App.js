@@ -101,7 +101,7 @@ import ReferenceCheckInstructionsPage from "./page/AiRefereePage/ReferenceCheckI
 import ReferenceCheckThankYouMsgPage from "./page/AiRefereePage/ReferenceCheckThankYouMsgPage.jsx";
 
 // ViewRequest
-import ViewRequest from "./components/AiReference/ViewRequest.jsx";
+import ViewRequest from "./components/AiReference/ReferenceRequest/Components/ViewRequest.jsx";
 
 // ReferenceRequestEmailSentPage
 import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";

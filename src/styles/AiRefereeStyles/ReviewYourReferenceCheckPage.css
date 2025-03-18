@@ -6,6 +6,13 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
+.ReviewYourReferenceCheck{
+  height: 100vh;
+  overflow: auto;
+  padding: 0 !important;
+  background: url("../../assets/bg.png");
+  background-size: contain;
+}
 .ReviewYourReferenceCheck-Row {
   display: flex;
   width: 85%;
@@ -87,50 +94,7 @@
   border-bottom: 3px solid var(--primary-color);
 }
 
-.question-option-switch {
-  position: relative;
-  display: inline-block;
-  width: 40px; /* Width of the toggle switch */
-  height: 24px; /* Height of the toggle switch */
-}
 
-.question-option-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.question-option-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 24px; /* Adjusted for the new height */
-}
-
-.question-option-slider:before {
-  position: absolute;
-  content: "";
-  height: 20px; /* Height of the toggle button */
-  width: 20px; /* Width of the toggle button */
-  left: 2px; /* Adjusted for centering */
-  bottom: 2px; /* Adjusted for centering */
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%; /* Keeps the button circular */
-}
-
-.question-option-switch input:checked + .question-option-slider {
-  background-color: var(--primary-color) !important;
-}
-
-.question-option-switch input:checked + .question-option-slider:before {
-  transform: translateX(16px) !important; /* Adjusted for the new width */
-}
 .question-text {
   font-size: 16px;
   font-weight: 400;
@@ -140,7 +104,23 @@
   color: var(--input-bg);
   font-weight: 300;
 }
-
+.orig-label button,
+.ai-enhanced-label button{
+display: flex;
+gap: 5px;
+align-items: center;
+background: var(--secondary-color);
+border-radius: 50px;
+padding: 5px 20px;
+color: var(--font-white);
+border: none;
+font-size: 15px;
+/* width: 100px; */
+}
+.orig-label button > svg,
+.ai-enhanced-label button >  svg{
+  height: 13px;
+}
 .answer-container,
 .ai-enhanced-answer-container {
   margin-bottom: 15px;
@@ -150,7 +130,8 @@
   padding: 20px;
   border-radius: 20px;
   overflow-x: auto;
-  height: 110px;
+  height: 155px;
+  min-height: 130px;
   word-wrap: break-word;
   margin: 0;
 }
@@ -169,23 +150,64 @@
   border-radius: 20px;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 110px;
+  height: 155px;
+  min-height: 130px;
+
   width: 100%;
 }
-.answer-container-extended textarea {
+.answer-container textarea,
+.ai-enhanced-answer-container textarea {
   width: 100%;
   padding: 10px;
+  height: 80px;
   border: 1px solid var(--input-bg);
   border-radius: 10px;
   font-size: 14px;
   overflow-y: auto;
   color: var(--font-black);
 }
+.answer-container.edit{
+  background: #f2f3f7;
+  padding: 20px;
+  border-radius: 20px;
+  overflow-x: auto;
+  height: 120px;
+  word-wrap: break-word;
+  margin: 0;
+}
+.ai-enhanced-answer-container.edit{
+  background: #319f4331;
+  padding: 20px;
+  border-radius: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 120px;
+
+  width: 100%;
+}
+
 
 .answer-container p,
 .ai-enhanced-answer-container p {
   margin: 0;
   padding: 0;
+}
+.ReviewYourReferenceCheck-box-item .action-buttons > button {
+
+border-radius: 50px;
+padding: 5px 20px;
+color: var(--font-white);
+border: none;
+font-size: 15px;
+width: 100px;
+text-align: center !important;
+}
+.ReviewYourReferenceCheck-box-item .action-buttons > button:nth-child(1) {
+  background: var(--primary-color);
+}
+
+.ReviewYourReferenceCheck-box-item .action-buttons > button:nth-child(2) {
+  background: var(--secondary-color);
 }
 
 .YourOriginalAns-container {
@@ -454,6 +476,9 @@ background: var(--input-bg) !important;
 .preferred-id-container,
 .upload-id-container{
   width: 70%;
+}
+.back-id-container {
+  height: 120px;
 }
 .preferred-id-container > p,
 .selection-container > p,

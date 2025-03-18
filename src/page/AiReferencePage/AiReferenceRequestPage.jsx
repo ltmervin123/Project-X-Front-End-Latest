@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import ReferenceRequest from "../../components/AiReference/ReferenceRequest";
+import ReferenceRequest from "../../components/AiReference/ReferenceRequest/ReferenceRequest";
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 import "../../styles/AiReferenceStyles/AiReferenceRequest.css";
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import RegisterCompanyAvatar from "../../assets/companyregisteravatar.png";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -152,7 +151,7 @@ const AiReferenceCheckVerificationForm = ({
       <i className="text-center">
         Your insights are valuable in helping us make informed decisions.
       </i>
-<div className="d-flex align-items-center justify-content-center h-100 w-100 my-2 ">
+<div className="d-flex align-items-center justify-content-center h-100 w-100 my-2 mt-4">
 <div className=" AiReferenceCheckVerification-container-form">
         <div className="AiReferenceCheckVerification-title">
           <h5 className="m-0">Verify Your Information</h5>
@@ -167,7 +166,7 @@ const AiReferenceCheckVerificationForm = ({
           className="form-AiReferenceCheckVerification "
         >
           <Row>
-            <Col md={9} className="d-flex flex-column gap-2">
+            <Col md={12} className="d-flex flex-column gap-3">
               <Form.Group controlId="referee-name">
                 <Form.Label>Referee Name</Form.Label>
                 <Form.Control
@@ -211,7 +210,7 @@ const AiReferenceCheckVerificationForm = ({
                     onChange={handleChange}
                   >
                     <option value="">Select Relationship</option>
-                    <option value="Manager">Manager</option>
+                    <option value="Manager and or Report Line">Manager and or Report Line</option>
                     <option value="Colleague">Colleague</option>
                     <option value="Subordinate">Subordinate</option>
                     <option value="Mentor">Mentor</option>
@@ -259,13 +258,7 @@ const AiReferenceCheckVerificationForm = ({
               </Form.Group>
             </Col>
 
-            <Col md={3} className="d-flex align-items-start position-relative">
-              <img
-                src={RegisterCompanyAvatar}
-                className="referencheckavatar"
-                alt="Image not found"
-              />
-            </Col>
+ 
           </Row>
 
           <div className="d-flex justify-content-center m-4 ">

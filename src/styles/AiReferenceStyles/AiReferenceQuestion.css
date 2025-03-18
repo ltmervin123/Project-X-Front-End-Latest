@@ -50,11 +50,17 @@
 }
 .question-set-container {
   border: 1px solid var(--avatar-bg) !important;
-  height: auto;
-  padding: 10px 30px 10px 30px;
+  height: auto; /* Start with a max-height of 0 for collapsed state */
+  padding: 10px 30px;
   border-radius: 20px;
   box-shadow: 0px 4px 4px #0000003d;
+  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for max-height and opacity */
+  overflow: hidden; /* Ensure content doesn't overflow during transition */
+}
 
+/* When expanded */
+.question-set-container.expanded {
+  max-height: 300px; /* Set to a value that fits your content */
 }
 .question-set-container p {
   margin: 0 !important;

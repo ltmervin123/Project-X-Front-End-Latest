@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import QuestionDisplay from "../../components/ReviewYourReferenceCheck/QuestionDisplay";
 import SignatureSection from "../../components/ReviewYourReferenceCheck/SignatureSection";
-import IdUploadSection from "../../components/ReviewYourReferenceCheck/IdUploadSection"; // Ensure this path is correct
+import IdUploadSection from "../../components/ReviewYourReferenceCheck/IdUploadSection";
 import SkipConfirmationPopUp from "../../components/ReviewYourReferenceCheck/SkipConfirmationPopUp";
 import { socket } from "../../utils/socket/socketSetup";
 
@@ -26,9 +26,7 @@ function ReviewYourReferenceCheckPage() {
   const [submitting, setSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showBothAnswers, setShowBothAnswers] = useState(false);
-  const [selectedAnswers, setSelectedAnswers] = useState(
-    Array(questions.length).fill(null)
-  );
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
@@ -39,6 +37,7 @@ function ReviewYourReferenceCheckPage() {
   const [backIdFile, setBackIdFile] = useState(null);
   const [savedSignature, setSavedSignature] = useState(null);
   const [isCanvaEmpty, setIsCanvaEmpty] = useState(true);
+  const [checked, setChecked] = useState(null);
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
@@ -48,36 +47,18 @@ function ReviewYourReferenceCheckPage() {
   const handleSkip = () => {
     setShowSkipConfirmation(true);
   };
+
   const handleConfirmSkip = () => {
-    // Auto-select original answers for unanswered questions
-    const autoSelected = selectedAnswers.map(
-      (answer, index) => answer || "Original Answer"
-    );
-    setSelectedAnswers(autoSelected);
+    const remainingOriginalAnswer = questions
+      .slice(currentQuestionIndex)
+      .map((_, index) => ({
+        question: questions[currentQuestionIndex + index],
+        answer: answers[currentQuestionIndex + index],
+        preferredAnswerType: "Original Answer",
+      }));
 
-    // Populate submittedAnswers with auto-selected answers
-    const newSubmittedAnswers = questions.map((question, index) => ({
-      question: question,
-      answer:
-        autoSelected[index] === "Original Answer"
-          ? answers[index]
-          : aiEnhancedAnswers[index],
-    }));
-    setSubmittedAnswers(newSubmittedAnswers);
-
+    setSubmittedAnswers((prev) => [...prev, ...remainingOriginalAnswer]);
     setShowSignatureSection(true);
-    setShowSkipConfirmation(false);
-  };
-
-  const handleUpdateEnhanceAnswer = (updatedAnswer) => {
-    setAiEnhancedAnswers((prevAnswers) => {
-      const newAnswers = [...prevAnswers];
-      newAnswers[currentQuestionIndex] = updatedAnswer;
-      return newAnswers;
-    });
-  };
-
-  const handleCancelSkip = () => {
     setShowSkipConfirmation(false);
   };
 
@@ -85,6 +66,11 @@ function ReviewYourReferenceCheckPage() {
   const saveAnswer = () => {
     const currentQuestion = questions[currentQuestionIndex];
     const selectedType = selectedAnswers[currentQuestionIndex];
+
+    if (selectedType === null) {
+      return;
+    }
+
     const selectedAnswer =
       selectedType === "Original Answer"
         ? answers[currentQuestionIndex]
@@ -97,6 +83,7 @@ function ReviewYourReferenceCheckPage() {
     const newAnswer = {
       question: currentQuestion,
       answer: selectedAnswer,
+      preferredAnswerType: selectedAnswers[currentQuestionIndex],
     };
 
     setSubmittedAnswers((prev) => [...prev, newAnswer]);
@@ -105,8 +92,20 @@ function ReviewYourReferenceCheckPage() {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
-
+    setChecked(null);
     setIsSubmitEnabled(false);
+  };
+
+  const handleUpdateEnhanceAnswer = (updatedAnswer) => {
+    setAiEnhancedAnswers((prevAnswers) => {
+      const newAnswers = [...prevAnswers];
+      newAnswers[currentQuestionIndex] = updatedAnswer;
+      return newAnswers;
+    });
+  };
+
+  const handleCancelSkip = () => {
+    setShowSkipConfirmation(false);
   };
 
   useEffect(() => {
@@ -123,7 +122,7 @@ function ReviewYourReferenceCheckPage() {
       setQuestions(allQuestions);
       setAnswers(allAnswers);
       setAiEnhancedAnswers(allAiEnhancedAnswers);
-      setSelectedAnswers(Array(allQuestions.length).fill(null));
+      setSelectedAnswers(Array(allQuestions.length).fill("Original Answer"));
     }
   }, []);
 
@@ -254,29 +253,65 @@ function ReviewYourReferenceCheckPage() {
     context.strokeStyle = "black";
   };
 
+  // const getReferenceQuestionData = () => {
+  //   //Attach the submitted answers to its respective question
+  //   const organizedReferenceQuestionData = referenceQuestionsData.map(
+  //     (categoryItem) => {
+  //       const updatedAnswers = [...categoryItem.answers];
+
+  //       submittedAnswers.forEach(({ question, answer }) => {
+  //         const questionIndex = categoryItem.questions.findIndex(
+  //           (q) => q.trim() === question.trim()
+  //         );
+  //         if (questionIndex !== -1) {
+  //           updatedAnswers[questionIndex] = answer;
+  //         }
+  //       });
+
+  //       return {
+  //         ...categoryItem,
+  //         answers: updatedAnswers,
+  //       };
+  //     }
+  //   );
+
+  //   //return organizedReferenceQuestionData and exclude the normalizedAnswers
+  //   return organizedReferenceQuestionData.map(
+  //     ({ normalizedAnswers, ...rest }) => rest
+  //   );
+  // };
+
   const getReferenceQuestionData = () => {
-    //Attach the submitted answers to its respective question
+    // Attach the submitted answers and their preferred answer types to their respective questions
     const organizedReferenceQuestionData = referenceQuestionsData.map(
       (categoryItem) => {
+        // Initialize arrays for answers and preferredAnswerType
         const updatedAnswers = [...categoryItem.answers];
+        const updatedPreferredAnswerTypes = new Array(
+          updatedAnswers.length
+        ).fill("");
 
-        submittedAnswers.forEach(({ question, answer }) => {
-          const questionIndex = categoryItem.questions.findIndex(
-            (q) => q.trim() === question.trim()
-          );
-          if (questionIndex !== -1) {
-            updatedAnswers[questionIndex] = answer;
+        submittedAnswers.forEach(
+          ({ question, answer, preferredAnswerType }) => {
+            const questionIndex = categoryItem.questions.findIndex(
+              (q) => q.trim() === question.trim()
+            );
+            if (questionIndex !== -1) {
+              updatedAnswers[questionIndex] = answer;
+              updatedPreferredAnswerTypes[questionIndex] = preferredAnswerType;
+            }
           }
-        });
+        );
 
         return {
           ...categoryItem,
           answers: updatedAnswers,
+          preferredAnswerType: updatedPreferredAnswerTypes,
         };
       }
     );
 
-    //return organizedReferenceQuestionData and exclude the normalizedAnswers
+    // Return the updated data, excluding normalizedAnswers
     return organizedReferenceQuestionData.map(
       ({ normalizedAnswers, ...rest }) => rest
     );
@@ -294,7 +329,7 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleProceedIDUpload = () => {
-    if (isCanvaEmpty) {
+    if (isCanvaEmpty && signatureMethod === "Draw Signature") {
       return;
     }
     if (canvasRef.current) {
@@ -344,6 +379,7 @@ function ReviewYourReferenceCheckPage() {
       companyId,
     } = REFERENCE_DATA;
     const referenceQuestion = getReferenceQuestionData();
+
     const { format } = REFERENCE_QUESTIONS_DATA;
     const workDuration = { endDate, startDate };
     try {
@@ -360,7 +396,7 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("signatureFile", signatureBlob, "signature.png");
         formdata.append("frontIdFile", frontIdFile);
-        formdata.append("backIdFile", backIdFile);
+        // formdata.append("backIdFile", backIdFile);
       } else {
         formdata.append("referenceRequestId", referenceId);
         formdata.append("refereeTitle", positionTitle);
@@ -371,7 +407,7 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("signatureFile", uploadedFile);
         formdata.append("frontIdFile", frontIdFile);
-        formdata.append("backIdFile", backIdFile);
+        // formdata.append("backIdFile", backIdFile);
       }
       const response = await axios.post(URL, formdata, {
         headers: {
@@ -435,11 +471,16 @@ function ReviewYourReferenceCheckPage() {
     const newSelectedAnswers = [...selectedAnswers];
     newSelectedAnswers[currentQuestionIndex] = type;
     setSelectedAnswers(newSelectedAnswers);
-    setIsSubmitEnabled(true);
+
+    setChecked(type);
+
+    const isAnyAnswerSelected =
+      newSelectedAnswers[currentQuestionIndex] !== null;
+    setIsSubmitEnabled(isAnyAnswerSelected);
   };
 
   return (
-    <div className="main-container login-page-container d-flex flex-column align-items-center justify-content-center">
+    <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
         <h5 className="referencecheckquestiontitle text-left mb-2">
           Review Your Responses
@@ -544,10 +585,7 @@ function ReviewYourReferenceCheckPage() {
                             type="checkbox"
                             className="form-check-input"
                             id="originalAnswer"
-                            checked={
-                              selectedAnswers[currentQuestionIndex] ===
-                              "Original Answer"
-                            }
+                            checked={checked === "Original Answer"}
                             onChange={() => {
                               handleAnswerSelection(
                                 selectedAnswers[currentQuestionIndex] ===
@@ -569,10 +607,7 @@ function ReviewYourReferenceCheckPage() {
                             type="checkbox"
                             className="form-check-input"
                             id="aiEnhancedAnswer"
-                            checked={
-                              selectedAnswers[currentQuestionIndex] ===
-                              "AI Enhanced Answer"
-                            }
+                            checked={checked === "AI Enhanced Answer"}
                             onChange={() => {
                               handleAnswerSelection(
                                 selectedAnswers[currentQuestionIndex] ===
@@ -594,8 +629,9 @@ function ReviewYourReferenceCheckPage() {
                   </div>
                   <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
                     <small className="mb-2 w-100">
-                      Clicking the skip button will select all answers from the
-                      original response
+                      You can click 'Skip' to use your original answers for the
+                      remaining questions, except for those that have already
+                      been submitted.
                     </small>
                     <button
                       onClick={() => {

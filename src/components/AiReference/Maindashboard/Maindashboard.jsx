@@ -3,11 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
 import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
-import default_avatar_img from "../../assets/default.png"; // Import default avatar image
-import AddJobComponent from "./AddJobComponent";
-import AddCandidateComponent from "./AddCandidateComponent";
-import AddRequestComponent from "./AddRequestComponent";
-import { socket } from "../../utils/socket/socketSetup";
+import default_avatar_img from "../../../assets/default.png"; // Import default avatar image
+import AddJobComponent from "./Components/AddJobComponent";
+import AddCandidateComponent from "./Components/AddCandidateComponent";
+import AddRequestComponent from "./Components/AddRequestComponent";
+import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -47,7 +47,7 @@ const LogContainer = ({ completedRecords }) => {
 
   const displayedLogs = showAll
     ? completedRecords
-    : completedRecords.slice(0, 2);
+    : completedRecords.slice(completedRecords.length - 2);
 
   return (
     <div className="LogContainer my-4">
@@ -101,6 +101,28 @@ const MainDashboard = () => {
   const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false);
   const [addedJob, setAddedJob] = useState({});
   const [addedCandidate, setAddedCandidate] = useState([]);
+
+  // For fade in smooth animation
+  const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
+    useState(false);
+  const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
+    useState(false);
+  const [isLineChartVisible, setIsLineChartVisible] = useState(false);
+  const [isBarChartVisible, setIsBarChartVisible] = useState(false);
+
+  const [isLogContainerVisible, setIsLogContainerVisible] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsStartReferenceCheckVisible(true), 100),
+      setTimeout(() => setIsAiReferenceCardVisible(true), 300),
+      setTimeout(() => setIsLineChartVisible(true), 900),
+      setTimeout(() => setIsBarChartVisible(true), 1200),
+      setTimeout(() => setIsLogContainerVisible(true), 1600),
+    ];
+
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
 
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true);
@@ -759,7 +781,12 @@ const MainDashboard = () => {
           </div>
           <div className="d-flex justify-content-start mb-3 w-100">
             <Row className="w-100">
-              <Col md={6} className=" start-reference-check-container">
+              <Col
+                md={6}
+                className={`start-reference-check-container fade-in ${
+                  isStartReferenceCheckVisible ? "visible" : ""
+                }`}
+              >
                 <button
                   className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-3 "
                   onClick={handleOpenJobForm}
@@ -789,7 +816,13 @@ const MainDashboard = () => {
           <div>
             <Row className="mb-3">
               {cardData.map((card, index) => (
-                <Col key={index} md={3}>
+                <Col
+                  key={index}
+                  md={3}
+                  className={`fade-in ${
+                    isAiReferenceCardVisible ? "visible" : ""
+                  }`}
+                >
                   <div
                     className="AiReferenceCard"
                     onClick={() => navigate(card.path)}
@@ -817,7 +850,11 @@ const MainDashboard = () => {
           </div>
           <Row>
             <Col md="6">
-              <div className="line-bar-chart-container position-relative">
+              <div
+                className={`line-bar-chart-container fade-in ${
+                  isLineChartVisible ? "visible" : ""
+                }`}
+              >
                 <p className="mb-3 line-title-overlay">
                   Reference Check Overview
                 </p>
@@ -827,7 +864,11 @@ const MainDashboard = () => {
               </div>
             </Col>
             <Col md="6">
-              <div className="line-bar-chart-container position-relative">
+              <div
+                className={`line-bar-chart-container fade-in ${
+                  isBarChartVisible ? "visible" : ""
+                }`}
+              >
                 <p className="mb-3 bar-title-overlay">By Department</p>
                 <div className="bar-chart">
                   <Bar data={barData} options={barOptions} />
@@ -835,10 +876,11 @@ const MainDashboard = () => {
               </div>
             </Col>
           </Row>
-          <LogContainer completedRecords={completedRecords} />
+          <div className={`fade-in ${isLogContainerVisible ? "visible" : ""}`}>
+            <LogContainer completedRecords={completedRecords} />
+          </div>
         </>
       )}
-      {/* <AddRequestComponent /> */}
     </div>
   );
 };

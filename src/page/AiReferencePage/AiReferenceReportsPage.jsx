@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import ReferenceReports from "../../components/AiReference/Reports";
+import ReferenceReports from "../../components/AiReference/Reports/Reports";
 import "../../styles/AiReferenceStyles/AiReferenceReports.css";
 
 function AiReferenceReportsPage() {

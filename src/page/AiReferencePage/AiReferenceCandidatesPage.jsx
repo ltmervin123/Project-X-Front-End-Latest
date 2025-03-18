@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import Candidates from "../../components/AiReference/Candidates";
+import Candidates from "../../components/AiReference/Candidates/Candidates";
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 import "../../styles/AiReferenceStyles/AiReferenceCandidates.css";
 
