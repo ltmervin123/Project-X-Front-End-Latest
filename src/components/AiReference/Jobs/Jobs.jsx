@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddJobPopUp from "./AddJobPopUp";
-import EditJobPopUp from "./EditJobPopUp";
-import DeleteConfirmationJobPopUp from "./DeleteConfirmationJobPopUp"; // Add this line
+import AddJobPopUp from "../AddJobPopUp";
+import EditJobPopUp from "./PopUpComponents/EditJobPopUp";
+import DeleteConfirmationJobPopUp from "./PopUpComponents/DeleteConfirmationJobPopUp"; // Add this line
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 
 import axios from "axios";
@@ -289,6 +289,15 @@ const Jobs = () => {
                     </tr>
                   );
                 })}
+                {activeJobs.filter((job) =>
+          job.jobName.toLowerCase().includes(searchQuery.toLowerCase())
+        ).length === 0 && (
+          <tr>
+            <td colSpan="6" className="text-center">
+              Job not found
+            </td>
+          </tr>
+        )}
             </tbody>
           </table>
         ) : (

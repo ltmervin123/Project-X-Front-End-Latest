@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../../styles/ViewRequest.css";
+import "../../../../styles/AiRefereeStyles/ViewRequest.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 

@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AddRequestPopUp from "./AddRequestPopUp";
-import DeleteConfirmationReferenceRequestPopUp from "./DeleteConfirmationReferenceRequestPopUp"; // Import the confirmation popup
-import EditRequestPopUp from "./EditRequestPopUp"; // Add this line
+import AddRequestPopUp from "../AddRequestPopUp";
+import DeleteConfirmationReferenceRequestPopUp from "./PopUpComponents/DeleteConfirmationReferenceRequestPopUp"; // Import the confirmation popup
+import EditRequestPopUp from "./PopUpComponents/EditRequestPopUp"; // Add this line
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-import ReferenceRequestDetailsPopUp from "./ReferenceRequestDetailsPopUp";
-import ViewRequest from "./ViewRequest";
+import ReferenceRequestDetailsPopUp from "./PopUpComponents/ReferenceRequestDetailsPopUp";
+import ViewRequest from "./Components/ViewRequest";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { socket } from "../../utils/socket/socketSetup";
+import { socket } from "../../../utils/socket/socketSetup";
 
 const ReferenceRequest = () => {
   const API = process.env.REACT_APP_API_URL;
@@ -614,6 +614,18 @@ const ReferenceRequest = () => {
                         )}
                     </React.Fragment>
                   ))}
+                  {reference.filter(ref => {
+      const candidateMatch = ref.candidate && ref.candidate.toLowerCase().includes(searchQuery.toLowerCase());
+      const refereeMatch = ref.referee && ref.referee.toLowerCase().includes(searchQuery.toLowerCase());
+      const positionMatch = ref.position && ref.position.toLowerCase().includes(searchQuery.toLowerCase());
+      return candidateMatch || refereeMatch || positionMatch;
+    }).length === 0 && (
+      <tr>
+        <td colSpan="7" className="text-center">
+          Reference requests not found
+        </td>
+      </tr>
+    )}
               </tbody>
             </table>
           </>

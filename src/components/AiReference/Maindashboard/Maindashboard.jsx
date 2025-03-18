@@ -3,11 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
 import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
 import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
-import default_avatar_img from "../../assets/default.png"; // Import default avatar image
-import AddJobComponent from "./AddJobComponent";
-import AddCandidateComponent from "./AddCandidateComponent";
-import AddRequestComponent from "./AddRequestComponent";
-import { socket } from "../../utils/socket/socketSetup";
+import default_avatar_img from "../../../assets/default.png"; // Import default avatar image
+import AddJobComponent from "./Components/AddJobComponent";
+import AddCandidateComponent from "./Components/AddCandidateComponent";
+import AddRequestComponent from "./Components/AddRequestComponent";
+import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -882,7 +882,6 @@ const MainDashboard = () => {
           </div>
         </>
       )}
-      {/* <AddRequestComponent /> */}
     </div>
   );
 };

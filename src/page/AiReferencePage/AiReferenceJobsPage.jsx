@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import Jobs from "../../components/AiReference/Jobs";
+import Jobs from "../../components/AiReference/Jobs/Jobs";
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 
 function AiReferenceCheckerPage() {

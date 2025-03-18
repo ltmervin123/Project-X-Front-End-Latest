@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa"; // icons for edit, delete, and dropdown
-import AddNewSetsQuestionPopUp from "./AddNewSetsQuestionPopUp";
-import FormatComponent from "./StandardFormatComponent";
-import ManagementFormat from "./ManagementFormatComponent";
-import ExecutiveFormat from "./ExecutiveFormatComponent";
-import HrHatchFormats from "./HrHatchFormatsComponent";
+import AddNewSetsQuestionPopUp from "../AddNewSetsQuestionPopUp";
+import FormatComponent from "./Components/StandardFormatComponent";
+import ManagementFormat from "./Components/ManagementFormatComponent";
+import ExecutiveFormat from "./Components/ExecutiveFormatComponent";
+import HrHatchFormats from "./Components/HrHatchFormatsComponent";
 import axios from "axios";
 
 const ReferenceQuestion = () => {
@@ -390,10 +390,10 @@ const ReferenceQuestion = () => {
         </button>
       </div>
 
-      <div 
-      className={`AiReference-question-container position-relative fade-in ${
-        isContainerVisible ? "visible" : ""
-      }`}
+      <div
+        className={`AiReference-question-container position-relative fade-in ${
+          isContainerVisible ? "visible" : ""
+        }`}
       >
         {activeButton === "HR-HATCH Formats" ? (
           <HrHatchFormats
@@ -460,110 +460,113 @@ const ReferenceQuestion = () => {
               </button>
             </div>
             <div className="AiReference-Question-Sets-Container">
-              {/* Question Set Container for Custom Sets */}
-              {questionSets && questionSets.length > 0 ? (
-                questionSets
-                  .filter((item) =>
-                    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-                  )
-                  .map((item) => (
-                    <div
-                      key={item._id}
-                      className={`question-set-container border mb-3 ${
-                        selectedSet === item._id ? "expanded" : ""
-                      }`} // Add 'expanded' class if selected
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="question-set-info">
-                          <h5>{item.name}</h5>
-                          <p className="d-flex">
-                            <p className="color-orange">
-                              {item.questions.length} questions
-                            </p>
-                            &nbsp;• Last updated: {formatDate(item.updatedAt)}
-                          </p>
-                        </div>
-                        <div className="d-flex justify-content-end gap-5 question-controls">
-                          <button
-                            className="dropdown-toggle-q-sets border-0"
-                            onClick={() => handleSetClick(item._id)}
-                          >
-                            <svg
-                              className={
-                                flippedState[item._id] ? "dropdown-flipped" : ""
-                              }
-                              width="28"
-                              height="17"
-                              viewBox="0 0 28 17"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
-                                fill="#686868"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                      {selectedSet === item._id && (
-                        <div className="dropdown-content-q-sets mt-3">
-                          <p className="w-100 d-flex justify-content-between pb-2">
-                            {item.description}{" "}
-                            <div className="d-flex justify-content-center gap-3">
-                              <svg
-                                className="icon"
-                                width="20"
-                                height="auto"
-                                viewBox="0 0 29 27"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
-                                  stroke="#1877F2"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19.8163Z"
-                                  fill="#1877F2"
-                                />
-                              </svg>
-                              <svg
-                                className="icon"
-                                width="20"
-                                height="auto"
-                                viewBox="0 0 28 30"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                onClick={() =>
-                                  handleDeleteQuestionSet(item._id)
-                                }
-                              >
-                                <path
-                                  d="M5.25 30C4.2875 30 3.46384 29.6739 2.779 29.0217C2.09417 28.3694 1.75117 27.5844 1.75001 26.6667V5C1.25417 5 0.838839 4.84 0.504006 4.52C0.169173 4.2 0.0011727 3.80444 6.03447e-06 3.33333C-0.00116063 2.86222 0.166839 2.46667 0.504006 2.14667C0.841172 1.82667 1.25651 1.66667 1.75001 1.66667H8.75C8.75 1.19444 8.918 0.798889 9.254 0.48C9.59 0.161111 10.0053 0.00111111 10.5 0H17.5C17.9958 0 18.4117 0.16 18.7477 0.48C19.0837 0.8 19.2512 1.19556 19.25 1.66667H26.25C26.7458 1.66667 27.1617 1.82667 27.4977 2.14667C27.8337 2.46667 28.0012 2.86222 28 3.33333C27.9988 3.80444 27.8308 4.20055 27.496 4.52167C27.1612 4.84278 26.7458 5.00222 26.25 5V26.6667C26.25 27.5833 25.9076 28.3683 25.2227 29.0217C24.5379 29.675 23.7137 30.0011 22.75 30H5.25ZM10.5 23.3333C10.9958 23.3333 11.4118 23.1733 11.7478 22.8533C12.0838 22.5333 12.2512 22.1378 12.25 21.6667V10C12.25 9.52778 12.082 9.13222 11.746 8.81333C11.41 8.49444 10.9947 8.33444 10.5 8.33333C10.0053 8.33222 9.59 8.49222 9.254 8.81333C8.918 9.13444 8.75 9.53 8.75 10V21.6667C8.75 22.1389 8.918 22.535 9.254 22.855C9.59 23.175 10.0053 23.3344 10.5 23.3333ZM17.5 23.3333C17.9958 23.3333 18.4117 23.1733 18.7477 22.8533C19.0837 22.5333 19.2512 22.1378 19.25 21.6667V10C19.25 9.52778 19.082 9.13222 18.746 8.81333C18.41 8.49444 17.9947 8.33444 17.5 8.33333C17.0053 8.33222 16.59 8.49222 16.254 8.81333C15.918 9.13444 15.75 9.53 15.75 10V21.6667C15.75 22.1389 15.918 22.535 16.254 22.855C16.59 23.175 17.0053 23.3344 17.5 23.3333Z"
-                                  fill="#686868"
-                                />
-                              </svg>
-                            </div>
-                          </p>
-                          <ul>
-                            {item.questions.map((question, qIndex) => (
-                              <li key={qIndex}>{question}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ))
-              ) : (
-                <div>No questions found</div>
-              )}
+  {/* Question Set Container for Custom Sets */}
+  {questionSets && questionSets.length > 0 ? (
+    questionSets
+      .filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      .map((item) => (
+        <div
+          key={item._id}
+          className={`question-set-container border mb-3 ${
+            selectedSet === item._id ? "expanded" : ""
+          }`} // Add 'expanded' class if selected
+        >
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="question-set-info">
+              <h5>{item.name}</h5>
+              <p className="d-flex">
+                <span className="color-orange">
+                  {item.questions.length} questions
+                </span>
+                &nbsp;• Last updated: {formatDate(item.updatedAt)}
+              </p>
             </div>
+            <div className="d-flex justify-content-end gap-5 question-controls">
+              <button
+                className="dropdown-toggle-q-sets border-0"
+                onClick={() => handleSetClick(item._id)}
+              >
+                <svg
+                  className={
+                    flippedState[item._id] ? "dropdown-flipped" : ""
+                  }
+                  width="28"
+                  height="17"
+                  viewBox="0 0 28 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
+                    fill="#686868"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          {selectedSet === item._id && (
+            <div className="dropdown-content-q-sets mt-3">
+              <p className="w-100 d-flex justify-content-between pb-2">
+                {item.description}{" "}
+                <div className="d-flex justify-content-center gap-3">
+                  <svg
+                    className="icon"
+                    width="20"
+                    height="auto"
+                    viewBox="0 0 29 27"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
+                      stroke="#1877F2"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19. 8163Z"
+                      fill="#1877F2"
+                    />
+                  </svg>
+                  <svg
+                    className="icon"
+                    width="20"
+                    height="auto"
+                    viewBox="0 0 28 30"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={() => handleDeleteQuestionSet(item._id)}
+                  >
+                    <path
+                      d="M5.25 30C4.2875 30 3.46384 29.6739 2.779 29.0217C2.09417 28.3694 1.75117 27.5844 1.75001 26.6667V5C1.25417 5 0.838839 4.84 0.504006 4.52C0.169173 4.2 0.0011727 3.80444 6.03447e-06 3.33333C-0.00116063 2.86222 0.166839 2.46667 0.504006 2.14667C0.841172 1.82667 1.25651 1.66667 1.75001 1.66667H8.75C8.75 1.19444 8.918 0.798889 9.254 0.48C9.59 0.161111 10.0053 0.00111111 10.5 0H17.5C17.9958 0 18.4117 0.16 18.7477 0.48C19.0837 0.8 19.2512 1.19556 19.25 1.66667H26.25C26.7458 1.66667 27.1617 1.82667 27.4977 2.14667C27.8337 2.46667 28.0012 2.86222 28 3.33333C27.9988 3.80444 27.8308 4.20055 27.496 4.52167C27.1612 4.84278 26.7458 5.00222 26.25 5V26.6667C26.25 27.5833 25.9076 28.3683 25.2227 29.0217C24.5379 29.675 23.7137 30.0011 22.75 30H5.25ZM10.5 23.3333C10.9958 23.3333 11.4118 23.1733 11.7478 22.8533C12.0838 22.5333 12.2512 22.1378 12.25 21.6667V10C12.25 9.52778 12.082 9.13222 11.746 8.81333C11.41 8.49444 10.9947 8.33444 10.5 8.33333C10.0053 8.33222 9.59 8.49222 9.254 8.81333C8.918 9.13444 8.75 9.53 8.75 10V21.6667C8.75 22.1389 8.918 22.535 9.254 22.855C9.59 23.175 10.0053 23.3344 10.5 23.3333ZM17.5 23.3333C17.9958 23.3333 18.4117 23.1733 18.7477 22.8533C19.0837 22.5333 19.2512 22.1378 19.25 21.6667V10C19.25 9.52778 19.082 9.13222 18.746 8.81333C18.41 8.49444 17.9947 8.33444 17.5 8.33333C17.0053 8.33222 16.59 8.49222 16.254 8.81333C15.918 9.13444 15.75 9.53 15.75 10V21.6667C15.75 22.1389 15.918 22.535 16.254 22.855C16.59 23.175 17.0053 23.3344 17.5 23.3333Z"
+                      fill="#686868"
+                    />
+                  </svg>
+                </div>
+              </p>
+              <ul>
+                {item.questions.map((question, qIndex) => (
+                  <li key={qIndex}>{question}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ))
+  ) : (
+    <b>No questions found</b>
+  )}
+  {questionSets.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  ).length === 0 && (
+    <b>No questions found</b>
+  )}
+</div>
           </>
         )}
       </div>
