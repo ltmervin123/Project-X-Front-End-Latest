@@ -318,13 +318,12 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           <p className="signature-verif-title color-orange mt-5 mb-3">
             SIGNATURE AND VERIFICATION
           </p>
-          <div className="w-100 uploaded-id-container d-flex gap-3 mb-3">
+          <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
+            {/* Put Id image here */}
             <div>
-              <img src="../assets/logo.png" alt="" />
+              <img src="https://tse3.mm.bing.net/th?id=OIP.w14aUn9WotcJ_d56aKr8YQHaEv&pid=Api&P=0&h=180" alt="ID diplayed here..." />
             </div>
-            <div>
-              <img src="../assets/logo.png" alt="" />
-            </div>
+
           </div>
           <img
             className="signature-feild"
