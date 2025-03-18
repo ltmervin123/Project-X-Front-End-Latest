@@ -62,21 +62,6 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
-  const formatQuestionText = (question) => {
-    const candidateNameRegex = new RegExp(`\\b${candidateName}\\b`, 'g'); // Match the candidate name
-    return question.split(candidateNameRegex).flatMap((part, index) => {
-      if (index > 0) {
-        return [
-          <span key={`candidate-name-${index}`} style={{ fontWeight: 'bold', color: 'blue' }}>
-            {candidateName}
-          </span>,
-          part,
-        ];
-      }
-      return part;
-    });
-  };
-  
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
