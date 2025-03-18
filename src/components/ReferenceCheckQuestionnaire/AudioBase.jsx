@@ -174,7 +174,7 @@ const AudioBase = ({
       />
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
         <div className="d-flex justify-content-center gap-3">
-          {reTry ? (
+          {reTry && !isSubmitting ? (
             <>
               <button onClick={handleReTry}>Retry</button>
               {isLastQuestion ? (
