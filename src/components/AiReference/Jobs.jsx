@@ -23,6 +23,21 @@ const Jobs = () => {
     JSON.parse(localStorage.getItem("jobs")) || []
   );
 
+    // For fade in smooth animation 
+      const [isSearchVisible, setIsSearchVisible] =
+        useState(false);
+      const [isContainerVisible, setIsContainerVisible] = useState(false);
+    
+    
+      useEffect(() => {
+        const timers = [
+          setTimeout(() => setIsSearchVisible(true), 300),
+          setTimeout(() => setIsContainerVisible(true), 700),
+        ];
+    
+        return () => timers.forEach((timer) => clearTimeout(timer));
+      }, []);
+  
   const fetchJobs = async () => {
     try {
       const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
@@ -164,7 +179,10 @@ const Jobs = () => {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates ">
-          <div className="search-wrapper position-relative">
+          <div 
+          className={`search-wrapper position-relative fade-in ${
+            isSearchVisible ? "visible" : ""
+          }`}>
             <input
               type="text"
               placeholder="Search job name..."
@@ -178,7 +196,10 @@ const Jobs = () => {
         </div>
       </div>
 
-      <div className="AiReference-active-jobs-container">
+      <div 
+      className={`AiReference-active-jobs-container fade-in ${
+            isSearchVisible ? "visible" : ""
+          }`}>
         <div className="AiReference-table-title">
           <h4 className="mb-0">Active Jobs</h4>
           <p>Manage and track your open positions.</p>

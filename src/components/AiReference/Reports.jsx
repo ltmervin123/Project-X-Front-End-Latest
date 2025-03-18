@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar } from "react-chartjs-2"; // Example if you use Chart.js for the chart
 
 const Reports = () => {
   const [activeButton, setActiveButton] = useState("Overview"); // Default active button
+
+
+    // For fade in smooth animation 
+
+    const [isReportsCardVisible, setIsReportsCardVisible] =
+      useState(false);
+    const [isButtonVisible, setIsButtonVisible] = useState(false);
+    const [isChartVisible, setIsChartVisible] = useState(false);
+  
+  
+    useEffect(() => {
+      const timers = [
+        setTimeout(() => setIsReportsCardVisible(true), 100),
+        setTimeout(() => setIsButtonVisible(true), 500),
+        setTimeout(() => setIsChartVisible(true), 1000),
+      ];
+  
+      return () => timers.forEach((timer) => clearTimeout(timer));
+    }, []);
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName); // Set the active button when clicked
@@ -286,7 +305,10 @@ function createTooltipElement() {
       <Row>
         {cardData.map((card, index) => (
           <Col key={index} md={3}>
-            <div className="AiReferenceCard-report">
+            <div 
+            className={`AiReferenceCard-report fade-in ${
+              isReportsCardVisible ? "visible" : ""
+            }`}>
               {/* Title and Count */}
               <div className="h-100">
                 <p className="d-flex title">
@@ -310,7 +332,10 @@ function createTooltipElement() {
         ))}
       </Row>
 
-      <div className="d-flex justify-content-center gap-4 button-controls-report">
+      <div
+      className={`d-flex justify-content-center gap-4 button-controls-report fade-in ${
+        isButtonVisible ? "visible" : ""
+      }`}>
         <button
           className={`btn-custom ${
             activeButton === "Overview" ? "active" : ""
@@ -328,7 +353,11 @@ function createTooltipElement() {
 
       </div>
 
-      <div className="AiReference-report-container position-relative">
+      <div 
+      className={`AiReference-report-container position-relative fade-in ${
+        isChartVisible ? "visible" : ""
+      }`}
+      >
         {activeButton === "Reports" ? (
           <>
             <div className="AiReference-table-title">

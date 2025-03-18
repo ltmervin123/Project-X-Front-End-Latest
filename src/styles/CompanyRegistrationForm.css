@@ -38,6 +38,26 @@
   background: var(--primary-color);
   padding: 30px 100px;
   color: var(--font-white);
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%; /* Ensures full width */
+  border: none;
+  margin: 0 !important;
+  z-index: 1000;
+  background: linear-gradient(97deg, rgba(255,157,85,1) 0%, rgba(245,110,11,1) 79%, rgba(244,106,5,1) 100%);
+}
+.company-reg-title::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg width='840' height='94' viewBox='0 0 840 94' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M221.852 62.0905C84.842 103.624 36.3506 89.637 0 73.6387V94H839.634C839.634 94 840.458 88.9351 839.634 29.0375C838.81 -30.8601 672.713 13.7905 555.032 56.4972C453.636 93.2935 404.167 75.2593 338.27 55.3041C305.143 49.3553 269.226 47.7296 221.852 62.0905Z' fill='url(%23paint0_linear_4743_3357)'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_4743_3357' x1='786.642' y1='60.0643' x2='18.0063' y2='58.5658' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23F46A05'/%3E%3Cstop offset='0.925' stop-color='%23FFDCC2'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E") no-repeat left bottom -5px !important;
+  background-size: 100% !important;
+  z-index: -1;
+  
 }
 .company-reg-title > p {
   font-weight: 200 !important;

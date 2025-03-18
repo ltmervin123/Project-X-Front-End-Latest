@@ -25,6 +25,19 @@ const Candidates = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
+  // For fade in smooth animation
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [isContainerVisible, setIsContainerVisible] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsSearchVisible(true), 300),
+      setTimeout(() => setIsContainerVisible(true), 700),
+    ];
+
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
+
   const fetchCandidates = async () => {
     try {
       const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${companyId}`;
@@ -189,7 +202,10 @@ const Candidates = () => {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
-          <div className="search-wrapper position-relative">
+          <div 
+          className={`search-wrapper position-relative fade-in ${
+            isSearchVisible ? "visible" : ""
+          }`}>
             <input
               type="text"
               placeholder="Search candidates..."
@@ -203,7 +219,10 @@ const Candidates = () => {
         </div>
       </div>
 
-      <div className="AiReference-candidates-container">
+      <div 
+      className={`AiReference-candidates-container fade-in ${
+        isSearchVisible ? "visible" : ""
+      }`}>
         <div className="AiReference-table-title">
           <h4 className="mb-0">Candidate Lists</h4>
           <p>Overview of all candidates in the system.</p>

@@ -11,19 +11,31 @@ const ReferenceQuestion = () => {
   const API = process.env.REACT_APP_API_URL;
   const [selectedSet, setSelectedSet] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState("Custom Sets"); 
+  const [activeButton, setActiveButton] = useState("Custom Sets");
   const [flippedState, setFlippedState] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
   const handleButtonClick = (button) => {
     setActiveButton(button);
   };
 
+  // For fade in smooth animation
+  const [isButtonVisible, setIsButtonVisible] = useState(false);
+  const [isContainerVisible, setIsContainerVisible] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsButtonVisible(true), 300),
+      setTimeout(() => setIsContainerVisible(true), 700),
+    ];
+
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
   const [questionSets, setQuestionSets] = useState(
     JSON.parse(localStorage.getItem("questions")) || []
   );
 
   const formatDate = (date) => {
-    return date.split("T")[0]; 
+    return date.split("T")[0];
   };
 
   const fetchCustomReferenceQuestions = async () => {
@@ -91,10 +103,11 @@ const ReferenceQuestion = () => {
 
     fetchData();
   }, []);
-
   const handleSetClick = (index) => {
+    // Toggle the selected set
     setSelectedSet(index === selectedSet ? null : index);
 
+    // Update the flipped state for the dropdown
     setFlippedState((prevState) => {
       const newState = Object.keys(prevState).reduce((acc, key) => {
         acc[key] = false; // Reset all dropdowns to the original state
@@ -106,7 +119,6 @@ const ReferenceQuestion = () => {
       return newState;
     });
   };
-
 
   //standar format questions
   const StandardQuestionsSets = [
@@ -272,7 +284,7 @@ const ReferenceQuestion = () => {
       ],
     },
   ];
-  
+
   // HR-HATCH Format Data
   const hrHatchFormats = [
     {
@@ -350,7 +362,11 @@ const ReferenceQuestion = () => {
         <h3 className="mb-0">Reference Question</h3>
         <p className="mb-2">Manage your reference request.</p>
       </div>
-      <div className="d-flex justify-content-center align-items-center button-controls-question gap-4 mb-3">
+      <div
+        className={`d-flex justify-content-center align-items-center button-controls-question gap-4 mb-3 fade-in ${
+          isButtonVisible ? "visible" : ""
+        }`}
+      >
         <button
           className={`btn-custome-sets ${
             activeButton === "Custom Sets" ? "active" : ""
@@ -374,7 +390,11 @@ const ReferenceQuestion = () => {
         </button>
       </div>
 
-      <div className="AiReference-question-container position-relative">
+      <div 
+      className={`AiReference-question-container position-relative fade-in ${
+        isContainerVisible ? "visible" : ""
+      }`}
+      >
         {activeButton === "HR-HATCH Formats" ? (
           <HrHatchFormats
             hrHatchFormats={hrHatchFormats}
@@ -449,7 +469,9 @@ const ReferenceQuestion = () => {
                   .map((item) => (
                     <div
                       key={item._id}
-                      className="question-set-container border mb-3"
+                      className={`question-set-container border mb-3 ${
+                        selectedSet === item._id ? "expanded" : ""
+                      }`} // Add 'expanded' class if selected
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="question-set-info">
@@ -550,7 +572,7 @@ const ReferenceQuestion = () => {
       {isModalOpen && (
         <AddNewSetsQuestionPopUp
           onClose={() => setIsModalOpen(false)}
-          reFetchUpdatedQuestions={reFetchUpdatedQuestions} 
+          reFetchUpdatedQuestions={reFetchUpdatedQuestions}
         />
       )}
     </div>

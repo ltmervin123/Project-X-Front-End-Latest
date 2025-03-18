@@ -206,3 +206,13 @@
   font-weight: 500;
   font-size: 20px;
 }
+
+/* fade in animation */
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
