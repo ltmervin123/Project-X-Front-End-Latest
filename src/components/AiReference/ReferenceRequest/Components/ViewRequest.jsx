@@ -132,15 +132,15 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
       filename: `${referenceData?.referenceRequestId?.candidate}-Reference-Report.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
-        scale: 2, // Increase quality
-        useCORS: true, // Ensures external images are loaded
+        scale: 2,
+        useCORS: true,
       },
       jsPDF: {
         unit: "mm",
         format: "legal",
         orientation: "portrait",
         putOnlyUsedFonts: true,
-        compressPDF: true, // Reduces file size
+        compressPDF: true,
       },
       pagebreak: { mode: ["avoid-all", "legacy"] },
     };
@@ -257,62 +257,62 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           </p>
 
           <div className="my-4">
-          {refereeQuestionFormat === "HR-HATCH-FORMAT"
-  ? referenceData?.referenceQuestion
-      .sort((a, b) => {
-        const order = categoryOrder[refereeQuestionFormat] || [];
-        return (
-          order.indexOf(a.category) - order.indexOf(b.category)
-        );
-      })
-      .map((item) => (
-        <div key={item.category}>
-          <h5 className="color-gray mt-5">
-            {formatCategories(item.category)}
-          </h5>
-          {item.questions.map((question, index) => (
-            <div key={index}>
-              <div className="d-flex w-100 mt-4">
-                <p className="mb-2">
-                  <b>Question {index + 1}: </b>
-                  {question}
-                </p>
-              </div>
+            {refereeQuestionFormat === "HR-HATCH-FORMAT"
+              ? referenceData?.referenceQuestion
+                  .sort((a, b) => {
+                    const order = categoryOrder[refereeQuestionFormat] || [];
+                    return (
+                      order.indexOf(a.category) - order.indexOf(b.category)
+                    );
+                  })
+                  .map((item) => (
+                    <div key={item.category}>
+                      <h5 className="color-gray mt-5">
+                        {formatCategories(item.category)}
+                      </h5>
+                      {item.questions.map((question, index) => (
+                        <div key={index}>
+                          <div className="d-flex w-100 mt-4">
+                            <p className="mb-2">
+                              <b>Question {index + 1}: </b>
+                              {question}
+                            </p>
+                          </div>
 
-              <h6 className="color-gray mb-2">
-                {item.answers[index] === "Normalized Answer" ? "Original Answer:" : "AI Enhanced Answer:"}
-              </h6>
+                          <h6 className="color-gray mb-2">
+                            {item.preferredAnswerType[index]}
+                          </h6>
 
-              <div className={item.answers[index] === "Normalized Answer" ? "OriginalAns-container mb-4" : "AIEnchanceAns-container mb-4"}>
-                <p>{item.answers[index]}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      ))
-  : referenceData?.referenceQuestion.map((item) => (
-      <div key={item.category}>
-        <h5 className="color-gray">{item.category}</h5>
-        {item.questions.map((question, index) => (
-          <div key={index}>
-            <div className="d-flex w-100 mt-4">
-              <p className="mb-2">
-                <b>Question {index + 1}: </b>
-                {question}
-              </p>
-            </div>
+                          <div className="AIEnchanceAns-container mb-4">
+                            <p>{item.answers[index]}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))
+              : referenceData?.referenceQuestion.map((item) => (
+                  <div key={item.category}>
+                    <h5 className="color-gray">{item.category}</h5>
+                    {item.questions.map((question, index) => (
+                      <div key={index}>
+                        <div className="d-flex w-100 mt-4">
+                          <p className="mb-2">
+                            <b>Question {index + 1}: </b>
+                            {question}
+                          </p>
+                        </div>
 
-            <h6 className="color-gray mb-2">
-              {item.answers[index] === "Normalized Answer" ? "Original Answer:" : "AI Enhanced Answer:"}
-            </h6>
+                        <h6 className="color-gray mb-2">
+                          {item.preferredAnswerType[index]}
+                        </h6>
 
-            <div className={item.answers[index] === "Normalized Answer" ? "OriginalAns-container mb-4" : "AIEnchanceAns-container mb-4"}>
-              <p>{item.answers[index]}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    ))}
+                        <div className="AIEnchanceAns-container mb-4">
+                          <p>{item.answers[index]}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
           </div>
 
           <p className="signature-verif-title color-orange mt-5 mb-3">
