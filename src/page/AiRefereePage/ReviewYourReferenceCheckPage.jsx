@@ -26,9 +26,7 @@ function ReviewYourReferenceCheckPage() {
   const [submitting, setSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showBothAnswers, setShowBothAnswers] = useState(false);
-  const [selectedAnswers, setSelectedAnswers] = useState(
-    Array(questions.length).fill(null)
-  );
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [activeAnswerType, setActiveAnswerType] = useState(null);
@@ -39,6 +37,7 @@ function ReviewYourReferenceCheckPage() {
   const [backIdFile, setBackIdFile] = useState(null);
   const [savedSignature, setSavedSignature] = useState(null);
   const [isCanvaEmpty, setIsCanvaEmpty] = useState(true);
+  const [checked, setChecked] = useState(null);
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
@@ -50,32 +49,51 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleConfirmSkip = () => {
-    const newSelectedAnswers = [...selectedAnswers];
-    console.log("Current selected answers before skip:", newSelectedAnswers);
+    const remainingOriginalAnswer = questions
+      .slice(currentQuestionIndex)
+      .map((_, index) => ({
+        question: questions[currentQuestionIndex + index],
+        answer: answers[currentQuestionIndex + index],
+        preferredAnswerType: selectedAnswers[currentQuestionIndex + index],
+      }));
 
-    questions.forEach((_, index) => {
-      if (newSelectedAnswers[index] === null) {
-        newSelectedAnswers[index] = "Original Answer";
-      }
-    });
-
-    setSelectedAnswers(newSelectedAnswers);
-
-    // Populate submittedAnswers with auto-selected answers
-    const newSubmittedAnswers = questions.map((question, index) => {
-      const answer =
-        newSelectedAnswers[index] === "Original Answer"
-          ? answers[index]
-          : aiEnhancedAnswers[index];
-      return {
-        question: question,
-        answer: answer,
-      };
-    });
-
-    setSubmittedAnswers(newSubmittedAnswers);
+    setSubmittedAnswers((prev) => [...prev, ...remainingOriginalAnswer]);
     setShowSignatureSection(true);
     setShowSkipConfirmation(false);
+  };
+
+  // Update the saveAnswer function
+  const saveAnswer = () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const selectedType = selectedAnswers[currentQuestionIndex];
+
+    if (selectedType === null) {
+      return;
+    }
+
+    const selectedAnswer =
+      selectedType === "Original Answer"
+        ? answers[currentQuestionIndex]
+        : aiEnhancedAnswers[currentQuestionIndex];
+
+    const newSelectedAnswers = [...selectedAnswers];
+    newSelectedAnswers[currentQuestionIndex] = selectedType;
+    setSelectedAnswers(newSelectedAnswers);
+
+    const newAnswer = {
+      question: currentQuestion,
+      answer: selectedAnswer,
+      preferredAnswerType: selectedAnswers[currentQuestionIndex],
+    };
+
+    setSubmittedAnswers((prev) => [...prev, newAnswer]);
+
+    // Always move to next question if not last
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+    setChecked(null);
+    setIsSubmitEnabled(false);
   };
 
   const handleUpdateEnhanceAnswer = (updatedAnswer) => {
@@ -88,41 +106,6 @@ function ReviewYourReferenceCheckPage() {
 
   const handleCancelSkip = () => {
     setShowSkipConfirmation(false);
-  };
-
-  // Update the saveAnswer function
-  const saveAnswer = () => {
-    const currentQuestion = questions[currentQuestionIndex];
-    const selectedType = selectedAnswers[currentQuestionIndex];
-  
-    // Check if an answer is selected before proceeding
-    if (selectedType === null) {
-      return; // Do not proceed if no answer is selected
-    }
-  
-    const selectedAnswer =
-      selectedType === "Original Answer"
-        ? answers[currentQuestionIndex]
-        : aiEnhancedAnswers[currentQuestionIndex];
-  
-    const newSelectedAnswers = [...selectedAnswers];
-    newSelectedAnswers[currentQuestionIndex] = selectedType;
-    setSelectedAnswers(newSelectedAnswers);
-  
-    const newAnswer = {
-      question: currentQuestion,
-      answer: selectedAnswer,
-      preferredAnswerType: selectedAnswers[currentQuestionIndex],
-    };
-  
-    setSubmittedAnswers((prev) => [...prev, newAnswer]);
-  
-    // Always move to next question if not last
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
-  
-    setIsSubmitEnabled(false);
   };
 
   useEffect(() => {
@@ -139,7 +122,7 @@ function ReviewYourReferenceCheckPage() {
       setQuestions(allQuestions);
       setAnswers(allAnswers);
       setAiEnhancedAnswers(allAiEnhancedAnswers);
-      setSelectedAnswers(Array(allQuestions.length).fill(null));
+      setSelectedAnswers(Array(allQuestions.length).fill("Original Answer"));
     }
   }, []);
 
@@ -488,9 +471,11 @@ function ReviewYourReferenceCheckPage() {
     const newSelectedAnswers = [...selectedAnswers];
     newSelectedAnswers[currentQuestionIndex] = type;
     setSelectedAnswers(newSelectedAnswers);
-    
-    // Enable submit button only if an answer is selected
-    const isAnyAnswerSelected = newSelectedAnswers[currentQuestionIndex] !== null;
+
+    setChecked(type);
+
+    const isAnyAnswerSelected =
+      newSelectedAnswers[currentQuestionIndex] !== null;
     setIsSubmitEnabled(isAnyAnswerSelected);
   };
 
@@ -600,10 +585,7 @@ function ReviewYourReferenceCheckPage() {
                             type="checkbox"
                             className="form-check-input"
                             id="originalAnswer"
-                            checked={
-                              selectedAnswers[currentQuestionIndex] ===
-                              "Original Answer"
-                            }
+                            checked={checked === "Original Answer"}
                             onChange={() => {
                               handleAnswerSelection(
                                 selectedAnswers[currentQuestionIndex] ===
@@ -625,10 +607,7 @@ function ReviewYourReferenceCheckPage() {
                             type="checkbox"
                             className="form-check-input"
                             id="aiEnhancedAnswer"
-                            checked={
-                              selectedAnswers[currentQuestionIndex] ===
-                              "AI Enhanced Answer"
-                            }
+                            checked={checked === "AI Enhanced Answer"}
                             onChange={() => {
                               handleAnswerSelection(
                                 selectedAnswers[currentQuestionIndex] ===
