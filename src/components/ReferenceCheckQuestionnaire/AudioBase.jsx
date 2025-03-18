@@ -188,7 +188,9 @@ const AudioBase = ({
               )}
             </>
           ) : isSanitizingTranscription || isSubmitting ? (
-            <button disabled>Saving...</button>
+            <button className="disabled" disabled>
+              Saving...
+            </button>
           ) : !isRecording ? (
             <button
               className={isSpeaking ? "disabled" : ""}
