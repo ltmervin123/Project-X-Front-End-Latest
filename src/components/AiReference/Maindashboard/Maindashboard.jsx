@@ -47,7 +47,7 @@ const LogContainer = ({ completedRecords }) => {
 
   const displayedLogs = showAll
     ? completedRecords
-    : completedRecords.slice(0, 2);
+    : completedRecords.slice(completedRecords.length - 2);
 
   return (
     <div className="LogContainer my-4">
@@ -102,7 +102,7 @@ const MainDashboard = () => {
   const [addedJob, setAddedJob] = useState({});
   const [addedCandidate, setAddedCandidate] = useState([]);
 
-  // For fade in smooth animation 
+  // For fade in smooth animation
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
@@ -119,7 +119,6 @@ const MainDashboard = () => {
       setTimeout(() => setIsLineChartVisible(true), 900),
       setTimeout(() => setIsBarChartVisible(true), 1200),
       setTimeout(() => setIsLogContainerVisible(true), 1600),
-
     ];
 
     return () => timers.forEach((timer) => clearTimeout(timer));

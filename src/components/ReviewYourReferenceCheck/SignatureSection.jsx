@@ -137,14 +137,18 @@ const SignatureSection = ({
                   {errorMessage && (
                     <p style={{ color: "red" }}>{errorMessage}</p>
                   )}
-                  {/* <i className="py-3">Supported Files: JPG, PNG, JPEG, JFIF.</i> */}
                 </>
               )}
             </div>
           </div>
           <div className="ReviewYourReferenceCheck-button-controls d-flex gap-3 my-3 w-100 justify-content-center m-2">
-            <button onClick={clearImage}>Clear</button>
-            <button onClick={handleProceedIDUpload} disabled={submitting}>
+            <button onClick={clearImage} disabled={submitting || !uploadedFile}>
+              Clear
+            </button>
+            <button
+              onClick={handleProceedIDUpload}
+              disabled={submitting || !uploadedFile}
+            >
               Proceed
             </button>
           </div>
