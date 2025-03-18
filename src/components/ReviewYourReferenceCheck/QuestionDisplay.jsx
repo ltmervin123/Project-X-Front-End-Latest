@@ -121,7 +121,7 @@ const QuestionDisplay = ({
           <textarea
             value={editedOriginalAnswer}
             onChange={(e) => setEditedOriginalAnswer(e.target.value)}
-            rows={3}
+            rows={2}
             className="answer-textarea"
           />
         ) : (
@@ -183,7 +183,7 @@ const QuestionDisplay = ({
           <textarea
             value={editedAIEnhancedAnswer}
             onChange={(e) => setEditedAIEnhancedAnswer(e.target.value)}
-            rows={3}
+            rows={2}
             className="answer-textarea"
           />
         ) : (

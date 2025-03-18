@@ -96,27 +96,33 @@ function ReviewYourReferenceCheckPage() {
   const saveAnswer = () => {
     const currentQuestion = questions[currentQuestionIndex];
     const selectedType = selectedAnswers[currentQuestionIndex];
+  
+    // Check if an answer is selected before proceeding
+    if (selectedType === null) {
+      return; // Do not proceed if no answer is selected
+    }
+  
     const selectedAnswer =
       selectedType === "Original Answer"
         ? answers[currentQuestionIndex]
         : aiEnhancedAnswers[currentQuestionIndex];
-
+  
     const newSelectedAnswers = [...selectedAnswers];
     newSelectedAnswers[currentQuestionIndex] = selectedType;
     setSelectedAnswers(newSelectedAnswers);
-
+  
     const newAnswer = {
       question: currentQuestion,
       answer: selectedAnswer,
     };
-
+  
     setSubmittedAnswers((prev) => [...prev, newAnswer]);
-
+  
     // Always move to next question if not last
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
-
+  
     setIsSubmitEnabled(false);
   };
 
@@ -446,11 +452,14 @@ function ReviewYourReferenceCheckPage() {
     const newSelectedAnswers = [...selectedAnswers];
     newSelectedAnswers[currentQuestionIndex] = type;
     setSelectedAnswers(newSelectedAnswers);
-    setIsSubmitEnabled(true);
+    
+    // Enable submit button only if an answer is selected
+    const isAnyAnswerSelected = newSelectedAnswers[currentQuestionIndex] !== null;
+    setIsSubmitEnabled(isAnyAnswerSelected);
   };
 
   return (
-    <div className="main-container login-page-container d-flex flex-column align-items-center justify-content-center">
+    <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
         <h5 className="referencecheckquestiontitle text-left mb-2">
           Review Your Responses

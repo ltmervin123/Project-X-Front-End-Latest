@@ -2,11 +2,8 @@ import React, { useState } from "react";
 
 const IdUploadSection = ({
   frontIdFile,
-  backIdFile,
   handleFrontIdSelect,
-  handleBackIdSelect,
   clearFrontId,
-  clearBackId,
   submitIdUpload,
   submitting,
 }) => {
@@ -17,14 +14,9 @@ const IdUploadSection = ({
     document.getElementById("frontIdInput").click();
   };
 
-  const triggerBackFileInput = () => {
-    document.getElementById("backIdInput").click();
-  };
-
-  // Function to clear both front and back ID files
-  const clearBothIds = () => {
+  // Function to clear the front ID file
+  const clearId = () => {
     clearFrontId();
-    clearBackId();
   };
 
   // Handle change in the preferred ID dropdown
@@ -33,7 +25,7 @@ const IdUploadSection = ({
   };
 
   const hasNoId = () => {
-    return !frontIdFile || (selectedIdType !== "Passport" && !backIdFile);
+    return !frontIdFile;
   };
 
   return (
@@ -108,65 +100,62 @@ const IdUploadSection = ({
           </div>
         </div>
 
-
+        
         <div className="back-id-container mb-3">
-          {/* {selectedIdType !== "Passport" && (
-            <>
-              <p>Back ID page</p>
-              <div className="d-flex justify-content-between w-100">
-                {backIdFile ? (
-                  <div className="d-flex justify-content-between align-items-center w-100">
-                    <div className="back-id-img-container d-flex align-items-center ">
-                      <img
-                        src={URL.createObjectURL(backIdFile)}
-                        alt="Back ID"
-                        style={{
-                          maxWidth: "50px",
-                          maxHeight: "50px",
-                        }}
-                      />
-                      <p className="m-0">File uploaded: {backIdFile.name}</p>
-                    </div>
-                    <button
-                      onClick={triggerBackFileInput}
-                      disabled={!selectedIdType}
-                    >
-                      Select File
-                    </button>
-                    <input
-                      type="file"
-                      id="backIdInput"
-                      accept="image/*"
-                      onChange={handleBackIdSelect}
-                      style={{ display: "none" }} // Hide the file input
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <div className="back-id-img-container d-flex"></div>
-                    <button
-                      onClick={triggerBackFileInput}
-                      disabled={!selectedIdType}
-                    >
-                      Select File
-                    </button>
-                    <input
-                      type="file"
-                      id="backIdInput"
-                      accept="image/*"
-                      onChange={handleBackIdSelect}
-                      style={{ display: "none" }} // Hide the file input
-                    />
-                  </>
-                )}
+          {/* <p>Back ID page</p>
+          <div className="d-flex justify-content-between w-100">
+            {backIdFile ? (
+              <div className="d-flex justify-content-between align-items-center w-100">
+                <div className="back-id-img-container d-flex align-items-center ">
+                  <img
+                    src={URL.createObjectURL(backIdFile)}
+                    alt="Back ID"
+                    style={{
+                      maxWidth: "50px",
+                      maxHeight: "50px",
+                    }}
+                  />
+                  <p className="m-0">File uploaded: {backIdFile.name}</p>
+                </div>
+                <button
+                  onClick={triggerBackFileInput}
+                  disabled={!selectedIdType}
+                >
+                  Select File
+                </button>
+                <input
+                  type="file"
+                  id="backIdInput"
+                  accept="image/*"
+                  onChange={handleBackIdSelect}
+                  style={{ display: "none" }} // Hide the file input
+                />
               </div>
-            </>
-          )} */}
+            ) : (
+              <>
+                <div className="back-id-img-container d-flex"></div>
+                <button
+                  onClick={triggerBackFileInput}
+                  disabled={!selectedIdType}
+                >
+                  Select File
+                </button>
+                <input
+                  type="file"
+                  id="backIdInput"
+                  accept="image/*"
+                  onChange={handleBackIdSelect}
+                  style={{ display: "none" }} // Hide the file input
+                />
+              </>
+            )}
+          </div> */}
         </div>
+       
       </div>
 
       <div className="IdUploadSection-button-controls d-flex gap-3 my-3 w-100 justify-content-center">
-        <button onClick={clearBothIds} disabled={submitting || hasNoId()}>
+        <button onClick={clearId} disabled={submitting || hasNoId()}>
           Clear
         </button>
 
