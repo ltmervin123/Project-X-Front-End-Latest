@@ -16,37 +16,34 @@ const QuestionDisplay = ({
   const [updating, setUpdating] = useState(false);
   const [editedOriginalAnswer, setEditedOriginalAnswer] = useState("");
   const [editedAIEnhancedAnswer, setEditedAIEnhancedAnswer] = useState("");
-  const [editingType, setEditingType] = useState(null); // New state to track which answer is being edited
+  const [editingType, setEditingType] = useState(null);
 
-  const handleSave = async () => {
-    // Save edited answers
+  const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
-      if (editingType === "original") {
-        newAnswers[currentQuestionIndex] = editedOriginalAnswer;
-      } else if (editingType === "aiEnhanced") {
-        // Handle saving AI enhanced answer if needed
-        // You might want to save it in a different state or handle it differently
-      }
+      newAnswers[currentQuestionIndex] = editedOriginalAnswer;
       return newAnswers;
     });
-
-    // Fetch normalized answer from API
     await handleNormalizedAnswers();
-
-    // Reset states after saving
     setEditedOriginalAnswer("");
     setEditedAIEnhancedAnswer("");
     setIsEditing(false);
-    setEditingType(null); // Reset editing type
+    setEditingType(null);
+  };
+
+  const handleSaveAIEnhancedAnswer = () => {
+    handleUpdateEnhanceAnswer(editedAIEnhancedAnswer);
+    setEditedOriginalAnswer("");
+    setEditedAIEnhancedAnswer("");
+    setIsEditing(false);
+    setEditingType(null);
   };
 
   const handleDiscard = () => {
-    // Reset the edited answers and exit editing mode
     setEditedOriginalAnswer("");
     setEditedAIEnhancedAnswer("");
     setIsEditing(false);
-    setEditingType(null); // Reset editing type
+    setEditingType(null);
   };
 
   const handleNormalizedAnswers = async () => {
@@ -55,7 +52,7 @@ const QuestionDisplay = ({
 
       const response = await axios.post(
         `${API}/api/ai-referee/reference/normalized-answer`,
-        { answer: editedAIEnhancedAnswer },
+        { answer: editedOriginalAnswer },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -117,7 +114,9 @@ const QuestionDisplay = ({
           </button>
         )}
       </p>
-      <div className={`answer-container mb-3 ${isEditing ? 'edit' : ''}`}>        {isEditing && editingType === "original" ? (
+      <div className={`answer-container mb-3 ${isEditing ? "edit" : ""}`}>
+        {" "}
+        {isEditing && editingType === "original" ? (
           <textarea
             value={editedOriginalAnswer}
             onChange={(e) => setEditedOriginalAnswer(e.target.value)}
@@ -131,10 +130,18 @@ const QuestionDisplay = ({
 
       {isEditing && editingType === "original" && (
         <div className="action-buttons d-flex gap-3 mb-3">
-          <button className="btn-save" onClick={handleSave} disabled={updating}>
+          <button
+            className={`btn-save ${updating ? "disabled" : ""}`}
+            onClick={handleSaveOriginalAnswer}
+            disabled={updating}
+          >
             {updating ? "Saving..." : "Save"}
           </button>
-          <button className="btn-discard" onClick={handleDiscard}>
+          <button
+            className={`btn-discard ${updating ? "disabled" : ""}`}
+            onClick={handleDiscard}
+            disabled={updating}
+          >
             Discard
           </button>
         </div>
@@ -150,7 +157,7 @@ const QuestionDisplay = ({
                 aiEnhancedAnswers[currentQuestionIndex]
               );
               setIsEditing(true);
-              setEditingType("aiEnhanced"); // Set editing type to AI enhanced
+              setEditingType("aiEnhanced");
             }}
           >
             <svg
@@ -179,7 +186,13 @@ const QuestionDisplay = ({
           </button>
         )}
       </p>
-      <div className={`ai-enhanced-answer-container mb-3 ${isEditing ? 'edit' : ''}`}>        {isEditing && editingType === "aiEnhanced" ? (
+      <div
+        className={`ai-enhanced-answer-container mb-3 ${
+          isEditing ? "edit" : ""
+        }`}
+      >
+        {" "}
+        {isEditing && editingType === "aiEnhanced" ? (
           <textarea
             value={editedAIEnhancedAnswer}
             onChange={(e) => setEditedAIEnhancedAnswer(e.target.value)}
@@ -193,8 +206,8 @@ const QuestionDisplay = ({
 
       {isEditing && editingType === "aiEnhanced" && (
         <div className="action-buttons d-flex gap-3 mb-3">
-          <button className="btn-save" onClick={handleSave} disabled={updating}>
-            {updating ? "Saving..." : "Save"}
+          <button className="btn-save" onClick={handleSaveAIEnhancedAnswer}>
+            Save
           </button>
           <button className="btn-discard" onClick={handleDiscard}>
             Discard
