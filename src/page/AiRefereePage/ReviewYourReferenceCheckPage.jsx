@@ -54,7 +54,7 @@ function ReviewYourReferenceCheckPage() {
       .map((_, index) => ({
         question: questions[currentQuestionIndex + index],
         answer: answers[currentQuestionIndex + index],
-        preferredAnswerType: selectedAnswers[currentQuestionIndex + index],
+        preferredAnswerType: "Original Answer",
       }));
 
     setSubmittedAnswers((prev) => [...prev, ...remainingOriginalAnswer]);
@@ -253,34 +253,6 @@ function ReviewYourReferenceCheckPage() {
     context.strokeStyle = "black";
   };
 
-  // const getReferenceQuestionData = () => {
-  //   //Attach the submitted answers to its respective question
-  //   const organizedReferenceQuestionData = referenceQuestionsData.map(
-  //     (categoryItem) => {
-  //       const updatedAnswers = [...categoryItem.answers];
-
-  //       submittedAnswers.forEach(({ question, answer }) => {
-  //         const questionIndex = categoryItem.questions.findIndex(
-  //           (q) => q.trim() === question.trim()
-  //         );
-  //         if (questionIndex !== -1) {
-  //           updatedAnswers[questionIndex] = answer;
-  //         }
-  //       });
-
-  //       return {
-  //         ...categoryItem,
-  //         answers: updatedAnswers,
-  //       };
-  //     }
-  //   );
-
-  //   //return organizedReferenceQuestionData and exclude the normalizedAnswers
-  //   return organizedReferenceQuestionData.map(
-  //     ({ normalizedAnswers, ...rest }) => rest
-  //   );
-  // };
-
   const getReferenceQuestionData = () => {
     // Attach the submitted answers and their preferred answer types to their respective questions
     const organizedReferenceQuestionData = referenceQuestionsData.map(
@@ -329,7 +301,7 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleProceedIDUpload = () => {
-    if (isCanvaEmpty) {
+    if (isCanvaEmpty && signatureMethod === "Draw Signature") {
       return;
     }
     if (canvasRef.current) {

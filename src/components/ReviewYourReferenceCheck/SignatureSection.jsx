@@ -137,7 +137,6 @@ const SignatureSection = ({
                   {errorMessage && (
                     <p style={{ color: "red" }}>{errorMessage}</p>
                   )}
-                  {/* <i className="py-3">Supported Files: JPG, PNG, JPEG, JFIF.</i> */}
                 </>
               )}
             </div>
