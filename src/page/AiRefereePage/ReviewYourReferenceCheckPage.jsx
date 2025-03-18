@@ -253,6 +253,34 @@ function ReviewYourReferenceCheckPage() {
     context.strokeStyle = "black";
   };
 
+  // const getReferenceQuestionData = () => {
+  //   //Attach the submitted answers to its respective question
+  //   const organizedReferenceQuestionData = referenceQuestionsData.map(
+  //     (categoryItem) => {
+  //       const updatedAnswers = [...categoryItem.answers];
+
+  //       submittedAnswers.forEach(({ question, answer }) => {
+  //         const questionIndex = categoryItem.questions.findIndex(
+  //           (q) => q.trim() === question.trim()
+  //         );
+  //         if (questionIndex !== -1) {
+  //           updatedAnswers[questionIndex] = answer;
+  //         }
+  //       });
+
+  //       return {
+  //         ...categoryItem,
+  //         answers: updatedAnswers,
+  //       };
+  //     }
+  //   );
+
+  //   //return organizedReferenceQuestionData and exclude the normalizedAnswers
+  //   return organizedReferenceQuestionData.map(
+  //     ({ normalizedAnswers, ...rest }) => rest
+  //   );
+  // };
+
   const getReferenceQuestionData = () => {
     // Attach the submitted answers and their preferred answer types to their respective questions
     const organizedReferenceQuestionData = referenceQuestionsData.map(
