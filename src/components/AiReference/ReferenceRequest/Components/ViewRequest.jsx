@@ -2,48 +2,46 @@ import React, { useState, useEffect, useRef } from "react";
 import "../../../../styles/AiRefereeStyles/ViewRequest.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import html2pdf from "html2pdf.js";
+
+const CATEGORY_ORDER = {
+  "Standard Format": [
+    "relationship",
+    "jobResponsibilitiesAndPerformance",
+    "skillAndCompetencies",
+    "workEthicAndBehavior",
+    "closingQuestions",
+  ],
+  "Management Format": [
+    "relationship",
+    "jobResponsibilitiesAndPerformance",
+    "leadershipAndManagementSkills",
+    "workEthicAndBehavior",
+    "closingQuestions",
+  ],
+  "Executive Format": [
+    "relationship",
+    "jobResponsibilitiesAndPerformance",
+    "strategicLeadershipAndVision",
+    "businessImpactAndResults",
+    "teamLeadershipAndOrganizationalDevelopment",
+    "decisionMakingAndProblemSolving",
+    "innovationAndGrowth",
+    "closingQuestions",
+  ],
+};
 
 function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const reportRef = useRef();
   const navigate = useNavigate();
-
-  const handleReturnReferenceRequest = () => {
-    navigate(0);
-  };
-
   const API = process.env.REACT_APP_API_URL;
-  const [fetchingRefence, setFetchingReference] = useState(false);
+  const [fetchingReference, setFetchingReference] = useState(false);
   const [error, setError] = useState("");
   const [referenceData, setReferenceData] = useState(null);
   const [downloading, setDownloading] = useState(false);
 
-  const categoryOrder = {
-    "Standard Format": [
-      "relationship",
-      "jobResponsibilitiesAndPerformance",
-      "skillAndCompetencies",
-      "workEthicAndBehavior",
-      "closingQuestions",
-    ],
-    "Management Format": [
-      "relationship",
-      "jobResponsibilitiesAndPerformance",
-      "leadershipAndManagementSkills",
-      "workEthicAndBehavior",
-      "closingQuestions",
-    ],
-    "Executive Format": [
-      "relationship",
-      "jobResponsibilitiesAndPerformance",
-      "strategicLeadershipAndVision",
-      "businessImpactAndResults",
-      "teamLeadershipAndOrganizationalDevelopment",
-      "decisionMakingAndProblemSolving",
-      "innovationAndGrowth",
-      "closingQuestions",
-    ],
+  const handleReturnReferenceRequest = () => {
+    navigate(0);
   };
 
   const fetchReferenceByReferenceId = async () => {
@@ -75,10 +73,10 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   }
 
   function formatDateForWorkDuration(date) {
-    if (!date) return "Invalid Date"; // Handle null/undefined cases
+    if (!date) return "Invalid Date";
 
     const newDate = new Date(date);
-    if (isNaN(newDate)) return "Invalid Date"; // Handle invalid dates
+    if (isNaN(newDate)) return "Invalid Date";
 
     return newDate.toLocaleDateString("en-US", {
       month: "long",
@@ -121,8 +119,6 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
     }
   }
 
-  //fetching reference when the component mounts
-
   const downloadPDF = () => {
     if (!reportRef.current) return;
     setDownloading(true);
@@ -162,7 +158,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
     fetchingRefenceWhenRender();
   }, []);
 
-  if (fetchingRefence) {
+  if (fetchingReference) {
     return (
       <div className="MockMainDashboard-content d-flex flex-column gap-2">
         <h3>Loading Reference Request...</h3>
@@ -260,7 +256,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
             {refereeQuestionFormat === "HR-HATCH-FORMAT"
               ? referenceData?.referenceQuestion
                   .sort((a, b) => {
-                    const order = categoryOrder[refereeQuestionFormat] || [];
+                    const order = CATEGORY_ORDER[refereeQuestionFormat] || [];
                     return (
                       order.indexOf(a.category) - order.indexOf(b.category)
                     );
@@ -319,7 +315,6 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
             SIGNATURE AND VERIFICATION
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
-            {/* Put Id image here */}
             <div>
               <img
                 src={referenceData?.frontIdImageURL || ""}
