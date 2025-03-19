@@ -62,6 +62,34 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
+const formatQuestionText = (question) => {
+  // Check if the question is undefined or null
+  if (!question) {
+    return ""; // or return a fallback value, e.g., "No question available."
+  }
+
+  const candidateNameRegex = new RegExp(`\\b${candidateName}\\b`, 'g'); // Match the candidate name
+  const hasApostrophe = candidateName.includes("'"); // Check for apostrophe
+
+  return question.split(candidateNameRegex).flatMap((part, index) => {
+    if (index > 0) {
+      return [
+        <span
+          key={`candidate-name-${index}`}
+          style={{
+            fontWeight: 'bold',
+            color: hasApostrophe ? 'red' : 'blue', // Change color based on apostrophe presence
+          }}
+        >
+          {candidateName}
+        </span>,
+        part,
+      ];
+    }
+    return part;
+  });
+};
+
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -400,8 +428,8 @@ const ReferenceCheckQuestionnairePage = () => {
           <p className="question-title">
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
-          <p>{questions[currentQuestionIndex]}</p>
-        </div>
+ <p>{formatQuestionText(questions[currentQuestionIndex])}</p>
+         </div>
       </div>
 
       <>
