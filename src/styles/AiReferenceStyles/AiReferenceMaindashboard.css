@@ -57,7 +57,11 @@
   /* width: 300px; */
   padding: 10px 25px 10px 15px; /* Increased padding for better touch targets */
   cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s; /* Smooth transition */
+  transition: background-color 0.3s transform 0.7s ease-in-out;
+
+}
+.btn-start-reference-check:hover{
+  transform: scale(1.009); 
 }
 .start-reference-check-container > i{
   display: block;

@@ -184,6 +184,24 @@
   height: 100%;
   
 }
+.btn-no-delete-questions{
+  background: var(--secondary-color);
+  width: 120px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 5px 30px; /* Adjusted padding */
+
+}
+.btn-yes-delete-questions{
+  background: var(--primary-color);
+  width: 120px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 5px 30px; /* Adjusted padding */
+
+}
 /* Customizing the scrollbar */
 .questions-list::-webkit-scrollbar,
 .dropdown-content-q-sets ul::-webkit-scrollbar,
