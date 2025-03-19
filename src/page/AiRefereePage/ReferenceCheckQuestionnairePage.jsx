@@ -62,33 +62,45 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
-const formatQuestionText = (question) => {
-  // Check if the question is undefined or null
-  if (!question) {
-    return ""; // or return a fallback value, e.g., "No question available."
-  }
-
-  const candidateNameRegex = new RegExp(`\\b${candidateName}\\b`, 'g'); // Match the candidate name
-  const hasApostrophe = candidateName.includes("'"); // Check for apostrophe
-
-  return question.split(candidateNameRegex).flatMap((part, index) => {
-    if (index > 0) {
-      return [
-        <span
-          key={`candidate-name-${index}`}
-          style={{
-            fontWeight: 'bold',
-            color: hasApostrophe ? 'red' : 'blue', // Change color based on apostrophe presence
-          }}
-        >
-          {candidateName}
-        </span>,
-        part,
-      ];
+  const formatQuestionText = (question) => {
+    if (!question) {
+      return "No question available";
     }
-    return part;
-  });
-};
+
+    const candidateNameRegex = new RegExp(`\\b(${candidateName})('s)?\\b`, "g");
+
+    const hasApostrophe = question.includes("'s");
+
+    return question.split(candidateNameRegex).map((part, index) => {
+      if (index % 3 === 1) {
+        return (
+          <span
+            key={`candidate-name-${index}`}
+            style={{
+              fontWeight: "bold",
+              color: hasApostrophe ? "red" : "blue",
+            }}
+          >
+            {part}
+          </span>
+        );
+      }
+      if (index % 3 === 2 && part) {
+        return (
+          <span
+            key={`apostrophe-${index}`}
+            style={{
+              fontWeight: "bold",
+              color: hasApostrophe ? "red" : "blue",
+            }}
+          >
+            {part}
+          </span>
+        );
+      }
+      return <span key={`text-${index}`}>{part}</span>;
+    });
+  };
 
   const formatReferenceQuestions = () => {
     if (
@@ -428,8 +440,8 @@ const formatQuestionText = (question) => {
           <p className="question-title">
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
- <p>{formatQuestionText(questions[currentQuestionIndex])}</p>
-         </div>
+          <p>{formatQuestionText(questions[currentQuestionIndex])}</p>
+        </div>
       </div>
 
       <>
