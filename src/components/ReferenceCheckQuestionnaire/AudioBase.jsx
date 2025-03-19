@@ -100,7 +100,6 @@ const AudioBase = ({
       socket.off("real-time-transcription");
       socket.on("real-time-transcription", (data) => {
         if (data.isFinal) {
-          console.log("Final transcription:", data.text);
           setTranscription(data.text);
           setAudioBaseAnswer((prev) => `${prev} ${data.text}`);
         }

@@ -62,6 +62,46 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
+  const formatQuestionText = (question) => {
+    if (!question) {
+      return "No question available";
+    }
+
+    const candidateNameRegex = new RegExp(`\\b(${candidateName})('s)?\\b`, "g");
+
+    const hasApostrophe = question.includes("'s");
+
+    return question.split(candidateNameRegex).map((part, index) => {
+      if (index % 3 === 1) {
+        return (
+          <span
+            key={`candidate-name-${index}`}
+            style={{
+              fontWeight: "bold",
+              color: hasApostrophe ? "red" : "blue",
+            }}
+          >
+            {part}
+          </span>
+        );
+      }
+      if (index % 3 === 2 && part) {
+        return (
+          <span
+            key={`apostrophe-${index}`}
+            style={{
+              fontWeight: "bold",
+              color: hasApostrophe ? "red" : "blue",
+            }}
+          >
+            {part}
+          </span>
+        );
+      }
+      return <span key={`text-${index}`}>{part}</span>;
+    });
+  };
+
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -400,7 +440,7 @@ const ReferenceCheckQuestionnairePage = () => {
           <p className="question-title">
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
-          <p>{questions[currentQuestionIndex]}</p>
+          <p>{formatQuestionText(questions[currentQuestionIndex])}</p>
         </div>
       </div>
 
