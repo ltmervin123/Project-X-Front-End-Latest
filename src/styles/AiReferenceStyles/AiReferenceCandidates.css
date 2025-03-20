@@ -90,7 +90,7 @@
 }
 .AiReference-candidates-container th,
 .AiReference-candidates-container td {
-  padding: 10px; /* Padding for table cells */
+  padding: 15px; /* Padding for table cells */
   word-wrap: break-word;
   text-align: left; /* Align text to the left */
 }
@@ -100,7 +100,6 @@
 .AiReference-candidates-container th,
 .AiReference-candidates-container td{
   width: 20%;
-  padding-left: 0;
   font-weight: bold;
 }
 .AiReference-candidates-container th:nth-child(4),

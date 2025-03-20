@@ -20,7 +20,7 @@ function RFOMain() {
               Resume Fit Optimizer. Tailored improvements for your dream job.
             </p>
             <button
-              className="d-flex align-items-center gap-3 justify-content-center "
+              className="d-flex align-items-center gap-2 justify-content-center "
               onClick={handleStartOptimizing}
             >
               Start Optimizing{" "}
