@@ -546,6 +546,9 @@ const MainDashboard = () => {
             size: 12,
           },
           color: "#000",
+          callback: function(value) {
+            return Math.round(value); // Round to whole number
+          },
         },
       },
     },
@@ -662,6 +665,9 @@ const MainDashboard = () => {
             size: 12, // Adjust the font size of the x-axis labels if needed
           },
           color: "#000", // Change the label color if necessary
+          callback: function(value) {
+            return Math.round(value); // Round to whole number
+          },
         },
       },
     },

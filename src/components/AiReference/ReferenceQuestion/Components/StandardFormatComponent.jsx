@@ -10,7 +10,7 @@ const StandardFormatComponent = ({
     <>
       <div className="AiReference-table-title">
         {/* format will depend on selectedFormat */}
-        <h4 className="color-green mb-0">Standard Formats</h4> 
+        <h4 className="color-green mb-0">Standard Format</h4> 
         <p>Standardized question sets provided by<b>      
           <span className='color-orange'> HR</span>
           -HΛTCH</b>.</p>

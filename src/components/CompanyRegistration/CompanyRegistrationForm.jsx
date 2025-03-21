@@ -129,7 +129,7 @@ const CompanyRegistrationForm = () => {
           <Row>
             <Col md={12}>
               <div className="mb-2">
-                <label htmlFor="company-name" className="form-label">
+                <label htmlFor="company-name" className="form-label mb-1 ">
                   Company Name
                 </label>
                 <input
@@ -146,7 +146,7 @@ const CompanyRegistrationForm = () => {
               <Row className="mb-2">
                 <Col md={6}>
                   <div className="mb-2 position-relative">
-                    <label htmlFor="email-address" className="form-label">
+                    <label htmlFor="email-address" className="form-label mb-1">
                       Email Address
                     </label>
                     <input
@@ -171,7 +171,7 @@ const CompanyRegistrationForm = () => {
                 </Col>
                 <Col md={6}>
                   <div className="mb-2 position-relative">
-                    <label htmlFor="password" className="form-label">
+                    <label htmlFor="password" className="form-label mb-1">
                       Password
                     </label>
                     <input
@@ -209,7 +209,7 @@ const CompanyRegistrationForm = () => {
                 </Col>
               </Row>
               <Row className="mb-2">
-                <label htmlFor="city" className="form-label">
+                <label htmlFor="city" className="form-label mb-1">
                   Location
                 </label>
                 <Col md={6}>
@@ -252,7 +252,7 @@ const CompanyRegistrationForm = () => {
               <Row className="mb-4">
                 <Col md={6}>
                   <div className="mb-2">
-                    <label htmlFor="company-size" className="form-label">
+                    <label htmlFor="company-size" className="form-label mb-1">
                       Company Size
                     </label>
                     <select
@@ -271,7 +271,7 @@ const CompanyRegistrationForm = () => {
                 </Col>
                 <Col md={6}>
                   <div className="mb-2">
-                    <label htmlFor="industry" className="form-label">
+                    <label htmlFor="industry" className="form-label mb-1">
                       Industry
                     </label>
                     <select
@@ -354,13 +354,13 @@ const CompanyRegistrationForm = () => {
                 </Col>
               </Row>
 
-              <div className="my-1">
+              <div >
                 <h5>Person In-charge</h5>
 
                 <Row>
                   <Col md={6}>
                     <div className="mb-2">
-                      <label htmlFor="first-name" className="form-label">
+                      <label htmlFor="first-name" className="form-label mb-1">
                         First Name
                       </label>
                       <input
@@ -377,7 +377,7 @@ const CompanyRegistrationForm = () => {
 
                   <Col md={6}>
                     <div className="mb-2">
-                      <label htmlFor="last-name" className="form-label">
+                      <label htmlFor="last-name" className="form-label mb-1">
                         Last Name
                       </label>
                       <input
@@ -394,7 +394,7 @@ const CompanyRegistrationForm = () => {
                 </Row>
 
                 <div className="mb-2">
-                  <label htmlFor="hiring-involvement" className="form-label">
+                  <label htmlFor="hiring-involvement" className="form-label mb-1">
                     How are you involved in the hiring process?
                   </label>
                   <select
@@ -422,7 +422,7 @@ const CompanyRegistrationForm = () => {
                     <div className="mb-2">
                       <label
                         htmlFor="annual-hiring-volume"
-                        className="form-label"
+                        className="form-label mb-1"
                       >
                         Annual Hiring Volume
                       </label>

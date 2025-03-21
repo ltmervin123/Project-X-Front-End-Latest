@@ -47,7 +47,7 @@ const ReferenceRequest = () => {
   const toggleDropdown = () => {
     setTimeout(() => {
       setIsExpanded(true);
-    }, 50); 
+    }, 50);
   };
 
   const [reference, setReference] = useState(
@@ -333,9 +333,11 @@ const ReferenceRequest = () => {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
-          <div className={`search-wrapper position-relative fade-in ${
-            isSearchVisible ? "visible" : ""
-          }`}>
+          <div
+            className={`search-wrapper position-relative fade-in ${
+              isSearchVisible ? "visible" : ""
+            }`}
+          >
             <input
               type="text"
               placeholder="Search request..."
@@ -348,10 +350,11 @@ const ReferenceRequest = () => {
         </div>
       </div>
 
-      <div 
-      className={`AiReference-candidates-container Reference-Request fade-in ${
-        isSearchVisible ? "visible" : ""
-      }`}>
+      <div
+        className={`AiReference-candidates-container Reference-Request fade-in ${
+          isSearchVisible ? "visible" : ""
+        }`}
+      >
         <div className="AiReference-table-title">
           <h4 className="mb-0">Reference Requests Lists</h4>
           <p>Overview of all reference requests.</p>
@@ -444,7 +447,7 @@ const ReferenceRequest = () => {
                         <td>{formatDate(reference.dueDate)}</td>
                         <td className="d-flex gap-2 align-items-center w-100">
                           <button
-                            className="btn-view-details"
+                            className={`btn-view-details ${showDropDown && selectedCandidate._id === reference._id ? 'hide' : ''}`}
                             onClick={() => {
                               handleSetCandidate(reference._id);
                               toggleDropdown();
@@ -614,18 +617,30 @@ const ReferenceRequest = () => {
                         )}
                     </React.Fragment>
                   ))}
-                  {reference.filter(ref => {
-      const candidateMatch = ref.candidate && ref.candidate.toLowerCase().includes(searchQuery.toLowerCase());
-      const refereeMatch = ref.referee && ref.referee.toLowerCase().includes(searchQuery.toLowerCase());
-      const positionMatch = ref.position && ref.position.toLowerCase().includes(searchQuery.toLowerCase());
-      return candidateMatch || refereeMatch || positionMatch;
-    }).length === 0 && (
-      <tr>
-        <td colSpan="7" className="text-center">
-          Reference requests not found
-        </td>
-      </tr>
-    )}
+                {reference.filter((ref) => {
+                  const candidateMatch =
+                    ref.candidate &&
+                    ref.candidate
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase());
+                  const refereeMatch =
+                    ref.referee &&
+                    ref.referee
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase());
+                  const positionMatch =
+                    ref.position &&
+                    ref.position
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase());
+                  return candidateMatch || refereeMatch || positionMatch;
+                }).length === 0 && (
+                  <tr>
+                    <td colSpan="7" className="text-center">
+                      Reference requests not found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </>

@@ -78,7 +78,8 @@
 
 }
 .referee-left-container{
-  width: 40%;
+  width: 60%;
+  padding-right: 15px;
 }
 
 .referee-status{
@@ -93,7 +94,12 @@
   border-radius: 5px;
   cursor: pointer;
 }
-
+.btn-view-details.hide{
+  background: var(--card-color);
+}
+.btn-view-details.hide:hover{
+  background: #686868dc;
+}
 .btn-view-details:hover {
   background-color: #0056b3;
 }

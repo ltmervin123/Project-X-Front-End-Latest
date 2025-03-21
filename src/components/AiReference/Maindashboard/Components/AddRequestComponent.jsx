@@ -21,31 +21,30 @@ const AddRequestComponent = ({
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
   const [reference, setReference] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [commonFormat, setCommonFormat] = useState(""); // New state for common format
+
   //Refs
   const formRef = useRef(null);
-
-  useEffect(() => {
-    setReference((prev) =>
-      addedCandidate.map((candidate) => ({
-        positionId: addedJob.positionId,
-        positionName: addedJob.positionName,
-        candidateId: candidate.candidateId,
-        candidateName: candidate.candidateName,
-        selectedFormat: "",
-        referees: [
-          {
-            name: "",
-            email: "",
-            questionFormat: "",
-            questionId: "",
-            questionName: "",
-          },
-        ],
-        isHrHatchOpen: false,
-        isCustomOpen: false,
-      }))
-    );
-  }, []);
+  
+// Update the useEffect to set the common format for all candidates
+useEffect(() => {
+  setReference(addedCandidate.map((candidate) => ({
+    positionId: addedJob.positionId,
+    positionName: addedJob.positionName,
+    candidateId: candidate.candidateId,
+    candidateName: candidate.candidateName,
+    selectedFormat: commonFormat, // Use common format for all candidates
+    referees: [{
+      name: "",
+      email: "",
+      questionFormat: commonFormat,
+      questionId: "",
+      questionName: "",
+    }],
+    isHrHatchOpen: false,
+    isCustomOpen: false,
+  })));
+}, [addedCandidate, addedJob, commonFormat]);
 
   const hrHatchQuestion = useMemo(() => {
     return [
@@ -145,24 +144,23 @@ const AddRequestComponent = ({
 
   const handleRefereeQuestionFormatChange = (selectedQuestion, format) => {
     const newReferees = [...reference];
-    const currentCandidate = newReferees[currentReferenceIndex];
-
-    currentCandidate.selectedFormat = format;
-
-    currentCandidate.referees.forEach((referee) => {
-      referee.questionFormat = format;
-      referee.questionName = selectedQuestion?.name;
-      referee.questionId = selectedQuestion?._id;
-    });
-
-    currentCandidate.referees.forEach((referee) => {
-      referee.isHrHatchOpen = false;
-      referee.isCustomOpen = false;
+  
+    // Set the common format for all candidates
+    newReferees.forEach(candidate => {
+      candidate.selectedFormat = format;
+      candidate.referees.forEach(referee => {
+        referee.questionFormat = format;
+        referee.questionName = selectedQuestion?.name;
+        referee.questionId = selectedQuestion?._id;
+      });
+      candidate.referees.forEach((referee) => {
+        referee.isHrHatchOpen = false;
+        referee.isCustomOpen = false;
+      });
     });
 
     setReference(newReferees);
   };
-
   const handleRefereeNameChange = (event, index) => {
     const newReferees = [...reference];
     newReferees[currentReferenceIndex].referees[index].name =
