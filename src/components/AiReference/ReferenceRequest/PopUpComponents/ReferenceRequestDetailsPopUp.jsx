@@ -24,6 +24,17 @@ const ReferenceRequestDetailsPopUp = ({
     return date.split("T")[0]; // Extract only YYYY-MM-DD
   };
 
+  const formatQuestion = (question) => {
+    switch (question) {
+      case "HR-HATCH-FORMAT":
+        return "HR Hatch Format";
+      case "CUSTOM-FORMAT":
+        return "Custom Format";
+      default:
+        return "N/A";
+    }
+  };
+
   return (
     <Modal
       show={true}
@@ -35,7 +46,13 @@ const ReferenceRequestDetailsPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-0">
           <div>
-            <h5 className="m-0">Professional Reference for <span className="color-orange reference-candidate-name"> {candidate.candidate || "N/A"}</span></h5>
+            <h5 className="m-0">
+              Professional Reference for{" "}
+              <span className="color-orange reference-candidate-name">
+                {" "}
+                {candidate.candidate || "N/A"}
+              </span>
+            </h5>
           </div>
           <div className="d-flex justify-content-center align-items-center">
             <Button
@@ -87,22 +104,27 @@ const ReferenceRequestDetailsPopUp = ({
                     {referee.status || "N/A"}
                   </span>{" "}
                 </p>
-
               </div>
               <div className="Request-information-container w-100">
                 <b>Request Information</b>
                 <div className="request-information-container d-flex flex-column">
                   <div className="d-flex">
                     <div className="request-label">Question Format:</div>
-                    <div className="request-details">{referee.questionFormat || "N/A"}</div>
+                    <div className="request-details">
+                      {formatQuestion(referee.questionFormat)}
+                    </div>
                   </div>
                   <div className="d-flex">
                     <div className="request-label">Date Sent:</div>
-                    <div className="request-details">{formatDate(candidate.dateSent) || "N/A"}</div>
+                    <div className="request-details">
+                      {formatDate(candidate.dateSent) || "N/A"}
+                    </div>
                   </div>
                   <div className="d-flex">
                     <div className="request-label">Date Due:</div>
-                    <div className="request-details">{formatDate(candidate.dueDate) || "N/A"}</div>
+                    <div className="request-details">
+                      {formatDate(candidate.dueDate) || "N/A"}
+                    </div>
                   </div>
                   {/* <p>
                     Question Format:{" "}
@@ -160,7 +182,6 @@ const ReferenceRequestDetailsPopUp = ({
                     {referee.email || "N/A"}
                   </div>
                 </div>
-
               </div>
             </Col>
           </Row>
