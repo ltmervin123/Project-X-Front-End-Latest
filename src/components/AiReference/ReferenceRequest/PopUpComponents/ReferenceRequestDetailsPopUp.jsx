@@ -27,7 +27,7 @@ const ReferenceRequestDetailsPopUp = ({
   const formatQuestion = (question) => {
     switch (question) {
       case "HR-HATCH-FORMAT":
-        return "HR Hatch Format";
+        return "HR-Hatch Format";
       case "CUSTOM-FORMAT":
         return "Custom Format";
       default:
