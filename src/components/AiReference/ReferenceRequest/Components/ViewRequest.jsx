@@ -123,6 +123,18 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
     if (!reportRef.current) return;
     setDownloading(true);
 
+    // Clone the report content to modify it without affecting the original
+    const clonedReport = reportRef.current.cloneNode(true);
+
+    // Remove the Id image container
+    clonedReport.querySelector(".uploaded-id-container").remove();
+
+    // Modify the "SIGNATURE AND VERIFICATION" text
+    const signatureTitle = clonedReport.querySelector(".signature-verif-title");
+    if (signatureTitle) {
+      signatureTitle.textContent = "Signature";
+    }
+
     const options = {
       margin: 10,
       filename: `${referenceData?.referenceRequestId?.candidate}-Reference-Report.pdf`,
@@ -143,7 +155,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
 
     html2pdf()
       .set(options)
-      .from(reportRef.current)
+      .from(clonedReport)
       .save()
       .then(() => {
         setDownloading(false);
@@ -176,17 +188,11 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
 
   const handleImageLoad = (event) => {
     const { naturalWidth, naturalHeight } = event.target;
-    // Log the width and height
-    console.log('Image Width:', naturalWidth);
-    console.log('Image Height:', naturalHeight);
-    
-    // Set isLandscape to true if width is greater than height
-    setIsLandscape(naturalWidth > naturalHeight); // true for landscape, false for portrait
+    setIsLandscape(naturalWidth > naturalHeight);
   };
 
   const handleImageError = () => {
     console.error("Image failed to load");
-    // You can set a default state or handle the error as needed
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -329,20 +335,20 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
             SIGNATURE AND VERIFICATION
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
-      <div>
-        {referenceData?.frontIdImageURL ? (
-          <img
-            src={referenceData.frontIdImageURL}
-            alt="ID displayed here..."
-            onLoad={handleImageLoad}
-            onError={handleImageError}
-            className={isLandscape ? 'landscape' : 'portrait'}
-          />
-        ) : (
-          <p>No image available</p> // Fallback if no image URL is provided
-        )}
-      </div>
-    </div>
+            <div>
+              {referenceData?.frontIdImageURL ? (
+                <img
+                  src={referenceData.frontIdImageURL}
+                  alt="ID displayed here..."
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  className={isLandscape ? "landscape" : "portrait"}
+                />
+              ) : (
+                <p>No image available</p> // Fallback if no image URL is provided
+              )}
+            </div>
+          </div>
           <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}

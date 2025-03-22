@@ -112,17 +112,17 @@ const MainDashboard = () => {
 
   const [isLogContainerVisible, setIsLogContainerVisible] = useState(false);
 
-  useEffect(() => {
-    const timers = [
-      setTimeout(() => setIsStartReferenceCheckVisible(true), 100),
-      setTimeout(() => setIsAiReferenceCardVisible(true), 300),
-      setTimeout(() => setIsLineChartVisible(true), 900),
-      setTimeout(() => setIsBarChartVisible(true), 1200),
-      setTimeout(() => setIsLogContainerVisible(true), 1600),
-    ];
+    useEffect(() => {
+      const timers = [
+        setTimeout(() => setIsStartReferenceCheckVisible(true), 100),
+        setTimeout(() => setIsAiReferenceCardVisible(true), 300),
+        setTimeout(() => setIsLineChartVisible(true), 900),
+        setTimeout(() => setIsBarChartVisible(true), 1200),
+        setTimeout(() => setIsLogContainerVisible(true), 1600),
+      ];
 
-    return () => timers.forEach((timer) => clearTimeout(timer));
-  }, []);
+      return () => timers.forEach((timer) => clearTimeout(timer));
+    }, []);
 
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true);
