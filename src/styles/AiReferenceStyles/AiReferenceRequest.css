@@ -68,6 +68,8 @@
 }
 .referee-name{
   font-weight: bold !important;
+  text-transform:capitalize;
+
 }
 .referee-name,
 .referee-status{
@@ -148,21 +150,29 @@
 .reference-table > tbody > tr > td:nth-child(1),
 .reference-table > tbody > tr > td:nth-child(2){
   width: 15% !important; 
+  text-transform:capitalize;
+
 }
 .reference-table > thead > tr > th:nth-child(3),
 .reference-table > tbody > tr > td:nth-child(3){
+  text-transform:capitalize;
 
-  width: 11% !important;
+  width: 10% !important;
 }
 .reference-table > thead > tr > th:nth-child(4),
   .reference-table > tbody > tr > td:nth-child(4){
   width: 20% !important;
+  text-transform:capitalize;
+
 }
 .reference-table > thead > tr > th:nth-child(5),
-.reference-table > thead > tr > th:nth-child(6),
+.reference-table > thead > tr > th:nth-child(6){
+  width: 12% !important;
+
+}
 .reference-table > tbody > tr > td:nth-child(5),
 .reference-table > tbody > tr > td:nth-child(6){
-  width: 12% !important;
+  width: 12.2% !important;
 }
 .reference-table > thead > tr > th:nth-child(7){
   width: 16% !important;

@@ -471,89 +471,123 @@ const MainDashboard = () => {
     return tooltipEl;
   };
 
-  const lineOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
+// Function to generate unique whole number ticks
+const generateYTicks = (min, max) => {
+  const ticks = [];
+  // Ensure the minimum is at least 0
+  const start = Math.min(0, Math.floor(min));
+  const end = Math.ceil(max);
+  
+  for (let i = start; i <= end; i++) {
+    ticks.push(i);
+  }
+  return ticks;
+};
+
+
+// Calculate the min and max values from your datasets
+const minTotal = Math.min(...totalReferenceCount);
+const maxTotal = Math.max(...totalReferenceCount);
+const minCompleted = Math.min(...completedReferenceCounts);
+const maxCompleted = Math.max(...completedReferenceCounts);
+
+// Determine overall min and max
+const minY = Math.min(minTotal, minCompleted);
+const maxY = Math.max(maxTotal, maxCompleted);
+
+// Generate unique whole number ticks for the y-axis
+const yTicks = generateYTicks(minY, maxY);
+
+// Update the lineOptions
+const lineOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      enabled: false,
+      external: function (context) {
+        const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
+
+        const tooltipModel = context.tooltip;
+
+        if (tooltipModel.opacity === 0) {
+          tooltipEl.style.opacity = 0;
+          return;
+        }
+
+        const position = context.chart.canvas.getBoundingClientRect();
+        tooltipEl.style.opacity = 1;
+        tooltipEl.style.backgroundColor = "#fff";
+        tooltipEl.style.padding = "10px";
+        tooltipEl.style.position = "absolute";
+        tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+        tooltipEl.style.borderRadius = "10px";
+        tooltipEl.style.pointerEvents = "none";
+
+        tooltipEl.style.left =
+          position.left + window.scrollX + tooltipModel.caretX + "px";
+        tooltipEl.style.top =
+          position.top + window.scrollY + tooltipModel.caretY + "px";
+
+        const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
+        const innerHtml = `
+        <table class="tooltip-line=chart">
+          <tr>
+            <td style="font-weight: 500;">${month}</td>
+          </tr>
+          <tr>
+            <td style="color: #1877F2; font-weight: 400;">Total: ${
+              lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
+            }</td>
+          </tr>
+          <tr>
+            <td style="color: #319F43;font-weight: 400;">Complete: ${
+              lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
+            }</td>
+          </tr>
+        </table>
+      `;
+        tooltipEl.querySelector("table").innerHTML = innerHtml;
+      },
+    },
+  },
+  scales: {
+    x: {
+      grid: {
         display: false,
       },
-      tooltip: {
-        enabled: false,
-        external: function (context) {
-          const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
-
-          const tooltipModel = context.tooltip;
-
-          if (tooltipModel.opacity === 0) {
-            tooltipEl.style.opacity = 0;
-            return;
-          }
-
-          const position = context.chart.canvas.getBoundingClientRect();
-          tooltipEl.style.opacity = 1;
-          tooltipEl.style.backgroundColor = "#fff";
-          tooltipEl.style.padding = "10px";
-          tooltipEl.style.position = "absolute";
-          tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
-          tooltipEl.style.borderRadius = "10px";
-          tooltipEl.style.pointerEvents = "none";
-
-          tooltipEl.style.left =
-            position.left + window.scrollX + tooltipModel.caretX + "px";
-          tooltipEl.style.top =
-            position.top + window.scrollY + tooltipModel.caretY + "px";
-
-          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
-          const innerHtml = `
-          <table class="tooltip-line=chart">
-            <tr>
-              <td style="font-weight: 500;">${month}</td>
-            </tr>
-            <tr>
-              <td style="color: #1877F2; font-weight: 400;">Total: ${
-                lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
-              }</td>
-            </tr>
-            <tr>
-              <td style="color: #319F43;font-weight: 400;">Complete: ${
-                lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
-              }</td>
-            </tr>
-          </table>
-        `;
-          tooltipEl.querySelector("table").innerHTML = innerHtml;
+      ticks: {
+        font: {
+          size: 12,
+        },
+        color: "#000",
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+      ticks: {
+        font: {
+          size: 12,
+        },
+        color: "#000",
+        // Use the generated ticks
+        callback: function(value) {
+          return yTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
+        },
+      },
+      // Set the ticks to the generated array
+      ticks: {
+        callback: function(value) {
+          return yTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
         },
       },
     },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 12,
-          },
-          color: "#000",
-        },
-      },
-      y: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 12,
-          },
-          color: "#000",
-          callback: function(value) {
-            return Math.round(value); // Round to whole number
-          },
-        },
-      },
-    },
-  };
-
+  },
+};
   function getDepartmentCounts() {
     const departmentCounts = {};
 
@@ -585,93 +619,102 @@ const MainDashboard = () => {
     ],
   };
 
-  const barOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
+
+// Calculate the min and max values from your counts array
+const minCount = Math.min(...counts);
+const maxCount = Math.max(...counts);
+
+// Generate unique whole number ticks for the y-axis
+const barYTicks = generateYTicks(minCount, maxCount);
+
+// Update the barOptions
+const barOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      enabled: false,
+      external: function (context) {
+        const tooltipEl = document.getElementById("chartjs-tooltip");
+
+        let tooltipElement = tooltipEl;
+        if (!tooltipElement) {
+          tooltipElement = document.createElement("div");
+          tooltipElement.id = "chartjs-tooltip";
+          tooltipElement.innerHTML = "<table></table>";
+          document.body.appendChild(tooltipElement);
+        }
+
+        const tooltipModel = context.tooltip;
+
+        if (tooltipModel.opacity === 0) {
+          tooltipElement.style.opacity = 0;
+          return;
+        }
+
+        const position = context.chart.canvas.getBoundingClientRect();
+        tooltipElement.style.opacity = 1;
+        tooltipElement.style.backgroundColor = "#fff";
+        tooltipElement.style.padding = "10px";
+        tooltipElement.style.position = "absolute";
+        tooltipElement.style.boxShadow =
+          "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+        tooltipElement.style.borderRadius = "10px";
+        tooltipElement.style.pointerEvents = "none";
+
+        // Calculate the tooltip position
+        tooltipElement.style.left =
+          position.left + window.scrollX + tooltipModel.caretX + "px";
+        tooltipElement.style.top =
+          position.top + window.scrollY + tooltipModel.caretY + "px";
+
+        // Populate the custom tooltip content
+        const dataIndex = tooltipModel.dataPoints[0].dataIndex;
+        const department = context.chart.data.labels[dataIndex];
+        const value = context.chart.data.datasets[0].data[dataIndex];
+
+        const innerHtml = `
+          <table class="tooltip-bar-chart">
+            <tr>
+              <td style="font-weight: 500;">${department}: ${value}</td>
+            </tr>
+          </table>
+        `;
+        tooltipElement.querySelector("table").innerHTML = innerHtml;
+      },
+    },
+  },
+  scales: {
+    x: {
+      grid: {
         display: false,
       },
-      tooltip: {
-        enabled: false,
-        external: function (context) {
-          const tooltipEl = document.getElementById("chartjs-tooltip");
-
-          let tooltipElement = tooltipEl;
-          if (!tooltipElement) {
-            tooltipElement = document.createElement("div");
-            tooltipElement.id = "chartjs-tooltip";
-            tooltipElement.innerHTML = "<table></table>";
-            document.body.appendChild(tooltipElement);
-          }
-
-          const tooltipModel = context.tooltip;
-
-          if (tooltipModel.opacity === 0) {
-            tooltipElement.style.opacity = 0;
-            return;
-          }
-
-          const position = context.chart.canvas.getBoundingClientRect();
-          tooltipElement.style.opacity = 1;
-          tooltipElement.style.backgroundColor = "#fff";
-          tooltipElement.style.padding = "10px";
-          tooltipElement.style.position = "absolute";
-          tooltipElement.style.boxShadow =
-            "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
-          tooltipElement.style.borderRadius = "10px";
-          tooltipElement.style.pointerEvents = "none";
-
-          // Calculate the tooltip position
-          tooltipElement.style.left =
-            position.left + window.scrollX + tooltipModel.caretX + "px";
-          tooltipElement.style.top =
-            position.top + window.scrollY + tooltipModel.caretY + "px";
-
-          // Populate the custom tooltip content
-          const dataIndex = tooltipModel.dataPoints[0].dataIndex;
-          const department = context.chart.data.labels[dataIndex];
-          const value = context.chart.data.datasets[0].data[dataIndex];
-
-          const innerHtml = `
-            <table class="tooltip-bar-chart">
-              <tr>
-                <td style="font-weight: 500;">${department}: ${value}</td>
-              </tr>
-            </table>
-          `;
-          tooltipElement.querySelector("table").innerHTML = innerHtml;
+      ticks: {
+        font: {
+          size: 12,
+        },
+        color: "#000",
+      },
+    },
+    y: {
+      grid: {
+        display: false, // Disable grid on the y-axis
+      },
+      ticks: {
+        font: {
+          size: 12, // Adjust the font size of the y-axis labels if needed
+        },
+        color: "#000", // Change the label color if necessary
+        callback: function(value) {
+          return barYTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
         },
       },
     },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 12,
-          },
-          color: "#000",
-        },
-      },
-      y: {
-        grid: {
-          display: false, // Disable grid on the y-axis
-        },
-        ticks: {
-          font: {
-            size: 12, // Adjust the font size of the x-axis labels if needed
-          },
-          color: "#000", // Change the label color if necessary
-          callback: function(value) {
-            return Math.round(value); // Round to whole number
-          },
-        },
-      },
-    },
-  };
+  },
+};
 
   async function refetchAllData(timeoutRef, abortController) {
     if (abortController.signal.aborted) return; // Stop execution if aborted

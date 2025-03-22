@@ -101,18 +101,27 @@
 .AiReference-candidates-container td{
   width: 20%;
   font-weight: bold;
+
 }
+.AiReference-candidates-container td:nth-child(1),
+.AiReference-candidates-container td:nth-child(3){
+
+  text-transform:capitalize;
+
+}
+
 .AiReference-candidates-container th:nth-child(2),
 .AiReference-candidates-container td:nth-child(2){
-  width: 23%;
+  width: 20%;
 }
+
 .AiReference-candidates-container th:nth-child(4),
 .AiReference-candidates-container td:nth-child(4){
-  width: 11%;
+  width: 8%;
 }
 .AiReference-candidates-container th:nth-child(5),
 .AiReference-candidates-container td:nth-child(5){
-  width: 26%;
+  width: 31%;
 }
 
 .AiReference-candidates-container .btn-view-details {

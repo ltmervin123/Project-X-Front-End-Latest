@@ -214,7 +214,7 @@ const Jobs = () => {
                 <th>Department</th>
                 <th>Hiring Manager</th>
                 <th>Posted Date</th>
-                <th>Action</th>
+                <th className="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -236,8 +236,8 @@ const Jobs = () => {
                       <td>{job.department || "Department not specified"}</td>
                       <td>{job.hiringManager}</td>
                       <td>{formatDate(job.createdAt)}</td>
-                      <td>
-                        <div className="position-relative d-flex justify-content align-items-center w-100 gap-3">
+                      <td >
+                        <div className="position-relative d-flex justify-content-center align-items-center w-100 gap-3">
 
                               <p
                                 className="d-flex align-items-center gap-2 m-0"

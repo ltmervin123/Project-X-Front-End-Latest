@@ -86,6 +86,33 @@ function createTooltipElement() {
     ],
   };
 
+  // Function to generate unique whole number ticks, ensuring 0 is included
+  const generateYTicks = (min, max) => {
+    const ticks = [];
+    // Ensure the minimum is at least 0
+    const start = Math.min(0, Math.floor(min));
+    const end = Math.ceil(max);
+    
+    for (let i = start; i <= end; i++) {
+      ticks.push(i);
+    }
+    return ticks;
+  };
+
+  // Calculate the min and max values from your datasets
+  const minCompleted = Math.min(...chartData.datasets[0].data);
+  const maxCompleted = Math.max(...chartData.datasets[0].data);
+  const minPending = Math.min(...chartData.datasets[1].data);
+  const maxPending = Math.max(...chartData.datasets[1].data);
+
+  // Determine overall min and max
+  const minY = Math.min(minCompleted, minPending);
+  const maxY = Math.max(maxCompleted, maxPending);
+
+  // Generate unique whole number ticks for the y-axis
+  const barYTicks = generateYTicks(minY, maxY);
+
+  // Update the barOptions
   const barOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -98,15 +125,15 @@ function createTooltipElement() {
         enabled: false, // Disable the default tooltip
         external: function (context) {
           const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
-  
+
           const tooltipModel = context.tooltip;
-  
+
           // Hide tooltip if opacity is 0
           if (tooltipModel.opacity === 0) {
             tooltipEl.style.opacity = 0;
             return;
           }
-  
+
           const position = context.chart.canvas.getBoundingClientRect();
           tooltipEl.style.opacity = 1;
           tooltipEl.style.backgroundColor = "#fff";
@@ -115,19 +142,19 @@ function createTooltipElement() {
           tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
           tooltipEl.style.borderRadius = "10px";
           tooltipEl.style.pointerEvents = "none";
-  
+
           // Set tooltip position based on chart's canvas
           tooltipEl.style.left =
             position.left + window.scrollX + tooltipModel.caretX + "px";
           tooltipEl.style.top =
             position.top + window.scrollY + tooltipModel.caretY + "px";
-  
+
           // Get the data index and month
           const dataIndex = tooltipModel.dataPoints[0].dataIndex;
           const month = context.chart.data.labels[dataIndex]; // Month from the labels
           const completed = context.chart.data.datasets[0].data[dataIndex]; // Completed value
           const pending = context.chart.data.datasets[1].data[dataIndex]; // Pending value
-  
+
           // Construct the tooltip content
           const innerHtml = `
             <table class="tooltip-bar-chart">
@@ -168,6 +195,9 @@ function createTooltipElement() {
             size: 12, // Adjust font size
           },
           color: "#000", // Label color
+          callback: function(value) {
+            return barYTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
+          },
         },
       },
     },
@@ -187,112 +217,7 @@ function createTooltipElement() {
     { candidate: "Chris Walker", referee: "Laura Pike", status: "Completed" },
   ];
 
-  /*candidates*/
-  const candidateChartData = {
-    labels: [
-      "Leadership",
-      "Communication",
-      "Technical Skills",
-      "Teamwork",
-      "Problem-solving",
-    ],
-    datasets: [
-      {
-        label: "Candidate Evaluation",
-        data: [8, 7, 9, 6, 7], // Example scores
-        backgroundColor: "#1877F2",
-      },
-    ],
-  };
 
-  const candidateChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    indexAxis: "y", // This makes the chart horizontal
-    plugins: {
-      legend: {
-        display: false, // Hide the legend
-      },
-      tooltip: {
-        enabled: false, // Disable default tooltip
-        external: function (context) {
-          const tooltipEl = document.getElementById("chartjs-tooltip");
-  
-          // Ensure the tooltip element exists, create if it doesn't
-          let tooltipElement = tooltipEl;
-          if (!tooltipElement) {
-            tooltipElement = document.createElement("div");
-            tooltipElement.id = "chartjs-tooltip";
-            tooltipElement.innerHTML = "<table></table>";
-            document.body.appendChild(tooltipElement);
-          }
-  
-          const tooltipModel = context.tooltip;
-  
-          // Hide tooltip if opacity is 0
-          if (tooltipModel.opacity === 0) {
-            tooltipElement.style.opacity = 0;
-            return;
-          }
-  
-          // Position the tooltip
-          const position = context.chart.canvas.getBoundingClientRect();
-          tooltipElement.style.opacity = 1;
-          tooltipElement.style.backgroundColor = "#fff";
-          tooltipElement.style.padding = "10px";
-          tooltipElement.style.position = "absolute";
-          tooltipElement.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
-          tooltipElement.style.borderRadius = "10px";
-          tooltipElement.style.pointerEvents = "none";
-  
-          // Set tooltip position
-          tooltipElement.style.left =
-            position.left + window.scrollX + tooltipModel.caretX + "px";
-          tooltipElement.style.top =
-            position.top + window.scrollY + tooltipModel.caretY + "px";
-  
-          // Get the data point and dataset info
-          const dataIndex = tooltipModel.dataPoints[0].dataIndex;
-          const department = context.chart.data.labels[dataIndex]; // Evaluation skill (e.g., "Leadership")
-          const score = context.chart.data.datasets[0].data[dataIndex]; // Evaluation score
-  
-          // Custom tooltip content
-          const innerHtml = `
-            <table class="tooltip-bar-chart">
-              <tr>
-                <td style="font-weight: 500;">${department}: ${score}</td>
-              </tr>
-            </table>
-          `;
-          tooltipElement.querySelector("table").innerHTML = innerHtml;
-        },
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false, // Hide grid lines on x-axis
-        },
-        ticks: {
-          font: {
-            size: 12, // Adjust font size
-          },
-          color: "#000", // Label color
-        },
-      },
-      y: {
-        grid: {
-          display: false, // Hide grid lines on y-axis
-        },
-        ticks: {
-          font: {
-            size: 12, // Adjust font size
-          },
-          color: "#000", // Label color
-        },
-      },
-    },
-  };
     return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div>

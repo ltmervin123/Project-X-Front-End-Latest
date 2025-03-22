@@ -237,8 +237,8 @@ const Candidates = () => {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Position</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th className="text-center">Status</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -255,13 +255,13 @@ const Candidates = () => {
                     <tr key={candidate._id}>
                       <td>{candidate.name}</td>
                       <td>{candidate.email}</td>
-                      <td>{candidate.position}</td>
-                      <td style={{ color: getStatusColor(candidate.status) }}>
+                      <td >{candidate.position}</td>
+                      <td className="text-center" style={{ color: getStatusColor(candidate.status) }}>
                         {candidate.status}
                       </td>
 
-                      <td>
-                        <div className="position-relative d-flex align-items-center w-100">
+                      <td >
+                        <div className="position-relative d-flex align-items-center w-100 justify-content-center">
                           <button
                             className="btn-view-details"
                             onClick={() => handleViewDetails(candidate)}
@@ -269,7 +269,7 @@ const Candidates = () => {
                             View Details
                           </button>{" "}
                           <p
-                            className="m-0"
+                            className="m-0 position-relative d-flex"
                             style={{ cursor: "pointer" }}
                             onClick={(e) =>
                               handleToggleOptions(candidate._id, e)
@@ -287,8 +287,7 @@ const Candidates = () => {
                                 fill="black"
                               />
                             </svg>
-                          </p>
-                          {visibleOptions[candidate._id] && (
+                            {visibleOptions[candidate._id] && (
                             <div
                               id={`options-${candidate._id}`}
                               className="action-options"
@@ -315,6 +314,8 @@ const Candidates = () => {
                               </p>
                             </div>
                           )}
+
+                          </p>
                         </div>
                       </td>
                     </tr>

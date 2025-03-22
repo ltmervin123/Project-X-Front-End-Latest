@@ -370,7 +370,7 @@ const ReferenceRequest = () => {
                   <th>Status</th>
                   <th>Date Sent</th>
                   <th>Date Due</th>
-                  <th>Actions</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -406,8 +406,8 @@ const ReferenceRequest = () => {
                           Array.isArray(reference.referees) &&
                           reference?.referees &&
                           reference.referees.length > 1
-                            ? `${reference.referees.length} referees`
-                            : "1 referee"}
+                            ? `${reference.referees.length} Referees`
+                            : "1 Referee"}
                         </td>
                         <td>
                           {(() => {

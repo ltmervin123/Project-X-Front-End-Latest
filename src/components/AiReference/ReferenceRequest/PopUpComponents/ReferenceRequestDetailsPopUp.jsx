@@ -147,7 +147,7 @@ const ReferenceRequestDetailsPopUp = ({
               </div>
 
               <div className="reference-information-container mt-3">
-                <b>Reference Information</b>
+                <b>Referee Information</b>
                 <div className="d-flex">
                   <div className="reference-labels">Name: </div>
                   <div className="reference-details">
