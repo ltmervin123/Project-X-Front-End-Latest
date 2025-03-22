@@ -32,7 +32,8 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => { // Add onEd
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0 color-orange">{candidates.name}</h5>
+            <h5 className="m-0 color-orange"
+            style={{textTransform: "capitalize" }}>{candidates.name}</h5>
           </div>
           <div className="d-flex justify-content-center align-items-center">
             <p className="m-0 candidate-id">

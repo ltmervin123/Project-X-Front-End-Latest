@@ -29,7 +29,7 @@ const ReferenceRequestDetailsPopUp = ({
   const formatQuestion = (question) => {
     switch (question) {
       case "HR-HATCH-FORMAT":
-        return "HR Hatch Format";
+        return "HR-Hatch Format";
       case "CUSTOM-FORMAT":
         return "Custom Format";
       default:
@@ -50,7 +50,8 @@ const ReferenceRequestDetailsPopUp = ({
           <div>
             <h5 className="m-0">
               Professional Reference for{" "}
-              <span className="color-orange reference-candidate-name">
+              <span className="color-orange reference-candidate-name"
+              style={{textTransform: "capitalize" }}>
                 {" "}
                 {candidate.candidate || "N/A"}
               </span>
