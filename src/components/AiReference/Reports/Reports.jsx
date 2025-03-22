@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar } from "react-chartjs-2";
+import { format, subWeeks, isAfter } from "date-fns";
 
 const Reports = () => {
   const [activeButton, setActiveButton] = useState("Overview");
@@ -107,11 +108,19 @@ const Reports = () => {
     totalReference,
   } = getMonthlyCounts(reference);
 
+  const referenceState = () => {
+    const today = new Date();
+    const lastWeek = subWeeks(today, 1);
+
+    return reference.filter((ref) => isAfter(new Date(ref.dateSent), lastWeek))
+      .length;
+  };
+
   const cardData = [
     {
       title: "Total References",
       value: totalReference,
-      change: "+2 from last week",
+      change: `+${referenceState()} from last week`,
       color: "#1877F2",
     },
     {
