@@ -180,6 +180,8 @@ const ReferenceRequest = () => {
     switch (status) {
       case "In Progress":
         return "#F8BD00";
+      case "Expired":
+        return "#FF0000";
       case "Completed":
         return "#1877F2";
       case "New":
