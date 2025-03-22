@@ -27,7 +27,7 @@ const ReferenceCheckThankYouMsgPage = () => {
             />
           </svg>
 
-          <div className="forgot-header text-center p-1">
+          <div className="forgot-header text-center mt-2 p-1">
             <p className="mb-5">
               Thank you for taking the time to provide a reference for
               <strong> {candidateName}</strong>. Your insights are highly valued
@@ -37,7 +37,7 @@ const ReferenceCheckThankYouMsgPage = () => {
             <small
               className="my-5"
               style={{
-                fontSize: "12px",
+                fontSize: "13px",
               }}
             >
               Please note that all information shared will be kept highly
@@ -45,7 +45,7 @@ const ReferenceCheckThankYouMsgPage = () => {
             </small>
           </div>
 
-          <button className="redirect-to-login" onClick={handleFinish}>
+          <button className="redirect-to-login mt-4" onClick={handleFinish}>
             Finish
           </button>
         </div>

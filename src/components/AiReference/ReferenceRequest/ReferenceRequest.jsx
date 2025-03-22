@@ -447,7 +447,12 @@ const ReferenceRequest = () => {
                         <td>{formatDate(reference.dueDate)}</td>
                         <td className="d-flex gap-2 align-items-center w-100">
                           <button
-                            className={`btn-view-details ${showDropDown && selectedCandidate._id === reference._id ? 'hide' : ''}`}
+                            className={`btn-view-details ${
+                              showDropDown &&
+                              selectedCandidate._id === reference._id
+                                ? "hide"
+                                : ""
+                            }`}
                             onClick={() => {
                               handleSetCandidate(reference._id);
                               toggleDropdown();
@@ -514,7 +519,15 @@ const ReferenceRequest = () => {
                                 isExpanded ? "expanded" : ""
                               }`}
                             >
-                              <b className="py-2 pb-2 ">Referee</b>
+                              <b className="py-2 pb-2 ">
+                                {reference.referees &&
+                                Array.isArray(reference.referees) &&
+                                reference.referees.length > 0
+                                  ? reference.referees.length === 1
+                                    ? "Referee"
+                                    : "Referees"
+                                  : "No Referees"}
+                              </b>
                               <div className="referee-list w-100 d-flex gap-2 mt-2">
                                 {showDropDown && selectedCandidate?.referees ? (
                                   selectedCandidate.referees.map((referee) => (
@@ -523,7 +536,7 @@ const ReferenceRequest = () => {
                                       key={referee?._id}
                                     >
                                       <div classNamesv="referee-details">
-                                        <div className="d-flex justify-content-between">
+                                        <div className="d-flex justify-content-between mb-1">
                                           <span className="referee-name mb-1">
                                             {referee?.name}
                                           </span>
@@ -539,11 +552,11 @@ const ReferenceRequest = () => {
                                           </span>
                                         </div>
                                         <div className="d-flex justify-content-between">
-                                          <div className="referee-left-container">
+                                          <div className="referee-left-container d-flex align-items-center">
                                             <p className="referee-position">
                                               {referee?.position}
                                             </p>
-                                            <p className="referee-email">
+                                            <p className="referee-email m-0">
                                               {referee?.email}
                                             </p>
                                           </div>
@@ -567,7 +580,7 @@ const ReferenceRequest = () => {
                                     key={selectedCandidate?._id}
                                   >
                                     <div className="referee-details">
-                                      <div className="d-flex justify-content-between">
+                                      <div className="d-flex justify-content-between mb-1">
                                         <span className="referee-name">
                                           {selectedCandidate?.referee}
                                         </span>
@@ -583,7 +596,7 @@ const ReferenceRequest = () => {
                                         </span>
                                       </div>
                                       <div className="d-flex justify-content-between">
-                                        <div className="referee-left-container">
+                                        <div className="referee-left-container d-flex align-items-center">
                                           <p className="referee-position">
                                             {
                                               selectedCandidate?.question
@@ -591,7 +604,7 @@ const ReferenceRequest = () => {
                                             }
                                             position diri addi
                                           </p>
-                                          <p className="referee-email">
+                                          <p className="referee-email m-0 ">
                                             {selectedCandidate?.refereeEmail}
                                           </p>
                                         </div>

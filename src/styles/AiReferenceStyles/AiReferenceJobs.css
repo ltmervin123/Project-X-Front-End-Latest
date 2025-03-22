@@ -69,6 +69,25 @@
   transition: height 3s ease; /* Add transition for height only over 3 seconds */
 
 }
+.AiReference-active-jobs-container th,
+.AiReference-active-jobs-container td{
+  width: 10%;
+}
+.AiReference-active-jobs-container th:nth-child(1),
+.AiReference-active-jobs-container td:nth-child(1){
+  width: 12%;
+}
+.AiReference-active-jobs-container th:nth-child(2),
+.AiReference-active-jobs-container td:nth-child(2){
+  width: 8%;
+}
+.AiReference-active-jobs-container th:nth-child(3),
+.AiReference-active-jobs-container td:nth-child(3){
+  width: 20%;
+}
+.AiReference-active-jobs-container td:nth-child(6){
+  padding-left: 20px;
+}
 
 .AiReference-active-jobs-container .btn-view-details {
   background: var(--btn-view-color);
@@ -161,7 +180,7 @@ font-size: 15px;
 
 .action-options {
   position: relative; /* or fixed if you want it to stay in view */
-  left: 10px;
+  left: 5px;
   box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
   padding: 10px !important;
   z-index: 1000;

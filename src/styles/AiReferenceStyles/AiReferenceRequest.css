@@ -14,6 +14,7 @@
 .reference-dropdown-container {
   border-bottom: 2px solid var(--text-color);
   width: 98%;
+  padding: 15px;
   opacity: 0; /* Start with opacity 0 */
   height: 0; /* Default height */
   overflow: hidden; /* Prevent content overflow */
@@ -21,7 +22,7 @@
 }
 
 .reference-dropdown-container.expanded {
-  height: 180px; /* Set this to the desired height when expanded */
+  height: 190px; /* Set this to the desired height when expanded */
   opacity: 1; /* Set opacity to 1 when expanded */
   transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for height and opacity */
 
@@ -151,7 +152,7 @@
 .reference-table > thead > tr > th:nth-child(3),
 .reference-table > tbody > tr > td:nth-child(3){
 
-  width: 10% !important;
+  width: 11% !important;
 }
 .reference-table > thead > tr > th:nth-child(4),
   .reference-table > tbody > tr > td:nth-child(4){
@@ -437,6 +438,9 @@ color: var(--text-color) !important;
 
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
+.reference-candidate-name{
+  font-weight: 700;
+}
 .custom-modal-reference .Request-container-status,
 .custom-modal-reference .Request-information-container,
 .custom-modal-reference .candidate-info-container,
@@ -468,8 +472,9 @@ color: var(--text-color) !important;
   height: 42%;
 }
 .custom-modal-reference .candidate-info-container .candidate-labels,
-.custom-modal-reference .reference-information-container .reference-labels {
-  width: 30%;
+.custom-modal-reference .reference-information-container .reference-labels,
+.custom-modal-reference .request-information-container .request-label{
+  width: 40%;
 }
 
 .custom-modal-reference .modal-body .button-controls-job > .btn-viewreference {

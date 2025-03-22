@@ -35,7 +35,7 @@ const ReferenceRequestDetailsPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-0">
           <div>
-            <h5 className="m-0">Professional Reference for <span className="color-orange"> {candidate.candidate || "N/A"}</span></h5>
+            <h5 className="m-0">Professional Reference for <span className="color-orange reference-candidate-name"> {candidate.candidate || "N/A"}</span></h5>
           </div>
           <div className="d-flex justify-content-center align-items-center">
             <Button
@@ -91,8 +91,20 @@ const ReferenceRequestDetailsPopUp = ({
               </div>
               <div className="Request-information-container w-100">
                 <b>Request Information</b>
-                <div className="d-flex flex-column">
-                  <p>
+                <div className="request-information-container d-flex flex-column">
+                  <div className="d-flex">
+                    <div className="request-label">Question Format:</div>
+                    <div className="request-details">{referee.questionFormat || "N/A"}</div>
+                  </div>
+                  <div className="d-flex">
+                    <div className="request-label">Date Sent:</div>
+                    <div className="request-details">{formatDate(candidate.dateSent) || "N/A"}</div>
+                  </div>
+                  <div className="d-flex">
+                    <div className="request-label">Date Due:</div>
+                    <div className="request-details">{formatDate(candidate.dueDate) || "N/A"}</div>
+                  </div>
+                  {/* <p>
                     Question Format:{" "}
                     <span>{referee.questionFormat || "N/A"}</span>
                   </p>
@@ -103,7 +115,7 @@ const ReferenceRequestDetailsPopUp = ({
                   <p>
                     Date Due:{" "}
                     <span>{formatDate(candidate.dueDate) || "N/A"}</span>
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </Col>

@@ -237,10 +237,10 @@ const Jobs = () => {
                       <td>{job.hiringManager}</td>
                       <td>{formatDate(job.createdAt)}</td>
                       <td>
-                        <div className="position-relative d-flex align-items-center w-100 gap-3">
+                        <div className="position-relative d-flex justify-content align-items-center w-100 gap-3">
 
                               <p
-                                className="d-flex align-items-center gap-2"
+                                className="d-flex align-items-center gap-2 m-0"
                                 onClick={() => handleEditJob(job._id)} // Change this line
                                 style={{
                                   cursor: "pointer",
@@ -250,7 +250,7 @@ const Jobs = () => {
                           
                               </p>
                               <p
-                                className="d-flex align-items-center gap-2"
+                                className="d-flex align-items-center gap-2 m-0" 
                                 onClick={() => handleDeleteJob(job._id)}
                                 style={{
                                   cursor: "pointer",

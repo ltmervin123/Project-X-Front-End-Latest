@@ -39,7 +39,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const [error, setError] = useState("");
   const [referenceData, setReferenceData] = useState(null);
   const [downloading, setDownloading] = useState(false);
-
+  const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
     navigate(0);
   };
@@ -174,11 +174,25 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
     );
   }
 
+  const handleImageLoad = (event) => {
+    const { naturalWidth, naturalHeight } = event.target;
+    // Log the width and height
+    console.log('Image Width:', naturalWidth);
+    console.log('Image Height:', naturalHeight);
+    
+    // Set isLandscape to true if width is greater than height
+    setIsLandscape(naturalWidth > naturalHeight); // true for landscape, false for portrait
+  };
+
+  const handleImageError = () => {
+    console.error("Image failed to load");
+    // You can set a default state or handle the error as needed
+  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="w-100 mb-2">
         <button
-          className="btn-back-to-reference-request d-flex gap-2 align-items-center"
+          className="btn-back-to-reference-request d-flex gap-3 align-items-center"
           onClick={handleReturnReferenceRequest}
         >
           <svg
@@ -315,13 +329,20 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
             SIGNATURE AND VERIFICATION
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
-            <div>
-              <img
-                src={referenceData?.frontIdImageURL || ""}
-                alt="ID diplayed here..."
-              />
-            </div>
-          </div>
+      <div>
+        {referenceData?.frontIdImageURL ? (
+          <img
+            src={referenceData.frontIdImageURL}
+            alt="ID displayed here..."
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            className={isLandscape ? 'landscape' : 'portrait'}
+          />
+        ) : (
+          <p>No image available</p> // Fallback if no image URL is provided
+        )}
+      </div>
+    </div>
           <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}
