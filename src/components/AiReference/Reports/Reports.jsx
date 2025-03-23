@@ -453,8 +453,8 @@ const Reports = () => {
                 <tr>
                   <th>Candidate</th>
                   <th>Referee</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th className="text-center">Status</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -462,7 +462,7 @@ const Reports = () => {
                   <tr key={index}>
                     <td>{entry.candidate}</td>
                     <td>{entry.refereeName}</td>
-                    <td
+                    <td className="text-center"
                       style={{
                         color: getStatusColor(entry.status), // Use the function to get the color
                         fontWeight: "bold",
@@ -471,6 +471,7 @@ const Reports = () => {
                       {entry.status}
                     </td>
                     <td>
+                      <div className="d-flex justify-content-center">
                       <button
                         variant="link"
                         className="btn-view-details"
@@ -478,6 +479,8 @@ const Reports = () => {
                       >
                         Download PDF
                       </button>
+                      </div>
+   
                     </td>
                   </tr>
                 ))}
