@@ -119,9 +119,9 @@ const Reports = () => {
     );
     const totalReferenceCount = countTotalReference;
 
-    return (
-      ((totalCompletedReference / totalReferenceCount) * 100).toFixed(0) + "%"
-    );
+    return totalReferenceCount > 0
+      ? ((totalCompletedReference / totalReferenceCount) * 100).toFixed(0) + "%"
+      : "0%";
   }, [reference]);
 
   const calculateAverageResponseDays = useMemo(() => {
@@ -163,7 +163,10 @@ const Reports = () => {
     },
     {
       title: "Avg. Response Time",
-      value: `${calculateAverageResponseDays} days`,
+      value:
+        calculateAverageResponseDays > 1
+          ? `${calculateAverageResponseDays} days`
+          : `${calculateAverageResponseDays} day`,
       color: "#319F43",
     },
   ];
