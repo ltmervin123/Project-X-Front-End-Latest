@@ -220,74 +220,74 @@ const ReferenceQuestion = () => {
     },
   ];
 
-// Executive format questions
-const ExecutiveQuestionsSets = [
-  {
-    id: 1,
-    category: "Relationship",
-    questions: [
-      "How do you know (candidate name), and how long have you worked together?",
-    ],
-  },
-  {
-    id: 2,
-    category: "Job Responsibilities and Performance",
-    questions: [
-      "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
-    ],
-  },
-  {
-    id: 3,
-    category: "Strategic Leadership & Vision",
-    questions: [
-      "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization?",
-      "Can you provide an example of a strategic initiative that (candidate name) led and its impact on the business?",
-    ],
-  },
-  {
-    id: 4,
-    category: "Business Impact & Results",
-    questions: [
-      "What measurable results did (candidate name) achieve during their tenure?",
-      "Can you share examples of how (candidate name) drove growth, profitability, or operational improvements?",
-      "How did (candidate name) handle critical business decisions, especially in high-pressure situations?",
-    ],
-  },
-  {
-    id: 5,
-    category: "Team Leadership & Organizational Development",
-    questions: [
-      "How did (candidate name) build and develop high-performing teams?",
-      "Can you share an example of how (candidate name) mentored or coached senior leaders?",
-      "How did (candidate name) handle organizational change or restructuring?",
-    ],
-  },
-  {
-    id: 6,
-    category: "Decision-Making & Problem-Solving",
-    questions: [
-      "How would you describe (candidate name)'s decision-making process for complex, high-stakes decisions?",
-      "Can you share a time when (candidate name) had to make a difficult decision with limited information?",
-      "How did (candidate name) manage risk while pursuing growth opportunities?",
-    ],
-  },
-  {
-    id: 7,
-    category: "Innovation & Growth",
-    questions: [
-      "How proactive was (candidate name) in identifying new opportunities for growth or innovation?",
-      "How did (candidate name) stay ahead of industry trends and market changes?",
-    ],
-  },
-  {
-    id: 8,
-    category: "Closing Questions",
-    questions: [
-      "If given the opportunity, would you work with or rehire (candidate name)?",
-      "Is there anything else you believe we should know about (candidate name)?",
-    ],
-  },
-];
+  // Executive format questions
+  const ExecutiveQuestionsSets = [
+    {
+      id: 1,
+      category: "Relationship",
+      questions: [
+        "How do you know (candidate name), and how long have you worked together?",
+      ],
+    },
+    {
+      id: 2,
+      category: "Job Responsibilities and Performance",
+      questions: [
+        "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
+      ],
+    },
+    {
+      id: 3,
+      category: "Strategic Leadership & Vision",
+      questions: [
+        "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization?",
+        "Can you provide an example of a strategic initiative that (candidate name) led and its impact on the business?",
+      ],
+    },
+    {
+      id: 4,
+      category: "Business Impact & Results",
+      questions: [
+        "What measurable results did (candidate name) achieve during their tenure?",
+        "Can you share examples of how (candidate name) drove growth, profitability, or operational improvements?",
+        "How did (candidate name) handle critical business decisions, especially in high-pressure situations?",
+      ],
+    },
+    {
+      id: 5,
+      category: "Team Leadership & Organizational Development",
+      questions: [
+        "How did (candidate name) build and develop high-performing teams?",
+        "Can you share an example of how (candidate name) mentored or coached senior leaders?",
+        "How did (candidate name) handle organizational change or restructuring?",
+      ],
+    },
+    {
+      id: 6,
+      category: "Decision-Making & Problem-Solving",
+      questions: [
+        "How would you describe (candidate name)'s decision-making process for complex, high-stakes decisions?",
+        "Can you share a time when (candidate name) had to make a difficult decision with limited information?",
+        "How did (candidate name) manage risk while pursuing growth opportunities?",
+      ],
+    },
+    {
+      id: 7,
+      category: "Innovation & Growth",
+      questions: [
+        "How proactive was (candidate name) in identifying new opportunities for growth or innovation?",
+        "How did (candidate name) stay ahead of industry trends and market changes?",
+      ],
+    },
+    {
+      id: 8,
+      category: "Closing Questions",
+      questions: [
+        "If given the opportunity, would you work with or rehire (candidate name)?",
+        "Is there anything else you believe we should know about (candidate name)?",
+      ],
+    },
+  ];
 
   // HR-HATCH Format Data
   const hrHatchFormats = [
