@@ -210,11 +210,11 @@ const Jobs = () => {
             <thead>
               <tr>
                 <th>Job Name</th>
-                <th>Vacancies</th>
+                <th className="text-center">Vacancies</th>
                 <th>Department</th>
                 <th>Hiring Manager</th>
-                <th>Posted Date</th>
-                <th className="text-center">Action</th>
+                <th className="text-center">Posted Date</th>
+                <th className="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -232,10 +232,10 @@ const Jobs = () => {
                   return (
                     <tr key={job._id}>
                       <td>{job.jobName}</td>
-                      <td>{job.vacancies}</td>
+                      <td className="text-center">{job.vacancies}</td>
                       <td>{job.department || "Department not specified"}</td>
                       <td>{job.hiringManager}</td>
-                      <td>{formatDate(job.createdAt)}</td>
+                      <td className="text-center">{formatDate(job.createdAt)}</td>
                       <td >
                         <div className="position-relative d-flex justify-content-center align-items-center w-100 gap-3">
 
