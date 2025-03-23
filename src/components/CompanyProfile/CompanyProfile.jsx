@@ -44,13 +44,13 @@ const CompanyProfile = () => {
   };
 
   return (
-    <div className="user-profile-section">
+
       <div className="user-profile-container">
         <h4>COMPANY PROFILE</h4>
         <p>Manage your account settings and preferences.</p>
 
         {/* Navigation Links */}
-        <Nav className="mb-4 user-nav d-flex justify-content-center">
+        <Nav className="mb-4 user-nav d-flex justify-content-start">
           <Nav.Item>
             <Nav.Link
               onClick={() => handleNavClick("personal-info")}
@@ -236,20 +236,7 @@ const CompanyProfile = () => {
           </div>
         )}
       </div>
-{/* 
-      <Row>
-        <div className="footer-personal-info w-100">
-          <h5>Subscription</h5>
-          <div className="d-flex">
-            <div>
-              <p className="currentPlanTitle">FREE PLAN</p>
-              <p>1 FREE USAGE</p>
-            </div>
-            <Button type="button">Update Subscription</Button>
-          </div>
-        </div>
-      </Row> */}
-    </div>
+
   );
 };
 

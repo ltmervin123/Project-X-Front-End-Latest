@@ -74,6 +74,7 @@
   padding: 20px;
   height: 55% !important;
   color: var(--input-bg);
+  resize: none;
 }
 .transcription-answer-container button {
   padding: 5px 35px;

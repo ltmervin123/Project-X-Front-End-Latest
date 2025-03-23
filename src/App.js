@@ -44,6 +44,7 @@ import RFOMainPage from "./page/ResumeFitOptimizerPage/RFOMainPage.jsx";
 import RFOUploadDocsPage from "./page/ResumeFitOptimizerPage/RFOUploadDocsPage.jsx";
 import RFOAIResumeOptimizationAnalysis from "./page/ResumeFitOptimizerPage/RFOAIResumeOptimizationAnalysisPage.jsx";
 import RFOCompareResumes from "./page/ResumeFitOptimizerPage/RFOCompareResumesPage.jsx";
+import RFOExpandResume from "./page/ResumeFitOptimizerPage/RFOExpandResumesPage.jsx";
 import RFOSaveAndExportResumePage from "./page/ResumeFitOptimizerPage/RFOSaveAndExportResumePage.jsx";
 
 /*Forgot page*/
@@ -318,6 +319,10 @@ function App() {
         <Route
           path="/ResumeFitOptimizer/CompareResumes"
           element={<RFOCompareResumes />}
+        />
+        <Route
+          path="/ResumeFitOptimizer/ExpandResume"
+          element={<RFOExpandResume />}
         />
         <Route
           path="/ResumeFitOptimizer/SaveAndExportResumes"

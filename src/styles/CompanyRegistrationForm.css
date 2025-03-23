@@ -72,6 +72,9 @@
   height: 30px;
   font-size: 13px;
 }
+.company-registration-container-form input.is-invalid{
+  background-image: none !important;
+}
 .company-registration-container-form .toggle-password > svg {
   transform: translateY(-60%) !important;
 }
@@ -90,7 +93,7 @@
 }
 .company-registration-container-form .toggle-password {
   position: absolute;
-  right: 15px;
+  right: 8px;
   top: 75%;
   transform: translateY(-50%);
   z-index: 10;

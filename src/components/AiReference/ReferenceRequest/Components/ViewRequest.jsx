@@ -39,7 +39,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const [error, setError] = useState("");
   const [referenceData, setReferenceData] = useState(null);
   const [downloading, setDownloading] = useState(false);
-
+  const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
     navigate(0);
   };
@@ -123,6 +123,18 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
     if (!reportRef.current) return;
     setDownloading(true);
 
+    // Clone the report content to modify it without affecting the original
+    const clonedReport = reportRef.current.cloneNode(true);
+
+    // Remove the Id image container
+    clonedReport.querySelector(".uploaded-id-container").remove();
+
+    // Modify the "SIGNATURE AND VERIFICATION" text
+    const signatureTitle = clonedReport.querySelector(".signature-verif-title");
+    if (signatureTitle) {
+      signatureTitle.textContent = "Signature";
+    }
+
     const options = {
       margin: 10,
       filename: `${referenceData?.referenceRequestId?.candidate}-Reference-Report.pdf`,
@@ -143,7 +155,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
 
     html2pdf()
       .set(options)
-      .from(reportRef.current)
+      .from(clonedReport)
       .save()
       .then(() => {
         setDownloading(false);
@@ -174,11 +186,19 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
     );
   }
 
+  const handleImageLoad = (event) => {
+    const { naturalWidth, naturalHeight } = event.target;
+    setIsLandscape(naturalWidth > naturalHeight);
+  };
+
+  const handleImageError = () => {
+    console.error("Image failed to load");
+  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="w-100 mb-2">
         <button
-          className="btn-back-to-reference-request d-flex gap-2 align-items-center"
+          className="btn-back-to-reference-request d-flex gap-3 align-items-center"
           onClick={handleReturnReferenceRequest}
         >
           <svg
@@ -316,10 +336,17 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
             <div>
-              <img
-                src={referenceData?.frontIdImageURL || ""}
-                alt="ID diplayed here..."
-              />
+              {referenceData?.frontIdImageURL ? (
+                <img
+                  src={referenceData.frontIdImageURL}
+                  alt="ID displayed here..."
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  className={isLandscape ? "landscape" : "portrait"}
+                />
+              ) : (
+                <p>No image available</p> // Fallback if no image URL is provided
+              )}
             </div>
           </div>
           <img

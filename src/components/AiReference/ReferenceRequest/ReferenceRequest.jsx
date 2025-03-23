@@ -47,7 +47,7 @@ const ReferenceRequest = () => {
   const toggleDropdown = () => {
     setTimeout(() => {
       setIsExpanded(true);
-    }, 50); 
+    }, 50);
   };
 
   const [reference, setReference] = useState(
@@ -180,6 +180,8 @@ const ReferenceRequest = () => {
     switch (status) {
       case "In Progress":
         return "#F8BD00";
+      case "Expired":
+        return "#FF0000";
       case "Completed":
         return "#1877F2";
       case "New":
@@ -333,9 +335,11 @@ const ReferenceRequest = () => {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
-          <div className={`search-wrapper position-relative fade-in ${
-            isSearchVisible ? "visible" : ""
-          }`}>
+          <div
+            className={`search-wrapper position-relative fade-in ${
+              isSearchVisible ? "visible" : ""
+            }`}
+          >
             <input
               type="text"
               placeholder="Search request..."
@@ -348,10 +352,11 @@ const ReferenceRequest = () => {
         </div>
       </div>
 
-      <div 
-      className={`AiReference-candidates-container Reference-Request fade-in ${
-        isSearchVisible ? "visible" : ""
-      }`}>
+      <div
+        className={`AiReference-candidates-container Reference-Request fade-in ${
+          isSearchVisible ? "visible" : ""
+        }`}
+      >
         <div className="AiReference-table-title">
           <h4 className="mb-0">Reference Requests Lists</h4>
           <p>Overview of all reference requests.</p>
@@ -367,7 +372,7 @@ const ReferenceRequest = () => {
                   <th>Status</th>
                   <th>Date Sent</th>
                   <th>Date Due</th>
-                  <th>Actions</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -403,8 +408,8 @@ const ReferenceRequest = () => {
                           Array.isArray(reference.referees) &&
                           reference?.referees &&
                           reference.referees.length > 1
-                            ? `${reference.referees.length} referees`
-                            : "1 referee"}
+                            ? `${reference.referees.length} Referees`
+                            : "1 Referee"}
                         </td>
                         <td>
                           {(() => {
@@ -444,7 +449,12 @@ const ReferenceRequest = () => {
                         <td>{formatDate(reference.dueDate)}</td>
                         <td className="d-flex gap-2 align-items-center w-100">
                           <button
-                            className="btn-view-details"
+                            className={`btn-view-details ${
+                              showDropDown &&
+                              selectedCandidate._id === reference._id
+                                ? "hide"
+                                : ""
+                            }`}
                             onClick={() => {
                               handleSetCandidate(reference._id);
                               toggleDropdown();
@@ -511,7 +521,15 @@ const ReferenceRequest = () => {
                                 isExpanded ? "expanded" : ""
                               }`}
                             >
-                              <b className="py-2 pb-2 ">Referee</b>
+                              <b className="py-2 pb-2 ">
+                                {reference.referees &&
+                                Array.isArray(reference.referees) &&
+                                reference.referees.length > 0
+                                  ? reference.referees.length === 1
+                                    ? "Referee"
+                                    : "Referees"
+                                  : "No Referees"}
+                              </b>
                               <div className="referee-list w-100 d-flex gap-2 mt-2">
                                 {showDropDown && selectedCandidate?.referees ? (
                                   selectedCandidate.referees.map((referee) => (
@@ -520,7 +538,7 @@ const ReferenceRequest = () => {
                                       key={referee?._id}
                                     >
                                       <div classNamesv="referee-details">
-                                        <div className="d-flex justify-content-between">
+                                        <div className="d-flex justify-content-between mb-1">
                                           <span className="referee-name mb-1">
                                             {referee?.name}
                                           </span>
@@ -536,11 +554,11 @@ const ReferenceRequest = () => {
                                           </span>
                                         </div>
                                         <div className="d-flex justify-content-between">
-                                          <div className="referee-left-container">
+                                          <div className="referee-left-container d-flex align-items-center">
                                             <p className="referee-position">
                                               {referee?.position}
                                             </p>
-                                            <p className="referee-email">
+                                            <p className="referee-email m-0">
                                               {referee?.email}
                                             </p>
                                           </div>
@@ -564,7 +582,7 @@ const ReferenceRequest = () => {
                                     key={selectedCandidate?._id}
                                   >
                                     <div className="referee-details">
-                                      <div className="d-flex justify-content-between">
+                                      <div className="d-flex justify-content-between mb-1">
                                         <span className="referee-name">
                                           {selectedCandidate?.referee}
                                         </span>
@@ -580,7 +598,7 @@ const ReferenceRequest = () => {
                                         </span>
                                       </div>
                                       <div className="d-flex justify-content-between">
-                                        <div className="referee-left-container">
+                                        <div className="referee-left-container d-flex align-items-center">
                                           <p className="referee-position">
                                             {
                                               selectedCandidate?.question
@@ -588,7 +606,7 @@ const ReferenceRequest = () => {
                                             }
                                             position diri addi
                                           </p>
-                                          <p className="referee-email">
+                                          <p className="referee-email m-0 ">
                                             {selectedCandidate?.refereeEmail}
                                           </p>
                                         </div>
@@ -614,18 +632,30 @@ const ReferenceRequest = () => {
                         )}
                     </React.Fragment>
                   ))}
-                  {reference.filter(ref => {
-      const candidateMatch = ref.candidate && ref.candidate.toLowerCase().includes(searchQuery.toLowerCase());
-      const refereeMatch = ref.referee && ref.referee.toLowerCase().includes(searchQuery.toLowerCase());
-      const positionMatch = ref.position && ref.position.toLowerCase().includes(searchQuery.toLowerCase());
-      return candidateMatch || refereeMatch || positionMatch;
-    }).length === 0 && (
-      <tr>
-        <td colSpan="7" className="text-center">
-          Reference requests not found
-        </td>
-      </tr>
-    )}
+                {reference.filter((ref) => {
+                  const candidateMatch =
+                    ref.candidate &&
+                    ref.candidate
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase());
+                  const refereeMatch =
+                    ref.referee &&
+                    ref.referee
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase());
+                  const positionMatch =
+                    ref.position &&
+                    ref.position
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase());
+                  return candidateMatch || refereeMatch || positionMatch;
+                }).length === 0 && (
+                  <tr>
+                    <td colSpan="7" className="text-center">
+                      Reference requests not found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </>

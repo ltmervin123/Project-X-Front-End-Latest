@@ -14,6 +14,7 @@
 .reference-dropdown-container {
   border-bottom: 2px solid var(--text-color);
   width: 98%;
+  padding: 15px;
   opacity: 0; /* Start with opacity 0 */
   height: 0; /* Default height */
   overflow: hidden; /* Prevent content overflow */
@@ -21,7 +22,7 @@
 }
 
 .reference-dropdown-container.expanded {
-  height: 180px; /* Set this to the desired height when expanded */
+  height: 190px; /* Set this to the desired height when expanded */
   opacity: 1; /* Set opacity to 1 when expanded */
   transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for height and opacity */
 
@@ -67,6 +68,8 @@
 }
 .referee-name{
   font-weight: bold !important;
+  text-transform:capitalize;
+
 }
 .referee-name,
 .referee-status{
@@ -78,7 +81,8 @@
 
 }
 .referee-left-container{
-  width: 40%;
+  width: 60%;
+  padding-right: 15px;
 }
 
 .referee-status{
@@ -93,7 +97,12 @@
   border-radius: 5px;
   cursor: pointer;
 }
-
+.btn-view-details.hide{
+  background: var(--card-color);
+}
+.btn-view-details.hide:hover{
+  background: #686868dc;
+}
 .btn-view-details:hover {
   background-color: #0056b3;
 }
@@ -141,21 +150,29 @@
 .reference-table > tbody > tr > td:nth-child(1),
 .reference-table > tbody > tr > td:nth-child(2){
   width: 15% !important; 
+  text-transform:capitalize;
+
 }
 .reference-table > thead > tr > th:nth-child(3),
 .reference-table > tbody > tr > td:nth-child(3){
+  text-transform:capitalize;
 
   width: 10% !important;
 }
 .reference-table > thead > tr > th:nth-child(4),
   .reference-table > tbody > tr > td:nth-child(4){
   width: 20% !important;
+  text-transform:capitalize;
+
 }
 .reference-table > thead > tr > th:nth-child(5),
-.reference-table > thead > tr > th:nth-child(6),
+.reference-table > thead > tr > th:nth-child(6){
+  width: 12% !important;
+
+}
 .reference-table > tbody > tr > td:nth-child(5),
 .reference-table > tbody > tr > td:nth-child(6){
-  width: 12% !important;
+  width: 12.2% !important;
 }
 .reference-table > thead > tr > th:nth-child(7){
   width: 16% !important;
@@ -431,6 +448,9 @@ color: var(--text-color) !important;
 
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
+.reference-candidate-name{
+  font-weight: 700;
+}
 .custom-modal-reference .Request-container-status,
 .custom-modal-reference .Request-information-container,
 .custom-modal-reference .candidate-info-container,
@@ -462,8 +482,9 @@ color: var(--text-color) !important;
   height: 42%;
 }
 .custom-modal-reference .candidate-info-container .candidate-labels,
-.custom-modal-reference .reference-information-container .reference-labels {
-  width: 30%;
+.custom-modal-reference .reference-information-container .reference-labels,
+.custom-modal-reference .request-information-container .request-label{
+  width: 40%;
 }
 
 .custom-modal-reference .modal-body .button-controls-job > .btn-viewreference {
