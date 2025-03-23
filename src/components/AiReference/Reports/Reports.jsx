@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import React, { useState, useEffect, useMemo } from "react";
+import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar } from "react-chartjs-2";
-import { format, subWeeks, isAfter } from "date-fns";
+import ViewRequest from "../ReferenceRequest/Components/ViewRequest";
+
+const MONTHS_OF_YEAR = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 const Reports = () => {
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const token = USER?.token;
   const [activeButton, setActiveButton] = useState("Overview");
   const [reference, setReference] = useState(
     JSON.parse(localStorage.getItem("reference")) || []
@@ -12,6 +29,10 @@ const Reports = () => {
   const [isReportsCardVisible, setIsReportsCardVisible] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [isChartVisible, setIsChartVisible] = useState(false);
+  const [isDownload, setIsDownload] = useState(false);
+  const [candidateId, setCandidateId] = useState("");
+  const [refereeId, setRefereeId] = useState("");
+  const [refereeQuestionFormat, setRefereeQuestionFormat] = useState("");
 
   useEffect(() => {
     const timers = [
@@ -24,32 +45,16 @@ const Reports = () => {
   }, []);
 
   const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName); // Set the active button when clicked
+    setActiveButton(buttonName);
   };
 
-  //This function return an array of months according to the reference data
-  const getMonthlyCounts = (reference) => {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
+  const getMonthlyCounts = useMemo(() => {
     const monthMap = new Map();
 
     // Initialize month map
     reference.forEach((record) => {
       const date = new Date(record.dateSent);
-      const month = monthNames[date.getMonth()];
+      const month = MONTHS_OF_YEAR[date.getMonth()];
 
       if (!monthMap.has(month)) {
         monthMap.set(month, { total: 0, pending: 0, completed: 0 });
@@ -70,20 +75,11 @@ const Reports = () => {
           }
         });
       }
-
-      //Counting status and total referee for the individual referees
-      // record.referees.forEach((referee) => {
-      //   if (referee.status === "Completed") {
-      //     monthMap.get(month).completed += 1;
-      //   } else {
-      //     monthMap.get(month).pending += 1;
-      //   }
-      // });
     });
 
     // Sort months based on order in the monthNames array
     const months = Array.from(monthMap.keys()).sort(
-      (a, b) => monthNames.indexOf(a) - monthNames.indexOf(b)
+      (a, b) => MONTHS_OF_YEAR.indexOf(a) - MONTHS_OF_YEAR.indexOf(b)
     );
     const totalPendingReference = months.map(
       (month) => monthMap.get(month).pending
@@ -100,39 +96,76 @@ const Reports = () => {
       completedReferenceCounts,
       totalReference,
     };
-  };
+  }, [reference]);
+
   const {
     months,
     totalPendingReference,
     completedReferenceCounts,
     totalReference,
-  } = getMonthlyCounts(reference);
+  } = getMonthlyCounts;
 
-  const referenceState = () => {
-    const today = new Date();
-    const lastWeek = subWeeks(today, 1);
+  const countTotalReference = useMemo(() => {
+    return totalReference.reduce((sum, num) => sum + num, 0);
+  }, [reference]);
 
-    return reference.filter((ref) => isAfter(new Date(ref.dateSent), lastWeek))
-      .length;
+  const countTotalCompletedReference = (completedReference) => {
+    return completedReference.reduce((sum, num) => sum + num, 0);
   };
+
+  const calculateCompletionRate = useMemo(() => {
+    const totalCompletedReference = countTotalCompletedReference(
+      completedReferenceCounts
+    );
+    const totalReferenceCount = countTotalReference;
+
+    return (
+      ((totalCompletedReference / totalReferenceCount) * 100).toFixed(0) + "%"
+    );
+  }, [reference]);
+
+  const calculateAverageResponseDays = useMemo(() => {
+    let { totalResponseTime, completedCount } = reference.reduce(
+      (acc, record) => {
+        const { dateSent, referees } = record;
+        const sentDate = new Date(dateSent);
+
+        referees.forEach((ref) => {
+          if (ref.status === "Completed" && ref.completedDate) {
+            const completedDate = new Date(ref.completedDate);
+            const responseTime =
+              (completedDate - sentDate) / (1000 * 60 * 60 * 24);
+            acc.totalResponseTime += responseTime;
+            acc.completedCount++;
+          }
+        });
+
+        return acc;
+      },
+      { totalResponseTime: 0, completedCount: 0 }
+    );
+
+    return completedCount > 0
+      ? Math.round(totalResponseTime / completedCount)
+      : 0;
+  }, [reference]);
 
   const cardData = [
     {
       title: "Total References",
-      value: totalReference,
+      value: countTotalReference,
       color: "#1877F2",
     },
     {
       title: "Completion Rate",
-      value: "89%",
+      value: calculateCompletionRate,
       color: "#F8BD00",
     },
     {
       title: "Avg. Response Time",
-      value: "2.3 days",
+      value: `${calculateAverageResponseDays} days`,
       color: "#319F43",
     },
-
   ];
 
   // Helper function to create a tooltip element if it doesn't exist yet
@@ -169,30 +202,26 @@ const Reports = () => {
   // Function to generate unique whole number ticks, ensuring 0 is included
   const generateYTicks = (min, max) => {
     const ticks = [];
-    // Ensure the minimum is at least 0
+
     const start = Math.min(0, Math.floor(min));
     const end = Math.ceil(max);
-    
+
     for (let i = start; i <= end; i++) {
       ticks.push(i);
     }
     return ticks;
   };
 
-  // Calculate the min and max values from your datasets
   const minCompleted = Math.min(...chartData.datasets[0].data);
   const maxCompleted = Math.max(...chartData.datasets[0].data);
   const minPending = Math.min(...chartData.datasets[1].data);
   const maxPending = Math.max(...chartData.datasets[1].data);
 
-  // Determine overall min and max
   const minY = Math.min(minCompleted, minPending);
   const maxY = Math.max(maxCompleted, maxPending);
 
-  // Generate unique whole number ticks for the y-axis
   const barYTicks = generateYTicks(minY, maxY);
 
-  // Update the barOptions
   const barOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -270,30 +299,53 @@ const Reports = () => {
           font: {
             size: 12,
           },
-          color: "#000", // Label color
-          callback: function(value) {
-            return barYTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
+          color: "#000",
+          callback: function (value) {
+            return barYTicks.includes(value) ? value : "";
           },
         },
       },
     },
   };
+  const useCompletedReferees = () => {
+    return useMemo(() => {
+      return reference.flatMap((record) =>
+        record.referees
+          ? record.referees
+              .filter((referee) => referee.status === "Completed")
+              .map((referee) => ({
+                candidate: record.candidate,
+                candidateId: record._id,
+                refereeName: referee.name,
+                refereeEmail: referee.email,
+                refereeId: referee._id,
+                status: referee.status,
+                questionFormat: referee.questionFormat,
+              }))
+          : []
+      );
+    }, [reference]);
+  };
+  const handleDownloadRecord = (data) => {
+    setCandidateId(data.candidateId);
+    setRefereeId(data.refereeId);
+    setRefereeQuestionFormat(data.questionFormat);
+    setIsDownload(true);
+  };
 
-  const candidateData = [
-    { candidate: "John Doe", referee: "Alice Johnson", status: "Completed" },
-    { candidate: "Jane Smith", referee: "Bob Lee", status: "Completed" },
-    { candidate: "Sam Green", referee: "Clara White", status: "Completed" },
-    { candidate: "Robert Brown", referee: "David Black", status: "Completed" },
-    { candidate: "Emily Davis", referee: "Eva Stone", status: "Completed" },
-    { candidate: "Mark Wilson", referee: "Grace Wood", status: "Completed" },
-    { candidate: "Nina Clark", referee: "Harry Green", status: "Completed" },
-    { candidate: "James Taylor", referee: "Ivy Moon", status: "Completed" },
-    { candidate: "Lucy Adams", referee: "Jack Rivers", status: "Completed" },
-    { candidate: "Chris Walker", referee: "Laura Pike", status: "Completed" },
-  ];
-
-
+  const candidateData = useCompletedReferees();
+  if (isDownload) {
     return (
+      <ViewRequest
+        referenceId={candidateId}
+        refereeId={refereeId}
+        token={token}
+        refereeQuestionFormat={refereeQuestionFormat}
+      />
+    );
+  }
+
+  return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div>
         <h3 className="mb-0">Analytics & Reports</h3>
@@ -378,7 +430,7 @@ const Reports = () => {
                   {candidateData.map((entry, index) => (
                     <tr key={index}>
                       <td>{entry.candidate}</td>
-                      <td>{entry.referee}</td>
+                      <td>{entry.refereeName}</td>
                       <td
                         style={{
                           color:
@@ -390,7 +442,11 @@ const Reports = () => {
                         {entry.status}
                       </td>
                       <td>
-                        <button variant="link" className="btn-view-details">
+                        <button
+                          variant="link"
+                          className="btn-view-details"
+                          onClick={() => handleDownloadRecord(entry)}
+                        >
                           Download PDF
                         </button>
                       </td>
