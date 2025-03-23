@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
 import ViewRequest from "../ReferenceRequest/Components/ViewRequest";
 
 const MONTHS_OF_YEAR = [
@@ -20,6 +21,7 @@ const MONTHS_OF_YEAR = [
 ];
 
 const Reports = () => {
+  const navigate = useNavigate(); // Move useNavigate here
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
   const [activeButton, setActiveButton] = useState("Overview");
@@ -119,9 +121,9 @@ const Reports = () => {
     );
     const totalReferenceCount = countTotalReference;
 
-    return (
-      ((totalCompletedReference / totalReferenceCount) * 100).toFixed(0) + "%"
-    );
+    return totalReferenceCount > 0
+      ? ((totalCompletedReference / totalReferenceCount) * 100).toFixed(0) + "%"
+      : "0%";
   }, [reference]);
 
   const calculateAverageResponseDays = useMemo(() => {
@@ -155,16 +157,22 @@ const Reports = () => {
       title: "Total References",
       value: countTotalReference,
       color: "#1877F2",
+      route: "/AiReferenceCandidates", // Add route for Total References
     },
     {
       title: "Completion Rate",
       value: calculateCompletionRate,
       color: "#F8BD00",
+      refresh: true, // Indicate that this card should refresh the page
     },
     {
       title: "Avg. Response Time",
-      value: `${calculateAverageResponseDays} days`,
+      value:
+        calculateAverageResponseDays > 1
+          ? `${calculateAverageResponseDays} days`
+          : `${calculateAverageResponseDays} day`,
       color: "#319F43",
+      refresh: true, // Indicate that this card should refresh the page
     },
   ];
 
@@ -309,21 +317,23 @@ const Reports = () => {
   };
   const useCompletedReferees = () => {
     return useMemo(() => {
-      return reference.flatMap((record) =>
-        record.referees
-          ? record.referees
-              .filter((referee) => referee.status === "Completed")
-              .map((referee) => ({
-                candidate: record.candidate,
-                candidateId: record._id,
-                refereeName: referee.name,
-                refereeEmail: referee.email,
-                refereeId: referee._id,
-                status: referee.status,
-                questionFormat: referee.questionFormat,
-              }))
-          : []
-      );
+      return reference
+        .flatMap((record) =>
+          record.referees
+            ? record.referees
+                .filter((referee) => referee.status === "Completed")
+                .map((referee) => ({
+                  candidate: record.candidate,
+                  candidateId: record._id,
+                  refereeName: referee.name,
+                  refereeEmail: referee.email,
+                  refereeId: referee._id,
+                  status: referee.status,
+                  questionFormat: referee.questionFormat,
+                }))
+            : []
+        )
+        .reverse();
     }, [reference]);
   };
   const handleDownloadRecord = (data) => {
@@ -331,6 +341,21 @@ const Reports = () => {
     setRefereeId(data.refereeId);
     setRefereeQuestionFormat(data.questionFormat);
     setIsDownload(true);
+  };
+  // Function to get the color based on status
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "In Progress":
+        return "#F8BD00";
+      case "Expired":
+        return "#FF0000";
+      case "Completed":
+        return "#1877F2";
+      case "New":
+        return "#319F43";
+      default:
+        return "black";
+    }
   };
 
   const candidateData = useCompletedReferees();
@@ -354,13 +379,21 @@ const Reports = () => {
           efficiency.
         </p>
       </div>
-      <Row>
+      <Row className="d-flex justify-content-center">
         {cardData.map((card, index) => (
           <Col key={index} md={3}>
             <div
-              className={`AiReferenceCard-report fade-in ${
+              className={`AiReferenceCard fade-in ${
                 isReportsCardVisible ? "visible" : ""
               }`}
+              onClick={() => {
+                if (card.refresh) {
+                  window.location.reload(); // Refresh the page
+                } else {
+                  navigate(card.route); // Navigate to the specified route
+                }
+              }}
+              style={{ cursor: "pointer" }} // Change cursor to pointer
             >
               {/* Title and Count */}
               <div className="h-100">
@@ -421,27 +454,26 @@ const Reports = () => {
                 <tr>
                   <th>Candidate</th>
                   <th>Referee</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th className="text-center">Status</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tbody>
-                  {candidateData.map((entry, index) => (
-                    <tr key={index}>
-                      <td>{entry.candidate}</td>
-                      <td>{entry.refereeName}</td>
-                      <td
-                        style={{
-                          color:
-                            entry.status === "Completed"
-                              ? "#319F43"
-                              : "#F8BD00", // Green for Completed, Yellow for Pending
-                        }}
-                      >
-                        {entry.status}
-                      </td>
-                      <td>
+                {candidateData.map((entry, index) => (
+                  <tr key={index}>
+                    <td>{entry.candidate}</td>
+                    <td>{entry.refereeName}</td>
+                    <td
+                      className="text-center"
+                      style={{
+                        color: getStatusColor(entry.status), // Use the function to get the color
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {entry.status}
+                    </td>
+                    <td>
+                      <div className="d-flex justify-content-center">
                         <button
                           variant="link"
                           className="btn-view-details"
@@ -449,10 +481,10 @@ const Reports = () => {
                         >
                           Download PDF
                         </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </>

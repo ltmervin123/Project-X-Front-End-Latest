@@ -36,8 +36,10 @@
 
 .AiReference-active-jobs-container {
   background: var(--font-white);
-  border: 1px solid var(--card-color);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.25);
   border-radius: 20px;
+  
   padding: 20px;
   height: 60vh;
 }
@@ -46,6 +48,7 @@
   width: 100%;
   height: 80%;
   border-collapse: collapse; /* Ensure borders are collapsed */
+  font-size: 15px;
 }
 
 .AiReference-active-jobs-container tbody {
@@ -188,7 +191,7 @@ font-size: 15px;
   z-index: 1000;
   background: var(--font-white);
   width: auto;
-  font-size: 15px;
+  font-size: 13px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
   animation: fadeIn 0.5s ease-in; /* Apply the fade-in animation */
 }
