@@ -241,7 +241,7 @@ const ExecutiveQuestionsSets = [
     category: "Strategic Leadership & Vision",
     questions: [
       "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization?",
-      "Can you provide an example of a strategic initiative (candidate name) led and its impact on the business?",
+      "Can you provide an example of a strategic initiative that (candidate name) led and its impact on the business?",
     ],
   },
   {

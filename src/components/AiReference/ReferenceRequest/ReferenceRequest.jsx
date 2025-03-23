@@ -227,14 +227,20 @@ const ReferenceRequest = () => {
     });
   const calculateCandidateStatus = (reference) => {
     const statuses = reference.referees.map((referee) => referee.status);
+
     const inProgressCount = statuses.filter(
       (status) => status === "In Progress"
     ).length;
+
     const completedCount = statuses.filter(
       (status) => status === "Completed"
     ).length;
 
-    return { inProgressCount, completedCount };
+    const expiredCount = statuses.filter(
+      (status) => status === "Expired"
+    ).length;
+
+    return { inProgressCount, completedCount, expiredCount };
   };
   const handleToggleOptions = (candidateId, event) => {
     const { clientY } = event; // Get the Y position of the click
@@ -368,10 +374,10 @@ const ReferenceRequest = () => {
                 <tr>
                   <th>Candidate</th>
                   <th>Position</th>
-                  <th>Referees</th>
+                  <th className="text-center">Referees</th>
                   <th>Status</th>
-                  <th>Date Sent</th>
-                  <th>Date Due</th>
+                  <th className="text-center">Date Sent</th>
+                  <th className="text-center">Date Due</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
@@ -403,7 +409,7 @@ const ReferenceRequest = () => {
                       <tr>
                         <td>{reference.candidate}</td>
                         <td>{reference.position}</td>
-                        <td>
+                        <td className="text-center">
                           {reference.referees &&
                           Array.isArray(reference.referees) &&
                           reference?.referees &&
@@ -417,14 +423,19 @@ const ReferenceRequest = () => {
                             return (
                               <>
                                 {status.inProgressCount === 0 &&
-                                status.completedCount === 0 ? (
+                                status.completedCount === 0 &&
+                                status.expiredCount === 0 ? (
                                   <span style={{ color: "black" }}>
                                     No Status
                                   </span>
                                 ) : (
                                   <>
                                     {status.inProgressCount > 0 && (
-                                      <span style={{ color: "#F8BD00" }}>
+                                      <span
+                                        style={{
+                                          color: getStatusColor("In Progress"),
+                                        }}
+                                      >
                                         {status.inProgressCount} In Progress
                                       </span>
                                     )}
@@ -432,10 +443,28 @@ const ReferenceRequest = () => {
                                       <>
                                         {status.inProgressCount > 0 && (
                                           <>&nbsp;</>
-                                        )}{" "}
-                                        {/* Add space if In Progress is shown */}
-                                        <span style={{ color: "#1877F2" }}>
+                                        )}
+                                        <span
+                                          style={{
+                                            color: getStatusColor("Completed"),
+                                          }}
+                                        >
                                           {status.completedCount} Completed
+                                        </span>
+                                      </>
+                                    )}
+                                    {status.expiredCount > 0 && (
+                                      <>
+                                        {status.inProgressCount > 0 ||
+                                          (status.completedCount > 0 && (
+                                            <>&nbsp;</>
+                                          ))}
+                                        <span
+                                          style={{
+                                            color: getStatusColor("Expired"),
+                                          }}
+                                        >
+                                          {status.expiredCount} Expired
                                         </span>
                                       </>
                                     )}
@@ -445,9 +474,14 @@ const ReferenceRequest = () => {
                             );
                           })()}
                         </td>
-                        <td>{formatDate(reference.dateSent)}</td>
-                        <td>{formatDate(reference.dueDate)}</td>
-                        <td className="d-flex gap-2 align-items-center w-100">
+                        <td className="text-center">
+                          {formatDate(reference.dateSent)}
+                        </td>
+                        <td className="text-center">
+                          {formatDate(reference.dueDate)}
+                        </td>
+                        <td className="d-flex gap-2 align-items-center justify-content-center w-100 ">
+                          <div className="position-relative d-flex justify-content-center">
                           <button
                             className={`btn-view-details ${
                               showDropDown &&
@@ -465,9 +499,9 @@ const ReferenceRequest = () => {
                               ? "Hide Reports"
                               : "View Reports"}
                           </button>
-                          <div className="position-relative">
+                          <div className="action-menu">
                             <p
-                              className="m-0"
+                              className="m-0 "
                               style={{ cursor: "pointer" }}
                               onClick={(e) =>
                                 handleToggleOptions(reference._id, e)
@@ -511,6 +545,8 @@ const ReferenceRequest = () => {
                               )}
                             </p>
                           </div>
+                          </div>
+
                         </td>
                       </tr>
                       {showDropDown &&
@@ -539,11 +575,16 @@ const ReferenceRequest = () => {
                                     >
                                       <div classNamesv="referee-details">
                                         <div className="d-flex justify-content-between mb-1">
+                                        <div className="referee-left-container d-flex align-items-center">
+
                                           <span className="referee-name mb-1">
                                             {referee?.name}
                                           </span>
+                                          </div>
+                                          <div className="d-flex align-items-end">
+
                                           <span
-                                            className="referee-status mb-1"
+                                            className="referee-status mb-1 text-center"
                                             style={{
                                               color: getStatusColor(
                                                 referee?.status
@@ -552,6 +593,7 @@ const ReferenceRequest = () => {
                                           >
                                             {referee?.status}
                                           </span>
+                                          </div>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                           <div className="referee-left-container d-flex align-items-center">

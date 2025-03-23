@@ -627,7 +627,6 @@ const maxCount = Math.max(...counts);
 // Generate unique whole number ticks for the y-axis
 const barYTicks = generateYTicks(minCount, maxCount);
 
-// Update the barOptions
 const barOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -660,16 +659,25 @@ const barOptions = {
         tooltipElement.style.backgroundColor = "#fff";
         tooltipElement.style.padding = "10px";
         tooltipElement.style.position = "absolute";
+        tooltipElement.style.zIndex = 1000;
         tooltipElement.style.boxShadow =
           "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
         tooltipElement.style.borderRadius = "10px";
         tooltipElement.style.pointerEvents = "none";
 
-        // Calculate the tooltip position
-        tooltipElement.style.left =
-          position.left + window.scrollX + tooltipModel.caretX + "px";
-        tooltipElement.style.top =
-          position.top + window.scrollY + tooltipModel.caretY + "px";
+        // Calculate the tooltip position (right to left)
+        const tooltipWidth = tooltipElement.offsetWidth; // Get tooltip width
+        let tooltipX = position.left + window.scrollX + tooltipModel.caretX;
+        let tooltipY = position.top + window.scrollY + tooltipModel.caretY;
+
+        // If tooltip would overflow the canvas on the right, place it on the left
+        if (tooltipX + tooltipWidth > position.left + position.width) {
+          tooltipX -= tooltipWidth; // Shift to the left
+        }
+
+        // Apply the calculated position
+        tooltipElement.style.left = tooltipX + "px";
+        tooltipElement.style.top = tooltipY + "px";
 
         // Populate the custom tooltip content
         const dataIndex = tooltipModel.dataPoints[0].dataIndex;
@@ -697,6 +705,10 @@ const barOptions = {
           size: 12,
         },
         color: "#000",
+        callback: function(value, index) {
+          // Only show labels if there are 3 or fewer departments
+          return departments.length <= 3 ? departments[index] : '';
+        },
       },
     },
     y: {
@@ -715,6 +727,7 @@ const barOptions = {
     },
   },
 };
+
 
   async function refetchAllData(timeoutRef, abortController) {
     if (abortController.signal.aborted) return; // Stop execution if aborted
@@ -800,7 +813,8 @@ const barOptions = {
     await fetchCompletedRecords(abortControllerRef.current);
   };
   return (
-    <div className="MockMainDashboard-content d-flex flex-column gap-2">
+    <div className="MockMainDashboard-content d-flex flex-column gap-2"
+    >
       {showAddCandidate ? (
         <AddCandidateComponent
           onProceed={handleShowAddReferenceRequest}
@@ -897,17 +911,18 @@ const barOptions = {
               ))}
             </Row>
           </div>
-          <Row>
+          <Row >
             <Col md="6">
               <div
                 className={`line-bar-chart-container fade-in ${
                   isLineChartVisible ? "visible" : ""
                 }`}
               >
+
+                <div className="line-chart">
                 <p className="mb-3 line-title-overlay">
                   Reference Check Overview
                 </p>
-                <div className="line-chart">
                   <Line data={lineData} options={lineOptions} />
                 </div>
               </div>
@@ -917,9 +932,11 @@ const barOptions = {
                 className={`line-bar-chart-container fade-in ${
                   isBarChartVisible ? "visible" : ""
                 }`}
+               
               >
-                <p className="mb-3 bar-title-overlay">By Department</p>
                 <div className="bar-chart">
+                <p className="mb-3 bar-title-overlay">By Department</p>
+
                   <Bar data={barData} options={barOptions} />
                 </div>
               </div>

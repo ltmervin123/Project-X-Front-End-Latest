@@ -9,7 +9,8 @@ function AiReferenceMainDashboardPage() {
   return (
     <>
         <Header />
-        <div className="MockMaindashboard-container ">
+        <div className="MockMaindashboard-container "
+      >
           <Row>
             {/* Sidebar with 3/12 width */}
             <Col md={2} className="p-0 MockSidebar">

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
 import ViewRequest from "../ReferenceRequest/Components/ViewRequest";
 
 const MONTHS_OF_YEAR = [
@@ -20,6 +21,7 @@ const MONTHS_OF_YEAR = [
 ];
 
 const Reports = () => {
+  const navigate = useNavigate(); // Move useNavigate here
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
   const [activeButton, setActiveButton] = useState("Overview");
@@ -129,7 +131,7 @@ const Reports = () => {
       (acc, record) => {
         const { dateSent, referees } = record;
         const sentDate = new Date(dateSent);
-
+  
         referees.forEach((ref) => {
           if (ref.status === "Completed" && ref.completedDate) {
             const completedDate = new Date(ref.completedDate);
@@ -139,15 +141,19 @@ const Reports = () => {
             acc.completedCount++;
           }
         });
-
+  
         return acc;
       },
       { totalResponseTime: 0, completedCount: 0 }
     );
-
-    return completedCount > 0
+  
+    // Calculate average response days
+    const averageDays = completedCount > 0
       ? Math.round(totalResponseTime / completedCount)
       : 0;
+  
+    // Return formatted string
+    return averageDays === 1 ? "1 day" : `${averageDays} days`;
   }, [reference]);
 
   const cardData = [
@@ -155,16 +161,19 @@ const Reports = () => {
       title: "Total References",
       value: countTotalReference,
       color: "#1877F2",
+      route: "/AiReferenceCandidates", // Add route for Total References
     },
     {
       title: "Completion Rate",
       value: calculateCompletionRate,
       color: "#F8BD00",
+      refresh: true, // Indicate that this card should refresh the page
     },
     {
       title: "Avg. Response Time",
-      value: `${calculateAverageResponseDays} days`,
+      value: `${calculateAverageResponseDays}`,
       color: "#319F43",
+      refresh: true, // Indicate that this card should refresh the page
     },
   ];
 
@@ -332,6 +341,21 @@ const Reports = () => {
     setRefereeQuestionFormat(data.questionFormat);
     setIsDownload(true);
   };
+  // Function to get the color based on status
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "In Progress":
+        return "#F8BD00";
+      case "Expired":
+        return "#FF0000";
+      case "Completed":
+        return "#1877F2";
+      case "New":
+        return "#319F43";
+      default:
+        return "black";
+    }
+  };
 
   const candidateData = useCompletedReferees();
   if (isDownload) {
@@ -354,13 +378,21 @@ const Reports = () => {
           efficiency.
         </p>
       </div>
-      <Row>
+      <Row className="d-flex justify-content-center">
         {cardData.map((card, index) => (
           <Col key={index} md={3}>
             <div
-              className={`AiReferenceCard-report fade-in ${
+              className={`AiReferenceCard fade-in ${
                 isReportsCardVisible ? "visible" : ""
               }`}
+              onClick={() => {
+                if (card.refresh) {
+                  window.location.reload(); // Refresh the page
+                } else {
+                  navigate(card.route); // Navigate to the specified route
+                }
+              }}
+              style={{ cursor: "pointer" }} // Change cursor to pointer
             >
               {/* Title and Count */}
               <div className="h-100">
@@ -426,33 +458,29 @@ const Reports = () => {
                 </tr>
               </thead>
               <tbody>
-                <tbody>
-                  {candidateData.map((entry, index) => (
-                    <tr key={index}>
-                      <td>{entry.candidate}</td>
-                      <td>{entry.refereeName}</td>
-                      <td
-                        style={{
-                          color:
-                            entry.status === "Completed"
-                              ? "#319F43"
-                              : "#F8BD00", // Green for Completed, Yellow for Pending
-                        }}
+                {candidateData.map((entry, index) => (
+                  <tr key={index}>
+                    <td>{entry.candidate}</td>
+                    <td>{entry.refereeName}</td>
+                    <td
+                      style={{
+                        color: getStatusColor(entry.status), // Use the function to get the color
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {entry.status}
+                    </td>
+                    <td>
+                      <button
+                        variant="link"
+                        className="btn-view-details"
+                        onClick={() => handleDownloadRecord(entry)}
                       >
-                        {entry.status}
-                      </td>
-                      <td>
-                        <button
-                          variant="link"
-                          className="btn-view-details"
-                          onClick={() => handleDownloadRecord(entry)}
-                        >
-                          Download PDF
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                        Download PDF
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </>

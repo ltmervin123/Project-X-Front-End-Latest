@@ -255,19 +255,26 @@ const Candidates = () => {
                     <tr key={candidate._id}>
                       <td>{candidate.name}</td>
                       <td>{candidate.email}</td>
-                      <td >{candidate.position}</td>
-                      <td className="text-center" style={{ color: getStatusColor(candidate.status) }}>
+                      <td>{candidate.position}</td>
+                      <td
+                        className="text-center"
+                        style={{ color: getStatusColor(candidate.status) }}
+                      >
                         {candidate.status}
                       </td>
 
-                      <td >
+                      <td>
                         <div className="position-relative d-flex align-items-center w-100 justify-content-center">
+                          <div className="position-relative d-flex justify-content-center">
                           <button
                             className="btn-view-details"
                             onClick={() => handleViewDetails(candidate)}
                           >
                             View Details
                           </button>{" "}
+                          <div className="action-menu">
+
+                      
                           <p
                             className="m-0 position-relative d-flex"
                             style={{ cursor: "pointer" }}
@@ -288,34 +295,36 @@ const Candidates = () => {
                               />
                             </svg>
                             {visibleOptions[candidate._id] && (
-                            <div
-                              id={`options-${candidate._id}`}
-                              className="action-options"
-                            >
-                              <p
-                                className="d-flex align-items-center gap-2"
-                                onClick={() =>
-                                  handleEditCandidate(candidate._id)
-                                }
-                                style={{ cursor: "pointer" }}
+                              <div
+                                id={`options-${candidate._id}`}
+                                className="action-options"
                               >
-                                <FaEdit />
-                                Edit
-                              </p>
-                              <p
-                                className="d-flex align-items-center gap-2"
-                                onClick={() =>
-                                  handleDeleteCandidate(candidate._id)
-                                }
-                                style={{ cursor: "pointer", color: "red" }}
-                              >
-                                <FaTrash />
-                                Delete
-                              </p>
-                            </div>
-                          )}
-
+                                <p
+                                  className="d-flex align-items-center gap-2"
+                                  onClick={() =>
+                                    handleEditCandidate(candidate._id)
+                                  }
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <FaEdit />
+                                  Edit
+                                </p>
+                                <p
+                                  className="d-flex align-items-center gap-2"
+                                  onClick={() =>
+                                    handleDeleteCandidate(candidate._id)
+                                  }
+                                  style={{ cursor: "pointer", color: "red" }}
+                                >
+                                  <FaTrash />
+                                  Delete
+                                </p>
+                              </div>
+                            )}
                           </p>
+                          </div>
+                          </div>
+
                         </div>
                       </td>
                     </tr>

@@ -71,9 +71,11 @@
   text-transform:capitalize;
 
 }
-.referee-name,
+
 .referee-status{
-  width: 50%;
+  width: 40%;
+  width: 120px;
+  font-weight: bold !important;
 }
 .referee-email {
   width: 100%;
@@ -82,13 +84,9 @@
 }
 .referee-left-container{
   width: 60%;
-  padding-right: 15px;
+  padding-right: 15px !important;
 }
 
-.referee-status{
-  display: flex;
-  justify-content: end;
-}
 .btn-view-details {
   background-color: #007bff;
   color: white;
@@ -114,6 +112,11 @@
     opacity: 1;
   }
 }
+.action-menu{
+  position: absolute;
+  top: 20%;
+  right: -25px;
+}
 .action-options-reference {
   position: absolute; /* or fixed if you want it to stay in view */
   box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
@@ -121,7 +124,7 @@
   background: var(--font-white);
   width: auto;
   font-size: 15px;
-  left: -240%;
+  left: -285%;
   top: 140%;
   z-index: 1; /* Ensure it appears above other elements */
   animation: fadeIn 0.3s ease-in; /* Apply the fade-in animation */
@@ -132,7 +135,7 @@
   content: '';
   position: absolute;
   top: -10px; /* Adjust this value to position the arrow */
-  left: 50px; /* Adjust this value to position the arrow */
+  left: 75px; /* Adjust this value to position the arrow */
   border-width: 5px; /* Size of the arrow */
   border-style: solid;
   border-color: transparent transparent var(--sidebar-bg) transparent; /* Arrow color */
@@ -157,24 +160,28 @@
 .reference-table > tbody > tr > td:nth-child(3){
   text-transform:capitalize;
 
-  width: 10% !important;
+  width: 11% !important;
 }
 .reference-table > thead > tr > th:nth-child(4),
   .reference-table > tbody > tr > td:nth-child(4){
-  width: 20% !important;
+  width: 19% !important;
   text-transform:capitalize;
 
 }
 .reference-table > thead > tr > th:nth-child(5),
 .reference-table > thead > tr > th:nth-child(6){
-  width: 12% !important;
+  width: 11% !important;
 
 }
 .reference-table > tbody > tr > td:nth-child(5),
 .reference-table > tbody > tr > td:nth-child(6){
-  width: 12.2% !important;
+  width: 11.2% !important;
 }
 .reference-table > thead > tr > th:nth-child(7){
+  width: 18% !important;
+
+}
+.reference-table > thead > tr > td:nth-child(7){
   width: 16% !important;
 }
 .Reference-Request span{
@@ -468,11 +475,14 @@ color: var(--text-color) !important;
 .custom-modal-reference .Request-container-status span {
   background: var(--status-bg-fade-green);
   border-radius: 30px;
-  padding: 5px 10px 5px 8px;
+  padding: 5px 15px;
   color: var(--font-white);
 }
 .custom-modal-reference .Request-container-status{
   height: 20%;
+}
+.custom-modal-reference .Request-container-status > svg{
+  height: 15px;
 }
 .custom-modal-reference .Request-information-container{
   height: 64%;
