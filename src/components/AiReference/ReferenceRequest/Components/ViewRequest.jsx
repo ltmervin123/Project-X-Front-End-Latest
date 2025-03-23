@@ -229,13 +229,13 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           </p>
           <p className="mb-2">
             <b>Candidate Name: </b>
-            <span>
+            <span className="Capitalize">
               {referenceData?.referenceRequestId?.candidate || "Not Available"}
             </span>
           </p>
           <p className="mb-2">
             <b>Referee Name: </b>
-            <span>
+            <span className="Capitalize"> 
               {referenceData?.referenceRequestId?.refereeName ||
                 "Not Available"}
             </span>
@@ -357,7 +357,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
 
           <p className="mb-2">
             <b>Referee Name: </b>
-            <span>
+            <span className="Capitalize">
               {referenceData?.referenceRequestId?.refereeName ||
                 "Not Available"}
             </span>

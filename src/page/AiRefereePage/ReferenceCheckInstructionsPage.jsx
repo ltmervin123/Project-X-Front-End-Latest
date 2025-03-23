@@ -13,7 +13,7 @@ const instructionData = [
   {
     title: "Step 2",
     description:
-      "Review all your answers and select your preferred answer whether original answer and AI enhanced answer.",
+      "Review all your answers and select your preferred answer whether Original Answer or AI Enhanced Answer",
     overlayLabel: "Review your Answer",
   },
   {
