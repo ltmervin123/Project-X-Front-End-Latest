@@ -253,14 +253,14 @@ function CompareResumes() {
                 <Row className="compareresumes-btn-content d-flex justify-content-around align-items-center flex-row gap-2 w-100">
                     <Col className="px-3">
                     <div className="compareresumes-container-btn d-flex justify-content-between align-items-center ">
-                        {/* change or remove href to cancel */}
                         <button
                             className="btn-cancel-optimizer btn-primary"
                             onClick={() => {
-                                window.location.href = "/ResumeFitOptimizer/CompareResumes";
+                                window.location.href =
+                                "/ResumeFitOptimizer/ExpandResume";
                             }}
                         >
-                        Cancel Optimizer
+                        Expand Resume
                         </button>
                         <button
                             className="btn-save-export btn-primary"

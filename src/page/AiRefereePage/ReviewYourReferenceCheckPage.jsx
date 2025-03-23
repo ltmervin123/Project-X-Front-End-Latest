@@ -186,7 +186,7 @@ function ReviewYourReferenceCheckPage() {
     }
   };
 
-  const clearDrawing = () => {
+const clearDrawing = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -198,24 +198,24 @@ function ReviewYourReferenceCheckPage() {
     setIsCanvaEmpty(false);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const rect = canvas.getBoundingClientRect(); // Get the bounding rectangle of the canvas
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Calculate x coordinate
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Calculate y coordinate
     ctx.beginPath();
     ctx.moveTo(x, y);
     setIsDrawing(true);
-  };
+};
 
-  const draw = (e) => {
+const draw = (e) => {
     if (!isDrawing) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const rect = canvas.getBoundingClientRect(); // Get the bounding rectangle of the canvas
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Calculate x coordinate
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Calculate y coordinate
     ctx.lineTo(x, y);
     ctx.stroke();
-  };
+};
 
   const stopDrawing = () => {
     setIsDrawing(false);
@@ -239,20 +239,26 @@ function ReviewYourReferenceCheckPage() {
   const resizeCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const container = canvas.parentElement;
-    const context = canvas.getContext("2d");
-    const scale = window.devicePixelRatio || 1;
-    const width = container.clientWidth * scale;
-    const height = container.clientHeight * scale;
-    canvas.width = width;
-    canvas.height = height;
-    context.scale(scale, scale);
-    context.lineWidth = 2 * scale;
-    context.lineCap = "round";
-    context.lineJoin = "round";
-    context.strokeStyle = "black";
-  };
 
+    const context = canvas.getContext("2d");
+    const scale = window.devicePixelRatio || 1; // Get the device pixel ratio
+    const container = canvas.parentElement; // Get the parent container
+    const width = container.clientWidth * scale; // Set width based on container size
+    const height = container.clientHeight * scale; // Set height based on container size
+
+    canvas.width = width; // Set the canvas width
+    canvas.height = height; // Set the canvas height
+
+    // Clear the canvas after resizing
+    context.clearRect(0, 0, canvas.width, canvas.height); // <-- Ensure the canvas is cleared
+
+    // Set drawing styles
+    context.scale(scale, scale); // Scale the context
+    context.lineWidth = 2 * scale; // Set line width
+    context.lineCap = "round"; // Set line cap
+    context.lineJoin = "round"; // Set line join
+    context.strokeStyle = "black"; // Set stroke color
+};
   // const getReferenceQuestionData = () => {
   //   //Attach the submitted answers to its respective question
   //   const organizedReferenceQuestionData = referenceQuestionsData.map(

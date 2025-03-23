@@ -168,7 +168,7 @@ const AiReferenceCheckVerificationForm = ({
           <Row>
             <Col md={12} className="d-flex flex-column gap-3">
               <Form.Group controlId="referee-name">
-                <Form.Label>Referee Name</Form.Label>
+                <Form.Label className="mb-1">Referee Name</Form.Label>
                 <Form.Control
                   type="text"
                   name="refereeName"
@@ -179,7 +179,7 @@ const AiReferenceCheckVerificationForm = ({
               </Form.Group>
 
               <Form.Group controlId="position-title">
-                <Form.Label>Position Title</Form.Label>
+                <Form.Label className="mb-1">Position Title</Form.Label>
                 <Form.Control
                   type="text"
                   name="positionTitle"
@@ -201,7 +201,7 @@ const AiReferenceCheckVerificationForm = ({
               </Form.Group>
 
               <Form.Group controlId="relationship">
-                <Form.Label>Relationship to the Candidate</Form.Label>
+                <Form.Label className="mb-1">Relationship to the Candidate</Form.Label>
                 {!isOtherSelected ? (
                   <Form.Control
                     as="select"
@@ -228,10 +228,10 @@ const AiReferenceCheckVerificationForm = ({
               </Form.Group>
 
               <Form.Group controlId="date-worked-together">
-                <Form.Label>Date Worked Together</Form.Label>
+                <Form.Label className="mb-1">Date Worked Together</Form.Label>
                 <Row>
                   <Col md={6}>
-                    <Form.Label htmlFor="startdate">Start Date</Form.Label>
+                    <Form.Label className="mb-1" htmlFor="startdate">Start Date</Form.Label>
                     <Form.Control
                       type="date"
                       name="startDate"
@@ -242,7 +242,7 @@ const AiReferenceCheckVerificationForm = ({
                     />
                   </Col>
                   <Col md={6}>
-                    <Form.Label htmlFor="enddate">End Date</Form.Label>
+                    <Form.Label className="mb-1" htmlFor="enddate">End Date</Form.Label>
                     <Form.Control
                       type="date"
                       name="endDate"

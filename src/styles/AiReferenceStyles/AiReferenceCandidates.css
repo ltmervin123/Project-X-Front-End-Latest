@@ -90,7 +90,7 @@
 }
 .AiReference-candidates-container th,
 .AiReference-candidates-container td {
-  padding: 10px; /* Padding for table cells */
+  padding: 15px; /* Padding for table cells */
   word-wrap: break-word;
   text-align: left; /* Align text to the left */
 }
@@ -100,17 +100,30 @@
 .AiReference-candidates-container th,
 .AiReference-candidates-container td{
   width: 20%;
-  padding-left: 0;
   font-weight: bold;
+
 }
+.AiReference-candidates-container td:nth-child(1),
+.AiReference-candidates-container td:nth-child(3){
+
+  text-transform:capitalize;
+
+}
+
+.AiReference-candidates-container th:nth-child(2),
+.AiReference-candidates-container td:nth-child(2){
+  width: 20%;
+}
+
 .AiReference-candidates-container th:nth-child(4),
 .AiReference-candidates-container td:nth-child(4){
-  width: 15%;
+  width: 8%;
 }
 .AiReference-candidates-container th:nth-child(5),
 .AiReference-candidates-container td:nth-child(5){
-  width:25%;
+  width: 31%;
 }
+
 .AiReference-candidates-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;
