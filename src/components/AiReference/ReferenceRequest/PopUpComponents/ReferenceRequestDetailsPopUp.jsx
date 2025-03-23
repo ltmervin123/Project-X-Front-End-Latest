@@ -50,8 +50,10 @@ const ReferenceRequestDetailsPopUp = ({
           <div>
             <h5 className="m-0">
               Professional Reference for{" "}
-              <span className="color-orange reference-candidate-name"
-              style={{textTransform: "capitalize" }}>
+              <span
+                className="color-orange reference-candidate-name"
+                style={{ textTransform: "capitalize" }}
+              >
                 {" "}
                 {candidate.candidate || "N/A"}
               </span>
@@ -197,11 +199,12 @@ const ReferenceRequestDetailsPopUp = ({
               >
                 View Reference
               </button>
-            ) : (
+            ) : null}
+            {referee.status === "In Progress" ? (
               <button className="btn-senRemider d d-flex gap-2 align-items-center justify-content-center">
                 Send Reminder
               </button>
-            )}
+            ) : null}
           </div>
         </div>
       </Modal.Body>
