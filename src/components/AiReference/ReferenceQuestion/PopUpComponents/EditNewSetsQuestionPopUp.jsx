@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, ProgressBar } from "react-bootstrap";
 import axios from "axios";
 
-const EditNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions, existingSet }) => {
+const EditNewSetsQuestionPopUp = ({
+  onClose,
+  reFetchUpdatedQuestions,
+  existingSet,
+}) => {
   const API = process.env.REACT_APP_API_URL;
   const [name, setName] = useState(existingSet.name || "");
   const [description, setDescription] = useState(existingSet.description || "");
   const [isQuestionsEmpty, setIsQuestionsEmpty] = useState(false);
-  const [questions, setQuestions] = useState(existingSet.questions.map(q => ({ text: q })) || [{ text: "" }]);
+  const [questions, setQuestions] = useState(
+    existingSet.questions.map((q) => ({ text: q })) || [{ text: "" }]
+  );
 
   useEffect(() => {
     const validateQuestions = () => {
@@ -43,7 +49,7 @@ const EditNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions, existingSe
     const user = JSON.parse(localStorage.getItem("user"));
     const token = user?.token;
     try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/update-reference-questions/${existingSet.id}`;
+      const URL = `${API}/api/ai-referee/company-reference-questions/update-reference-questions/${existingSet._id}`;
       const payload = {
         name,
         description,
