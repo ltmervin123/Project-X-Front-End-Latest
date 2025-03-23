@@ -121,9 +121,9 @@ const Reports = () => {
     );
     const totalReferenceCount = countTotalReference;
 
-    return (
-      ((totalCompletedReference / totalReferenceCount) * 100).toFixed(0) + "%"
-    );
+    return totalReferenceCount > 0
+      ? ((totalCompletedReference / totalReferenceCount) * 100).toFixed(0) + "%"
+      : "0%";
   }, [reference]);
 
   const calculateAverageResponseDays = useMemo(() => {
@@ -131,7 +131,7 @@ const Reports = () => {
       (acc, record) => {
         const { dateSent, referees } = record;
         const sentDate = new Date(dateSent);
-  
+
         referees.forEach((ref) => {
           if (ref.status === "Completed" && ref.completedDate) {
             const completedDate = new Date(ref.completedDate);
@@ -141,19 +141,15 @@ const Reports = () => {
             acc.completedCount++;
           }
         });
-  
+
         return acc;
       },
       { totalResponseTime: 0, completedCount: 0 }
     );
-  
-    // Calculate average response days
-    const averageDays = completedCount > 0
+
+    return completedCount > 0
       ? Math.round(totalResponseTime / completedCount)
       : 0;
-  
-    // Return formatted string
-    return averageDays === 1 ? "1 day" : `${averageDays} days`;
   }, [reference]);
 
   const cardData = [
@@ -171,7 +167,10 @@ const Reports = () => {
     },
     {
       title: "Avg. Response Time",
-      value: `${calculateAverageResponseDays}`,
+      value:
+        calculateAverageResponseDays > 1
+          ? `${calculateAverageResponseDays} days`
+          : `${calculateAverageResponseDays} day`,
       color: "#319F43",
       refresh: true, // Indicate that this card should refresh the page
     },
@@ -318,21 +317,23 @@ const Reports = () => {
   };
   const useCompletedReferees = () => {
     return useMemo(() => {
-      return reference.flatMap((record) =>
-        record.referees
-          ? record.referees
-              .filter((referee) => referee.status === "Completed")
-              .map((referee) => ({
-                candidate: record.candidate,
-                candidateId: record._id,
-                refereeName: referee.name,
-                refereeEmail: referee.email,
-                refereeId: referee._id,
-                status: referee.status,
-                questionFormat: referee.questionFormat,
-              }))
-          : []
-      );
+      return reference
+        .flatMap((record) =>
+          record.referees
+            ? record.referees
+                .filter((referee) => referee.status === "Completed")
+                .map((referee) => ({
+                  candidate: record.candidate,
+                  candidateId: record._id,
+                  refereeName: referee.name,
+                  refereeEmail: referee.email,
+                  refereeId: referee._id,
+                  status: referee.status,
+                  questionFormat: referee.questionFormat,
+                }))
+            : []
+        )
+        .reverse();
     }, [reference]);
   };
   const handleDownloadRecord = (data) => {
@@ -462,7 +463,8 @@ const Reports = () => {
                   <tr key={index}>
                     <td>{entry.candidate}</td>
                     <td>{entry.refereeName}</td>
-                    <td className="text-center"
+                    <td
+                      className="text-center"
                       style={{
                         color: getStatusColor(entry.status), // Use the function to get the color
                         fontWeight: "bold",
@@ -472,15 +474,14 @@ const Reports = () => {
                     </td>
                     <td>
                       <div className="d-flex justify-content-center">
-                      <button
-                        variant="link"
-                        className="btn-view-details"
-                        onClick={() => handleDownloadRecord(entry)}
-                      >
-                        Download PDF
-                      </button>
+                        <button
+                          variant="link"
+                          className="btn-view-details"
+                          onClick={() => handleDownloadRecord(entry)}
+                        >
+                          Download PDF
+                        </button>
                       </div>
-   
                     </td>
                   </tr>
                 ))}
