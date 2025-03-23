@@ -543,10 +543,11 @@ const BehavioralVideoRecording = () => {
           },
         }
       );
+
       const improvedTranscription = response.data.improvedTranscription;
       setFinalTransciption(improvedTranscription);
     } catch (error) {
-      console.error("Error improving transcription: ", error.data.message);
+      console.error("Error improving transcription: ", error);
     }
   };
 
