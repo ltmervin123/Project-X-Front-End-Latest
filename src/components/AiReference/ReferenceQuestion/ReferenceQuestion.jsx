@@ -127,98 +127,98 @@ const ReferenceQuestion = () => {
     });
   };
 
-// Standard format questions
-const StandardQuestionsSets = [
-  {
-    id: 1,
-    category: "Relationship",
-    questions: [
-      "How do you know (candidate name), and how long have you worked together?",
-    ],
-  },
-  {
-    id: 2,
-    category: "Job Responsibilities and Performance",
-    questions: [
-      "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
-      "What do you consider to be (candidate name)'s key strengths?",
-      "What areas, if any, do you think (candidate name) could further develop or improve?",
-    ],
-  },
-  {
-    id: 3,
-    category: "Skills and Competencies",
-    questions: [
-      "How would you describe (candidate name)'s communication skills?",
-      "How well does (candidate name) work with colleagues or in a team?",
-      "How would you describe (candidate name)'s attention to detail in their work?",
-    ],
-  },
-  {
-    id: 4,
-    category: "Work Ethic and Behavior",
-    questions: [
-      "How would you describe (candidate name)'s attitude and professionalism?",
-      "How did (candidate name) handle feedback and criticism?",
-      "Did (candidate name) show initiative and a willingness to learn?",
-    ],
-  },
-  {
-    id: 5,
-    category: "Closing Questions",
-    questions: [
-      "If given the opportunity, would you work with or rehire (candidate name)?",
-      "Is there anything else you believe we should know about (candidate name)?",
-    ],
-  },
-];
+  // Standard format questions
+  const StandardQuestionsSets = [
+    {
+      id: 1,
+      category: "Relationship",
+      questions: [
+        "How do you know (candidate name), and how long have you worked together?",
+      ],
+    },
+    {
+      id: 2,
+      category: "Job Responsibilities and Performance",
+      questions: [
+        "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
+        "What do you consider to be (candidate name)'s key strengths?",
+        "What areas, if any, do you think (candidate name) could further develop or improve?",
+      ],
+    },
+    {
+      id: 3,
+      category: "Skills and Competencies",
+      questions: [
+        "How would you describe (candidate name)'s communication skills?",
+        "How well does (candidate name) work with colleagues or in a team?",
+        "How would you describe (candidate name)'s attention to detail in their work?",
+      ],
+    },
+    {
+      id: 4,
+      category: "Work Ethic and Behavior",
+      questions: [
+        "How would you describe (candidate name)'s attitude and professionalism?",
+        "How did (candidate name) handle feedback and criticism?",
+        "Did (candidate name) show initiative and a willingness to learn?",
+      ],
+    },
+    {
+      id: 5,
+      category: "Closing Questions",
+      questions: [
+        "If given the opportunity, would you work with or rehire (candidate name)?",
+        "Is there anything else you believe we should know about (candidate name)?",
+      ],
+    },
+  ];
 
-// Management format questions
-const ManagementQuestionsSets = [
-  {
-    id: 1,
-    category: "Relationship",
-    questions: [
-      "How do you know (candidate name), and how long have you worked together?",
-    ],
-  },
-  {
-    id: 2,
-    category: "Job Responsibilities and Performance",
-    questions: [
-      "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
-      "What do you consider to be (candidate name)'s key strengths?",
-      "What areas, if any, do you think (candidate name) could further develop or improve?",
-    ],
-  },
-  {
-    id: 3,
-    category: "Leadership & Management Skills",
-    questions: [
-      "How would you describe (candidate name)'s leadership style?",
-      "How did (candidate name) handle difficult team situations or conflicts?",
-      "How effective was (candidate name) at delegating tasks and empowering others?",
-      "What would you say about (candidate name)'s biggest strengths as a leader?",
-    ],
-  },
-  {
-    id: 4,
-    category: "Work Ethic and Behavior",
-    questions: [
-      "How would you describe (candidate name)'s attitude and professionalism?",
-      "How did (candidate name) handle feedback and criticism?",
-      "Did (candidate name) show initiative and a willingness to learn?",
-    ],
-  },
-  {
-    id: 5,
-    category: "Closing Questions",
-    questions: [
-      "If given the opportunity, would you work with or rehire (candidate name)?",
-      "Is there anything else you believe we should know about (candidate name)?",
-    ],
-  },
-];
+  // Management format questions
+  const ManagementQuestionsSets = [
+    {
+      id: 1,
+      category: "Relationship",
+      questions: [
+        "How do you know (candidate name), and how long have you worked together?",
+      ],
+    },
+    {
+      id: 2,
+      category: "Job Responsibilities and Performance",
+      questions: [
+        "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
+        "What do you consider to be (candidate name)'s key strengths?",
+        "What areas, if any, do you think (candidate name) could further develop or improve?",
+      ],
+    },
+    {
+      id: 3,
+      category: "Leadership & Management Skills",
+      questions: [
+        "How would you describe (candidate name)'s leadership style?",
+        "How did (candidate name) handle difficult team situations or conflicts?",
+        "How effective was (candidate name) at delegating tasks and empowering others?",
+        "What would you say about (candidate name)'s biggest strengths as a leader?",
+      ],
+    },
+    {
+      id: 4,
+      category: "Work Ethic and Behavior",
+      questions: [
+        "How would you describe (candidate name)'s attitude and professionalism?",
+        "How did (candidate name) handle feedback and criticism?",
+        "Did (candidate name) show initiative and a willingness to learn?",
+      ],
+    },
+    {
+      id: 5,
+      category: "Closing Questions",
+      questions: [
+        "If given the opportunity, would you work with or rehire (candidate name)?",
+        "Is there anything else you believe we should know about (candidate name)?",
+      ],
+    },
+  ];
 
 // Executive format questions
 const ExecutiveQuestionsSets = [
@@ -364,7 +364,9 @@ const ExecutiveQuestionsSets = [
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
         <h3 className="mb-0">Reference Question</h3>
-        <p className="mb-2">Manage and customize your reference check question sets.</p>
+        <p className="mb-2">
+          Manage and customize your reference check question sets.
+        </p>
       </div>
       <div
         className={`d-flex justify-content-center align-items-center button-controls-question gap-4 mb-3 fade-in ${
@@ -591,19 +593,19 @@ const ExecutiveQuestionsSets = [
         <DeleteConfirmationNewSetsQuestionPopup
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirmDelete={async () => {
-            setIsDeleting(true); // Set loading state
+            setIsDeleting(true);
             await handleDeleteQuestionSet(selectedQuestionSetId);
             setIsDeleteModalOpen(false);
-            setIsDeleting(false); // Reset loading state
+            setIsDeleting(false);
           }}
-          isDeleting={isDeleting} // Pass the loading state to the popup
+          isDeleting={isDeleting}
         />
       )}
       {isEditModalOpen && (
         <EditNewSetsQuestionPopUp
           onClose={() => setIsEditModalOpen(false)}
           reFetchUpdatedQuestions={reFetchUpdatedQuestions}
-          existingSet={selectedQuestionSet} // Pass the selected question set
+          existingSet={selectedQuestionSet}
         />
       )}
     </div>
