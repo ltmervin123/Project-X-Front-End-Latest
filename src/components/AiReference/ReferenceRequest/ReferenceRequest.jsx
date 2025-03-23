@@ -269,7 +269,7 @@ const ReferenceRequest = () => {
   };
   const confirmDeleteReference = async () => {
     try {
-      const URL = `${API}/api/ai-referee/company-request-reference/delete-reference/${referenceToDelete}`;
+      const URL = `${API}/api/ai-referee/company-request-reference/delete-reference-request/${referenceToDelete}`;
       const response = await axios.delete(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
