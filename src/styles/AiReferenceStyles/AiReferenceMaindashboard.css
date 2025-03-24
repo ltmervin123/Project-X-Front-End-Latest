@@ -205,7 +205,9 @@
   padding: 10px; /* Optional: Add padding */
   border-radius: 5px; /* Optional: Rounded corners */
 }
-
+.log-item strong{
+  text-transform: capitalize;
+}
 .log-item .avatar-letter  {
   width: 40px; /* Set a fixed width for images */
   height: 40px; /* Set a fixed height for images */

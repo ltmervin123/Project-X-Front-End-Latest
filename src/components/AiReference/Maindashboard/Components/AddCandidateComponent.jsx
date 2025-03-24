@@ -16,12 +16,21 @@ const AddCandidateComponent = ({
   const [errorMessages, setErrorMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // Utility function to capitalize the first letter of each word
+const capitalizeWords = (str) => {
+  return str
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
   const isFormValid = candidates.every(
     (candidate) =>
       candidate.name.trim() !== "" &&
       candidate.email.trim() !== "" &&
       candidate.position.trim() !== ""
   );
+  
 
   useEffect(() => {
     const newCandidates = Array.from({ length: addedJob.vacancies }, () => ({
@@ -67,8 +76,8 @@ const AddCandidateComponent = ({
     try {
       const task = candidates.map((candidate) => {
         const payload = {
-          name: candidate.name,
-          email: candidate.email,
+          name: capitalizeWords(candidate.name),
+          email: candidate.email.toLowerCase(), // Optionally, you can also convert email to lowercase
           position: candidate.position,
           positionId: candidate.positionId,
           status,
@@ -79,7 +88,7 @@ const AddCandidateComponent = ({
           },
         });
       });
-
+      
       const responses = await Promise.all(task);
 
       if (responses.every((response) => response.status === 201)) {

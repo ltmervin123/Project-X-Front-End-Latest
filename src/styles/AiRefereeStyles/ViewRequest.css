@@ -30,6 +30,9 @@
     border: none;
     padding: 5px 15px;
 }
+.ViewRequest-container .Capitalize{
+  text-transform: capitalize;
+}
 .color-gray {
     color: var(--input-bg);
 }

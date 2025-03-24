@@ -57,7 +57,7 @@ const LogContainer = ({ completedRecords }) => {
           {showAll ? "Show Less" : "View All"}
         </a>
       </div>
-      <div className="list-log-container">
+      <div className="list-log-containerlist-log-container">
         {
           // Display the logs
           completedRecords.length > 0 ? (
