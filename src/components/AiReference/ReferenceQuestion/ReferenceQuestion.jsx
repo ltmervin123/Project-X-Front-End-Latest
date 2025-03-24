@@ -140,8 +140,8 @@ const ReferenceQuestion = () => {
       id: 2,
       category: "Job Responsibilities and Performance",
       questions: [
-        "Can you describe (candidate’s name) main responsibilities in his/her previous role?",
-        "What do you consider to be (candidate’s name) key strengths?",
+        "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
+        "What do you consider to be (candidate name)'s key strengths?",
         "What areas, if any, do you think (candidate name) could further develop or improve and why?",
       ],
     },
@@ -149,16 +149,16 @@ const ReferenceQuestion = () => {
       id: 3,
       category: "Skills and Competencies",
       questions: [
-        "How would you describe (candidate’s name) communication skills? If possible, please provide example(s) to support your answer.",
+        "How would you describe (candidate name)'s communication skills? If possible, please provide example(s) to support your answer.",
         "How well does (candidate name) work with colleagues or in a team? If possible, please provide example(s) to support your answer.",
-        "How would you describe (candidate’s name) attention to detail in their work? If possible, please provide example(s) to support your answer.",
+        "How would you describe (candidate name)'s attention to detail in their work? If possible, please provide example(s) to support your answer.",
       ],
     },
     {
       id: 4,
       category: "Work Ethic and Behavior",
       questions: [
-        "How would you describe (candidate’s name) attitude and professionalism?",
+        "How would you describe (candidate name)'s attitude and professionalism?",
         "How did (candidate name) handle feedback and criticism?",
         "Did (candidate name) show initiative and a willingness to learn?",
       ],
@@ -186,8 +186,8 @@ const ReferenceQuestion = () => {
       id: 2,
       category: "Job Responsibilities and Performance",
       questions: [
-        "Can you describe (candidate’s name) main responsibilities in his/her previous role?",
-        "What do you consider to be (candidate’s name) key strengths?",
+        "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
+        "What do you consider to be (candidate name)'s key strengths?",
         "What areas, if any, do you think (candidate name) could further develop or improve?",
       ],
     },
@@ -195,17 +195,17 @@ const ReferenceQuestion = () => {
       id: 3,
       category: "Leadership & Management Skills",
       questions: [
-        "How would you describe (candidate’s name) leadership style? If possible, please provide example(s) to support your answer.",
+        "How would you describe (candidate name)'s leadership style? If possible, please provide example(s) to support your answer.",
         "How did (candidate name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
         "How effective was (candidate name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
-        "What would you say (candidate’s name) biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
+        "What would you say are (candidate name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
       ],
     },
     {
       id: 4,
       category: "Work Ethic and Behavior",
       questions: [
-        "How would you describe (candidate’s name) attitude and professionalism?",
+        "How would you describe (candidate name)'s attitude and professionalism?",
         "How did (candidate name) handle feedback and criticism?",
         "Did (candidate name) show initiative and a willingness to learn?",
       ],
@@ -233,7 +233,7 @@ const ReferenceQuestion = () => {
       id: 2,
       category: "Strategic Leadership & Vision",
       questions: [
-        "How would you describe (candidate’s name) ability to set and communicate a clear vision for the organization?",
+        "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization?",
         "Can you provide an example of a strategic initiative that (candidate name) led and its impact on the business?",
       ],
     },
@@ -259,7 +259,7 @@ const ReferenceQuestion = () => {
       id: 5,
       category: "Decision-Making & Problem-Solving",
       questions: [
-        "How would you describe (candidate’s name) decision-making process for complex, high-stakes decisions?",
+        "How would you describe (candidate name)'s decision-making process for complex, high-stakes decisions?",
         "Can you share a time when (candidate name) had to make a difficult decision with limited information?",
         "How did (candidate name) manage risk while pursuing growth opportunities?",
       ],
