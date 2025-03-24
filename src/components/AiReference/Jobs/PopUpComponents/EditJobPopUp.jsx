@@ -24,14 +24,25 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
     }
   }, [jobDetails]);
 
+  // Utility function to capitalize the first letter of each word
+const capitalizeWords = (str) => {
+  return str
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/update-job-by-id/${jobDetails._id}`;
-      const payload = { jobName, vacancies, hiringManager, department };
-
+      const payload = { 
+        jobName: capitalizeWords(jobName), 
+        vacancies, 
+        hiringManager: capitalizeWords(hiringManager), 
+        department 
+      };
       const response = await axios.put(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,

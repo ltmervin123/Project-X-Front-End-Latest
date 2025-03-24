@@ -50,6 +50,14 @@ const AddRequestComponent = ({
     );
   }, [addedCandidate, addedJob, commonFormat]);
 
+  // Utility function to capitalize the first letter of each word
+const capitalizeWords = (str) => {
+  return str
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
   const hrHatchQuestion = useMemo(() => {
     return [
       {
@@ -167,8 +175,7 @@ const AddRequestComponent = ({
   };
   const handleRefereeNameChange = (event, index) => {
     const newReferees = [...reference];
-    newReferees[currentReferenceIndex].referees[index].name =
-      event.target.value;
+      newReferees[currentReferenceIndex].referees[index].name = capitalizeWords(event.target.value);
     setReference(newReferees);
   };
 

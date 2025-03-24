@@ -15,6 +15,14 @@ const EditNewSetsQuestionPopUp = ({
     existingSet.questions.map((q) => ({ text: q })) || [{ text: "" }]
   );
 
+    // Utility function to capitalize the first letter of each word
+const capitalizeWords = (str) => {
+  return str
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
   useEffect(() => {
     const validateQuestions = () => {
       setIsQuestionsEmpty(questions.length === 0);
@@ -51,7 +59,7 @@ const EditNewSetsQuestionPopUp = ({
     try {
       const URL = `${API}/api/ai-referee/company-reference-questions/update-reference-questions/${existingSet._id}`;
       const payload = {
-        name,
+        name: capitalizeWords(name), // Capitalize name
         description,
         questions: formatQuestions(),
       };

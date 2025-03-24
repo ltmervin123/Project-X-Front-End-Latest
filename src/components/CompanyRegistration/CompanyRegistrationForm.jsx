@@ -16,6 +16,14 @@ const CompanyRegistrationForm = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [agreeChecked, setAgreeChecked] = useState(false);
 
+  // Utility function to capitalize the first letter of each word
+const capitalizeWords = (str) => {
+  return str
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -55,12 +63,19 @@ const CompanyRegistrationForm = () => {
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
+  
+    // Capitalize words for specific fields
+    const formattedValue = 
+      name === "name" || name === "firstName" || name === "lastName"
+        ? capitalizeWords(value)
+        : value;
+  
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: formattedValue,
     }));
   }, []);
-
+  
   const handleCheckboxChange = useCallback(
     (e) => {
       if (e.target.checked) {

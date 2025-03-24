@@ -131,7 +131,7 @@ const Reports = () => {
       (acc, record) => {
         const { dateSent, referees } = record;
         const sentDate = new Date(dateSent);
-
+  
         referees.forEach((ref) => {
           if (ref.status === "Completed" && ref.completedDate) {
             const completedDate = new Date(ref.completedDate);
@@ -141,17 +141,17 @@ const Reports = () => {
             acc.completedCount++;
           }
         });
-
+  
         return acc;
       },
       { totalResponseTime: 0, completedCount: 0 }
     );
-
+  
     return completedCount > 0
       ? Math.round(totalResponseTime / completedCount)
       : 0;
   }, [reference]);
-
+  
   const cardData = [
     {
       title: "Total References",
