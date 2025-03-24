@@ -5,6 +5,7 @@ const StandardFormatComponent = ({
   selectedSet,
   handleSetClick,
   flippedState,
+  handleButtonClick, 
 }) => {
   return (
     <>
@@ -61,6 +62,15 @@ const StandardFormatComponent = ({
       ) : (
         <div>No questions found</div>
       )}
+      </div>
+      <div className="d-flex justify-content-center align-items-center reference-question-returnbtn-container">
+        {/* Return Button */}
+        <button
+          className="btn-return"
+          onClick={() => handleButtonClick("HR-HATCH Formats")} // Set to HR-HATCH Formats
+        >
+          Return to HR-HATCH Formats
+        </button>
       </div>
     </>
   );

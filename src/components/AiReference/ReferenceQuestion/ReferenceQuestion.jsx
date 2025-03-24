@@ -142,16 +142,16 @@ const ReferenceQuestion = () => {
       questions: [
         "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
         "What do you consider to be (candidate name)'s key strengths?",
-        "What areas, if any, do you think (candidate name) could further develop or improve?",
+        "What areas, if any, do you think (candidate name) could further develop or improve and why?",
       ],
     },
     {
       id: 3,
       category: "Skills and Competencies",
       questions: [
-        "How would you describe (candidate name)'s communication skills?",
-        "How well does (candidate name) work with colleagues or in a team?",
-        "How would you describe (candidate name)'s attention to detail in their work?",
+        "How would you describe (candidate name)'s communication skills? If possible, please provide example(s) to support your answer.",
+        "How well does (candidate name) work with colleagues or in a team? If possible, please provide example(s) to support your answer.",
+        "How would you describe (candidate name)'s attention to detail in their work? If possible, please provide example(s) to support your answer.",
       ],
     },
     {
@@ -195,10 +195,10 @@ const ReferenceQuestion = () => {
       id: 3,
       category: "Leadership & Management Skills",
       questions: [
-        "How would you describe (candidate name)'s leadership style?",
-        "How did (candidate name) handle difficult team situations or conflicts?",
-        "How effective was (candidate name) at delegating tasks and empowering others?",
-        "What would you say about (candidate name)'s biggest strengths as a leader?",
+        "How would you describe (candidate name)'s leadership style? If possible, please provide example(s) to support your answer.",
+        "How did (candidate name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
+        "How effective was (candidate name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
+        "What would you say are (candidate name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
       ],
     },
     {
@@ -231,13 +231,6 @@ const ReferenceQuestion = () => {
     },
     {
       id: 2,
-      category: "Job Responsibilities and Performance",
-      questions: [
-        "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
-      ],
-    },
-    {
-      id: 3,
       category: "Strategic Leadership & Vision",
       questions: [
         "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization?",
@@ -245,7 +238,7 @@ const ReferenceQuestion = () => {
       ],
     },
     {
-      id: 4,
+      id: 3,
       category: "Business Impact & Results",
       questions: [
         "What measurable results did (candidate name) achieve during their tenure?",
@@ -254,7 +247,7 @@ const ReferenceQuestion = () => {
       ],
     },
     {
-      id: 5,
+      id: 4,
       category: "Team Leadership & Organizational Development",
       questions: [
         "How did (candidate name) build and develop high-performing teams?",
@@ -263,7 +256,7 @@ const ReferenceQuestion = () => {
       ],
     },
     {
-      id: 6,
+      id: 5,
       category: "Decision-Making & Problem-Solving",
       questions: [
         "How would you describe (candidate name)'s decision-making process for complex, high-stakes decisions?",
@@ -272,7 +265,7 @@ const ReferenceQuestion = () => {
       ],
     },
     {
-      id: 7,
+      id: 6,
       category: "Innovation & Growth",
       questions: [
         "How proactive was (candidate name) in identifying new opportunities for growth or innovation?",
@@ -280,7 +273,7 @@ const ReferenceQuestion = () => {
       ],
     },
     {
-      id: 8,
+      id: 7,
       category: "Closing Questions",
       questions: [
         "If given the opportunity, would you work with or rehire (candidate name)?",
@@ -412,6 +405,8 @@ const ReferenceQuestion = () => {
             selectedSet={selectedSet}
             handleSetClick={handleSetClick}
             flippedState={flippedState}
+            handleButtonClick={handleButtonClick}
+
           />
         ) : activeButton === "Management Format" ? (
           <ManagementFormat
@@ -419,6 +414,8 @@ const ReferenceQuestion = () => {
             selectedSet={selectedSet}
             handleSetClick={handleSetClick}
             flippedState={flippedState}
+            handleButtonClick={handleButtonClick}
+
           />
         ) : activeButton === "Executive Format" ? (
           <ExecutiveFormat
@@ -426,6 +423,8 @@ const ReferenceQuestion = () => {
             selectedSet={selectedSet}
             handleSetClick={handleSetClick}
             flippedState={flippedState}
+            handleButtonClick={handleButtonClick}
+
           />
         ) : (
           <>
