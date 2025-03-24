@@ -223,27 +223,27 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           </h4>
           <p className="mb-2">
             <b>Position: </b>
-            <span>
+            <span className="Capitalize">
               {referenceData?.referenceRequestId?.position || "Not Available"}
             </span>
           </p>
           <p className="mb-2">
             <b>Candidate Name: </b>
-            <span>
+            <span className="Capitalize">
               {referenceData?.referenceRequestId?.candidate || "Not Available"}
             </span>
           </p>
           <p className="mb-2">
             <b>Referee Name: </b>
-            <span>
+            <span className="Capitalize"> 
               {referenceData?.referenceRequestId?.refereeName ||
                 "Not Available"}
             </span>
           </p>
           <p className="mb-2">
             <b>Referee Title: </b>
-            <span>{referenceData?.refereeTitle || "Not Available"}</span>
-          </p>
+            <span className="Capitalize">{referenceData?.refereeTitle || "Not Available"}</span>
+          </p> 
 
           <p className="mb-2">
             <b>Relationship to Candidate: </b>
@@ -357,7 +357,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
 
           <p className="mb-2">
             <b>Referee Name: </b>
-            <span>
+            <span className="Capitalize">
               {referenceData?.referenceRequestId?.refereeName ||
                 "Not Available"}
             </span>

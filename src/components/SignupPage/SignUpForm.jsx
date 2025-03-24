@@ -16,7 +16,15 @@ function SignUpForm() {
   const SERVICE = "MOCK_AI";
   const [showModal, setShowModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [agreeChecked, setAgreeChecked] = useState(false); // Separate state to keep checkbox unchecked until "Continue" is clicked
+  const [agreeChecked, setAgreeChecked] = useState(false); // Separate state to keep checkbox unchecked until "Continue" is 
+  
+  // Utility function to capitalize the first letter of each word
+const capitalizeWords = (str) => {
+  return str
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
 
   const handleCheckboxChange = (e) => {
     if (e.target.checked) {
@@ -33,7 +41,7 @@ function SignUpForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userDetail = {
-      name,
+      name: capitalizeWords(name), // Capitalize the name
       email,
       password,
     };

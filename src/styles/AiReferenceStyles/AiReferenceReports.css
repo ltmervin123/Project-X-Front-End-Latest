@@ -63,6 +63,7 @@
   padding: 10px; /* Padding for table cells */
 word-wrap: break-word;
   text-align: left; /* Align text to the left */
+  text-transform: capitalize;
 }
 /* .AiReference-report-container td:nth-child(5){
   padding: 0;

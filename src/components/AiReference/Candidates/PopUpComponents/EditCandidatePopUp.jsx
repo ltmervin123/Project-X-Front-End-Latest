@@ -22,6 +22,14 @@ const EditCandidatePopUp = ({
     return jobs.map((job) => job.jobName);
   });
 
+  // Utility function to capitalize the first letter of each word
+const capitalizeWords = (str) => {
+  return str
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+};
+
   // Populate form fields with candidate details when the component mounts
   useEffect(() => {
     if (candidateDetails) {
@@ -46,8 +54,12 @@ const EditCandidatePopUp = ({
     const URL = `${API}/api/ai-referee/company-candidates/update-candidate-by-id/${candidateDetails._id}`;
     setIsLoading(true);
     try {
-      const payload = { name, email, position };
-      const response = await axios.put(URL, payload, {
+      const payload = { 
+        name: capitalizeWords(name), // Capitalize name
+        email, 
+        position 
+      };
+            const response = await axios.put(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

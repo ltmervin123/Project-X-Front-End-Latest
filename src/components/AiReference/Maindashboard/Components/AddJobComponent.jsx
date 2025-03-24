@@ -12,6 +12,13 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
   const [errorMessages, setErrorMessages] = useState({});
   const [vacancies, setVacancies] = useState(1);
 
+  // Utility function to capitalize the first letter of each word
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
   // Create a ref for the form
   const formRef = useRef(null);
 
@@ -43,8 +50,13 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/create-job`;
-      const payload = { jobName, vacancies, hiringManager, department };
-      const response = await axios.post(URL, payload, {
+      const payload = { 
+        jobName: capitalizeWords(jobName), 
+        vacancies, 
+        hiringManager: capitalizeWords(hiringManager), 
+        department 
+      };
+            const response = await axios.post(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -186,7 +198,6 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
             </div>
           </Form.Group>
         </Form>
-        
       </div>
       <div className="d-flex justify-content-end mt-3">
         <button
