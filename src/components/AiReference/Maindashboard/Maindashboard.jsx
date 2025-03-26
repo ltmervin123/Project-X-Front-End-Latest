@@ -877,12 +877,12 @@ const barOptions = {
           </div>
 
           <div>
-            <Row className="mb-3">
+            <Row className="mb-3 AiReferenceCard-container">
               {cardData.map((card, index) => (
                 <Col
                   key={index}
                   md={3}
-                  className={`fade-in ${
+                  className={` fade-in ${
                     isAiReferenceCardVisible ? "visible" : ""
                   }`}
                 >
@@ -947,6 +947,7 @@ const barOptions = {
           </div>
         </>
       )}
+
     </div>
   );
 };

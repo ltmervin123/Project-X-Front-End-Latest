@@ -240,7 +240,7 @@ const Jobs = () => {
                         <div className="position-relative d-flex justify-content-center align-items-center w-100 gap-3">
 
                               <p
-                                className="d-flex align-items-center gap-2 m-0"
+                                className="d-flex align-items-center gap-2 m-0 icon-edit-job"
                                 onClick={() => handleEditJob(job._id)} // Change this line
                                 style={{
                                   cursor: "pointer",
@@ -250,7 +250,7 @@ const Jobs = () => {
                           
                               </p>
                               <p
-                                className="d-flex align-items-center gap-2 m-0" 
+                                className="d-flex align-items-center gap-2 m-0 icon-delete-job" 
                                 onClick={() => handleDeleteJob(job._id)}
                                 style={{
                                   cursor: "pointer",

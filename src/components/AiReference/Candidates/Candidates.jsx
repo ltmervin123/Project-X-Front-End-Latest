@@ -276,13 +276,14 @@ const Candidates = () => {
 
                       
                           <p
-                            className="m-0 position-relative d-flex"
+                            className="m-0 position-relative d-flex "
                             style={{ cursor: "pointer" }}
                             onClick={(e) =>
                               handleToggleOptions(candidate._id, e)
                             } // Pass the candidate's ID and event to handleToggleOptions
                           >
                             <svg
+                            className="menu-icon-candidate"
                               width="23"
                               height="23"
                               viewBox="0 0 23 23"
@@ -300,7 +301,7 @@ const Candidates = () => {
                                 className="action-options"
                               >
                                 <p
-                                  className="d-flex align-items-center gap-2"
+                                  className="d-flex align-items-center gap-2 "
                                   onClick={() =>
                                     handleEditCandidate(candidate._id)
                                   }

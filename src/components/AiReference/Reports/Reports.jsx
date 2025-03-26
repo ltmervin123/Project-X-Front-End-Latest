@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import ViewRequest from "../ReferenceRequest/Components/ViewRequest";
+import PopupGuide from "../../AiReference/PopupGuide";
 
 const MONTHS_OF_YEAR = [
   "January",
@@ -35,7 +36,18 @@ const Reports = () => {
   const [candidateId, setCandidateId] = useState("");
   const [refereeId, setRefereeId] = useState("");
   const [refereeQuestionFormat, setRefereeQuestionFormat] = useState("");
+  const [showGuide, setShowGuide] = useState(true); // State to control guide visibility
+  const reportButtonRef = useRef(null);
 
+  useEffect(() => {
+    // Show the guide after the component mounts and the table is rendered
+    const timer = setTimeout(() => {
+      setShowGuide(true);
+    }, 1000); // Adjust the delay as needed
+
+    return () => clearTimeout(timer);
+  }, []);
+  
   useEffect(() => {
     const timers = [
       setTimeout(() => setIsReportsCardVisible(true), 100),
@@ -370,6 +382,14 @@ const Reports = () => {
     );
   }
 
+  
+  const handleAutoReportButtonClick = () => {
+    console.log("Reports button clicked.");
+    handleButtonClick("Reports"); // Change the active button
+    if (reportButtonRef.current) {
+      reportButtonRef.current.click(); // Programmatically click the button
+    }
+  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div>
@@ -379,7 +399,7 @@ const Reports = () => {
           efficiency.
         </p>
       </div>
-      <Row className="d-flex justify-content-center">
+      <Row className="d-flex justify-content-center AiReferenceReportCard-container">
         {cardData.map((card, index) => (
           <Col key={index} md={3}>
             <div
@@ -431,7 +451,8 @@ const Reports = () => {
           Overview
         </button>
         <button
-          className={`btn-custom ${activeButton === "Reports" ? "active" : ""}`}
+          ref={reportButtonRef} // Assign the ref here
+          className={`btn-custom btn-aireference-report ${activeButton === "Reports" ? "active" : ""}`}
           onClick={() => handleButtonClick("Reports")}
         >
           Reports
@@ -445,49 +466,49 @@ const Reports = () => {
       >
         {activeButton === "Reports" ? (
           <>
-            <div className="AiReference-table-title">
-              <h4 className="mb-0">Recent Reports</h4>
-              <p>Download or view detailed reports.</p>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Candidate</th>
-                  <th>Referee</th>
-                  <th className="text-center">Status</th>
-                  <th className="text-center">Actions</th>
+          <div className="AiReference-table-title">
+            <h4 className="mb-0">Recent Reports</h4>
+            <p>Download or view detailed reports.</p>
+          </div>
+          <table className="AiReference-report-table">
+            <thead>
+              <tr>
+                <th>Candidate</th>
+                <th>Referee</th>
+                <th className="text-center">Status</th>
+                <th className="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {candidateData.map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.candidate}</td>
+                  <td>{entry.refereeName}</td>
+                  <td
+                    className="text-center"
+                    style={{
+                      color: getStatusColor(entry.status),
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {entry.status}
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-center">
+                      <button
+                        variant="link"
+                        className="btn-view-details"
+                        onClick={() => handleDownloadRecord(entry)}
+                      >
+                        Download PDF
+                      </button>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {candidateData.map((entry, index) => (
-                  <tr key={index}>
-                    <td>{entry.candidate}</td>
-                    <td>{entry.refereeName}</td>
-                    <td
-                      className="text-center"
-                      style={{
-                        color: getStatusColor(entry.status), // Use the function to get the color
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {entry.status}
-                    </td>
-                    <td>
-                      <div className="d-flex justify-content-center">
-                        <button
-                          variant="link"
-                          className="btn-view-details"
-                          onClick={() => handleDownloadRecord(entry)}
-                        >
-                          Download PDF
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
+              ))}
+            </tbody>
+          </table>
+        </>
         ) : (
           <>
             <div className="AiReference-table-title">
@@ -519,6 +540,14 @@ const Reports = () => {
           </>
         )}
       </div>
+      {showGuide && (
+  <PopupGuide 
+    introKey="reports" 
+    onStepChangeReport={handleAutoReportButtonClick} // Pass the click handler
+  />
+)}
+
+
     </div>
   );
 };

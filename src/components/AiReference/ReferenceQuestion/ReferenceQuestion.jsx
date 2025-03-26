@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa"; // icons for edit, delete, and dropdown
 import AddNewSetsQuestionPopUp from "./PopUpComponents/AddNewSetsQuestionPopUp";
 import FormatComponent from "./Components/StandardFormatComponent";
@@ -6,6 +6,8 @@ import ManagementFormat from "./Components/ManagementFormatComponent";
 import ExecutiveFormat from "./Components/ExecutiveFormatComponent";
 import HrHatchFormats from "./Components/HrHatchFormatsComponent";
 import EditNewSetsQuestionPopUp from "./PopUpComponents/EditNewSetsQuestionPopUp";
+import PopupGuide from "../../AiReference/PopupGuide";
+
 import DeleteConfirmationNewSetsQuestionPopup from "./PopUpComponents/DeleteConfirmationNewSetsQuestionPopup";
 import axios from "axios";
 
@@ -24,6 +26,8 @@ const ReferenceQuestion = () => {
   const handleButtonClick = (button) => {
     setActiveButton(button);
   };
+  const [showGuide, setShowGuide] = useState(true);
+
 
   // For fade in smooth animation
   const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -353,6 +357,16 @@ const ReferenceQuestion = () => {
       ),
     },
   ];
+  const hrHatchButtonRef = useRef(null);
+
+  
+  const handleAutoClickHRHatchFormats = () => {
+    console.log("HR-HATCH Formats button clicked.");
+    setActiveButton("HR-HATCH Formats"); // Change the active button
+    if (hrHatchButtonRef.current) {
+      hrHatchButtonRef.current.click(); // Programmatically click the button
+    }
+  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
@@ -375,18 +389,19 @@ const ReferenceQuestion = () => {
           Custom Sets
         </button>
         <button
-          className={`btn-hrhatch-formats ${
-            activeButton === "HR-HATCH Formats" ||
-            activeButton === "Standard Format" ||
-            activeButton === "Management Format" ||
-            activeButton === "Executive Format"
-              ? "active"
-              : ""
-          }`}
-          onClick={() => handleButtonClick("HR-HATCH Formats")} // Show HR-HATCH Formats
-        >
-          HR-HATCH Formats
-        </button>
+  ref={hrHatchButtonRef} // Assign the ref here
+  className={`btn-hrhatch-formats ${
+    activeButton === "HR-HATCH Formats" ||
+    activeButton === "Standard Format" ||
+    activeButton === "Management Format" ||
+    activeButton === "Executive Format"
+      ? "active"
+      : ""
+  }`}
+  onClick={() => handleButtonClick("HR-HATCH Formats")} // Show HR-HATCH Formats
+>
+  HR-HATCH Formats
+</button>
       </div>
 
       <div
@@ -607,7 +622,12 @@ const ReferenceQuestion = () => {
           existingSet={selectedQuestionSet}
         />
       )}
-    </div>
+{showGuide && (
+  <PopupGuide 
+    introKey="referenceQuestions" 
+    onStepChangeHRHatchFormat={handleAutoClickHRHatchFormats} // Pass the click handler
+  />
+)}            </div>
   );
 };
 

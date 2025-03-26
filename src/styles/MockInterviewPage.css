@@ -1055,7 +1055,8 @@
 /*Custom Intro*/
 
 .introjs-tooltip {
-  max-width: 800px;
+  max-width: 450px !important;
+  min-width: 380px !important;
   width: auto;
   padding: 10px;
   margin: 0 auto;
@@ -1067,8 +1068,7 @@
   border-radius: 10px;
 }
 
-.introjs-bullets,
-.introjs-tooltip-title {
+.introjs-bullets{
   display: none !important;
 }
 .introjs-tooltip-inner {

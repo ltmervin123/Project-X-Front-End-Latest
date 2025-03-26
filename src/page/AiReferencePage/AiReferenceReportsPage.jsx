@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
@@ -6,6 +6,7 @@ import ReferenceReports from "../../components/AiReference/Reports/Reports";
 import "../../styles/AiReferenceStyles/AiReferenceReports.css";
 
 function AiReferenceReportsPage() {
+
   return (
     <>
       <div className="mock-background">
@@ -23,6 +24,7 @@ function AiReferenceReportsPage() {
           </Row>
         </div>
       </div>
+ 
     </>
   );
 }

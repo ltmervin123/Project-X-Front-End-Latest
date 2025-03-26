@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
+import PopupGuide from "../../components/AiReference/PopupGuide";
 import Maindashboard from "../../components/AiReference/Maindashboard/Maindashboard";
-import "../../styles/AiReferenceStyles/AiReferenceMaindashboard.css";
+import "../../styles/AiReferenceStyles/AiReferenceMaindashboard.css";;
 
 function AiReferenceMainDashboardPage() {
+  const [showGuide, setShowGuide] = useState(true);
+
   return (
     <>
         <Header />
@@ -22,6 +25,9 @@ function AiReferenceMainDashboardPage() {
             </Col>
           </Row>
         </div>
+        {showGuide && (
+        <PopupGuide introKey="mainDashboard" />
+      )}
     </>
   );
 }

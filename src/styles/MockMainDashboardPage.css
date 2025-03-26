@@ -193,7 +193,6 @@
   width: 100%;
   padding: 0;
   transition: all 0.3s ease; /* Transition on becoming active */
-
 }
 
 .MockMain-sidebar > a.active-link svg {
@@ -207,6 +206,7 @@
   fill: var(--primary-color) !important;
   transition: fill 0.3s ease; /* Transition path fill color */
 }
+
 /* Hover state for the <a> tag */
 .MockMain-sidebar > a:hover {
   color: var(--primary-color) !important; /* Change color on hover */
@@ -224,6 +224,39 @@
   transition: fill 0.3s ease; /* Smooth transition */
 }
 
+/* Follow Us Section */
+.MockMain-sidebar .follow-us {
+  padding-left: 5px;
+  margin-top: auto; /* Pushes the Follow Us section to the bottom of the sidebar */
+  padding: 10px 0; /* Adds some padding for spacing */
+  border-top: 1px solid var(--sidebar-bg); /* Optional: adds a top border for separation */
+}
+
+.MockMain-sidebar .follow-us p {
+  font-size: 16px; /* Adjust font size for the heading */
+  color: var(--card-color); /* Use a variable for text color */
+  font-weight: 500 !important;
+}
+
+.MockMain-sidebar .social-icons a {
+
+  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.MockMain-sidebar .social-icons a:hover {
+  transform: scale(1.1); /* Slightly enlarge the icon on hover */
+}
+
+
+.MockMain-sidebar .social-icons a svg {
+  height: 16px !important;
+  fill: var(--card-color);
+  transition: fill 0.3s ease; /* Smooth transition for color change */
+}
+
+.MockMain-sidebar .social-icons a:hover svg {
+  fill: var(--primary-color); /* Default icon color */
+}
 .MockMainDashboard-content {
   padding: 10px 50px;
   width: 100% !important;
@@ -547,7 +580,8 @@
     color: var(-);
   }
 
-  .MockMain-sidebar > a {
+  .MockMain-sidebar > a,
+  .MockMain-sidebar .follow-us h5 {
     font-size: 18px;
   }
 }
@@ -558,7 +592,8 @@
     height: 25px;
   }
 
-  .MockMain-sidebar > a {
+  .MockMain-sidebar > a,
+  .MockMain-sidebar .follow-us h5 {
     font-size: 19px;
   }
 }
@@ -572,7 +607,8 @@
     height: 20px;
   }
 
-  .MockMain-sidebar > a {
+  .MockMain-sidebar > a ,
+  .MockMain-sidebar .follow-us h5{
     font-size: 20px;
   }
 }
