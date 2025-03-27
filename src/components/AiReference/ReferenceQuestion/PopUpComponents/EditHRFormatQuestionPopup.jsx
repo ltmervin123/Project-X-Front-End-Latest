@@ -90,7 +90,7 @@ const EditHRFormatQuestionPopup = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="mb-0">Edit {name}</h5>
+            <h5 className="mb-0">Edit HR-Hatch Format Question</h5>
             <small>Edit the existing set of reference check questions.</small>
           </div>
           <Button
