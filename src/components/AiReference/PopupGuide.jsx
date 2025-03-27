@@ -11,151 +11,164 @@ const GUIDE_STEPS = {
       intro: "This is your AI Reference Check dashboard. We've added guides throughout the interface to help you get started.",
     },
     {
+      title: "<span>1</span> Start Reference Check",
       element: ".btn-start-reference-check",
-      intro: "Click here to start the reference check process.",
+      intro: "This is the primary action button for initiating a new reference check. Click here when you're ready to verify a candidate's background.",
     },
     {
-      title: "Navigation Menu",
+      title: "<span>2</span> Navigation Menu",
       element: ".MockMain-sidebar",
       intro: "Use this menu to navigate between different sections of HR-HATCH. Hover over each item for more details.",
     },
     {
-      title: "Key Metrics",
+      title: "<span>3</span> Dashboard Metrics",
       element: ".AiReferenceCard-container",
-      intro: "These cards show your current reference check statistics. Monitor these numbers to track your hiring progress.",
+      intro: "These cards provide real-time insights into your hiring process such as active jobs, pending reference, completed reference and total candidates.",
     },
     {
-      title: "Analytics Charts",
+      title: "<span>4</span> Reference Check Overview",
       element: ".line-chart",
-      intro: "This chart provides an overview of reference checks over time. Use it to identify trends and make data-driven decisions.",
+      intro: "This chart visualizes your reference check activity over time. The blue line shows total reference checks initiated, while the green line represents completed checks. ",
       position: "right",
     },
     {
-      title: "Analytics Charts",
+      title: "<span>5</span> Reference Check Overview",
       element: ".bar-chart",
       position: "left",
-      intro: "This chart shows the number of references by department.",
+      intro: "This bar chart breaks down reference checks by department, helping you understand which teams are most active in the hiring process. ",
     },
     {
-      title: "Recent Activity",
+      title: "<span>6</span> Recent Activity",
       element: ".LogContainer",
-      intro: "This feed shows recent actions taken by team members and referees. Stay updated on the latest changes to jobs and candidates.",
+      intro: "Stay informed with real-time updates on your team's actions. This feed shows the latest activities of the referees and many more. ",
+    },
+    {
+      title: "<span>7</span> Let's Explore Other Pages",
+
+      intro: "Now that you understand the dashboard, let's explore the Jobs page to see how you can manage your open positions. Click 'Next' to continue. ",
     },
   ],
   jobs: [
+    // {
+    //   title: "Jobs Management",
+    //   intro: "This section displays all your active job postings. You can track vacancies, manage hiring processes, and edit job details.",
+    // },
     {
-      title: "Jobs Management",
-      intro: "This section displays all your active job postings. You can track vacancies, manage hiring processes, and edit job details.",
-    },
-    {
+      title: "<span>1</span> Search functionality",
       element: ".search-wrapper",
-      intro: "Search a job title here.",
+      intro: "Quickly find specific jobs by using the search bar. Type in job titles, departments, or any other relevant keywords to filter the list of open positions.",
     },
     {
-      title: "Job Listing",
-      element: ".AiReference-active-jobs-container table",
-      intro: "This table shows all the current active jobs",
+      title: "<span>2</span> Jobs Page Overview",
+      element: ".AiReference-active-jobs-container ",
+      position: "top left",
+
+      intro: "The Jobs page allows you to manage all your open positions in one place. Here you can view job details, track vacancies, and monitor hiring progress for each position.",
+    },
+    {
+      title: "<span>3</span> Let’s Explore Candidates",
+      position: "center",
+      intro: "Now let's see how you can manage candidates in the hiring process. Click 'Next' to continue to the Candidates page.",
     },
   ],
   candidates: [
+
     {
-      title: "Candidates Management",
-      intro: "This section displays all your candidates. You can view, edit, and delete candidate details.",
-    },
-    {
+      title: "<span>1</span> Search functionality",
       element: ".search-wrapper",
-      intro: "Use this search bar to find specific candidates.",
+      intro: "Quickly locate specific candidates by using the search bar. Enter names, positions, or email addresses to filter the candidate list and find exactly who you're looking for.",
     },
     {
-      title: "Candidate List",
-      element: ".AiReference-candidates-container table",
-      intro: "This table shows all the candidates in the system.",
+      title: "<span>2</span> Candidates Page Overview",
+      element: ".AiReference-candidates-container",
+      position: "top left",
+
+      intro: "The Candidates page helps you track all potential hires through the reference checking process. Here you can view and manage candidate information and check their status ",
+    },
+    {
+      title: "<span>3</span> Let’s Check Reference Requests",
+
+      intro: "Let's explore how to manage reference checks. Click 'Next' to continue to the Reference Requests page.",
     },
   ],
   referenceRequests: [
+    // {
+    //   title: "Reference Request Management",
+    //   intro: "This section allows you to manage reference requests. You can view, edit, and delete requests.",
+    // },
     {
-      title: "Reference Request Management",
-      intro: "This section allows you to manage reference requests. You can view, edit, and delete requests.",
-    },
-    {
+      title: "<span>1</span> Search functionality",
       element: ".search-wrapper",
-      intro: "Use this search bar to find specific reference requests.",
+      intro: "Quickly find specific reference requests using the search bar. Search by candidate name, referee, position, or status to locate exactly what you need.",
     },
     {
-      title: "Request List",
-      element: ".Reference-Request table",
-      intro: "This table shows all the reference requests in the system.",
+      title: "<span>2</span> Request List",
+      element: ".Reference-Request",
+      position: "top left",
+
+      intro: "The Reference Requests page allows you to manage and track all reference checks for your candidates. This is where you monitor their completed references.",
+    },
+    {
+      title: "<span>3</span> Let’s Explore Reference Questions",
+
+      intro: " Let's explore how to manage reference checks. Click 'Next' to continue to the Reference Requests page.",
     },
   ],
   referenceQuestions: [
+
+
     {
-      title: "Reference Question Management",
-      intro: "This section allows you to add and manage reference questions.",
+      title: "<span>1</span> Custom Sets Format",
+      element: ".AiReference-question-container",
+      position: "top left",
+
+      intro: "This is where you see those questions you added or created through the new question set button, you can search questions and can edit HR- Hatch Formats.",
     },
     {
-      title: "Navigation",
-      element: ".button-controls-question",
-      intro: "Click here to freely navigate between Custom Sets and HR-Hatch Format.",
-    },
-    {
-      intro: "Click this button if you want to navigate Custom Sets.",
-      element: ".btn-custome-sets",
-    },
-    {
-      element: ".btn-create-new-candidate",
-      intro: "Click here to add new custom question sets.",
-      position: "left",
-    },
-    {
-      element: ".search-wrapper",
-      intro: "Use this search bar to find specific reference questions.",
-    },
-    {
-      title: "Question List",
-      element: ".AiReference-Question-Sets-Container",
-      intro: "This table shows all the reference questions in the system.",
-    },
-    {
+      title: "<span>2</span> Navigate to HR-HATCH Formats",
       intro: "Now, let's switch to HR-HATCH Formats.",
       element: ".btn-hrhatch-formats",
     },
     {
-      title: "HR-HATCH Format",
+      title: "<span>3</span> HR-Hatch Formats",
       element: ".AiReference-question-container",
-      intro: "This container shows all the Standardized question sets provided by HR-HATCH.",
+      position: "top left",
+
+      intro: "This is where you see those questions provided by HR-Hatch company, you can view questions based on each formats whether Standard, Management and Executive formats",
+    },
+    {
+      title: "<span>4</span> Let’s Explore Reports",
+
+      intro: " Let's explore how reports work. Click 'Next' to continue to the Reference Requests page.",
     },
   ],
   reports: [
+
     {
-      title: "Reference Report",
-      intro: "This section allows you to see the reports.",
-    },
-    {
-      title: "Key Metrics",
+      title: "<span>1</span> Reports Dashboard Metrics",
       element: ".AiReferenceReportCard-container",
       intro: "These cards show your current reference check statistics.",
     },
+
     {
-      element: ".btn-custom",
-      intro: "Click here to navigate to Overview.",
-    },
-    {
-      title: "Analytics Chart",
+      title: "<span>2</span> Analytics Chart",
       element: ".AiReference-report-container",
       intro: "This container shows the overview of pending and complete references in the past months.",
     },
     {
-      intro: "Now, let's switch to Reports.",
+      title: "<span>3</span> Navigate to Reports",
+
+      intro: " Now, let's switch to Reports.",
       element: ".btn-aireference-report",
     },
     {
-      title: "Recent Report List",
+      title: "<span>4</span> Recent Report List",
       element: ".AiReference-report-container",
       intro: "This container shows all the recent completed requests. You can also download it.",
     },
     {
-      title: "Thank You!",
-      intro: "Thank you for taking the tour! You can now explore the dashboard.",
+      title: "Walkthrough Complete!",
+      intro: "Congratulations! You've completed the HR-HATCH platform walkthrough. You now understand how to navigate the dashboard, manage jobs, track candidates, and process reference requests. Click 'Finish' to start using the platform.",
     },
   ],
 };
@@ -190,7 +203,7 @@ const PopupGuide = ({ introKey }) => {
         .setOptions({
           steps: currentSteps,
           disableInteraction: true,
-          doneLabel: totalStepsCounter === totalStepsAllCategories - 1 ? "Get Started" : "Next",
+          doneLabel: totalStepsCounter === totalStepsAllCategories - 1 ? "Finish" : "Next",
         })
         .onexit(() => {
           // Only navigate if skip was not clicked
@@ -215,7 +228,7 @@ const PopupGuide = ({ introKey }) => {
 
           // Update doneLabel based on the current step count
           this.setOptions({
-            doneLabel: totalStepsCounter === totalStepsAllCategories ? "Get Started" : "Next",
+            doneLabel: totalStepsCounter === totalStepsAllCategories ? "Finish" : "Next",
           });
 
           // Handle dynamic interactions

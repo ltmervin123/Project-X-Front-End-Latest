@@ -1056,10 +1056,12 @@
 
 .introjs-tooltip {
   max-width: 450px !important;
-  min-width: 380px !important;
+  min-width: 420px !important;
   width: auto;
   padding: 10px;
   margin: 0 auto;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
 }
 
 .introtipsAvatar {
@@ -1067,7 +1069,17 @@
   max-width: 300px;
   border-radius: 10px;
 }
+.introjs-tooltip-title{
+  color: var(--primary-color);
+}
+.introjs-tooltip-title > span{
+  padding: 5px 10px;
 
+  border-radius: 50px;
+  background: #ff9c5558;
+  color: var(--primary-color);
+  margin-right: 5px;
+}
 .introjs-bullets{
   display: none !important;
 }

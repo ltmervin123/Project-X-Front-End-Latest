@@ -16,6 +16,18 @@
   padding: 20px;
   height: 60vh;
 }
+.btn-edit-hr-hatch-formats{
+  background: var(--secondary-color);
+  border: none;
+  color: var(--font-white);
+  border-radius: 50px;
+  /* width: 300px; */
+  padding: 5px 20px; /* Increased padding for better touch targets */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s; /* Smooth transition */
+  margin-right: 10px;
+
+}
 .AiReference-Question-Sets-Container {
   overflow-y: auto;
   height: 35vh;
@@ -205,6 +217,36 @@
 
 .input-set-name::placeholder {
   font-style: italic; /* Italicize the placeholder text */
+}
+.custom-modal-question .modal-dialog {
+  width: 60% !important;
+  max-width: 550px !important;
+  height: 380px;
+}
+.custom-modal-question .modal-body{
+  width: 100%;
+}
+.custom-modal-question .modal-body .hr-hatch-option > button{
+  border: none;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+}
+.custom-modal-question .modal-body .hr-hatch-option > button:hover{
+transform: scale(1.01);
+}
+
+.custom-modal-question .modal-body .hr-hatch-option >  button:nth-child(1){
+  background: #319F43;
+
+}
+.custom-modal-question .modal-body .hr-hatch-option > button:nth-child(2){
+  background: #1877F2;
+}
+.custom-modal-question .modal-body .hr-hatch-option > button:nth-child(3){
+  background: #F8BD00;
 }
 /* Customizing the scrollbar */
 .questions-list::-webkit-scrollbar,
