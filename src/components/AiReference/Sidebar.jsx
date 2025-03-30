@@ -137,7 +137,7 @@ const Sidebar = () => {
 
       {/* Follow Us Section */}
       <div className="follow-us p-3">
-        <p className="mb-3">FOLLOW US</p>
+        <p className="mb-3">FOLLOW US ON</p>
         <div className="social-icons d-flex align-item-center justify-content-around gap-1">
           <a
             href="https://www.linkedin.com"

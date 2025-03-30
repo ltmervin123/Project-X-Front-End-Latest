@@ -16,7 +16,7 @@ const HRHatchFormatCategoryPopup = ({ onClose, onSelectFormat }) => {
       centered
       backdrop={true}
     >
-      <Modal.Body className="py-4">
+      <Modal.Body className="p-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h5 className="mb-0 text-center">Select Preferred HR-Hatch Format to Edit</h5>
@@ -31,7 +31,7 @@ const HRHatchFormatCategoryPopup = ({ onClose, onSelectFormat }) => {
           </Button>
         </div>
 
-        <div className="d-flex gap-3 hr-hatch-option">
+        <div className="d-flex gap-2 hr-hatch-option flex-column align-items-center justify-content-center">
           {formats.map((format, index) => (
             <Button
               key={index}

@@ -75,7 +75,7 @@
   height: 80% !important;
 } */
 .chart-card-area-container{
-  border: 1px solid var(--primary-color);
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   padding: 20px 30px;
   width: 100%;
@@ -92,7 +92,7 @@
   font-size: 40px;
 }
 .chart-container{
-  border: 1px solid var(--primary-color);
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   height: 20vh;
   width: 100%;
@@ -194,8 +194,7 @@
   padding: 20px;
   background-color: #ffffff;
   border-radius: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--primary-color);
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
   height: 42vh !important; /* Adjust height as necessary */
   width: 60%;
   display: flex;
@@ -296,8 +295,7 @@
   padding: 20px; /* Add padding for better spacing */
   background-color: #ffffff; /* White background for clarity */
   border-radius: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  border: 1px solid var(--primary-color);
+  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
   height: 50vh; /* Adjust height as necessary */
   /* margin-right: 2px; */
   width: 60%;

@@ -180,6 +180,12 @@
 }
 .questions-list .text-area-question{
   width: 88.5% !important;
+  height: auto;
+  overflow: hidden; /* Hide scrollbar */
+  padding: 8px; /* Add some padding */
+  border: 1px solid #ced4da; /* Border styling */
+  border-radius: 0.25rem; /* Rounded corners */
+  box-shadow: none; /* Remove shadow */
 }
 .dropdown-content-q-sets ul {
   max-height: 150px;
@@ -218,21 +224,57 @@
 .input-set-name::placeholder {
   font-style: italic; /* Italicize the placeholder text */
 }
+.btn-reset-question{
+  background: var(--secondary-color);
+  border-radius: 50px;
+  border: none;
+  width: 150px;
+  padding: 5px;
+  color: var(--font-white);
+}
+.btn-reset-question:disabled{
+  background: var(--card-color);
+}
+.suggestions-list {
+  position: absolute; /* Position it relative to the parent */
+  background-color: var(--font-white); /* Background color for the suggestions */
+  border: 1px solid #ccc; /* Border around the suggestions */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  z-index: 1000; /* Ensure it appears above other elements */
+  overflow-y: auto; /* Scroll if there are too many suggestions */
+  width: 100%; /* Match the width of the input */
+}
+.text-area-question-hr-hatch{
+    height: auto;
+    overflow: hidden;
+    padding: .375rem .75rem;
+    border: 1px solid #ced4da;
+}
+.suggestion-item {
+  padding: 8px 12px; /* Padding for each suggestion */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0; /* Highlight on hover */
+}
 .custom-modal-question .modal-dialog {
   width: 60% !important;
   max-width: 550px !important;
-  height: 380px;
+  height: 680px;
 }
 .custom-modal-question .modal-body{
   width: 100%;
 }
 .custom-modal-question .modal-body .hr-hatch-option > button{
   border: none;
-  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 33%;
+  width: 300px;
+  border-radius: 50px;
+  padding: 5px 30px;
 }
 .custom-modal-question .modal-body .hr-hatch-option > button:hover{
 transform: scale(1.01);
@@ -248,6 +290,7 @@ transform: scale(1.01);
 .custom-modal-question .modal-body .hr-hatch-option > button:nth-child(3){
   background: #F8BD00;
 }
+
 /* Customizing the scrollbar */
 .questions-list::-webkit-scrollbar,
 .dropdown-content-q-sets ul::-webkit-scrollbar,

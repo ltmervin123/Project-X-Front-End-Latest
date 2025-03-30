@@ -225,9 +225,7 @@ const Jobs = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  The Jobs page allows you to manage all your open positions in
-                  one place. Here you can view job details, track vacancies, and
-                  monitor hiring progress for each position.
+                  Manage open positions, view job details, track vacancies, and monitor hiring progress.
                 </span>
               )}
             </div>

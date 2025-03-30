@@ -487,10 +487,7 @@ const ReferenceQuestion = () => {
                       </svg>
                       {showTooltip && (
                         <span className="job-tooltip-text">
-                          This is where you see those questions you added or
-                          created through the new question set button, you can
-                          search questions and can edit HR- Hatch Formats.
-                        </span>
+ View and edit questions created through the question set button; search for specific questions.                        </span>
                       )}
                     </div>
                   </h4>

@@ -490,8 +490,7 @@ const Reports = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  This container shows all the recent completed requests. You can also download it.
-                </span>
+Access recent completed requests and download them as needed.        </span>
               )}
             </div>
             </h4>
@@ -561,8 +560,7 @@ const Reports = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  This container shows the overview of pending and complete references in the past months.
-                </span>
+View pending and completed references from the past months.             </span>
               )}
             </div>
               </h4>

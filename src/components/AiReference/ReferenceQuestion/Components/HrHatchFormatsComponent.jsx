@@ -33,8 +33,7 @@ const HrHatchFormatsComponent = ({ hrHatchFormats, handleButtonClick }) => {
                   </svg>
                   {showTooltip && (
                     <span className="job-tooltip-text">
-                     This is where you see those questions provided by HR-Hatch company, you can view questions based on each formats whether Standard, Management and Executive formats
-                    </span>
+Access questions provided by HR-Hatch, categorized by Standard, Management, and Executive formats.                </span>
                   )}
                 </div>
         </h4>

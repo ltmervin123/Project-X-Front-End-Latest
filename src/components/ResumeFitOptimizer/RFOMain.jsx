@@ -12,15 +12,16 @@ function RFOMain() {
       <div className="ResumeFitOptimizer-contentainer d-flex flex-column gap-2">
         <div className="ResumeFitOptimizer-grid-parent h-100">
           <div class="div1">
-            <h1 className="mb-5">
+            <h1 className="mb-4">
               Optimize Your <span className="color-blue">Resume</span> with AI
             </h1>
             <p className="mb-4">
               Boost your chances of landing interviews with our AI-powered
               Resume Fit Optimizer. Tailored improvements for your dream job.
             </p>
+            <div className="d-flex justify-content-center flex-column align-items-center">
             <button
-              className="d-flex align-items-center gap-2 justify-content-center "
+              className="d-flex align-items-center gap-2 justify-content-center mb-2"
               onClick={handleStartOptimizing}
             >
               Start Optimizing{" "}
@@ -37,6 +38,9 @@ function RFOMain() {
                 />
               </svg>
             </button>
+<i>"Click here to begin the resume fit optimizer process." </i>
+            </div>
+
           </div>
           <div class="div2">
             <h4 className="text-center color-blue">How It Works</h4>
