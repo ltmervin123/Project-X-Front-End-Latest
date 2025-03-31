@@ -34,7 +34,7 @@ const ManagementFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-Assesses decision-making, team management, and strategic thinking.  </span>
+Designed to assess decision-making, team management, and strategic thinking. </span>
             )}
           </div>
         </h4>

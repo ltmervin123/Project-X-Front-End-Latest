@@ -140,7 +140,7 @@ const Sidebar = () => {
         <p className="mb-3">FOLLOW US ON</p>
         <div className="social-icons d-flex align-item-center justify-content-around gap-1">
           <a
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/company/hr-hatch/?viewAsMember=true&fbclid=IwZXh0bgNhZW0CMTEAAR04-4YiMGiy8P8WBncX6i1SV_ojpFaXku3y8a6sW17Cnxag9zYkgTPrmPU_aem_17xurdIqUzSoNuVh-ZcU4w"
             target="_blank"
             rel="noopener noreferrer"
           >
