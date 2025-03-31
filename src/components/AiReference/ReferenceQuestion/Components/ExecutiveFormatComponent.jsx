@@ -34,7 +34,7 @@ const ExecutiveFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-In-depth questions designed for senior executive positions.              </span>
+High-level questions for top positions. Evaluates vision, industry expertise, and leadership impact.             </span>
             )}
             </div>
         </h4>

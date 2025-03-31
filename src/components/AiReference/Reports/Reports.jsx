@@ -490,7 +490,8 @@ const Reports = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-Access recent completed requests and download them as needed.        </span>
+Access recent completed requests and download them as needed.
+</span>
               )}
             </div>
             </h4>
@@ -560,7 +561,8 @@ Access recent completed requests and download them as needed.        </span>
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-View pending and completed references from the past months.             </span>
+This section will allow you to track the completed progress of your referees and download them as needed.
+</span>
               )}
             </div>
               </h4>

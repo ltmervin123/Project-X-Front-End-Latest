@@ -487,7 +487,7 @@ const ReferenceQuestion = () => {
                       </svg>
                       {showTooltip && (
                         <span className="job-tooltip-text">
- View and edit questions created through the question set button; search for specific questions.                        </span>
+Manage, add, and track your customized company questions.                  </span>
                       )}
                     </div>
                   </h4>

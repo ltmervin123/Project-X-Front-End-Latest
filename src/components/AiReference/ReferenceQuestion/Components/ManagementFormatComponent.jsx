@@ -34,7 +34,7 @@ const ManagementFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-Tailored questions for managerial and leadership roles.              </span>
+Assesses decision-making, team management, and strategic thinking.  </span>
             )}
           </div>
         </h4>

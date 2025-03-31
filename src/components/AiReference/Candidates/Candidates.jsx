@@ -250,7 +250,7 @@ const Candidates = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  Track potential hires through reference checks, manage candidate information, and check their status.
+Monitor and track potential hires, check their status, and access their details.
                 </span>
               )}
             </div>

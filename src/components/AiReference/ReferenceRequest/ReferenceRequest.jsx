@@ -392,7 +392,7 @@ const ReferenceRequest = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-Manage and track reference checks for candidates, monitoring completed references.                </span>
+Review and manage reference requests for candidates, track their status, and take action.     </span>
               )}
             </div>
           </h4>

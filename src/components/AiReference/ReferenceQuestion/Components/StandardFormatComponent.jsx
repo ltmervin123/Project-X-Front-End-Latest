@@ -36,7 +36,7 @@ const StandardFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-General questions suitable for most positions.              </span>
+General questions asked in most interviews. Focuses on skills, experience, and personality.             </span>
             )}
           </div>
         </h4>
