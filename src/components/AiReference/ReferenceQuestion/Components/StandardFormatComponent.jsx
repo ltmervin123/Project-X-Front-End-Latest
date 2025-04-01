@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 const StandardFormatComponent = ({
   StandardQuestionsSets,
@@ -7,8 +7,8 @@ const StandardFormatComponent = ({
   flippedState,
   handleButtonClick,
 }) => {
-    const [showTooltip, setShowTooltip] = useState(false);
-  
+  const [showTooltip, setShowTooltip] = useState(false);
+
   return (
     <>
       <div className="AiReference-table-title">
@@ -36,9 +36,9 @@ const StandardFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-                
-                Designed to be asked in most interviews, these questions focus on skills, experience, and personality?
-                </span>
+                Designed to be asked in most interviews, these questions focus
+                on skills, experience, and personality?
+              </span>
             )}
           </div>
         </h4>

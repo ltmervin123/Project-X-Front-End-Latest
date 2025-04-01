@@ -1,31 +1,42 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
+
+const API = process.env.REACT_APP_API_URL;
+const USER = JSON.parse(localStorage.getItem("user"));
+const TOKEN = USER?.token;
 
 const EditHRFormatQuestionPopup = ({
   onClose,
   reFetchUpdatedQuestions,
   existingSet,
 }) => {
-  const API = process.env.REACT_APP_API_URL;
-
-  // Define default values
-  const defaultName = existingSet.name || "";
-  const defaultDescription = existingSet.description || "";
-  const defaultQuestions = existingSet.questions.map((q) => ({ text: q })) || [
-    { text: "" },
-  ];
+  const defaultName = existingSet.name || "N/A";
+  const defaultDescription = existingSet.description || "N/A";
+  const defaultQuestions = useMemo(
+    () => existingSet.questions.map((q) => ({ text: q })) || [{ text: "" }],
+    [existingSet.questions]
+  );
 
   const [name, setName] = useState(defaultName);
   const [description, setDescription] = useState(defaultDescription);
   const [questions, setQuestions] = useState(defaultQuestions);
   const [originalQuestions, setOriginalQuestions] = useState(defaultQuestions);
-  const [isQuestionsEmpty, setIsQuestionsEmpty] = useState(false);
-  const [isEdited, setIsEdited] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
-  const maxQuestions = defaultQuestions.length;
+  const maxQuestions = useMemo(
+    () => defaultQuestions.length,
+    [defaultQuestions]
+  );
+
   const [cursorPosition, setCursorPosition] = useState(0);
   const suppressSuggestionsRef = useRef(false);
 
@@ -37,32 +48,24 @@ const EditHRFormatQuestionPopup = ({
   };
 
   useEffect(() => {
-    setOriginalQuestions(defaultQuestions);
-  }, [defaultQuestions]);
-
-  useEffect(() => {
-    const validateQuestions = () => {
-      setIsQuestionsEmpty(questions.length === 0);
-    };
-
-    validateQuestions();
-  }, [questions]);
+    setOriginalQuestions(existingSet.questions.map((q) => ({ text: q })));
+  }, []);
 
   const handleReset = () => {
     setName(defaultName);
     setDescription(defaultDescription);
     setQuestions(existingSet.questions.map((q) => ({ text: q })));
     setOriginalQuestions(existingSet.questions.map((q) => ({ text: q })));
-    setIsEdited(false);
   };
 
   const handleQuestionChange = (index, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index].text = value;
-    setQuestions(updatedQuestions);
-    setIsEdited(true);
+    setQuestions((prevQuestions) => {
+      if (prevQuestions[index].text === value) return prevQuestions;
+      const updatedQuestions = [...prevQuestions];
+      updatedQuestions[index] = { text: value };
+      return updatedQuestions;
+    });
 
-    // Reset suggestions if the user is suppressing them
     if (suppressSuggestionsRef.current) {
       suppressSuggestionsRef.current = false;
       setSuggestions([]);
@@ -70,36 +73,29 @@ const EditHRFormatQuestionPopup = ({
       return;
     }
 
-    // Check for the trigger character '('
-    if (value.length > 0 && value[value.length - 1] === "(") {
+    if (value.endsWith("(")) {
       setSuggestions(["(candidate name)", "(candidate name)'s"]);
-      setActiveQuestionIndex(index); // Ensure this line is present
-    } else if (value.includes("(")) {
-      if (value.includes(")")) {
-        setActiveQuestionIndex(index); // Ensure this line is present
-        setSuggestions(["(candidate name)", "(candidate name)'s"]);
-      } else {
-        setSuggestions([]);
-        setActiveQuestionIndex(null);
-      }
+      setActiveQuestionIndex(index);
+    } else if (value.includes("(") && value.includes(")")) {
+      setActiveQuestionIndex(index);
+      setSuggestions(["(candidate name)", "(candidate name)'s"]);
     } else {
       setSuggestions([]);
       setActiveQuestionIndex(null);
     }
   };
+
   const handleSuggestionClick = (suggestion) => {
     if (activeQuestionIndex !== null) {
       const updatedQuestions = [...questions];
       const currentText = updatedQuestions[activeQuestionIndex].text;
 
-      // Determine the new text based on the cursor position
       const beforeCursor = currentText.slice(0, cursorPosition);
       const afterCursor = currentText.slice(cursorPosition);
 
-      // Check if the character before the cursor is '('
       const newText = beforeCursor.endsWith("(")
-        ? beforeCursor.slice(0, -1) + suggestion + afterCursor // Remove '(' and add the suggestion
-        : beforeCursor + suggestion + afterCursor; // Just add the suggestion if no '(' at the end
+        ? beforeCursor.slice(0, -1) + suggestion + afterCursor
+        : beforeCursor + suggestion + afterCursor;
 
       updatedQuestions[activeQuestionIndex].text = newText;
       setQuestions(updatedQuestions);
@@ -116,10 +112,6 @@ const EditHRFormatQuestionPopup = ({
   const handleDeleteQuestion = (index) => {
     const updatedQuestions = questions.filter((_, qIndex) => qIndex !== index);
     setQuestions(updatedQuestions);
-    setIsEdited(
-      updatedQuestions.length !== originalQuestions.length ||
-        JSON.stringify(updatedQuestions) !== JSON.stringify(originalQuestions)
-    );
   };
 
   const formatQuestions = () => {
@@ -128,30 +120,32 @@ const EditHRFormatQuestionPopup = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user?.token;
+
     try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/update -reference-questions/${existingSet._id}`;
+      setSubmitting(true);
+      const URL = `${API}/api/ai-referee/company-reference-questions/create-reference-questions`;
       const payload = {
         name: capitalizeWords(name),
         description,
         questions: formatQuestions(),
       };
-      const response = await axios.put(URL, payload, {
+      const response = await axios.post(URL, payload, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${TOKEN}`,
         },
       });
-      if (response.status === 200) {
+      if (response.status === 201) {
         reFetchUpdatedQuestions();
       }
       onClose();
     } catch (error) {
       console.error(error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const calculateRows = (text) => {
+  const calculateRows = useCallback((text) => {
     const lineHeight = 20;
     const padding = 10;
     const textArea = document.createElement("textarea");
@@ -162,7 +156,9 @@ const EditHRFormatQuestionPopup = ({
     const rows = Math.floor(textArea.scrollHeight / lineHeight);
     document.body.removeChild(textArea);
     return rows + Math.ceil(padding / lineHeight);
-  };
+  }, []);
+
+  const rows = useMemo((question) => calculateRows(question), [questions]);
 
   return (
     <Modal
@@ -238,6 +234,16 @@ const EditHRFormatQuestionPopup = ({
               placeholder="Enter set name"
               required
             />
+            <Form.Label className="me-2 px-2" style={{ width: "300px" }}>
+              Question Description
+            </Form.Label>
+            <Form.Control
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter set name"
+              required
+            />
           </Form.Group>
 
           <div className="questions-list">
@@ -268,7 +274,7 @@ const EditHRFormatQuestionPopup = ({
                     <Form.Control
                       as="textarea"
                       className="text-area-question-hr-hatch"
-                      rows={calculateRows(question.text)}
+                      rows={() => rows(question.text)}
                       value={question.text}
                       onChange={(e) =>
                         handleQuestionChange(index, e.target.value)
@@ -338,9 +344,9 @@ const EditHRFormatQuestionPopup = ({
                   questions.length < 10 ? "disable" : ""
                 }`}
                 type="submit"
-                disabled={questions.length < 10}
+                disabled={questions.length < 10 || submitting}
               >
-                Update Set
+                {submitting ? `Saving...` : `Save Set`}
               </button>
             </div>
           </div>
