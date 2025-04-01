@@ -34,7 +34,7 @@ const Header = () => {
           <Navbar.Collapse id="navbar-nav">
             <Nav className="ms-auto d-flex gap-5">
               <NavDropdown
-                title="Products"
+                title="For Job Seekers"
                 id="nav-dropdown-products"
                 className="hover-dropdown"
                 show={showDropdown.product}
@@ -71,7 +71,7 @@ const Header = () => {
               </NavDropdown>
 
               <NavDropdown
-                title="Services"
+                title="For Employers"
                 id="nav-dropdown-services"
                 className="hover-dropdown"
                 show={showDropdown.services}

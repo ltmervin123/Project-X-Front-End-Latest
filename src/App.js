@@ -86,6 +86,9 @@ import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistr
 // AiReferenceCheckVerificationPage
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
 
+// ChooseLanguagePage
+import ChooseLanguagePage from "./page/AiRefereePage/ChooseLanguagePage.jsx";
+
 // ChooseYourReferenceMethodPage
 import ChooseYourReferenceMethodPage from "./page/AiRefereePage/ChooseYourReferenceMethodPage.jsx";
 
@@ -226,6 +229,7 @@ function App() {
           </Route>
         </Route>
 
+
         {/* AiReferenceCheckVerificationPage*/}
         <Route
           path="/reference-request/:token"
@@ -235,6 +239,11 @@ function App() {
         <Route element={<RequireAuthVefifyReferee />}>
           {/* Reference Verification page */}
 
+          {/* ChooseLanguagePage*/}
+            <Route
+            path="/reference-choose-language"
+            element={<ChooseLanguagePage />}
+          />
           {/* ChooseYourReferenceMethodPage*/}
           <Route
             path="/reference-interview-method"

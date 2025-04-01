@@ -29,7 +29,7 @@ const ExpiredLinkSection = () => {
             className="btn-bt-dashboard"
             onClick={() => (window.location.href = "/")}
           >
-            Back to Dashboard
+            Exit
           </button>
         </div>
       </div>

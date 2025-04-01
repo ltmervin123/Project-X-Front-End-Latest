@@ -63,9 +63,8 @@ const AiReferenceCheckVerificationForm = ({
     e.preventDefault();
     await getReferenceQuestions();
     saveRefereeDataTemporary();
-    navigate("/reference-interview-method");
-  };
-
+    navigate("/reference-choose-language"); // Updated navigation path
+};
   // Sync refereeName when it changes
   useEffect(() => {
     if (refereeName) {
