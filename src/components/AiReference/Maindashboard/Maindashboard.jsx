@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-import { Row, Col } from "react-bootstrap"; // Import Bootstrap components
-import { Line, Bar } from "react-chartjs-2"; // Import Line and Bar chart components
-import { Chart, registerables } from "chart.js"; // Import Chart.js and registerables
-import default_avatar_img from "../../../assets/default.png"; // Import default avatar image
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import { Row, Col } from "react-bootstrap"; 
+import { Line, Bar } from "react-chartjs-2"; 
+import { Chart, registerables } from "chart.js"; 
+// import default_avatar_img from "../../../assets/default.png"; 
 import AddJobComponent from "./Components/AddJobComponent";
 import AddCandidateComponent from "./Components/AddCandidateComponent";
 import AddRequestComponent from "./Components/AddRequestComponent";
@@ -112,17 +112,17 @@ const MainDashboard = () => {
 
   const [isLogContainerVisible, setIsLogContainerVisible] = useState(false);
 
-    useEffect(() => {
-      const timers = [
-        setTimeout(() => setIsStartReferenceCheckVisible(true), 100),
-        setTimeout(() => setIsAiReferenceCardVisible(true), 300),
-        setTimeout(() => setIsLineChartVisible(true), 900),
-        setTimeout(() => setIsBarChartVisible(true), 1200),
-        setTimeout(() => setIsLogContainerVisible(true), 1600),
-      ];
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsStartReferenceCheckVisible(true), 100),
+      setTimeout(() => setIsAiReferenceCardVisible(true), 300),
+      setTimeout(() => setIsLineChartVisible(true), 900),
+      setTimeout(() => setIsBarChartVisible(true), 1200),
+      setTimeout(() => setIsLogContainerVisible(true), 1600),
+    ];
 
-      return () => timers.forEach((timer) => clearTimeout(timer));
-    }, []);
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
 
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true);
@@ -471,68 +471,67 @@ const MainDashboard = () => {
     return tooltipEl;
   };
 
-// Function to generate unique whole number ticks
-const generateYTicks = (min, max) => {
-  const ticks = [];
-  // Ensure the minimum is at least 0
-  const start = Math.min(0, Math.floor(min));
-  const end = Math.ceil(max);
-  
-  for (let i = start; i <= end; i++) {
-    ticks.push(i);
-  }
-  return ticks;
-};
+  // Function to generate unique whole number ticks
+  const generateYTicks = (min, max) => {
+    const ticks = [];
+    // Ensure the minimum is at least 0
+    const start = Math.min(0, Math.floor(min));
+    const end = Math.ceil(max);
 
+    for (let i = start; i <= end; i++) {
+      ticks.push(i);
+    }
+    return ticks;
+  };
 
-// Calculate the min and max values from your datasets
-const minTotal = Math.min(...totalReferenceCount);
-const maxTotal = Math.max(...totalReferenceCount);
-const minCompleted = Math.min(...completedReferenceCounts);
-const maxCompleted = Math.max(...completedReferenceCounts);
+  // Calculate the min and max values from your datasets
+  const minTotal = Math.min(...totalReferenceCount);
+  const maxTotal = Math.max(...totalReferenceCount);
+  const minCompleted = Math.min(...completedReferenceCounts);
+  const maxCompleted = Math.max(...completedReferenceCounts);
 
-// Determine overall min and max
-const minY = Math.min(minTotal, minCompleted);
-const maxY = Math.max(maxTotal, maxCompleted);
+  // Determine overall min and max
+  const minY = Math.min(minTotal, minCompleted);
+  const maxY = Math.max(maxTotal, maxCompleted);
 
-// Generate unique whole number ticks for the y-axis
-const yTicks = generateYTicks(minY, maxY);
+  // Generate unique whole number ticks for the y-axis
+  const yTicks = generateYTicks(minY, maxY);
 
-// Update the lineOptions
-const lineOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: false,
-      external: function (context) {
-        const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
+  // Update the lineOptions
+  const lineOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+        external: function (context) {
+          const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
 
-        const tooltipModel = context.tooltip;
+          const tooltipModel = context.tooltip;
 
-        if (tooltipModel.opacity === 0) {
-          tooltipEl.style.opacity = 0;
-          return;
-        }
+          if (tooltipModel.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+          }
 
-        const position = context.chart.canvas.getBoundingClientRect();
-        tooltipEl.style.opacity = 1;
-        tooltipEl.style.backgroundColor = "#fff";
-        tooltipEl.style.padding = "10px";
-        tooltipEl.style.position = "absolute";
-        tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
-        tooltipEl.style.borderRadius = "10px";
-        tooltipEl.style.pointerEvents = "none";
+          const position = context.chart.canvas.getBoundingClientRect();
+          tooltipEl.style.opacity = 1;
+          tooltipEl.style.backgroundColor = "#fff";
+          tooltipEl.style.padding = "10px";
+          tooltipEl.style.position = "absolute";
+          tooltipEl.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+          tooltipEl.style.borderRadius = "10px";
+          tooltipEl.style.pointerEvents = "none";
 
-        tooltipEl.style.left =
-          position.left + window.scrollX + tooltipModel.caretX + "px";
-        tooltipEl.style.top =
-          position.top + window.scrollY + tooltipModel.caretY + "px";
+          tooltipEl.style.left =
+            position.left + window.scrollX + tooltipModel.caretX + "px";
+          tooltipEl.style.top =
+            position.top + window.scrollY + tooltipModel.caretY + "px";
 
-        const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
-        const innerHtml = `
+          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
+          const innerHtml = `
         <table class="tooltip-line=chart">
           <tr>
             <td style="font-weight: 500;">${month}</td>
@@ -549,45 +548,45 @@ const lineOptions = {
           </tr>
         </table>
       `;
-        tooltipEl.querySelector("table").innerHTML = innerHtml;
-      },
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          size: 12,
-        },
-        color: "#000",
-      },
-    },
-    y: {
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          size: 12,
-        },
-        color: "#000",
-        // Use the generated ticks
-        callback: function(value) {
-          return yTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
-        },
-      },
-      // Set the ticks to the generated array
-      ticks: {
-        callback: function(value) {
-          return yTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
+          tooltipEl.querySelector("table").innerHTML = innerHtml;
         },
       },
     },
-  },
-};
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+          // Use the generated ticks
+          callback: function (value) {
+            return yTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+          },
+        },
+        // Set the ticks to the generated array
+        ticks: {
+          callback: function (value) {
+            return yTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+          },
+        },
+      },
+    },
+  };
   function getDepartmentCounts() {
     const departmentCounts = {};
 
@@ -619,115 +618,113 @@ const lineOptions = {
     ],
   };
 
+  // Calculate the min and max values from your counts array
+  const minCount = Math.min(...counts);
+  const maxCount = Math.max(...counts);
 
-// Calculate the min and max values from your counts array
-const minCount = Math.min(...counts);
-const maxCount = Math.max(...counts);
+  // Generate unique whole number ticks for the y-axis
+  const barYTicks = generateYTicks(minCount, maxCount);
 
-// Generate unique whole number ticks for the y-axis
-const barYTicks = generateYTicks(minCount, maxCount);
+  const barOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+        external: function (context) {
+          const tooltipEl = document.getElementById("chartjs-tooltip");
 
-const barOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      enabled: false,
-      external: function (context) {
-        const tooltipEl = document.getElementById("chartjs-tooltip");
+          let tooltipElement = tooltipEl;
+          if (!tooltipElement) {
+            tooltipElement = document.createElement("div");
+            tooltipElement.id = "chartjs-tooltip";
+            tooltipElement.innerHTML = "<table></table>";
+            document.body.appendChild(tooltipElement);
+          }
 
-        let tooltipElement = tooltipEl;
-        if (!tooltipElement) {
-          tooltipElement = document.createElement("div");
-          tooltipElement.id = "chartjs-tooltip";
-          tooltipElement.innerHTML = "<table></table>";
-          document.body.appendChild(tooltipElement);
-        }
+          const tooltipModel = context.tooltip;
 
-        const tooltipModel = context.tooltip;
+          if (tooltipModel.opacity === 0) {
+            tooltipElement.style.opacity = 0;
+            return;
+          }
 
-        if (tooltipModel.opacity === 0) {
-          tooltipElement.style.opacity = 0;
-          return;
-        }
+          const position = context.chart.canvas.getBoundingClientRect();
+          tooltipElement.style.opacity = 1;
+          tooltipElement.style.backgroundColor = "#fff";
+          tooltipElement.style.padding = "10px";
+          tooltipElement.style.position = "absolute";
+          tooltipElement.style.zIndex = 1000;
+          tooltipElement.style.boxShadow =
+            "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+          tooltipElement.style.borderRadius = "10px";
+          tooltipElement.style.pointerEvents = "none";
 
-        const position = context.chart.canvas.getBoundingClientRect();
-        tooltipElement.style.opacity = 1;
-        tooltipElement.style.backgroundColor = "#fff";
-        tooltipElement.style.padding = "10px";
-        tooltipElement.style.position = "absolute";
-        tooltipElement.style.zIndex = 1000;
-        tooltipElement.style.boxShadow =
-          "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
-        tooltipElement.style.borderRadius = "10px";
-        tooltipElement.style.pointerEvents = "none";
+          // Calculate the tooltip position (right to left)
+          const tooltipWidth = tooltipElement.offsetWidth; // Get tooltip width
+          let tooltipX = position.left + window.scrollX + tooltipModel.caretX;
+          let tooltipY = position.top + window.scrollY + tooltipModel.caretY;
 
-        // Calculate the tooltip position (right to left)
-        const tooltipWidth = tooltipElement.offsetWidth; // Get tooltip width
-        let tooltipX = position.left + window.scrollX + tooltipModel.caretX;
-        let tooltipY = position.top + window.scrollY + tooltipModel.caretY;
+          // If tooltip would overflow the canvas on the right, place it on the left
+          if (tooltipX + tooltipWidth > position.left + position.width) {
+            tooltipX -= tooltipWidth; // Shift to the left
+          }
 
-        // If tooltip would overflow the canvas on the right, place it on the left
-        if (tooltipX + tooltipWidth > position.left + position.width) {
-          tooltipX -= tooltipWidth; // Shift to the left
-        }
+          // Apply the calculated position
+          tooltipElement.style.left = tooltipX + "px";
+          tooltipElement.style.top = tooltipY + "px";
 
-        // Apply the calculated position
-        tooltipElement.style.left = tooltipX + "px";
-        tooltipElement.style.top = tooltipY + "px";
+          // Populate the custom tooltip content
+          const dataIndex = tooltipModel.dataPoints[0].dataIndex;
+          const department = context.chart.data.labels[dataIndex];
+          const value = context.chart.data.datasets[0].data[dataIndex];
 
-        // Populate the custom tooltip content
-        const dataIndex = tooltipModel.dataPoints[0].dataIndex;
-        const department = context.chart.data.labels[dataIndex];
-        const value = context.chart.data.datasets[0].data[dataIndex];
-
-        const innerHtml = `
+          const innerHtml = `
           <table class="tooltip-bar-chart">
             <tr>
               <td style="font-weight: 500;">${department}: ${value}</td>
             </tr>
           </table>
         `;
-        tooltipElement.querySelector("table").innerHTML = innerHtml;
-      },
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          size: 12,
-        },
-        color: "#000",
-        callback: function(value, index) {
-          // Only show labels if there are 3 or fewer departments
-          return departments.length <= 3 ? departments[index] : '';
+          tooltipElement.querySelector("table").innerHTML = innerHtml;
         },
       },
     },
-    y: {
-      grid: {
-        display: false, // Disable grid on the y-axis
-      },
-      ticks: {
-        font: {
-          size: 12, // Adjust the font size of the y-axis labels if needed
+    scales: {
+      x: {
+        grid: {
+          display: false,
         },
-        color: "#000", // Change the label color if necessary
-        callback: function(value) {
-          return barYTicks.includes(value) ? value : ''; // Only show the tick if it's in the generated ticks
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+          callback: function (value, index) {
+            // Only show labels if there are 3 or fewer departments
+            return departments.length <= 3 ? departments[index] : "";
+          },
+        },
+      },
+      y: {
+        grid: {
+          display: false, // Disable grid on the y-axis
+        },
+        ticks: {
+          font: {
+            size: 12, // Adjust the font size of the y-axis labels if needed
+          },
+          color: "#000", // Change the label color if necessary
+          callback: function (value) {
+            return barYTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+          },
         },
       },
     },
-  },
-};
-
+  };
 
   async function refetchAllData(timeoutRef, abortController) {
     if (abortController.signal.aborted) return; // Stop execution if aborted
@@ -813,8 +810,7 @@ const barOptions = {
     await fetchCompletedRecords(abortControllerRef.current);
   };
   return (
-    <div className="MockMainDashboard-content d-flex flex-column gap-2"
-    >
+    <div className="MockMainDashboard-content d-flex flex-column gap-2">
       {showAddCandidate ? (
         <AddCandidateComponent
           onProceed={handleShowAddReferenceRequest}
@@ -911,18 +907,17 @@ const barOptions = {
               ))}
             </Row>
           </div>
-          <Row >
+          <Row>
             <Col md="6">
               <div
                 className={`line-bar-chart-container fade-in ${
                   isLineChartVisible ? "visible" : ""
                 }`}
               >
-
                 <div className="line-chart">
-                <p className="mb-3 line-title-overlay">
-                  Reference Check Overview
-                </p>
+                  <p className="mb-3 line-title-overlay">
+                    Reference Check Overview
+                  </p>
                   <Line data={lineData} options={lineOptions} />
                 </div>
               </div>
@@ -932,10 +927,9 @@ const barOptions = {
                 className={`line-bar-chart-container fade-in ${
                   isBarChartVisible ? "visible" : ""
                 }`}
-               
               >
                 <div className="bar-chart">
-                <p className="mb-3 bar-title-overlay">By Department</p>
+                  <p className="mb-3 bar-title-overlay">By Department</p>
 
                   <Bar data={barData} options={barOptions} />
                 </div>
@@ -947,7 +941,6 @@ const barOptions = {
           </div>
         </>
       )}
-
     </div>
   );
 };
