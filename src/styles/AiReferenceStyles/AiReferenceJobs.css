@@ -33,8 +33,8 @@
   margin: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
-.AiReference-table-title > h4 >svg{
-cursor: pointer;
+.AiReference-table-title > h4 > svg {
+  cursor: pointer;
 }
 .job-tooltip-icon {
   position: relative;
@@ -43,10 +43,10 @@ cursor: pointer;
 .job-tooltip-text {
   display: inline-block;
   position: absolute;
-  top: 20%; 
+  top: 20%;
   left: 120%;
   background-color: #ffffffae;
-  backdrop-filter: blur(1.1px) !important;
+  backdrop-filter: blur(1.4px) !important;
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   color: var(--card-color);
@@ -73,7 +73,7 @@ cursor: pointer;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border: 0.5px solid rgba(0, 0, 0, 0.25);
   border-radius: 20px;
-  
+
   padding: 20px;
   height: 60vh;
 }
@@ -104,26 +104,25 @@ cursor: pointer;
   padding: 15px; /* Padding for table cells */
   text-align: left; /* Align text to the left */
   transition: height 3s ease; /* Add transition for height only over 3 seconds */
-  text-transform:capitalize;
-
+  text-transform: capitalize;
 }
 .AiReference-active-jobs-container th,
-.AiReference-active-jobs-container td{
+.AiReference-active-jobs-container td {
   width: 10%;
 }
 .AiReference-active-jobs-container th:nth-child(1),
-.AiReference-active-jobs-container td:nth-child(1){
+.AiReference-active-jobs-container td:nth-child(1) {
   width: 12%;
 }
 .AiReference-active-jobs-container th:nth-child(2),
-.AiReference-active-jobs-container td:nth-child(2){
+.AiReference-active-jobs-container td:nth-child(2) {
   width: 8%;
 }
 .AiReference-active-jobs-container th:nth-child(3),
-.AiReference-active-jobs-container td:nth-child(3){
+.AiReference-active-jobs-container td:nth-child(3) {
   width: 20%;
 }
-.AiReference-active-jobs-container td:nth-child(6){
+.AiReference-active-jobs-container td:nth-child(6) {
   padding-left: 20px;
 }
 
@@ -147,21 +146,20 @@ cursor: pointer;
   height: 380px;
   /* background: var(--primary-color); */
 }
-.job-container-form{
-  
+.job-container-form {
   border-radius: 20px;
   background: var(--font-white) !important;
   padding: 30px !important;
   height: 65vh;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
-.job-container-form > b{
-  width:75%;
+.job-container-form > b {
+  width: 75%;
   max-width: 800px;
- height: 10%;
+  height: 10%;
 }
-.job-container-form form{
-  width:65%;
+.job-container-form form {
+  width: 65%;
   max-width: 620px;
   height: 80%;
   display: flex;
@@ -169,20 +167,18 @@ cursor: pointer;
   justify-content: center;
   font-size: 15px;
 }
-.job-container-form .form-label{
-font-weight: bold;
-display: flex;
-justify-content: start;
-align-items: center;
-font-size: 15px;
-
+.job-container-form .form-label {
+  font-weight: bold;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 15px;
 }
 .job-container-form input,
-.job-container-form select{
+.job-container-form select {
   border-radius: 50px;
   font-size: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
-
 }
 .job-container-form .btn-create-job {
   background: var(--primary-color);
@@ -192,20 +188,19 @@ font-size: 15px;
   padding: 5px;
   color: var(--font-white);
 }
- .btn-proceed{
+.btn-proceed {
   background: var(--primary-color);
   border-radius: 50px;
   border: none;
   padding: 5px 30px;
   color: var(--font-white);
 }
-.btn-proceed:disabled{
+.btn-proceed:disabled {
   background: var(--card-color);
 }
-.AiReference-active-jobs-container td{
+.AiReference-active-jobs-container td {
   height: auto;
   font-weight: bold;
-
 }
 @keyframes fadeIn {
   from {
@@ -229,36 +224,34 @@ font-size: 15px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
   animation: fadeIn 0.5s ease-in; /* Apply the fade-in animation */
 }
-.action-options p{
+.action-options p {
   margin: 0 !important;
 }
-.action-options p:nth-child(2){
+.action-options p:nth-child(2) {
   color: red;
 }
-.job-container-form .text-danger{
+.job-container-form .text-danger {
   position: absolute;
   font-size: 12px;
 }
-.job-container-form > b > span{
+.job-container-form > b > span {
   color: var(--card-color);
 }
-.btn-no-delete-job{
+.btn-no-delete-job {
   background: var(--secondary-color);
   width: 120px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
   padding: 5px 30px; /* Adjusted padding */
-
 }
-.btn-yes-delete-job{
+.btn-yes-delete-job {
   background: var(--primary-color);
   width: 120px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
   padding: 5px 30px; /* Adjusted padding */
-
 }
 /* .action-options p > svg:nth-child(1){
   fill: var(--card-color) !important;
@@ -333,22 +326,22 @@ font-size: 15px;
   border-radius: 50px;
   border: none;
 }
-.custom-modal-job .modal-body .form-label{
+.custom-modal-job .modal-body .form-label {
   display: flex;
   align-items: center;
   margin: 0 !important;
   height: 38px;
 }
-.custom-modal-job .modal-body #dropdown-basic{
+.custom-modal-job .modal-body #dropdown-basic {
   background: none;
   color: var(--font-white) !important;
   border: none;
 }
-.custom-modal-job .modal-body #dropdown-basic::after{
+.custom-modal-job .modal-body #dropdown-basic::after {
   color: var(--text-color);
 }
 
-.add-referee{
+.add-referee {
   background: var(--secondary-color);
   padding: 5px 30px;
   border-radius: 50px;
@@ -375,16 +368,16 @@ font-size: 15px;
   background-position: right 10px center;
   background-repeat: no-repeat;
   background-size: 12px 12px;
-  padding-right: 30px;  /* Space for the icon */
-  appearance: none !important;  /* Remove default arrow */
-  -webkit-appearance: none !important;  /* For Safari */
-  -moz-appearance: none !important;  /* For Firefox */
+  padding-right: 30px; /* Space for the icon */
+  appearance: none !important; /* Remove default arrow */
+  -webkit-appearance: none !important; /* For Safari */
+  -moz-appearance: none !important; /* For Firefox */
   transition: background-image 0.3s ease; /* Smooth transition for the background */
 }
 
 /* Focus state when dropdown is open */
 .custom-modal-job .modal-body .form-select:focus {
-  outline: none;  /* Remove default focus outline */
+  outline: none; /* Remove default focus outline */
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
   background-position: right 10px center;
   background-repeat: no-repeat;
@@ -396,31 +389,29 @@ font-size: 15px;
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
 }
 
-
 /* Customizing the scrollbar */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar,
 .referees-list-container::-webkit-scrollbar,
-select::-webkit-scrollbar{
+select::-webkit-scrollbar {
   width: 5px; /* Scrollbar width */
 }
 
 .AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb,
- .referees-list-container::-webkit-scrollbar-thumb,
- select::-webkit-scrollbar-thumb{
-
+.referees-list-container::-webkit-scrollbar-thumb,
+select::-webkit-scrollbar-thumb {
   background-color: var(--primary-color); /* Scrollbar thumb color */
   border-radius: 6px; /* Rounded corners */
 }
 
 .AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb:hover,
- .referees-list-container::-webkit-scrollbar-thumb:hover,
- select::-webkit-scrollbar-thumb:hover{
+.referees-list-container::-webkit-scrollbar-thumb:hover,
+select::-webkit-scrollbar-thumb:hover {
   background-color: var(--primary-color); /* Scrollbar thumb color */
 }
 
 .AiReference-active-jobs-container tbody::-webkit-scrollbar-track,
- .referees-list-container::-webkit-scrollbar-track,
- select::-webkit-scrollbar-track {
+.referees-list-container::-webkit-scrollbar-track,
+select::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }

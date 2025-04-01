@@ -13,7 +13,7 @@
   color: var(--font-black);
   border-radius: 50px;
   padding: 5px 20px;
-  width: 200px;
+  width: 170px;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
