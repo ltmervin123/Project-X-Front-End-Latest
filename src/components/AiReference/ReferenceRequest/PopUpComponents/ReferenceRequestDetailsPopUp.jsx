@@ -3,8 +3,10 @@ import { Row, Col, Modal, Button } from "react-bootstrap";
 import axios from "axios";
 
 const API = process.env.REACT_APP_API_URL;
-const USER = JSON.parse(localStorage.getItem("user"));
-const { token, id: companyId } = USER;
+const USER = JSON.parse(localStorage.getItem("user")) || null;
+// const { token, id: companyId } = USER;
+const token = USER?.token || null;
+const companyId = USER?.id || null;
 
 const ReferenceRequestDetailsPopUp = ({
   candidate,

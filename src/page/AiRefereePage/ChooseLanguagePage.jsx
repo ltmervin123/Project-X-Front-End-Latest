@@ -17,9 +17,6 @@ function ChooseLanguagePage() {
 
   // Handle language selection and navigate to the next page
   const handleContinue = () => {
-    // Log the selected language
-    console.log(`Selected language: ${language}`); // Log the selected language
-
     // Store the selected language in sessionStorage
     sessionStorage.setItem("preferred-language", language);
 
@@ -49,7 +46,10 @@ function ChooseLanguagePage() {
         <div className="row d-flex justify-content-center align-items-center">
           {/* Custom Dropdown */}
           <div className="custom-dropdown-container-language">
-            <div className={`custom-dropdown-language ${isOpen ? 'open' : ''}`} onClick={toggleDropdown}>
+            <div
+              className={`custom-dropdown-language ${isOpen ? "open" : ""}`}
+              onClick={toggleDropdown}
+            >
               {language}
             </div>
             {isOpen && (
