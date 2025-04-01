@@ -33,6 +33,30 @@ const AudioBase = ({
   const clearTranscription = () => {
     transcription.current = "";
   };
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+const translations = {
+  English: {
+    transcription: "Transcription:",
+    transcriptionPlaceholder: "Transcription will appear here....",
+    start: "Start",
+    stop: "Stop",
+    retry: "Retry",
+    proceed: "Proceed",
+    next: "Next",
+    saving: "Saving...",
+  },
+  Japanese: {
+    transcription: "トランスクリプション:",
+    transcriptionPlaceholder: "トランスクリプションがここに表示されます....",
+    start: "開始",
+    stop: "停止",
+    retry: "再試行",
+    proceed: "進む",
+    next: "次",
+    saving: "保存中...",
+  },
+};
 
   // Ensure mediaRecorder is initialized
   useEffect(() => {
@@ -164,45 +188,45 @@ const AudioBase = ({
 
   return (
     <div className="transcription-answer-container">
-      <h4>Transcription:</h4>
-      <textarea
-        value={answer}
-        rows="4"
-        placeholder="Transcription will appear here...."
-        disabled
-      />
+<h4>{translations[language].transcription}</h4>
+<textarea
+  value={answer}
+  rows="4"
+  placeholder={translations[language].transcriptionPlaceholder}
+  disabled
+/>
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
         <div className="d-flex justify-content-center gap-3">
-          {reTry && !isSubmitting ? (
-            <>
-              <button onClick={handleReTry}>Retry</button>
-              {isLastQuestion ? (
-                <button disabled={!answer} onClick={handleProceed}>
-                  Proceed
-                </button>
-              ) : (
-                <button disabled={!answer} onClick={nextQuestion}>
-                  Next
-                </button>
-              )}
-            </>
-          ) : isSanitizingTranscription || isSubmitting ? (
-            <button className="disabled" disabled>
-              Saving...
-            </button>
-          ) : !isRecording ? (
-            <button
-              className={isSpeaking ? "disabled" : ""}
-              onClick={startRecording}
-              disabled={isSpeaking}
-            >
-              Start
-            </button>
-          ) : (
-            <button className="btn-stop-transcript" onClick={stopRecording}>
-              Stop
-            </button>
-          )}
+        {reTry && !isSubmitting ? (
+  <>
+    <button onClick={handleReTry}>{translations[language].retry}</button>
+    {isLastQuestion ? (
+      <button disabled={!answer} onClick={handleProceed}>
+        {translations[language].proceed}
+      </button>
+    ) : (
+      <button disabled={!answer} onClick={nextQuestion}>
+        {translations[language].next}
+      </button>
+    )}
+  </>
+) : isSanitizingTranscription || isSubmitting ? (
+  <button className="disabled" disabled>
+    {translations[language].saving}
+  </button>
+) : !isRecording ? (
+  <button
+    className={isSpeaking ? "disabled" : ""}
+    onClick={startRecording}
+    disabled={isSpeaking}
+  >
+    {translations[language].start}
+  </button>
+) : (
+  <button className="btn-stop-transcript" onClick={stopRecording}>
+    {translations[language].stop}
+  </button>
+)}
         </div>
       </div>
       {!hasTranscription ? (

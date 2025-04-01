@@ -48,6 +48,41 @@ function ReviewYourReferenceCheckPage() {
     setShowSkipConfirmation(true);
   };
 
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      reviewResponses: "Review Your Responses",
+      questionIndicator: "Question {current} of {total}",
+      answerIndicator: "Answer {current} to {total}",
+      chooseAnswer: "Please choose how you'd like the answer to be presented",
+      skipWarning:
+        "You can click 'Skip' to use your original answers for the remaining questions, except for those that have already been submitted.",
+      skip: "Skip",
+      proceed: "Proceed",
+      submit: "Submit",
+      allQuestionsAnswered: "All questions have been answered.",
+      confirmSkip: "Are you sure you want to skip?",
+      originalAnswer: "Original Answer",
+      aiEnhancedAnswer: "AI Enhanced Answer",      
+    },
+    Japanese: {
+      reviewResponses: "回答を確認する",
+      questionIndicator: "質問 {current} / {total}",
+      answerIndicator: "回答 {current} / {total}",
+      chooseAnswer: "回答の提示方法を選択してください",
+      skipWarning:
+        "残りの質問に対して元の回答を使用するには「スキップ」をクリックできます。ただし、すでに提出された質問は除きます。",
+      skip: "スキップ",
+      proceed: "進む",
+      submit: "送信",
+      allQuestionsAnswered: "すべての質問に回答されました。",
+      confirmSkip: "本当にスキップしますか？",
+      originalAnswer: "元の回答",
+    aiEnhancedAnswer: "AI強化回答",
+
+    },
+  };
   const handleConfirmSkip = () => {
     const remainingOriginalAnswer = questions
       .slice(currentQuestionIndex)
@@ -186,7 +221,7 @@ function ReviewYourReferenceCheckPage() {
     }
   };
 
-const clearDrawing = () => {
+  const clearDrawing = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -204,9 +239,9 @@ const clearDrawing = () => {
     ctx.beginPath();
     ctx.moveTo(x, y);
     setIsDrawing(true);
-};
+  };
 
-const draw = (e) => {
+  const draw = (e) => {
     if (!isDrawing) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -215,7 +250,7 @@ const draw = (e) => {
     const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Calculate y coordinate
     ctx.lineTo(x, y);
     ctx.stroke();
-};
+  };
 
   const stopDrawing = () => {
     setIsDrawing(false);
@@ -258,8 +293,7 @@ const draw = (e) => {
     context.lineCap = "round"; // Set line cap
     context.lineJoin = "round"; // Set line join
     context.strokeStyle = "black"; // Set stroke color
-};
-
+  };
 
   const getReferenceQuestionData = () => {
     // Attach the submitted answers and their preferred answer types to their respective questions
@@ -431,9 +465,7 @@ const draw = (e) => {
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
-      const userConfirmed = window.confirm(
-        "Are you sure you want to go back? Your progress will be lost."
-      );
+      const userConfirmed = window.confirm(translations[language].confirmSkip);
       if (!userConfirmed) {
         window.history.pushState(null, "", window.location.pathname); // Prevent going back
       }
@@ -463,7 +495,7 @@ const draw = (e) => {
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
         <h5 className="referencecheckquestiontitle text-left mb-2">
-          Review Your Responses
+          {translations[language].reviewResponses}
         </h5>
         {showSignatureSection ? (
           <Col md={12}>
@@ -506,7 +538,9 @@ const draw = (e) => {
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
                   <p className="m-0">
-                    Question {currentQuestionIndex + 1} of {questions.length}
+                    {translations[language].questionIndicator
+                      .replace("{current}", currentQuestionIndex + 1)
+                      .replace("{total}", questions.length)}
                   </p>
                 </div>
 
@@ -534,12 +568,14 @@ const draw = (e) => {
                 <div className="ReviewYourReferenceCheckAnswer-right-container">
                   <div className="answer-indicator-container">
                     <div className="question-indicator mb-0">
-                      <p className="m-0">
-                        Answer {currentQuestionIndex + 1} to {questions.length}
-                      </p>
+                      <p className="my-2">
+                        {translations[language].answerIndicator
+                          .replace("{current}", currentQuestionIndex + 1)
+                          .replace("{total}", questions.length)}
+                      </p>{" "}
                     </div>
                     <p className="my-2">
-                      Please choose how you'd like the answer to be presented
+                      {translations[language].chooseAnswer}
                     </p>
                   </div>
                   <div className="buttons-container d-flex align-items-start justify-content-start flex-column gap-2">
@@ -560,66 +596,54 @@ const draw = (e) => {
                       </div>
                     ) : (
                       <>
-                        <div className="form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="originalAnswer"
-                            checked={checked === "Original Answer"}
-                            onChange={() => {
-                              handleAnswerSelection(
-                                selectedAnswers[currentQuestionIndex] ===
-                                  "Original Answer"
-                                  ? null
-                                  : "Original Answer"
-                              );
-                            }}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="originalAnswer"
-                          >
-                            Original Answer
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="aiEnhancedAnswer"
-                            checked={checked === "AI Enhanced Answer"}
-                            onChange={() => {
-                              handleAnswerSelection(
-                                selectedAnswers[currentQuestionIndex] ===
-                                  "AI Enhanced Answer"
-                                  ? null
-                                  : "AI Enhanced Answer"
-                              );
-                            }}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="aiEnhancedAnswer"
-                          >
-                            AI Enhanced Answer
-                          </label>
-                        </div>
+<div className="form-check">
+  <input
+    type="checkbox"
+    className="form-check-input"
+    id="originalAnswer"
+    checked={checked === "Original Answer"}
+    onChange={() => {
+      handleAnswerSelection(
+        selectedAnswers[currentQuestionIndex] === "Original Answer"
+          ? null
+          : "Original Answer"
+      );
+    }}
+  />
+  <label className="form-check-label" htmlFor="originalAnswer">
+    {translations[language].originalAnswer}
+  </label>
+</div>
+<div className="form-check">
+  <input
+    type="checkbox"
+    className="form-check-input"
+    id="aiEnhancedAnswer"
+    checked={checked === "AI Enhanced Answer"}
+    onChange={() => {
+      handleAnswerSelection(
+        selectedAnswers[currentQuestionIndex] === "AI Enhanced Answer"
+          ? null
+          : "AI Enhanced Answer"
+      );
+    }}
+  />
+  <label className="form-check-label" htmlFor="aiEnhancedAnswer">
+    {translations[language].aiEnhancedAnswer}
+  </label>
+</div>
                       </>
                     )}
                   </div>
                   <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
                     <small className="mb-2 w-100">
-                      You can click 'Skip' to use your original answers for the
-                      remaining questions, except for those that have already
-                      been submitted.
+                      {translations[language].skipWarning}
                     </small>
                     <button
-                      onClick={() => {
-                        handleSkip();
-                      }}
+                      onClick={handleSkip}
                       disabled={allQuestionsAnswered}
                     >
-                      Skip
+                      {translations[language].skip}
                     </button>
 
                     {allQuestionsAnswered ? (
@@ -627,7 +651,7 @@ const draw = (e) => {
                         className="btn-proceed-submit"
                         onClick={handleProceed}
                       >
-                        Proceed
+                        {translations[language].proceed}
                       </button>
                     ) : (
                       <button
@@ -635,7 +659,7 @@ const draw = (e) => {
                         onClick={saveAnswer}
                         disabled={!isSubmitEnabled}
                       >
-                        Submit
+                        {translations[language].submit}
                       </button>
                     )}
                   </div>

@@ -1,6 +1,20 @@
 import React from "react";
 
 const ReferenceVerificationSection = () => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+const translations = {
+  English: {
+    header: "Completed Reference Check",
+    successMessage: "Your responses have been successfully saved. Thank you for completing the reference checking. We appreciate your time and input in this process.",
+    exit: "Exit",
+  },
+  Japanese: {
+    header: "完了した参照チェック",
+    successMessage: "あなたの回答は正常に保存されました。参照チェックを完了していただきありがとうございます。このプロセスにおけるあなたの時間と入力に感謝します。",
+    exit: "終了",
+  },
+};
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
@@ -20,19 +34,18 @@ const ReferenceVerificationSection = () => {
                 fill="white"
               />
             </svg>
-            <h2 className="fs-4">Completed Reference Check</h2>
-          </div>
+            <h2 className="fs-4">{translations[language].header}</h2>
+                      </div>
 
-          <p>
-            Your responses have been successfully saved. Thank you for
-            completing the reference checking. We appreciate your time and input
-            in this process.
+
+                      <p>
+            {translations[language].successMessage}
           </p>
           <button
             className="btn-exit"
             onClick={() => (window.location.href = "/")}
           >
-            Exit
+                  {translations[language].exit}
           </button>
         </div>
       </div>
