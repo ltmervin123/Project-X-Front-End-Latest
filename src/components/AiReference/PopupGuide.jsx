@@ -68,8 +68,7 @@ const GUIDE_STEPS = {
       position: "top left",
       intro:
         "The Jobs page provides a centralized location for managing all your open positions. Here, you can view job details, track vacancies, and monitor the hiring progress for each position.",
-
-      },
+    },
   ],
   candidates: [
     {
@@ -233,9 +232,6 @@ const PopupGuide = ({ introKey }) => {
             totalStepsCounter.toString()
           );
 
-          // Log persistent counter (1-based)
-          console.log("Global step count:", totalStepsCounter);
-
           // Update doneLabel based on the current step count
           this.setOptions({
             doneLabel:
@@ -272,10 +268,6 @@ const PopupGuide = ({ introKey }) => {
         "isIntroShown",
         JSON.stringify({ ...isIntroShown, [introKey]: true })
       );
-
-      // Log initial statistics
-      console.log("Current category steps:", categorySteps);
-      console.log("Total available steps:", totalStepsAllCategories);
     }
 
     // Function to handle clicks outside the guide

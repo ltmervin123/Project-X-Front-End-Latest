@@ -26,6 +26,7 @@ const PersistLogin = () => {
             },
           }
         );
+        sessionStorage.setItem("authenticated", true);
       } catch (err) {
         logout();
       } finally {
@@ -39,7 +40,6 @@ const PersistLogin = () => {
     return () => (isMounted = false);
   }, [user]);
 
-  // return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
   return <>{<Outlet />}</>;
 };
 
