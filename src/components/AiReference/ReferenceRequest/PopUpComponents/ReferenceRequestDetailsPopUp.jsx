@@ -1,5 +1,10 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { Row, Col, Modal, Button } from "react-bootstrap";
+import axios from "axios";
+
+const API = process.env.REACT_APP_API_URL;
+const USER = JSON.parse(localStorage.getItem("user"));
+const { token, id: companyId } = USER;
 
 const ReferenceRequestDetailsPopUp = ({
   candidate,
@@ -7,6 +12,8 @@ const ReferenceRequestDetailsPopUp = ({
   onClose,
   onViewReference,
 }) => {
+  const [isSending, setIsSending] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const getStatusColor = (status) => {
     switch (status) {
       case "In Progress":
@@ -35,6 +42,37 @@ const ReferenceRequestDetailsPopUp = ({
       default:
         return "N/A";
     }
+  };
+
+  const sendReminder = useCallback(async () => {
+    try {
+      setIsSending(true);
+      const URL = `${API}/api/ai-referee/company-request-reference/send-reference-reminder/${referee._id}`;
+      const response = await axios.post(
+        URL,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setIsSent(true);
+        setTimeout(() => {
+          setIsSent(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Error sending reminder:", error);
+    } finally {
+      setIsSending(false);
+    }
+  }, []);
+
+  const handleSendReminder = async () => {
+    await sendReminder();
   };
 
   return (
@@ -201,9 +239,16 @@ const ReferenceRequestDetailsPopUp = ({
               </button>
             ) : null}
             {referee.status === "In Progress" ? (
-              <button className="btn-senRemider d d-flex gap-2 align-items-center justify-content-center">
-                Send Reminder
-              </button>
+              <>
+                <button
+                  className="btn-senRemider d d-flex gap-2 align-items-center justify-content-center"
+                  onClick={handleSendReminder}
+                  disabled={isSending || isSent}
+                >
+                  {isSending ? "Sending..." : "Send Reminder"}
+                </button>
+                {isSent ? <p>Email sent successfully</p> : null}
+              </>
             ) : null}
           </div>
         </div>

@@ -62,7 +62,6 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
-
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -85,7 +84,10 @@ const ReferenceCheckQuestionnairePage = () => {
               category,
               questions: qs.map((q) =>
                 typeof q === "string"
-                  ? q.replace(/\$\{candidateName\}/g, candidateName)
+                  ? q.replace(
+                      /\$\{candidateName\}|\(candidate name\)/g,
+                      candidateName
+                    )
                   : q
               ),
               answers: Array(qs.length).fill(""),
@@ -100,7 +102,10 @@ const ReferenceCheckQuestionnairePage = () => {
             category,
             questions: qs.map((q) =>
               typeof q === "string"
-                ? q.replace(/\$\{candidateName\}/g, candidateName)
+                ? q.replace(
+                    /\$\{candidateName\}|\(candidate name\)/g,
+                    candidateName
+                  )
                 : q
             ),
             answers: Array(qs.length).fill(""),
@@ -112,25 +117,57 @@ const ReferenceCheckQuestionnairePage = () => {
     }
   };
 
+  // const getQuestions = () => {
+  //   switch (referenceQuestions.formatType) {
+  //     case "HR-HATCH-FORMAT": {
+  //       const format = referenceQuestions.format;
+
+  //       const orderedCategories = CATEGORY_ORDER[format];
+  //       if (!orderedCategories) return [];
+
+  //       return orderedCategories.flatMap(
+  //         (category) =>
+  //           referenceQuestions.questions[category]?.map((q) =>
+  //             q.replace(/\$\{candidateName\}/g, candidateName)
+  //           ) || []
+  //       );
+  //     }
+  //     case "CUSTOM-FORMAT":
+  //       return Array.isArray(referenceQuestions.questions)
+  //         ? referenceQuestions.questions.flat()
+  //         : Object.values(referenceQuestions.questions || {}).flat();
+  //     default:
+  //       return [];
+  //   }
+  // };
+
   const getQuestions = () => {
+    const replaceCandidateName = (q) =>
+      typeof q === "string"
+        ? q.replace(/\$\{candidateName\}|\(candidate name\)/g, candidateName)
+        : q;
+
     switch (referenceQuestions.formatType) {
       case "HR-HATCH-FORMAT": {
         const format = referenceQuestions.format;
-
         const orderedCategories = CATEGORY_ORDER[format];
+
         if (!orderedCategories) return [];
 
         return orderedCategories.flatMap(
           (category) =>
-            referenceQuestions.questions[category]?.map((q) =>
-              q.replace(/\$\{candidateName\}/g, candidateName)
-            ) || []
+            referenceQuestions.questions[category]?.map(replaceCandidateName) ||
+            []
         );
       }
+
       case "CUSTOM-FORMAT":
         return Array.isArray(referenceQuestions.questions)
-          ? referenceQuestions.questions.flat()
-          : Object.values(referenceQuestions.questions || {}).flat();
+          ? referenceQuestions.questions.map(replaceCandidateName).flat()
+          : Object.values(referenceQuestions.questions || {})
+              .flat()
+              .map(replaceCandidateName);
+
       default:
         return [];
     }

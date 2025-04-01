@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import Candidates from "../../components/AiReference/Candidates/Candidates";
+import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 import "../../styles/AiReferenceStyles/AiReferenceCandidates.css";
 
 function AiReferenceCandidatesPage() {
+    const [showGuide, setShowGuide] = useState(true);
+  
   return (
     <>
         <Header />
@@ -22,6 +25,7 @@ function AiReferenceCandidatesPage() {
             </Col>
           </Row>
         </div>
+        {showGuide && <PopupGuide introKey="candidates" />}
     </>
   );
 }

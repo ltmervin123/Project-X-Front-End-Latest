@@ -1,6 +1,8 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
+import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
+
 const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
@@ -47,6 +49,42 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
       return;
     }
 
+    const sanitizePayload = (payload) => {
+      const { jobName, vacancies, hiringManager, department } = payload;
+
+      // Validate and sanitize text fields
+      const sanitizedJobName = jobName ? capitalizeWords(jobName) : "";
+      const sanitizedHiringManager = hiringManager
+        ? capitalizeWords(hiringManager)
+        : "";
+
+      // Ensure only letters, spaces, and hyphens are allowed in names
+      const nameRegex = /^[A-Za-z\s-]+$/;
+
+      if (!nameRegex.test(sanitizedJobName)) {
+        const error = {
+          jobName:
+            "Invalid job name. Only letters, spaces, and hyphens are allowed.",
+        };
+
+        throw error;
+      }
+      if (!nameRegex.test(sanitizedHiringManager)) {
+        const error = {
+          hiringManager:
+            "Invalid hiring manager name. Only letters, spaces, and hyphens are allowed.",
+        };
+        throw error;
+      }
+
+      return {
+        jobName: sanitizedJobName,
+        vacancies,
+        department,
+        hiringManager: sanitizedHiringManager,
+      };
+    };
+
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/create-job`;
@@ -68,7 +106,11 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
       }
     } catch (error) {
       console.error(error);
-      setErrorMessages({ jobName: error?.response?.data?.message });
+      if (error.response) {
+        setErrorMessages({ jobName: error?.response?.data?.message });
+      } else {
+        setErrorMessages(error);
+      }
     } finally {
       setLoading(false);
     }

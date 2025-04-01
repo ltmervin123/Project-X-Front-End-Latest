@@ -1,0 +1,86 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --font-black: #000;
+    --select-bg: #F2F3F7;
+}
+
+.choose-language-container {
+    background: var(--font-white);
+    width: 800px;
+    height: 80%;
+    max-height: 600px;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 0px #00000059;
+}
+
+.choose-language-container .row {
+    height: 50%;
+}
+
+.custom-dropdown-container-language {
+    position: relative;
+    width: 300px; /* Set a fixed width */
+    padding: 0;
+}
+
+
+
+.dropdown-options-language {
+    position: absolute;
+    top: 100%; /* Position below the dropdown */
+    left: 0;
+    right: 0;
+    background-color: var(--font-white);
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    z-index: 1000; /* Ensure it appears above other elements */
+    width: 100%;
+}
+
+.dropdown-options-language div {
+    padding: 10px; /* Add padding for better touch targets */
+    cursor: pointer; /* Pointer cursor */
+    width: 100%;
+}
+
+.dropdown-options-language div:hover {
+    background-color: var(--primary-color); /* Highlight on hover */
+    color: var(--font-white); /* Change text color on hover */
+}
+
+.btn-continue-language {
+    padding: 5px 20px;
+    background-color: var(--primary-color);
+    color: var(--font-white);
+    border: none;
+    border-radius: 50px;
+    width: 140px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-continue-language:hover {
+    background-color: #d45a00; /* Darker shade for hover effect */
+}
+
+.custom-dropdown-language.open {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+    background-position: right 10px center !important;
+    background-repeat: no-repeat !important;
+}
+
+.custom-dropdown-language {
+    padding: 10px; /* Add padding for better touch targets */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 10px; /* Rounded corners */
+    background-color: var(--select-bg); /* Use your input background color */
+    color: var(--font-black); /* Text color */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+    background-position: right 10px center !important;
+    background-repeat: no-repeat !important;
+}

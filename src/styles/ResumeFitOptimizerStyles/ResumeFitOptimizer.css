@@ -41,16 +41,38 @@
   gap: 20px;
   height: 80vh !important;
 }
+
 .ResumeFitOptimizer-grid-parent .div1 {
   grid-row: span 2 / span 2;
+  font-size: 22px;
+  color: var(--input-bg);
+}
+.ResumeFitOptimizer-grid-parent .div1 > h1{
+  width: 90%;
+  color: var(--font-black);
+}
+.ResumeFitOptimizer-grid-parent .div1 >p,
+.ResumeFitOptimizer-grid-parent .div1 > div  {
+  width: 90%;
+
 }
 .ResumeFitOptimizer-grid-parent .div1 button {
   background: var(--primary-color) !important;
   color: var(--font-white);
   width: 200px;
-  padding: 5px;
+  padding: 5px 30px;
+  font-size: 15px;
+  position: relative;
   border: none;
+  width: 100%;
   border-radius: 50px;
+}
+.ResumeFitOptimizer-grid-parent .div1 button > svg{
+  position: absolute;
+  right: 30px;
+}
+.ResumeFitOptimizer-grid-parent .div1 i{
+  font-size: 12px;
 }
 .ResumeFitOptimizer-grid-parent .div2 {
   grid-column: span 2 / span 2;

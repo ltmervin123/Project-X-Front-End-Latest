@@ -108,7 +108,7 @@ const capitalizeWords = (str) => {
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-              Name
+            Question Name
             </Form.Label>
             <Form.Control
               type="text"

@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import ReferenceRequest from "../../components/AiReference/ReferenceRequest/ReferenceRequest";
+import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 import "../../styles/AiReferenceStyles/AiReferenceRequest.css";
 
 function AiReferenceRequestPage() {
+  const [showGuide, setShowGuide] = useState(true); // State to control guide visibility
+
   return (
     <>
       <div className="mock-background">
@@ -23,6 +26,7 @@ function AiReferenceRequestPage() {
             </Col>
           </Row>
         </div>
+        {showGuide && <PopupGuide introKey="referenceRequests" />} {/* Pass "referenceRequests" as introKey */}
       </div>
     </>
   );
