@@ -10,14 +10,14 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
   const [questions, setQuestions] = useState([
     { text: "" }, // Start with one empty question
   ]);
-
+  const [submitting, setSubmitting] = useState(false);
   // Utility function to capitalize the first letter of each word
-const capitalizeWords = (str) => {
-  return str
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
   useEffect(() => {
     const validateQuestions = () => {
       setIsQuestionsEmpty(false);
@@ -52,6 +52,7 @@ const capitalizeWords = (str) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     const user = JSON.parse(localStorage.getItem("user"));
     const token = user?.token;
     try {
@@ -72,6 +73,8 @@ const capitalizeWords = (str) => {
       onClose();
     } catch (error) {
       console.error(error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -106,7 +109,7 @@ const capitalizeWords = (str) => {
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-            Question Name
+              Question Name
             </Form.Label>
             <Form.Control
               type="text"
@@ -232,11 +235,11 @@ const capitalizeWords = (str) => {
               <button
                 className={`btn-add-candidate ${
                   questions.length < 10 ? "disable" : ""
-                }`} // Add "disable" class if there are less than 10 questions
+                }`}
                 type="submit"
-                disabled={questions.length < 10} // Disable the button if there are less than 10 questions
+                disabled={questions.length < 10 || submitting}
               >
-                Add Set
+                {submitting ? "Adding..." : "Add Set"}
               </button>
             </div>
           </div>
