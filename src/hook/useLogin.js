@@ -31,6 +31,7 @@ export const useLogin = () => {
       };
       if (response.status === 200) {
         dispatch({ type: "LOGIN", payload: user });
+        sessionStorage.setItem("authenticated", true);
         return user;
       }
     } catch (err) {

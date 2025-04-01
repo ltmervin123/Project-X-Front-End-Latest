@@ -64,7 +64,7 @@ const AiReferenceCheckVerificationForm = ({
     await getReferenceQuestions();
     saveRefereeDataTemporary();
     navigate("/reference-choose-language"); // Updated navigation path
-};
+  };
   // Sync refereeName when it changes
   useEffect(() => {
     if (refereeName) {
@@ -150,129 +150,134 @@ const AiReferenceCheckVerificationForm = ({
       <i className="text-center">
         Your insights are valuable in helping us make informed decisions.
       </i>
-<div className="d-flex align-items-center justify-content-center h-100 w-100 my-2 mt-4">
-<div className=" AiReferenceCheckVerification-container-form">
-        <div className="AiReferenceCheckVerification-title">
-          <h5 className="m-0">Verify Your Information</h5>
-          <p className="m-0">
-            Please verify your information below before proceeding to the
-            questionnaire.
-          </p>
-        </div>
+      <div className="d-flex align-items-center justify-content-center h-100 w-100 my-2 mt-4">
+        <div className=" AiReferenceCheckVerification-container-form">
+          <div className="AiReferenceCheckVerification-title">
+            <h5 className="m-0">Verify Your Information</h5>
+            <p className="m-0">
+              Please verify your information below before proceeding to the
+              questionnaire.
+            </p>
+          </div>
 
-        <Form
-          onSubmit={handleSubmit}
-          className="form-AiReferenceCheckVerification "
-        >
-          <Row>
-            <Col md={12} className="d-flex flex-column gap-3">
-              <Form.Group controlId="referee-name">
-                <Form.Label className="mb-1">Referee Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="refereeName"
-                  value={formData.refereeName}
-                  placeholder="Referee Name"
-                  disabled={true}
-                />
-              </Form.Group>
-
-              <Form.Group controlId="position-title">
-                <Form.Label className="mb-1">Position Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="positionTitle"
-                  value={formData.positionTitle}
-                  onChange={handleChange}
-                  placeholder="Enter Position Title"
-                />
-              </Form.Group>
-
-              <Form.Group controlId="company-worked-with">
-                <Form.Label>Company You Worked With the Candidate</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="companyWorkedWith"
-                  value={formData.companyWorkedWith}
-                  onChange={handleChange}
-                  placeholder="E.g HR-HATCH"
-                />
-              </Form.Group>
-
-              <Form.Group controlId="relationship">
-                <Form.Label className="mb-1">Relationship to the Candidate</Form.Label>
-                {!isOtherSelected ? (
-                  <Form.Control
-                    as="select"
-                    name="relationship"
-                    value={formData.relationship}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select Relationship</option>
-                    <option value="Manager and or Report Line">Manager and or Report Line</option>
-                    <option value="Colleague">Colleague</option>
-                    <option value="Subordinate">Subordinate</option>
-                    <option value="Mentor">Mentor</option>
-                    <option value="Other">Other</option>
-                  </Form.Control>
-                ) : (
+          <Form
+            onSubmit={handleSubmit}
+            className="form-AiReferenceCheckVerification "
+          >
+            <Row>
+              <Col md={12} className="d-flex flex-column gap-3">
+                <Form.Group controlId="referee-name">
+                  <Form.Label className="mb-1">Referee Name</Form.Label>
                   <Form.Control
                     type="text"
-                    name="otherRelationship"
-                    value={formData.otherRelationship} // Ensure this is correctly set
-                    onChange={handleChange} // Update state on change
-                    placeholder="Please specify your relationship"
+                    name="refereeName"
+                    value={formData.refereeName}
+                    placeholder="Referee Name"
+                    disabled={true}
                   />
-                )}
-              </Form.Group>
+                </Form.Group>
 
-              <Form.Group controlId="date-worked-together">
-                <Form.Label className="mb-1">Date Worked Together</Form.Label>
-                <Row>
-                  <Col md={6}>
-                    <Form.Label className="mb-1" htmlFor="startdate">Start Date</Form.Label>
+                <Form.Group controlId="position-title">
+                  <Form.Label className="mb-1">Position Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="positionTitle"
+                    value={formData.positionTitle}
+                    onChange={handleChange}
+                    placeholder="Enter Position Title"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="company-worked-with">
+                  <Form.Label>Company You Worked With the Candidate</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="companyWorkedWith"
+                    value={formData.companyWorkedWith}
+                    onChange={handleChange}
+                    placeholder="E.g HR-HATCH"
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="relationship">
+                  <Form.Label className="mb-1">
+                    Relationship to the Candidate
+                  </Form.Label>
+                  {!isOtherSelected ? (
                     <Form.Control
-                      type="date"
-                      name="startDate"
-                      id="startdate"
-                      value={formData.startDate}
+                      as="select"
+                      name="relationship"
+                      value={formData.relationship}
                       onChange={handleChange}
-                      max={currentDate}
-                    />
-                  </Col>
-                  <Col md={6}>
-                    <Form.Label className="mb-1" htmlFor="enddate">End Date</Form.Label>
+                    >
+                      <option value="">Select Relationship</option>
+                      <option value="Manager and or Report Line">
+                        Manager and or Report Line
+                      </option>
+                      <option value="Colleague">Colleague</option>
+                      <option value="Subordinate">Subordinate</option>
+                      <option value="Mentor">Mentor</option>
+                      <option value="Other">Other</option>
+                    </Form.Control>
+                  ) : (
                     <Form.Control
-                      type="date"
-                      name="endDate"
-                      id="enddate"
-                      value={formData.endDate}
-                      onChange={handleChange}
-                      disabled={!formData.startDate}
-                      min={formData.startDate}
-                      max={currentDate}
+                      type="text"
+                      name="otherRelationship"
+                      value={formData.otherRelationship} // Ensure this is correctly set
+                      onChange={handleChange} // Update state on change
+                      placeholder="Please specify your relationship"
                     />
-                  </Col>
-                </Row>
-              </Form.Group>
-            </Col>
+                  )}
+                </Form.Group>
 
- 
-          </Row>
+                <Form.Group controlId="date-worked-together">
+                  <Form.Label className="mb-1">Date Worked Together</Form.Label>
+                  <Row>
+                    <Col md={6}>
+                      <Form.Label className="mb-1" htmlFor="startdate">
+                        Start Date
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        name="startDate"
+                        id="startdate"
+                        value={formData.startDate}
+                        onChange={handleChange}
+                        max={currentDate}
+                      />
+                    </Col>
+                    <Col md={6}>
+                      <Form.Label className="mb-1" htmlFor="enddate">
+                        End Date
+                      </Form.Label>
+                      <Form.Control
+                        type="date"
+                        name="endDate"
+                        id="enddate"
+                        value={formData.endDate}
+                        onChange={handleChange}
+                        disabled={!formData.startDate}
+                        min={formData.startDate}
+                        max={currentDate}
+                      />
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Col>
+            </Row>
 
-          <div className="d-flex justify-content-center m-4 ">
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={!isFormValid() || processing}
-            >
-              {processing ? "Processing..." : "Proceed to Questionnaire"}
-            </Button>
-          </div>
-        </Form>
+            <div className="d-flex justify-content-center m-4 ">
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={!isFormValid() || processing}
+              >
+                {processing ? "Processing..." : "Proceed to Questionnaire"}
+              </Button>
+            </div>
+          </Form>
+        </div>
       </div>
-</div>
-
     </div>
   );
 };
