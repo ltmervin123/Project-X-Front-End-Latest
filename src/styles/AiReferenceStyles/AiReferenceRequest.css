@@ -96,10 +96,10 @@
   cursor: pointer;
 }
 .btn-view-details.hide{
-  background: var(--card-color);
+  background: var(--card-color) !important;
 }
 .btn-view-details.hide:hover{
-  background: #686868dc;
+  background: #686868dc !important;
 }
 .btn-view-details:hover {
   background-color: #0056b3;
@@ -184,6 +184,8 @@
   padding: 15px; /* Padding for table cells */
   word-wrap: break-word;
   text-align: left; /* Align text to the left */
+  font-weight: bold;
+
 }
 .AiReference-reference-request-container  .btn-view-details {
   background: var(--btn-view-color);
@@ -228,22 +230,26 @@
   text-transform:capitalize;
 
 }
-.reference-table > thead > tr > th:nth-child(5),
+.reference-table > thead > tr > th:nth-child(5)
+{
+  width: 10.5% !important;
+
+}
 .reference-table > thead > tr > th:nth-child(6){
-  width: 11% !important;
+  width: 11.5% !important;
 
 }
 .reference-table > tbody > tr > td:nth-child(5),
 .reference-table > tbody > tr > td:nth-child(6){
   width: 11.2% !important;
 }
-.reference-table > thead > tr > th:nth-child(7){
+/* .reference-table > thead > tr > th:nth-child(7){
   width: 18% !important;
 
 }
 .reference-table > thead > tr > td:nth-child(7){
-  width: 16% !important;
-}
+  width: 18% !important;
+} */
 
 /* .status-bg-color{
   width: 120px !important;
@@ -316,13 +322,12 @@
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
-  font-size: 13px;
+  font-size: 12px;
 }
 
-.AiReference-reference-request-container  .btn-view-refere:hover {
+.AiReference-reference-request-container  .btn-view-referee:hover {
   background: darkgreen;
 }
-
 
 .AiReference-refReq-container .btn-view-details {
   background: var(--btn-view-color);
@@ -606,7 +611,7 @@ color: var(--text-color) !important;
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }
-@media (min-width: 1440px) {
+@media (min-width: 1500px) {
   .AiReference-reference-request-container  .btn-view-referee {
     width: 120px;
     padding: 8px; /* Adjusted padding */

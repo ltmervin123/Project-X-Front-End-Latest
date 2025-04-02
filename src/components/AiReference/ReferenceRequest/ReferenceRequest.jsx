@@ -533,16 +533,7 @@ const ReferenceRequest = () => {
                                 </svg>
                                 {visibleOptions[reference._id] && (
                                   <div className="action-options-reference">
-                                    <p
-                                      className="d-flex align-items-center gap-2"
-                                      onClick={() =>
-                                        handleEditReference(reference._id)
-                                      }
-                                      style={{ cursor: "pointer" }}
-                                    >
-                                      <FaEdit />
-                                      Edit
-                                    </p>
+      
                                     <p
                                       className="d-flex align-items-center gap-2"
                                       onClick={() =>
