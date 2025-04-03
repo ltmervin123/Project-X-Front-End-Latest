@@ -35,28 +35,37 @@ const AudioBase = ({
   };
   const language = sessionStorage.getItem("preferred-language") || "English";
 
-const translations = {
-  English: {
-    transcription: "Transcription:",
-    transcriptionPlaceholder: "Transcription will appear here....",
-    start: "Start",
-    stop: "Stop",
-    retry: "Retry",
-    proceed: "Proceed",
-    next: "Next",
-    saving: "Saving...",
-  },
-  Japanese: {
-    transcription: "トランスクリプション:",
-    transcriptionPlaceholder: "トランスクリプションがここに表示されます....",
-    start: "開始",
-    stop: "停止",
-    retry: "再試行",
-    proceed: "進む",
-    next: "次",
-    saving: "保存中...",
-  },
-};
+  const translations = {
+    English: {
+      transcription: "Transcription:",
+      transcriptionPlaceholder: "Transcription will appear here....",
+      start: "Start",
+      stop: "Stop",
+      retry: "Retry",
+      proceed: "Proceed",
+      next: "Next",
+      saving: "Saving...",
+    },
+    Japanese: {
+      transcription: "トランスクリプション:",
+      transcriptionPlaceholder: "トランスクリプションがここに表示されます....",
+      start: "開始",
+      stop: "停止",
+      retry: "再試行",
+      proceed: "進む",
+      next: "次",
+      saving: "保存中...",
+    },
+  };
+
+  const languageCode = {
+    English: "en-US",
+    Japanese: "ja-JP",
+  };
+
+  const getlanguageCode = (language) => {
+    return languageCode[language];
+  };
 
   // Ensure mediaRecorder is initialized
   useEffect(() => {
@@ -66,7 +75,8 @@ const translations = {
   }, [streamRef]);
 
   useEffect(() => {
-    socket.emit("startTranscription");
+    const languageCode = getlanguageCode(language);
+    socket.emit("startTranscription", languageCode);
 
     return () => {
       socket.off("real-time-transcription");
@@ -188,45 +198,47 @@ const translations = {
 
   return (
     <div className="transcription-answer-container">
-<h4>{translations[language].transcription}</h4>
-<textarea
-  value={answer}
-  rows="4"
-  placeholder={translations[language].transcriptionPlaceholder}
-  disabled
-/>
+      <h4>{translations[language].transcription}</h4>
+      <textarea
+        value={answer}
+        rows="4"
+        placeholder={translations[language].transcriptionPlaceholder}
+        disabled
+      />
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
         <div className="d-flex justify-content-center gap-3">
-        {reTry && !isSubmitting ? (
-  <>
-    <button onClick={handleReTry}>{translations[language].retry}</button>
-    {isLastQuestion ? (
-      <button disabled={!answer} onClick={handleProceed}>
-        {translations[language].proceed}
-      </button>
-    ) : (
-      <button disabled={!answer} onClick={nextQuestion}>
-        {translations[language].next}
-      </button>
-    )}
-  </>
-) : isSanitizingTranscription || isSubmitting ? (
-  <button className="disabled" disabled>
-    {translations[language].saving}
-  </button>
-) : !isRecording ? (
-  <button
-    className={isSpeaking ? "disabled" : ""}
-    onClick={startRecording}
-    disabled={isSpeaking}
-  >
-    {translations[language].start}
-  </button>
-) : (
-  <button className="btn-stop-transcript" onClick={stopRecording}>
-    {translations[language].stop}
-  </button>
-)}
+          {reTry && !isSubmitting ? (
+            <>
+              <button onClick={handleReTry}>
+                {translations[language].retry}
+              </button>
+              {isLastQuestion ? (
+                <button disabled={!answer} onClick={handleProceed}>
+                  {translations[language].proceed}
+                </button>
+              ) : (
+                <button disabled={!answer} onClick={nextQuestion}>
+                  {translations[language].next}
+                </button>
+              )}
+            </>
+          ) : isSanitizingTranscription || isSubmitting ? (
+            <button className="disabled" disabled>
+              {translations[language].saving}
+            </button>
+          ) : !isRecording ? (
+            <button
+              className={isSpeaking ? "disabled" : ""}
+              onClick={startRecording}
+              disabled={isSpeaking}
+            >
+              {translations[language].start}
+            </button>
+          ) : (
+            <button className="btn-stop-transcript" onClick={stopRecording}>
+              {translations[language].stop}
+            </button>
+          )}
         </div>
       </div>
       {!hasTranscription ? (
