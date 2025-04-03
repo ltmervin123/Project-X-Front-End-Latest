@@ -64,7 +64,10 @@ const AiReferenceCheckVerificationForm = ({
     e.preventDefault();
     // await getReferenceQuestions();
     saveRefereeDataTemporary();
-    navigate("/reference-choose-language"); // Updated navigation path
+    new Promise((resolve) => setTimeout(resolve, 1000));
+    navigate("/reference-choose-language", {
+      state: { referenceId, refereeId },
+    });
   };
   // Sync refereeName when it changes
   useEffect(() => {
