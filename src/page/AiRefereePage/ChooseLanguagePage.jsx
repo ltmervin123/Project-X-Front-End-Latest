@@ -1,38 +1,110 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AiRefereeStyles/ChooseLanguagePage.css";
+import axios from "axios";
 
-function ChooseLanguagePage() {
-  const [language, setLanguage] = useState("English");
-  const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
+const API = process.env.REACT_APP_API_URL;
+const TOKEN = sessionStorage.getItem("token") || null;
+const URL = `${API}/api/ai-referee/reference/translate-question`;
 
-  // Check for previously stored language in sessionStorage
-  useEffect(() => {
-    const storedLanguage = sessionStorage.getItem("preferred-language");
-    if (storedLanguage) {
-      setLanguage(storedLanguage);
-    }
-  }, []);
+const REFERENCE_QUESTIONS =
+  JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
+const QUESTIONS = REFERENCE_QUESTIONS?.questions || {};
+const { candidateName: CANDIDATE_NAME } =
+  JSON.parse(sessionStorage.getItem("refereeData")) || {};
 
-  // Handle language selection and navigate to the next page
-  const handleContinue = () => {
-    // Store the selected language in sessionStorage
-    sessionStorage.setItem("preferred-language", language);
-
-    // Navigate to the next page
-    navigate("/reference-interview-method"); // Replace with your next page route
+const translateQuestion = async (questions, targetLanguage) => {
+  const requestBody = {
+    questions,
+    targetLanguage,
   };
 
-  // Toggle dropdown open/close
+  const requestHeader = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  };
+
+  return await axios.post(URL, requestBody, requestHeader);
+};
+
+const replaceCandidateName = (questions, candidateName) => {
+  const replaceInArray = (arr) => {
+    return arr.map((q) =>
+      q
+        .replace(/\$\{candidateName\}/g, candidateName)
+        .replace(/\(candidate name\)/g, candidateName)
+    );
+  };
+
+  return Object.fromEntries(
+    Object.entries(questions).map(([key, value]) => [
+      key,
+      replaceInArray(value),
+    ])
+  );
+};
+
+const getLanguageCode = (language) => {
+  switch (language) {
+    case "English":
+      return "en";
+    case "Japanese":
+      return "ja";
+    default:
+      return "en";
+  }
+};
+
+function ChooseLanguagePage() {
+  const [language, setLanguage] = useState(
+    sessionStorage.getItem("preferred-language") || "English"
+  );
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  // Handle language selection
   const selectLanguage = (lang) => {
     setLanguage(lang);
     setIsOpen(false);
+  };
+
+  const handleContinue = async () => {
+    try {
+      setIsLoading(true);
+      if (language === "Japanese") {
+        await handleTranslateQuestion();
+      }
+      sessionStorage.setItem("preferred-language", language);
+      navigate("/reference-interview-method");
+    } catch (error) {
+      console.error("Error during translation:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTranslateQuestion = async () => {
+    const questions = replaceCandidateName(QUESTIONS, CANDIDATE_NAME);
+    const targetLanguage = getLanguageCode(language);
+    const response = await translateQuestion(questions, targetLanguage);
+
+    if (response.status === 200) {
+      const translatedQuestions = response.data?.translatedQuestions;
+      const translatedReferenceQuestions = {
+        ...REFERENCE_QUESTIONS,
+        questions: translatedQuestions,
+      };
+      sessionStorage.setItem(
+        "referenceQuestions",
+        JSON.stringify(translatedReferenceQuestions)
+      );
+    }
   };
 
   return (
@@ -42,9 +114,7 @@ function ChooseLanguagePage() {
           Choose Your <span className="color-orange"> Language </span>
         </h3>
         <p>Please select your preferred language to get started</p>
-        {/* Cards Container */}
         <div className="row d-flex justify-content-center align-items-center">
-          {/* Custom Dropdown */}
           <div className="custom-dropdown-container-language">
             <div
               className={`custom-dropdown-language ${isOpen ? "open" : ""}`}
@@ -60,9 +130,13 @@ function ChooseLanguagePage() {
             )}
           </div>
         </div>
-        {/* Continue Button */}
-        <button onClick={handleContinue} className="btn-continue-language mt-3">
-          Continue
+
+        <button
+          onClick={handleContinue}
+          className="btn-continue-language mt-3"
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "Continue"}
         </button>
       </div>
     </div>
