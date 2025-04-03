@@ -21,7 +21,8 @@ const AiReferenceCheckVerificationForm = ({
     candidateName: "",
     startDate: "",
     endDate: "",
-    otherRelationship: "", // New field for "Other" relationship
+    otherRelationship: "",
+    refereeId: "",
   });
   const [processing, setProcessing] = useState(false);
   const [isOtherSelected, setIsOtherSelected] = useState(false);
@@ -61,7 +62,7 @@ const AiReferenceCheckVerificationForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await getReferenceQuestions();
+    // await getReferenceQuestions();
     saveRefereeDataTemporary();
     navigate("/reference-choose-language"); // Updated navigation path
   };
@@ -94,6 +95,13 @@ const AiReferenceCheckVerificationForm = ({
         companyId: companyId,
       }));
     }
+
+    if (refereeId) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        refereeId: refereeId,
+      }));
+    }
   }, [refereeName, referenceId, candidateName, companyId]);
 
   const isFormValid = () => {
@@ -107,30 +115,30 @@ const AiReferenceCheckVerificationForm = ({
     );
   };
 
-  const getReferenceQuestions = async () => {
-    try {
-      const token = sessionStorage.getItem("token");
+  // const getReferenceQuestions = async () => {
+  //   try {
+  //     const token = sessionStorage.getItem("token");
 
-      setProcessing(true);
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}/${refereeId}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  //     setProcessing(true);
+  //     const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}/${refereeId}`;
+  //     const response = await axios.get(URL, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
 
-      if (response.status === 200) {
-        sessionStorage.setItem(
-          "referenceQuestions",
-          JSON.stringify(response.data)
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching reference questions:", error);
-    } finally {
-      setProcessing(false);
-    }
-  };
+  //     if (response.status === 200) {
+  //       sessionStorage.setItem(
+  //         "referenceQuestions",
+  //         JSON.stringify(response.data)
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching reference questions:", error);
+  //   } finally {
+  //     setProcessing(false);
+  //   }
+  // };
 
   // Prevent user from leaving the page
   useEffect(() => {

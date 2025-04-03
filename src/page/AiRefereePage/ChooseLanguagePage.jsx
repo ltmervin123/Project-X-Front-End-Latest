@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AiRefereeStyles/ChooseLanguagePage.css";
 import axios from "axios";
 
 const API = process.env.REACT_APP_API_URL;
 const TOKEN = sessionStorage.getItem("token") || null;
-const URL = `${API}/api/ai-referee/reference/translate-question`;
-
 const REFERENCE_QUESTIONS =
   JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
 const QUESTIONS = REFERENCE_QUESTIONS?.questions || {};
-const { candidateName: CANDIDATE_NAME } =
-  JSON.parse(sessionStorage.getItem("refereeData")) || {};
+const {
+  candidateName: CANDIDATE_NAME,
+  referenceId: REFERENCE_ID,
+  refereeId: REFEREE_ID,
+} = JSON.parse(sessionStorage.getItem("refereeData")) || {};
 
 const translateQuestion = async (questions, targetLanguage) => {
+  const URL = `${API}/api/ai-referee/reference/translate-question`;
   const requestBody = {
     questions,
     targetLanguage,
@@ -57,11 +59,22 @@ const getLanguageCode = (language) => {
   }
 };
 
+const getReferenceQuestions = async () => {
+  const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${REFERENCE_ID}/${REFEREE_ID}`;
+  const requestHeader = {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  };
+  return await axios.get(URL, requestHeader);
+};
+
 function ChooseLanguagePage() {
   const [language, setLanguage] = useState(
     sessionStorage.getItem("preferred-language") || "English"
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -73,6 +86,27 @@ function ChooseLanguagePage() {
     setLanguage(lang);
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        setFetching(true);
+        const response = await getReferenceQuestions();
+        if (response.status === 200) {
+          sessionStorage.setItem(
+            "referenceQuestions",
+            JSON.stringify(response.data)
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setFetching(false);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
 
   const handleContinue = async () => {
     try {
@@ -106,6 +140,10 @@ function ChooseLanguagePage() {
       );
     }
   };
+
+  if (fetching) {
+    return <div className="loading-container">Loading...</div>;
+  }
 
   return (
     <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center">
