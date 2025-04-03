@@ -3,28 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../../styles/AiRefereeStyles/ChooseLanguagePage.css";
 import axios from "axios";
 
-const API = process.env.REACT_APP_API_URL;
-const TOKEN = sessionStorage.getItem("token") || null;
-const REFERENCE_QUESTIONS =
-  JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
-const { candidateName: CANDIDATE_NAME } =
-  JSON.parse(sessionStorage.getItem("refereeData")) || {};
-const FORMAT = REFERENCE_QUESTIONS?.format || null;
-// const QUESTIONS = REFERENCE_QUESTIONS?.questions || {};
-
-const getTranslatedQuestion = async (format, candidateName) => {
-  const URL = `${API}/api/ai-referee/reference/get-translated-questions/${format}/${candidateName}`;
-
-  const requestHeader = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  };
-
-  return await axios.get(URL, requestHeader);
-};
-
 // const translateQuestion = async (questions, targetLanguage) => {
 //   const URL = `${API}/api/ai-referee/reference/translate-question`;
 //   const requestBody = {
@@ -70,20 +48,17 @@ const getTranslatedQuestion = async (format, candidateName) => {
 //   }
 // };
 
-const getReferenceQuestions = async (REFERENCE_ID, REFEREE_ID) => {
-  const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${REFERENCE_ID}/${REFEREE_ID}`;
-  const requestHeader = {
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  };
-  return await axios.get(URL, requestHeader);
-};
-
 function ChooseLanguagePage() {
   const [language, setLanguage] = useState(
     sessionStorage.getItem("preferred-language") || "English"
   );
+  const API = process.env.REACT_APP_API_URL;
+  const TOKEN = sessionStorage.getItem("token") || null;
+  const REFERENCE_QUESTIONS =
+    JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
+  const { candidateName: CANDIDATE_NAME } =
+    JSON.parse(sessionStorage.getItem("refereeData")) || {};
+  const FORMAT = REFERENCE_QUESTIONS?.format || null;
   const location = useLocation();
   const REFERENCE_ID = location.state?.referenceId || null;
   const REFEREE_ID = location.state?.refereeId || null;
@@ -92,9 +67,36 @@ function ChooseLanguagePage() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // const QUESTIONS = REFERENCE_QUESTIONS?.questions || {};
+
+  const getTranslatedQuestion = async (format, candidateName) => {
+    const URL = `${API}/api/ai-referee/reference/get-translated-questions/${format}/${candidateName}`;
+
+    const requestHeader = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+
+    return await axios.get(URL, requestHeader);
+  };
+
+  const getReferenceQuestions = async (REFERENCE_ID, REFEREE_ID) => {
+    const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${REFERENCE_ID}/${REFEREE_ID}`;
+    const requestHeader = {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+    return await axios.get(URL, requestHeader);
+  };
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  console.log("TOKEN", TOKEN);
 
   const selectLanguage = (lang) => {
     setLanguage(lang);
@@ -105,6 +107,7 @@ function ChooseLanguagePage() {
     const fetchQuestions = async () => {
       try {
         setFetching(true);
+        console.log("TOKEN", TOKEN);
         const response = await getReferenceQuestions(REFERENCE_ID, REFEREE_ID);
         if (response.status === 200) {
           sessionStorage.setItem(
