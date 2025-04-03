@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../../styles/AiRefereeStyles/ChooseLanguagePage.css";
 import axios from "axios";
 
@@ -7,19 +7,13 @@ const API = process.env.REACT_APP_API_URL;
 const TOKEN = sessionStorage.getItem("token") || null;
 const REFERENCE_QUESTIONS =
   JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
-const QUESTIONS = REFERENCE_QUESTIONS?.questions || {};
-const {
-  candidateName: CANDIDATE_NAME,
-  referenceId: REFERENCE_ID,
-  refereeId: REFEREE_ID,
-} = JSON.parse(sessionStorage.getItem("refereeData")) || {};
+const { candidateName: CANDIDATE_NAME } =
+  JSON.parse(sessionStorage.getItem("refereeData")) || {};
+const FORMAT = REFERENCE_QUESTIONS?.format || null;
+// const QUESTIONS = REFERENCE_QUESTIONS?.questions || {};
 
-const translateQuestion = async (questions, targetLanguage) => {
-  const URL = `${API}/api/ai-referee/reference/translate-question`;
-  const requestBody = {
-    questions,
-    targetLanguage,
-  };
+const getTranslatedQuestion = async (format, candidateName) => {
+  const URL = `${API}/api/ai-referee/reference/get-translated-questions/${format}/${candidateName}`;
 
   const requestHeader = {
     headers: {
@@ -28,38 +22,55 @@ const translateQuestion = async (questions, targetLanguage) => {
     },
   };
 
-  return await axios.post(URL, requestBody, requestHeader);
+  return await axios.get(URL, requestHeader);
 };
 
-const replaceCandidateName = (questions, candidateName) => {
-  const replaceInArray = (arr) => {
-    return arr.map((q) =>
-      q
-        .replace(/\$\{candidateName\}/g, candidateName)
-        .replace(/\(candidate name\)/g, candidateName)
-    );
-  };
+// const translateQuestion = async (questions, targetLanguage) => {
+//   const URL = `${API}/api/ai-referee/reference/translate-question`;
+//   const requestBody = {
+//     questions,
+//     targetLanguage,
+//   };
 
-  return Object.fromEntries(
-    Object.entries(questions).map(([key, value]) => [
-      key,
-      replaceInArray(value),
-    ])
-  );
-};
+//   const requestHeader = {
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${TOKEN}`,
+//     },
+//   };
 
-const getLanguageCode = (language) => {
-  switch (language) {
-    case "English":
-      return "en";
-    case "Japanese":
-      return "ja";
-    default:
-      return "en";
-  }
-};
+//   return await axios.post(URL, requestBody, requestHeader);
+// };
 
-const getReferenceQuestions = async () => {
+// const replaceCandidateName = (questions, candidateName) => {
+//   const replaceInArray = (arr) => {
+//     return arr.map((q) =>
+//       q
+//         .replace(/\$\{candidateName\}/g, candidateName)
+//         .replace(/\(candidate name\)/g, candidateName)
+//     );
+//   };
+
+//   return Object.fromEntries(
+//     Object.entries(questions).map(([key, value]) => [
+//       key,
+//       replaceInArray(value),
+//     ])
+//   );
+// };
+
+// const getLanguageCode = (language) => {
+//   switch (language) {
+//     case "English":
+//       return "en";
+//     case "Japanese":
+//       return "ja";
+//     default:
+//       return "en";
+//   }
+// };
+
+const getReferenceQuestions = async (REFERENCE_ID, REFEREE_ID) => {
   const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${REFERENCE_ID}/${REFEREE_ID}`;
   const requestHeader = {
     headers: {
@@ -73,6 +84,9 @@ function ChooseLanguagePage() {
   const [language, setLanguage] = useState(
     sessionStorage.getItem("preferred-language") || "English"
   );
+  const location = useLocation();
+  const REFERENCE_ID = location.state?.referenceId || null;
+  const REFEREE_ID = location.state?.refereeId || null;
   const [isOpen, setIsOpen] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +105,7 @@ function ChooseLanguagePage() {
     const fetchQuestions = async () => {
       try {
         setFetching(true);
-        const response = await getReferenceQuestions();
+        const response = await getReferenceQuestions(REFERENCE_ID, REFEREE_ID);
         if (response.status === 200) {
           sessionStorage.setItem(
             "referenceQuestions",
@@ -124,9 +138,10 @@ function ChooseLanguagePage() {
   };
 
   const handleTranslateQuestion = async () => {
-    const questions = replaceCandidateName(QUESTIONS, CANDIDATE_NAME);
-    const targetLanguage = getLanguageCode(language);
-    const response = await translateQuestion(questions, targetLanguage);
+    // const questions = replaceCandidateName(QUESTIONS, CANDIDATE_NAME);
+    // const targetLanguage = getLanguageCode(language);
+    // const response = await translateQuestion(questions, targetLanguage);
+    const response = await getTranslatedQuestion(FORMAT, CANDIDATE_NAME);
 
     if (response.status === 200) {
       const translatedQuestions = response.data?.translatedQuestions;
