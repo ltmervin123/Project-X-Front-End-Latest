@@ -96,8 +96,6 @@ function ChooseLanguagePage() {
     setIsOpen(!isOpen);
   };
 
-  console.log("TOKEN", TOKEN);
-
   const selectLanguage = (lang) => {
     setLanguage(lang);
     setIsOpen(false);
@@ -107,7 +105,6 @@ function ChooseLanguagePage() {
     const fetchQuestions = async () => {
       try {
         setFetching(true);
-        console.log("TOKEN", TOKEN);
         const response = await getReferenceQuestions(REFERENCE_ID, REFEREE_ID);
         if (response.status === 200) {
           sessionStorage.setItem(

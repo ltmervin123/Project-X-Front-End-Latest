@@ -64,22 +64,23 @@ const ReferenceCheckQuestionnairePage = () => {
 
   const language = sessionStorage.getItem("preferred-language") || "English";
 
-const translations = {
-  English: {
-    referenceCheckQuestionnaire: "Reference Check Questionnaire",
-    questionXofY: "Question {current} of {total}",
-    leavePageConfirmation: "Are you sure you want to leave this page?",
-    goBackConfirmation: "Are you sure you want to go back? Your progress will be lost.",
-    reattemptingCamera: "Reattempting access to camera...",
-  },
-  Japanese: {
-    referenceCheckQuestionnaire: "リファレンスチェック質問票",
-    questionXofY: "質問 {current}／{total}",
-    leavePageConfirmation: "このページから移動してもよろしいですか？",
-    goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
-    reattemptingCamera: "カメラへのアクセスを再試行しています...",
-  },
-};
+  const translations = {
+    English: {
+      referenceCheckQuestionnaire: "Reference Check Questionnaire",
+      questionXofY: "Question {current} of {total}",
+      leavePageConfirmation: "Are you sure you want to leave this page?",
+      goBackConfirmation:
+        "Are you sure you want to go back? Your progress will be lost.",
+      reattemptingCamera: "Reattempting access to camera...",
+    },
+    Japanese: {
+      referenceCheckQuestionnaire: "リファレンスチェック質問票",
+      questionXofY: "質問 {current}／{total}",
+      leavePageConfirmation: "このページから移動してもよろしいですか？",
+      goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
+      reattemptingCamera: "カメラへのアクセスを再試行しています...",
+    },
+  };
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -267,7 +268,7 @@ const translations = {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [language]);
-  
+
   //Add a warning when user is navigating back to previous page
   useEffect(() => {
     const handleBackButton = (event) => {
@@ -447,17 +448,17 @@ const translations = {
 
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
-<h2 className="referencecheckquestiontitle text-left mb-2">
-  {translations[language].referenceCheckQuestionnaire}
-</h2>
+      <h2 className="referencecheckquestiontitle text-left mb-2">
+        {translations[language].referenceCheckQuestionnaire}
+      </h2>
 
       <div className="referencecheckquestion-container mb-5">
         <div className="question-container">
-        <p className="question-title">
-  {translations[language].questionXofY
-    .replace("{current}", currentQuestionIndex + 1)
-    .replace("{total}", questions.length)}
-</p>
+          <p className="question-title">
+            {translations[language].questionXofY
+              .replace("{current}", currentQuestionIndex + 1)
+              .replace("{total}", questions.length)}
+          </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>
       </div>

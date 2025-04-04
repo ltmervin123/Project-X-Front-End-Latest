@@ -533,7 +533,6 @@ const ReferenceRequest = () => {
                                 </svg>
                                 {visibleOptions[reference._id] && (
                                   <div className="action-options-reference">
-      
                                     <p
                                       className="d-flex align-items-center gap-2"
                                       onClick={() =>
@@ -572,7 +571,8 @@ const ReferenceRequest = () => {
                                   : "No Referees"}
                               </b>
                               <div className="referee-list w-100 d-flex gap-2 mt-2">
-                                {showDropDown && selectedCandidate?.referees && (
+                                {showDropDown &&
+                                  selectedCandidate?.referees &&
                                   selectedCandidate.referees.map((referee) => (
                                     <div
                                       className="referee-item mb-4"
@@ -620,9 +620,7 @@ const ReferenceRequest = () => {
                                         </div>
                                       </div>
                                     </div>
-                                  ))
-                         
-                                )}
+                                  ))}
                               </div>
                             </div>
                           </div>

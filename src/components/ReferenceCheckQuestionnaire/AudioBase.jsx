@@ -116,6 +116,8 @@ const AudioBase = ({
         handleAudioBaseSubmit(response.data.improvedTranscription);
       }
     } catch (error) {
+      setAudioBaseAnswer(answer);
+      handleAudioBaseSubmit(answer);
       console.error("Error improving transcription:", error);
     } finally {
       setIsSanitizingTranscription(false);

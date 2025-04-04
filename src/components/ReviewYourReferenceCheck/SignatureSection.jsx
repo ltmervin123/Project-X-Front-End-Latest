@@ -50,24 +50,28 @@ const SignatureSection = ({
   return (
     <div className="ReviewYourReferenceCheck-container d-flex align-items-center justify-content-center w-100">
       <div className="selection-container d-flex align-items-start justify-content-start  flex-column ">
-      <p>{translations[language].signatureMethod}</p>
-              <select
+        <p>{translations[language].signatureMethod}</p>
+        <select
           name="signature-method"
           id="signature-method"
           className="mb-3 form-select"
           onChange={(e) => setSignatureMethod(e.target.value)}
           value={signatureMethod}
         >
-<option value="Draw Signature">{translations[language].drawSignature}</option>
-<option value="Upload Signature">{translations[language].uploadSignature}</option>
+          <option value="Draw Signature">
+            {translations[language].drawSignature}
+          </option>
+          <option value="Upload Signature">
+            {translations[language].uploadSignature}
+          </option>
         </select>
       </div>
 
       {signatureMethod === "Draw Signature" ? (
         <>
           <div className="drawing-container">
-          <p>{translations[language].drawingContainer}</p>
-                      <div
+            <p>{translations[language].drawingContainer}</p>
+            <div
               className="drawing-container-box w-100"
               style={{ width: "100%", height: "260px" }}
             >
@@ -86,25 +90,25 @@ const SignatureSection = ({
             </div>
           </div>
           <div className="ReviewYourReferenceCheck-button-controls d-flex gap-3 my-3 w-100 justify-content-center m-2">
-  <button
-    onClick={clearDrawing}
-    disabled={submitting || isCanvaEmpty}
-  >
-    {translations[language].clear}
-  </button>
-  <button
-    onClick={handleProceedIDUpload}
-    disabled={submitting || isCanvaEmpty}
-  >
-    {translations[language].proceed}
-  </button>
-</div>
+            <button
+              onClick={clearDrawing}
+              disabled={submitting || isCanvaEmpty}
+            >
+              {translations[language].clear}
+            </button>
+            <button
+              onClick={handleProceedIDUpload}
+              disabled={submitting || isCanvaEmpty}
+            >
+              {translations[language].proceed}
+            </button>
+          </div>
         </>
       ) : (
         <>
           <div className="file-upload-container">
-          <p>{translations[language].dragDropSignature}</p>
-                      <div
+            <p>{translations[language].dragDropSignature}</p>
+            <div
               className="file-upload-area d-flex align-items-center justify-content-center flex-column"
               onDrop={handleFileDrop} // Ensure this is defined in the parent
               onDragOver={handleDragOver} // Ensure this is defined in the parent
@@ -128,9 +132,13 @@ const SignatureSection = ({
                           marginTop: "10px",
                         }}
                       />
-  <p>
-          {translations[language].fileUploaded.replace("{fileName}", uploadedFile.name)}
-        </p>                    </>
+                      <p>
+                        {translations[language].fileUploaded.replace(
+                          "{fileName}",
+                          uploadedFile.name
+                        )}
+                      </p>{" "}
+                    </>
                   )}
                 </div>
               ) : (
@@ -149,16 +157,20 @@ const SignatureSection = ({
                   </svg>
 
                   <p>{translations[language].dropSignature}</p>
-                                    <input
+                  <input
                     type="file"
                     id="file-upload"
                     accept=".png, .jpg, .jpeg, .jfif"
                     onChange={handleFileSelect}
                     style={{ display: "none" }}
                   />
-<button onClick={() => document.getElementById("file-upload").click()}>
-  {translations[language].selectFile}
-</button>
+                  <button
+                    onClick={() =>
+                      document.getElementById("file-upload").click()
+                    }
+                  >
+                    {translations[language].selectFile}
+                  </button>
                   {errorMessage && (
                     <p style={{ color: "red" }}>{errorMessage}</p>
                   )}
