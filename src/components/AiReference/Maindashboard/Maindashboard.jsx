@@ -704,8 +704,8 @@ const MainDashboard = () => {
           },
           color: "#000",
           callback: function (value, index) {
-            // Only show labels if there are 3 or fewer departments
-            return departments.length <= 3 ? departments[index] : "";
+            // Only show labels if there are 2 or fewer departments
+            return departments.length <= 2 ? departments[index] : "";
           },
         },
       },

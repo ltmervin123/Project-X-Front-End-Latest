@@ -35,7 +35,7 @@
   display: flex;
 }
 .referee-item {
-  width: 33.33%;
+  width: 33%;
   display: flex;
   height: 120px;
   justify-content: space-between;
@@ -96,10 +96,10 @@
   cursor: pointer;
 }
 .btn-view-details.hide{
-  background: var(--card-color);
+  background: var(--card-color) !important;
 }
 .btn-view-details.hide:hover{
-  background: #686868dc;
+  background: #686868dc !important;
 }
 .btn-view-details:hover {
   background-color: #0056b3;
@@ -147,10 +147,72 @@
 .action-options-reference p:nth-child(2){
   color: red;
 }
+.AiReference-reference-request-container {
+  background: var(--font-white);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+  padding: 20px;
+  height: 60vh;
+}
+.AiReference-reference-request-container > div {
+  height: 15%;
+}
+
+.AiReference-reference-request-container  table {
+  width: 100%;
+  height: 80%;
+  border-collapse: collapse; 
+  font-size: 15px;
+}
+.AiReference-reference-request-container tbody {
+  display: block; /* Make tbody a block element */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden;
+  height: 100%;
+}
+.AiReference-reference-request-container  tr {
+  display: table; /* Ensure rows are displayed as table rows */
+  table-layout: fixed; /* Prevent layout shifts */
+  width: 100%; /* Full width for rows */
+}
+.AiReference-reference-request-container  th {
+  color: var(--card-color);
+}
+.AiReference-reference-request-container  th,
+.AiReference-reference-request-container  td {
+  padding: 15px; /* Padding for table cells */
+  word-wrap: break-word;
+  text-align: left; /* Align text to the left */
+  font-weight: bold;
+
+}
+.AiReference-reference-request-container  .btn-view-details {
+  background: var(--btn-view-color);
+  text-decoration: none;
+  color: var(--font-white);
+  width: 120px;
+  padding: 8px; /* Adjusted padding */
+  border-radius: 50px;
+  height: auto;
+
+  border: none !important;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.AiReference-reference-request-container  .btn-view-details:hover {
+  background: darkgreen;
+}
 
 .reference-table > thead > tr > th:nth-child(1),
+.reference-table > tbody > tr > td:nth-child(1){
+  text-transform:capitalize;
+
+  width: 13% !important;
+}
 .reference-table > thead > tr > th:nth-child(2),
-.reference-table > tbody > tr > td:nth-child(1),
 .reference-table > tbody > tr > td:nth-child(2){
   width: 15% !important; 
   text-transform:capitalize;
@@ -168,25 +230,27 @@
   text-transform:capitalize;
 
 }
-.reference-table > thead > tr > th:nth-child(5),
+.reference-table > thead > tr > th:nth-child(5)
+{
+  width: 10.5% !important;
+
+}
 .reference-table > thead > tr > th:nth-child(6){
-  width: 11% !important;
+  width: 11.5% !important;
 
 }
 .reference-table > tbody > tr > td:nth-child(5),
 .reference-table > tbody > tr > td:nth-child(6){
   width: 11.2% !important;
 }
-.reference-table > thead > tr > th:nth-child(7){
+/* .reference-table > thead > tr > th:nth-child(7){
   width: 18% !important;
 
 }
 .reference-table > thead > tr > td:nth-child(7){
-  width: 16% !important;
-}
-.Reference-Request span{
-font-size: inherit;
-}
+  width: 18% !important;
+} */
+
 /* .status-bg-color{
   width: 120px !important;
   padding: 5px 10px;
@@ -247,7 +311,23 @@ font-size: inherit;
   width: 20%;
   padding-left: 0;
 }
+.AiReference-reference-request-container  .btn-view-referee {
+  background: var(--btn-view-color);
+  text-decoration: none;
+  color: var(--font-white);
+  padding: 8px 15px; /* Adjusted padding */
+  border-radius: 50px;
+  height: auto;
 
+  border: none !important;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s;
+  font-size: 12px;
+}
+
+.AiReference-reference-request-container  .btn-view-referee:hover {
+  background: darkgreen;
+}
 
 .AiReference-refReq-container .btn-view-details {
   background: var(--btn-view-color);
@@ -512,4 +592,31 @@ color: var(--text-color) !important;
   color: var(--font-white);
   border-radius: 50px;
   border: none;
+}
+/* Customizing the scrollbar */
+.AiReference-reference-request-container  tbody::-webkit-scrollbar {
+  width: 5px; /* Scrollbar width */
+}
+
+.AiReference-reference-request-container  tbody::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.AiReference-reference-request-container  tbody::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.AiReference-reference-request-container  tbody::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}
+@media (min-width: 1500px) {
+  .AiReference-reference-request-container  .btn-view-referee {
+    width: 120px;
+    padding: 8px; /* Adjusted padding */
+    font-size: 14px;
+  }
+  
+
 }

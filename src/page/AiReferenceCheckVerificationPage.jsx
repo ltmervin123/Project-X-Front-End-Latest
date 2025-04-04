@@ -66,16 +66,15 @@ function AiReferenceCheckVerificationPage() {
 
   return (
     <>
-          <div className=" login-page-container AiReferenceCheckVerification-page-container">
-
-      <Header />
-      <AiReferenceCheckVerificationForm
-        refereeName={refereeName}
-        referenceId={referenceId}
-        candidateName={candidateName}
-        refereeId={refereeId}
-        companyId={companyId}
-      />
+      <div className=" login-page-container AiReferenceCheckVerification-page-container">
+        <Header />
+        <AiReferenceCheckVerificationForm
+          refereeName={refereeName}
+          referenceId={referenceId}
+          candidateName={candidateName}
+          refereeId={refereeId}
+          companyId={companyId}
+        />
       </div>
     </>
   );

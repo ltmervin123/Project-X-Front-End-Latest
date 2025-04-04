@@ -19,10 +19,38 @@ const SignatureSection = ({
   handleFileSelect,
   isCanvaEmpty,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      signatureMethod: "Signature Method",
+      drawSignature: "Draw Signature",
+      uploadSignature: "Upload Signature",
+      drawingContainer: "Drawing container area",
+      dragDropSignature: "Drag & Drop Signature",
+      dropSignature: "Drop your signature image here or click to select",
+      selectFile: "Select File",
+      fileUploaded: "File uploaded: {fileName}", // New key for uploaded file message
+      clear: "Clear", // New key for Clear button
+      proceed: "Proceed", // New key for Proceed button
+    },
+    Japanese: {
+      signatureMethod: "署名方法",
+      drawSignature: "署名を描く",
+      uploadSignature: "署名をアップロード",
+      drawingContainer: "描画コンテナエリア",
+      dragDropSignature: "ドラッグ＆ドロップ署名",
+      dropSignature: "ここに署名画像をドロップするか、クリックして選択",
+      selectFile: "ファイルを選択",
+      fileUploaded: "アップロードされたファイル: {fileName}", // New key for uploaded file message in Japanese
+      clear: "クリア", // New key for Clear button in Japanese
+      proceed: "進む", // New key for Proceed button in Japanese
+    },
+  };
   return (
     <div className="ReviewYourReferenceCheck-container d-flex align-items-center justify-content-center w-100">
       <div className="selection-container d-flex align-items-start justify-content-start  flex-column ">
-        <p>Signature Method</p>
+        <p>{translations[language].signatureMethod}</p>
         <select
           name="signature-method"
           id="signature-method"
@@ -30,15 +58,19 @@ const SignatureSection = ({
           onChange={(e) => setSignatureMethod(e.target.value)}
           value={signatureMethod}
         >
-          <option value="Draw Signature">Draw Signature</option>
-          <option value="Upload Signature">Upload Signature</option>
+          <option value="Draw Signature">
+            {translations[language].drawSignature}
+          </option>
+          <option value="Upload Signature">
+            {translations[language].uploadSignature}
+          </option>
         </select>
       </div>
 
       {signatureMethod === "Draw Signature" ? (
         <>
           <div className="drawing-container">
-            <p>Drawing container area</p>
+            <p>{translations[language].drawingContainer}</p>
             <div
               className="drawing-container-box w-100"
               style={{ width: "100%", height: "260px" }}
@@ -62,20 +94,20 @@ const SignatureSection = ({
               onClick={clearDrawing}
               disabled={submitting || isCanvaEmpty}
             >
-              Clear
+              {translations[language].clear}
             </button>
             <button
               onClick={handleProceedIDUpload}
               disabled={submitting || isCanvaEmpty}
             >
-              Proceed
+              {translations[language].proceed}
             </button>
           </div>
         </>
       ) : (
         <>
           <div className="file-upload-container">
-            <p>Drag & Drop Signature</p>
+            <p>{translations[language].dragDropSignature}</p>
             <div
               className="file-upload-area d-flex align-items-center justify-content-center flex-column"
               onDrop={handleFileDrop} // Ensure this is defined in the parent
@@ -100,7 +132,12 @@ const SignatureSection = ({
                           marginTop: "10px",
                         }}
                       />
-                      <p>File uploaded: {uploadedFile.name}</p>
+                      <p>
+                        {translations[language].fileUploaded.replace(
+                          "{fileName}",
+                          uploadedFile.name
+                        )}
+                      </p>{" "}
                     </>
                   )}
                 </div>
@@ -119,7 +156,7 @@ const SignatureSection = ({
                     />
                   </svg>
 
-                  <p>Drop your signature image here or click to select</p>
+                  <p>{translations[language].dropSignature}</p>
                   <input
                     type="file"
                     id="file-upload"
@@ -132,7 +169,7 @@ const SignatureSection = ({
                       document.getElementById("file-upload").click()
                     }
                   >
-                    Select File
+                    {translations[language].selectFile}
                   </button>
                   {errorMessage && (
                     <p style={{ color: "red" }}>{errorMessage}</p>

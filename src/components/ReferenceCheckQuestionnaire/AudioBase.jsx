@@ -33,6 +33,39 @@ const AudioBase = ({
   const clearTranscription = () => {
     transcription.current = "";
   };
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      transcription: "Transcription:",
+      transcriptionPlaceholder: "Transcription will appear here....",
+      start: "Start",
+      stop: "Stop",
+      retry: "Retry",
+      proceed: "Proceed",
+      next: "Next",
+      saving: "Saving...",
+    },
+    Japanese: {
+      transcription: "トランスクリプション:",
+      transcriptionPlaceholder: "トランスクリプションがここに表示されます....",
+      start: "開始",
+      stop: "停止",
+      retry: "再試行",
+      proceed: "進む",
+      next: "次",
+      saving: "保存中...",
+    },
+  };
+
+  const languageCode = {
+    English: "en-US",
+    Japanese: "ja-JP",
+  };
+
+  const getlanguageCode = (language) => {
+    return languageCode[language];
+  };
 
   // Ensure mediaRecorder is initialized
   useEffect(() => {
@@ -42,7 +75,8 @@ const AudioBase = ({
   }, [streamRef]);
 
   useEffect(() => {
-    socket.emit("startTranscription");
+    const languageCode = getlanguageCode(language);
+    socket.emit("startTranscription", languageCode);
 
     return () => {
       socket.off("real-time-transcription");
@@ -82,6 +116,8 @@ const AudioBase = ({
         handleAudioBaseSubmit(response.data.improvedTranscription);
       }
     } catch (error) {
+      setAudioBaseAnswer(answer);
+      handleAudioBaseSubmit(answer);
       console.error("Error improving transcription:", error);
     } finally {
       setIsSanitizingTranscription(false);
@@ -164,31 +200,33 @@ const AudioBase = ({
 
   return (
     <div className="transcription-answer-container">
-      <h4>Transcription:</h4>
+      <h4>{translations[language].transcription}</h4>
       <textarea
         value={answer}
         rows="4"
-        placeholder="Transcription will appear here...."
+        placeholder={translations[language].transcriptionPlaceholder}
         disabled
       />
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
         <div className="d-flex justify-content-center gap-3">
           {reTry && !isSubmitting ? (
             <>
-              <button onClick={handleReTry}>Retry</button>
+              <button onClick={handleReTry}>
+                {translations[language].retry}
+              </button>
               {isLastQuestion ? (
                 <button disabled={!answer} onClick={handleProceed}>
-                  Proceed
+                  {translations[language].proceed}
                 </button>
               ) : (
                 <button disabled={!answer} onClick={nextQuestion}>
-                  Next
+                  {translations[language].next}
                 </button>
               )}
             </>
           ) : isSanitizingTranscription || isSubmitting ? (
             <button className="disabled" disabled>
-              Saving...
+              {translations[language].saving}
             </button>
           ) : !isRecording ? (
             <button
@@ -196,11 +234,11 @@ const AudioBase = ({
               onClick={startRecording}
               disabled={isSpeaking}
             >
-              Start
+              {translations[language].start}
             </button>
           ) : (
             <button className="btn-stop-transcript" onClick={stopRecording}>
-              Stop
+              {translations[language].stop}
             </button>
           )}
         </div>

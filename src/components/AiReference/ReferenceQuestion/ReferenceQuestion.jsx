@@ -407,6 +407,8 @@ const ReferenceQuestion = () => {
     setIsHRHatchFormatPopupOpen(false);
     setIsEditHRHatchModalOpen(true); // Open the edit modal after selecting the format
   };
+
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
@@ -696,13 +698,14 @@ const ReferenceQuestion = () => {
           isDeleting={isDeleting}
         />
       )}
-      {isEditModalOpen && (
-        <EditNewSetsQuestionPopUp
-          onClose={() => setIsEditModalOpen(false)}
-          reFetchUpdatedQuestions={reFetchUpdatedQuestions}
-          existingSet={selectedQuestionSet}
-        />
-      )}
+{isEditModalOpen && (
+  <EditNewSetsQuestionPopUp
+    onClose={() => setIsEditModalOpen(false)}
+    reFetchUpdatedQuestions={reFetchUpdatedQuestions}
+    existingSet={selectedQuestionSet}
+    maxQuestions={selectedQuestionSet?.questions.length}
+      />
+)}
       {showGuide && (
         <PopupGuide
           introKey="referenceQuestions"

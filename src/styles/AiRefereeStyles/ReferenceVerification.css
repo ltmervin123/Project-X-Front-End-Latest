@@ -39,7 +39,7 @@
 .reference-verification-container > p {
     text-align: center;
     font-weight: 100 !important;
-    width: 85%;
+    width: 90%;
 }
 .reference-verification-container > p
  {
@@ -52,4 +52,14 @@
     background: var(--secondary-color);
     color: var(--font-white) !important;
     border: none;
+    width: 150px;
+
+}
+.btn-download {
+    padding: 5px 40px;
+    border-radius: 50px;
+    background: var(--primary-color);
+    color: var(--font-white) !important;
+    border: none;
+    width: 150px;
 }

@@ -18,6 +18,28 @@ const QuestionDisplay = ({
   const [editedAIEnhancedAnswer, setEditedAIEnhancedAnswer] = useState("");
   const [editingType, setEditingType] = useState(null);
 
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+const translations = {
+  English: {
+    question: "Question {current}:",
+    originalAnswer: "Original Answer:",
+    aiEnhancedAnswer: "AI Enhanced Answer:",
+    editAnswers: "Edit Answers",
+    save: "Save",
+    saving: "Saving...",
+    discard: "Discard",
+  },
+  Japanese: {
+    question: "質問 {current}:",
+    originalAnswer: "元の回答:",
+    aiEnhancedAnswer: "AI強化回答:",
+    editAnswers: "回答を編集",
+    save: "保存",
+    saving: "保存中...",
+    discard: "破棄",
+  },
+};
   const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
@@ -71,14 +93,14 @@ const QuestionDisplay = ({
   return (
     <div className="ReviewYourReferenceCheck-box-item h-100">
       <div className="question-container m-0">
-        <p className="question-text ">
-          <strong>Question {currentQuestionIndex + 1}:</strong>{" "}
-          {questions[currentQuestionIndex]}
-        </p>
+      <p className="question-text ">
+  <strong>{translations[language].question.replace("{current}", currentQuestionIndex + 1)}</strong> 
+  {questions[currentQuestionIndex]}
+</p>
       </div>
 
       <p className="orig-label d-flex justify-content-between align-items-center">
-        <strong>Original Answer:</strong>
+      <strong>{translations[language].originalAnswer}</strong>
         {isEditing && editingType === "original" ? null : (
           <button
             className="btn-edit"
@@ -110,7 +132,7 @@ const QuestionDisplay = ({
                 stroke-linejoin="round"
               />
             </svg>
-            Edit Answers
+            {translations[language].editAnswers}
           </button>
         )}
       </p>
@@ -148,7 +170,7 @@ const QuestionDisplay = ({
       )}
 
       <p className="ai-enhanced-label d-flex justify-content-between align-items-center">
-        <strong>AI Enhanced Answer:</strong>
+      <strong>{translations[language].aiEnhancedAnswer}</strong>
         {isEditing && editingType === "aiEnhanced" ? null : (
           <button
             className="btn-edit"
@@ -182,7 +204,7 @@ const QuestionDisplay = ({
                 stroke-linejoin="round"
               />
             </svg>
-            Edit Answers
+            {translations[language].editAnswers}
           </button>
         )}
       </p>
@@ -206,12 +228,20 @@ const QuestionDisplay = ({
 
       {isEditing && editingType === "aiEnhanced" && (
         <div className="action-buttons d-flex gap-3 mb-3">
-          <button className="btn-save" onClick={handleSaveAIEnhancedAnswer}>
-            Save
-          </button>
-          <button className="btn-discard" onClick={handleDiscard}>
-            Discard
-          </button>
+<button
+  className={`btn-save ${updating ? "disabled" : ""}`}
+  onClick={handleSaveOriginalAnswer}
+  disabled={updating}
+>
+  {updating ? translations[language].saving : translations[language].save}
+</button>
+<button
+  className={`btn-discard ${updating ? "disabled" : ""}`}
+  onClick={handleDiscard}
+  disabled={updating}
+>
+  {translations[language].discard}
+</button>
         </div>
       )}
     </div>

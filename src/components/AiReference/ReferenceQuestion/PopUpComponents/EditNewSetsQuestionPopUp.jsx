@@ -6,6 +6,7 @@ const EditNewSetsQuestionPopUp = ({
   onClose,
   reFetchUpdatedQuestions,
   existingSet,
+  maxQuestions,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const [name, setName] = useState(existingSet.name || "");
@@ -38,7 +39,7 @@ const capitalizeWords = (str) => {
   };
 
   const handleAddQuestion = () => {
-    if (questions.length < 10) {
+    if (questions.length < maxQuestions) {
       setQuestions([...questions, { text: "" }]);
     }
   };
@@ -77,8 +78,8 @@ const capitalizeWords = (str) => {
     }
   };
 
-  const progress = Math.min(100, (questions.length / 10) * 100); // Progress bar logic
-
+  const progress = Math.min(100, (questions.length / maxQuestions) * 100); // Dynamic progress calculation
+  console.log(maxQuestions)
   return (
     <Modal
       show={true}
@@ -200,8 +201,8 @@ const capitalizeWords = (str) => {
 
               {/* Progress bar and count */}
               <div style={{ width: "95%" }}>
-                <p className="mb-2">{questions.length} of 10 Questions</p>
-                <ProgressBar
+              <p className="mb-2">{questions.length} of {maxQuestions} Questions</p>
+                              <ProgressBar
                   className="progress-bar-for-question"
                   now={progress}
                   label={false}
@@ -211,7 +212,7 @@ const capitalizeWords = (str) => {
           </div>
 
           {/* Conditionally render Add Question button if less than 10 questions */}
-          {questions.length < 10 && (
+          {questions.length < maxQuestions && (
             <div className="d-flex justify-content-center mb-3">
               <div className="w-100 d-flex justify-content-center align-items-center">
                 <p style={{ width: "150px" }}></p>
@@ -235,7 +236,7 @@ const capitalizeWords = (str) => {
                   questions.length < 10 ? "disable" : ""
                 }`} // Add "disable" class if there are less than 10 questions
                 type="submit"
-                disabled={questions.length < 10} // Disable the button if there are less than 10 questions
+                disabled={questions.length < maxQuestions} // Disable the button if there are less than maxQuestions
               >
                 Update Set
               </button>

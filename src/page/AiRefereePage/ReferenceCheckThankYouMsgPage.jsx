@@ -6,6 +6,23 @@ const ReferenceCheckThankYouMsgPage = () => {
   const navigate = useNavigate();
   const { candidateName } = JSON.parse(sessionStorage.getItem("refereeData"));
 
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+const translations = {
+  English: {
+    thankYouMessage: "Thank you for taking the time to provide a reference for",
+    appreciated: "Your insights are highly valued and appreciated.",
+    confidentialityNote: "Please note that all information shared will be kept highly confidential.",
+    finish: "Finish",
+  },
+  Japanese: {
+    thankYouMessage: "リファレンスを提供していただきありがとうございます",
+    appreciated: "あなたの洞察は非常に重要で感謝されています。",
+    confidentialityNote: "共有されたすべての情報は厳重に機密扱いされます。",
+    finish: "終了",
+  },
+};
+
   const handleFinish = () => {
     navigate("/reference-review");
   };
@@ -28,26 +45,18 @@ const ReferenceCheckThankYouMsgPage = () => {
           </svg>
 
           <div className="forgot-header text-center mt-2 p-1">
-            <p className="mb-5">
-              Thank you for taking the time to provide a reference for
-              <strong> {candidateName}</strong>. Your insights are highly valued
-              and appreciated.
-            </p>
+          <p className="mb-5">
+  {translations[language].thankYouMessage} <strong>{candidateName}</strong>. {translations[language].appreciated}
+</p>
             <p className="mb-5"></p>
-            <small
-              className="my-5"
-              style={{
-                fontSize: "13px",
-              }}
-            >
-              Please note that all information shared will be kept highly
-              confidential.
-            </small>
+            <small className="my-5" style={{ fontSize: "13px" }}>
+  {translations[language].confidentialityNote}
+</small>
           </div>
 
           <button className="redirect-to-login mt-4" onClick={handleFinish}>
-            Finish
-          </button>
+  {translations[language].finish}
+</button>
         </div>
       </div>
     </div>

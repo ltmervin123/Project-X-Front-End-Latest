@@ -1,5 +1,6 @@
 :root {
     --primary-color: #f46a05;
+    --fade-primary-color: #f4690555;
     --secondary-color: #1706ac;
     --font-white: #fff;
     --font-black: #000;
@@ -8,10 +9,11 @@
 
 .choose-language-container {
     background: var(--font-white);
-    width: 800px;
-    height: 80%;
-    max-height: 600px;
+    width: 600px;
+    height: 50%;
+    max-height: 400px;
     border-radius: 20px;
+    padding: 20px;
     box-shadow: 0 4px 4px 0px #00000059;
 }
 
@@ -32,24 +34,44 @@
     top: 100%; /* Position below the dropdown */
     left: 0;
     right: 0;
-    background-color: var(--font-white);
+    background-color: var(--select-bg); /* Use your input background color */
     border: 1px solid #ccc; /* Light border */
-    border-radius: 10px; /* Rounded corners */
+    border-radius:  0px 0px 10px 10px; /* Rounded corners */
     z-index: 1000; /* Ensure it appears above other elements */
     width: 100%;
+    border-top: none;
+
 }
 
 .dropdown-options-language div {
     padding: 10px; /* Add padding for better touch targets */
     cursor: pointer; /* Pointer cursor */
     width: 100%;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+
 }
+.dropdown-options-language div >svg{
+    height: 8px;
+    fill: var(--font-white); /* Change SVG fill color on hover */
+
+}
+
+.dropdown-options-language div.selected{
+    background: var(--fade-primary-color);
+    color: var(--primary-color);
+}
+
 
 .dropdown-options-language div:hover {
     background-color: var(--primary-color); /* Highlight on hover */
     color: var(--font-white); /* Change text color on hover */
 }
-
+.dropdown-options-language div:hover > svg {
+    fill: var(--font-white); /* Change SVG fill color on hover */
+    stroke: var(--font-white);
+}
 .btn-continue-language {
     padding: 5px 20px;
     background-color: var(--primary-color);
@@ -70,6 +92,8 @@
     background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
     background-position: right 10px center !important;
     background-repeat: no-repeat !important;
+    border-radius: 10px 10px 0px 0px; /* Rounded corners */
+border-bottom: none;
 }
 
 .custom-dropdown-language {
