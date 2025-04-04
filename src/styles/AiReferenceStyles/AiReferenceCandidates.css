@@ -72,7 +72,7 @@
 .AiReference-candidates-container table {
   width: 100%;
   height: 80%;
-  border-collapse: collapse; /* Ensure borders are collapsed */
+  border-collapse: collapse; 
   font-size: 15px;
 }
 
@@ -112,10 +112,13 @@
   text-transform:capitalize;
 
 }
-
+.AiReference-candidates-container th:nth-child(1),
+.AiReference-candidates-container td:nth-child(1){
+  width: 15%;
+}
 .AiReference-candidates-container th:nth-child(2),
 .AiReference-candidates-container td:nth-child(2){
-  width: 20%;
+  width: 25%;
 }
 
 .AiReference-candidates-container th:nth-child(4),

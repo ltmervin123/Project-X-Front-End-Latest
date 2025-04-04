@@ -1,0 +1,43 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --font-black: #000;
+    --input-bg: #686868;
+    --bg-fade-signup: #d9d9d9;
+  }
+  
+.confirmation-container{
+    background: var(--font-white);
+    width: 600px;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 4px 4px 0px #00000059;
+}
+
+.confirmation-container.row {
+    height: 50%;
+    
+}
+
+.custom-dropdown-container-language {
+    position: relative;
+    width: 300px; /* Set a fixed width */
+    padding: 0;
+}
+.btn-back-instructions{
+    padding: 5px 40px;
+    border-radius: 50px;
+    background: var(--secondary-color);
+    color: var(--font-white) !important;
+    border: none;
+    width: 150px;
+}
+.btn-confirmation-to-questionaire{
+    padding: 5px 40px;
+    border-radius: 50px;
+    background: var(--primary-color);
+    color: var(--font-white) !important;
+    border: none;
+    width: 150px;
+}

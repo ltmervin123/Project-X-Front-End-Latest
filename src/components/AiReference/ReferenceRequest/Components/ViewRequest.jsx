@@ -47,7 +47,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const fetchReferenceByReferenceId = async () => {
     try {
       setFetchingReference(true);
-      const URL = `${API}/api/ai-referee/company-request-reference//get-reference/${referenceId}/${refereeId}`;
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference/${referenceId}/${refereeId}`;
       const response = await axios.get(URL, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -194,6 +194,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const handleImageError = () => {
     console.error("Image failed to load");
   };
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="w-100 mb-2">
@@ -235,15 +236,17 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           </p>
           <p className="mb-2">
             <b>Referee Name: </b>
-            <span className="Capitalize"> 
+            <span className="Capitalize">
               {referenceData?.referenceRequestId?.refereeName ||
                 "Not Available"}
             </span>
           </p>
           <p className="mb-2">
             <b>Referee Title: </b>
-            <span className="Capitalize">{referenceData?.refereeTitle || "Not Available"}</span>
-          </p> 
+            <span className="Capitalize">
+              {referenceData?.refereeTitle || "Not Available"}
+            </span>
+          </p>
 
           <p className="mb-2">
             <b>Relationship to Candidate: </b>

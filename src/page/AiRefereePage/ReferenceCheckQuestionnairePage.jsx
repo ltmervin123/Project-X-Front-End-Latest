@@ -62,6 +62,25 @@ const ReferenceCheckQuestionnairePage = () => {
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      referenceCheckQuestionnaire: "Reference Check Questionnaire",
+      questionXofY: "Question {current} of {total}",
+      leavePageConfirmation: "Are you sure you want to leave this page?",
+      goBackConfirmation:
+        "Are you sure you want to go back? Your progress will be lost.",
+      reattemptingCamera: "Reattempting access to camera...",
+    },
+    Japanese: {
+      referenceCheckQuestionnaire: "リファレンスチェック質問票",
+      questionXofY: "質問 {current}／{total}",
+      leavePageConfirmation: "このページから移動してもよろしいですか？",
+      goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
+      reattemptingCamera: "カメラへのアクセスを再試行しています...",
+    },
+  };
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -244,21 +263,21 @@ const ReferenceCheckQuestionnairePage = () => {
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
-      event.returnValue = "Are you sure you want to leave this page?";
+      event.returnValue = translations[language].leavePageConfirmation;
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, []);
+  }, [language]);
 
   //Add a warning when user is navigating back to previous page
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
       const userConfirmed = window.confirm(
-        "Are you sure you want to go back? Your progress will be lost."
+        translations[language].goBackConfirmation
       );
       if (!userConfirmed) {
-        window.history.pushState(null, "", window.location.pathname); // Prevent going back
+        window.history.pushState(null, "", window.location.pathname);
       }
     };
 
@@ -417,7 +436,7 @@ const ReferenceCheckQuestionnairePage = () => {
             src={loadingAnimation}
             alt="loading..."
           />
-          <p>Reattempting access to camera...</p>
+          <p>{translations[language].reattemptingCamera}</p>
         </div>
       </div>
     );
@@ -430,13 +449,15 @@ const ReferenceCheckQuestionnairePage = () => {
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
       <h2 className="referencecheckquestiontitle text-left mb-2">
-        Reference Check Questionnaire
+        {translations[language].referenceCheckQuestionnaire}
       </h2>
 
       <div className="referencecheckquestion-container mb-5">
         <div className="question-container">
           <p className="question-title">
-            Question {currentQuestionIndex + 1} of {questions.length}
+            {translations[language].questionXofY
+              .replace("{current}", currentQuestionIndex + 1)
+              .replace("{total}", questions.length)}
           </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>

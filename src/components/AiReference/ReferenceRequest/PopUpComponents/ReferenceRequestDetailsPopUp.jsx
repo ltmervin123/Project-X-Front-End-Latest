@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Row, Col, Modal, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const API = process.env.REACT_APP_API_URL;
@@ -16,6 +17,7 @@ const ReferenceRequestDetailsPopUp = ({
 }) => {
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const navigate = useNavigate();
   const getStatusColor = (status) => {
     switch (status) {
       case "In Progress":
@@ -62,9 +64,7 @@ const ReferenceRequestDetailsPopUp = ({
 
       if (response.status === 200) {
         setIsSent(true);
-        setTimeout(() => {
-          setIsSent(false);
-        }, 3000);
+        navigate("/AiReferenceRequestEmailSent"); // Navigate immediately after sending
       }
     } catch (error) {
       console.error("Error sending reminder:", error);
@@ -249,7 +249,7 @@ const ReferenceRequestDetailsPopUp = ({
                 >
                   {isSending ? "Sending..." : "Send Reminder"}
                 </button>
-                {isSent ? <p>Email sent successfully</p> : null}
+             
               </>
             ) : null}
           </div>

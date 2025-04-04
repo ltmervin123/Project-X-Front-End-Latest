@@ -21,43 +21,62 @@ const TextBase = ({
     onReTrySubmit(false);
     setTextBaseAnswer("");
   };
+  const language = sessionStorage.getItem("preferred-language") || "English";
 
+  const translations = {
+    English: {
+      answer: "Answer:",
+      placeholder: "Type your answer...",
+      retry: "Retry",
+      proceed: "Proceed",
+      next: "Next",
+      submit: "Submit",
+      submitting: "Submitting...",
+    },
+    Japanese: {
+      answer: "回答:",
+      placeholder: "回答を入力してください...",
+      retry: "再試行",
+      proceed: "進む",
+      next: "次",
+      submit: "送信",
+      submitting: "送信中...",
+    },
+  };
   return (
     <div className="transcription-answer-container">
-      <h4>Answer:</h4>
-      <textarea
-        value={answer}
-        disabled={loading || isSubmitted || reTry}
-        onChange={handleInputedTextChange}
-        rows="4"
-        placeholder={"Type your answer..."}
-      />
+     <h4>{translations[language].answer}</h4>
+     <textarea
+  value={answer}
+  disabled={loading || isSubmitted || reTry}
+  onChange={handleInputedTextChange}
+  rows="4"
+  placeholder={translations[language].placeholder}
+/>
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
         <div className="d-flex justify-content-center gap-3">
-          {reTry ? (
-            <>
-              <button onClick={handleReTry}>Retry</button>
-        {isLastQuestion ? (
-          <button onClick={handleProceed}>Proceed</button>
-        ) : (
-          <button onClick={nextQuestion}>Next</button>
-        )}
-            </>
-          ) : (
-            <>
-              <button
-                onClick={handleTextBaseSubmit}
-                disabled={!answer || loading || isSpeaking || isSubmitted}
-                className={
-                  !answer || loading || isSpeaking || isSubmitted
-                    ? "disabled"
-                    : ""
-                }
-              >
-                {loading ? "Submitting..." : "Submit"}
-              </button>
-            </>
-          )}
+        {reTry ? (
+  <>
+    <button onClick={handleReTry}>{translations[language].retry}</button>
+    {isLastQuestion ? (
+      <button onClick={handleProceed}>{translations[language].proceed}</button>
+    ) : (
+      <button onClick={nextQuestion}>{translations[language].next}</button>
+    )}
+  </>
+) : (
+  <>
+    <button
+      onClick={handleTextBaseSubmit}
+      disabled={!answer || loading || isSpeaking || isSubmitted}
+      className={
+        !answer || loading || isSpeaking || isSubmitted ? "disabled" : ""
+      }
+    >
+      {loading ? translations[language].submitting : translations[language].submit}
+    </button>
+  </>
+)}
         </div>
       </div>
     </div>

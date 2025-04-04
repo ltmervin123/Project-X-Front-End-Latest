@@ -7,6 +7,38 @@ const IdUploadSection = ({
   submitIdUpload,
   submitting,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+const translations = {
+  English: {
+    preferredId: "Preferred ID",
+    selectId: "Select ID",
+    passport: "Passport",
+    driversLicense: "Driver's License",
+    nationalId: "National ID",
+    uploadYourId: "Upload Your ID",
+    frontIdPage: "Front ID page",
+    fileUploaded: "File uploaded: {fileName}",
+    clear: "Clear",
+    submit: "Submit",
+    submitting: "Submitting...",
+    selectFile: "Select File", 
+  },
+  Japanese: {
+    preferredId: "優先ID",
+    selectId: "IDを選択",
+    passport: "パスポート",
+    driversLicense: "運転免許証",
+    nationalId: "国民ID",
+    uploadYourId: "IDをアップロード",
+    frontIdPage: "IDの前面ページ",
+    fileUploaded: "アップロードされたファイル: {fileName}",
+    clear: "クリア",
+    submit: "送信",
+    submitting: "送信中...",
+    selectFile: "ファイルを選択",
+  },
+};
   const [selectedIdType, setSelectedIdType] = useState("");
 
   // Function to trigger the file input click
@@ -31,26 +63,28 @@ const IdUploadSection = ({
   return (
     <div className="ReviewYourReferenceCheck-container d-flex flex-column align-items-center justify-content-center w-100">
       <div className="preferred-id-container mb-3">
-        <p>Preferred ID</p>
-        <select
-          name="preferred-id"
-          id="preferred-id"
-          className="mb-3 form-select"
-          value={selectedIdType}
-          onChange={handleIdTypeChange}
-        >
-          <option value="">Select ID</option>
-          <option value="Passport">Passport</option>
-          <option value="Driver's License">Driver's License</option>
-          <option value="National ID">National ID</option>
-        </select>
+      <p>{translations[language].preferredId}</p>
+<select
+  name="preferred-id"
+  id="preferred-id"
+  className="mb-3 form-select"
+  value={selectedIdType}
+  onChange={handleIdTypeChange}
+>
+  <option value="">{translations[language].selectId}</option>
+  <option value="Passport">{translations[language].passport}</option>
+  <option value="Driver's License">{translations[language].driversLicense}</option>
+  <option value="National ID">{translations[language].nationalId}</option>
+</select>
       </div>
 
       <div className="upload-id-container">
-        <p>Upload Your ID</p>
+      <p>{translations[language].uploadYourId}</p>
+
 
         <div className="front-id-container mb-3">
-          <p>Front ID page</p>
+        <p>{translations[language].frontIdPage}</p>
+
           <div className="d-flex justify-content-between w-100">
             {frontIdFile ? (
               <div className="d-flex justify-content-between align-items-center w-100">
@@ -63,13 +97,14 @@ const IdUploadSection = ({
                       maxHeight: "50px",
                     }}
                   />
-                  <p className="m-0">File uploaded: {frontIdFile.name}</p>
-                </div>
+<p className="m-0">
+  {translations[language].fileUploaded.replace("{fileName}", frontIdFile.name)}
+</p>                </div>
                 <button
                   onClick={triggerFrontFileInput}
                   disabled={!selectedIdType}
                 >
-                  Select File
+        {translations[language].selectFile}
                 </button>
                 <input
                   type="file"
@@ -86,7 +121,7 @@ const IdUploadSection = ({
                   onClick={triggerFrontFileInput}
                   disabled={!selectedIdType}
                 >
-                  Select File
+         {translations[language].selectFile}
                 </button>
                 <input
                   type="file"
@@ -155,13 +190,13 @@ const IdUploadSection = ({
       </div>
 
       <div className="IdUploadSection-button-controls d-flex gap-3 my-3 w-100 justify-content-center">
-        <button onClick={clearId} disabled={submitting || hasNoId()}>
-          Clear
-        </button>
+      <button onClick={clearId} disabled={submitting || hasNoId()}>
+  {translations[language].clear}
+</button>
 
-        <button onClick={submitIdUpload} disabled={submitting || hasNoId()}>
-          {submitting ? "Submitting..." : "Submit"}
-        </button>
+<button onClick={submitIdUpload} disabled={submitting || hasNoId()}>
+  {submitting ? translations[language].submitting : translations[language].submit}
+</button>
       </div>
     </div>
   );
