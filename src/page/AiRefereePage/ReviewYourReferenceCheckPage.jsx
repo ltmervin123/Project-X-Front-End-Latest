@@ -64,7 +64,7 @@ function ReviewYourReferenceCheckPage() {
       allQuestionsAnswered: "All questions have been answered.",
       confirmSkip: "Are you sure you want to skip?",
       originalAnswer: "Original Answer",
-      aiEnhancedAnswer: "AI Enhanced Answer",      
+      aiEnhancedAnswer: "AI Enhanced Answer",
     },
     Japanese: {
       reviewResponses: "回答を確認する",
@@ -79,8 +79,7 @@ function ReviewYourReferenceCheckPage() {
       allQuestionsAnswered: "すべての質問に回答されました。",
       confirmSkip: "本当にスキップしますか？",
       originalAnswer: "元の回答",
-    aiEnhancedAnswer: "AI強化回答",
-
+      aiEnhancedAnswer: "AI強化回答",
     },
   };
   const handleConfirmSkip = () => {
@@ -385,6 +384,7 @@ function ReviewYourReferenceCheckPage() {
     const TOKEN = sessionStorage.getItem("token");
     const {
       referenceId,
+      refereeId,
       positionTitle,
       relationship,
       companyWorkedWith,
@@ -430,16 +430,17 @@ function ReviewYourReferenceCheckPage() {
         },
       });
       if (response.status === 201) {
-        //Remove data from localstorage
-        sessionStorage.removeItem("refereeData");
-        sessionStorage.removeItem("referenceQuestions");
-        sessionStorage.removeItem("referenceQuestionsData");
-        sessionStorage.removeItem("token");
         // Emit event to server
         socket.emit("referenceCheckCompleted", { companyId });
         //Navigate to reference completed page
-        navigate("/reference-completed");
+        navigate("/reference-completed", {
+          state: { referenceId, refereeId },
+        });
       }
+
+      navigate("/reference-completed", {
+        state: { referenceId, refereeId },
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -596,42 +597,50 @@ function ReviewYourReferenceCheckPage() {
                       </div>
                     ) : (
                       <>
-<div className="form-check">
-  <input
-    type="checkbox"
-    className="form-check-input"
-    id="originalAnswer"
-    checked={checked === "Original Answer"}
-    onChange={() => {
-      handleAnswerSelection(
-        selectedAnswers[currentQuestionIndex] === "Original Answer"
-          ? null
-          : "Original Answer"
-      );
-    }}
-  />
-  <label className="form-check-label" htmlFor="originalAnswer">
-    {translations[language].originalAnswer}
-  </label>
-</div>
-<div className="form-check">
-  <input
-    type="checkbox"
-    className="form-check-input"
-    id="aiEnhancedAnswer"
-    checked={checked === "AI Enhanced Answer"}
-    onChange={() => {
-      handleAnswerSelection(
-        selectedAnswers[currentQuestionIndex] === "AI Enhanced Answer"
-          ? null
-          : "AI Enhanced Answer"
-      );
-    }}
-  />
-  <label className="form-check-label" htmlFor="aiEnhancedAnswer">
-    {translations[language].aiEnhancedAnswer}
-  </label>
-</div>
+                        <div className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="originalAnswer"
+                            checked={checked === "Original Answer"}
+                            onChange={() => {
+                              handleAnswerSelection(
+                                selectedAnswers[currentQuestionIndex] ===
+                                  "Original Answer"
+                                  ? null
+                                  : "Original Answer"
+                              );
+                            }}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="originalAnswer"
+                          >
+                            {translations[language].originalAnswer}
+                          </label>
+                        </div>
+                        <div className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="aiEnhancedAnswer"
+                            checked={checked === "AI Enhanced Answer"}
+                            onChange={() => {
+                              handleAnswerSelection(
+                                selectedAnswers[currentQuestionIndex] ===
+                                  "AI Enhanced Answer"
+                                  ? null
+                                  : "AI Enhanced Answer"
+                              );
+                            }}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="aiEnhancedAnswer"
+                          >
+                            {translations[language].aiEnhancedAnswer}
+                          </label>
+                        </div>
                       </>
                     )}
                   </div>
