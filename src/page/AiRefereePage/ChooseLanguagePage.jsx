@@ -177,8 +177,46 @@ function ChooseLanguagePage() {
             </div>
             {isOpen && (
               <div className="dropdown-options-language">
-                <div onClick={() => selectLanguage("English")}>English</div>
-                <div onClick={() => selectLanguage("Japanese")}>Japanese</div>
+                <div
+                  className={language === "English" ? "selected" : ""}
+                  onClick={() => selectLanguage("English")}
+                >
+                  English
+                  {language === "English" && (
+                    <svg
+                      width="18"
+                      height="14"
+                      viewBox="0 0 18 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.99625 11.1698L1.82625 6.99984L0.40625 8.40984L5.99625 13.9998L17.9963 1.99984L16.5863 0.589844L5.99625 11.1698Z"
+                        fill="#F46A05"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <div
+                  className={language === "Japanese" ? "selected" : ""}
+                  onClick={() => selectLanguage("Japanese")}
+                >
+                  Japanese
+                  {language === "Japanese" && (
+                    <svg
+                      width="18"
+                      height="14"
+                      viewBox="0 0 18 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.99625 11.1698L1.82625 6.99984L0.40625 8.40984L5.99625 13.9998L17.9963 1.99984L16.5863 0.589844L5.99625 11.1698Z"
+                        fill="#F46A05"
+                      />
+                    </svg>
+                  )}
+                </div>
               </div>
             )}
           </div>

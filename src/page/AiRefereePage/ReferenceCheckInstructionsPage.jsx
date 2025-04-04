@@ -80,7 +80,7 @@ function ReferenceCheckInstructionsPage() {
 
   // Handle the "Start Now" action and navigate to the next page
   const handleStartNow = () => {
-    navigate("/reference-questionnaire", {
+    navigate("/reference-notification", {
       state: { selectedMethod: selectedMethod },
     });
   };

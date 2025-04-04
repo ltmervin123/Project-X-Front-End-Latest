@@ -89,6 +89,9 @@ import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificatio
 // ChooseLanguagePage
 import ChooseLanguagePage from "./page/AiRefereePage/ChooseLanguagePage.jsx";
 
+// LanguageSelectionConfirmationPage
+import LanguageSelectionConfirmationPage from "./page/AiRefereePage/LanguageSelectionConfirmationPage.jsx";
+
 // ChooseYourReferenceMethodPage
 import ChooseYourReferenceMethodPage from "./page/AiRefereePage/ChooseYourReferenceMethodPage.jsx";
 
@@ -229,7 +232,6 @@ function App() {
           </Route>
         </Route>
 
-
         {/* AiReferenceCheckVerificationPage*/}
         <Route
           path="/reference-request/:token"
@@ -240,10 +242,11 @@ function App() {
           {/* Reference Verification page */}
 
           {/* ChooseLanguagePage*/}
-            <Route
+          <Route
             path="/reference-choose-language"
             element={<ChooseLanguagePage />}
           />
+
           {/* ChooseYourReferenceMethodPage*/}
           <Route
             path="/reference-interview-method"
@@ -253,6 +256,11 @@ function App() {
           <Route
             path="/reference-instructions"
             element={<ReferenceCheckInstructionsPage />}
+          />
+          {/* LanguageSelectionConfirmationPage*/}
+          <Route
+            path="/reference-notification"
+            element={<LanguageSelectionConfirmationPage />}
           />
 
           {/* ReferenceCheckQuestionnairePage*/}
