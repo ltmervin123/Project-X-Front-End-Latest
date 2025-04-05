@@ -127,6 +127,7 @@ const MainDashboard = () => {
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true);
   };
+  
   const handleOpenJobForm = () => {
     setShowJobForm(true);
   };
@@ -829,6 +830,10 @@ const MainDashboard = () => {
           onReFetchReference={handleRefetchReference}
           addedCandidate={addedCandidate}
           addedJob={addedJob}
+          onCancel={() => {
+            // Reset to the main dashboard state
+            setShowAddReferenceRequest(false);
+          }}
         />
       ) : (
         <>

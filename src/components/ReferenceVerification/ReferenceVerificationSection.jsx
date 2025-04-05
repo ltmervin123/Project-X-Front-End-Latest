@@ -36,12 +36,70 @@ const translations = {
     successMessage:
       "Your responses have been successfully saved. Thank you for completing the reference checking. We appreciate your time and input in this process. You may now download your responses or exit the page.",
     exit: "Exit",
+    position: "Position",
+    candidateName: "Candidate Name",
+    refereeName: "Referee Name",
+    refereeTitle: "Referee Title",
+    relationshipToCandidate: "Relationship to Candidate",
+    datesWorkedTogether: "Dates Worked Together",
+    from: "From",
+    to: "To",
+    notAvailable: "Not Available",
+    relationship: "Relationship",
+    jobResponsibilitiesAndPerformance: "Job Responsibilities and Performance",
+    skillAndCompetencies: "Skills and Competencies",
+    workEthicAndBehavior: "Work Ethic and Behavior",
+    closingQuestions: "Closing Questions",
+    strategicLeadershipAndVision: "Strategic Leadership and Vision",
+    businessImpactAndResults: "Business Impact and Results",
+    teamLeadershipAndOrganizationalDevelopment:
+      "Team Leadership and Organizational Development",
+    decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
+    innovationAndGrowth: "Innovation and Growth",
+    leadershipAndManagementSkills: "Leadership and Management Skills",
+    signatureAndVerification: "SIGNATURE AND VERIFICATION",
+    noImageAvailable: "No image available",
+    noAnswerProvided: "No Answer Provided",
+    downloading: "Downloading...",
+    download: "Download",
+    date: "Date",
+    signature: "Signature",
+    invalidDate: "Invalid Date",
   },
   Japanese: {
     header: "完了した参照チェック",
     successMessage:
       "あなたの回答は正常に保存されました。参照チェックを完了していただきありがとうございます。このプロセスにおけるあなたの時間と入力に感謝します。あなたは今、あなたの回答をダウンロードするか、ページを終了することができます。",
     exit: "終了",
+    position: "職位",
+    candidateName: "候補者名",
+    refereeName: "推薦者名",
+    refereeTitle: "推薦者の職位",
+    relationshipToCandidate: "候補者との関係",
+    datesWorkedTogether: "一緒に働いた期間",
+    from: "開始日",
+    to: "終了日",
+    notAvailable: "利用不可",
+    relationship: "関係",
+    jobResponsibilitiesAndPerformance: "職務責任とパフォーマンス",
+    skillAndCompetencies: "スキルと能力",
+    workEthicAndBehavior: "労働倫理と行動",
+    closingQuestions: "締めの質問",
+    strategicLeadershipAndVision: "戦略的リーダーシップとビジョン",
+    businessImpactAndResults: "ビジネスへの影響と結果",
+    teamLeadershipAndOrganizationalDevelopment:
+      "チームリーダーシップと組織開発",
+    decisionMakingAndProblemSolving: "意思決定と問題解決",
+    innovationAndGrowth: "革新と成長",
+    leadershipAndManagementSkills: "リーダーシップと管理スキル",
+    signatureAndVerification: "署名と確認",
+    noImageAvailable: "画像は利用できません",
+    noAnswerProvided: "回答は提供されていません",
+    downloading: "ダウンロード中...",
+    download: "ダウンロード",
+    date: "日付",
+    signature: "署名",
+    invalidDate: "無効な日付",
   },
 };
 
@@ -99,20 +157,35 @@ const ReferenceVerificationSection = () => {
   }, [referenceId, refereeId]);
 
   function formatDate(date) {
+    if (!date) return translations[language].invalidDate; // Use translation for "Invalid Date"
+
     const newDate = new Date(date);
-    return newDate.toDateString();
+    if (isNaN(newDate.getTime())) return translations[language].invalidDate; // Check if the date is valid
+
+    // Format the date based on the selected language
+    return newDate.toLocaleDateString(
+      language === "Japanese" ? "ja-JP" : "en-US",
+      {
+        month: "long",
+        year: "numeric",
+        day: "numeric", // Include day for better formatting
+      }
+    );
   }
 
   function formatDateForWorkDuration(date) {
-    if (!date) return "Invalid Date";
+    if (!date) return translations[language].invalidDate; // Use translation for "Invalid Date"
 
     const newDate = new Date(date);
-    if (isNaN(newDate)) return "Invalid Date";
+    if (isNaN(newDate.getTime())) return translations[language].invalidDate; // Check if the date is valid
 
-    return newDate.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    });
+    return newDate.toLocaleDateString(
+      language === "Japanese" ? "ja-JP" : "en-US",
+      {
+        month: "long",
+        year: "numeric",
+      }
+    );
   }
   function formatter(letter) {
     if (!letter) {
@@ -122,31 +195,33 @@ const ReferenceVerificationSection = () => {
   }
 
   function formatCategories(letter) {
+    const language = sessionStorage.getItem("preferred-language") || "English";
     switch (letter) {
       case "relationship":
-        return "Relationship";
+        return translations[language].relationship;
       case "jobResponsibilitiesAndPerformance":
-        return "Job Responsibilities and Performance";
+        return translations[language].jobResponsibilitiesAndPerformance;
       case "skillAndCompetencies":
-        return "Skills and Competencies";
+        return translations[language].skillAndCompetencies;
       case "workEthicAndBehavior":
-        return "Work Ethic and Behavior";
+        return translations[language].workEthicAndBehavior;
       case "closingQuestions":
-        return "Closing Questions";
+        return translations[language].closingQuestions;
       case "strategicLeadershipAndVision":
-        return "Strategic Leadership and Vision";
+        return translations[language].strategicLeadershipAndVision;
       case "businessImpactAndResults":
-        return "Business Impact and Results";
+        return translations[language].businessImpactAndResults;
       case "teamLeadershipAndOrganizationalDevelopment":
-        return "Team Leadership and Organizational Development";
+        return translations[language]
+          .teamLeadershipAndOrganizationalDevelopment;
       case "decisionMakingAndProblemSolving":
-        return "Decision Making and Problem Solving";
+        return translations[language].decisionMakingAndProblemSolving;
       case "innovationAndGrowth":
-        return "Innovation and Growth";
+        return translations[language].innovationAndGrowth;
       case "leadershipAndManagementSkills":
-        return "Leadership and Management Skills";
+        return translations[language].leadershipAndManagementSkills;
       default:
-        return "Not Available";
+        return translations[language].notAvailable;
     }
   }
 
@@ -163,9 +238,8 @@ const ReferenceVerificationSection = () => {
     // Modify the "SIGNATURE AND VERIFICATION" text
     const signatureTitle = clonedReport.querySelector(".signature-verif-title");
     if (signatureTitle) {
-      signatureTitle.textContent = "Signature";
+      signatureTitle.textContent = translations[language].signature; // Use the translation for "Signature"
     }
-
     const options = {
       margin: 10,
       filename: `Referee ${referenceData?.referenceRequestId?.refereeName} Response Copy.pdf`,
@@ -208,56 +282,60 @@ const ReferenceVerificationSection = () => {
       <div style={{ display: "none" }}>
         <div ref={reportRef} className="ViewRequest-container">
           <h4 className="color-orange mb-2">
-            {referenceData?.questionFormat || "Not Available"}
+            {referenceData?.questionFormat ||
+              translations[language].notAvailable}
           </h4>
           <p className="mb-2">
-            <b>Position: </b>
+            <b>{translations[language].position}: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.position || "Not Available"}
+              {referenceData?.referenceRequestId?.position ||
+                translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Candidate Name: </b>
+            <b>{translations[language].candidateName}: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.candidate || "Not Available"}
+              {referenceData?.referenceRequestId?.candidate ||
+                translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Referee Name: </b>
+            <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">
               {referenceData?.referenceRequestId?.refereeName ||
-                "Not Available"}
+                translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Referee Title: </b>
+            <b>{translations[language].refereeTitle}: </b>
             <span className="Capitalize">
-              {referenceData?.refereeTitle || "Not Available"}
+              {referenceData?.refereeTitle ||
+                translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Relationship to Candidate: </b>
+            <b>{translations[language].relationshipToCandidate}: </b>
             <span>
-              {formatter(referenceData?.refereeRelationshipWithCandidate)}
+              {formatter(referenceData?.refereeRelationshipWithCandidate) ||
+                translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Dates Worked Together: </b>
-
+            <b>{translations[language].datesWorkedTogether}: </b>
             <span>
               {referenceData?.workDuration ? (
                 <>
-                  <b>From</b>{" "}
+                  <b>{translations[language].from}</b>{" "}
                   {formatDateForWorkDuration(
                     referenceData?.workDuration?.startDate
                   )}{" "}
-                  <b>To</b>{" "}
+                  <b>{translations[language].to}</b>{" "}
                   {formatDateForWorkDuration(
                     referenceData?.workDuration?.endDate
                   )}
                 </>
               ) : (
-                "Not Available"
+                translations[language].notAvailable
               )}
             </span>
           </p>
@@ -324,7 +402,7 @@ const ReferenceVerificationSection = () => {
                 ))}
           </div>
           <p className="signature-verif-title color-orange mt-5 mb-3">
-            SIGNATURE AND VERIFICATION
+            {translations[language].signatureAndVerification}
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
             <div>
@@ -334,8 +412,8 @@ const ReferenceVerificationSection = () => {
                   alt="ID displayed here..."
                 />
               ) : (
-                <p>No image available</p>
-              )}
+                <p>{translations[language].noImageAvailable}</p>
+              )}{" "}
             </div>
           </div>
           <img
@@ -344,16 +422,18 @@ const ReferenceVerificationSection = () => {
             alt="Signature here..."
           />
           <p className="mb-2">
-            <b>Referee Name: </b>
+            <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">
               {referenceData?.referenceRequestId?.refereeName ||
-                "Not Available"}
+                translations[language].notAvailable}
             </span>
           </p>
           <p className=" mb-2">
-            <b>Date:</b>
+            <b>{translations[language].date}:</b>
+
             <span> {formatDate(referenceData?.createdAt)}</span>
           </p>
+
         </div>
       </div>
 
@@ -384,7 +464,9 @@ const ReferenceVerificationSection = () => {
               onClick={downloadPDF}
               disabled={downloading || fetchingReference}
             >
-              {downloading ? "Downloading..." : "Download"}
+              {downloading
+                ? translations[language].downloading
+                : translations[language].download}{" "}
             </button>
             <button
               className="btn-exit"
@@ -398,6 +480,7 @@ const ReferenceVerificationSection = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };

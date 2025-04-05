@@ -192,10 +192,22 @@
   background: var(--primary-color);
   border-radius: 50px;
   border: none;
-  padding: 5px 30px;
+  padding: 5px 20px;
   color: var(--font-white);
+  width: 150px;
 }
 .btn-proceed:disabled {
+  background: var(--card-color);
+}
+.btn-cancel-ref-req{
+  background: var(--secondary-color);
+  border-radius: 50px;
+  border: none;
+  padding: 5px 20px;
+  color: var(--font-white);
+  width: 150px;
+}
+.btn-cancel-ref-req:disabled {
   background: var(--card-color);
 }
 .AiReference-active-jobs-container td {

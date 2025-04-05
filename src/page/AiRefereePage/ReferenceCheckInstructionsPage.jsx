@@ -66,11 +66,11 @@ const buttonTranslations = {
 
 function ReferenceCheckInstructionsPage() {
   const location = useLocation();
-  const selectedMethod = location.state?.selectedMethod; // Access 'selectedMethod' from the state
+  const selectedMethod = sessionStorage.getItem("interview-method");
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const language = sessionStorage.getItem("preferred-language") || "English"; // Get the selected language
-
+  console.log(selectedMethod); // Log the selected method
   // Handle the next step progression
   const handleNextStep = () => {
     if (currentStep < instructionData.length) {

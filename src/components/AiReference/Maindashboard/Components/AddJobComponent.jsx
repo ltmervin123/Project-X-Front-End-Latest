@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
@@ -9,24 +9,18 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
   const token = USER?.token;
   const [jobName, setJobName] = useState("");
   const [department, setDepartment] = useState("");
-  const [hiringManager, setHiringManager] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState(""); // New state for first name
+  const [lastName, setLastName] = useState(""); // New state for last name
+  const [loading, setLoading] = useState(false); // Define loading state
   const [errorMessages, setErrorMessages] = useState({});
   const [vacancies, setVacancies] = useState(1);
 
-  // Utility function to capitalize the first letter of each word
-  const capitalizeWords = (str) => {
-    return str
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  };
   // Create a ref for the form
   const formRef = useRef(null);
 
   const isFormValid = useMemo(() => {
-    return jobName && hiringManager && department && vacancies;
-  }, [jobName, hiringManager, department, vacancies]);
+    return jobName && firstName && lastName && department && vacancies; // Check firstName and lastName
+  }, [jobName, firstName, lastName, department, vacancies]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,65 +30,31 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
 
     // Validation
     const newErrorMessages = {};
+
     if (jobName.length < 2) {
       newErrorMessages.jobName = "Job name must be at least 2 characters.";
     }
-    if (hiringManager.length < 2) {
-      newErrorMessages.hiringManager =
-        "Hiring manager name must be at least 2 characters.";
+    if (firstName.length < 2) {
+      newErrorMessages.firstName = "First name must be at least 2 characters.";
     }
-
+    if (lastName.length < 2) {
+      newErrorMessages.lastName = "Last name must be at least 2 characters.";
+    }
     if (Object.keys(newErrorMessages).length > 0) {
       setErrorMessages(newErrorMessages);
       return;
     }
 
-    const sanitizePayload = (payload) => {
-      const { jobName, vacancies, hiringManager, department } = payload;
-
-      // Validate and sanitize text fields
-      const sanitizedJobName = jobName ? capitalizeWords(jobName) : "";
-      const sanitizedHiringManager = hiringManager
-        ? capitalizeWords(hiringManager)
-        : "";
-
-      // Ensure only letters, spaces, and hyphens are allowed in names
-      const nameRegex = /^[A-Za-z\s-]+$/;
-
-      if (!nameRegex.test(sanitizedJobName)) {
-        const error = {
-          jobName:
-            "Invalid job name. Only letters, spaces, and hyphens are allowed.",
-        };
-
-        throw error;
-      }
-      if (!nameRegex.test(sanitizedHiringManager)) {
-        const error = {
-          hiringManager:
-            "Invalid hiring manager name. Only letters, spaces, and hyphens are allowed.",
-        };
-        throw error;
-      }
-
-      return {
-        jobName: sanitizedJobName,
-        vacancies,
-        department,
-        hiringManager: sanitizedHiringManager,
-      };
-    };
-
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/create-job`;
-      const payload = { 
-        jobName: capitalizeWords(jobName), 
-        vacancies, 
-        hiringManager: capitalizeWords(hiringManager), 
-        department 
+      const payload = {
+        jobName: capitalizeWords(jobName),
+        vacancies,
+        department,
+        hiringManager: `${capitalizeWords(firstName)} ${capitalizeWords(lastName)}`, // Combine first and last name
       };
-            const response = await axios.post(URL, payload, {
+      const response = await axios.post(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -225,19 +185,40 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
             >
               Hiring Manager
             </Form.Label>
-            <div className="w-100 position-relative">
+            <div className="d-flex gap-2 w-100">
+              <div className="positiom-relative w-50">
               <Form.Control
                 type="text"
-                value={hiringManager}
-                onChange={(e) => setHiringManager(e.target.value)}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
                 required
               />
-              {errorMessages.hiringManager && (
-                <div className="px-3 py-1 text-danger">
-                  {errorMessages.hiringManager}
-                </div>
-              )}
+               {errorMessages.firstName && (
+              <div className="px-3 py-1 text-danger">
+                {errorMessages.firstName}
+              </div>
+            )}
+              </div>
+              <div className="position-relative w-50">
+              <Form.Control
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+                required
+                
+              />
+                
+            {errorMessages.lastName && (
+              <div className="px-3 py-1 text-danger">
+                {errorMessages.lastName}
+              </div>
+            )}
+              </div>
+              
             </div>
+         
           </Form.Group>
         </Form>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees"; // Import the Privacy Agreement component
 
 const AiReferenceCheckVerificationForm = ({
   refereeName,
@@ -14,7 +14,8 @@ const AiReferenceCheckVerificationForm = ({
   const API = process.env.REACT_APP_API_URL;
   const [formData, setFormData] = useState({
     referenceId: "",
-    refereeName: "",
+    firstName: "", // Separate first name
+    lastName: "", // Separate last name
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
@@ -29,6 +30,9 @@ const AiReferenceCheckVerificationForm = ({
   const [currentDate, setCurrentDate] = useState(
     new Date().toLocaleDateString("en-CA")
   );
+
+  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false); // State to manage the modal visibility
+  const [isAgreed, setIsAgreed] = useState(false); // State to manage checkbox
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -109,12 +113,14 @@ const AiReferenceCheckVerificationForm = ({
 
   const isFormValid = () => {
     return (
-      formData.refereeName &&
+      formData.firstName &&
+      formData.lastName &&
       formData.positionTitle &&
       formData.companyWorkedWith &&
       (isOtherSelected ? formData.otherRelationship : formData.relationship) &&
       formData.startDate &&
-      formData.endDate
+      formData.endDate &&
+      isAgreed
     );
   };
 
@@ -142,6 +148,17 @@ const AiReferenceCheckVerificationForm = ({
   //     setProcessing(false);
   //   }
   // };
+
+  useEffect(() => {
+    if (refereeName) {
+      const [firstName, lastName] = refereeName.split(" "); // Split the name into first and last
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        firstName: firstName || "", // Set first name
+        lastName: lastName || "", // Set last name
+      }));
+    }
+  }, [refereeName]);
 
   // Prevent user from leaving the page
   useEffect(() => {
@@ -177,7 +194,7 @@ const AiReferenceCheckVerificationForm = ({
           >
             <Row>
               <Col md={12} className="d-flex flex-column gap-3">
-                <Form.Group controlId="referee-name">
+                {/* <Form.Group controlId="referee-name">
                   <Form.Label className="mb-1">Referee Name</Form.Label>
                   <Form.Control
                     type="text"
@@ -186,6 +203,28 @@ const AiReferenceCheckVerificationForm = ({
                     placeholder="Referee Name"
                     disabled={true}
                   />
+                </Form.Group> */}
+                <Form.Group controlId="referee-name">
+                  <Form.Label className="mb-1">Referee Name</Form.Label>
+                  <div className="d-flex gap-2 w-100">
+                    <Form.Control
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      placeholder="First Name"
+                      onChange={handleChange}
+                      disabled={true}
+                    />
+
+                    <Form.Control
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      placeholder="Last Name"
+                      onChange={handleChange}
+                      disabled={true}
+                    />
+                  </div>
                 </Form.Group>
 
                 <Form.Group controlId="position-title">
@@ -277,18 +316,48 @@ const AiReferenceCheckVerificationForm = ({
               </Col>
             </Row>
 
+            {/* Checkbox for Privacy Agreement */}
+            <div className="d-flex align-items-center mt-3">
+              <input
+                type="checkbox"
+                id="privacyAgreementCheckbox"
+                checked={isAgreed}
+                onChange={(e) => {
+                  setIsAgreed(e.target.checked);
+                  if (e.target.checked) {
+                    setShowPrivacyAgreement(true); // Show the Privacy Agreement modal when checked
+                  }
+                }}
+              />
+              <label
+                htmlFor="privacyAgreementCheckbox"
+                className="ms-2 privacyAgreementCheckbox"
+              >
+                By continuing, you’ve read, understood and agreed to the Privacy
+                Agreement for Referees
+              </label>
+            </div>
             <div className="d-flex justify-content-center m-4 ">
               <Button
                 variant="primary"
                 type="submit"
                 disabled={!isFormValid() || processing}
               >
-                {processing ? "Processing..." : "Proceed to Questionnaire"}
+                {processing ? "Processing..." : "Proceed"}
               </Button>
             </div>
           </Form>
         </div>
       </div>
+      {/* Privacy Agreement Modal */}
+      <PrivacyAgreementForReferees
+        showModal={showPrivacyAgreement}
+        setShowModal={setShowPrivacyAgreement}
+        handleContinue={() => {
+          setIsAgreed(true); // Set the agreement state to true when the user agrees
+          setShowPrivacyAgreement(false); // Close the modal
+        }}
+      />
     </div>
   );
 };
