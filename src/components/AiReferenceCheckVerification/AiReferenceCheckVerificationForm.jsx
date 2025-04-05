@@ -33,7 +33,15 @@ const AiReferenceCheckVerificationForm = ({
 
   const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false); // State to manage the modal visibility
   const [isAgreed, setIsAgreed] = useState(false); // State to manage checkbox
+  const currentStep = 1; // Set the current step (1 for Basic Information)
 
+  const steps = [
+    "Basic Information",
+    "Select Language",
+    "Choose Method",
+    "Questionnaire",
+    "Reference Completed",
+  ];
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -178,7 +186,21 @@ const AiReferenceCheckVerificationForm = ({
       <i className="text-center">
         Your insights are valuable in helping us make informed decisions.
       </i>
-      <div className="d-flex align-items-center justify-content-center h-100 w-100 my-2 mt-4">
+      <div className="d-flex align-items-center justify-content-center flex-column h-100 w-100 my-2 mt-4">
+        <div className="reference-progress-indicator">
+          {steps.map((step, index) => (
+            <div key={index} className="reference-step-container">
+              <div
+                className={`step ${currentStep === index + 1 ? "active" : ""}`}
+              >
+                <div className="bullet">{index + 1}</div>
+                {index < steps.length - 1 && <div className="line" />}{" "}
+                {/* Line between steps */}
+              </div>
+              <div className="step-label">{step}</div>
+            </div>
+          ))}
+        </div>
         <div className=" AiReferenceCheckVerification-container-form">
           <div className="AiReferenceCheckVerification-title">
             <h5 className="m-0">Verify Your Information</h5>

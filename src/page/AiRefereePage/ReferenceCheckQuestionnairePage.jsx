@@ -446,8 +446,31 @@ const ReferenceCheckQuestionnairePage = () => {
     return <ErrorAccessMic onRetry={initializeMicPermission} />;
   }
 
+  const currentStep = 4; // Set the current step (1 for Basic Information)
+
+  const steps = [
+    "Basic Information",
+    "Select Language",
+    "Choose Method",
+    "Questionnaire",
+    "Reference Completed",
+  ];
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
+             <div className="reference-progress-indicator">
+      {steps.map((step, index) => (
+        <div key={index} className="reference-step-container">
+          <div
+            className={`step ${currentStep >= index + 1 ? "active" : ""}`} // Change here
+          >
+            <div className="bullet">{index + 1}</div>
+            {index < steps.length - 1 && <div className="line" />}{" "}
+            {/* Line between steps */}
+          </div>
+          <div className="step-label">{step}</div>
+        </div>
+      ))}
+    </div>
       <h2 className="referencecheckquestiontitle text-left mb-2">
         {translations[language].referenceCheckQuestionnaire}
       </h2>

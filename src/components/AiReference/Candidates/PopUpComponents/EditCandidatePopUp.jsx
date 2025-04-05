@@ -10,13 +10,13 @@ const EditCandidatePopUp = ({
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
-  const isFormValid = name && email && position;
-
+  const isFormValid = firstName && lastName && email && position;
   const [positions, setPositions] = useState(() => {
     const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
     return jobs.map((job) => job.jobName);
@@ -33,7 +33,9 @@ const capitalizeWords = (str) => {
   // Populate form fields with candidate details when the component mounts
   useEffect(() => {
     if (candidateDetails) {
-      setName(candidateDetails.name);
+      const [first, last] = candidateDetails.name.split(" ");
+      setFirstName(first || "");
+      setLastName(last || "");
       setEmail(candidateDetails.email);
       setPosition(candidateDetails.position);
     }
@@ -55,7 +57,7 @@ const capitalizeWords = (str) => {
     setIsLoading(true);
     try {
       const payload = { 
-        name: capitalizeWords(name), // Capitalize name
+        name: `${capitalizeWords(firstName)} ${capitalizeWords(lastName)}`, // Combine first and last name
         email, 
         position 
       };
@@ -75,6 +77,7 @@ const capitalizeWords = (str) => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <Modal
@@ -100,7 +103,7 @@ const capitalizeWords = (str) => {
           </Button>
         </div>
         <Form onSubmit={handleSubmit}>
-          <Form.Group
+          {/* <Form.Group
             controlId="formCandidateName"
             className="d-flex align-items-center mb-3"
           >
@@ -117,7 +120,31 @@ const capitalizeWords = (str) => {
               placeholder="John Doe"
               required
             />
-          </Form.Group>
+          </Form.Group> */}
+          <Form.Group controlId="formCandidateFirstName" className="d-flex align-items-center mb-3">
+  <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
+   Candidate
+  </Form.Label>
+  <div className="d-flex gap-2 w-100">
+  <Form.Control
+    type="text"
+    value={firstName}
+    onChange={(e) => setFirstName(e.target.value)}
+    placeholder="John"
+    required
+  />
+
+  <Form.Control
+    type="text"
+    value={lastName}
+    onChange={(e) => setLastName(e.target.value)}
+    placeholder="Doe"
+    required
+  />
+    
+  </div>
+
+</Form.Group>
           <Form.Group
             controlId="formCandidateEmail"
             className="d-flex align-items-center mb-3"

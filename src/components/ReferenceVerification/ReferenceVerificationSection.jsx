@@ -276,7 +276,15 @@ const ReferenceVerificationSection = () => {
     sessionStorage.removeItem("preferred-language");
     sessionStorage.removeItem("interview-method");
   };
+  const currentStep = 5; // Set the current step (1 for Basic Information)
 
+  const steps = [
+    "Basic Information",
+    "Select Language",
+    "Choose Method",
+    "Questionnaire",
+    "Reference Completed",
+  ];
   return (
     <div className="row main-login justify-content-center position-relative">
       <div style={{ display: "none" }}>
@@ -437,7 +445,21 @@ const ReferenceVerificationSection = () => {
         </div>
       </div>
 
-      <div className="d-flex align-items-center justify-content-center main-login-form">
+      <div className="d-flex align-items-center justify-content-center flex-column main-login-form">
+      <div className="reference-progress-indicator">
+      {steps.map((step, index) => (
+        <div key={index} className="reference-step-container">
+          <div
+            className={`step ${currentStep >= index + 1 ? "active" : ""}`} // Change here
+          >
+            <div className="bullet">{index + 1}</div>
+            {index < steps.length - 1 && <div className="line" />}{" "}
+            {/* Line between steps */}
+          </div>
+          <div className="step-label">{step}</div>
+        </div>
+      ))}
+    </div>
         <div className="reference-verification-container">
           <div className="reference-verification-header">
             <svg

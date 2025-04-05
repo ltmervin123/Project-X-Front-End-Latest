@@ -10,7 +10,8 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const [jobName, setJobName] = useState("");
   const [vacancies, setVacancies] = useState(1);
   const [department, setDepartment] = useState("");
-  const [hiringManager, setHiringManager] = useState("");
+  const [firstName, setFirstName] = useState("");
+const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +21,10 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
       setJobName(jobDetails.jobName);
       setVacancies(jobDetails.vacancies);
       setDepartment(jobDetails.department);
-      setHiringManager(jobDetails.hiringManager);
+           // Assuming jobDetails has hiringManager as a full name
+           const [first, last] = jobDetails.hiringManager.split(" ");
+           setFirstName(first || "");
+           setLastName(last || "");
     }
   }, [jobDetails]);
 
@@ -40,7 +44,7 @@ const capitalizeWords = (str) => {
       const payload = { 
         jobName: capitalizeWords(jobName), 
         vacancies, 
-        hiringManager: capitalizeWords(hiringManager), 
+        hiringManager: `${capitalizeWords(firstName)} ${capitalizeWords(lastName)}`, 
         department 
       };
       const response = await axios.put(URL, payload, {
@@ -63,7 +67,7 @@ const capitalizeWords = (str) => {
   };
 
   const isFormValid = () => {
-    return jobName && vacancies && department && hiringManager;
+    return jobName && vacancies && department && firstName && lastName;
   };
 
   return (
@@ -170,23 +174,31 @@ const capitalizeWords = (str) => {
               <option value="Risk Management">Risk Management</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group
-            controlId="formHiringManager"
-            className="d-flex align-items-center mb-3"
-          >
-            <Form.Label
-              className="m-0"
-              style={{ width: "220px", height: "38px" }}
-            >
-              Hiring Manager
-            </Form.Label>
-            <Form.Control
-              type="text"
-              value={hiringManager}
-              onChange={(e) => setHiringManager(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <Form.Group controlId="formHiringManager" className="d-flex align-items-center mb-4">
+  <Form.Label className="m-0" style={{ width: "220px", height: "38px" }}>
+    Hiring Manager
+  </Form.Label>
+  <div className="d-flex gap-2 w-100">
+    <div className="position-relative w-50">
+      <Form.Control
+        type="text"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        placeholder="First Name"
+        required
+      />
+    </div>
+    <div className="position-relative w-50">
+      <Form.Control
+        type="text"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        placeholder="Last Name"
+        required
+      />
+    </div>
+  </div>
+</Form.Group>
           <div className="d-flex justify-content-end">
             <button
               className="btn-create-job"

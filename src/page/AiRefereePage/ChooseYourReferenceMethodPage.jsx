@@ -9,8 +9,9 @@ function ChooseYourReferenceMethodPage() {
   const translations = {
     English: {
       title: "Choose Your ",
-      coloredTitle : "Reference Method",
-      description: "Please select the type of response you prefer for the reference questions.",
+      coloredTitle: "Reference Method",
+      description:
+        "Please select the type of response you prefer for the reference questions.",
       voiceResponse: "Voice Response",
       voiceDescription: "Answer questions through voice",
       textResponse: "Text-based Response",
@@ -19,7 +20,7 @@ function ChooseYourReferenceMethodPage() {
     Japanese: {
       title: "参照方法を選択してください",
       coloredTitle: "参照方法",
-            description: "参照質問に対する回答の種類を選択してください。",
+      description: "参照質問に対する回答の種類を選択してください。",
       voiceResponse: "音声応答",
       voiceDescription: "音声で質問に答える",
       textResponse: "テキストベースの応答",
@@ -32,12 +33,39 @@ function ChooseYourReferenceMethodPage() {
     navigate("/reference-instructions");
   };
 
+  const currentStep = 3; // Set the current step (1 for Basic Information)
+
+  const steps = [
+    "Basic Information",
+    "Select Language",
+    "Choose Method",
+    "Questionnaire",
+    "Reference Completed",
+  ];
+
   return (
-    <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center">
+    <div className="container-fluid main-container login-page-container flex-column d-flex align-items-center justify-content-center">
+      <div className="reference-progress-indicator">
+        {steps.map((step, index) => (
+          <div key={index} className="reference-step-container">
+            <div
+              className={`step ${currentStep >= index + 1 ? "active" : ""}`} // Change here
+            >
+              <div className="bullet">{index + 1}</div>
+              {index < steps.length - 1 && <div className="line" />}{" "}
+              {/* Line between steps */}
+            </div>
+            <div className="step-label">{step}</div>
+          </div>
+        ))}
+      </div>
       <div className="chooseyourinterviewmethod-container d-flex align-items-center justify-content-center flex-column">
         <h3>
           {translations[language].title}
-          <span className="color-orange"> {translations[language].coloredTitle} </span>
+          <span className="color-orange">
+            {" "}
+            {translations[language].coloredTitle}{" "}
+          </span>
         </h3>
         <p>{translations[language].description}</p>
 
@@ -90,7 +118,7 @@ function ChooseYourReferenceMethodPage() {
                   </svg>
                 </div>
                 <div className="card-text ml-3">
-                  < h5>{translations[language].textResponse}</h5>
+                  <h5>{translations[language].textResponse}</h5>
                   <p>{translations[language].textDescription}</p>
                 </div>
               </div>
