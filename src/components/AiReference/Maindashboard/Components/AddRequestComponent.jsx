@@ -54,13 +54,17 @@ const AddRequestComponent = ({
         positionId: addedJob.positionId,
         positionName: addedJob.positionName,
         candidateId: candidate.candidateId,
-        candidateFirstName: "", // New field for first name
-        candidateLastName: "", // New field for last name
+        name: {
+          firstName: candidate.candidateName.firstName,
+          lastName: candidate.candidateName.lastName,
+        },
         selectedFormat: commonFormat,
         referees: [
           {
-            refereeFirstName: "", // New field for referee first name
-            refereeLastName: "", // New field for referee last name
+            name: {
+              firstName: "",
+              lastName: "",
+            },
             email: "",
             questionFormat: commonFormat,
             questionId: "",
@@ -147,9 +151,9 @@ const AddRequestComponent = ({
           positionId: refData.positionId,
           positionName: refData.positionName,
           candidateId: refData.candidateId,
-          candidateName: `${refData.candidateFirstName} ${refData.candidateLastName}`, // Combine first and last name
+          candidateName: `${refData.name.firstName} ${refData.name.lastName}`,
           referees: refData.referees.map((referee) => ({
-            name: `${referee.refereeFirstName} ${referee.refereeLastName}`, // Combine first and last name
+            name: referee.name,
             email: referee.email,
             questionId: referee.questionId,
             questionFormat: referee.questionFormat,
@@ -238,7 +242,10 @@ const AddRequestComponent = ({
             };
 
       currentCandidate.referees.push({
-        name: "",
+        name: {
+          firstName: "",
+          lastName: "",
+        },
         email: "",
         questionFormat: baseReferee.questionFormat,
         questionId: baseReferee.questionId,
@@ -357,11 +364,10 @@ const AddRequestComponent = ({
             </Form.Label>
             <div className="d-flex gap-2 w-100">
               <Form.Control
-                value={reference[currentReferenceIndex]?.candidateFirstName}
+                value={reference[currentReferenceIndex]?.name?.firstName}
                 onChange={(e) => {
                   const newRef = [...reference];
-                  newRef[currentReferenceIndex].candidateFirstName =
-                    e.target.value;
+                  newRef[currentReferenceIndex].name.firstName = e.target.value;
                   setReference(newRef);
                 }}
                 placeholder={`Candidate First Name`}
@@ -370,11 +376,10 @@ const AddRequestComponent = ({
               />
 
               <Form.Control
-                value={reference[currentReferenceIndex]?.candidateLastName}
+                value={reference[currentReferenceIndex]?.name?.lastName}
                 onChange={(e) => {
                   const newRef = [...reference];
-                  newRef[currentReferenceIndex].candidateLastName =
-                    e.target.value;
+                  newRef[currentReferenceIndex].name.lastName = e.target.value;
                   setReference(newRef);
                 }}
                 placeholder={`Candidate Last Name`}
@@ -539,36 +544,27 @@ const AddRequestComponent = ({
                     </Form.Label>
 
                     <div className="d-flex gap-2 w-100">
-                      {/* Conditional rendering for delete button */}
                       {reference[currentReferenceIndex]?.referees.length > 1 ? (
                         <>
-                          {/* <Form.Control
-                          value={referee.name}
-                          onChange={(e) => handleRefereeNameChange(e, index)}
-                          placeholder="Enter Referee Name"
-                          className="referee-input "
-
-                        /> */}
-
                           <Form.Control
-                            value={referee.refereeFirstName}
+                            value={referee.name.firstName}
                             onChange={(e) => {
                               const newReferees = [...reference];
                               newReferees[currentReferenceIndex].referees[
                                 index
-                              ].refereeFirstName = e.target.value;
+                              ].name.firstName = e.target.value;
                               setReference(newReferees);
                             }}
                             placeholder="Referee First Name"
                           />
 
                           <Form.Control
-                            value={referee.refereeLastName}
+                            value={referee.name.lastName}
                             onChange={(e) => {
                               const newReferees = [...reference];
                               newReferees[currentReferenceIndex].referees[
                                 index
-                              ].refereeLastName = e.target.value;
+                              ].name.lastName = e.target.value;
                               setReference(newReferees);
                             }}
                             placeholder="Referee Last Name"
@@ -596,24 +592,24 @@ const AddRequestComponent = ({
                       ) : (
                         <>
                           <Form.Control
-                            value={referee.refereeFirstName}
+                            value={referee.name.firstName}
                             onChange={(e) => {
                               const newReferees = [...reference];
                               newReferees[currentReferenceIndex].referees[
                                 index
-                              ].refereeFirstName = e.target.value;
+                              ].name.firstName = e.target.value;
                               setReference(newReferees);
                             }}
                             placeholder="Referee First Name"
                           />
 
                           <Form.Control
-                            value={referee.refereeLastName}
+                            value={referee.name.lastName}
                             onChange={(e) => {
                               const newReferees = [...reference];
                               newReferees[currentReferenceIndex].referees[
                                 index
-                              ].refereeLastName = e.target.value;
+                              ].name.lastName = e.target.value;
                               setReference(newReferees);
                             }}
                             placeholder="Referee Last Name"

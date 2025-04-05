@@ -225,7 +225,8 @@ const Jobs = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-View, manage, and track open job positions. You can edit details or delete listings as needed.
+                  View, manage, and track open job positions. You can edit
+                  details or delete listings as needed.
                 </span>
               )}
             </div>
@@ -262,7 +263,12 @@ View, manage, and track open job positions. You can edit details or delete listi
                       <td>{job.jobName}</td>
                       <td className="text-center">{job.vacancies}</td>
                       <td>{job.department || "Department not specified"}</td>
-                      <td>{job.hiringManager}</td>
+                      <td>
+                        {" "}
+                        {typeof job?.hiringManager === "object"
+                          ? `${job.hiringManager.firstName} ${job.hiringManager.lastName}`
+                          : job?.hiringManager}
+                      </td>
                       <td className="text-center">
                         {formatDate(job.createdAt)}
                       </td>

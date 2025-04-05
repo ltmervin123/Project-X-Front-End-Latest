@@ -37,7 +37,9 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               className="m-0 color-orange"
               style={{ textTransform: "capitalize" }}
             >
-              {candidates.name}
+              {typeof candidates.name === "string"
+                ? candidates.name
+                : `${candidates.name.firstName} ${candidates.name.lastName}`}
             </h5>
           </div>
           <div className="d-flex justify-content-center align-items-center">

@@ -95,7 +95,10 @@ const ReferenceRequestDetailsPopUp = ({
                 style={{ textTransform: "capitalize" }}
               >
                 {" "}
-                {candidate.candidate || "N/A"}
+                {typeof candidate.candidate === "string"
+                  ? candidate.candidate
+                  : `${candidate.candidate.firstName} ${candidate.candidate.lastName}` ||
+                    "N/A"}
               </span>
             </h5>
           </div>
@@ -195,7 +198,10 @@ const ReferenceRequestDetailsPopUp = ({
                   <div className="d-flex">
                     <div className="candidate-labels">Name:</div>
                     <div className="candidate-details">
-                      {candidate.candidate || "N/A"}
+                      {typeof candidate.candidate === "string"
+                        ? candidate.candidate
+                        : `${candidate.candidate.firstName} ${candidate.candidate.lastName}` ||
+                          "N/A"}
                     </div>
                   </div>
                   <div className="d-flex ">
@@ -218,7 +224,10 @@ const ReferenceRequestDetailsPopUp = ({
                 <div className="d-flex">
                   <div className="reference-labels">Name: </div>
                   <div className="reference-details">
-                    {referee.name || "N/A"}
+                    {typeof referee.name === "string"
+                      ? referee.name
+                      : `${referee.name.firstName} ${referee.name.lastName}` ||
+                        "N/A"}
                   </div>
                 </div>
                 <div className="d-flex ">
@@ -249,7 +258,6 @@ const ReferenceRequestDetailsPopUp = ({
                 >
                   {isSending ? "Sending..." : "Send Reminder"}
                 </button>
-             
               </>
             ) : null}
           </div>
