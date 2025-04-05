@@ -250,7 +250,8 @@ const Candidates = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-Monitor and track potential hires, check their status, and access their details.
+                  Monitor and track potential hires, check their status, and
+                  access their details.
                 </span>
               )}
             </div>
@@ -272,17 +273,35 @@ Monitor and track potential hires, check their status, and access their details.
               </thead>
               <tbody>
                 {candidates
-                  .filter(
-                    (candidate) =>
-                      candidate.name
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase()) // Filter by name
-                  )
+                  .filter((candidate) => {
+                    let fullName = "";
+
+                    if (typeof candidate.name === "string") {
+                      fullName = candidate.name;
+                    } else if (
+                      typeof candidate.name === "object" &&
+                      candidate.name !== null
+                    ) {
+                      fullName = `${candidate.name.firstName || ""} ${
+                        candidate.name.lastName || ""
+                      }`.trim();
+                    }
+
+                    return fullName
+                      .toLowerCase()
+                      .includes(searchQuery.toLowerCase());
+                  })
                   .slice()
                   .reverse()
                   .map((candidate) => (
                     <tr key={candidate._id}>
-                      <td>{candidate.name}</td>
+                      <td>
+                        {typeof candidate.name === "string"
+                          ? candidate.name
+                          : `${candidate.name.firstName || ""} ${
+                              candidate.name.lastName || ""
+                            }`.trim()}
+                      </td>
                       <td>{candidate.email}</td>
                       <td>{candidate.position}</td>
                       <td
@@ -359,11 +378,24 @@ Monitor and track potential hires, check their status, and access their details.
                       </td>
                     </tr>
                   ))}
-                {candidates.filter((candidate) =>
-                  candidate.name
+                {candidates.filter((candidate) => {
+                  let fullName = "";
+
+                  if (typeof candidate.name === "string") {
+                    fullName = candidate.name;
+                  } else if (
+                    typeof candidate.name === "object" &&
+                    candidate.name !== null
+                  ) {
+                    fullName = `${candidate.name.firstName || ""} ${
+                      candidate.name.lastName || ""
+                    }`.trim();
+                  }
+
+                  return fullName
                     .toLowerCase()
-                    .includes(searchQuery.toLowerCase())
-                ).length === 0 && (
+                    .includes(searchQuery.toLowerCase());
+                }).length === 0 && (
                   <tr>
                     <td colSpan="5" className="text-center">
                       Candidate not found
