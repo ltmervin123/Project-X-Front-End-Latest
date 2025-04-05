@@ -78,9 +78,10 @@ const AddCandidateComponent = ({
     try {
       const task = candidates.map((candidate) => {
         const payload = {
-          name: `${capitalizeWords(candidate.firstName)} ${capitalizeWords(
-            candidate.lastName
-          )}`,
+          name: {
+            firstName: capitalizeWords(candidate.firstName),
+            lastName: capitalizeWords(candidate.lastName),
+          },
           email: candidate.email.toLowerCase(),
           position: candidate.position,
           positionId: candidate.positionId,
@@ -228,7 +229,7 @@ const AddCandidateComponent = ({
                 className="m-0"
                 style={{ width: "220px", height: "38px" }}
               >
-                Candidate 
+                Candidate
               </Form.Label>
               <div className="d-flex gap-2 w-100">
                 <div className="positiom-relative w-50">
