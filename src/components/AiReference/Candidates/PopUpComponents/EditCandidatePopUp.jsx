@@ -12,7 +12,7 @@ const EditCandidatePopUp = ({
   const token = USER?.token;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
@@ -22,20 +22,17 @@ const EditCandidatePopUp = ({
     return jobs.map((job) => job.jobName);
   });
 
-  // Utility function to capitalize the first letter of each word
-const capitalizeWords = (str) => {
-  return str
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
 
-  // Populate form fields with candidate details when the component mounts
   useEffect(() => {
     if (candidateDetails) {
-      const [first, last] = candidateDetails.name.split(" ");
-      setFirstName(first || "");
-      setLastName(last || "");
+      setFirstName(candidateDetails.name.firstName);
+      setLastName(candidateDetails.name.lastName);
       setEmail(candidateDetails.email);
       setPosition(candidateDetails.position);
     }
@@ -56,12 +53,15 @@ const capitalizeWords = (str) => {
     const URL = `${API}/api/ai-referee/company-candidates/update-candidate-by-id/${candidateDetails._id}`;
     setIsLoading(true);
     try {
-      const payload = { 
-        name: `${capitalizeWords(firstName)} ${capitalizeWords(lastName)}`, // Combine first and last name
-        email, 
-        position 
+      const payload = {
+        name: {
+          firstName: capitalizeWords(firstName),
+          lastName: capitalizeWords(lastName),
+        },
+        email,
+        position,
       };
-            const response = await axios.put(URL, payload, {
+      const response = await axios.put(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -77,7 +77,6 @@ const capitalizeWords = (str) => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <Modal
@@ -103,48 +102,34 @@ const capitalizeWords = (str) => {
           </Button>
         </div>
         <Form onSubmit={handleSubmit}>
-          {/* <Form.Group
-            controlId="formCandidateName"
+          <Form.Group
+            controlId="formCandidateFirstName"
             className="d-flex align-items-center mb-3"
           >
             <Form.Label
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              Name
+              Candidate
             </Form.Label>
-            <Form.Control
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
-              required
-            />
-          </Form.Group> */}
-          <Form.Group controlId="formCandidateFirstName" className="d-flex align-items-center mb-3">
-  <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
-   Candidate
-  </Form.Label>
-  <div className="d-flex gap-2 w-100">
-  <Form.Control
-    type="text"
-    value={firstName}
-    onChange={(e) => setFirstName(e.target.value)}
-    placeholder="John"
-    required
-  />
+            <div className="d-flex gap-2 w-100">
+              <Form.Control
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="John"
+                required
+              />
 
-  <Form.Control
-    type="text"
-    value={lastName}
-    onChange={(e) => setLastName(e.target.value)}
-    placeholder="Doe"
-    required
-  />
-    
-  </div>
-
-</Form.Group>
+              <Form.Control
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Doe"
+                required
+              />
+            </div>
+          </Form.Group>
           <Form.Group
             controlId="formCandidateEmail"
             className="d-flex align-items-center mb-3"
