@@ -9,12 +9,12 @@
 
 .referencecheckquestiontitle {
   width: 80%;
-  max-width: 1300px;
+  max-width: 1200px;
 }
 .referencecheckquestion-container {
   position: relative;
   width: 80%;
-  max-width: 1300px;
+  max-width: 1200px;
   height: auto;
   max-height: 400px;
   background: var(--font-white);
@@ -24,7 +24,7 @@
 }
 .transcription-answer-container {
   width: 80%;
-  max-width: 1300px;
+  max-width: 1200px;
   padding: 20px 40px;
   border-radius: 20px;
   height: auto;

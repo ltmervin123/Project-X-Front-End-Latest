@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees"; // Import the Privacy Agreement component
 
 const AiReferenceCheckVerificationForm = ({
   refereeName,
@@ -14,7 +14,10 @@ const AiReferenceCheckVerificationForm = ({
   const API = process.env.REACT_APP_API_URL;
   const [formData, setFormData] = useState({
     referenceId: "",
-    refereeName: "",
+    refereeName: {
+      firstName: "",
+      lastName: "",
+    },
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
@@ -30,6 +33,17 @@ const AiReferenceCheckVerificationForm = ({
     new Date().toLocaleDateString("en-CA")
   );
 
+  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
+  const currentStep = 1;
+
+  const steps = [
+    "Basic Information",
+    "Select Language",
+    "Choose Method",
+    "Questionnaire",
+    "Reference Completed",
+  ];
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -109,12 +123,14 @@ const AiReferenceCheckVerificationForm = ({
 
   const isFormValid = () => {
     return (
-      formData.refereeName &&
+      formData.refereeName.firstName &&
+      formData.refereeName.lastName &&
       formData.positionTitle &&
       formData.companyWorkedWith &&
       (isOtherSelected ? formData.otherRelationship : formData.relationship) &&
       formData.startDate &&
-      formData.endDate
+      formData.endDate &&
+      isAgreed
     );
   };
 
@@ -143,6 +159,19 @@ const AiReferenceCheckVerificationForm = ({
   //   }
   // };
 
+  useEffect(() => {
+    if (refereeName) {
+      const { firstName, lastName } = refereeName;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        refereeName: {
+          firstName: firstName,
+          lastName: lastName,
+        },
+      }));
+    }
+  }, [refereeName]);
+
   // Prevent user from leaving the page
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -161,7 +190,21 @@ const AiReferenceCheckVerificationForm = ({
       <i className="text-center">
         Your insights are valuable in helping us make informed decisions.
       </i>
-      <div className="d-flex align-items-center justify-content-center h-100 w-100 my-2 mt-4">
+      <div className="d-flex align-items-center justify-content-center flex-column h-100 w-100 my-2 mt-4">
+        <div className="reference-progress-indicator">
+          {steps.map((step, index) => (
+            <div key={index} className="reference-step-container">
+              <div
+                className={`step ${currentStep === index + 1 ? "active" : ""}`}
+              >
+                <div className="bullet">{index + 1}</div>
+                {index < steps.length - 1 && <div className="line" />}{" "}
+                {/* Line between steps */}
+              </div>
+              <div className="step-label">{step}</div>
+            </div>
+          ))}
+        </div>
         <div className=" AiReferenceCheckVerification-container-form">
           <div className="AiReferenceCheckVerification-title">
             <h5 className="m-0">Verify Your Information</h5>
@@ -179,13 +222,25 @@ const AiReferenceCheckVerificationForm = ({
               <Col md={12} className="d-flex flex-column gap-3">
                 <Form.Group controlId="referee-name">
                   <Form.Label className="mb-1">Referee Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="refereeName"
-                    value={formData.refereeName}
-                    placeholder="Referee Name"
-                    disabled={true}
-                  />
+                  <div className="d-flex gap-2 w-100">
+                    <Form.Control
+                      type="text"
+                      name="firstName"
+                      value={formData.refereeName.firstName}
+                      placeholder="First Name"
+                      onChange={handleChange}
+                      disabled={true}
+                    />
+
+                    <Form.Control
+                      type="text"
+                      name="lastName"
+                      value={formData.refereeName.lastName}
+                      placeholder="Last Name"
+                      onChange={handleChange}
+                      disabled={true}
+                    />
+                  </div>
                 </Form.Group>
 
                 <Form.Group controlId="position-title">
@@ -277,18 +332,48 @@ const AiReferenceCheckVerificationForm = ({
               </Col>
             </Row>
 
+            {/* Checkbox for Privacy Agreement */}
+            <div className="d-flex align-items-center mt-3">
+              <input
+                type="checkbox"
+                id="privacyAgreementCheckbox"
+                checked={isAgreed}
+                onChange={(e) => {
+                  setIsAgreed(e.target.checked);
+                  if (e.target.checked) {
+                    setShowPrivacyAgreement(true); // Show the Privacy Agreement modal when checked
+                  }
+                }}
+              />
+              <label
+                htmlFor="privacyAgreementCheckbox"
+                className="ms-2 privacyAgreementCheckbox"
+              >
+                By continuing, you’ve read, understood and agreed to the Privacy
+                Agreement for Referees
+              </label>
+            </div>
             <div className="d-flex justify-content-center m-4 ">
               <Button
                 variant="primary"
                 type="submit"
                 disabled={!isFormValid() || processing}
               >
-                {processing ? "Processing..." : "Proceed to Questionnaire"}
+                {processing ? "Processing..." : "Proceed"}
               </Button>
             </div>
           </Form>
         </div>
       </div>
+      {/* Privacy Agreement Modal */}
+      <PrivacyAgreementForReferees
+        showModal={showPrivacyAgreement}
+        setShowModal={setShowPrivacyAgreement}
+        handleContinue={() => {
+          setIsAgreed(true);
+          setShowPrivacyAgreement(false);
+        }}
+      />
     </div>
   );
 };

@@ -10,7 +10,8 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const [jobName, setJobName] = useState("");
   const [vacancies, setVacancies] = useState(1);
   const [department, setDepartment] = useState("");
-  const [hiringManager, setHiringManager] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,28 +21,32 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
       setJobName(jobDetails.jobName);
       setVacancies(jobDetails.vacancies);
       setDepartment(jobDetails.department);
-      setHiringManager(jobDetails.hiringManager);
+      setFirstName(jobDetails.hiringManager.firstName);
+      setLastName(jobDetails.hiringManager.lastName);
     }
   }, [jobDetails]);
 
   // Utility function to capitalize the first letter of each word
-const capitalizeWords = (str) => {
-  return str
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/update-job-by-id/${jobDetails._id}`;
-      const payload = { 
-        jobName: capitalizeWords(jobName), 
-        vacancies, 
-        hiringManager: capitalizeWords(hiringManager), 
-        department 
+      const payload = {
+        jobName: capitalizeWords(jobName),
+        vacancies,
+        hiringManager: {
+          firstName: capitalizeWords(firstName),
+          lastName: capitalizeWords(lastName),
+        },
+        department,
       };
       const response = await axios.put(URL, payload, {
         headers: {
@@ -63,7 +68,7 @@ const capitalizeWords = (str) => {
   };
 
   const isFormValid = () => {
-    return jobName && vacancies && department && hiringManager;
+    return jobName && vacancies && department && firstName && lastName;
   };
 
   return (
@@ -172,7 +177,7 @@ const capitalizeWords = (str) => {
           </Form.Group>
           <Form.Group
             controlId="formHiringManager"
-            className="d-flex align-items-center mb-3"
+            className="d-flex align-items-center mb-4"
           >
             <Form.Label
               className="m-0"
@@ -180,12 +185,26 @@ const capitalizeWords = (str) => {
             >
               Hiring Manager
             </Form.Label>
-            <Form.Control
-              type="text"
-              value={hiringManager}
-              onChange={(e) => setHiringManager(e.target.value)}
-              required
-            />
+            <div className="d-flex gap-2 w-100">
+              <div className="position-relative w-50">
+                <Form.Control
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="First Name"
+                  required
+                />
+              </div>
+              <div className="position-relative w-50">
+                <Form.Control
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+            </div>
           </Form.Group>
           <div className="d-flex justify-content-end">
             <button
