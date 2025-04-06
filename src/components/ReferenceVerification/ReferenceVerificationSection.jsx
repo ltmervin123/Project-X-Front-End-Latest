@@ -306,7 +306,7 @@ const ReferenceVerificationSection = () => {
   ];
   return (
     <div className="row main-login justify-content-center position-relative">
-      <div>
+      <div style={{ display: "none" }}>
         <div ref={reportRef} className="ViewRequest-container">
           <h4 className="color-orange mb-2">
             {translations[language].format[referenceData?.questionFormat] ||

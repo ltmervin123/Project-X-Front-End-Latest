@@ -214,10 +214,6 @@ const ReferenceRequest = () => {
     .slice()
     .reverse()
     .filter((reference) => {
-      // const candidateMatch =
-      //   reference.candidate &&
-      //   reference.candidate.toLowerCase().includes(searchQuery.toLowerCase());
-
       const candidateMatch = (() => {
         const c = reference.candidate;
         if (typeof c === "string") {
@@ -432,9 +428,7 @@ const ReferenceRequest = () => {
                     <React.Fragment key={reference._id}>
                       <tr>
                         <td>
-                          {typeof reference.candidate === "string"
-                            ? reference.candidate
-                            : `${reference.candidate.firstName} ${reference.candidate.lastName}`}
+                          {`${reference.candidate.firstName} ${reference.candidate.lastName}`}
                         </td>
                         <td>{reference.position}</td>
                         <td className="text-center">
