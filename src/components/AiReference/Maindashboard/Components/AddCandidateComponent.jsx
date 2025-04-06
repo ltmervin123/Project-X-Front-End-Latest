@@ -17,29 +17,28 @@ const AddCandidateComponent = ({
   const [isLoading, setIsLoading] = useState(false);
 
   // Utility function to capitalize the first letter of each word
-const capitalizeWords = (str) => {
-  return str
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
 
   const isFormValid = candidates.every(
     (candidate) =>
-      candidate.name.trim() !== "" &&
+      candidate.firstName.trim() !== "" &&
+      candidate.lastName.trim() !== "" &&
       candidate.email.trim() !== "" &&
       candidate.position.trim() !== ""
   );
-  
-
   useEffect(() => {
     const newCandidates = Array.from({ length: addedJob.vacancies }, () => ({
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       position: addedJob.positionName,
       positionId: addedJob.positionId,
     }));
-
     setCandidates(newCandidates);
   }, []);
 
@@ -57,8 +56,11 @@ const capitalizeWords = (str) => {
     const newErrorMessages = {};
     const currentCandidate = candidates[currentCandidateIndex];
 
-    if (currentCandidate.name.length < 2) {
-      newErrorMessages.name = "Candidate name must be at least 2 characters.";
+    if (currentCandidate.firstName.length < 2) {
+      newErrorMessages.firstName = "First name must be at least 2 characters.";
+    }
+    if (currentCandidate.lastName.length < 2) {
+      newErrorMessages.lastName = "Last name must be at least 2 characters.";
     }
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(currentCandidate.email)) {
@@ -76,8 +78,11 @@ const capitalizeWords = (str) => {
     try {
       const task = candidates.map((candidate) => {
         const payload = {
-          name: capitalizeWords(candidate.name),
-          email: candidate.email.toLowerCase(), // Optionally, you can also convert email to lowercase
+          name: {
+            firstName: capitalizeWords(candidate.firstName),
+            lastName: capitalizeWords(candidate.lastName),
+          },
+          email: candidate.email.toLowerCase(),
           position: candidate.position,
           positionId: candidate.positionId,
           status,
@@ -88,7 +93,7 @@ const capitalizeWords = (str) => {
           },
         });
       });
-      
+
       const responses = await Promise.all(task);
 
       if (responses.every((response) => response.status === 201)) {
@@ -184,7 +189,7 @@ const capitalizeWords = (str) => {
           </Form.Group>
 
           <div key={currentCandidateIndex} className="candidate-container mb-4">
-            <Form.Group
+            {/* <Form.Group
               controlId={`formJobName${currentCandidateIndex}`}
               className="d-flex align-items-center mb-4"
             >
@@ -213,6 +218,60 @@ const capitalizeWords = (str) => {
                     {errorMessages.name}
                   </div>
                 )}
+              </div>
+            </Form.Group> */}
+
+            <Form.Group
+              controlId={`formFirstName${currentCandidateIndex}`}
+              className="d-flex align-items-center mb-4"
+            >
+              <Form.Label
+                className="m-0"
+                style={{ width: "220px", height: "38px" }}
+              >
+                Candidate
+              </Form.Label>
+              <div className="d-flex gap-2 w-100">
+                <div className="positiom-relative w-50">
+                  <Form.Control
+                    value={candidates[currentCandidateIndex]?.firstName}
+                    type="text"
+                    onChange={(e) =>
+                      handleInputChange(
+                        currentCandidateIndex,
+                        "firstName",
+                        e.target.value
+                      )
+                    }
+                    placeholder={`First Name`}
+                    required
+                  />
+                  {errorMessages.firstName && (
+                    <div className="px-3 py-1 text-danger">
+                      {errorMessages.firstName}
+                    </div>
+                  )}
+                </div>
+                <div className="positiom-relative w-50">
+                  <Form.Control
+                    value={candidates[currentCandidateIndex]?.lastName}
+                    type="text"
+                    onChange={(e) =>
+                      handleInputChange(
+                        currentCandidateIndex,
+                        "lastName",
+                        e.target.value
+                      )
+                    }
+                    placeholder={`Last Name`}
+                    required
+                  />
+                  {errorMessages.lastName && (
+                    <div className="px-3 py-1 text-danger">
+                      {errorMessages.lastName}
+                    </div>
+                  )}
+                </div>
               </div>
             </Form.Group>
 
@@ -250,53 +309,52 @@ const capitalizeWords = (str) => {
               </div>
             </Form.Group>
           </div>
-
         </Form>
         <div className="d-flex justify-content-center align-items-center gap-3  add-candidate-controller">
-            <button
-              type="button"
-              onClick={handlePrevious}
-              disabled={currentCandidateIndex === 0}
+          <button
+            type="button"
+            onClick={handlePrevious}
+            disabled={currentCandidateIndex === 0}
+          >
+            <svg
+              width="16"
+              height="26"
+              viewBox="0 0 16 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                width="16"
-                height="26"
-                viewBox="0 0 16 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M0.887082 11.5348L12.1048 0.12528L14.9566 2.92921L5.14091 12.9128L15.1245 22.7285L12.3205 25.5804L0.911051 14.3627C0.532944 13.9908 0.318009 13.484 0.313514 12.9537C0.309019 12.4234 0.515332 11.913 0.887082 11.5348Z"
-                  fill="#F46A05"
-                />
-              </svg>
-            </button>
-            <span className="d-flex align-items-center">
-              {currentCandidateIndex + 1}
-            </span>
-            <button
-              type="button"
-              onClick={handleNext}
-              disabled={currentCandidateIndex === candidates.length - 1}
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0.887082 11.5348L12.1048 0.12528L14.9566 2.92921L5.14091 12.9128L15.1245 22.7285L12.3205 25.5804L0.911051 14.3627C0.532944 13.9908 0.318009 13.484 0.313514 12.9537C0.309019 12.4234 0.515332 11.913 0.887082 11.5348Z"
+                fill="#F46A05"
+              />
+            </svg>
+          </button>
+          <span className="d-flex align-items-center">
+            {currentCandidateIndex + 1}
+          </span>
+          <button
+            type="button"
+            onClick={handleNext}
+            disabled={currentCandidateIndex === candidates.length - 1}
+          >
+            <svg
+              width="16"
+              height="26"
+              viewBox="0 0 16 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                width="16"
-                height="26"
-                viewBox="0 0 16 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M14.517 14.5231L3.203 25.8371L0.375 23.0091L10.275 13.1091L0.375 3.2091L3.203 0.381104L14.517 11.6951C14.8919 12.0702 15.1026 12.5788 15.1026 13.1091C15.1026 13.6394 14.8919 14.148 14.517 14.5231Z"
-                  fill="#F46A05"
-                />
-              </svg>
-            </button>
-          </div>
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M14.517 14.5231L3.203 25.8371L0.375 23.0091L10.275 13.1091L0.375 3.2091L3.203 0.381104L14.517 11.6951C14.8919 12.0702 15.1026 12.5788 15.1026 13.1091C15.1026 13.6394 14.8919 14.148 14.517 14.5231Z"
+                fill="#F46A05"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="d-flex justify-content-end mt-3">

@@ -47,7 +47,7 @@
     margin-bottom: 50px !important;
 }
 .btn-exit {
-    padding: 5px 40px;
+    padding: 5px 10px;
     border-radius: 50px;
     background: var(--secondary-color);
     color: var(--font-white) !important;
@@ -56,7 +56,7 @@
 
 }
 .btn-download {
-    padding: 5px 40px;
+    padding: 5px 10px;
     border-radius: 50px;
     background: var(--primary-color);
     color: var(--font-white) !important;

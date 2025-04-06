@@ -10,30 +10,29 @@ const EditCandidatePopUp = ({
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOther, setIsOther] = useState(false);
-  const isFormValid = name && email && position;
-
+  const isFormValid = firstName && lastName && email && position;
   const [positions, setPositions] = useState(() => {
     const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
     return jobs.map((job) => job.jobName);
   });
 
-  // Utility function to capitalize the first letter of each word
-const capitalizeWords = (str) => {
-  return str
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
 
-  // Populate form fields with candidate details when the component mounts
   useEffect(() => {
     if (candidateDetails) {
-      setName(candidateDetails.name);
+      setFirstName(candidateDetails.name.firstName);
+      setLastName(candidateDetails.name.lastName);
       setEmail(candidateDetails.email);
       setPosition(candidateDetails.position);
     }
@@ -54,12 +53,15 @@ const capitalizeWords = (str) => {
     const URL = `${API}/api/ai-referee/company-candidates/update-candidate-by-id/${candidateDetails._id}`;
     setIsLoading(true);
     try {
-      const payload = { 
-        name: capitalizeWords(name), // Capitalize name
-        email, 
-        position 
+      const payload = {
+        name: {
+          firstName: capitalizeWords(firstName),
+          lastName: capitalizeWords(lastName),
+        },
+        email,
+        position,
       };
-            const response = await axios.put(URL, payload, {
+      const response = await axios.put(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -101,22 +103,32 @@ const capitalizeWords = (str) => {
         </div>
         <Form onSubmit={handleSubmit}>
           <Form.Group
-            controlId="formCandidateName"
+            controlId="formCandidateFirstName"
             className="d-flex align-items-center mb-3"
           >
             <Form.Label
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              Name
+              Candidate
             </Form.Label>
-            <Form.Control
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
-              required
-            />
+            <div className="d-flex gap-2 w-100">
+              <Form.Control
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="John"
+                required
+              />
+
+              <Form.Control
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Doe"
+                required
+              />
+            </div>
           </Form.Group>
           <Form.Group
             controlId="formCandidateEmail"
