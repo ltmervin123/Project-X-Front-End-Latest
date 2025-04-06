@@ -9,9 +9,9 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
   const token = USER?.token;
   const [jobName, setJobName] = useState("");
   const [department, setDepartment] = useState("");
-  const [firstName, setFirstName] = useState(""); // New state for first name
-  const [lastName, setLastName] = useState(""); // New state for last name
-  const [loading, setLoading] = useState(false); // Define loading state
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
   const [vacancies, setVacancies] = useState(1);
 
@@ -19,7 +19,7 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
   const formRef = useRef(null);
 
   const isFormValid = useMemo(() => {
-    return jobName && firstName && lastName && department && vacancies; // Check firstName and lastName
+    return jobName && firstName && lastName && department && vacancies;
   }, [jobName, firstName, lastName, department, vacancies]);
 
   const handleSubmit = async (e) => {
@@ -52,7 +52,10 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
         jobName: capitalizeWords(jobName),
         vacancies,
         department,
-        hiringManager: `${capitalizeWords(firstName)} ${capitalizeWords(lastName)}`, // Combine first and last name
+        hiringManager: {
+          firstName: capitalizeWords(firstName),
+          lastName: capitalizeWords(lastName),
+        },
       };
       const response = await axios.post(URL, payload, {
         headers: {
@@ -187,38 +190,35 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob }) => {
             </Form.Label>
             <div className="d-flex gap-2 w-100">
               <div className="positiom-relative w-50">
-              <Form.Control
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="First Name"
-                required
-              />
-               {errorMessages.firstName && (
-              <div className="px-3 py-1 text-danger">
-                {errorMessages.firstName}
-              </div>
-            )}
+                <Form.Control
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="First Name"
+                  required
+                />
+                {errorMessages.firstName && (
+                  <div className="px-3 py-1 text-danger">
+                    {errorMessages.firstName}
+                  </div>
+                )}
               </div>
               <div className="position-relative w-50">
-              <Form.Control
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Last Name"
-                required
-                
-              />
-                
-            {errorMessages.lastName && (
-              <div className="px-3 py-1 text-danger">
-                {errorMessages.lastName}
+                <Form.Control
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Last Name"
+                  required
+                />
+
+                {errorMessages.lastName && (
+                  <div className="px-3 py-1 text-danger">
+                    {errorMessages.lastName}
+                  </div>
+                )}
               </div>
-            )}
-              </div>
-              
             </div>
-         
           </Form.Group>
         </Form>
       </div>

@@ -14,8 +14,10 @@ const AiReferenceCheckVerificationForm = ({
   const API = process.env.REACT_APP_API_URL;
   const [formData, setFormData] = useState({
     referenceId: "",
-    firstName: "", // Separate first name
-    lastName: "", // Separate last name
+    refereeName: {
+      firstName: "",
+      lastName: "",
+    },
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
@@ -31,9 +33,9 @@ const AiReferenceCheckVerificationForm = ({
     new Date().toLocaleDateString("en-CA")
   );
 
-  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false); // State to manage the modal visibility
-  const [isAgreed, setIsAgreed] = useState(false); // State to manage checkbox
-  const currentStep = 1; // Set the current step (1 for Basic Information)
+  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
+  const currentStep = 1;
 
   const steps = [
     "Basic Information",
@@ -121,8 +123,8 @@ const AiReferenceCheckVerificationForm = ({
 
   const isFormValid = () => {
     return (
-      formData.firstName &&
-      formData.lastName &&
+      formData.refereeName.firstName &&
+      formData.refereeName.lastName &&
       formData.positionTitle &&
       formData.companyWorkedWith &&
       (isOtherSelected ? formData.otherRelationship : formData.relationship) &&
@@ -159,11 +161,13 @@ const AiReferenceCheckVerificationForm = ({
 
   useEffect(() => {
     if (refereeName) {
-      const [firstName, lastName] = refereeName.split(" "); // Split the name into first and last
+      const { firstName, lastName } = refereeName;
       setFormData((prevFormData) => ({
         ...prevFormData,
-        firstName: firstName || "", // Set first name
-        lastName: lastName || "", // Set last name
+        refereeName: {
+          firstName: firstName,
+          lastName: lastName,
+        },
       }));
     }
   }, [refereeName]);
@@ -216,23 +220,13 @@ const AiReferenceCheckVerificationForm = ({
           >
             <Row>
               <Col md={12} className="d-flex flex-column gap-3">
-                {/* <Form.Group controlId="referee-name">
-                  <Form.Label className="mb-1">Referee Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="refereeName"
-                    value={formData.refereeName}
-                    placeholder="Referee Name"
-                    disabled={true}
-                  />
-                </Form.Group> */}
                 <Form.Group controlId="referee-name">
                   <Form.Label className="mb-1">Referee Name</Form.Label>
                   <div className="d-flex gap-2 w-100">
                     <Form.Control
                       type="text"
                       name="firstName"
-                      value={formData.firstName}
+                      value={formData.refereeName.firstName}
                       placeholder="First Name"
                       onChange={handleChange}
                       disabled={true}
@@ -241,7 +235,7 @@ const AiReferenceCheckVerificationForm = ({
                     <Form.Control
                       type="text"
                       name="lastName"
-                      value={formData.lastName}
+                      value={formData.refereeName.lastName}
                       placeholder="Last Name"
                       onChange={handleChange}
                       disabled={true}
@@ -376,8 +370,8 @@ const AiReferenceCheckVerificationForm = ({
         showModal={showPrivacyAgreement}
         setShowModal={setShowPrivacyAgreement}
         handleContinue={() => {
-          setIsAgreed(true); // Set the agreement state to true when the user agrees
-          setShowPrivacyAgreement(false); // Close the modal
+          setIsAgreed(true);
+          setShowPrivacyAgreement(false);
         }}
       />
     </div>
