@@ -511,8 +511,8 @@ const Reports = () => {
                 <tbody>
                   {candidateData.map((entry, index) => (
                     <tr key={index}>
-                      <td>{entry.candidate}</td>
-                      <td>{entry.refereeName}</td>
+                      <td>{`${entry.candidate.firstName} ${entry.candidate.lastName}`}</td>
+                      <td>{`${entry.refereeName.firstName} ${entry.refereeName.lastName}`}</td>
                       <td
                         className="text-center"
                         style={{
