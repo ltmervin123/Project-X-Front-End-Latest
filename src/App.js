@@ -113,6 +113,12 @@ import ViewRequest from "./components/AiReference/ReferenceRequest/Components/Vi
 // ReferenceRequestEmailSentPage
 import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
 
+// InputReferenceRequestEmailSentPage
+import InputReferenceRequestEmailSentPage from "./page/InputReferenceRequestEmailSentPage.jsx";
+
+// RRFormSubmittedSuccessfullyPage
+import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
+
 // PaymentMethod
 import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
 
@@ -345,6 +351,26 @@ function App() {
           path="/ResumeFitOptimizer/SaveAndExportResumes"
           element={<RFOSaveAndExportResumePage />}
         />
+
+
+
+
+
+        {/* InputReferenceRequestEmailSentPage*/}
+        <Route
+          path="/InputReferenceRequestEmailSent"
+          element={<InputReferenceRequestEmailSentPage />}
+        />
+        {/* RRFormSubmittedSuccessfullyPage*/}
+        <Route
+          path="/ReferenceRequestFormSubmittedSuccessfully"
+          element={<RRFormSubmittedSuccessfullyPage />}
+        />
+
+
+
+
+        
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

@@ -79,12 +79,12 @@ function RFOAIResumeOptimizationAnalysis() {
                     {scoreBreakdown.slice(0, 5).map((item, index) => (
                       <div key={index} className="score-item mb-3">
                         <div className="d-flex justify-content-between">
-                        <span className="mb-2">{item.title}</span>
-                        <span style={{ color: getFontColor(item.score), fontWeight: "500" }}>{item.score}%</span>                        </div>
-                        <ProgressBar
-                          now={item.score}
-                          variant={getProgressColor(item.score)}
-                        />
+                          <span className="mb-2">{item.title}</span>
+                          <span style={{ color: getFontColor(item.score), fontWeight: "500" }}>{item.score}%</span>                        </div>
+                          <ProgressBar
+                            now={item.score}
+                            variant={getProgressColor(item.score)}
+                          />
                       </div>
                     ))}
                   </Col>
