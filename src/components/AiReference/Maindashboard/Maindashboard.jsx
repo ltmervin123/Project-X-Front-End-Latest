@@ -126,6 +126,8 @@ const MainDashboard = () => {
 
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true);
+    setShowJobForm(false);
+
   };
   
   const handleOpenJobForm = () => {
@@ -818,12 +820,19 @@ const MainDashboard = () => {
           refetch={handleRefetchCandidates}
           setAddedCandidate={setAddedCandidate}
           addedJob={addedJob}
+          onCancel={() => {
+            setShowAddCandidate(false);
+            setShowJobForm(false);
+          }}
         />
       ) : showJobForm ? (
         <AddJobComponent
           onProceed={handleShowAddCandidate}
           refetch={handleRefetchJobs}
           setAddedJob={setAddedJob}
+          onCancel={() => {
+            setShowJobForm(false);
+          }}
         />
       ) : showAddReferenceRequest ? (
         <AddRequestComponent
@@ -831,8 +840,9 @@ const MainDashboard = () => {
           addedCandidate={addedCandidate}
           addedJob={addedJob}
           onCancel={() => {
-            // Reset to the main dashboard state
             setShowAddReferenceRequest(false);
+            setShowAddCandidate(false);
+            setShowJobForm(false);
           }}
         />
       ) : (

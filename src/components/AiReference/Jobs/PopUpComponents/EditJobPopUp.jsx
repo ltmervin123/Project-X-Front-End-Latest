@@ -11,7 +11,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const [vacancies, setVacancies] = useState(1);
   const [department, setDepartment] = useState("");
   const [firstName, setFirstName] = useState("");
-const [lastName, setLastName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,31 +21,33 @@ const [lastName, setLastName] = useState("");
       setJobName(jobDetails.jobName);
       setVacancies(jobDetails.vacancies);
       setDepartment(jobDetails.department);
-           // Assuming jobDetails has hiringManager as a full name
-           const [first, last] = jobDetails.hiringManager.split(" ");
-           setFirstName(first || "");
-           setLastName(last || "");
+      // Assuming jobDetails has hiringManager as a full name
+      const [first, last] = jobDetails.hiringManager.split(" ");
+      setFirstName(first || "");
+      setLastName(last || "");
     }
   }, [jobDetails]);
 
   // Utility function to capitalize the first letter of each word
-const capitalizeWords = (str) => {
-  return str
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
       const URL = `${API}/api/ai-referee/company-jobs/update-job-by-id/${jobDetails._id}`;
-      const payload = { 
-        jobName: capitalizeWords(jobName), 
-        vacancies, 
-        hiringManager: `${capitalizeWords(firstName)} ${capitalizeWords(lastName)}`, 
-        department 
+      const payload = {
+        jobName: capitalizeWords(jobName),
+        vacancies,
+        hiringManager: `${capitalizeWords(firstName)} ${capitalizeWords(
+          lastName
+        )}`,
+        department,
       };
       const response = await axios.put(URL, payload, {
         headers: {
@@ -95,10 +97,7 @@ const capitalizeWords = (str) => {
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
         <Form onSubmit={handleSubmit}>
-          <Form.Group
-            controlId="formJobName"
-            className="d-flex align-items-center mb-3"
-          >
+          <Form.Group controlId="formJobName" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
@@ -112,10 +111,7 @@ const capitalizeWords = (str) => {
               required
             />
           </Form.Group>
-          <Form.Group
-            controlId="formVacancies"
-            className="d-flex align-items-center mb-3"
-          >
+          <Form.Group controlId="formVacancies" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
@@ -130,10 +126,7 @@ const capitalizeWords = (str) => {
               required
             />
           </Form.Group>
-          <Form.Group
-            controlId="formDepartment"
-            className="d-flex align-items-center mb-3"
-          >
+          <Form.Group controlId="formDepartment" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
@@ -174,31 +167,34 @@ const capitalizeWords = (str) => {
               <option value="Risk Management">Risk Management</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group controlId="formHiringManager" className="d-flex align-items-center mb-4">
-  <Form.Label className="m-0" style={{ width: "220px", height: "38px" }}>
-    Hiring Manager
-  </Form.Label>
-  <div className="d-flex gap-2 w-100">
-    <div className="position-relative w-50">
-      <Form.Control
-        type="text"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        placeholder="First Name"
-        required
-      />
-    </div>
-    <div className="position-relative w-50">
-      <Form.Control
-        type="text"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        placeholder="Last Name"
-        required
-      />
-    </div>
-  </div>
-</Form.Group>
+          <Form.Group controlId="formHiringManager" className="mb-4">
+            <Form.Label
+              className="m-0"
+              style={{ width: "220px", height: "38px" }}
+            >
+              Hiring Manager
+            </Form.Label>
+            <div className="d-flex gap-3 w-100">
+              <div className="position-relative w-50">
+                <Form.Control
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="First Name"
+                  required
+                />
+              </div>
+              <div className="position-relative w-50">
+                <Form.Control
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Last Name"
+                  required
+                />
+              </div>
+            </div>
+          </Form.Group>
           <div className="d-flex justify-content-end">
             <button
               className="btn-create-job"

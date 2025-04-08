@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddCandidateComponent = ({
   onProceed,
   refetch,
   setAddedCandidate,
   addedJob,
+  onCancel,
+  setShowAddCandidate,
+  setShowJobForm,
 }) => {
+  const navigate = useNavigate();
+
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
@@ -15,6 +21,39 @@ const AddCandidateComponent = ({
   const [candidates, setCandidates] = useState([]);
   const [errorMessages, setErrorMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const [selectedFormat, setSelectedFormat] = useState("");
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
+  const [isCustomOpen, setIsCustomOpen] = useState(false);
+
+  const hrHatchQuestion = useMemo(() => {
+    return [
+      {
+        name: "Standard Format",
+        value: "STANDARD",
+        _id: "67b404a91eb4c9da22cff68e",
+      },
+      {
+        name: "Management Format",
+        value: "MANAGEMENT",
+        _id: "67b405191eb4c9da22cff690",
+      },
+      {
+        name: "Executive Format",
+        value: "EXECUTIVE",
+        _id: "67b405a41eb4c9da22cff691",
+      },
+    ];
+  }, []);
+
+  const customQuestion = useMemo(() => {
+    const questions = JSON.parse(localStorage.getItem("questions")) || [];
+    return questions.map((question) => ({
+      name: question.name,
+      _id: question._id,
+    }));
+  }, []);
 
   // Utility function to capitalize the first letter of each word
   const capitalizeWords = (str) => {
@@ -31,6 +70,7 @@ const AddCandidateComponent = ({
       candidate.email.trim() !== "" &&
       candidate.position.trim() !== ""
   );
+
   useEffect(() => {
     const newCandidates = Array.from({ length: addedJob.vacancies }, () => ({
       firstName: "",
@@ -50,6 +90,22 @@ const AddCandidateComponent = ({
     });
   };
 
+  const handleQuestionSelect = (question, format) => {
+    setSelectedQuestion(question);
+    setSelectedFormat(format);
+    setIsHrHatchOpen(false);
+    setIsCustomOpen(false);
+    // Update all candidates with the selected question format
+    setCandidates((prev) =>
+      prev.map((candidate) => ({
+        ...candidate,
+        questionFormat: format,
+        questionId: question._id,
+        questionName: question.name,
+      }))
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessages({});
@@ -65,6 +121,10 @@ const AddCandidateComponent = ({
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(currentCandidate.email)) {
       newErrorMessages.email = "Invalid email address.";
+    }
+
+    if (!selectedQuestion) {
+      newErrorMessages.question = "Please select a question format";
     }
 
     if (Object.keys(newErrorMessages).length > 0) {
@@ -84,6 +144,9 @@ const AddCandidateComponent = ({
           email: candidate.email.toLowerCase(),
           position: candidate.position,
           positionId: candidate.positionId,
+          questionFormat: candidate.questionFormat,
+          questionId: candidate.questionId,
+          questionName: candidate.questionName,
           status,
         };
         return axios.post(URL, payload, {
@@ -99,8 +162,10 @@ const AddCandidateComponent = ({
         setAddedCandidate(
           responses.map((response) => response.data?.createdCandidate)
         );
+
         await refetch();
         onProceed(candidates);
+        navigate("/AiReferenceRequestEmailSent");
       }
     } catch (error) {
       console.error(error);
@@ -128,10 +193,11 @@ const AddCandidateComponent = ({
       event.returnValue = "Are you sure you want to leave this page?";
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    return () =>
+      window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  //Add a warning when user is navigating back to previous page
+  // Add a warning when user is navigating back to previous page
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
@@ -139,7 +205,8 @@ const AddCandidateComponent = ({
         "Are you sure you want to go back? Your progress will be lost."
       );
       if (!userConfirmed) {
-        window.history.pushState(null, "", window.location.pathname);
+        // window.history.pushState(null, "", window.location.pathname);
+        onCancel();
       }
     };
 
@@ -151,22 +218,71 @@ const AddCandidateComponent = ({
     };
   }, []);
 
+  const handleCancel = () => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to cancel? Your progress will be lost."
+    );
+    if (userConfirmed) {
+      onCancel();
+    }
+  };
+
   return (
     <>
       <div>
         <h3 className="mb-0">Add New Candidate</h3>
         <p className="mb-2">Enter the details of the new candidate below.</p>
       </div>
-      <div className="job-container-form d-flex align-items-center justify-content-center w-100 flex-column">
-        <b className="d-flex justify-content-start">
-          Candidate {currentCandidateIndex + 1} of {addedJob?.vacancies}
-          <span>&nbsp; * Fill in the required Information</span>
-        </b>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group
-            controlId="formHiringManager"
-            className="d-flex align-items-center  mb-4"
+      <div className="job-container-form d-flex align-items-center justify-content-center  flex-column">
+        <div className="candidate-bg-behind"></div>
+
+        <div className=" w-100 candidate-header mb-4">
+          <div className="d-flex justify-content-between mb-3">
+            <div className="d-flex align-items-end">
+              <h4 className="d-flex gap-2 mb-0 ">
+                <div className="candidate-icon">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 7C9.45963 7 9.91475 6.90947 10.3394 6.73358C10.764 6.55769 11.1499 6.29988 11.4749 5.97487C11.7999 5.64987 12.0577 5.26403 12.2336 4.83939C12.4095 4.41475 12.5 3.95963 12.5 3.5C12.5 3.04037 12.4095 2.58525 12.2336 2.16061C12.0577 1.73597 11.7999 1.35013 11.4749 1.02513C11.1499 0.700121 10.764 0.442313 10.3394 0.266422C9.91475 0.0905301 9.45963 -9.6859e-09 9 0C8.07174 1.95616e-08 7.1815 0.368749 6.52513 1.02513C5.86875 1.6815 5.5 2.57174 5.5 3.5C5.5 4.42826 5.86875 5.3185 6.52513 5.97487C7.1815 6.63125 8.07174 7 9 7ZM0 17.4V18H18V17.4C18 15.16 18 14.04 17.564 13.184C17.1805 12.4314 16.5686 11.8195 15.816 11.436C14.96 11 13.84 11 11.6 11H6.4C4.16 11 3.04 11 2.184 11.436C1.43139 11.8195 0.819488 12.4314 0.436 13.184C1.19209e-07 14.04 0 15.16 0 17.4Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
+                Candidate {currentCandidateIndex + 1} of {candidates.length}
+              </h4>
+            </div>
+            <div className="fill-req-container">
+              * Fill in the required information
+            </div>
+          </div>
+
+          <div
+            className="progress mt-2"
+            style={{ height: "6px", width: "100%" }}
           >
+            <div
+              className="progress-bar"
+              role="progressbar"
+              style={{
+                width: `${
+                  ((currentCandidateIndex + 1) / candidates.length) * 100
+                }%`,
+                backgroundColor: "#F46A05",
+              }}
+              aria-valuenow={(currentCandidateIndex + 1) / candidates.length * 100}
+              aria-valuemin="0"
+              aria-valuemax="100"
+            />
+          </div>
+        </div>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formHiringManager" className=" mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
@@ -187,50 +303,101 @@ const AddCandidateComponent = ({
             />
           </Form.Group>
 
-          <div key={currentCandidateIndex} className="candidate-container mb-4">
-            {/* <Form.Group
-              controlId={`formJobName${currentCandidateIndex}`}
-              className="d-flex align-items-center mb-4"
+          <Form.Group controlId="formReferenceFormat" className="mb-4">
+            <Form.Label
+              className="m-0"
+              style={{ width: "220px", height: "38px" }}
             >
-              <Form.Label
-                className="m-0"
-                style={{ width: "220px", height: "38px" }}
-              >
-                Name
-              </Form.Label>
-              <div className="w-100 position-relative">
-                <Form.Control
-                  value={candidates[currentCandidateIndex]?.name}
-                  type="text"
-                  onChange={(e) =>
-                    handleInputChange(
-                      currentCandidateIndex,
-                      "name",
-                      e.target.value
-                    )
-                  }
-                  placeholder={`Candidate ${currentCandidateIndex + 1}`}
-                  required
-                />
-                {errorMessages.name && (
-                  <div className="px-3 py-1 text-danger">
-                    {errorMessages.name}
+              Reference Format
+            </Form.Label>
+            <div className="w-100 reference-question-format-container d-flex gap-2">
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
+                  } ${isHrHatchOpen ? "dropdown-open" : ""}`}
+                  onClick={() => {
+                    setIsHrHatchOpen(!isHrHatchOpen);
+                    setIsCustomOpen(false);
+                  }}
+                >
+                  {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
+                    ? selectedQuestion.name
+                    : "HR-HATCH"}
+                </div>
+                {isHrHatchOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {hrHatchQuestion.map((question) => (
+                      <div
+                        key={question._id}
+                        className="dropdown-item-ref-req"
+                        onClick={() =>
+                          handleQuestionSelect(question, "HR-HATCH-FORMAT")
+                        }
+                      >
+                        {question.name}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
-            </Form.Group> */}
 
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
+                  } ${isCustomOpen ? "dropdown-open" : ""}`}
+                  onClick={() => {
+                    setIsCustomOpen(!isCustomOpen);
+                    setIsHrHatchOpen(false);
+                  }}
+                >
+                  {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
+                    ? selectedQuestion.name
+                    : "Custom"}
+                </div>
+                {isCustomOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {customQuestion.length > 0 ? (
+                      customQuestion.map((question) => (
+                        <div
+                          key={question._id}
+                          className="dropdown-item-ref-req"
+                          onClick={() =>
+                            handleQuestionSelect(question, "CUSTOM-FORMAT")
+                          }
+                        >
+                          {question.name}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="dropdown-item-ref-req" disabled>
+                        No custom questions available
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            {errorMessages.question && (
+              <div className="px-3 py-1 text-danger">
+                {errorMessages.question}
+              </div>
+            )}
+          </Form.Group>
+
+          <div key={currentCandidateIndex} className="candidate-container mb-4">
             <Form.Group
               controlId={`formFirstName${currentCandidateIndex}`}
-              className="d-flex align-items-center mb-4"
+              className=" mb-4"
             >
               <Form.Label
                 className="m-0"
                 style={{ width: "220px", height: "38px" }}
               >
-                Candidate 
+                Candidate
               </Form.Label>
-              <div className="d-flex gap-2 w-100">
+              <div className="d-flex gap-3 w-100">
                 <div className="positiom-relative w-50">
                   <Form.Control
                     value={candidates[currentCandidateIndex]?.firstName}
@@ -276,7 +443,7 @@ const AddCandidateComponent = ({
 
             <Form.Group
               controlId={`formVacancies${currentCandidateIndex}`}
-              className="d-flex align-items-center mb-4"
+              className=" mb-4"
             >
               <Form.Label
                 className="m-0"
@@ -356,7 +523,15 @@ const AddCandidateComponent = ({
         </div>
       </div>
 
-      <div className="d-flex justify-content-end mt-3">
+      <div className="d-flex justify-content-center gap-3 mt-3 job-btn-container">
+        <button
+          className="btn-cancel-ref-req"
+          type="button"
+          onClick={handleCancel}
+          disabled={isLoading}
+        >
+          Cancel
+        </button>
         <button
           className="btn-proceed"
           type="button"

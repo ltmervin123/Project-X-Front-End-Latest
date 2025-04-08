@@ -205,6 +205,55 @@ border: none;
 .add-candidate-controller button:disabled svg path {
   fill:var(--avatar-bg) !important; /* Blue color for disabled state */
 }
+.job-container-form .progress{
+  border-radius: 50px;
+  height: 9px;
+
+}
+.job-container-form .progress-bar{
+  border-radius: 50px;
+  height: 9px;
+}
+.candidate-header {
+  width: 65%;
+  max-width: 540px;
+}
+
+.candidate-bg-behind {
+  background: var(--primary-color) !important;
+  border-radius: 20px 20px 0px 0px;
+  height: 15px;
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+}
+
+.candidate-icon {
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.candidate-icon > svg {
+  height: 12px;
+}
+
+.fill-req-container {
+  border-radius: 50px;
+  border: 1px solid var(--primary-color);
+  background: #f4690524;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  box-shadow: 0px 4px 4px #0000003d;
+  color: var(--primary-color);
+}
 
 /* Customizing the scrollbar */
 .AiReference-candidates-container tbody::-webkit-scrollbar {
