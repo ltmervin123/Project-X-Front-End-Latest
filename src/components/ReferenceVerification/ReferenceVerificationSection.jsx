@@ -65,6 +65,16 @@ const translations = {
     date: "Date",
     signature: "Signature",
     invalidDate: "Invalid Date",
+    question: function (index) {
+      return `Question ${index + 1}`;
+    },
+    originalAnswer: "Original Answer",
+    aiEnhancedAnswer: "AI Enhanced Answer",
+    format: {
+      "Standard Format": "Standard Format",
+      "Management Format": "Management Format",
+      "Executive Format": "Executive Format",
+    },
   },
   Japanese: {
     header: "完了した参照チェック",
@@ -100,6 +110,16 @@ const translations = {
     date: "日付",
     signature: "署名",
     invalidDate: "無効な日付",
+    question: function (index) {
+      return `第${index + 1}問`;
+    },
+    originalAnswer: "元の回答",
+    aiEnhancedAnswer: "AI強化回答",
+    format: {
+      "Standard Format": "標準フォーマット",
+      "Management Format": "管理用フォーマット",
+      "Executive Format": "経営層向けフォーマット",
+    },
   },
 };
 
@@ -195,7 +215,6 @@ const ReferenceVerificationSection = () => {
   }
 
   function formatCategories(letter) {
-    const language = sessionStorage.getItem("preferred-language") || "English";
     switch (letter) {
       case "relationship":
         return translations[language].relationship;
@@ -242,7 +261,7 @@ const ReferenceVerificationSection = () => {
     }
     const options = {
       margin: 10,
-      filename: `Referee ${referenceData?.referenceRequestId?.refereeName} Response Copy.pdf`,
+      filename: `Referee ${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName} Response Copy.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
         scale: 2,
@@ -290,7 +309,7 @@ const ReferenceVerificationSection = () => {
       <div style={{ display: "none" }}>
         <div ref={reportRef} className="ViewRequest-container">
           <h4 className="color-orange mb-2">
-            {referenceData?.questionFormat ||
+            {translations[language].format[referenceData?.questionFormat] ||
               translations[language].notAvailable}
           </h4>
           <p className="mb-2">
@@ -303,14 +322,14 @@ const ReferenceVerificationSection = () => {
           <p className="mb-2">
             <b>{translations[language].candidateName}: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.candidate ||
+              {`${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}` ||
                 translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
             <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.refereeName ||
+              {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
                 translations[language].notAvailable}
             </span>
           </p>
@@ -366,14 +385,18 @@ const ReferenceVerificationSection = () => {
                         <div key={index}>
                           <div className="d-flex w-100 mt-4">
                             <p className="mb-2">
-                              <b>Question {index + 1}: </b>
+                              {/* <b>Question {index + 1}: </b> */}
+                              <b>{translations[language].question(index)}: </b>
                               {question}
                             </p>
                           </div>
 
                           <h6 className="color-gray mb-2">
-                            {item?.preferredAnswerType[index] ||
-                              "Not Available"}
+                            {item?.preferredAnswerType[index] ===
+                            "Original Answer"
+                              ? translations[language].originalAnswer
+                              : translations[language].aiEnhancedAnswer ||
+                                "Not Available"}
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
@@ -432,7 +455,7 @@ const ReferenceVerificationSection = () => {
           <p className="mb-2">
             <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.refereeName ||
+              {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
                 translations[language].notAvailable}
             </span>
           </p>
@@ -441,25 +464,24 @@ const ReferenceVerificationSection = () => {
 
             <span> {formatDate(referenceData?.createdAt)}</span>
           </p>
-
         </div>
       </div>
 
       <div className="d-flex align-items-center justify-content-center flex-column main-login-form">
-      <div className="reference-progress-indicator">
-      {steps.map((step, index) => (
-        <div key={index} className="reference-step-container">
-          <div
-            className={`step ${currentStep >= index + 1 ? "active" : ""}`} // Change here
-          >
-            <div className="bullet">{index + 1}</div>
-            {index < steps.length - 1 && <div className="line" />}{" "}
-            {/* Line between steps */}
-          </div>
-          <div className="step-label">{step}</div>
+        <div className="reference-progress-indicator">
+          {steps.map((step, index) => (
+            <div key={index} className="reference-step-container">
+              <div
+                className={`step ${currentStep >= index + 1 ? "active" : ""}`}
+              >
+                <div className="bullet">{index + 1}</div>
+                {index < steps.length - 1 && <div className="line" />}{" "}
+                {/* Line between steps */}
+              </div>
+              <div className="step-label">{step}</div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
         <div className="reference-verification-container">
           <div className="reference-verification-header">
             <svg
@@ -502,7 +524,6 @@ const ReferenceVerificationSection = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

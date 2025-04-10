@@ -214,9 +214,17 @@ const ReferenceRequest = () => {
     .slice()
     .reverse()
     .filter((reference) => {
-      const candidateMatch =
-        reference.candidate &&
-        reference.candidate.toLowerCase().includes(searchQuery.toLowerCase());
+      const candidateMatch = (() => {
+        const c = reference.candidate;
+        if (typeof c === "string") {
+          return c.toLowerCase().includes(searchQuery.toLowerCase());
+        } else if (typeof c === "object" && c !== null) {
+          const fullName = `${c.firstName || ""} ${c.lastName || ""}`.trim();
+          return fullName.toLowerCase().includes(searchQuery.toLowerCase());
+        }
+        return false;
+      })();
+
       const refereeMatch =
         reference.referee &&
         reference.referee.toLowerCase().includes(searchQuery.toLowerCase());
@@ -419,7 +427,9 @@ const ReferenceRequest = () => {
                   filteredReferences.map((reference) => (
                     <React.Fragment key={reference._id}>
                       <tr>
-                        <td>{reference.candidate}</td>
+                        <td>
+                          {`${reference.candidate.firstName} ${reference.candidate.lastName}`}
+                        </td>
                         <td>{reference.position}</td>
                         <td className="text-center">
                           {reference.referees &&
@@ -582,7 +592,9 @@ const ReferenceRequest = () => {
                                         <div className="d-flex justify-content-between mb-1">
                                           <div className="referee-left-container d-flex align-items-center">
                                             <span className="referee-name mb-1">
-                                              {referee?.name}
+                                              {typeof referee?.name === "string"
+                                                ? referee?.name
+                                                : `${referee?.name.firstName} ${referee?.name.lastName}`}
                                             </span>
                                           </div>
                                           <div className="d-flex align-items-end">

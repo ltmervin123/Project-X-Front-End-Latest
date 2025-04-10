@@ -9,9 +9,9 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
   const token = USER?.token;
   const [jobName, setJobName] = useState("");
   const [department, setDepartment] = useState("");
-  const [firstName, setFirstName] = useState(""); // New state for first name
-  const [lastName, setLastName] = useState(""); // New state for last name
-  const [loading, setLoading] = useState(false); // Define loading state
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
   const [vacancies, setVacancies] = useState(1);
 
@@ -52,9 +52,10 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
         jobName: capitalizeWords(jobName),
         vacancies,
         department,
-        hiringManager: `${capitalizeWords(firstName)} ${capitalizeWords(
-          lastName
-        )}`, // Combine first and last name
+        hiringManager: {
+          firstName: capitalizeWords(firstName),
+          lastName: capitalizeWords(lastName),
+        },
       };
       const response = await axios.post(URL, payload, {
         headers: {

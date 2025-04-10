@@ -231,13 +231,14 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           <p className="mb-2">
             <b>Candidate Name: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.candidate || "Not Available"}
+              {`${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}` ||
+                "Not Available"}
             </span>
           </p>
           <p className="mb-2">
             <b>Referee Name: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.refereeName ||
+              {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
                 "Not Available"}
             </span>
           </p>
@@ -361,7 +362,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
           <p className="mb-2">
             <b>Referee Name: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.refereeName ||
+              {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
                 "Not Available"}
             </span>
           </p>

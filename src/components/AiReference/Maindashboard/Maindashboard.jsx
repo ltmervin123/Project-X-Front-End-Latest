@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; 
-import { Row, Col } from "react-bootstrap"; 
-import { Line, Bar } from "react-chartjs-2"; 
-import { Chart, registerables } from "chart.js"; 
-// import default_avatar_img from "../../../assets/default.png"; 
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Row, Col } from "react-bootstrap";
+import { Line, Bar } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+// import default_avatar_img from "../../../assets/default.png";
 import AddJobComponent from "./Components/AddJobComponent";
 import AddCandidateComponent from "./Components/AddCandidateComponent";
 import AddRequestComponent from "./Components/AddRequestComponent";
@@ -70,11 +70,12 @@ const LogContainer = ({ completedRecords }) => {
                   className="log-item d-flex align-items-center mb-3 gap-3"
                 >
                   <div className="avatar-letter d-flex align-items-center justify-content-center">
-                    {log.refereeName.charAt(0)}
+                    {log.refereeName.firstName.charAt(0)}
                   </div>
                   <div>
-                    <strong>{log.refereeName}</strong> completed a reference
-                    check for <strong>{log.candidateName}</strong>
+                    <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
+                    completed a reference check for{" "}
+                    <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
                     <div className="text-muted">
                       {timeAgo(log.completedDate)}
                     </div>
@@ -129,7 +130,7 @@ const MainDashboard = () => {
     setShowJobForm(false);
 
   };
-  
+
   const handleOpenJobForm = () => {
     setShowJobForm(true);
   };

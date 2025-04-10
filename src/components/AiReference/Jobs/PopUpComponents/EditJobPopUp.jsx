@@ -21,10 +21,8 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
       setJobName(jobDetails.jobName);
       setVacancies(jobDetails.vacancies);
       setDepartment(jobDetails.department);
-      // Assuming jobDetails has hiringManager as a full name
-      const [first, last] = jobDetails.hiringManager.split(" ");
-      setFirstName(first || "");
-      setLastName(last || "");
+      setFirstName(jobDetails.hiringManager.firstName);
+      setLastName(jobDetails.hiringManager.lastName);
     }
   }, [jobDetails]);
 
@@ -44,9 +42,10 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
       const payload = {
         jobName: capitalizeWords(jobName),
         vacancies,
-        hiringManager: `${capitalizeWords(firstName)} ${capitalizeWords(
-          lastName
-        )}`,
+        hiringManager: {
+          firstName: capitalizeWords(firstName),
+          lastName: capitalizeWords(lastName),
+        },
         department,
       };
       const response = await axios.put(URL, payload, {

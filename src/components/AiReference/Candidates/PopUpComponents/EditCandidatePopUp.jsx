@@ -62,7 +62,6 @@ const EditCandidatePopUp = ({
     setIsCustomOpen(false);
   };
 
-  // Utility function to capitalize the first letter of each word
   const capitalizeWords = (str) => {
     return str
       .split(" ")
@@ -70,12 +69,10 @@ const EditCandidatePopUp = ({
       .join(" ");
   };
 
-  // Populate form fields with candidate details when the component mounts
   useEffect(() => {
     if (candidateDetails) {
-      const [first, last] = candidateDetails.name.split(" ");
-      setFirstName(first || "");
-      setLastName(last || "");
+      setFirstName(candidateDetails.name.firstName);
+      setLastName(candidateDetails.name.lastName);
       setEmail(candidateDetails.email);
       setPosition(candidateDetails.position);
       setSelectedFormat(candidateDetails.questionFormat || "");
@@ -102,13 +99,17 @@ const EditCandidatePopUp = ({
     setIsLoading(true);
     try {
       const payload = {
-        name: `${capitalizeWords(firstName)} ${capitalizeWords(lastName)}`,
+        name: {
+          firstName: capitalizeWords(firstName),
+          lastName: capitalizeWords(lastName),
+        },
         email,
         position,
         questionFormat: selectedFormat,
         questionId: selectedQuestion?._id,
         questionName: selectedQuestion?.name,
       };
+
       const response = await axios.put(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -190,7 +191,7 @@ const EditCandidatePopUp = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
+                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
                   } ${isHrHatchOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsHrHatchOpen(!isHrHatchOpen);
@@ -221,7 +222,7 @@ const EditCandidatePopUp = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
+                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
                   } ${isCustomOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsCustomOpen(!isCustomOpen);

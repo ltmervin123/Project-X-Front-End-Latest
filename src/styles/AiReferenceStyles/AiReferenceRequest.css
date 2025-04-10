@@ -500,8 +500,8 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   border-radius: 10px 10px 0px 0px !important;
   border-bottom: none !important;
 background-color: none !important;
-color: var(--text-color) !important;
 }
+
 .btn-no-submit-request{
   background: var(--secondary-color);
   width: 120px;

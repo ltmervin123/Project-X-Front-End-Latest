@@ -138,9 +138,10 @@ const AddCandidateComponent = ({
     try {
       const task = candidates.map((candidate) => {
         const payload = {
-          name: `${capitalizeWords(candidate.firstName)} ${capitalizeWords(
-            candidate.lastName
-          )}`,
+          name: {
+            firstName: capitalizeWords(candidate.firstName),
+            lastName: capitalizeWords(candidate.lastName),
+          },
           email: candidate.email.toLowerCase(),
           position: candidate.position,
           positionId: candidate.positionId,
@@ -314,7 +315,7 @@ const AddCandidateComponent = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
+                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
                   } ${isHrHatchOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsHrHatchOpen(!isHrHatchOpen);
@@ -345,7 +346,7 @@ const AddCandidateComponent = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
+                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
                   } ${isCustomOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsCustomOpen(!isCustomOpen);

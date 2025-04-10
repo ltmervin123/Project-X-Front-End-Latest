@@ -73,6 +73,8 @@ import AiReferenceCandidatesPage from "./page/AiReferencePage/AiReferenceCandida
 import AiReferenceRequestPage from "./page/AiReferencePage/AiReferenceRequestPage.jsx";
 import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
+import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
+import InputReferenceRequestEmailSentPage from "./page/AiReferencePage/InputReferenceRequestEmailSentPage.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
@@ -112,6 +114,10 @@ import ViewRequest from "./components/AiReference/ReferenceRequest/Components/Vi
 
 // ReferenceRequestEmailSentPage
 import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
+
+
+// RRFormSubmittedSuccessfullyPage
+import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
 
 // PaymentMethod
 import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
@@ -224,12 +230,21 @@ function App() {
               path="/AiReferenceReports"
               element={<AiReferenceReportsPage />}
             />
+                        <Route
+              path="/AiReferenceTrashbin"
+              element={<AiReferenceTrashBinPage />}
+            />
             {/* ReferenceRequestEmailSentPage*/}
             <Route
-              path="/AiReferenceRequestEmailSent"
+              path="/AiReferenceRequestSendReminder"
               element={<ReferenceRequestEmailSentPage />}
             />
           </Route>
+                  {/* InputReferenceRequestEmailSentPage*/}
+        <Route
+          path="/AiReferenceRequestEmailSent"
+          element={<InputReferenceRequestEmailSentPage />}
+        />
         </Route>
 
         {/* AiReferenceCheckVerificationPage*/}
@@ -285,6 +300,8 @@ function App() {
             path="/reference-completed"
             element={<ReferenceVerification />}
           />
+          
+
         </Route>
 
         {/* reference expired link */}
@@ -345,6 +362,21 @@ function App() {
           path="/ResumeFitOptimizer/SaveAndExportResumes"
           element={<RFOSaveAndExportResumePage />}
         />
+
+
+
+
+
+        {/* RRFormSubmittedSuccessfullyPage*/}
+        <Route
+          path="/ReferenceRequestFormSubmittedSuccessfully"
+          element={<RRFormSubmittedSuccessfullyPage />}
+        />
+
+
+
+
+        
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

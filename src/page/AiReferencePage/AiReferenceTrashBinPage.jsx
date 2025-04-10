@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
-import Jobs from "../../components/AiReference/Jobs/Jobs";
-import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
-import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
+import Trashbin from "../../components/AiReference/TrashBin/Trashbin";
+// import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
+import "../../styles/AiReferenceStyles/AiReferenceTrashbin.css";
 
-function AiReferenceCheckerPage() {
-  const [showGuide, setShowGuide] = useState(true);
+function AiReferenceTrashBinPage() {
+//   const [showGuide, setShowGuide] = useState(true);
 
   return (
     <>
@@ -19,13 +19,13 @@ function AiReferenceCheckerPage() {
           </Col>
 
           <Col md={10} className="p-3">
-            <Jobs />
+            <Trashbin />
           </Col>
         </Row>
       </div>
-      {showGuide && <PopupGuide introKey="jobs" />}{" "}
+      {/* {showGuide && <PopupGuide introKey="jobs" />}{" "} */}
     </>
   );
 }
 
-export default AiReferenceCheckerPage;
+export default AiReferenceTrashBinPage;
