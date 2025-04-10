@@ -119,6 +119,9 @@ import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequest
 // RRFormSubmittedSuccessfullyPage
 import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
 
+// ReferenceRequestFormPage
+import ReferenceRequestFormPage from "./page/ReferenceRequestFormPage.jsx";
+
 // PaymentMethod
 import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
 
@@ -371,6 +374,12 @@ function App() {
         <Route
           path="/ReferenceRequestFormSubmittedSuccessfully"
           element={<RRFormSubmittedSuccessfullyPage />}
+        />
+
+        {/* ReferenceRequestFormPage*/}
+        <Route
+          path="/ReferenceRequestForm"
+          element={<ReferenceRequestFormPage />}
         />
 
 
