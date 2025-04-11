@@ -8,7 +8,7 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, selectedCo
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
             Are you sure you want to permanently delete {isSingleItem ? 'this candidate' : isAll ? 'all candidates' : `selected candidates`}? 
-            This action will move {isSingleItem ? 'the candidate' : isAll ? 'all candidates' : 'the selected candidates'} back to the active candidates list.
+            This action cannot be undone.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">

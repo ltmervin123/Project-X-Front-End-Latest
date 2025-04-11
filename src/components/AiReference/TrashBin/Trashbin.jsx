@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaSearch, FaTrashRestore } from "react-icons/fa";
 import JobTable from "./components/JobTable";
 import CandidateTable from "./components/CandidateTable";
@@ -13,6 +13,7 @@ import RecoverConfirmationJobPopUp from "./PopUpComponents/RecoverPopup/RecoverC
 import RecoverConfirmationCandidatePopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationCandidatePopUp";
 import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
 import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
+import PopupGuide from "../../AiReference/PopupGuide";
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,6 +26,8 @@ const Trashbin = () => {
   const [selectButtonState, setSelectButtonState] = useState("Select");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showRecoverPopup, setShowRecoverPopup] = useState(false);
+  const [showGuide, setShowGuide] = useState(true);
+  const jobButtonRef = useRef(null);
 
   useEffect(() => {
     const timers = [
@@ -341,6 +344,7 @@ const Trashbin = () => {
     }
   };
 
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
@@ -535,6 +539,11 @@ const Trashbin = () => {
             />
           )}
         </>
+      )}
+      {showGuide && (
+        <PopupGuide
+          introKey="trashbin"
+        />
       )}
     </div>
   );

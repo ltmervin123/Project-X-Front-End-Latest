@@ -8,7 +8,7 @@ const RecoverConfirmationJobPopUp = ({ onClose, onConfirmRecover, selectedCount,
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
             Would you like to recover {isSingleItem ? 'this job' : isAll ? 'all' : 'selected'} jobs? 
-            This action will move {isSingleItem ? 'the selected job' : isAll ? 'all jobs' : 'the selected jobs'} back to the active jobs list.
+            This action will move all jobs back to the active jobs list.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">

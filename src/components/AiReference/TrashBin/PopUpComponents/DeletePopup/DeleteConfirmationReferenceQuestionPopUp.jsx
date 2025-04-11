@@ -8,8 +8,8 @@ const DeleteConfirmationReferenceQuestionPopUp = ({ onClose, onConfirmDelete, se
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
             Are you sure you want to permanently delete {isSingleItem ? 'this reference question' : isAll ? 'all reference questions' : `selected reference questions`}? 
-            This action will move {isSingleItem ? 'the reference question' : isAll ? 'all reference questions' : 'the selected reference questions'} back to the active reference questions list.
-          </p>
+            This action cannot be undone.
+                      </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button className="btn-yes-delete" onClick={onConfirmDelete}>

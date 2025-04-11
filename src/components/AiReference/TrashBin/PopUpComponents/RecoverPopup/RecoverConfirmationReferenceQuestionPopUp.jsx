@@ -8,8 +8,7 @@ const RecoverConfirmationReferenceQuestionPopUp = ({ onClose, onConfirmRecover, 
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
             Would you like to recover {isSingleItem ? 'this reference question' : isAll ? 'all' : 'selected'} reference questions? 
-            This action will move {isSingleItem ? 'the reference question' : isAll ? 'all reference questions' : 'the selected reference questions'} back to the active reference questions list.
-          </p>
+            This action will move all questions back to the reference questions list.          </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button className="btn-yes-recover" onClick={onConfirmRecover}>
