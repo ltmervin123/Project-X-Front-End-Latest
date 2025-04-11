@@ -9,8 +9,8 @@ const AddCandidateComponent = ({
   setAddedCandidate,
   addedJob,
   onCancel,
-  setShowAddCandidate,
-  setShowJobForm,
+  // setShowAddCandidate,
+  // setShowJobForm,
 }) => {
   const navigate = useNavigate();
 
@@ -136,38 +136,35 @@ const AddCandidateComponent = ({
     const status = "New";
     setIsLoading(true);
     try {
-      const task = candidates.map((candidate) => {
-        const payload = {
-          name: {
-            firstName: capitalizeWords(candidate.firstName),
-            lastName: capitalizeWords(candidate.lastName),
-          },
-          email: candidate.email.toLowerCase(),
-          position: candidate.position,
-          positionId: candidate.positionId,
-          questionFormat: candidate.questionFormat,
-          questionId: candidate.questionId,
-          questionName: candidate.questionName,
-          status,
-        };
-        return axios.post(URL, payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      });
-
-      const responses = await Promise.all(task);
-
-      if (responses.every((response) => response.status === 201)) {
-        setAddedCandidate(
-          responses.map((response) => response.data?.createdCandidate)
-        );
-
-        await refetch();
-        onProceed(candidates);
-        navigate("/AiReferenceRequestEmailSent");
-      }
+      // const task = candidates.map((candidate) => {
+      //   const payload = {
+      //     name: {
+      //       firstName: capitalizeWords(candidate.firstName),
+      //       lastName: capitalizeWords(candidate.lastName),
+      //     },
+      //     email: candidate.email.toLowerCase(),
+      //     position: candidate.position,
+      //     positionId: candidate.positionId,
+      //     status,
+      //     questionFormat: candidate.questionFormat,
+      //     questionId: candidate.questionId,
+      //     questionName: candidate.questionName,
+      //   };
+      //   return axios.post(URL, payload, {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   });
+      // });
+      // const responses = await Promise.all(task);
+      // if (responses.every((response) => response.status === 201)) {
+      //   setAddedCandidate(
+      //     responses.map((response) => response.data?.createdCandidate)
+      //   );
+      //   await refetch();
+      //   onProceed(candidates);
+      //   navigate("/AiReferenceRequestEmailSent");
+      // }
     } catch (error) {
       console.error(error);
     } finally {
@@ -194,8 +191,7 @@ const AddCandidateComponent = ({
       event.returnValue = "Are you sure you want to leave this page?";
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () =>
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
   // Add a warning when user is navigating back to previous page
@@ -276,7 +272,9 @@ const AddCandidateComponent = ({
                 }%`,
                 backgroundColor: "#F46A05",
               }}
-              aria-valuenow={(currentCandidateIndex + 1) / candidates.length * 100}
+              aria-valuenow={
+                ((currentCandidateIndex + 1) / candidates.length) * 100
+              }
               aria-valuemin="0"
               aria-valuemax="100"
             />
@@ -315,7 +313,9 @@ const AddCandidateComponent = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
+                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT"
+                      ? "active"
+                      : ""
                   } ${isHrHatchOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsHrHatchOpen(!isHrHatchOpen);
@@ -346,7 +346,9 @@ const AddCandidateComponent = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
+                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT"
+                      ? "active"
+                      : ""
                   } ${isCustomOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsCustomOpen(!isCustomOpen);

@@ -115,7 +115,6 @@ import ViewRequest from "./components/AiReference/ReferenceRequest/Components/Vi
 // ReferenceRequestEmailSentPage
 import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
 
-
 // RRFormSubmittedSuccessfullyPage
 import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
 
@@ -233,7 +232,7 @@ function App() {
               path="/AiReferenceReports"
               element={<AiReferenceReportsPage />}
             />
-                        <Route
+            <Route
               path="/AiReferenceTrashbin"
               element={<AiReferenceTrashBinPage />}
             />
@@ -243,12 +242,18 @@ function App() {
               element={<ReferenceRequestEmailSentPage />}
             />
           </Route>
-                  {/* InputReferenceRequestEmailSentPage*/}
-        <Route
-          path="/AiReferenceRequestEmailSent"
-          element={<InputReferenceRequestEmailSentPage />}
-        />
+          {/* InputReferenceRequestEmailSentPage*/}
+          <Route
+            path="/AiReferenceRequestEmailSent"
+            element={<InputReferenceRequestEmailSentPage />}
+          />
         </Route>
+
+        {/* ReferenceRequestFormPage*/}
+        <Route
+          path="/candidate"
+          element={<ReferenceRequestFormPage />}
+        />
 
         {/* AiReferenceCheckVerificationPage*/}
         <Route
@@ -303,8 +308,6 @@ function App() {
             path="/reference-completed"
             element={<ReferenceVerification />}
           />
-          
-
         </Route>
 
         {/* reference expired link */}
@@ -366,26 +369,12 @@ function App() {
           element={<RFOSaveAndExportResumePage />}
         />
 
-
-
-
-
         {/* RRFormSubmittedSuccessfullyPage*/}
         <Route
           path="/ReferenceRequestFormSubmittedSuccessfully"
           element={<RRFormSubmittedSuccessfullyPage />}
         />
 
-        {/* ReferenceRequestFormPage*/}
-        <Route
-          path="/ReferenceRequestForm"
-          element={<ReferenceRequestFormPage />}
-        />
-
-
-
-
-        
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
