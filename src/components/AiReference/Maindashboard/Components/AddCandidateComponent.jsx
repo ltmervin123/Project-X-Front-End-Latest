@@ -136,35 +136,35 @@ const AddCandidateComponent = ({
     const status = "New";
     setIsLoading(true);
     try {
-      // const task = candidates.map((candidate) => {
-      //   const payload = {
-      //     name: {
-      //       firstName: capitalizeWords(candidate.firstName),
-      //       lastName: capitalizeWords(candidate.lastName),
-      //     },
-      //     email: candidate.email.toLowerCase(),
-      //     position: candidate.position,
-      //     positionId: candidate.positionId,
-      //     status,
-      //     questionFormat: candidate.questionFormat,
-      //     questionId: candidate.questionId,
-      //     questionName: candidate.questionName,
-      //   };
-      //   return axios.post(URL, payload, {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   });
-      // });
-      // const responses = await Promise.all(task);
-      // if (responses.every((response) => response.status === 201)) {
-      //   setAddedCandidate(
-      //     responses.map((response) => response.data?.createdCandidate)
-      //   );
-      //   await refetch();
-      //   onProceed(candidates);
-      //   navigate("/AiReferenceRequestEmailSent");
-      // }
+      const payload = candidates.map((candidate) => {
+        return {
+          name: {
+            firstName: capitalizeWords(candidate.firstName),
+            lastName: capitalizeWords(candidate.lastName),
+          },
+          email: candidate.email,
+          position: candidate.position,
+          positionId: candidate.positionId,
+          status,
+          questionFormat: candidate.questionFormat,
+          questionId: candidate.questionId,
+          questionName: candidate.questionName,
+        };
+      });
+
+      const response = await axios.post(
+        URL,
+        { payload },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        navigate("/AiReferenceRequestEmailSent");
+      }
     } catch (error) {
       console.error(error);
     } finally {

@@ -7,10 +7,9 @@ const InputReferenceRequestEmailSentPopup = () => {
 
   const emails =
     refereeEmails.length > 0 ? refereeEmails.join(", ") : "No email found";
-  // Retry email handler (you can expand this logic as needed)
+
   const handleCustomerService = () => {
     alert("Retrying email send...");
-    // Your retry logic would go here
   };
   return (
     <div className="row main-login justify-content-center position-relative">
@@ -34,7 +33,7 @@ const InputReferenceRequestEmailSentPopup = () => {
           </div>
 
           <p>
-            We have sent an email to [candidate’s email] to
+            We've successfully sent emails to the candidates with instructions
             to input their reference requests.
           </p>
 
