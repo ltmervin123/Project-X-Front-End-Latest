@@ -134,7 +134,6 @@ function ReferenceRequestForm() {
                   </Row>
                 </Row>
               ))}
-
             </div>
             <div className="mb-0 d-flex flex-row justify-content-center btn-container">
               <button className="cancel-reference-request-referee-btn reference-request-referee-btn">
