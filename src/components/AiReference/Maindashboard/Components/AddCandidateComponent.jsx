@@ -163,7 +163,7 @@ const AddCandidateComponent = ({
       );
 
       if (response.status === 201) {
-        navigate("/AiReferenceRequestEmailSent");
+        navigate("/candidate-request-sent")
       }
     } catch (error) {
       console.error(error);

@@ -1,9 +1,24 @@
 import React, { useState } from "react";
 import { Col, Row, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { capitalizeWords } from "../../utils/helpers/capitalizeFirstLetterOfAWord";
+import axios from "axios";
 
 function ReferenceRequestForm() {
+  const API = process.env.REACT_APP_API_URL;
   const [numReferees, setNumReferees] = useState(3);
   const [refereesData, setRefereesData] = useState([{}]);
+  const [isLoading, setIsLoading] = useState(false);
+  const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
+  const token = sessionStorage.getItem("candidateToken");
+  const navigate = useNavigate();
+
+  const isRefereeFieldMissing = refereesData.some(
+    (referee) =>
+      !referee["first-name"]?.trim() ||
+      !referee["last-name"]?.trim() ||
+      !referee["email-address"]?.trim()
+  );
 
   const handleInputChange = (index, event) => {
     const { name, value } = event.target;
@@ -15,8 +30,58 @@ function ReferenceRequestForm() {
     setRefereesData(newRefereesData);
   };
 
-  const handleSubmit = (event) => {
+  const handleReferee = () => {
+    return refereesData.map((referee) => {
+      return {
+        name: {
+          firstName: capitalizeWords(referee["first-name"]),
+          lastName: capitalizeWords(referee["last-name"]),
+        },
+        questionFormat: candidateData?.questionFormat,
+        questionId: candidateData?.questionId,
+        email: referee["email-address"],
+      };
+    });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const referees = handleReferee();
+
+    if (isRefereeFieldMissing) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const URL = `${API}/api/candidate-referee/create-reference-request`;
+      const payload = {
+        companyId: candidateData?.company,
+        positionId: candidateData?.positionId,
+        candidateId: candidateData?.candidate,
+        candidateName: `${candidateData.name.firstName} ${candidateData.name.lastName}`,
+        referees,
+      };
+
+      const response = await axios.post(URL, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 201) {
+        //Clear candidate session data
+        sessionStorage.removeItem("candidateData");
+        sessionStorage.removeItem("candidateToken");
+
+        //Redirect to success page
+        navigate("/reference-request-sent");
+      }
+    } catch (error) {
+      console.error("Something went wrong:", error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,6 +105,8 @@ function ReferenceRequestForm() {
                 <Form.Control
                   type="text"
                   name="position"
+                  value={candidateData?.position || ""}
+                  disabled={true}
                   placeholder=""
                   className="reference-request-form-input"
                   id="position"
@@ -55,6 +122,11 @@ function ReferenceRequestForm() {
                 <Form.Control
                   type="text"
                   name="candidate"
+                  value={
+                    `${candidateData?.name?.firstName} ${candidateData?.name?.lastName}` ||
+                    ""
+                  }
+                  disabled={true}
                   placeholder=""
                   className="reference-request-form-input"
                   id="candidate"
@@ -136,11 +208,22 @@ function ReferenceRequestForm() {
               ))}
             </div>
             <div className="mb-0 d-flex flex-row justify-content-center btn-container">
-              <button className="cancel-reference-request-referee-btn reference-request-referee-btn">
+              <button
+                className="cancel-reference-request-referee-btn reference-request-referee-btn"
+                onClick={() => {
+                  sessionStorage.removeItem("candidateData");
+                  sessionStorage.removeItem("candidateToken");
+                  navigate("/");
+                }}
+                disabled={isLoading}
+              >
                 Cancel
               </button>
-              <button className="send-reference-request-referee-btn reference-request-referee-btn">
-                Send Request
+              <button
+                className="send-reference-request-referee-btn reference-request-referee-btn"
+                disabled={isLoading || isRefereeFieldMissing}
+              >
+                {isLoading ? "Sending..." : "Send Reference Request"}
               </button>
             </div>
           </Col>

@@ -31,7 +31,13 @@ const CATEGORY_ORDER = {
   ],
 };
 
-function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
+function ViewRequest({
+  referenceId,
+  refereeId,
+  token,
+  refereeQuestionFormat,
+  onClose,
+}) {
   const reportRef = useRef();
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
@@ -41,7 +47,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const [downloading, setDownloading] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
-    navigate(0);
+    onClose();
   };
 
   const fetchReferenceByReferenceId = async () => {

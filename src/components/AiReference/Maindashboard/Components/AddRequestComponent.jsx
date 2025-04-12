@@ -138,7 +138,7 @@ const AddRequestComponent = ({
 
       if (responses.every((response) => response.status === 201)) {
         await onReFetchReference();
-        navigate("/AiReferenceRequestEmailSent");
+        navigate("/candidate-request-sent");
       }
     } catch (error) {
       console.error(error);

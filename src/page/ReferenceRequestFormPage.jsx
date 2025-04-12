@@ -25,6 +25,14 @@ function ReferenceRequestFormPage() {
           },
         }
       );
+
+      if (response.status === 200) {
+        sessionStorage.setItem(
+          "candidateData",
+          JSON.stringify(response.data?.decoded)
+        );
+        sessionStorage.setItem("candidateToken", token);
+      }
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setIsExpired(true);
@@ -52,7 +60,6 @@ function ReferenceRequestFormPage() {
   return (
     <>
       <div className=" bg-gray d-flex justify-content-center align-items-center flex-column h-100">
-        {/* <div className="container-fluid main-container"> */}
         <Header />
         <ReferenceRequestForm />
       </div>

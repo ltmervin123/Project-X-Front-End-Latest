@@ -74,7 +74,7 @@ import AiReferenceRequestPage from "./page/AiReferencePage/AiReferenceRequestPag
 import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
-import InputReferenceRequestEmailSentPage from "./page/AiReferencePage/InputReferenceRequestEmailSentPage.jsx";
+import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
@@ -238,14 +238,14 @@ function App() {
             />
             {/* ReferenceRequestEmailSentPage*/}
             <Route
-              path="/AiReferenceRequestSendReminder"
+              path="/reference-request-sent"
               element={<ReferenceRequestEmailSentPage />}
             />
           </Route>
           {/* InputReferenceRequestEmailSentPage*/}
           <Route
-            path="/AiReferenceRequestEmailSent"
-            element={<InputReferenceRequestEmailSentPage />}
+            path="/candidate-request-sent"
+            element={<CandidateRequestEmailPage />}
           />
         </Route>
 
