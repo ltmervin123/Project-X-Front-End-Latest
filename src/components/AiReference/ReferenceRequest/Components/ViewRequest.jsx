@@ -39,7 +39,6 @@ function ViewRequest({
   onClose,
 }) {
   const reportRef = useRef();
-  const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const [fetchingReference, setFetchingReference] = useState(false);
   const [error, setError] = useState("");
@@ -143,7 +142,7 @@ function ViewRequest({
 
     const options = {
       margin: 10,
-      filename: `${referenceData?.referenceRequestId?.candidate}-Reference-Report.pdf`,
+      filename: `${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}-Reference-Report.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
         scale: 2,
