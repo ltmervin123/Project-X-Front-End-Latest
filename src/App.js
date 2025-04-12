@@ -251,7 +251,7 @@ function App() {
 
         {/* ReferenceRequestFormPage*/}
         <Route
-          path="/candidate"
+          path="/candidate/:token"
           element={<ReferenceRequestFormPage />}
         />
 
