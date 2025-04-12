@@ -26,7 +26,8 @@ function AiReferenceRequestPage() {
             </Col>
           </Row>
         </div>
-        {showGuide && <PopupGuide introKey="referenceRequests" />} {/* Pass "referenceRequests" as introKey */}
+        {showGuide && <PopupGuide introKey="referenceRequests" />}{" "}
+        {/* Pass "referenceRequests" as introKey */}
       </div>
     </>
   );

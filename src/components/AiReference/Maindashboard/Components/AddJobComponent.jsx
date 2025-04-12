@@ -40,6 +40,11 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
     if (lastName.length < 2) {
       newErrorMessages.lastName = "Last name must be at least 2 characters.";
     }
+
+    if (vacancies < 1) {
+      newErrorMessages.vacancies = "Vacancies must be at least 1.";
+    }
+
     if (Object.keys(newErrorMessages).length > 0) {
       setErrorMessages(newErrorMessages);
       return;
@@ -194,6 +199,11 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
                   onChange={(e) => setVacancies(parseInt(e.target.value))} // Update vacancies using setVacancies
                   required
                 />
+                {errorMessages.vacancies && (
+                  <div className="px-3 py-1 text-danger">
+                    {errorMessages.vacancies}
+                  </div>
+                )}
               </Form.Group>
             </div>
             <div className="positiom-relative w-50">
