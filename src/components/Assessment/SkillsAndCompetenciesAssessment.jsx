@@ -7,7 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { green, blue, red, white } from '@mui/material/colors';
 import { Col, Row, Form, Button } from 'react-bootstrap';
 
-function JobPerformanceAssessment() {
+function SkillsAndCompetenciesAssessment() {
     const [selectedValue, setSelectedValue] = useState('');
     const handleChange = (event) => {
       setSelectedValue(event.target.value);
@@ -55,14 +55,14 @@ function JobPerformanceAssessment() {
         },
     ];
     return (
-        <div className="job-performance-assessment-content">
+        <div className="skills-competencies-assessment-content">
             <div className="top-display w-100"></div>
-            <Form className="job-performance-assessment-form">
+            <Form className="skills-competencies-assessment-form">
                 <div className="form-header">
-                    <h5 className="mb-0">Job Performance Assessment</h5>
-                    <p className="mb-0">How would you rate this candidate based on their overall performance?</p>
+                    <h5 className="mb-0">Skills and Competencies Assessment</h5>
+                    <p className="mb-0">How would you rate this candidate based on their overall skills and competencies?</p>
                 </div>
-                <div className="job-performance-assessment-form-inputs">
+                <div className="skills-competencies-assessment-form-inputs">
 
                     <FormControl 
                         component="fieldset"
@@ -122,4 +122,4 @@ function JobPerformanceAssessment() {
     );
 }
 
-export default JobPerformanceAssessment; 
+export default SkillsAndCompetenciesAssessment; 

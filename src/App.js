@@ -76,6 +76,8 @@ import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPag
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
 import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 
+import AssessmentPage from "./page/AiRefereePage/AssessmentPage.jsx";
+
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
 
@@ -308,6 +310,12 @@ function App() {
             path="/reference-completed"
             element={<ReferenceVerification />}
           />
+
+
+
+
+
+
         </Route>
 
         {/* reference expired link */}
@@ -374,6 +382,14 @@ function App() {
           path="/ReferenceRequestFormSubmittedSuccessfully"
           element={<RRFormSubmittedSuccessfullyPage />}
         />
+
+
+<Route
+            path="/AssessmentPage"
+            element={<AssessmentPage />}
+          />
+
+
 
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* Catch all un existing routes */}

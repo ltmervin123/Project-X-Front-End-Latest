@@ -1,0 +1,112 @@
+:root {
+    --form-border-radius : 20px;
+    --form-padding-block : 30px;
+    --form-padding : 50px;
+}
+/* Main container */
+.assessment-form-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding-top: 15%; */
+}
+
+/* Job Performance */
+.job-performance-assessment-content, 
+.work-ethic-behaviour-assessment-content, 
+.skills-competencies-assessment-content 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    min-height: 200px;
+    width: 600px;
+    max-width: 600px;
+    border-radius: var(--form-border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.top-display {
+    /* position: relative; */
+    top: 0;
+    background-color: #f46a05;
+    height: 20px;
+    max-height: 20px;
+    min-height: 20px;
+    /* border-radius: 20px 20px 0px 0px; */
+    border-radius: 
+        var(--form-border-radius)
+        var(--form-border-radius)
+        0px
+        0px;
+}
+.job-performance-assessment-form, 
+.work-ethic-behavior-assessment-form, 
+.skills-competencies-assessment-form 
+{
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+    padding-block: var(--form-padding-block);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--form-padding-block);
+}
+.form-header {
+    padding-inline: var(--form-padding);
+    width: 100%;
+}
+.form-header p {
+    font-size: 14px;
+}
+.job-performance-assessment-form-inputs,
+.work-ethic-behavior-assessment-form-inputs,
+.skills-competencies-assessment-form-inputs 
+{
+    padding-inline: var(--form-padding);
+    width: 100%;
+}
+.assessment-form-control {
+    width: 100%;
+}
+.assessment-form-radio-group-container {
+    gap: 10px;
+}
+.assessment-form-group {
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid black;
+    padding: 10px 20px;
+    margin: 0 !important;
+}
+.assessment-form-label {
+    font-size: 16px;
+}
+.assessment-form-label-discription {
+    font-size: 14px;
+    color: #686868;
+}
+.assessment-form-btn-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding-top: 40px;
+    padding-bottom: 0px;
+}
+.assessment-form-btn-submit {
+    padding: 5px 10px;
+    background-color: #F46A05;
+    color: var(--font-white);
+    border-radius: 20px;
+    width: 150px;
+    border: none;
+}

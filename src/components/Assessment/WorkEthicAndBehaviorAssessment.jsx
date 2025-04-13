@@ -7,7 +7,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { green, blue, red, white } from '@mui/material/colors';
 import { Col, Row, Form, Button } from 'react-bootstrap';
 
-function JobPerformanceAssessment() {
+function WorkEthicAndBehaviorAssessment() {
     const [selectedValue, setSelectedValue] = useState('');
     const handleChange = (event) => {
       setSelectedValue(event.target.value);
@@ -55,14 +55,14 @@ function JobPerformanceAssessment() {
         },
     ];
     return (
-        <div className="job-performance-assessment-content">
+        <div className="work-ethic-behavior-assessment-content">
             <div className="top-display w-100"></div>
-            <Form className="job-performance-assessment-form">
+            <Form className="work-ethic-behavior-assessment-form">
                 <div className="form-header">
-                    <h5 className="mb-0">Job Performance Assessment</h5>
-                    <p className="mb-0">How would you rate this candidate based on their overall performance?</p>
+                    <h5 className="mb-0">Work Ethic and Behavior Assessment</h5>
+                    <p className="mb-0">How would you rate this candidate based on their overall work ethic and behavior?</p>
                 </div>
-                <div className="job-performance-assessment-form-inputs">
+                <div className="work-ethic-behavior-assessment-form-inputs">
 
                     <FormControl 
                         component="fieldset"
@@ -122,4 +122,4 @@ function JobPerformanceAssessment() {
     );
 }
 
-export default JobPerformanceAssessment; 
+export default WorkEthicAndBehaviorAssessment; 
