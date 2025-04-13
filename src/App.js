@@ -311,6 +311,10 @@ function App() {
             element={<ReferenceVerification />}
           />
 
+          <Route
+            path="/AssessmentPage"
+            element={<AssessmentPage />}
+          />
 
 
 
@@ -384,10 +388,6 @@ function App() {
         />
 
 
-<Route
-            path="/AssessmentPage"
-            element={<AssessmentPage />}
-          />
 
 
 
