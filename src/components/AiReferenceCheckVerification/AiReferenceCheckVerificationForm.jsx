@@ -18,6 +18,7 @@ const AiReferenceCheckVerificationForm = ({
       firstName: "",
       lastName: "",
     },
+    currentCompany: "",
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
@@ -126,6 +127,7 @@ const AiReferenceCheckVerificationForm = ({
       formData.refereeName.firstName &&
       formData.refereeName.lastName &&
       formData.positionTitle &&
+      formData.currentCompany &&
       formData.companyWorkedWith &&
       (isOtherSelected ? formData.otherRelationship : formData.relationship) &&
       formData.startDate &&
@@ -247,7 +249,7 @@ const AiReferenceCheckVerificationForm = ({
                   <Form.Label className="mb-1">Current Company</Form.Label>
                   <Form.Control
                     type="text"
-                    name="positionTitle"
+                    name="currentCompany"
                     value={formData.currentCompany}
                     onChange={handleChange}
                     placeholder="Enter Current Company"
