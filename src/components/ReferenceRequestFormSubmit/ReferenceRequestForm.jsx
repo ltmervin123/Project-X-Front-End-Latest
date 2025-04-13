@@ -157,8 +157,16 @@ function ReferenceRequestForm() {
                             )} */}
                         </Row>
                         <Row className="mb-0 d-flex flex-row justify-content-center btn-container">
-                            <button className="cancel-reference-request-referee-btn reference-request-referee-btn">Cancel</button>
-                            <button className="send-reference-request-referee-btn reference-request-referee-btn">Send Request</button>
+                            <button 
+                                className="cancel-reference-request-referee-btn reference-request-referee-btn"
+                            >
+                                Cancel
+                                </button>
+                            <button 
+                                className="send-reference-request-referee-btn reference-request-referee-btn"
+                            >
+                                Send Request
+                            </button>
                         </Row>
                     </Col>
                     
