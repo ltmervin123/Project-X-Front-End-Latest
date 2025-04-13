@@ -7,7 +7,7 @@ import Trashbin from "../../components/AiReference/TrashBin/Trashbin";
 import "../../styles/AiReferenceStyles/AiReferenceTrashbin.css";
 
 function AiReferenceTrashBinPage() {
-//   const [showGuide, setShowGuide] = useState(true);
+  //   const [showGuide, setShowGuide] = useState(true);
 
   return (
     <>
@@ -17,7 +17,6 @@ function AiReferenceTrashBinPage() {
           <Col md={2} className="p-0 MockSidebar">
             <Sidebar />
           </Col>
-
           <Col md={10} className="p-3">
             <Trashbin />
           </Col>
