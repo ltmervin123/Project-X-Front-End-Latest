@@ -127,6 +127,7 @@ const MainDashboard = () => {
 
   const handleShowAddCandidate = () => {
     setShowAddCandidate(true);
+    setShowJobForm(false);
   };
 
   const handleOpenJobForm = () => {
@@ -819,23 +820,32 @@ const MainDashboard = () => {
           refetch={handleRefetchCandidates}
           setAddedCandidate={setAddedCandidate}
           addedJob={addedJob}
+          onCancel={() => {
+            setShowAddCandidate(false);
+            setShowJobForm(false);
+          }}
         />
       ) : showJobForm ? (
         <AddJobComponent
           onProceed={handleShowAddCandidate}
           refetch={handleRefetchJobs}
           setAddedJob={setAddedJob}
-        />
-      ) : showAddReferenceRequest ? (
-        <AddRequestComponent
-          onReFetchReference={handleRefetchReference}
-          addedCandidate={addedCandidate}
-          addedJob={addedJob}
           onCancel={() => {
-            setShowAddReferenceRequest(false);
+            setShowJobForm(false);
           }}
         />
       ) : (
+        // ) : showAddReferenceRequest ? (
+        //   <AddRequestComponent
+        //     onReFetchReference={handleRefetchReference}
+        //     addedCandidate={addedCandidate}
+        //     addedJob={addedJob}
+        //     onCancel={() => {
+        //       setShowAddReferenceRequest(false);
+        //       setShowAddCandidate(false);
+        //       setShowJobForm(false);
+        //     }}
+        //   />
         <>
           <div>
             <h3 className="mb-0">Dashboard</h3>

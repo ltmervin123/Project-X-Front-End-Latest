@@ -82,9 +82,26 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               </strong>{" "}
               {candidates.email}
             </p>
+            <p className="d-flex gap-2 align-items-center justify-content-start">
+              <strong
+                className="d-flex gap-2 align-items-center"
+                style={{ width: "150px" }}
+              >
+                Reference Format:
+              </strong>{" "}
+              {candidates.referenceformat || "N/A"}
+            </p>
           </div>
           <div>
             <p className="d-flex gap-2 align-items-center justify-content-start">
+              <strong
+                className="d-flex gap-2 align-items-center"
+                style={{ width: "150px" }}
+              >
+                Position:
+              </strong>{" "}
+              {candidates.position || "N/A"}
+            </p>           <p className="d-flex gap-2 align-items-center justify-content-start">
               <strong
                 className="d-flex gap-2 align-items-center"
                 style={{ width: "150px" }}
@@ -103,6 +120,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               {formatDate(candidates.createdAt) || "N/A"}
             </p>
           </div>
+       
         </div>
 
         <div className="candidate-button-controller w-100 d-flex justify-content-center align-items-center gap-3">

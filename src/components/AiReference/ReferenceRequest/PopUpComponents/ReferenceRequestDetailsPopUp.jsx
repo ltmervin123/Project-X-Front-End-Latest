@@ -64,7 +64,7 @@ const ReferenceRequestDetailsPopUp = ({
 
       if (response.status === 200) {
         setIsSent(true);
-        navigate("/AiReferenceRequestEmailSent"); // Navigate immediately after sending
+        navigate("/reference-request-sent");
       }
     } catch (error) {
       console.error("Error sending reminder:", error);

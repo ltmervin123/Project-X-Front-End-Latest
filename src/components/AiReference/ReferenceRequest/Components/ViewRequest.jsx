@@ -31,9 +31,14 @@ const CATEGORY_ORDER = {
   ],
 };
 
-function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
+function ViewRequest({
+  referenceId,
+  refereeId,
+  token,
+  refereeQuestionFormat,
+  onClose,
+}) {
   const reportRef = useRef();
-  const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const [fetchingReference, setFetchingReference] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +46,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const [downloading, setDownloading] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
-    navigate(0);
+    onClose();
   };
 
   const fetchReferenceByReferenceId = async () => {
@@ -137,7 +142,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
 
     const options = {
       margin: 10,
-      filename: `${referenceData?.referenceRequestId?.candidate}-Reference-Report.pdf`,
+      filename: `${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}-Reference-Report.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
         scale: 2,

@@ -73,6 +73,8 @@ import AiReferenceCandidatesPage from "./page/AiReferencePage/AiReferenceCandida
 import AiReferenceRequestPage from "./page/AiReferencePage/AiReferenceRequestPage.jsx";
 import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
+import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
+import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
@@ -112,9 +114,6 @@ import ViewRequest from "./components/AiReference/ReferenceRequest/Components/Vi
 
 // ReferenceRequestEmailSentPage
 import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
-
-// InputReferenceRequestEmailSentPage
-import InputReferenceRequestEmailSentPage from "./page/InputReferenceRequestEmailSentPage.jsx";
 
 // RRFormSubmittedSuccessfullyPage
 import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
@@ -233,13 +232,28 @@ function App() {
               path="/AiReferenceReports"
               element={<AiReferenceReportsPage />}
             />
+            <Route
+              path="/AiReferenceTrashbin"
+              element={<AiReferenceTrashBinPage />}
+            />
             {/* ReferenceRequestEmailSentPage*/}
             <Route
-              path="/AiReferenceRequestEmailSent"
+              path="/reference-request-sent"
               element={<ReferenceRequestEmailSentPage />}
             />
           </Route>
+          {/* InputReferenceRequestEmailSentPage*/}
+          <Route
+            path="/candidate-request-sent"
+            element={<CandidateRequestEmailPage />}
+          />
         </Route>
+
+        {/* ReferenceRequestFormPage*/}
+        <Route
+          path="/candidate/:token"
+          element={<ReferenceRequestFormPage />}
+        />
 
         {/* AiReferenceCheckVerificationPage*/}
         <Route
@@ -355,31 +369,12 @@ function App() {
           element={<RFOSaveAndExportResumePage />}
         />
 
-
-
-
-
-        {/* InputReferenceRequestEmailSentPage*/}
-        <Route
-          path="/InputReferenceRequestEmailSent"
-          element={<InputReferenceRequestEmailSentPage />}
-        />
         {/* RRFormSubmittedSuccessfullyPage*/}
         <Route
           path="/ReferenceRequestFormSubmittedSuccessfully"
           element={<RRFormSubmittedSuccessfullyPage />}
         />
 
-        {/* ReferenceRequestFormPage*/}
-        <Route
-          path="/ReferenceRequestForm"
-          element={<ReferenceRequestFormPage />}
-        />
-
-
-
-
-        
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />

@@ -124,7 +124,7 @@ const EXECUTIVE_QUESTIONS_SET = [
     id: 2,
     category: "Strategic Leadership & Vision",
     questions: [
-      "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization?",
+      "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization? If possible, please provide example(s) to support your answer.",
       "Can you provide an example of a strategic initiative that (candidate name) led and its impact on the business?",
     ],
   },
@@ -132,7 +132,6 @@ const EXECUTIVE_QUESTIONS_SET = [
     id: 3,
     category: "Business Impact & Results",
     questions: [
-      "What measurable results did (candidate name) achieve during their tenure?",
       "Can you share examples of how (candidate name) drove growth, profitability, or operational improvements?",
       "How did (candidate name) handle critical business decisions, especially in high-pressure situations?",
     ],
@@ -141,26 +140,24 @@ const EXECUTIVE_QUESTIONS_SET = [
     id: 4,
     category: "Team Leadership & Organizational Development",
     questions: [
-      "How did (candidate name) build and develop high-performing teams?",
-      "Can you share an example of how (candidate name) mentored or coached senior leaders?",
-      "How did (candidate name) handle organizational change or restructuring?",
+      "How did (candidate name) build and develop high-performing teams? If possible, please provide example(s) to support your answer.",
+      "How did (candidate name) handle organizational change or restructuring? If possible, please provide example(s) to support your answer.",
     ],
   },
   {
     id: 5,
     category: "Decision-Making & Problem-Solving",
     questions: [
-      "How would you describe (candidate name)'s decision-making process for complex, high-stakes decisions?",
-      "Can you share a time when (candidate name) had to make a difficult decision with limited information?",
-      "How did (candidate name) manage risk while pursuing growth opportunities?",
+      "How would you describe (candidate name)'s decision-making process for complex, high-stakes decisions? If possible, please provide example(s) to support your answer.",
+      "Can you share a time when (candidate name) had to make a difficult decision with limited information? If possible, please provide example(s) to support your answer.",
     ],
   },
   {
     id: 6,
     category: "Innovation & Growth",
     questions: [
-      "How proactive was (candidate name) in identifying new opportunities for growth or innovation?",
-      "How did (candidate name) stay ahead of industry trends and market changes?",
+      "How proactive was (candidate name) in identifying new opportunities for growth or innovation? If possible, please provide example(s) to support your answer.",
+      "How did (candidate name) stay ahead of industry trends and market changes? If possible, please provide example(s) to support your answer.",
     ],
   },
   {

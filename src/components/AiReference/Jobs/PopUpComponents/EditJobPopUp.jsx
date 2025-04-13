@@ -96,10 +96,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
         <Form onSubmit={handleSubmit}>
-          <Form.Group
-            controlId="formJobName"
-            className="d-flex align-items-center mb-3"
-          >
+          <Form.Group controlId="formJobName" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
@@ -113,10 +110,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               required
             />
           </Form.Group>
-          <Form.Group
-            controlId="formVacancies"
-            className="d-flex align-items-center mb-3"
-          >
+          <Form.Group controlId="formVacancies" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
@@ -131,10 +125,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               required
             />
           </Form.Group>
-          <Form.Group
-            controlId="formDepartment"
-            className="d-flex align-items-center mb-3"
-          >
+          <Form.Group controlId="formDepartment" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
@@ -175,17 +166,14 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               <option value="Risk Management">Risk Management</option>
             </Form.Select>
           </Form.Group>
-          <Form.Group
-            controlId="formHiringManager"
-            className="d-flex align-items-center mb-4"
-          >
+          <Form.Group controlId="formHiringManager" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "220px", height: "38px" }}
             >
               Hiring Manager
             </Form.Label>
-            <div className="d-flex gap-2 w-100">
+            <div className="d-flex gap-3 w-100">
               <div className="position-relative w-50">
                 <Form.Control
                   type="text"

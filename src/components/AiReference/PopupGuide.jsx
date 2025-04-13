@@ -104,7 +104,7 @@ const GUIDE_STEPS = {
     },
     {
       title: "<span>3</span> Reference Check Overview",
-      element: ".Reference-Request",
+      element: ".AiReference-reference-request-container",
       position: "top left",
       intro:
         "The Reference Requests page enables you to manage and track all reference checks for your candidates. Here, you can monitor the status of completed references.",
@@ -164,8 +164,55 @@ const GUIDE_STEPS = {
       intro:
         "This section displays all the recently completed requests, and you also have the option to download them.",
     },
+
+  ],
+  trashbin: [
     {
-      title: "<span>6</span> Walkthrough Complete!",
+      title: "<span>1</span> Let’s Explore Reports",
+      intro: "Now, let’s take a look at how reports work. Click ‘Next’ to proceed to the Reports page.",
+    },
+    {
+      title: "<span>2</span> Search Functionality",
+      element: ".search-wrapper",
+      intro: "Use this search bar to quickly find specific deleted items by name or type.",
+    },
+    {
+      title: "<span>3</span> Deleted Jobs Overview",
+      element: ".AiReference-trashbin-container",
+      intro: "This section provides an overview of all previously deleted jobs.",
+    },
+    {
+      title: "<span>4</span> Navigate to Candidates",
+      intro: "Now, let’s transition to the candidate section.",
+      element: ".trashbin-category-filters button:nth-child(2)",
+    },
+    {
+      title: "<span>5</span> Deleted Candidates Overview",
+      element: ".AiReference-trashbin-container",
+      intro: "This section provides an overview of all previously deleted candidates",
+    },
+    {
+      title: "<span>6</span> Navigate to Reference Requests",
+      intro: "Now, let’s transition to the candidate section.",
+      element: ".trashbin-category-filters button:nth-child(3)",
+    },
+    {
+      title: "<span>7</span> Deleted Reference Requests Overview",
+      element: ".AiReference-trashbin-container",
+      intro: "This section provides an overview of all previously deleted reference requests",
+    },
+    {
+      title: "<span>8</span> Navigate to Reference Requests",
+      intro: "Now, let’s transition to the candidate section.",
+      element: ".trashbin-category-filters button:nth-child(4)",
+    },
+    {
+      title: "<span>9</span> Deleted Reference Questions Overview",
+      element: ".AiReference-trashbin-container",
+      intro: "This section provides an overview of all previously deleted reference questions",
+    },
+    {
+      title: "<span>10</span> Walkthrough Complete!",
       intro:
         "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track candidates, and process reference requests. Click 'Finish' to begin using the platform.",
     },
@@ -248,6 +295,16 @@ const PopupGuide = ({ introKey }) => {
           if (targetElement.classList.contains("btn-aireference-report")) {
             document.querySelector(".btn-aireference-report")?.click();
           }
+          if (targetElement.matches(".trashbin-category-filters button:nth-child(2)")) {
+            document.querySelector(".trashbin-category-filters button:nth-child(2)")?.click(); // Auto-click "Candidate" button
+          }
+          if (targetElement.matches(".trashbin-category-filters button:nth-child(3)")) {
+            document.querySelector(".trashbin-category-filters button:nth-child(3)")?.click(); // Auto-click "Reference Request" button
+          }
+          if (targetElement.matches(".trashbin-category-filters button:nth-child(4)")) {
+            document.querySelector(".trashbin-category-filters button:nth-child(4)")?.click(); // Auto-click "Reference Question" button
+          }
+          
         })
         .onskip(() => {
           // Mark all intros as shown when Skip is clicked
