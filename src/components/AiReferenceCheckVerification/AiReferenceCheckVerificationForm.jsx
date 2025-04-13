@@ -243,8 +243,18 @@ const AiReferenceCheckVerificationForm = ({
                   </div>
                 </Form.Group>
 
+                <Form.Group controlId="current-company">
+                  <Form.Label className="mb-1">Current Company</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="positionTitle"
+                    value={formData.currentCompany}
+                    onChange={handleChange}
+                    placeholder="Enter Current Company"
+                  />
+                </Form.Group>
                 <Form.Group controlId="position-title">
-                  <Form.Label className="mb-1">Position Title</Form.Label>
+                  <Form.Label className="mb-1">Position Applied for</Form.Label>
                   <Form.Control
                     type="text"
                     name="positionTitle"
@@ -255,7 +265,9 @@ const AiReferenceCheckVerificationForm = ({
                 </Form.Group>
 
                 <Form.Group controlId="company-worked-with">
-                  <Form.Label>Company You Worked With the Candidate</Form.Label>
+                  <Form.Label>
+                    Company you worked with <b>{refereeName.firstName}</b>{" "}
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="companyWorkedWith"
@@ -267,7 +279,7 @@ const AiReferenceCheckVerificationForm = ({
 
                 <Form.Group controlId="relationship">
                   <Form.Label className="mb-1">
-                    Relationship to the Candidate
+                    Relationship to the Applicant
                   </Form.Label>
                   {!isOtherSelected ? (
                     <Form.Control
@@ -347,7 +359,7 @@ const AiReferenceCheckVerificationForm = ({
               />
               <label
                 htmlFor="privacyAgreementCheckbox"
-                className="ms-2 privacyAgreementCheckbox"
+                className="ms-2 privacyAgreementCheckbox color-grey"
               >
                 By continuing, you’ve read, understood and agreed to the Privacy
                 Agreement for Referees

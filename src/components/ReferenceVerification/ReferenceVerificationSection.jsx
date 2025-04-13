@@ -36,11 +36,11 @@ const translations = {
     successMessage:
       "Your responses have been successfully saved. Thank you for completing the reference checking. We appreciate your time and input in this process. You may now download your responses or exit the page.",
     exit: "Exit",
-    position: "Position",
-    candidateName: "Candidate Name",
+    position: "Position Applied For",
+    candidateName: "Applicant",
     refereeName: "Referee Name",
-    refereeTitle: "Referee Title",
-    relationshipToCandidate: "Relationship to Candidate",
+    refereeTitle: "Current Company",
+    relationshipToCandidate: "Relationship to the Applicant",
     datesWorkedTogether: "Dates Worked Together",
     from: "From",
     to: "To",
@@ -65,6 +65,8 @@ const translations = {
     date: "Date",
     signature: "Signature",
     invalidDate: "Invalid Date",
+    refereeCompanyWorkedWith: "Company you worked with ",
+
     question: function (index) {
       return `Question ${index + 1}`;
     },
@@ -74,18 +76,18 @@ const translations = {
       "Standard Format": "Standard Format",
       "Management Format": "Management Format",
       "Executive Format": "Executive Format",
-    },
+    }
   },
   Japanese: {
     header: "完了した参照チェック",
     successMessage:
       "あなたの回答は正常に保存されました。参照チェックを完了していただきありがとうございます。このプロセスにおけるあなたの時間と入力に感謝します。あなたは今、あなたの回答をダウンロードするか、ページを終了することができます。",
     exit: "終了",
-    position: "職位",
-    candidateName: "候補者名",
+    position: "応募した職位",
+    candidateName: "応募者",
     refereeName: "推薦者名",
-    refereeTitle: "推薦者の職位",
-    relationshipToCandidate: "候補者との関係",
+    refereeTitle: "現在の会社",
+    relationshipToCandidate: "応募者との関係",
     datesWorkedTogether: "一緒に働いた期間",
     from: "開始日",
     to: "終了日",
@@ -110,6 +112,8 @@ const translations = {
     date: "日付",
     signature: "署名",
     invalidDate: "無効な日付",
+    refereeCompanyWorkedWith: "一緒に働いた会社 ",
+
     question: function (index) {
       return `第${index + 1}問`;
     },
@@ -120,6 +124,7 @@ const translations = {
       "Management Format": "管理用フォーマット",
       "Executive Format": "経営層向けフォーマット",
     },
+    
   },
 };
 
@@ -244,6 +249,56 @@ const ReferenceVerificationSection = () => {
     }
   }
 
+  function getOverallAssessmentText(category) {
+    switch (category) {
+      // Standard Format
+      case "jobResponsibilitiesAndPerformance":
+        return "Overall job performance assessment:";
+      case "skillAndCompetencies":
+        return "Overall Assessment of Skills and Competencies:";
+      case "workEthicAndBehavior":
+        return "Overall evaluation regarding work ethic and behavior:";
+
+      // Management Format
+      case "leadershipAndManagementSkills":
+        return "Overall performance in Leadership and Management:";
+      case "workEthicAndBehavior":
+        return "Overall evaluation regarding work ethic and behavior:";
+
+      // Executive Format
+      case "strategicLeadershipAndVision":
+        return "Overall assessment of strategic leadership:";
+      case "businessImpactAndResults":
+        return "Overall Assessment of Business Impact and Results:";
+      case "teamLeadershipAndOrganizationalDevelopment":
+        return "Overall Assessment of Team Leadership and Organizational Development:";
+      case "decisionMakingAndProblemSolving":
+        return "Overall Assessment of Decision Making and Problem Solving:";
+      case "innovationAndGrowth":
+        return "Overall Assessment of Innovation and Growth:";
+
+      default:
+        return `Overall ${formatCategories(category)} Assessment:`;
+    }
+  }
+
+  const getAssessmentStyle = (assessment) => {
+    switch (assessment) {
+      case "Unsatisfactory":
+        return { color: "#FF1D48", borderColor: "#FF1D48", backgroundColor: "rgba(255, 29, 72, 0.15)" };
+      case "Needs Improvement":
+        return { color: "#ED7D31", borderColor: "#ED7D31", backgroundColor: "rgba(237, 125, 49, 0.15)" };
+      case "Meets Expectations":
+        return { color: "#FFEA66", borderColor: "#FFEA66", backgroundColor: "rgba(255, 234, 102, 0.15)" };
+      case "Exceeds Expectations":
+        return { color: "#70AD47", borderColor: "#70AD47", backgroundColor: "rgba(112, 173, 71, 0.15)" };
+      case "Exceptional":
+        return { color: "#5D643F", borderColor: "#5D643F", backgroundColor: "rgba(93, 100, 63, 0.15)" };
+      default:
+        return { color: "grey", borderColor: "grey", backgroundColor: "rgba(128, 128, 128, 0.15)" };
+    }
+  };
+
   const downloadPDF = () => {
     if (!reportRef.current) return;
     setDownloading(true);
@@ -341,6 +396,13 @@ const ReferenceVerificationSection = () => {
             </span>
           </p>
           <p className="mb-2">
+            <b>{translations[language].refereeCompanyWorkedWith}: </b>
+            <span className="Capitalize">
+              {referenceData?.refereeCompanyWorkedWith ||
+                translations[language].notAvailable}
+            </span>
+          </p>
+          <p className="mb-2">
             <b>{translations[language].relationshipToCandidate}: </b>
             <span>
               {formatter(referenceData?.refereeRelationshipWithCandidate) ||
@@ -385,7 +447,6 @@ const ReferenceVerificationSection = () => {
                         <div key={index}>
                           <div className="d-flex w-100 mt-4">
                             <p className="mb-2">
-                              {/* <b>Question {index + 1}: </b> */}
                               <b>{translations[language].question(index)}: </b>
                               {question}
                             </p>
@@ -406,6 +467,21 @@ const ReferenceVerificationSection = () => {
                           </div>
                         </div>
                       ))}
+                      {/* Add Overall Category Assessment */}
+                      {item.category !== "relationship" &&
+                        item.category !== "closingQuestions" && (
+                          <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                            <b>{getOverallAssessmentText(item.category)}</b>
+                            <div
+                              className="overall-assessment-detail"
+                              style={getAssessmentStyle(item.overallAssessment)}
+                            >
+                              <p className="m-0">
+                                {item.overallAssessment || "Not Available"}
+                              </p>
+                            </div>
+                          </div>
+                        )}
                     </div>
                   ))
               : (referenceData?.referenceQuestion || []).map((item) => (
@@ -429,6 +505,21 @@ const ReferenceVerificationSection = () => {
                         </div>
                       </div>
                     ))}
+                     {/* Add Overall Category Assessment */}
+                     {item.category !== "relationship" &&
+                        item.category !== "closingQuestions" && (
+                          <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                            <b>{getOverallAssessmentText(item.category)}</b>
+                            <div
+                              className="overall-assessment-detail"
+                              style={getAssessmentStyle(item.overallAssessment)}
+                            >
+                              <p className="m-0">
+                                {item.overallAssessment || "Not Available"}
+                              </p>
+                            </div>
+                          </div>
+                        )}
                   </div>
                 ))}
           </div>

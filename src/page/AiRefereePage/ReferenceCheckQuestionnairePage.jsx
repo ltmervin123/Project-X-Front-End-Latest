@@ -67,7 +67,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const translations = {
     English: {
       referenceCheckQuestionnaire: "Reference Check Questionnaire",
-      questionXofY: "Question {current} of {total}",
+      questionCategry: "Relationship",
       leavePageConfirmation: "Are you sure you want to leave this page?",
       goBackConfirmation:
         "Are you sure you want to go back? Your progress will be lost.",
@@ -75,7 +75,7 @@ const ReferenceCheckQuestionnairePage = () => {
     },
     Japanese: {
       referenceCheckQuestionnaire: "リファレンスチェック質問票",
-      questionXofY: "質問 {current}／{total}",
+      questionCategry: "Relationship", // eh translate
       leavePageConfirmation: "このページから移動してもよろしいですか？",
       goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
       reattemptingCamera: "カメラへのアクセスを再試行しています...",
@@ -477,10 +477,10 @@ const ReferenceCheckQuestionnairePage = () => {
 
       <div className="referencecheckquestion-container mb-5">
         <div className="question-container">
-          <p className="question-title">
-            {translations[language].questionXofY
-              .replace("{current}", currentQuestionIndex + 1)
-              .replace("{total}", questions.length)}
+          <p className="question-title w-100 d-flex justify-content-between">
+            {/* diri nka butang is angg question category  */}
+            {translations[language].questionCategry}
+              <span> <span className="color-orange"> {currentQuestionIndex + 1}</span> / {questions.length}</span>
           </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>
