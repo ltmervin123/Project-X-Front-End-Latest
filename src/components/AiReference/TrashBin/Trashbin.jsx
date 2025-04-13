@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import { FaSearch, FaTrashRestore } from "react-icons/fa";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { FaSearch } from "react-icons/fa";
 import JobTable from "./components/JobTable";
 import CandidateTable from "./components/CandidateTable";
 import ReferenceRequestTable from "./components/ReferenceRequestTable";
@@ -14,6 +15,9 @@ import RecoverConfirmationCandidatePopUp from "./PopUpComponents/RecoverPopup/Re
 import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
 import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
+import { getArchiveReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
+import { deleteReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
+import { restoreReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +32,7 @@ const Trashbin = () => {
   const [showRecoverPopup, setShowRecoverPopup] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
   const jobButtonRef = useRef(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const timers = [
@@ -37,6 +42,40 @@ const Trashbin = () => {
 
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
+
+  const {
+    data: referenceQuestion,
+    isLoading: isLoadingReferenceQuestion,
+    isError: isErrorReferenceQuestion,
+  } = useQuery({
+    queryKey: ["archivedReferenceQuestions"],
+    queryFn: getArchiveReferenceQuestion,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  const { mutate: deleteQuestions, isLoading: isDeletingReferenceQuestions } =
+    useMutation({
+      mutationFn: deleteReferenceQuestion,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceQuestions"],
+        });
+        setShowDeletePopup(false);
+      },
+    });
+
+  const { mutate: restoreQuestion, isLoading: isRecoveringReferenceQuestions } =
+    useMutation({
+      mutationFn: restoreReferenceQuestion,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceQuestions"],
+        });
+        localStorage.removeItem("questions");
+        setShowRecoverPopup(false);
+      },
+    });
+
   const categories = [
     "Job",
     "Candidate",
@@ -44,164 +83,210 @@ const Trashbin = () => {
     "Reference Question",
   ];
 
+  // // Mock data for different categories
+  // const mockData = useMemo(() => {
+  //   return {
+  //     Job: [
+  //       // {
+  //       //   id: 1,
+  //       //   name: "Software Engineer",
+  //       //   vacancy: 2,
+  //       //   department: "Engineering",
+  //       //   hiringManager: "John Doe",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   name: "Product Manager",
+  //       //   vacancy: 1,
+  //       //   department: "Product",
+  //       //   hiringManager: "Sarah Wilson",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   name: "UI/UX Designer",
+  //       //   vacancy: 3,
+  //       //   department: "Design",
+  //       //   hiringManager: "Mike Thompson",
+  //       //   deletedDate: "2024-01-18",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   name: "Marketing Specialist",
+  //       //   vacancy: 2,
+  //       //   department: "Marketing",
+  //       //   hiringManager: "Emily Brown",
+  //       //   deletedDate: "2024-01-17",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   name: "Sales Manager",
+  //       //   vacancy: 1,
+  //       //   department: "Sales",
+  //       //   hiringManager: "David Clark",
+  //       //   deletedDate: "2024-01-16",
+  //       // },
+  //     ],
+  //     Candidate: [
+  //       // {
+  //       //   id: 1,
+  //       //   name: "Jane Smith",
+  //       //   email: "jane@example.com",
+  //       //   position: "Developer",
+  //       //   deletedDate: "2024-01-21",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   name: "Robert Johnson",
+  //       //   email: "robert@example.com",
+  //       //   position: "Designer",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   name: "Lisa Anderson",
+  //       //   email: "lisa@example.com",
+  //       //   position: "Manager",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   name: "Michael Lee",
+  //       //   email: "michael@example.com",
+  //       //   position: "Analyst",
+  //       //   deletedDate: "2024-01-18",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   name: "Emma Davis",
+  //       //   email: "emma@example.com",
+  //       //   position: "Coordinator",
+  //       //   deletedDate: "2024-01-17",
+  //       // },
+  //     ],
+  //     "Reference Request": [
+  //       // {
+  //       //   id: 1,
+  //       //   candidateName: "John Smith",
+  //       //   referentName: "Mary Johnson",
+  //       //   status: "Pending",
+  //       //   deletedDate: "2024-01-22",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   candidateName: "Sarah Wilson",
+  //       //   referentName: "James Brown",
+  //       //   status: "Completed",
+  //       //   deletedDate: "2024-01-21",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   candidateName: "Michael Davis",
+  //       //   referentName: "Emma Thompson",
+  //       //   status: "In Progress",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   candidateName: "Laura Miller",
+  //       //   referentName: "David Anderson",
+  //       //   status: "Pending",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   candidateName: "Robert Wilson",
+  //       //   referentName: "Jennifer Lee",
+  //       //   status: "Completed",
+  //       //   deletedDate: "2024-01-18",
+  //       // },
+  //     ],
+
+  //     "Reference Question": [
+  //       // {
+  //       //   id: 1,
+  //       //   question: "Describe your leadership style",
+  //       //   numberOfQuestions: "5",
+  //       //   deletedDate: "2024-01-23",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   question: "How do you handle conflict resolution?",
+  //       //   numberOfQuestions: "4",
+  //       //   deletedDate: "2024-01-22",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   question: "What are your key strengths and weaknesses?",
+  //       //   numberOfQuestions: "6",
+  //       //   deletedDate: "2024-01-21",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   question: "Describe a challenging project you managed",
+  //       //   numberOfQuestions: "3",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   question: "How do you prioritize your work?",
+  //       //   numberOfQuestions: "4",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //     ],
+  //   };
+  // }, [referenceQuestion]);
+
   // Mock data for different categories
-  const mockData = {
-    Job: [
-      {
-        id: 1,
-        name: "Software Engineer",
-        vacancy: 2,
-        department: "Engineering",
-        hiringManager: "John Doe",
-        deletedDate: "2024-01-20",
-      },
-      {
-        id: 2,
-        name: "Product Manager",
-        vacancy: 1,
-        department: "Product",
-        hiringManager: "Sarah Wilson",
-        deletedDate: "2024-01-19",
-      },
-      {
-        id: 3,
-        name: "UI/UX Designer",
-        vacancy: 3,
-        department: "Design",
-        hiringManager: "Mike Thompson",
-        deletedDate: "2024-01-18",
-      },
-      {
-        id: 4,
-        name: "Marketing Specialist",
-        vacancy: 2,
-        department: "Marketing",
-        hiringManager: "Emily Brown",
-        deletedDate: "2024-01-17",
-      },
-      {
-        id: 5,
-        name: "Sales Manager",
-        vacancy: 1,
-        department: "Sales",
-        hiringManager: "David Clark",
-        deletedDate: "2024-01-16",
-      },
-    ],
-    Candidate: [
-      {
-        id: 1,
-        name: "Jane Smith",
-        email: "jane@example.com",
-        position: "Developer",
-        deletedDate: "2024-01-21",
-      },
-      {
-        id: 2,
-        name: "Robert Johnson",
-        email: "robert@example.com",
-        position: "Designer",
-        deletedDate: "2024-01-20",
-      },
-      {
-        id: 3,
-        name: "Lisa Anderson",
-        email: "lisa@example.com",
-        position: "Manager",
-        deletedDate: "2024-01-19",
-      },
-      {
-        id: 4,
-        name: "Michael Lee",
-        email: "michael@example.com",
-        position: "Analyst",
-        deletedDate: "2024-01-18",
-      },
-      {
-        id: 5,
-        name: "Emma Davis",
-        email: "emma@example.com",
-        position: "Coordinator",
-        deletedDate: "2024-01-17",
-      },
-    ],
-    "Reference Request": [
-      {
-        id: 1,
-        candidateName: "John Smith",
-        referentName: "Mary Johnson",
-        status: "Pending",
-        deletedDate: "2024-01-22",
-      },
-      {
-        id: 2,
-        candidateName: "Sarah Wilson",
-        referentName: "James Brown",
-        status: "Completed",
-        deletedDate: "2024-01-21",
-      },
-      {
-        id: 3,
-        candidateName: "Michael Davis",
-        referentName: "Emma Thompson",
-        status: "In Progress",
-        deletedDate: "2024-01-20",
-      },
-      {
-        id: 4,
-        candidateName: "Laura Miller",
-        referentName: "David Anderson",
-        status: "Pending",
-        deletedDate: "2024-01-19",
-      },
-      {
-        id: 5,
-        candidateName: "Robert Wilson",
-        referentName: "Jennifer Lee",
-        status: "Completed",
-        deletedDate: "2024-01-18",
-      },
-    ],
-    "Reference Question": [
-      {
-        id: 1,
-        question: "Describe your leadership style",
-        numberOfQuestions: "5",
-        deletedDate: "2024-01-23",
-      },
-      {
-        id: 2,
-        question: "How do you handle conflict resolution?",
-        numberOfQuestions: "4",
-        deletedDate: "2024-01-22",
-      },
-      {
-        id: 3,
-        question: "What are your key strengths and weaknesses?",
-        numberOfQuestions: "6",
-        deletedDate: "2024-01-21",
-      },
-      {
-        id: 4,
-        question: "Describe a challenging project you managed",
-        numberOfQuestions: "3",
-        deletedDate: "2024-01-20",
-      },
-      {
-        id: 5,
-        question: "How do you prioritize your work?",
-        numberOfQuestions: "4",
-        deletedDate: "2024-01-19",
-      },
-    ],
-  };
+  const mockData = useMemo(() => {
+    return {
+      Job: [],
+      Candidate: [],
+      "Reference Request": [],
+
+      "Reference Question": referenceQuestion?.questions || [],
+    };
+  }, [referenceQuestion]);
 
   const handleRestore = (id) => {
-    console.log("Restoring item:", id);
+    switch (selectedCategory) {
+      case "Job":
+        console.log("Permanently deleting job:", id);
+        break;
+      case "Candidate":
+        console.log("Permanently deleting candidate:", id);
+        break;
+      case "Reference Request":
+        console.log("Permanently deleting reference request:", id);
+        break;
+      case "Reference Question":
+        const questionIds = [id];
+        restoreQuestion({ questionIds });
+        break;
+      default:
+        return;
+    }
   };
 
   const handleDelete = (id) => {
-    console.log("Permanently deleting item:", id);
+    switch (selectedCategory) {
+      case "Job":
+        console.log("Permanently deleting job:", id);
+        break;
+      case "Candidate":
+        console.log("Permanently deleting candidate:", id);
+        break;
+      case "Reference Request":
+        console.log("Permanently deleting reference request:", id);
+        break;
+      case "Reference Question":
+        const questionIds = [id];
+        deleteQuestions({ questionIds });
+        break;
+      default:
+        return;
+    }
   };
 
   const handleBulkRestore = () => {
@@ -213,15 +298,44 @@ const Trashbin = () => {
   };
 
   const handleConfirmRestore = () => {
-    console.log("Restoring items:", selectedItems);
+    switch (selectedCategory) {
+      case "Job":
+        console.log("Permanently deleting job:", selectedItems);
+        break;
+      case "Candidate":
+        console.log("Permanently deleting candidate:", selectedItems);
+        break;
+      case "Reference Request":
+        console.log("Permanently deleting reference request:", selectedItems);
+        break;
+      case "Reference Question":
+        restoreQuestion({ questionIds: selectedItems });
+        break;
+      default:
+        return;
+    }
     setSelectedItems([]);
-    setShowRecoverPopup(false);
   };
 
   const handleConfirmDelete = () => {
-    console.log("Permanently deleting items:", selectedItems);
+    switch (selectedCategory) {
+      case "Job":
+        console.log("Permanently deleting job:", selectedItems);
+        break;
+      case "Candidate":
+        console.log("Permanently deleting candidate:", selectedItems);
+        break;
+      case "Reference Request":
+        console.log("Permanently deleting reference request:", selectedItems);
+        break;
+      case "Reference Question":
+        deleteQuestions({ questionIds: selectedItems });
+        break;
+      default:
+        return;
+    }
     setSelectedItems([]);
-    setShowDeletePopup(false);
+    // setShowDeletePopup(false);
   };
 
   const handleSelectAll = () => {
@@ -231,7 +345,7 @@ const Trashbin = () => {
         setSelectButtonState("Select All");
         break;
       case "Select All":
-        setSelectedItems(mockData[selectedCategory].map((item) => item.id));
+        setSelectedItems(mockData[selectedCategory].map((item) => item._id));
         setSelectButtonState("Unselect All");
         break;
       case "Unselect All":
@@ -239,6 +353,8 @@ const Trashbin = () => {
         setShowCheckboxes(false);
         setSelectButtonState("Select");
         break;
+      default:
+        return;
     }
   };
 
@@ -332,18 +448,22 @@ const Trashbin = () => {
 
     switch (selectedCategory) {
       case "Job":
-        return <JobTable key={item.id} {...props} />;
+        return <JobTable key={item._id} {...props} />;
       case "Candidate":
         return <CandidateTable key={item.id} {...props} />;
       case "Reference Request":
         return <ReferenceRequestTable key={item.id} {...props} />;
       case "Reference Question":
-        return <ReferenceQuestionTable key={item.id} {...props} />;
+        const propsData = {
+          ...props,
+          isDeletingReferenceQuestions,
+          isRecoveringReferenceQuestions,
+        };
+        return <ReferenceQuestionTable key={item._id} {...propsData} />;
       default:
         return null;
     }
   };
-
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -439,32 +559,38 @@ const Trashbin = () => {
           </button>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              {getTableHeaders().map((header, index) => (
-                <th
-                  key={index}
-                  style={
-                    typeof header === "object"
-                      ? { width: header.width }
-                      : undefined
-                  }
-                  className={typeof header === "object" ? header.className : ""}
-                >
-                  {typeof header === "object"
-                    ? typeof header.label === "string"
-                      ? header.label
-                      : header.label
-                    : header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {mockData[selectedCategory]?.map((item) => renderTableRow(item))}
-          </tbody>
-        </table>
+        {mockData[selectedCategory].length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                {getTableHeaders().map((header, index) => (
+                  <th
+                    key={index}
+                    style={
+                      typeof header === "object"
+                        ? { width: header.width }
+                        : undefined
+                    }
+                    className={
+                      typeof header === "object" ? header.className : ""
+                    }
+                  >
+                    {typeof header === "object"
+                      ? typeof header.label === "string"
+                        ? header.label
+                        : header.label
+                      : header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {mockData[selectedCategory]?.map((item) => renderTableRow(item))}
+            </tbody>
+          </table>
+        ) : (
+          <div>No records found.</div>
+        )}
       </div>
 
       {showDeletePopup && (
@@ -495,10 +621,10 @@ const Trashbin = () => {
           )}
           {selectedCategory === "Reference Question" && (
             <DeleteConfirmationReferenceQuestionPopUp
-              onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isDeletingReferenceQuestions={isDeletingReferenceQuestions}
             />
           )}
         </>
@@ -536,15 +662,12 @@ const Trashbin = () => {
               onConfirmRecover={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isRecoveringReferenceQuestions={isRecoveringReferenceQuestions}
             />
           )}
         </>
       )}
-      {showGuide && (
-        <PopupGuide
-          introKey="trashbin"
-        />
-      )}
+      {showGuide && <PopupGuide introKey="trashbin" />}
     </div>
   );
 };

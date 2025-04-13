@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { FaSearch, FaEdit } from "react-icons/fa"; // icons for edit, delete, and dropdown
 import AddNewSetsQuestionPopUp from "./PopUpComponents/AddNewSetsQuestionPopUp";
 import StandardFormat from "./Components/StandardFormatComponent";
@@ -259,6 +260,7 @@ const ReferenceQuestion = () => {
   const [selectedFormatName, setSelectedFormatName] = useState("");
   const [selectedFormatDescription, setSelectedFormatDescription] =
     useState("");
+  const queryClient = useQueryClient();
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
@@ -337,6 +339,9 @@ const ReferenceQuestion = () => {
 
       if (reponse.status === 200) {
         reFetchUpdatedQuestions();
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceQuestions"],
+        });
       }
     } catch (error) {
       console.error(error);
@@ -378,11 +383,6 @@ const ReferenceQuestion = () => {
     }
   };
 
-  // Add this function to handle the edit action
-  // const handleEditHRHatchFormats = () => {
-  //   console.log("Edit HR-Hatch Formats button clicked.");
-  //   setIsEditHRHatchModalOpen(true); // Open the edit HR-Hatch formats modal
-  // };
   const handleSelectFormat = (formatName) => {
     setSelectedFormatName(formatName);
     if (formatName === "Standard Format") {
@@ -404,7 +404,6 @@ const ReferenceQuestion = () => {
     setIsHRHatchFormatPopupOpen(false);
     setIsEditHRHatchModalOpen(true); // Open the edit modal after selecting the format
   };
-
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -695,14 +694,14 @@ const ReferenceQuestion = () => {
           isDeleting={isDeleting}
         />
       )}
-{isEditModalOpen && (
-  <EditNewSetsQuestionPopUp
-    onClose={() => setIsEditModalOpen(false)}
-    reFetchUpdatedQuestions={reFetchUpdatedQuestions}
-    existingSet={selectedQuestionSet}
-    maxQuestions={selectedQuestionSet?.questions.length}
-      />
-)}
+      {isEditModalOpen && (
+        <EditNewSetsQuestionPopUp
+          onClose={() => setIsEditModalOpen(false)}
+          reFetchUpdatedQuestions={reFetchUpdatedQuestions}
+          existingSet={selectedQuestionSet}
+          maxQuestions={selectedQuestionSet?.questions.length}
+        />
+      )}
       {showGuide && (
         <PopupGuide
           introKey="referenceQuestions"
