@@ -1,8 +1,8 @@
 import axios from "axios";
 const API = process.env.REACT_APP_API_URL;
-const USER = JSON.parse(localStorage.getItem("user")) || null;
 
 export const getArchiveReferenceQuestion = async () => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
   const URL = `${API}/api/ai-referee/company-reference-questions/archive/get-archive-reference-questions`;
   const response = await axios.get(URL, {
@@ -15,6 +15,7 @@ export const getArchiveReferenceQuestion = async () => {
 };
 
 export const deleteReferenceQuestion = async ({ questionIds }) => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
   const URL = `${API}/api/ai-referee/company-reference-questions/archive/delete-archive-reference-questions`;
   const response = await axios.delete(URL, {
@@ -28,6 +29,7 @@ export const deleteReferenceQuestion = async ({ questionIds }) => {
 };
 
 export const restoreReferenceQuestion = async ({ questionIds }) => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
   const URL = `${API}/api/ai-referee/company-reference-questions/archive/restore-archive-reference-questions`;
   const response = await axios.post(
