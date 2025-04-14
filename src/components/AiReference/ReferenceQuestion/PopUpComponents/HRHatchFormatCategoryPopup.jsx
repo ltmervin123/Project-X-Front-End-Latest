@@ -17,17 +17,10 @@ const HRHatchFormatCategoryPopup = ({ onClose, onSelectFormat }) => {
       backdrop={true}
     >
       <Modal.Body className="p-4">
-        <div className="d-flex justify-content-end align-items-center mb-3">
-            <h5 className=" mb-0 text-center">Select Preferred <span className="color-orange">HR</span>-HΛTCH Format to Edit</h5>
+        <div className="d-flex justify-content-center align-items-center mb-3">
+            <h5 className=" mb-0 text-center">Select Preferred <span className="color-orange">HR</span>-HΛTCH Format to Customize</h5>
 
-          <Button
-            className="closebtn"
-            variant="link"
-            onClick={onClose}
-            style={{ fontSize: "1.5rem", textDecoration: "none" }}
-          >
-            &times;
-          </Button>
+
         </div>
 
         <div className="d-flex gap-2 hr-hatch-option flex-column align-items-center justify-content-center">

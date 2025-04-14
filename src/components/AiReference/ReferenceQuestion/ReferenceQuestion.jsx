@@ -438,7 +438,7 @@ const ReferenceQuestion = () => {
           }`}
           onClick={() => handleButtonClick("Custom Sets")} // Show custom sets
         >
-          Custom Sets
+         Custom Questionnaires
         </button>
         <button
           ref={hrHatchButtonRef} // Assign the ref here
@@ -568,7 +568,7 @@ const ReferenceQuestion = () => {
                   onClick={() => setIsHRHatchFormatPopupOpen(true)} // Open the HR-Hatch Format popup
                 >
                   <FaEdit />
-                  HR-Hatch Formats
+                  Customize HR-Hatch Format
                 </button>
               </div>
             </div>

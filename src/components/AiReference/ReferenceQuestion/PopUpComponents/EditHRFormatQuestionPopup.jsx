@@ -292,7 +292,7 @@ const EditHRFormatQuestionPopup = ({
               return acc;
             }, {})).map(([category, categoryQuestions], categoryIndex) => (
               <div key={categoryIndex}>
-                <h6>{category}</h6>
+                <h6 className="my-3">{category}</h6>
                 {categoryQuestions.map((question, index) => (
                   <div key={`${category}-${index}`} className="mb-2">
                     <Form.Label className="me-2 w-100 d-flex justify-content-between px-2">

@@ -91,8 +91,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="mb-0">Create New Question Sets</h5>
-            <small>Create a new set of reference check questions.</small>
+            <h5 className="mb-0">Create Your Own Questionnaire</h5>
+            <small>Create your own set of reference check questions.</small>
           </div>
           <Button
             className="closebtn"

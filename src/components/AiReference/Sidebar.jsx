@@ -63,7 +63,7 @@ const Sidebar = () => {
             fill="#686868"
           />
         </svg>
-        Applicant
+        Applicant's
       </NavLink>
 
       <NavLink
@@ -140,18 +140,10 @@ const Sidebar = () => {
         }
         to="/AiReferenceTrashbin"
       >
-        <svg
-          width="14"
-          height="18"
-          viewBox="0 0 14 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z"
-            fill="#686868"
-          />
-        </svg>
+       <svg width="2" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.0026 10.6667C1.0026 11.4 1.6026 12 2.33594 12H7.66927C8.4026 12 9.0026 11.4 9.0026 10.6667V2.66667H1.0026V10.6667ZM9.66927 0.666667H7.33594L6.66927 0H3.33594L2.66927 0.666667H0.335938V2H9.66927V0.666667Z" fill="#686868"/>
+</svg>
+
         Trash Bin
       </NavLink>
 

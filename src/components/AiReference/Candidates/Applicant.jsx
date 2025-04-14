@@ -256,7 +256,7 @@ const Applicant = () => {
               )}
             </div>
           </h4>
-          <p>Overview of all candidates in the system.</p>
+          <p>Overview of all applicant's in the system.</p>
         </div>
 
         {candidates && candidates.length > 0 ? (
