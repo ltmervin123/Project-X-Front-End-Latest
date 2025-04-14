@@ -1,15 +1,12 @@
 import React, { useState, useRef, useMemo, useEffect } from "react"; // Add useEffect
 import { Form } from "react-bootstrap";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
+import { addJob } from "../../../../api/ai-reference/job/jobs-api";
+import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
+const AddJobComponent = ({ onCancel }) => {
+  const navigate = useNavigate();
 
-const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
-    const navigate = useNavigate();
-  
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const token = USER?.token;
   const [jobName, setJobName] = useState("");
   const [department, setDepartment] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -115,7 +112,7 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
 
     try {
       setLoading(true);
-      const URL = `${API}/api/ai-referee/company-jobs/create-job`;
+
       const payload = {
         jobName: capitalizeWords(jobName),
         vacancies,
@@ -125,18 +122,14 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
           lastName: capitalizeWords(lastName),
         },
       };
-      const response = await axios.post(URL, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 201) {
-        setAddedJob(response.data?.createdJob);
-        await refetch();
-        // onProceed();
-        navigate("/candidate-request-sent")
 
-      }
+      //Create a job
+      const createdJob = await addJob(payload);
+
+      //Create candidate
+      await handleAddCandidate(createdJob?.createdJob);
+
+      navigate("/candidate-request-sent");
     } catch (error) {
       console.error(error);
       if (error.response) {
@@ -147,6 +140,27 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddCandidate = async (createdJob) => {
+    const status = "New";
+    const payload = candidates.map((candidate) => {
+      return {
+        name: {
+          firstName: capitalizeWords(candidate.firstName),
+          lastName: capitalizeWords(candidate.lastName),
+        },
+        email: candidate.email,
+        position: createdJob.positionName,
+        positionId: createdJob.positionId,
+        status,
+        questionFormat: selectedFormat,
+        questionId: selectedQuestion._id,
+        questionName: selectedQuestion.name,
+      };
+    });
+
+    return await addCandidate(payload);
   };
 
   // Add warning when user is navigating back to previous page
@@ -388,7 +402,6 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
             >
               Reference Format
               <span className="color-orange"> &nbsp;*</span>
-
             </Form.Label>
             <div className="w-100 reference-question-format-container d-flex gap-3">
               <div className="custom-dropdown-ref-req">
@@ -477,11 +490,8 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
                   className="m-0 applicant-header-label d-flex gap-2 align-items-center"
                   style={{ width: "220px", height: "38px" }}
                 >
-                  <div className="applicant-number">
-                  {index + 1}
-                  </div>
-                  Applicant 
-
+                  <div className="applicant-number">{index + 1}</div>
+                  Applicant
                 </b>
                 <div className="d-flex gap-3 w-100">
                   <div className="positiom-relative w-50">
@@ -491,7 +501,6 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
                     >
                       First Name
                       <span className="color-orange"> &nbsp;*</span>
-
                     </Form.Label>
                     <Form.Control
                       value={candidate.firstName}
@@ -515,7 +524,6 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
                     >
                       Last Name
                       <span className="color-orange"> &nbsp;*</span>
-
                     </Form.Label>
                     <Form.Control
                       value={candidate.lastName}
@@ -542,7 +550,6 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
                 >
                   Email
                   <span className="color-orange"> &nbsp;*</span>
-
                 </Form.Label>
                 <div className="w-100 position-relative">
                   <Form.Control
