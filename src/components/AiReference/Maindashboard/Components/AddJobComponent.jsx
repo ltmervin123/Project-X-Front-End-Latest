@@ -1,9 +1,12 @@
 import React, { useState, useRef, useMemo, useEffect } from "react"; // Add useEffect
 import { Form } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
 
 const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
+    const navigate = useNavigate();
+  
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
@@ -14,6 +17,12 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
   const [vacancies, setVacancies] = useState(1);
+  const [selectedFormat, setSelectedFormat] = useState("");
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
+  const [isCustomOpen, setIsCustomOpen] = useState(false);
+  const [candidates, setCandidates] = useState([]);
+  const [currentCandidateIndex, setCurrentCandidateIndex] = useState(0);
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -21,6 +30,60 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
   const isFormValid = useMemo(() => {
     return jobName && firstName && lastName && department && vacancies; // Check firstName and lastName
   }, [jobName, firstName, lastName, department, vacancies]);
+
+  const hrHatchQuestion = useMemo(() => {
+    return [
+      {
+        name: "Standard Format",
+        value: "STANDARD",
+        _id: "67b404a91eb4c9da22cff68e",
+      },
+      {
+        name: "Management Format",
+        value: "MANAGEMENT",
+        _id: "67b405191eb4c9da22cff690",
+      },
+      {
+        name: "Executive Format",
+        value: "EXECUTIVE",
+        _id: "67b405a41eb4c9da22cff691",
+      },
+    ];
+  }, []);
+
+  const customQuestion = useMemo(() => {
+    const questions = JSON.parse(localStorage.getItem("questions")) || [];
+    return questions.map((question) => ({
+      name: question.name,
+      _id: question._id,
+    }));
+  }, []);
+
+  const handleQuestionSelect = (question, format) => {
+    setSelectedQuestion(question);
+    setSelectedFormat(format);
+    setIsHrHatchOpen(false);
+    setIsCustomOpen(false);
+  };
+
+  // Utility function to handle candidate input changes
+  const handleInputChange = (index, field, value) => {
+    setCandidates((prev) => {
+      const updatedCandidates = [...prev];
+      updatedCandidates[index][field] = value;
+      return updatedCandidates;
+    });
+  };
+
+  // Initialize candidates based on vacancies
+  useEffect(() => {
+    const newCandidates = Array.from({ length: vacancies }, () => ({
+      firstName: "",
+      lastName: "",
+      email: "",
+    }));
+    setCandidates(newCandidates);
+  }, [vacancies]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +133,9 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
       if (response.status === 201) {
         setAddedJob(response.data?.createdJob);
         await refetch();
-        onProceed();
+        // onProceed();
+        navigate("/candidate-request-sent")
+
       }
     } catch (error) {
       console.error(error);
@@ -128,9 +193,9 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
       <div className="job-container-form d-flex align-items-center justify-content-center flex-column">
         <div className="job-bg-behind"></div>
 
-        <div className="d-flex justify-content-between w-100 job-header mb-4">
+        <div className="d-flex justify-content-between align-items-center w-100 job-header mb-4">
           <div className="d-flex align-items-end">
-            <h4 className="d-flex gap-2 mb-0 ">
+            <h4 className="d-flex gap-2 mb-0">
               <div className="job-icon">
                 <svg
                   width="19"
@@ -298,6 +363,206 @@ const AddJobComponent = ({ onProceed, refetch, setAddedJob, onCancel }) => {
               </div>
             </div>
           </Form.Group>
+          <h4 className="d-flex gap-2 mb-4 ">
+            <div className="job-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 8C6.9 8 5.95833 7.60833 5.175 6.825C4.39167 6.04167 4 5.1 4 4C4 2.9 4.39167 1.95833 5.175 1.175C5.95833 0.391667 6.9 0 8 0C9.1 0 10.0417 0.391667 10.825 1.175C11.6083 1.95833 12 2.9 12 4C12 5.1 11.6083 6.04167 10.825 6.825C10.0417 7.60833 9.1 8 8 8ZM0 14V13.2C0 12.6333 0.146 12.1127 0.438 11.638C0.73 11.1633 1.11733 10.8007 1.6 10.55C2.63333 10.0333 3.68333 9.646 4.75 9.388C5.81667 9.13 6.9 9.00067 8 9C9.1 8.99933 10.1833 9.12867 11.25 9.388C12.3167 9.64733 13.3667 10.0347 14.4 10.55C14.8833 10.8 15.271 11.1627 15.563 11.638C15.855 12.1133 16.0007 12.634 16 13.2V14C16 14.55 15.8043 15.021 15.413 15.413C15.0217 15.805 14.5507 16.0007 14 16H2C1.45 16 0.979333 15.8043 0.588 15.413C0.196666 15.0217 0.000666667 14.5507 0 14Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+            Applicant Details
+          </h4>
+
+          <Form.Group controlId="formReferenceFormat" className="mb-4">
+            <Form.Label
+              className="m-0"
+              style={{ width: "220px", height: "38px" }}
+            >
+              Reference Format
+              <span className="color-orange"> &nbsp;*</span>
+
+            </Form.Label>
+            <div className="w-100 reference-question-format-container d-flex gap-3">
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT"
+                      ? "active"
+                      : ""
+                  } ${isHrHatchOpen ? "dropdown-open" : ""}`}
+                  onClick={() => {
+                    setIsHrHatchOpen(!isHrHatchOpen);
+                    setIsCustomOpen(false);
+                  }}
+                >
+                  {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
+                    ? selectedQuestion.name
+                    : "HR-HATCH"}
+                </div>
+                {isHrHatchOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {hrHatchQuestion.map((question) => (
+                      <div
+                        key={question._id}
+                        className="dropdown-item-ref-req"
+                        onClick={() =>
+                          handleQuestionSelect(question, "HR-HATCH-FORMAT")
+                        }
+                      >
+                        {question.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT"
+                      ? "active"
+                      : ""
+                  } ${isCustomOpen ? "dropdown-open" : ""}`}
+                  onClick={() => {
+                    setIsCustomOpen(!isCustomOpen);
+                    setIsHrHatchOpen(false);
+                  }}
+                >
+                  {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
+                    ? selectedQuestion.name
+                    : "Custom"}
+                </div>
+                {isCustomOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {customQuestion.length > 0 ? (
+                      customQuestion.map((question) => (
+                        <div
+                          key={question._id}
+                          className="dropdown-item-ref-req"
+                          onClick={() =>
+                            handleQuestionSelect(question, "CUSTOM-FORMAT")
+                          }
+                        >
+                          {question.name}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="dropdown-item-ref-req" disabled>
+                        No custom questions available
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            {errorMessages.question && (
+              <div className="px-3 py-1 text-danger">
+                {errorMessages.question}
+              </div>
+            )}
+          </Form.Group>
+
+          {candidates.map((candidate, index) => (
+            <div key={index} className="applicant-container mb-4">
+              <Form.Group controlId={`formFirstName${index}`} className="mb-4">
+                <b
+                  className="m-0 applicant-header-label d-flex gap-2 align-items-center"
+                  style={{ width: "220px", height: "38px" }}
+                >
+                  <div className="applicant-number">
+                  {index + 1}
+                  </div>
+                  Applicant 
+
+                </b>
+                <div className="d-flex gap-3 w-100">
+                  <div className="positiom-relative w-50">
+                    <Form.Label
+                      className="m-0"
+                      style={{ width: "220px", height: "38px" }}
+                    >
+                      First Name
+                      <span className="color-orange"> &nbsp;*</span>
+
+                    </Form.Label>
+                    <Form.Control
+                      value={candidate.firstName}
+                      type="text"
+                      onChange={(e) =>
+                        handleInputChange(index, "firstName", e.target.value)
+                      }
+                      placeholder="First Name"
+                      required
+                    />
+                    {errorMessages.firstName && (
+                      <div className="px-3 py-1 text-danger">
+                        {errorMessages.firstName}
+                      </div>
+                    )}
+                  </div>
+                  <div className="positiom-relative w-50">
+                    <Form.Label
+                      className="m-0"
+                      style={{ width: "220px", height: "38px" }}
+                    >
+                      Last Name
+                      <span className="color-orange"> &nbsp;*</span>
+
+                    </Form.Label>
+                    <Form.Control
+                      value={candidate.lastName}
+                      type="text"
+                      onChange={(e) =>
+                        handleInputChange(index, "lastName", e.target.value)
+                      }
+                      placeholder="Last Name"
+                      required
+                    />
+                    {errorMessages.lastName && (
+                      <div className="px-3 py-1 text-danger">
+                        {errorMessages.lastName}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Form.Group>
+
+              <Form.Group controlId={`formEmail${index}`} className="mb-4">
+                <Form.Label
+                  className="m-0"
+                  style={{ width: "220px", height: "38px" }}
+                >
+                  Email
+                  <span className="color-orange"> &nbsp;*</span>
+
+                </Form.Label>
+                <div className="w-100 position-relative">
+                  <Form.Control
+                    value={candidate.email}
+                    type="email"
+                    onChange={(e) =>
+                      handleInputChange(index, "email", e.target.value)
+                    }
+                    placeholder={`applicant${index + 1}@example.com`}
+                    required
+                  />
+                  {errorMessages.email && (
+                    <div className="px-3 py-1 text-danger">
+                      {errorMessages.email}
+                    </div>
+                  )}
+                </div>
+              </Form.Group>
+            </div>
+          ))}
         </Form>
       </div>
       <div className="d-flex justify-content-center gap-3 mt-3 job-btn-container">

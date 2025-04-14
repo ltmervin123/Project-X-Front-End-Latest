@@ -462,6 +462,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   background-position: right 10px center !important;
   background-repeat: no-repeat !important;
   background-size: 12px 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: background-image 0.3s ease;
 }
 
