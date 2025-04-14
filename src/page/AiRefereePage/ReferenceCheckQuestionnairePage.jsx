@@ -5,6 +5,7 @@ import ErrorAccessMic from "../../components/Error/ErrorAccessMic";
 import TextBase from "../../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../../components/ReferenceCheckQuestionnaire/AudioBase";
 import loadingAnimation from "../../assets/loading.gif";
+import AssessmentModal from "../../components/Assessment/OverAllAssesment.jsx";
 import axios from "axios";
 
 const CATEGORY_ORDER = {
@@ -483,6 +484,10 @@ const ReferenceCheckQuestionnairePage = () => {
 
   if (micError) {
     return <ErrorAccessMic onRetry={initializeMicPermission} />;
+  }
+
+  if (true) {
+    return <AssessmentModal />;
   }
 
   return (
