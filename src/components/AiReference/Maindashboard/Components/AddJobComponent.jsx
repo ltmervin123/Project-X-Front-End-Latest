@@ -19,14 +19,23 @@ const AddJobComponent = ({ onCancel }) => {
   const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
   const [isCustomOpen, setIsCustomOpen] = useState(false);
   const [candidates, setCandidates] = useState([]);
-  const [currentCandidateIndex, setCurrentCandidateIndex] = useState(0);
 
   // Create a ref for the form
   const formRef = useRef(null);
 
-  const isFormValid = useMemo(() => {
-    return jobName && firstName && lastName && department && vacancies; // Check firstName and lastName
+  const isJobFieldsFilled = useMemo(() => {
+    return [jobName, firstName, lastName, department, vacancies].every(
+      (field) => String(field).trim() !== ""
+    );
   }, [jobName, firstName, lastName, department, vacancies]);
+
+  const areCandidateFieldsFilled = useMemo(() => {
+    return candidates.every((obj) =>
+      Object.values(obj).every(
+        (value) => typeof value === "string" && value.trim() !== ""
+      )
+    );
+  }, [candidates]);
 
   const hrHatchQuestion = useMemo(() => {
     return [
@@ -112,6 +121,10 @@ const AddJobComponent = ({ onCancel }) => {
 
     try {
       setLoading(true);
+
+      if (!isJobFieldsFilled && !areCandidateFieldsFilled) {
+        return;
+      }
 
       const payload = {
         jobName: capitalizeWords(jobName),
@@ -585,7 +598,7 @@ const AddJobComponent = ({ onCancel }) => {
           className="btn-proceed"
           type="button"
           onClick={handleSubmit}
-          disabled={loading || !isFormValid}
+          disabled={loading || !isJobFieldsFilled || !areCandidateFieldsFilled}
         >
           {loading ? "Creating Job..." : "Proceed"}
         </button>
