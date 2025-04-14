@@ -311,15 +311,7 @@ function App() {
             element={<ReferenceVerification />}
           />
 
-          <Route
-            path="/reference-assessment"
-            element={<AssessmentPage />}
-          />
-
-
-
-
-
+          <Route path="/reference-assessment" element={<AssessmentPage />} />
         </Route>
 
         {/* reference expired link */}
@@ -386,10 +378,6 @@ function App() {
           path="/ReferenceRequestFormSubmittedSuccessfully"
           element={<RRFormSubmittedSuccessfullyPage />}
         />
-
-
-
-
 
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
         {/* Catch all un existing routes */}
