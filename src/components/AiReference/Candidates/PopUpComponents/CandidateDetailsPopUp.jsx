@@ -44,7 +44,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
           </div>
           <div className="d-flex justify-content-center align-items-center">
             <p className="m-0 candidate-id">
-              <strong>Candidate ID:</strong> {candidates._id}
+              <strong>Applicant ID:</strong> {candidates._id}
             </p>
 
             <Button

@@ -138,7 +138,7 @@ const EditCandidatePopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0">Edit Candidate</h5>
+            <h5 className="m-0">Edit Applicant</h5>
             <small>Update the details of the candidate below.</small>
           </div>
           <Button
@@ -265,7 +265,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              Candidate
+              Applicant
             </Form.Label>
             <div className="d-flex gap-3 w-100">
               <Form.Control

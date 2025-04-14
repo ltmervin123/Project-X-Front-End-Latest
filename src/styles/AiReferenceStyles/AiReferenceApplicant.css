@@ -40,7 +40,7 @@
 .btn-create-new-candidate:hover {
   background: darkorange; /* Darker shade on hover */
 }
-.btn-no-delete-candidate{
+.btn-no-delete-applicant{
   background: var(--secondary-color);
   width: 120px;
   border-radius: 50px;
@@ -49,7 +49,7 @@
   padding: 5px 30px; /* Adjusted padding */
 
 }
-.btn-yes-delete-candidate{
+.btn-yes-delete-applicant{
   background: var(--primary-color);
   width: 120px;
   border-radius: 50px;

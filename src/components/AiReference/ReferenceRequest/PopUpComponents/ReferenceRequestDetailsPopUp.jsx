@@ -193,7 +193,7 @@ const ReferenceRequestDetailsPopUp = ({
               <b className="mb-3">Reference Details</b>
 
               <div className="candidate-info-container  mt-3">
-                <b>Candidate Information</b>
+                <b>Applicant Information</b>
                 <div className="candidate-labels-and-details w-100">
                   <div className="d-flex">
                     <div className="candidate-labels">Name:</div>

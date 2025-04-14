@@ -15,7 +15,7 @@ const GUIDE_STEPS = {
       title: "<span>2</span> Start Reference Check",
       element: ".btn-start-reference-check",
       intro:
-        "This is the main button to begin a new reference check. Click here when you’re ready to verify a candidate’s background!",
+        "This is the main button to begin a new reference check. Click here when you’re ready to verify a applicant’s background!",
     },
     {
       title: "<span>3</span> Navigation Menu",
@@ -27,7 +27,7 @@ const GUIDE_STEPS = {
       title: "<span>4</span> Dashboard Metrics",
       element: ".AiReferenceCard-container",
       intro:
-        "These cards give you real-time insights into your hiring process, including active jobs, pending references, completed references, and the total number of candidates..",
+        "These cards give you real-time insights into your hiring process, including active jobs, pending references, completed references, and the total number of applicant’s..",
     },
     {
       title: "<span>5</span> Reference Check Overview",
@@ -70,24 +70,24 @@ const GUIDE_STEPS = {
         "The Jobs page provides a centralized location for managing all your open positions. Here, you can view job details, track vacancies, and monitor the hiring progress for each position.",
     },
   ],
-  candidates: [
+  applicant: [
     {
-      title: "<span>1</span>Let’s Explore Candidates",
+      title: "<span>1</span>Let’s Explore Applicant’s",
       intro:
-        "Now, let's take a look at how you can manage candidates throughout the hiring process. Click 'Next' to continue to the Candidates page.",
+        "Now, let's take a look at how you can manage applicant’s throughout the hiring process. Click 'Next' to continue to the Applicant’s page.",
     },
     {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily find specific candidates using the search bar. Enter names, positions, or email addresses to filter the candidate list and pinpoint exactly who you're looking for.",
+        "Easily find specific applicant’s using the search bar. Enter names, positions, or email addresses to filter the applicant list and pinpoint exactly who you're looking for.",
     },
     {
-      title: "<span>3</span> Candidates Page Overview",
+      title: "<span>3</span> Applicant’s Page Overview",
       element: ".AiReference-candidates-container",
       position: "top left",
       intro:
-        "The Candidates page allows you to monitor all potential hires throughout the reference checking process. Here, you can view and manage candidate information and check their current status.",
+        "The Applicant’s page allows you to monitor all potential hires throughout the reference checking process. Here, you can view and manage applicant information and check their current status.",
     },
   ],
   referenceRequests: [
@@ -100,14 +100,14 @@ const GUIDE_STEPS = {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily find specific reference requests using the search bar. Search by candidate name, referee, position, or status to locate exactly what you need.",
+        "Easily find specific reference requests using the search bar. Search by applicant name, referee, position, or status to locate exactly what you need.",
     },
     {
       title: "<span>3</span> Reference Check Overview",
       element: ".AiReference-reference-request-container",
       position: "top left",
       intro:
-        "The Reference Requests page enables you to manage and track all reference checks for your candidates. Here, you can monitor the status of completed references.",
+        "The Reference Requests page enables you to manage and track all reference checks for your applicant’s. Here, you can monitor the status of completed references.",
     },
   ],
   referenceQuestions: [
@@ -182,18 +182,18 @@ const GUIDE_STEPS = {
       intro: "This section provides an overview of all previously deleted jobs.",
     },
     {
-      title: "<span>4</span> Navigate to Candidates",
-      intro: "Now, let’s transition to the candidate section.",
+      title: "<span>4</span> Navigate to Applicant’s",
+      intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(2)",
     },
     {
-      title: "<span>5</span> Deleted Candidates Overview",
+      title: "<span>5</span> Deleted Applicant’s Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted candidates",
+      intro: "This section provides an overview of all previously deleted applicant’s",
     },
     {
       title: "<span>6</span> Navigate to Reference Requests",
-      intro: "Now, let’s transition to the candidate section.",
+      intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(3)",
     },
     {
@@ -203,7 +203,7 @@ const GUIDE_STEPS = {
     },
     {
       title: "<span>8</span> Navigate to Reference Requests",
-      intro: "Now, let’s transition to the candidate section.",
+      intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(4)",
     },
     {
@@ -214,7 +214,7 @@ const GUIDE_STEPS = {
     {
       title: "<span>10</span> Walkthrough Complete!",
       intro:
-        "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track candidates, and process reference requests. Click 'Finish' to begin using the platform.",
+        "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track applicant’s, and process reference requests. Click 'Finish' to begin using the platform.",
     },
   ],
 };
@@ -262,8 +262,8 @@ const PopupGuide = ({ introKey }) => {
           // Only navigate if skip was not clicked
           if (!skipClickedRef.current) {
             const routes = {
-              jobs: "/AiReferenceCandidates",
-              candidates: "/AiReferenceRequest",
+              jobs: "/AiReferenceApplicant",
+              applicant: "/AiReferenceRequest",
               referenceRequests: "/AiReferenceQuestion",
               referenceQuestions: "/AiReferenceReports",
               reports: "/AiReferenceMaindashboard",
@@ -296,7 +296,7 @@ const PopupGuide = ({ introKey }) => {
             document.querySelector(".btn-aireference-report")?.click();
           }
           if (targetElement.matches(".trashbin-category-filters button:nth-child(2)")) {
-            document.querySelector(".trashbin-category-filters button:nth-child(2)")?.click(); // Auto-click "Candidate" button
+            document.querySelector(".trashbin-category-filters button:nth-child(2)")?.click(); // Auto-click "Applicant’s" button
           }
           if (targetElement.matches(".trashbin-category-filters button:nth-child(3)")) {
             document.querySelector(".trashbin-category-filters button:nth-child(3)")?.click(); // Auto-click "Reference Request" button

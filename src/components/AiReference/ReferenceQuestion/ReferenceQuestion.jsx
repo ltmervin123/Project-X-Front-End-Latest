@@ -25,42 +25,42 @@ const STANDARD_QUESTIONS_SETS = [
     id: 1,
     category: "Relationship",
     questions: [
-      "How do you know (candidate name), and how long have you worked together?",
+      "How do you know (applicant name), and how long have you worked together?",
     ],
   },
   {
     id: 2,
     category: "Job Responsibilities and Performance",
     questions: [
-      "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
-      "What do you consider to be (candidate name)'s key strengths?",
-      "What areas, if any, do you think (candidate name) could further develop or improve and why?",
+      "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
+      "What do you consider to be (applicant name)'s key strengths?",
+      "What areas, if any, do you think (applicant name) could further develop or improve and why?",
     ],
   },
   {
     id: 3,
     category: "Skills and Competencies",
     questions: [
-      "How would you describe (candidate name)'s communication skills? If possible, please provide example(s) to support your answer.",
-      "How well does (candidate name) work with colleagues or in a team? If possible, please provide example(s) to support your answer.",
-      "How would you describe (candidate name)'s attention to detail in their work? If possible, please provide example(s) to support your answer.",
+      "How would you describe (applicant name)'s communication skills? If possible, please provide example(s) to support your answer.",
+      "How well does (applicant name) work with colleagues or in a team? If possible, please provide example(s) to support your answer.",
+      "How would you describe (applicant name)'s attention to detail in their work? If possible, please provide example(s) to support your answer.",
     ],
   },
   {
     id: 4,
     category: "Work Ethic and Behavior",
     questions: [
-      "How would you describe (candidate name)'s attitude and professionalism?",
-      "How did (candidate name) handle feedback and criticism?",
-      "Did (candidate name) show initiative and a willingness to learn?",
+      "How would you describe (applicant name)'s attitude and professionalism?",
+      "How did (applicant name) handle feedback and criticism?",
+      "Did (applicant name) show initiative and a willingness to learn?",
     ],
   },
   {
     id: 5,
     category: "Closing Questions",
     questions: [
-      "If given the opportunity, would you work with or rehire (candidate name)?",
-      "Is there anything else you believe we should know about (candidate name)?",
+      "If given the opportunity, would you work with or rehire (applicant name)?",
+      "Is there anything else you believe we should know about (applicant name)?",
     ],
   },
 ];
@@ -71,43 +71,43 @@ const MANAGEMENT_QUESTIONS_SETS = [
     id: 1,
     category: "Relationship",
     questions: [
-      "How do you know (candidate name), and how long have you worked together?",
+      "How do you know (applicant name), and how long have you worked together?",
     ],
   },
   {
     id: 2,
     category: "Job Responsibilities and Performance",
     questions: [
-      "Can you describe (candidate name)'s main responsibilities in his/her previous role?",
-      "What do you consider to be (candidate name)'s key strengths?",
-      "What areas, if any, do you think (candidate name) could further develop or improve?",
+      "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
+      "What do you consider to be (applicant name)'s key strengths?",
+      "What areas, if any, do you think (applicant name) could further develop or improve?",
     ],
   },
   {
     id: 3,
     category: "Leadership & Management Skills",
     questions: [
-      "How would you describe (candidate name)'s leadership style? If possible, please provide example(s) to support your answer.",
-      "How did (candidate name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
-      "How effective was (candidate name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
-      "What would you say are (candidate name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
+      "How would you describe (applicant name)'s leadership style? If possible, please provide example(s) to support your answer.",
+      "How did (applicant name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
+      "How effective was (applicant name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
+      "What would you say are (applicant name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
     ],
   },
   {
     id: 4,
     category: "Work Ethic and Behavior",
     questions: [
-      "How would you describe (candidate name)'s attitude and professionalism?",
-      "How did (candidate name) handle feedback and criticism?",
-      "Did (candidate name) show initiative and a willingness to learn?",
+      "How would you describe (applicant name)'s attitude and professionalism?",
+      "How did (applicant name) handle feedback and criticism?",
+      "Did (applicant name) show initiative and a willingness to learn?",
     ],
   },
   {
     id: 5,
     category: "Closing Questions",
     questions: [
-      "If given the opportunity, would you work with or rehire (candidate name)?",
-      "Is there anything else you believe we should know about (candidate name)?",
+      "If given the opportunity, would you work with or rehire (applicant name)?",
+      "Is there anything else you believe we should know about (applicant name)?",
     ],
   },
 ];
@@ -118,55 +118,55 @@ const EXECUTIVE_QUESTIONS_SET = [
     id: 1,
     category: "Relationship",
     questions: [
-      "How do you know (candidate name), and how long have you worked together?",
+      "How do you know (applicant name), and how long have you worked together?",
     ],
   },
   {
     id: 2,
     category: "Strategic Leadership & Vision",
     questions: [
-      "How would you describe (candidate name)'s ability to set and communicate a clear vision for the organization? If possible, please provide example(s) to support your answer.",
-      "Can you provide an example of a strategic initiative that (candidate name) led and its impact on the business?",
+      "How would you describe (applicant name)'s ability to set and communicate a clear vision for the organization? If possible, please provide example(s) to support your answer.",
+      "Can you provide an example of a strategic initiative that (applicant name) led and its impact on the business?",
     ],
   },
   {
     id: 3,
     category: "Business Impact & Results",
     questions: [
-      "Can you share examples of how (candidate name) drove growth, profitability, or operational improvements?",
-      "How did (candidate name) handle critical business decisions, especially in high-pressure situations?",
+      "Can you share examples of how (applicant name) drove growth, profitability, or operational improvements?",
+      "How did (applicant name) handle critical business decisions, especially in high-pressure situations?",
     ],
   },
   {
     id: 4,
     category: "Team Leadership & Organizational Development",
     questions: [
-      "How did (candidate name) build and develop high-performing teams? If possible, please provide example(s) to support your answer.",
-      "How did (candidate name) handle organizational change or restructuring? If possible, please provide example(s) to support your answer.",
+      "How did (applicant name) build and develop high-performing teams? If possible, please provide example(s) to support your answer.",
+      "How did (applicant name) handle organizational change or restructuring? If possible, please provide example(s) to support your answer.",
     ],
   },
   {
     id: 5,
     category: "Decision-Making & Problem-Solving",
     questions: [
-      "How would you describe (candidate name)'s decision-making process for complex, high-stakes decisions? If possible, please provide example(s) to support your answer.",
-      "Can you share a time when (candidate name) had to make a difficult decision with limited information? If possible, please provide example(s) to support your answer.",
+      "How would you describe (applicant name)'s decision-making process for complex, high-stakes decisions? If possible, please provide example(s) to support your answer.",
+      "Can you share a time when (applicant name) had to make a difficult decision with limited information? If possible, please provide example(s) to support your answer.",
     ],
   },
   {
     id: 6,
     category: "Innovation & Growth",
     questions: [
-      "How proactive was (candidate name) in identifying new opportunities for growth or innovation? If possible, please provide example(s) to support your answer.",
-      "How did (candidate name) stay ahead of industry trends and market changes? If possible, please provide example(s) to support your answer.",
+      "How proactive was (applicant name) in identifying new opportunities for growth or innovation? If possible, please provide example(s) to support your answer.",
+      "How did (applicant name) stay ahead of industry trends and market changes? If possible, please provide example(s) to support your answer.",
     ],
   },
   {
     id: 7,
     category: "Closing Questions",
     questions: [
-      "If given the opportunity, would you work with or rehire (candidate name)?",
-      "Is there anything else you believe we should know about (candidate name)?",
+      "If given the opportunity, would you work with or rehire (applicant name)?",
+      "Is there anything else you believe we should know about (applicant name)?",
     ],
   },
 ];
@@ -385,32 +385,46 @@ const ReferenceQuestion = () => {
 
   const handleSelectFormat = (formatName) => {
     setSelectedFormatName(formatName);
+    let questionsWithCategories = [];
+  
     if (formatName === "Standard Format") {
       setSelectedFormatDescription(QUESTIONS_DESCRIPTION.StandardFormat);
-      setSelectedFormatQuestions(
-        STANDARD_QUESTIONS_SETS.flatMap((set) => set.questions)
+      questionsWithCategories = STANDARD_QUESTIONS_SETS.flatMap((set) =>
+        set.questions.map((questionText) => ({
+          text: questionText,
+          category: set.category
+        }))
       );
     } else if (formatName === "Management Format") {
       setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ManagementFormat);
-      setSelectedFormatQuestions(
-        MANAGEMENT_QUESTIONS_SETS.flatMap((set) => set.questions)
+      questionsWithCategories = MANAGEMENT_QUESTIONS_SETS.flatMap((set) =>
+        set.questions.map((questionText) => ({
+          text: questionText,
+          category: set.category
+        }))
       );
     } else if (formatName === "Executive Format") {
       setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ExecutiveFormat);
-      setSelectedFormatQuestions(
-        EXECUTIVE_QUESTIONS_SET.flatMap((set) => set.questions)
+      questionsWithCategories = EXECUTIVE_QUESTIONS_SET.flatMap((set) =>
+        set.questions.map((questionText) => ({
+          text: questionText,
+          category: set.category
+        }))
       );
     }
+  
+    setSelectedFormatQuestions(questionsWithCategories);
     setIsHRHatchFormatPopupOpen(false);
-    setIsEditHRHatchModalOpen(true); // Open the edit modal after selecting the format
+    setIsEditHRHatchModalOpen(true);
   };
-
+  
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3 className="mb-0">Reference Question</h3>
+        <h3 className="mb-0">Reference Questionnaires</h3>
         <p className="mb-2">
-          Manage and customize your reference check question sets.
+          Build a fully custom reference questionnaire or tailor the HR-Hatch
+          standard format to suit your requirements.
         </p>
       </div>
       <div
@@ -514,7 +528,7 @@ const ReferenceQuestion = () => {
                   </p>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <div className="d-flex align-items-center search-candidates">
+                  <div className="d-flex align-items-center search-candidate">
                     <div className="search-wrapper position-relative">
                       <input
                         type="text"
@@ -546,7 +560,7 @@ const ReferenceQuestion = () => {
                       fill="white"
                     />
                   </svg>
-                  New Question Sets
+                  Create Your Own Questionnaire
                 </button>
                 {/* New Button for Editing HR-Hatch Formats */}
                 <button
@@ -714,8 +728,8 @@ const ReferenceQuestion = () => {
           reFetchUpdatedQuestions={reFetchUpdatedQuestions}
           existingSet={{
             name: selectedFormatName,
-            questions: selectedFormatQuestions,
             description: selectedFormatDescription,
+            questions: selectedFormatQuestions
           }}
         />
       )}

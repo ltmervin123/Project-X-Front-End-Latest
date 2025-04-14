@@ -49,7 +49,7 @@ const Sidebar = () => {
         className={({ isActive }) =>
           `sidebarnav ${isActive ? "active-link" : ""}`
         }
-        to="/AiReferenceCandidates"
+        to="/AiReferenceApplicant"
       >
         <svg
           width="19"
@@ -63,7 +63,7 @@ const Sidebar = () => {
             fill="#686868"
           />
         </svg>
-        Candidates
+        Applicant
       </NavLink>
 
       <NavLink

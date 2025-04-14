@@ -69,7 +69,7 @@ import OurParternersPage from "./page/OurPartnersPage.jsx";
 /*Ai Referee */
 import AiReferenceMainDashboardPage from "./page/AiReferencePage/AiReferenceMainDashboardPage.jsx";
 import AiReferenceJobsPage from "./page/AiReferencePage/AiReferenceJobsPage.jsx";
-import AiReferenceCandidatesPage from "./page/AiReferencePage/AiReferenceCandidatesPage.jsx";
+import AiReferenceApplicantPage from "./page/AiReferencePage/AiReferenceApplicantPage.jsx";
 import AiReferenceRequestPage from "./page/AiReferencePage/AiReferenceRequestPage.jsx";
 import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
@@ -218,8 +218,8 @@ function App() {
 
             <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
             <Route
-              path="/AiReferenceCandidates"
-              element={<AiReferenceCandidatesPage />}
+              path="/AiReferenceApplicant"
+              element={<AiReferenceApplicantPage />}
             />
             <Route
               path="/AiReferenceRequest"
