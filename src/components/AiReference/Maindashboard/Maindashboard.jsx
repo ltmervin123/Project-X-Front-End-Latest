@@ -3,10 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-// import default_avatar_img from "../../../assets/default.png";
 import AddJobComponent from "./Components/AddJobComponent";
-import AddCandidateComponent from "./Components/AddCandidateComponent";
-import AddRequestComponent from "./Components/AddRequestComponent";
 import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -98,10 +95,6 @@ const MainDashboard = () => {
   const id = USER?.id;
   const token = USER?.token;
   const [showJobForm, setShowJobForm] = useState(false);
-  const [showAddCandidate, setShowAddCandidate] = useState(false);
-  const [showAddReferenceRequest, setShowAddReferenceRequest] = useState(false);
-  const [addedJob, setAddedJob] = useState({});
-  const [addedCandidate, setAddedCandidate] = useState([]);
 
   // For fade in smooth animation
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
@@ -125,19 +118,8 @@ const MainDashboard = () => {
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
 
-  const handleShowAddCandidate = () => {
-    setShowAddCandidate(true);
-    setShowJobForm(false);
-  };
-
   const handleOpenJobForm = () => {
     setShowJobForm(true);
-  };
-  const handleShowAddReferenceRequest = (candidates) => {
-    setShowAddReferenceRequest(true);
-    setShowAddCandidate(false);
-    setShowJobForm(false);
-    setCandidates(candidates);
   };
 
   const [candidates, setCandidates] = useState(
@@ -814,38 +796,13 @@ const MainDashboard = () => {
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      {showAddCandidate ? (
-        <AddCandidateComponent
-          onProceed={handleShowAddReferenceRequest}
-          refetch={handleRefetchCandidates}
-          setAddedCandidate={setAddedCandidate}
-          addedJob={addedJob}
-          onCancel={() => {
-            setShowAddCandidate(false);
-            setShowJobForm(false);
-          }}
-        />
-      ) : showJobForm ? (
+      {showJobForm ? (
         <AddJobComponent
-          onProceed={handleShowAddCandidate}
-          refetch={handleRefetchJobs}
-          setAddedJob={setAddedJob}
           onCancel={() => {
             setShowJobForm(false);
           }}
         />
       ) : (
-        // ) : showAddReferenceRequest ? (
-        //   <AddRequestComponent
-        //     onReFetchReference={handleRefetchReference}
-        //     addedCandidate={addedCandidate}
-        //     addedJob={addedJob}
-        //     onCancel={() => {
-        //       setShowAddReferenceRequest(false);
-        //       setShowAddCandidate(false);
-        //       setShowJobForm(false);
-        //     }}
-        //   />
         <>
           <div>
             <h3 className="mb-0">Dashboard</h3>
