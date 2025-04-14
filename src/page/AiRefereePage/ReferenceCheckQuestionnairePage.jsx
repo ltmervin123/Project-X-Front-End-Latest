@@ -34,12 +34,66 @@ const CATEGORY_ORDER = {
   ],
 };
 
+const TRANSLATIONS = {
+  English: {
+    referenceCheckQuestionnaire: "Reference Check Questionnaire",
+    questionCategory: {
+      relationship: "Relationship",
+      jobResponsibilitiesAndPerformance: "Job Responsibilities and Performance",
+      skillAndCompetencies: "Skills and Competencies",
+      workEthicAndBehavior: "Work Ethic and Behavior",
+      leadershipAndManagementSkills: "Leadership and Management Skills",
+      strategicLeadershipAndVision: "Strategic Leadership and Vision",
+      businessImpactAndResults: "Business Impact and Results",
+      teamLeadershipAndOrganizationalDevelopment:
+        "Team Leadership and Organizational Development",
+      decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
+      innovationAndGrowth: "Innovation and Growth",
+      closingQuestions: "Closing Questions",
+    },
+    leavePageConfirmation: "Are you sure you want to leave this page?",
+    goBackConfirmation:
+      "Are you sure you want to go back? Your progress will be lost.",
+    reattemptingCamera: "Reattempting access to camera...",
+  },
+  Japanese: {
+    referenceCheckQuestionnaire: "リファレンスチェック質問票",
+    questionCategory: {
+      relationship: "Relationship",
+      jobResponsibilitiesAndPerformance: "Job Responsibilities and Performance",
+      skillAndCompetencies: "Skills and Competencies",
+      workEthicAndBehavior: "Work Ethic and Behavior",
+      leadershipAndManagementSkills: "Leadership and Management Skills",
+      strategicLeadershipAndVision: "Strategic Leadership and Vision",
+      businessImpactAndResults: "Business Impact and Results",
+      teamLeadershipAndOrganizationalDevelopment:
+        "Team Leadership and Organizational Development",
+      decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
+      innovationAndGrowth: "Innovation and Growth",
+      closingQuestions: "Closing Questions",
+    },
+    leavePageConfirmation: "このページから移動してもよろしいですか？",
+    goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
+    reattemptingCamera: "カメラへのアクセスを再試行しています...",
+  },
+};
+
+const CURRENT_STEP = 4;
+
+const STEPS = [
+  "Basic Information",
+  "Select Language",
+  "Choose Method",
+  "Questionnaire",
+  "Reference Completed",
+];
+
 const ReferenceCheckQuestionnairePage = () => {
+  // Constants
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const selectedMethod = sessionStorage.getItem("interview-method");
-
-  // Retrieve stored data
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const REFEREE = JSON.parse(sessionStorage.getItem("refereeData")) || {};
   const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
@@ -57,30 +111,12 @@ const ReferenceCheckQuestionnairePage = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reTry, setReTry] = useState(false);
+  const [currentQuestionCategory, setCurrentQuestionCategory] = useState(null);
 
   //Refs
   const audioRef = useRef(null);
   const streamRef = useRef(null);
 
-  const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      referenceCheckQuestionnaire: "Reference Check Questionnaire",
-      questionCategry: "Relationship",
-      leavePageConfirmation: "Are you sure you want to leave this page?",
-      goBackConfirmation:
-        "Are you sure you want to go back? Your progress will be lost.",
-      reattemptingCamera: "Reattempting access to camera...",
-    },
-    Japanese: {
-      referenceCheckQuestionnaire: "リファレンスチェック質問票",
-      questionCategry: "Relationship", // eh translate
-      leavePageConfirmation: "このページから移動してもよろしいですか？",
-      goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
-      reattemptingCamera: "カメラへのアクセスを再試行しています...",
-    },
-  };
   const formatReferenceQuestions = () => {
     if (
       referenceQuestions?.formatType !== "HR-HATCH-FORMAT" &&
@@ -135,30 +171,6 @@ const ReferenceCheckQuestionnairePage = () => {
         return [];
     }
   };
-
-  // const getQuestions = () => {
-  //   switch (referenceQuestions.formatType) {
-  //     case "HR-HATCH-FORMAT": {
-  //       const format = referenceQuestions.format;
-
-  //       const orderedCategories = CATEGORY_ORDER[format];
-  //       if (!orderedCategories) return [];
-
-  //       return orderedCategories.flatMap(
-  //         (category) =>
-  //           referenceQuestions.questions[category]?.map((q) =>
-  //             q.replace(/\$\{candidateName\}/g, candidateName)
-  //           ) || []
-  //       );
-  //     }
-  //     case "CUSTOM-FORMAT":
-  //       return Array.isArray(referenceQuestions.questions)
-  //         ? referenceQuestions.questions.flat()
-  //         : Object.values(referenceQuestions.questions || {}).flat();
-  //     default:
-  //       return [];
-  //   }
-  // };
 
   const getQuestions = () => {
     const replaceCandidateName = (q) =>
@@ -219,18 +231,26 @@ const ReferenceCheckQuestionnairePage = () => {
       const audioUrl = URL.createObjectURL(audioBlob);
       const audioElement = new Audio(audioUrl);
 
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
       audioRef.current = audioElement;
 
-      // Return a promise that resolves when the audio ends
-      return new Promise((resolve, reject) => {
-        audioElement.onended = () => {
+      return new Promise((resolve) => {
+        audioElement.onended = resolve;
+        audioElement.onerror = (e) => {
+          console.error("Audio playback error:", e);
           resolve();
         };
-        audioElement.onerror = reject;
-        audioElement.play().catch(reject);
+        audioElement.play().catch((err) => {
+          console.error("Audio play() rejection:", err);
+          resolve();
+        });
       });
     } catch (error) {
       console.error("Error fetching audio:", error);
+      return Promise.resolve();
     }
   };
 
@@ -263,7 +283,7 @@ const ReferenceCheckQuestionnairePage = () => {
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
-      event.returnValue = translations[language].leavePageConfirmation;
+      event.returnValue = TRANSLATIONS[language].leavePageConfirmation;
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
@@ -274,7 +294,7 @@ const ReferenceCheckQuestionnairePage = () => {
     const handleBackButton = (event) => {
       event.preventDefault();
       const userConfirmed = window.confirm(
-        translations[language].goBackConfirmation
+        TRANSLATIONS[language].goBackConfirmation
       );
       if (!userConfirmed) {
         window.history.pushState(null, "", window.location.pathname);
@@ -310,11 +330,19 @@ const ReferenceCheckQuestionnairePage = () => {
     const speakQuestion = async () => {
       if (questions.length > 0) {
         setIsSpeaking(true);
-        await speak(questions[currentQuestionIndex]);
-        setIsSpeaking(false);
+        try {
+          await speak(questions[currentQuestionIndex]);
+        } catch (error) {
+          console.error("Error speaking question:", error);
+        } finally {
+          setIsSpeaking(false);
+        }
       }
     };
-
+    const currentQuestionCategory = getQuestionCategory();
+    setCurrentQuestionCategory(
+      TRANSLATIONS[language].questionCategory[currentQuestionCategory]
+    );
     speakQuestion();
   }, [questions, currentQuestionIndex]);
 
@@ -377,6 +405,17 @@ const ReferenceCheckQuestionnairePage = () => {
     );
   };
 
+  const getQuestionCategory = () => {
+    //Current question
+    const currentQuestion = questions[currentQuestionIndex];
+
+    //Reference Question data
+    const currentQuestionCategory = referenceQuestionsData.find((category) =>
+      category.questions.includes(currentQuestion)
+    );
+    return currentQuestionCategory ? currentQuestionCategory.category : null;
+  };
+
   // Fetch normalized answer from API
   const handleNormalizedAnswers = async (answer) => {
     try {
@@ -436,7 +475,7 @@ const ReferenceCheckQuestionnairePage = () => {
             src={loadingAnimation}
             alt="loading..."
           />
-          <p>{translations[language].reattemptingCamera}</p>
+          <p>{TRANSLATIONS[language].reattemptingCamera}</p>
         </div>
       </div>
     );
@@ -446,41 +485,38 @@ const ReferenceCheckQuestionnairePage = () => {
     return <ErrorAccessMic onRetry={initializeMicPermission} />;
   }
 
-  const currentStep = 4; // Set the current step (1 for Basic Information)
-
-  const steps = [
-    "Basic Information",
-    "Select Language",
-    "Choose Method",
-    "Questionnaire",
-    "Reference Completed",
-  ];
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
-             <div className="reference-progress-indicator">
-      {steps.map((step, index) => (
-        <div key={index} className="reference-step-container">
-          <div
-            className={`step ${currentStep >= index + 1 ? "active" : ""}`} // Change here
-          >
-            <div className="bullet">{index + 1}</div>
-            {index < steps.length - 1 && <div className="line" />}{" "}
-            {/* Line between steps */}
+      <div className="reference-progress-indicator">
+        {STEPS.map((step, index) => (
+          <div key={index} className="reference-step-container">
+            <div
+              className={`step ${CURRENT_STEP >= index + 1 ? "active" : ""}`} // Change here
+            >
+              <div className="bullet">{index + 1}</div>
+              {index < STEPS.length - 1 && <div className="line" />}{" "}
+            </div>
+            <div className="step-label">{step}</div>
           </div>
-          <div className="step-label">{step}</div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
       <h2 className="referencecheckquestiontitle text-left mb-2">
-        {translations[language].referenceCheckQuestionnaire}
+        {TRANSLATIONS[language].referenceCheckQuestionnaire}
       </h2>
 
       <div className="referencecheckquestion-container mb-5">
         <div className="question-container">
           <p className="question-title w-100 d-flex justify-content-between">
-            {/* diri nka butang is angg question category  */}
-            {translations[language].questionCategry}
-              <span> <span className="color-orange"> {currentQuestionIndex + 1}</span> / {questions.length}</span>
+            {currentQuestionCategory}
+
+            <span>
+              {" "}
+              <span className="color-orange">
+                {" "}
+                {currentQuestionIndex + 1}
+              </span>{" "}
+              / {questions.length}
+            </span>
           </p>
           <p>{questions[currentQuestionIndex]}</p>
         </div>
