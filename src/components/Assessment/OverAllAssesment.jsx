@@ -46,10 +46,14 @@ const CHECK_BOX_OPTION = [
   },
 ];
 
-function OverAllAssesment() {
+function OverAllAssesment({ category, handleSubmitRating }) {
   const [selectedValue, setSelectedValue] = useState("");
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    handleSubmitRating(selectedValue);
   };
 
   return (
@@ -58,7 +62,7 @@ function OverAllAssesment() {
         <div className="top-display w-100"></div>
         <Form className="job-performance-assessment-form">
           <div className="form-header">
-            <h5 className="mb-0">Job Performance Assessment</h5>
+            <h5 className="mb-0">{category}</h5>
             <p className="mb-0">
               How would you rate this candidate based on their overall
               performance?
@@ -113,8 +117,9 @@ function OverAllAssesment() {
             </FormControl>
             <div className="assessment-form-btn-container">
               <button
-                // type='submit'
+                type="button"
                 className="assessment-form-btn-submit"
+                onClick={handleSubmit}
               >
                 Submit
               </button>
