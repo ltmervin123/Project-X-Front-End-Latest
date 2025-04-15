@@ -136,16 +136,20 @@ const AddJobComponent = ({ onCancel }) => {
         },
       };
 
-      //Create a job
+      // //Create a job
       const createdJob = await addJob(payload);
 
       //Create candidate
       await handleAddCandidate(createdJob?.createdJob);
 
       // Store candidate emails before navigation
-      const candidateEmails = candidates.map(c => c.email).join(',');
-      localStorage.setItem('candidateEmails', candidateEmails);
-      
+      const candidateEmails = candidates.map((c) => c.email);
+
+      sessionStorage.setItem(
+        "candidateEmails",
+        JSON.stringify(candidateEmails)
+      );
+
       navigate("/candidate-request-sent");
     } catch (error) {
       console.error(error);

@@ -1,25 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CandidateRequestEmailSection = () => {
   const navigate = useNavigate();
-  const [emails, setEmails] = useState("");
-
-  const emailList = emails.split(",");
-  const emailMessage =
-    emailList.length > 1
-      ? `We've successfully sent the emails to the listed applicant to input their reference requests.
-`
-      : `We have sent an email to ${emails} to input their reference request.`;
-
-  useEffect(() => {
-    const storedEmails = localStorage.getItem("candidateEmails") || "";
-    setEmails(storedEmails);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("candidateEmails", emails);
-  }, [emails]);
+  const [emails, setEmails] = useState(
+    JSON.parse(sessionStorage.getItem("candidateEmails")) || []
+  );
 
   return (
     <div className="row main-login justify-content-center position-relative">
@@ -41,7 +27,17 @@ const CandidateRequestEmailSection = () => {
 
             <h2 className="fs-4">Email Sent</h2>
           </div>
-          <p className="w-100">{emailMessage}</p>
+          {emails.length === 1 ? (
+            <p className="w-100">
+              We have sent an email to <strong>{emails[0]}</strong> to input
+              their reference request.
+            </p>
+          ) : (
+            <p className="w-100">
+              We've successfully sent the emails to the listed applicant to
+              input their reference requests.
+            </p>
+          )}
 
           <p className="w-100">
             Not working? Contact{" "}
