@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/AiRefereeStyles/ReferenceCheckInstructionsPage.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const instructionData = [
+const INSTRUCTION_DATA = [
   {
     title: {
       English: "Step 1",
@@ -53,7 +53,7 @@ const instructionData = [
   },
 ];
 // Add button translations
-const buttonTranslations = {
+const BUTTON_TRANSLATIONS = {
   StartNow: {
     English: "Start Now",
     Japanese: "今すぐ始める",
@@ -65,34 +65,30 @@ const buttonTranslations = {
 };
 
 function ReferenceCheckInstructionsPage() {
-  const location = useLocation();
-  const selectedMethod = sessionStorage.getItem("interview-method");
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
-  const language = sessionStorage.getItem("preferred-language") || "English"; // Get the selected language
-  console.log(selectedMethod); // Log the selected method
-  // Handle the next step progression
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
   const handleNextStep = () => {
-    if (currentStep < instructionData.length) {
+    if (currentStep < INSTRUCTION_DATA.length) {
       setCurrentStep((preStep) => preStep + 1);
     }
   };
 
-  // Handle the "Start Now" action and navigate to the next page
   const handleStartNow = () => {
-    navigate("/reference-notification", {
-      state: { selectedMethod: selectedMethod },
-    });
+    navigate("/reference-notification");
   };
 
   return (
     <div className="container-fluid main-container login-page-container d-flex align-items-center justify-content-center flex-column position-relative">
       <div className="ReferenceCheckInstructions-container">
         <h2 className="mb-3">
-          {language === "Japanese" ? "参照チェックの指示" : "Reference Check Instructions"}
+          {language === "Japanese"
+            ? "参照チェックの指示"
+            : "Reference Check Instructions"}
         </h2>
         <div className="d-flex justify-content-center align-items-start w-100 gap-4 h-100 flex-wrap">
-          {instructionData.map((step, index) => (
+          {INSTRUCTION_DATA.map((step, index) => (
             <div
               key={index}
               className={`instruction-card ${
@@ -114,7 +110,9 @@ function ReferenceCheckInstructionsPage() {
               </svg>
 
               <div className="position-relative">
-                <div className="overlay-label-step">{step.overlayLabel[language]}</div>
+                <div className="overlay-label-step">
+                  {step.overlayLabel[language]}
+                </div>
                 <p>{step.description[language]}</p>
               </div>
             </div>
@@ -126,16 +124,15 @@ function ReferenceCheckInstructionsPage() {
           <button
             className="next-step-button mx-5"
             onClick={
-              currentStep === instructionData.length
+              currentStep === INSTRUCTION_DATA.length
                 ? handleStartNow
                 : handleNextStep
             }
           >
-            {currentStep === instructionData.length ? 
-              buttonTranslations.StartNow[language] : 
-              buttonTranslations.NextStep[language]}
+            {currentStep === INSTRUCTION_DATA.length
+              ? BUTTON_TRANSLATIONS.StartNow[language]
+              : BUTTON_TRANSLATIONS.NextStep[language]}
           </button>
-
         </div>
       </div>
     </div>
