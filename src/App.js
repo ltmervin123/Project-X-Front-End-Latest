@@ -76,8 +76,6 @@ import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPag
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
 import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 
-import AssessmentPage from "./page/AiRefereePage/AssessmentPage.jsx";
-
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
 
@@ -312,8 +310,6 @@ function App() {
             path="/reference-completed"
             element={<ReferenceVerification />}
           />
-
-          <Route path="/reference-assessment" element={<AssessmentPage />} />
         </Route>
 
         {/* reference expired link */}

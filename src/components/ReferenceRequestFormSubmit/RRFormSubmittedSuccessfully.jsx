@@ -22,7 +22,7 @@ const RRFormSubmittedSuccessfully = () => {
 
           <button
             className="btn-activate-now"
-            onClick={() => (window.location.href = "/")}
+            onClick={() => (window.location.href = "/AiReferenceRequest")}
           >
             Exit
           </button>
