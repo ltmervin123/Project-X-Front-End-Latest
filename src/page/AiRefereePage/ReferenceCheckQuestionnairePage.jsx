@@ -100,12 +100,15 @@ const TRANSLATIONS = {
   },
 };
 
+const CURRENT_STEP = 4;
+
 const ReferenceCheckQuestionnairePage = () => {
   // Constants
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const selectedMethod = sessionStorage.getItem("interview-method");
   const language = sessionStorage.getItem("preferred-language") || "English";
+  const STEPS = TRANSLATIONS[language].steps;
   const REFEREE = JSON.parse(sessionStorage.getItem("refereeData")) || {};
   const candidateName = REFEREE?.candidateName || "N/A";
   const referenceQuestions =
@@ -494,16 +497,19 @@ const ReferenceCheckQuestionnairePage = () => {
     setReTry(false);
     setCurrentAnswer("");
     setIsSubmitting(false);
-    
+
     const { current, total } = getCurrentCategoryQuestionInfo();
     const currentCategory = getQuestionCategory();
 
     // If we're at the end of a category
     if (current === total) {
       // For relationship and closingQuestions, just move to next question
-      if (currentCategory === "relationship" || currentCategory === "closingQuestions") {
+      if (
+        currentCategory === "relationship" ||
+        currentCategory === "closingQuestions"
+      ) {
         if (currentQuestionIndex < questions.length - 1) {
-          setCurrentQuestionIndex(prev => prev + 1);
+          setCurrentQuestionIndex((prev) => prev + 1);
         }
       } else {
         // For other categories, show assessment
@@ -513,7 +519,7 @@ const ReferenceCheckQuestionnairePage = () => {
     } else {
       // If not at the end of category, just move to next question
       if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(prev => prev + 1);
+        setCurrentQuestionIndex((prev) => prev + 1);
       }
     }
   };
@@ -553,13 +559,16 @@ const ReferenceCheckQuestionnairePage = () => {
   const handleAssessmentSubmit = () => {
     setIsAssessmentSubmitted(true);
     setHideQuestionSection(false);
-    // Move to next question after assessment is submitted
-    setCurrentQuestionIndex(prev => prev + 1);
+
+    setCurrentQuestionIndex((prev) => prev + 1);
   };
 
   const shouldShowAssessment = () => {
     const currentCategory = getQuestionCategory();
-    return currentCategory !== "relationship" && currentCategory !== "closingQuestions";
+    return (
+      currentCategory !== "relationship" &&
+      currentCategory !== "closingQuestions"
+    );
   };
 
   if (isReattemptingCamera) {
@@ -582,9 +591,6 @@ const ReferenceCheckQuestionnairePage = () => {
   if (micError) {
     return <ErrorAccessMic onRetry={initializeMicPermission} />;
   }
-  const CURRENT_STEP = 4;
-
-  const STEPS = TRANSLATIONS[language].steps;
 
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -603,14 +609,15 @@ const ReferenceCheckQuestionnairePage = () => {
       </div>
 
       {hideQuestionSection && shouldShowAssessment() ? (
-        <OverAllAssesment 
-        onSubmit={handleAssessmentSubmit} 
-        category={currentQuestionCategory}
-      />      ) : (
+        <OverAllAssesment
+          onSubmit={handleAssessmentSubmit}
+          category={currentQuestionCategory}
+        />
+      ) : (
         <>
           <h2
             className="referencecheckquestiontitle text-left mb-2"
-            style={{ display: hideQuestionSection  ? "none" : "block" }}
+            style={{ display: hideQuestionSection ? "none" : "block" }}
           >
             {TRANSLATIONS[language].referenceCheckQuestionnaire}
           </h2>

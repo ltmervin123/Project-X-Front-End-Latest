@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AiRefereeStyles/ChooseYourReferenceMethodPage.css";
 
-const TRANSLATION = {
+const TRANSLATIONS = {
   English: {
     title: "Choose Your ",
     coloredTitle: "Reference Method",
@@ -37,7 +37,7 @@ const CURRENT_STEP = 3;
 function ChooseYourReferenceMethodPage() {
   const navigate = useNavigate();
   const language = sessionStorage.getItem("preferred-language") || "English";
-  const steps = TRANSLATION[language].steps;
+  const steps = TRANSLATIONS[language].steps;
 
   const handleSelection = (method) => {
     sessionStorage.setItem("interview-method", method);
@@ -61,13 +61,13 @@ function ChooseYourReferenceMethodPage() {
       </div>
       <div className="chooseyourinterviewmethod-container d-flex align-items-center justify-content-center flex-column">
         <h3>
-          {TRANSLATION[language].title}
+          {TRANSLATIONS[language].title}
           <span className="color-orange">
             {" "}
-            {TRANSLATION[language].coloredTitle}{" "}
+            {TRANSLATIONS[language].coloredTitle}{" "}
           </span>
         </h3>
-        <p>{TRANSLATION[language].description}</p>
+        <p>{TRANSLATIONS[language].description}</p>
 
         <div className="row d-flex justify-content-center align-items-center">
           <div className="col-12 col-md-5 mb-4">
@@ -88,8 +88,8 @@ function ChooseYourReferenceMethodPage() {
                   </svg>
                 </div>
                 <div className="card-text ml-3">
-                  <h5>{TRANSLATION[language].voiceResponse}</h5>
-                  <p>{TRANSLATION[language].voiceDescription}</p>
+                  <h5>{TRANSLATIONS[language].voiceResponse}</h5>
+                  <p>{TRANSLATIONS[language].voiceDescription}</p>
                 </div>
               </div>
             </div>
@@ -113,8 +113,8 @@ function ChooseYourReferenceMethodPage() {
                   </svg>
                 </div>
                 <div className="card-text ml-3">
-                  <h5>{TRANSLATION[language].textResponse}</h5>
-                  <p>{TRANSLATION[language].textDescription}</p>
+                  <h5>{TRANSLATIONS[language].textResponse}</h5>
+                  <p>{TRANSLATIONS[language].textDescription}</p>
                 </div>
               </div>
             </div>
