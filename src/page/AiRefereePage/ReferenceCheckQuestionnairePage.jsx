@@ -178,7 +178,7 @@ const ReferenceCheckQuestionnairePage = () => {
               ),
               answers: Array(qs.length).fill(""),
               normalizedAnswers: Array(qs.length).fill(""),
-              assessmentRating: Array(qs.length).fill("Not Available"),
+              assessmentRating: null,
             };
           })
           .filter(Boolean);
@@ -556,10 +556,25 @@ const ReferenceCheckQuestionnairePage = () => {
     };
   };
 
-  const handleAssessmentSubmit = () => {
+  const handleAssessmentSubmit = (rating) => {
+    setAssessmentRating(rating);
+
+    const currentQuestion = questions[currentQuestionIndex];
+
+    setReferenceQuestionsData((prevData) =>
+      prevData.map((categoryItem) => {
+        const questionIndex = categoryItem.questions.indexOf(currentQuestion);
+        if (questionIndex !== -1) {
+          return {
+            ...categoryItem,
+            assessmentRating: rating,
+          };
+        }
+        return { ...categoryItem };
+      })
+    );
     setIsAssessmentSubmitted(true);
     setHideQuestionSection(false);
-
     setCurrentQuestionIndex((prev) => prev + 1);
   };
 

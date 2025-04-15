@@ -5,8 +5,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Form } from "react-bootstrap";
+import "../../styles/AiRefereeStyles/AssessmentPage.css";
 
-const TRANSLATIONS = {
+const CHECKBOX_OPTION_LABEL = {
   English: {
     assessment: {
       title: "Assessment",
@@ -69,13 +70,6 @@ const TRANSLATIONS = {
   },
 };
 
-const formatCategories = (category) => {
-  return category
-    .split(/(?=[A-Z])/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
-};
-
 const getOverallAssessmentText = (category) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
   const translations = {
@@ -112,19 +106,23 @@ const getOverallAssessmentText = (category) => {
 
   return (
     translations[language][category] ||
-    `${language === "Japanese" ? "総合" : "Overall"} ${formatCategories(
-      category
-    )} ${language === "Japanese" ? "評価" : "Assessment"}`
+    `${language === "Japanese" ? "総合" : "Overall"} ${category} ${
+      language === "Japanese" ? "評価" : "Assessment"
+    }`
   );
 };
 
 function OverAllAssesment({ onSubmit, category }) {
   const [selectedValue, setSelectedValue] = useState("");
   const language = sessionStorage.getItem("preferred-language") || "English";
-  const t = TRANSLATIONS[language].assessment;
+  const t = CHECKBOX_OPTION_LABEL[language].assessment;
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    onSubmit(selectedValue);
   };
 
   const checkboxSelection = [
@@ -166,71 +164,76 @@ function OverAllAssesment({ onSubmit, category }) {
   ];
 
   return (
-    <div className="job-performance-assessment-content">
-      <div className="top-display w-100"></div>
-      <Form className="job-performance-assessment-form">
-        <div className="form-header">
-          <h5 className="mb-0">{getOverallAssessmentText(category)} </h5>
-          <p className="mb-0">
-            {" "}
-            {t.question} {category}?
-          </p>
-        </div>
-        <div className="job-performance-assessment-form-inputs">
-          <FormControl component="fieldset" className="assessment-form-control">
-            <RadioGroup
-              aria-label="performance"
-              name="performance"
-              value={selectedValue}
-              onChange={handleChange}
-              className="assessment-form-radio-group-container"
-            >
-              {Array.from(checkboxSelection).map((current, index) => (
-                <FormControlLabel
-                  key={index}
-                  value={current.nameId}
-                  control={
-                    <Radio
-                      sx={{
-                        color: "#333",
-                        "&.Mui-checked": {
-                          color: current.checkboxColor,
-                        },
-                      }}
-                    />
-                  }
-                  className="assessment-form-group"
-                  style={{
-                    border:
-                      selectedValue === current.nameId
-                        ? `1px solid ${current.borderColor}`
-                        : "1px solid black",
-                  }}
-                  label={
-                    <>
-                      <span className="assessment-form-label">
-                        {current.label}
-                      </span>
-                      <div className="assessment-form-label-discription">
-                        {current.labelDiscription}
-                      </div>
-                    </>
-                  }
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-          <div className="assessment-form-btn-container">
-            <button
-              className="assessment-form-btn-submit"
-              onClick={onSubmit}
-              disabled={!selectedValue}
-            >
-              {t.submit}
-            </button>
+    <div className="assessment-form-container">
+      <div className="job-performance-assessment-content">
+        <div className="top-display w-100"></div>
+        <Form className="job-performance-assessment-form">
+          <div className="form-header">
+            <h5 className="mb-0">{getOverallAssessmentText(category)} </h5>
+            <p className="mb-0">
+              {" "}
+              {t.question} {category}?
+            </p>
           </div>
-        </div>
-      </Form>
+          <div className="job-performance-assessment-form-inputs">
+            <FormControl
+              component="fieldset"
+              className="assessment-form-control"
+            >
+              <RadioGroup
+                aria-label="performance"
+                name="performance"
+                value={selectedValue}
+                onChange={handleChange}
+                className="assessment-form-radio-group-container"
+              >
+                {Array.from(checkboxSelection).map((current, index) => (
+                  <FormControlLabel
+                    key={index}
+                    value={current.label}
+                    control={
+                      <Radio
+                        sx={{
+                          color: "#333",
+                          "&.Mui-checked": {
+                            color: current.checkboxColor,
+                          },
+                        }}
+                      />
+                    }
+                    className="assessment-form-group"
+                    style={{
+                      border:
+                        selectedValue === current.nameId
+                          ? `1px solid ${current.borderColor}`
+                          : "1px solid black",
+                    }}
+                    label={
+                      <>
+                        <span className="assessment-form-label">
+                          {current.label}
+                        </span>
+                        <div className="assessment-form-label-discription">
+                          {current.labelDiscription}
+                        </div>
+                      </>
+                    }
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+            <div className="assessment-form-btn-container">
+              <button
+                className="assessment-form-btn-submit"
+                onClick={handleSubmit}
+                disabled={!selectedValue}
+              >
+                {t.submit}
+              </button>
+            </div>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 }
