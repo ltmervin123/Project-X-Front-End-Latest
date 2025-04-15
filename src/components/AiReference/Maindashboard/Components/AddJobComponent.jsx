@@ -142,6 +142,10 @@ const AddJobComponent = ({ onCancel }) => {
       //Create candidate
       await handleAddCandidate(createdJob?.createdJob);
 
+      // Store candidate emails before navigation
+      const candidateEmails = candidates.map(c => c.email).join(',');
+      localStorage.setItem('candidateEmails', candidateEmails);
+      
       navigate("/candidate-request-sent");
     } catch (error) {
       console.error(error);
@@ -585,7 +589,7 @@ const AddJobComponent = ({ onCancel }) => {
           ))}
         </Form>
       </div>
-      <div className="d-flex justify-content-center gap-3 mt-3 job-btn-container">
+      <div className="d-flex justify-content-center gap-3 my-3 job-btn-container">
         <button
           className="btn-cancel-ref-req"
           type="button"

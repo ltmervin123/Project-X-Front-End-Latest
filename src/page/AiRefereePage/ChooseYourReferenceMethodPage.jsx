@@ -16,6 +16,13 @@ function ChooseYourReferenceMethodPage() {
       voiceDescription: "Answer questions through voice",
       textResponse: "Text-based Response",
       textDescription: "Answer question through text",
+      steps: [
+        "Basic Information",
+        "Select Language",
+        "Choose Method",
+        "Questionnaire",
+        "Reference Completed",
+      ],
     },
     Japanese: {
       title: "参照方法を選択してください",
@@ -25,6 +32,13 @@ function ChooseYourReferenceMethodPage() {
       voiceDescription: "音声で質問に答える",
       textResponse: "テキストベースの応答",
       textDescription: "テキストで質問に答える",
+      steps: [
+        "基本情報",
+        "言語選択",
+        "方法選択",
+        "アンケート",
+        "参照完了",
+      ],
     },
   };
 
@@ -35,13 +49,7 @@ function ChooseYourReferenceMethodPage() {
 
   const currentStep = 3; // Set the current step (1 for Basic Information)
 
-  const steps = [
-    "Basic Information",
-    "Select Language",
-    "Choose Method",
-    "Questionnaire",
-    "Reference Completed",
-  ];
+  const steps = translations[language].steps;
 
   return (
     <div className="container-fluid main-container login-page-container flex-column d-flex align-items-center justify-content-center">

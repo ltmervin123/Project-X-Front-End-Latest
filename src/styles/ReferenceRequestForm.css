@@ -1,4 +1,11 @@
-
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --font-black: #000;
+    --card-color: #686868;
+    --btn-color: #b9b9b9;
+  }
 .reference-request-form-content {
     width: 70%;
     max-width: 730px;
@@ -134,12 +141,15 @@
     width: 180px;
     border-radius: 20px;
     color: var(--font-white);
+    border: none;
+}
+.reference-request-referee-btn:disabled,
+.cancel-reference-request-referee-btn:disabled{
+    background: var(--btn-color);
 }
 .cancel-reference-request-referee-btn {
-    border: 1px solid var(--secondary-color);
     background-color: var(--secondary-color);
 }
 .send-reference-request-referee-btn {
-    border: 1px solid var(--primary-color);
     background-color: var(--primary-color);
 }

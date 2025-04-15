@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 const CandidateRequestEmailSection = () => {
   const navigate = useNavigate();
+  const [emails, setEmails] = useState("");
+
+  const emailList = emails.split(",");
+  const emailMessage =
+    emailList.length > 1
+      ? `We've successfully sent the emails to the listed applicant to input their reference requests.
+`
+      : `We have sent an email to ${emails} to input their reference request.`;
+
+  useEffect(() => {
+    const storedEmails = localStorage.getItem("candidateEmails") || "";
+    setEmails(storedEmails);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("candidateEmails", emails);
+  }, [emails]);
+
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
@@ -22,14 +41,9 @@ const CandidateRequestEmailSection = () => {
 
             <h2 className="fs-4">Email Sent</h2>
           </div>
-
-          <p>
-            We've successfully sent emails to the listed candidates with
-            instructions to input their reference requests.
-          </p>
+          <p className="w-100">{emailMessage}</p>
 
           <p className="w-100">
-            {" "}
             Not working? Contact{" "}
             <strong className="color-blue">customersupport@hr-hatch.com</strong>
             .
@@ -43,4 +57,4 @@ const CandidateRequestEmailSection = () => {
   );
 };
 
-export default CandidateRequestEmailSection;  
+export default CandidateRequestEmailSection;

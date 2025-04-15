@@ -117,7 +117,7 @@ function ReferenceRequestForm() {
                   htmlFor="candidate"
                   className="reference-request-form-label mb-1 "
                 >
-                  Candidate
+                  Applicant
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -208,17 +208,7 @@ function ReferenceRequestForm() {
               ))}
             </div>
             <div className="mb-0 d-flex flex-row justify-content-center btn-container">
-              <button
-                className="cancel-reference-request-referee-btn reference-request-referee-btn"
-                onClick={() => {
-                  sessionStorage.removeItem("candidateData");
-                  sessionStorage.removeItem("candidateToken");
-                  navigate("/");
-                }}
-                disabled={isLoading}
-              >
-                Cancel
-              </button>
+
               <button
                 className="send-reference-request-referee-btn reference-request-referee-btn"
                 disabled={isLoading || isRefereeFieldMissing}

@@ -15,6 +15,7 @@ const AudioBase = ({
   isLastQuestion,
   handleProceed,
   nextQuestion,
+  hideQuestionSection,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
@@ -200,6 +201,7 @@ const AudioBase = ({
 
   return (
     <div className="transcription-answer-container">
+      style={{ display: hideQuestionSection ? "none" : "block" }}
       <h4>{translations[language].transcription}</h4>
       <textarea
         value={answer}

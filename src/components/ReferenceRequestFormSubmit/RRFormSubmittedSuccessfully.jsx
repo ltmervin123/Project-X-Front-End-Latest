@@ -13,7 +13,7 @@ const RRFormSubmittedSuccessfully = () => {
             </svg>
 
 
-            <h2 className="fs-4">Request Submitted Successfully</h2>
+            <h2 className="fs-4 mt-4">Request Submitted Successfully</h2>
           </div>
 
           <p style={{width: "100%"}}>

@@ -238,11 +238,6 @@ function App() {
               path="/AiReferenceTrashbin"
               element={<AiReferenceTrashBinPage />}
             />
-            {/* ReferenceRequestEmailSentPage*/}
-            <Route
-              path="/reference-request-sent"
-              element={<ReferenceRequestEmailSentPage />}
-            />
           </Route>
           {/* InputReferenceRequestEmailSentPage*/}
           <Route
@@ -252,9 +247,16 @@ function App() {
         </Route>
 
         {/* ReferenceRequestFormPage*/}
+        {/* eh change ni na route into candidate*/}
+
         <Route
           path="/candidate/:token"
           element={<ReferenceRequestFormPage />}
+        />
+        {/* ReferenceRequestEmailSentPage*/}
+        <Route
+          path="/reference-request-sent"
+          element={<ReferenceRequestEmailSentPage />}
         />
 
         {/* AiReferenceCheckVerificationPage*/}

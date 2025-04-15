@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import ErrorAccessMic from "../../components/Error/ErrorAccessMic";
 import TextBase from "../../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../../components/ReferenceCheckQuestionnaire/AudioBase";
+import OverAllAssesment from "../../components/Assessment/OverAllAssesment";
 import loadingAnimation from "../../assets/loading.gif";
 import axios from "axios";
 
@@ -55,38 +56,36 @@ const TRANSLATIONS = {
     goBackConfirmation:
       "Are you sure you want to go back? Your progress will be lost.",
     reattemptingCamera: "Reattempting access to camera...",
+    steps: [
+      "Basic Information",
+      "Select Language",
+      "Choose Method",
+      "Questionnaire",
+      "Reference Completed",
+    ],
   },
   Japanese: {
     referenceCheckQuestionnaire: "リファレンスチェック質問票",
     questionCategory: {
-      relationship: "Relationship",
-      jobResponsibilitiesAndPerformance: "Job Responsibilities and Performance",
-      skillAndCompetencies: "Skills and Competencies",
-      workEthicAndBehavior: "Work Ethic and Behavior",
-      leadershipAndManagementSkills: "Leadership and Management Skills",
-      strategicLeadershipAndVision: "Strategic Leadership and Vision",
-      businessImpactAndResults: "Business Impact and Results",
+      relationship: "関係性",
+      jobResponsibilitiesAndPerformance: "職務責任と実績",
+      skillAndCompetencies: "スキルと能力",
+      workEthicAndBehavior: "職業倫理と行動",
+      leadershipAndManagementSkills: "リーダーシップとマネジメントスキル",
+      strategicLeadershipAndVision: "戦略的リーダーシップとビジョン",
+      businessImpactAndResults: "ビジネスへの影響と成果",
       teamLeadershipAndOrganizationalDevelopment:
-        "Team Leadership and Organizational Development",
-      decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
-      innovationAndGrowth: "Innovation and Growth",
-      closingQuestions: "Closing Questions",
+        "チームリーダーシップと組織開発",
+      decisionMakingAndProblemSolving: "意思決定と問題解決",
+      innovationAndGrowth: "イノベーションと成長",
+      closingQuestions: "最終質問",
     },
     leavePageConfirmation: "このページから移動してもよろしいですか？",
     goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
     reattemptingCamera: "カメラへのアクセスを再試行しています...",
+    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
   },
 };
-
-const CURRENT_STEP = 4;
-
-const STEPS = [
-  "Basic Information",
-  "Select Language",
-  "Choose Method",
-  "Questionnaire",
-  "Reference Completed",
-];
 
 const ReferenceCheckQuestionnairePage = () => {
   // Constants
@@ -112,6 +111,8 @@ const ReferenceCheckQuestionnairePage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reTry, setReTry] = useState(false);
   const [currentQuestionCategory, setCurrentQuestionCategory] = useState(null);
+  const [hideQuestionSection, setHideQuestionSection] = useState(false);
+  const [isAssessmentSubmitted, setIsAssessmentSubmitted] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
@@ -436,15 +437,33 @@ const ReferenceCheckQuestionnairePage = () => {
       setLoading(false);
     }
   };
+
   const nextQuestion = () => {
     setReTry(false);
     setCurrentAnswer("");
     setIsSubmitting(false);
+    
+    const { current, total } = getCurrentCategoryQuestionInfo();
+    const currentCategory = getQuestionCategory();
 
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+    // If we're at the end of a category
+    if (current === total) {
+      // For relationship and closingQuestions, just move to next question
+      if (currentCategory === "relationship" || currentCategory === "closingQuestions") {
+        if (currentQuestionIndex < questions.length - 1) {
+          setCurrentQuestionIndex(prev => prev + 1);
+        }
+      } else {
+        // For other categories, show assessment
+        setHideQuestionSection(true);
+        setIsAssessmentSubmitted(false);
+      }
+    } else {
+      // If not at the end of category, just move to next question
+      if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(prev => prev + 1);
+      }
     }
-    // Don't increment if it's the last question
   };
 
   const setTextBaseAnswer = (answer) => {
@@ -462,6 +481,33 @@ const ReferenceCheckQuestionnairePage = () => {
       updatedAnswers[currentQuestionIndex] = "";
       return updatedAnswers;
     });
+  };
+
+  const getCurrentCategoryQuestionInfo = () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const categoryData = referenceQuestionsData.find((category) =>
+      category.questions.includes(currentQuestion)
+    );
+
+    if (!categoryData) return { current: 0, total: 0 };
+
+    const questionIndex = categoryData.questions.indexOf(currentQuestion);
+    return {
+      current: questionIndex + 1,
+      total: categoryData.questions.length,
+    };
+  };
+
+  const handleAssessmentSubmit = () => {
+    setIsAssessmentSubmitted(true);
+    setHideQuestionSection(false);
+    // Move to next question after assessment is submitted
+    setCurrentQuestionIndex(prev => prev + 1);
+  };
+
+  const shouldShowAssessment = () => {
+    const currentCategory = getQuestionCategory();
+    return currentCategory !== "relationship" && currentCategory !== "closingQuestions";
   };
 
   if (isReattemptingCamera) {
@@ -484,6 +530,9 @@ const ReferenceCheckQuestionnairePage = () => {
   if (micError) {
     return <ErrorAccessMic onRetry={initializeMicPermission} />;
   }
+  const CURRENT_STEP = 4;
+
+  const STEPS = TRANSLATIONS[language].steps;
 
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -500,27 +549,42 @@ const ReferenceCheckQuestionnairePage = () => {
           </div>
         ))}
       </div>
-      <h2 className="referencecheckquestiontitle text-left mb-2">
-        {TRANSLATIONS[language].referenceCheckQuestionnaire}
-      </h2>
 
-      <div className="referencecheckquestion-container mb-5">
-        <div className="question-container">
-          <p className="question-title w-100 d-flex justify-content-between">
-            {currentQuestionCategory}
+      {hideQuestionSection && shouldShowAssessment() ? (
+        <OverAllAssesment 
+        onSubmit={handleAssessmentSubmit} 
+        category={currentQuestionCategory}
+      />      ) : (
+        <>
+          <h2
+            className="referencecheckquestiontitle text-left mb-2"
+            style={{ display: hideQuestionSection  ? "none" : "block" }}
+          >
+            {TRANSLATIONS[language].referenceCheckQuestionnaire}
+          </h2>
 
-            <span>
-              {" "}
-              <span className="color-orange">
-                {" "}
-                {currentQuestionIndex + 1}
-              </span>{" "}
-              / {questions.length}
-            </span>
-          </p>
-          <p>{questions[currentQuestionIndex]}</p>
-        </div>
-      </div>
+          <div
+            className="referencecheckquestion-container mb-5"
+            style={{ display: hideQuestionSection ? "none" : "block" }}
+          >
+            <div className="question-container">
+              <p className="question-title w-100 d-flex justify-content-between">
+                {currentQuestionCategory}
+
+                <span>
+                  {" "}
+                  <span className="color-orange">
+                    {" "}
+                    {getCurrentCategoryQuestionInfo().current}
+                  </span>{" "}
+                  / {getCurrentCategoryQuestionInfo().total}
+                </span>
+              </p>
+              <p>{questions[currentQuestionIndex]}</p>
+            </div>
+          </div>
+        </>
+      )}
 
       <>
         {selectedMethod === "VOICE_BASE" ? (
@@ -536,6 +600,7 @@ const ReferenceCheckQuestionnairePage = () => {
             isLastQuestion={currentQuestionIndex === questions.length - 1}
             handleProceed={handleProceed}
             nextQuestion={nextQuestion}
+            hideQuestionSection={hideQuestionSection}
           />
         ) : (
           <TextBase
@@ -550,6 +615,7 @@ const ReferenceCheckQuestionnairePage = () => {
             isLastQuestion={currentQuestionIndex === questions.length - 1}
             handleProceed={handleProceed}
             nextQuestion={nextQuestion}
+            hideQuestionSection={hideQuestionSection}
           />
         )}
       </>

@@ -2,7 +2,15 @@
     --form-border-radius : 20px;
     --form-padding-block : 30px;
     --form-padding : 50px;
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --font-black: #000;
+    --input-bg: #686868;
+    --bg-fade-signup: #d9d9d9;
+
 }
+
 /* Main container */
 .assessment-form-container {
     width: 100%;
@@ -24,8 +32,8 @@
     align-items: center;
     height: auto;
     min-height: 200px;
-    width: 600px;
-    max-width: 600px;
+    width: 640px;
+    max-width: 640px;
     border-radius: var(--form-border-radius);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -109,4 +117,7 @@
     border-radius: 20px;
     width: 150px;
     border: none;
+}
+.assessment-form-btn-submit:disabled{
+    background: var(--input-bg);
 }

@@ -35,8 +35,8 @@ const ReferenceRequestEmailSentPopup = () => {
             <strong className="color-blue">customersupport@hr-hatch.com</strong>
             .
           </p>
-          <button className="btn-activate-now" onClick={() => navigate(-1)}>
-            Return
+          <button className="btn-activate-now" onClick={() => navigate("/")}>
+            Exit
           </button>
         </div>
       </div>
