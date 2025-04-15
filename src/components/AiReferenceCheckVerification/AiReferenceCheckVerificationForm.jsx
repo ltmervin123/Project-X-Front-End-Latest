@@ -79,7 +79,7 @@ const AiReferenceCheckVerificationForm = ({
     e.preventDefault();
     // await getReferenceQuestions();
     saveRefereeDataTemporary();
-    new Promise((resolve) => setTimeout(resolve, 1000));
+
     navigate("/reference-choose-language", {
       state: { referenceId, refereeId },
     });
@@ -256,7 +256,7 @@ const AiReferenceCheckVerificationForm = ({
                   />
                 </Form.Group>
                 <Form.Group controlId="position-title">
-                  <Form.Label className="mb-1">Position Applied for</Form.Label>
+                  <Form.Label className="mb-1">Current Position</Form.Label>
                   <Form.Control
                     type="text"
                     name="positionTitle"
