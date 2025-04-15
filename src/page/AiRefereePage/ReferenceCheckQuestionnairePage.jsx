@@ -5,6 +5,7 @@ import ErrorAccessMic from "../../components/Error/ErrorAccessMic";
 import TextBase from "../../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../../components/ReferenceCheckQuestionnaire/AudioBase";
 import loadingAnimation from "../../assets/loading.gif";
+import AssessmentModal from "../../components/Assessment/OverAllAssesment.jsx";
 import axios from "axios";
 
 const CATEGORY_ORDER = {
@@ -33,6 +34,18 @@ const CATEGORY_ORDER = {
     "closingQuestions",
   ],
 };
+
+const CATEGORY_TO_RATE = [
+  "jobResponsibilitiesAndPerformance",
+  "skillAndCompetencies",
+  "workEthicAndBehavior",
+  "leadershipAndManagementSkills",
+  "strategicLeadershipAndVision",
+  "businessImpactAndResults",
+  "teamLeadershipAndOrganizationalDevelopment",
+  "decisionMakingAndProblemSolving",
+  "innovationAndGrowth",
+];
 
 const TRANSLATIONS = {
   English: {
@@ -112,10 +125,25 @@ const ReferenceCheckQuestionnairePage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reTry, setReTry] = useState(false);
   const [currentQuestionCategory, setCurrentQuestionCategory] = useState(null);
+  const [isShowAssessmentModal, setIsShowAssessmentModal] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
   const streamRef = useRef(null);
+  const assessmentRating = useRef(null);
+
+  const setAssessmentRating = (rating) => {
+    assessmentRating.current = rating;
+  };
+
+  const resetAssessmentRating = () => {
+    assessmentRating.current = null;
+  };
+
+  const handleSubmitRating = (rating) => {
+    setAssessmentRating(rating);
+    setIsShowAssessmentModal(false);
+  };
 
   const formatReferenceQuestions = () => {
     if (
@@ -147,6 +175,7 @@ const ReferenceCheckQuestionnairePage = () => {
               ),
               answers: Array(qs.length).fill(""),
               normalizedAnswers: Array(qs.length).fill(""),
+              assessmentRating: Array(qs.length).fill("Not Available"),
             };
           })
           .filter(Boolean);
@@ -165,6 +194,7 @@ const ReferenceCheckQuestionnairePage = () => {
             ),
             answers: Array(qs.length).fill(""),
             normalizedAnswers: Array(qs.length).fill(""),
+            assessmentRating: Array(qs.length).fill("Not Available"),
           }));
 
       default:
@@ -240,11 +270,9 @@ const ReferenceCheckQuestionnairePage = () => {
       return new Promise((resolve) => {
         audioElement.onended = resolve;
         audioElement.onerror = (e) => {
-          console.error("Audio playback error:", e);
           resolve();
         };
         audioElement.play().catch((err) => {
-          console.error("Audio play() rejection:", err);
           resolve();
         });
       });
@@ -339,10 +367,13 @@ const ReferenceCheckQuestionnairePage = () => {
         }
       }
     };
+    // Set the current question category based on the current question index
     const currentQuestionCategory = getQuestionCategory();
     setCurrentQuestionCategory(
       TRANSLATIONS[language].questionCategory[currentQuestionCategory]
     );
+
+    // Speak the question when the component mounts or when the question changes
     speakQuestion();
   }, [questions, currentQuestionIndex]);
 
@@ -403,6 +434,28 @@ const ReferenceCheckQuestionnairePage = () => {
         return { ...categoryItem };
       })
     );
+
+    // Check if the current question is the last question in the category
+    handleAssessmentRating();
+  };
+
+  const handleAssessmentRating = () => {
+    //Check here if the category is in the list of categories to rate and category last question
+    const CURRENT_QUESTION_CATEGORY = getQuestionCategory();
+    const CURRENT_QUESTION = questions[currentQuestionIndex];
+
+    if (CATEGORY_TO_RATE.includes(CURRENT_QUESTION_CATEGORY)) {
+      const retrievedCurrentQuestion = referenceQuestionsData.find(
+        (item) => item.category === CURRENT_QUESTION_CATEGORY
+      );
+      const categoryLastQuestionIndex =
+        retrievedCurrentQuestion.questions.length - 1;
+      const categoryLastQuestion =
+        retrievedCurrentQuestion.questions[categoryLastQuestionIndex];
+      if (CURRENT_QUESTION === categoryLastQuestion) {
+        setIsShowAssessmentModal(true);
+      }
+    }
   };
 
   const getQuestionCategory = () => {
@@ -483,6 +536,15 @@ const ReferenceCheckQuestionnairePage = () => {
 
   if (micError) {
     return <ErrorAccessMic onRetry={initializeMicPermission} />;
+  }
+
+  if (isShowAssessmentModal) {
+    return (
+      <AssessmentModal
+        category={currentQuestionCategory}
+        handleSubmitRating={handleSubmitRating}
+      />
+    );
   }
 
   return (
