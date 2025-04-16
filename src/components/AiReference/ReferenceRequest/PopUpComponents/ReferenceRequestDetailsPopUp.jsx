@@ -64,7 +64,7 @@ const ReferenceRequestDetailsPopUp = ({
 
       if (response.status === 200) {
         setIsSent(true);
-        navigate("/reference-request-sent");
+        navigate("/reference-request-reminder-sent");
       }
     } catch (error) {
       console.error("Error sending reminder:", error);

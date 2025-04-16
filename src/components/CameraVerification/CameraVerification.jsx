@@ -1,13 +1,51 @@
 import React, { useState, useRef, useEffect } from "react";
 import VerificationPreview from "../VerificationPreview/VerificationPreview";
 
-const CameraVerification = () => {
+const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
   const [method, setMethod] = useState("camera"); // 'camera' or 'upload'
   const [image, setImage] = useState(null);
   const [cameraAccess, setCameraAccess] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      cameraVerification: "Camera Verification",
+      switchToUpload: "Switch to Upload",
+      switchToCamera: "Switch to Camera",
+      enableCamera: "Enable Camera",
+      allowCameraAccess: "Please allow camera access to continue",
+      positionFace: "Position your face here",
+      positionId: "Position your ID here",
+      lightingTip: "Make sure your face and ID are clearly visible in good lighting",
+      capture: "Capture",
+      uploadPhoto: "Upload Photo",
+      fileUploaded: "File uploaded: ",
+      selectFile: "Select File",
+      clear: "Clear",
+      preview: "Preview"
+    },
+    Japanese: {
+      cameraVerification: "カメラ認証",
+      switchToUpload: "アップロードに切り替え",
+      switchToCamera: "カメラに切り替え",
+      enableCamera: "カメラを有効にする",
+      allowCameraAccess: "続行するにはカメラへのアクセスを許可してください",
+      positionFace: "ここに顔を配置してください",
+      positionId: "ここにIDを配置してください",
+      lightingTip: "顔とIDが十分な明るさで明確に見えることを確認してください",
+      capture: "撮影",
+      uploadPhoto: "写真をアップロード",
+      fileUploaded: "アップロードされたファイル: ",
+      selectFile: "ファイルを選択",
+      clear: "クリア",
+      preview: "プレビュー"
+    }
+  };
 
   useEffect(() => {
     if (method === "camera") {
@@ -58,13 +96,13 @@ const CameraVerification = () => {
     canvas.width = videoRef.current.videoWidth;
     canvas.height = videoRef.current.videoHeight;
     const ctx = canvas.getContext("2d");
-    
+
     // Flip the image horizontally
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
-    
+
     ctx.drawImage(videoRef.current, 0, 0);
-    const imageData = canvas.toDataURL("image/jpeg");
+    const imageData = canvas.toDataURL("image/png");
     setImage(imageData);
     stopCamera();
   };
@@ -98,8 +136,6 @@ const CameraVerification = () => {
   const triggerFileInput = () => {
     document.getElementById("photo-upload").click();
   };
-
-  const canvasRef = useRef(null);
 
   useEffect(() => {
     drawCutouts();
@@ -161,19 +197,18 @@ const CameraVerification = () => {
   };
 
   const handlePreview = () => {
+    setSelfie(image);
     setShowPreview(true);
   };
 
   const handleRetake = () => {
     setShowPreview(false);
     clearImage();
-    // Allow time for the canvas to be ready
     setTimeout(drawCutouts, 0);
   };
 
   const handleSubmit = () => {
-    // Handle submission logic here
-    console.log('Submitting verification...');
+    submitIdUpload();
   };
 
   if (showPreview && image) {
@@ -182,6 +217,7 @@ const CameraVerification = () => {
         image={image}
         onRetake={handleRetake}
         onSubmit={handleSubmit}
+        submitting={submitting}
       />
     );
   }
@@ -190,8 +226,7 @@ const CameraVerification = () => {
     <div className="d-flex justify-content-center w-100">
       <div className="camera-verification-container">
         <div className="d-flex justify-content-between w-100 mb-3">
-          {" "}
-          <b>Camera Verification</b>
+          <b>{translations[language].cameraVerification}</b>
           <button
             className={` d-flex gap-2 align-items-center  ${
               method === "camera" ? "btn-switch-upload" : " btn-switch-camera"
@@ -212,7 +247,7 @@ const CameraVerification = () => {
                     fill="white"
                   />
                 </svg>
-                Switch to Upload
+                {translations[language].switchToUpload}
               </>
             ) : (
               <>
@@ -228,22 +263,20 @@ const CameraVerification = () => {
                     fill="white"
                   />
                 </svg>
-                Switch to Camera
+                {translations[language].switchToCamera}
               </>
             )}
           </button>
         </div>
 
         <div className="capture-area d-flex flex-column align-items-center">
-
           <div className="video-container">
-          {!cameraAccess && (
-            <div className="camera-request">
-              <button onClick={startCamera}>Enable Camera</button>
-              <p>Please allow camera access to continue</p>
-
-            </div>
-          )}
+            {!cameraAccess && (
+              <div className="camera-request">
+                <button onClick={startCamera}>{translations[language].enableCamera}</button>
+                <p>{translations[language].allowCameraAccess}</p>
+              </div>
+            )}
             <canvas ref={canvasRef} className="cutout-overlay" />
 
             <video
@@ -256,27 +289,25 @@ const CameraVerification = () => {
             {/* ✅ Overlay frame */}
             <div className="overlay-frame">
               <div className="face-box">
-                <span className="label">Position your face here</span>
+                <span className="label">{translations[language].positionFace}</span>
               </div>
               <div className="id-box">
-                <span className="label">Position your ID here</span>
+                <span className="label">{translations[language].positionId}</span>
               </div>
-              <p className="tip">
-                Make sure your face and ID are clearly visible in good lighting
-              </p>
+              <p className="tip">{translations[language].lightingTip}</p>
             </div>
           </div>
           {cameraAccess && (
-            <button 
-              className="btn-capture mt-2" 
+            <button
+              className="btn-capture mt-2"
               onClick={capturePhoto}
-              disabled={!!image || method !== 'camera'} // Disable if image exists or method is not camera
+              disabled={!!image || method !== "camera"} // Disable if image exists or method is not camera
             >
-              Capture
+              {translations[language].capture}
             </button>
           )}
           <div className="upload-section-container w-100">
-            <b>Upload Photo</b>
+            <b>{translations[language].uploadPhoto}</b>
             <div className="upload-section">
               {image ? (
                 <div className="d-flex justify-content-between align-items-center w-100">
@@ -290,14 +321,15 @@ const CameraVerification = () => {
                       }}
                     />
                     <p className="m-0">
-                      File uploaded: {shortenFileName(image.split(',')[1].substring(0, 20))}
+                      {translations[language].fileUploaded}
+                      {shortenFileName(image.split(",")[1].substring(0, 20))}
                     </p>
                   </div>
-                  <button 
+                  <button
                     onClick={triggerFileInput}
-                    disabled={method === 'camera'} // Disable if method is camera
+                    disabled={method === "camera"} // Disable if method is camera
                   >
-                    Select File
+                    {translations[language].selectFile}
                   </button>
                   <input
                     type="file"
@@ -310,11 +342,11 @@ const CameraVerification = () => {
               ) : (
                 <div className="d-flex justify-content-between w-100">
                   <div className="front-id-img-container d-flex"></div>
-                  <button 
+                  <button
                     onClick={triggerFileInput}
-                    disabled={method === 'camera'} // Disable if method is camera
+                    disabled={method === "camera"} // Disable if method is camera
                   >
-                    Select File
+                    {translations[language].selectFile}
                   </button>
                   <input
                     type="file"
@@ -332,19 +364,19 @@ const CameraVerification = () => {
         <div className="preview-section">
           {/* <img src={image} alt="Captured" /> */}
           <div className="preview-controls d-flex gap-3 my-3 w-100 justify-content-center">
-            <button 
-              className="btn-clear" 
+            <button
+              className="btn-clear"
               onClick={clearImage}
               disabled={!image} // Disable if no image
             >
-              Clear
+              {translations[language].clear}
             </button>
-            <button 
+            <button
               className="btn-preview"
               onClick={handlePreview}
               disabled={!image} // Disable if no image
             >
-              Preview
+              {translations[language].preview}
             </button>
           </div>
         </div>

@@ -40,6 +40,7 @@ const translations = {
     candidateName: "Applicant",
     refereeName: "Referee Name",
     refereeTitle: "Current Company",
+    currentCompany: "Current Company",
     relationshipToCandidate: "Relationship to the Applicant",
     datesWorkedTogether: "Dates Worked Together",
     from: "From",
@@ -65,7 +66,7 @@ const translations = {
     date: "Date",
     signature: "Signature",
     invalidDate: "Invalid Date",
-    refereeCompanyWorkedWith: "Company you worked with ",
+    refereeCompanyWorkedWith: "Company Worked With",
 
     question: function (index) {
       return `Question ${index + 1}`;
@@ -94,12 +95,16 @@ const translations = {
     overallAssessments: {
       jobPerformance: "Overall job performance assessment:",
       skillsAndCompetencies: "Overall Assessment of Skills and Competencies:",
-      workEthicAndBehavior: "Overall evaluation regarding work ethic and behavior:",
-      leadershipAndManagement: "Overall performance in Leadership and Management:",
+      workEthicAndBehavior:
+        "Overall evaluation regarding work ethic and behavior:",
+      leadershipAndManagement:
+        "Overall performance in Leadership and Management:",
       strategicLeadership: "Overall assessment of strategic leadership:",
       businessImpact: "Overall Assessment of Business Impact and Results:",
-      teamLeadership: "Overall Assessment of Team Leadership and Organizational Development:",
-      decisionMaking: "Overall Assessment of Decision Making and Problem Solving:",
+      teamLeadership:
+        "Overall Assessment of Team Leadership and Organizational Development:",
+      decisionMaking:
+        "Overall Assessment of Decision Making and Problem Solving:",
       innovationAndGrowth: "Overall Assessment of Innovation and Growth:",
     },
   },
@@ -112,6 +117,7 @@ const translations = {
     candidateName: "応募者",
     refereeName: "推薦者名",
     refereeTitle: "現在の会社",
+    currentCompany: "現在の会社名",
     relationshipToCandidate: "応募者との関係",
     datesWorkedTogether: "一緒に働いた期間",
     from: "開始日",
@@ -137,7 +143,7 @@ const translations = {
     date: "日付",
     signature: "署名",
     invalidDate: "無効な日付",
-    refereeCompanyWorkedWith: "一緒に働いた会社 ",
+    refereeCompanyWorkedWith: "一緒に働いた会社",
 
     question: function (index) {
       return `第${index + 1}問`;
@@ -149,13 +155,7 @@ const translations = {
       "Management Format": "管理用フォーマット",
       "Executive Format": "経営層向けフォーマット",
     },
-    steps: [
-      "基本情報",
-      "言語選択",
-      "方法選択",
-      "アンケート",
-      "参照完了",
-    ],
+    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
@@ -300,7 +300,7 @@ const ReferenceVerificationSection = () => {
 
   function getOverallAssessmentText(category) {
     const t = translations[language].overallAssessments;
-    
+
     switch (category) {
       // Standard Format
       case "jobResponsibilitiesAndPerformance":
@@ -324,21 +324,49 @@ const ReferenceVerificationSection = () => {
       case "innovationAndGrowth":
         return t.innovationAndGrowth;
       default:
-        return `${translations[language].overall} ${formatCategories(category)} ${translations[language].assessment}`;
+        return `${translations[language].overall} ${formatCategories(
+          category
+        )} ${translations[language].assessment}`;
     }
   }
 
   const getAssessmentStyle = (assessment) => {
     const translatedAssessment = translations[language].assessments[assessment];
     const styles = {
-      "Unsatisfactory": { color: "#FF1D48", borderColor: "#FF1D48", backgroundColor: "rgba(255, 29, 72, 0.15)" },
-      "Needs Improvement": { color: "#ED7D31", borderColor: "#ED7D31", backgroundColor: "rgba(237, 125, 49, 0.15)" },
-      "Meets Expectations": { color: "#FFEA66", borderColor: "#FFEA66", backgroundColor: "rgba(255, 234, 102, 0.15)" },
-      "Exceeds Expectations": { color: "#70AD47", borderColor: "#70AD47", backgroundColor: "rgba(112, 173, 71, 0.15)" },
-      "Exceptional": { color: "#5D643F", borderColor: "#5D643F", backgroundColor: "rgba(93, 100, 63, 0.15)" }
+      Unsatisfactory: {
+        color: "#FF1D48",
+        borderColor: "#FF1D48",
+        backgroundColor: "rgba(255, 29, 72, 0.15)",
+      },
+      "Needs Improvement": {
+        color: "#ED7D31",
+        borderColor: "#ED7D31",
+        backgroundColor: "rgba(237, 125, 49, 0.15)",
+      },
+      "Meets Expectations": {
+        color: "#FFEA66",
+        borderColor: "#FFEA66",
+        backgroundColor: "rgba(255, 234, 102, 0.15)",
+      },
+      "Exceeds Expectations": {
+        color: "#70AD47",
+        borderColor: "#70AD47",
+        backgroundColor: "rgba(112, 173, 71, 0.15)",
+      },
+      Exceptional: {
+        color: "#5D643F",
+        borderColor: "#5D643F",
+        backgroundColor: "rgba(93, 100, 63, 0.15)",
+      },
     };
-    
-    return styles[assessment] || { color: "grey", borderColor: "grey", backgroundColor: "rgba(128, 128, 128, 0.15)" };
+
+    return (
+      styles[assessment] || {
+        color: "grey",
+        borderColor: "grey",
+        backgroundColor: "rgba(128, 128, 128, 0.15)",
+      }
+    );
   };
 
   const downloadPDF = () => {
@@ -396,7 +424,7 @@ const ReferenceVerificationSection = () => {
 
   const steps = translations[language].steps;
 
-
+  //Display None will hide the downloadable PDF form to test temporarily comment it out
   return (
     <div className="row main-login justify-content-center position-relative">
       <div style={{ display: "none" }}>
@@ -427,16 +455,19 @@ const ReferenceVerificationSection = () => {
             </span>
           </p>
           <p className="mb-2">
-            <b>{translations[language].refereeTitle}: </b>
+            <b>{translations[language].currentCompany}: </b>
             <span className="Capitalize">
-              {referenceData?.refereeTitle ||
+              {referenceData?.currentCompany ||
                 translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>{translations[language].refereeCompanyWorkedWith}: </b>
+            <b>
+              {`${translations[language].refereeCompanyWorkedWith} (${referenceData?.referenceRequestId?.candidate.firstName})`}
+              :{" "}
+            </b>
             <span className="Capitalize">
-              {referenceData?.refereeCompanyWorkedWith ||
+              {referenceData?.companyWorkedWith ||
                 translations[language].notAvailable}
             </span>
           </p>
@@ -495,7 +526,7 @@ const ReferenceVerificationSection = () => {
                             "Original Answer"
                               ? translations[language].originalAnswer
                               : translations[language].aiEnhancedAnswer ||
-                              translations[language].notAvailable}
+                                translations[language].notAvailable}
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
@@ -512,10 +543,11 @@ const ReferenceVerificationSection = () => {
                             <b>{getOverallAssessmentText(item.category)}</b>
                             <div
                               className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.overallAssessment)}
+                              style={getAssessmentStyle(item.assessmentRating)}
                             >
                               <p className="m-0">
-                                {item.overallAssessment || translations[language].notAvailable}
+                                {item.assessmentRating ||
+                                  translations[language].notAvailable}
                               </p>
                             </div>
                           </div>
@@ -535,29 +567,34 @@ const ReferenceVerificationSection = () => {
                         </div>
 
                         <h6 className="color-gray mb-2">
-                          {item.preferredAnswerType[index] || translations[language].notAvailable}
+                          {item.preferredAnswerType[index] ||
+                            translations[language].notAvailable}
                         </h6>
 
                         <div className="AIEnchanceAns-container mb-4">
-                          <p>{item.answers[index] || translations[language].noAnswerProvided}</p>
+                          <p>
+                            {item.answers[index] ||
+                              translations[language].noAnswerProvided}
+                          </p>
                         </div>
                       </div>
                     ))}
-                     {/* Add Overall Category Assessment */}
-                     {item.category !== "relationship" &&
-                        item.category !== "closingQuestions" && (
-                          <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                            <b>{getOverallAssessmentText(item.category)}</b>
-                            <div
-                              className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.overallAssessment)}
-                            >
-                              <p className="m-0">
-                                {item.overallAssessment || translations[language].notAvailable }
-                              </p>
-                            </div>
+                    {/* Add Overall Category Assessment */}
+                    {item.category !== "relationship" &&
+                      item.category !== "closingQuestions" && (
+                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                          <b>{getOverallAssessmentText(item.category)}</b>
+                          <div
+                            className="overall-assessment-detail"
+                            style={getAssessmentStyle(item.overallAssessment)}
+                          >
+                            <p className="m-0">
+                              {item.overallAssessment ||
+                                translations[language].notAvailable}
+                            </p>
                           </div>
-                        )}
+                        </div>
+                      )}
                   </div>
                 ))}
           </div>
@@ -581,6 +618,18 @@ const ReferenceVerificationSection = () => {
             src={referenceData?.signatureImageURL || ""}
             alt="Signature here..."
           />
+<p className="mb-2">
+            <b>{translations[language].refereeName}: </b>
+            <span className="Capitalize">
+              {referenceData?.referenceRequestId?.refereeName ||
+                translations[language].notAvailable}
+            </span>
+          </p>
+          <p className=" mb-2">
+            <b>{translations[language].date}:</b>
+
+            <span> {formatDate(referenceData?.createdAt)}</span>
+          </p>
         </div>
         <div className="reference-verification-container">
           <div className="reference-verification-header">

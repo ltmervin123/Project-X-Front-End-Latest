@@ -513,8 +513,8 @@ padding: 20px;
 
 {
   background: var(--secondary-color);
-  width: 170px;
-  font-size: 15px;
+  width: 175px;
+  font-size: 14px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
@@ -532,7 +532,7 @@ padding: 20px;
 }
 .front-id-img-container,
 .back-id-img-container{
-width: 80%;
+width: 60%;
 font-size: 12px;
 }
 .IdUploadSection-button-controls > button,

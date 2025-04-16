@@ -10,6 +10,7 @@ const IdUploadSection = ({
   clearBackId,
   submitIdUpload,
   submitting,
+  setSelfie,
 }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
 
@@ -27,6 +28,11 @@ const IdUploadSection = ({
       submit: "Submit",
       submitting: "Submitting...",
       selectFile: "Select File",
+      backIdPage: "Back ID page",
+      confidentialityDisclaimer: "Please rest assured that all information provided will be treated with the utmost confidentiality and handled in full compliance with our data protection policies.",
+      proceed: "Proceed",
+      documentVerification: "Document Verification",
+      identificationDocument: "Identification Document"
     },
     Japanese: {
       preferredId: "優先ID",
@@ -41,8 +47,14 @@ const IdUploadSection = ({
       submit: "送信",
       submitting: "送信中...",
       selectFile: "ファイルを選択",
-    },
+      backIdPage: "IDの裏面ページ",
+      confidentialityDisclaimer: "提供された情報はすべて機密として扱われ、当社のデータ保護方針に完全に従って処理されることをご安心ください。",
+      proceed: "進む",
+      documentVerification: "本人確認書類",
+      identificationDocument: "身分証明書"
+    }
   };
+
   const [selectedIdType, setSelectedIdType] = useState("");
   const [showCamera, setShowCamera] = useState(false);
 
@@ -86,15 +98,17 @@ const IdUploadSection = ({
   return (
     <div className="ReviewYourReferenceCheck-container d-flex flex-column align-items- justify-content-between w-100">
       {showCamera ? (
-        <CameraVerification />
-        
+        <CameraVerification
+          setSelfie={setSelfie}
+          submitIdUpload={submitIdUpload}
+          submitting={submitting}
+        />
       ) : (
         <>
           <div className="w-100 d-flex justify-content-center align-items-center flex-column">
             <div className="preferred-id-container mb-3">
               <p>
-                {/* {translations[language].preferredId} */}
-                Identification Document
+                {translations[language].identificationDocument}
               </p>
               <select
                 name="preferred-id"
@@ -176,7 +190,7 @@ const IdUploadSection = ({
                 </div>
 
                 <div className="back-id-container mb-3 w-100">
-                  <p>Back ID page</p>
+                  <p>{translations[language].backIdPage}</p>
                   <div className="d-flex justify-content-between w-100">
                     {backIdFile ? (
                       <div className="d-flex justify-content-between align-items-center w-100">
@@ -190,14 +204,17 @@ const IdUploadSection = ({
                             }}
                           />
                           <p className="m-0">
-                            File uploaded: {shortenFileName(backIdFile.name)}
+                            {translations[language].fileUploaded.replace(
+                              "{fileName}",
+                              shortenFileName(backIdFile.name)
+                            )}
                           </p>
                         </div>
                         <button
                           onClick={triggerBackFileInput}
                           disabled={!selectedIdType}
                         >
-                          Select File
+                          {translations[language].selectFile}
                         </button>
                         <input
                           type="file"
@@ -214,7 +231,7 @@ const IdUploadSection = ({
                           onClick={triggerBackFileInput}
                           disabled={!selectedIdType}
                         >
-                          Select File
+                          {translations[language].selectFile}
                         </button>
                         <input
                           type="file"
@@ -244,20 +261,17 @@ const IdUploadSection = ({
                   fill="#F46A05"
                 />
               </svg>
-              Please rest assured that all information provided will be treated
-              with the utmost confidentiality and handled in full compliance
-              with our data protection policies.
+              {translations[language].confidentialityDisclaimer}
             </div>
             <div className="IdUploadSection-button-controls d-flex gap-3 my-3 w-100 justify-content-center">
               <button onClick={clearId} disabled={submitting || hasNoId()}>
                 {translations[language].clear}
               </button>
-
               <button
                 onClick={handleProceed}
                 disabled={submitting || hasNoId()}
               >
-                Proceed
+                {translations[language].proceed}
               </button>
             </div>
           </div>
