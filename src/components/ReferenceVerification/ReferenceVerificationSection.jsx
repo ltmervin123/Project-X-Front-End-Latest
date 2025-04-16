@@ -618,10 +618,10 @@ const ReferenceVerificationSection = () => {
             src={referenceData?.signatureImageURL || ""}
             alt="Signature here..."
           />
-<p className="mb-2">
+          <p className="mb-2">
             <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.refereeName ||
+              {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
                 translations[language].notAvailable}
             </span>
           </p>

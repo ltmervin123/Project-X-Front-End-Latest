@@ -1,82 +1,147 @@
 import React, { useState, useRef, useEffect } from "react";
 import VerificationPreview from "../VerificationPreview/VerificationPreview";
 
+const TRANSLATIONS = {
+  English: {
+    cameraVerification: "Camera Verification",
+    switchToUpload: "Switch to Upload",
+    switchToCamera: "Switch to Camera",
+    enableCamera: "Enable Camera",
+    allowCameraAccess: "Please allow camera access to continue",
+    positionFace: "Position your face here",
+    positionId: "Position your ID here",
+    lightingTip:
+      "Make sure your face and ID are clearly visible in good lighting",
+    capture: "Capture",
+    uploadPhoto: "Upload Photo",
+    fileUploaded: "File uploaded: ",
+    selectFile: "Select File",
+    clear: "Clear",
+    preview: "Preview",
+  },
+  Japanese: {
+    cameraVerification: "カメラ認証",
+    switchToUpload: "アップロードに切り替え",
+    switchToCamera: "カメラに切り替え",
+    enableCamera: "カメラを有効にする",
+    allowCameraAccess: "続行するにはカメラへのアクセスを許可してください",
+    positionFace: "ここに顔を配置してください",
+    positionId: "ここにIDを配置してください",
+    lightingTip: "顔とIDが十分な明るさで明確に見えることを確認してください",
+    capture: "撮影",
+    uploadPhoto: "写真をアップロード",
+    fileUploaded: "アップロードされたファイル: ",
+    selectFile: "ファイルを選択",
+    clear: "クリア",
+    preview: "プレビュー",
+  },
+};
+
 const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
-  const [method, setMethod] = useState("camera"); // 'camera' or 'upload'
+  const [method, setMethod] = useState("camera");
   const [image, setImage] = useState(null);
   const [cameraAccess, setCameraAccess] = useState(false);
+  const [cameraError, setCameraError] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const canvasRef = useRef(null);
 
   const language = sessionStorage.getItem("preferred-language") || "English";
 
-  const translations = {
-    English: {
-      cameraVerification: "Camera Verification",
-      switchToUpload: "Switch to Upload",
-      switchToCamera: "Switch to Camera",
-      enableCamera: "Enable Camera",
-      allowCameraAccess: "Please allow camera access to continue",
-      positionFace: "Position your face here",
-      positionId: "Position your ID here",
-      lightingTip: "Make sure your face and ID are clearly visible in good lighting",
-      capture: "Capture",
-      uploadPhoto: "Upload Photo",
-      fileUploaded: "File uploaded: ",
-      selectFile: "Select File",
-      clear: "Clear",
-      preview: "Preview"
-    },
-    Japanese: {
-      cameraVerification: "カメラ認証",
-      switchToUpload: "アップロードに切り替え",
-      switchToCamera: "カメラに切り替え",
-      enableCamera: "カメラを有効にする",
-      allowCameraAccess: "続行するにはカメラへのアクセスを許可してください",
-      positionFace: "ここに顔を配置してください",
-      positionId: "ここにIDを配置してください",
-      lightingTip: "顔とIDが十分な明るさで明確に見えることを確認してください",
-      capture: "撮影",
-      uploadPhoto: "写真をアップロード",
-      fileUploaded: "アップロードされたファイル: ",
-      selectFile: "ファイルを選択",
-      clear: "クリア",
-      preview: "プレビュー"
-    }
-  };
+  useEffect(() => {
+    return () => {
+      stopCamera();
+    };
+  }, []);
 
   useEffect(() => {
     if (method === "camera") {
       startCamera();
+    } else {
+      stopCamera();
     }
   }, [method]);
 
   useEffect(() => {
-    if (method === "camera" && !showPreview) {
+    if (method === "camera" && !showPreview && cameraAccess) {
       drawCutouts();
     }
-  }, [method, showPreview]);
+  }, [method, showPreview, cameraAccess]);
 
   const startCamera = async () => {
+    setCameraError(null);
+    setIsInitializing(true);
+
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stopCamera();
+
+      const constraints = {
+        video: {
+          width: { ideal: 1280, min: 640 },
+          height: { ideal: 720, min: 480 },
+          facingMode: "user",
+        },
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
-        setCameraAccess(true);
+
+        videoRef.current.onloadedmetadata = () => {
+          setCameraAccess(true);
+          setIsInitializing(false);
+        };
+
+        videoRef.current.onerror = (err) => {
+          console.error("Video element error:", err);
+          setCameraError("Error playing video stream");
+          setCameraAccess(false);
+          setIsInitializing(false);
+          stopCamera();
+        };
+      } else {
+        // Video element is not available
+        throw new Error("Video element not available");
       }
     } catch (err) {
       console.error("Error accessing camera:", err);
+
+      // Set specific error messages based on the error type
+      if (err.name === "NotAllowedError") {
+        setCameraError("Camera permission denied. Please allow camera access.");
+      } else if (err.name === "NotFoundError") {
+        setCameraError("No camera found on this device.");
+      } else if (err.name === "NotReadableError") {
+        setCameraError(
+          "Camera is in use by another application. Please close other applications that might be using the camera."
+        );
+
+        setTimeout(() => {
+          startCamera();
+        }, 2000);
+      } else {
+        setCameraError(`Cannot access camera: ${err.message}`);
+      }
+
       setCameraAccess(false);
+      setIsInitializing(false);
     }
   };
 
   const stopCamera = () => {
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current.getTracks().forEach((track) => {
+        track.stop();
+      });
       streamRef.current = null;
+    }
+
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
     }
   };
 
@@ -86,25 +151,33 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
         stopCamera();
         return "upload";
       }
-      startCamera();
       return "camera";
     });
   };
 
   const capturePhoto = () => {
-    const canvas = document.createElement("canvas");
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    const ctx = canvas.getContext("2d");
+    if (!videoRef.current || !streamRef.current) {
+      setCameraError("Camera not available for capture");
+      return;
+    }
 
-    // Flip the image horizontally
-    ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1);
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext("2d");
 
-    ctx.drawImage(videoRef.current, 0, 0);
-    const imageData = canvas.toDataURL("image/png");
-    setImage(imageData);
-    stopCamera();
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+
+      ctx.drawImage(videoRef.current, 0, 0);
+      const imageData = canvas.toDataURL("image/png");
+      setImage(imageData);
+      stopCamera();
+    } catch (err) {
+      console.error("Error capturing photo:", err);
+      setCameraError("Failed to capture photo");
+    }
   };
 
   const handleFileUpload = (e) => {
@@ -121,6 +194,7 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
   const clearImage = () => {
     setImage(null);
     if (method === "camera") {
+      setCameraError(null);
       startCamera();
     }
   };
@@ -146,16 +220,14 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
-    const width = (canvas.width = 440); // Same as .video-container width
-    const height = (canvas.height = 250); // Same as .video-container height
+    const width = (canvas.width = 440);
+    const height = (canvas.height = 250);
 
-    // Fill entire canvas with semi-transparent black
     ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
     ctx.fillRect(0, 0, width, height);
 
     ctx.globalCompositeOperation = "destination-out";
 
-    // 👉 FACE CUTOUT
     const faceBox = {
       width: 120,
       height: 160,
@@ -172,7 +244,6 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
     ctx.ellipse(faceX, faceY, faceRadiusX, faceRadiusY, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // 👉 ID CUTOUT
     const idBox = {
       width: 120,
       height: 70,
@@ -192,7 +263,6 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
     );
     ctx.fill();
 
-    // Reset mode
     ctx.globalCompositeOperation = "source-over";
   };
 
@@ -211,6 +281,103 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
     submitIdUpload();
   };
 
+  const renderCameraView = () => {
+    if (isInitializing) {
+      return (
+        <div
+          className="camera-initializing d-flex flex-column align-items-center justify-content-center"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 10,
+            background: "rgba(0,0,0,0.7)",
+          }}
+        >
+          <div
+            className="spinner-border text-primary mb-3"
+            role="status"
+            style={{ width: "5rem", height: "5rem" }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="text-center text-white">Initializing camera...</p>
+        </div>
+      );
+    }
+
+    if (cameraError) {
+      return (
+        <div
+          className="camera-error d-flex flex-column align-items-center justify-content-center"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.7)",
+            zIndex: 10,
+          }}
+        >
+          <p className="text-danger text-center mb-3 px-4">{cameraError}</p>
+          <button
+            className="btn btn-primary px-3 py-1"
+            style={{
+              fontSize: "0.9rem",
+              width: "auto",
+              minWidth: "100px",
+              maxWidth: "150px",
+            }}
+            onClick={() => {
+              setCameraError(null);
+              startCamera();
+            }}
+          >
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    if (!cameraAccess) {
+      return (
+        <div
+          className="camera-request d-flex flex-column align-items-center justify-content-center"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.7)",
+            zIndex: 10,
+          }}
+        >
+          <button
+            className="btn btn-primary px-3 py-1"
+            style={{
+              fontSize: "0.9rem",
+              width: "auto",
+              minWidth: "100px",
+              maxWidth: "150px",
+            }}
+            onClick={startCamera}
+          >
+            {TRANSLATIONS[language].enableCamera}
+          </button>
+          <p className="text-center text-white px-4">
+            {TRANSLATIONS[language].allowCameraAccess}
+          </p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   if (showPreview && image) {
     return (
       <VerificationPreview
@@ -224,9 +391,10 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
 
   return (
     <div className="d-flex justify-content-center w-100">
+      {renderCameraView()}
       <div className="camera-verification-container">
         <div className="d-flex justify-content-between w-100 mb-3">
-          <b>{translations[language].cameraVerification}</b>
+          <b>{TRANSLATIONS[language].cameraVerification}</b>
           <button
             className={` d-flex gap-2 align-items-center  ${
               method === "camera" ? "btn-switch-upload" : " btn-switch-camera"
@@ -247,7 +415,7 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
                     fill="white"
                   />
                 </svg>
-                {translations[language].switchToUpload}
+                {TRANSLATIONS[language].switchToUpload}
               </>
             ) : (
               <>
@@ -263,7 +431,7 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
                     fill="white"
                   />
                 </svg>
-                {translations[language].switchToCamera}
+                {TRANSLATIONS[language].switchToUpload}
               </>
             )}
           </button>
@@ -271,12 +439,6 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
 
         <div className="capture-area d-flex flex-column align-items-center">
           <div className="video-container">
-            {!cameraAccess && (
-              <div className="camera-request">
-                <button onClick={startCamera}>{translations[language].enableCamera}</button>
-                <p>{translations[language].allowCameraAccess}</p>
-              </div>
-            )}
             <canvas ref={canvasRef} className="cutout-overlay" />
 
             <video
@@ -286,28 +448,32 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
               style={{ display: cameraAccess ? "block" : "none" }}
               onPlay={() => videoRef.current.play()}
             />
-            {/* ✅ Overlay frame */}
+
             <div className="overlay-frame">
               <div className="face-box">
-                <span className="label">{translations[language].positionFace}</span>
+                <span className="label">
+                  {TRANSLATIONS[language].positionFace}
+                </span>
               </div>
               <div className="id-box">
-                <span className="label">{translations[language].positionId}</span>
+                <span className="label">
+                  {TRANSLATIONS[language].positionId}
+                </span>
               </div>
-              <p className="tip">{translations[language].lightingTip}</p>
+              <p className="tip">{TRANSLATIONS[language].lightingTip}</p>
             </div>
           </div>
           {cameraAccess && (
             <button
               className="btn-capture mt-2"
               onClick={capturePhoto}
-              disabled={!!image || method !== "camera"} // Disable if image exists or method is not camera
+              disabled={!!image || method !== "camera"}
             >
-              {translations[language].capture}
+              {TRANSLATIONS[language].capture}
             </button>
           )}
           <div className="upload-section-container w-100">
-            <b>{translations[language].uploadPhoto}</b>
+            <b>{TRANSLATIONS[language].uploadPhoto}</b>
             <div className="upload-section">
               {image ? (
                 <div className="d-flex justify-content-between align-items-center w-100">
@@ -321,15 +487,15 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
                       }}
                     />
                     <p className="m-0">
-                      {translations[language].fileUploaded}
+                      {TRANSLATIONS[language].fileUploaded}
                       {shortenFileName(image.split(",")[1].substring(0, 20))}
                     </p>
                   </div>
                   <button
                     onClick={triggerFileInput}
-                    disabled={method === "camera"} // Disable if method is camera
+                    disabled={method === "camera"}
                   >
-                    {translations[language].selectFile}
+                    {TRANSLATIONS[language].selectFile}
                   </button>
                   <input
                     type="file"
@@ -344,9 +510,9 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
                   <div className="front-id-img-container d-flex"></div>
                   <button
                     onClick={triggerFileInput}
-                    disabled={method === "camera"} // Disable if method is camera
+                    disabled={method === "camera"}
                   >
-                    {translations[language].selectFile}
+                    {TRANSLATIONS[language].selectFile}
                   </button>
                   <input
                     type="file"
@@ -362,21 +528,20 @@ const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
         </div>
 
         <div className="preview-section">
-          {/* <img src={image} alt="Captured" /> */}
           <div className="preview-controls d-flex gap-3 my-3 w-100 justify-content-center">
             <button
               className="btn-clear"
               onClick={clearImage}
-              disabled={!image} // Disable if no image
+              disabled={!image}
             >
-              {translations[language].clear}
+              {TRANSLATIONS[language].clear}
             </button>
             <button
               className="btn-preview"
               onClick={handlePreview}
-              disabled={!image} // Disable if no image
+              disabled={!image}
             >
-              {translations[language].preview}
+              {TRANSLATIONS[language].preview}
             </button>
           </div>
         </div>
