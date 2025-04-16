@@ -3,6 +3,14 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees"; // Import the Privacy Agreement component
 
+const STEPS = [
+  "Basic Information",
+  "Select Language",
+  "Choose Method",
+  "Questionnaire",
+  "Reference Completed",
+];
+
 const AiReferenceCheckVerificationForm = ({
   refereeName,
   referenceId,
@@ -38,13 +46,6 @@ const AiReferenceCheckVerificationForm = ({
   const [isAgreed, setIsAgreed] = useState(false);
   const currentStep = 1;
 
-  const steps = [
-    "Basic Information",
-    "Select Language",
-    "Choose Method",
-    "Questionnaire",
-    "Reference Completed",
-  ];
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -194,13 +195,13 @@ const AiReferenceCheckVerificationForm = ({
       </i>
       <div className="d-flex align-items-center justify-content-center flex-column h-100 w-100 my-2 mt-4">
         <div className="reference-progress-indicator">
-          {steps.map((step, index) => (
+          {STEPS.map((step, index) => (
             <div key={index} className="reference-step-container">
               <div
                 className={`step ${currentStep === index + 1 ? "active" : ""}`}
               >
                 <div className="bullet">{index + 1}</div>
-                {index < steps.length - 1 && <div className="line" />}{" "}
+                {index < STEPS.length - 1 && <div className="line" />}{" "}
                 {/* Line between steps */}
               </div>
               <div className="step-label">{step}</div>
@@ -268,7 +269,7 @@ const AiReferenceCheckVerificationForm = ({
 
                 <Form.Group controlId="company-worked-with">
                   <Form.Label>
-                    Company you worked with <b>{refereeName.firstName}</b>{" "}
+                    Company you worked with <b>{candidateName}</b>{" "}
                   </Form.Label>
                   <Form.Control
                     type="text"
