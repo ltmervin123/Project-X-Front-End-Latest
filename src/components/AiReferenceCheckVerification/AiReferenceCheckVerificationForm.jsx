@@ -11,6 +11,8 @@ const STEPS = [
   "Reference Completed",
 ];
 
+const CURRENT_STEP = 1;
+
 const AiReferenceCheckVerificationForm = ({
   refereeName,
   referenceId,
@@ -21,20 +23,21 @@ const AiReferenceCheckVerificationForm = ({
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const [formData, setFormData] = useState({
-    referenceId: "",
+    referenceId: referenceId,
     refereeName: {
-      firstName: "",
-      lastName: "",
+      firstName: refereeName.firstName,
+      lastName: refereeName.lastName,
     },
+    candidateName: candidateName,
+    refereeId: refereeId,
+    companyId: companyId,
     currentCompany: "",
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
-    candidateName: "",
     startDate: "",
     endDate: "",
     otherRelationship: "",
-    refereeId: "",
   });
   const [processing, setProcessing] = useState(false);
   const [isOtherSelected, setIsOtherSelected] = useState(false);
@@ -44,7 +47,6 @@ const AiReferenceCheckVerificationForm = ({
 
   const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
-  const currentStep = 1;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,43 +87,6 @@ const AiReferenceCheckVerificationForm = ({
       state: { referenceId, refereeId },
     });
   };
-  // Sync refereeName when it changes
-  useEffect(() => {
-    if (refereeName) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        refereeName: refereeName,
-      }));
-    }
-
-    if (referenceId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        referenceId: referenceId,
-      }));
-    }
-
-    if (candidateName) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        candidateName: candidateName,
-      }));
-    }
-
-    if (companyId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        companyId: companyId,
-      }));
-    }
-
-    if (refereeId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        refereeId: refereeId,
-      }));
-    }
-  }, [refereeName, referenceId, candidateName, companyId]);
 
   const isFormValid = () => {
     return (
@@ -198,7 +163,7 @@ const AiReferenceCheckVerificationForm = ({
           {STEPS.map((step, index) => (
             <div key={index} className="reference-step-container">
               <div
-                className={`step ${currentStep === index + 1 ? "active" : ""}`}
+                className={`step ${CURRENT_STEP === index + 1 ? "active" : ""}`}
               >
                 <div className="bullet">{index + 1}</div>
                 {index < STEPS.length - 1 && <div className="line" />}{" "}
