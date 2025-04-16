@@ -94,12 +94,16 @@ const translations = {
     overallAssessments: {
       jobPerformance: "Overall job performance assessment:",
       skillsAndCompetencies: "Overall Assessment of Skills and Competencies:",
-      workEthicAndBehavior: "Overall evaluation regarding work ethic and behavior:",
-      leadershipAndManagement: "Overall performance in Leadership and Management:",
+      workEthicAndBehavior:
+        "Overall evaluation regarding work ethic and behavior:",
+      leadershipAndManagement:
+        "Overall performance in Leadership and Management:",
       strategicLeadership: "Overall assessment of strategic leadership:",
       businessImpact: "Overall Assessment of Business Impact and Results:",
-      teamLeadership: "Overall Assessment of Team Leadership and Organizational Development:",
-      decisionMaking: "Overall Assessment of Decision Making and Problem Solving:",
+      teamLeadership:
+        "Overall Assessment of Team Leadership and Organizational Development:",
+      decisionMaking:
+        "Overall Assessment of Decision Making and Problem Solving:",
       innovationAndGrowth: "Overall Assessment of Innovation and Growth:",
     },
   },
@@ -149,13 +153,7 @@ const translations = {
       "Management Format": "管理用フォーマット",
       "Executive Format": "経営層向けフォーマット",
     },
-    steps: [
-      "基本情報",
-      "言語選択",
-      "方法選択",
-      "アンケート",
-      "参照完了",
-    ],
+    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
@@ -300,7 +298,7 @@ const ReferenceVerificationSection = () => {
 
   function getOverallAssessmentText(category) {
     const t = translations[language].overallAssessments;
-    
+
     switch (category) {
       // Standard Format
       case "jobResponsibilitiesAndPerformance":
@@ -324,21 +322,49 @@ const ReferenceVerificationSection = () => {
       case "innovationAndGrowth":
         return t.innovationAndGrowth;
       default:
-        return `${translations[language].overall} ${formatCategories(category)} ${translations[language].assessment}`;
+        return `${translations[language].overall} ${formatCategories(
+          category
+        )} ${translations[language].assessment}`;
     }
   }
 
   const getAssessmentStyle = (assessment) => {
     const translatedAssessment = translations[language].assessments[assessment];
     const styles = {
-      "Unsatisfactory": { color: "#FF1D48", borderColor: "#FF1D48", backgroundColor: "rgba(255, 29, 72, 0.15)" },
-      "Needs Improvement": { color: "#ED7D31", borderColor: "#ED7D31", backgroundColor: "rgba(237, 125, 49, 0.15)" },
-      "Meets Expectations": { color: "#FFEA66", borderColor: "#FFEA66", backgroundColor: "rgba(255, 234, 102, 0.15)" },
-      "Exceeds Expectations": { color: "#70AD47", borderColor: "#70AD47", backgroundColor: "rgba(112, 173, 71, 0.15)" },
-      "Exceptional": { color: "#5D643F", borderColor: "#5D643F", backgroundColor: "rgba(93, 100, 63, 0.15)" }
+      Unsatisfactory: {
+        color: "#FF1D48",
+        borderColor: "#FF1D48",
+        backgroundColor: "rgba(255, 29, 72, 0.15)",
+      },
+      "Needs Improvement": {
+        color: "#ED7D31",
+        borderColor: "#ED7D31",
+        backgroundColor: "rgba(237, 125, 49, 0.15)",
+      },
+      "Meets Expectations": {
+        color: "#FFEA66",
+        borderColor: "#FFEA66",
+        backgroundColor: "rgba(255, 234, 102, 0.15)",
+      },
+      "Exceeds Expectations": {
+        color: "#70AD47",
+        borderColor: "#70AD47",
+        backgroundColor: "rgba(112, 173, 71, 0.15)",
+      },
+      Exceptional: {
+        color: "#5D643F",
+        borderColor: "#5D643F",
+        backgroundColor: "rgba(93, 100, 63, 0.15)",
+      },
     };
-    
-    return styles[assessment] || { color: "grey", borderColor: "grey", backgroundColor: "rgba(128, 128, 128, 0.15)" };
+
+    return (
+      styles[assessment] || {
+        color: "grey",
+        borderColor: "grey",
+        backgroundColor: "rgba(128, 128, 128, 0.15)",
+      }
+    );
   };
 
   const downloadPDF = () => {
@@ -395,7 +421,6 @@ const ReferenceVerificationSection = () => {
   const currentStep = 5; // Set the current step (1 for Basic Information)
 
   const steps = translations[language].steps;
-
 
   return (
     <div className="row main-login justify-content-center position-relative">
@@ -495,7 +520,7 @@ const ReferenceVerificationSection = () => {
                             "Original Answer"
                               ? translations[language].originalAnswer
                               : translations[language].aiEnhancedAnswer ||
-                              translations[language].notAvailable}
+                                translations[language].notAvailable}
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
@@ -515,7 +540,8 @@ const ReferenceVerificationSection = () => {
                               style={getAssessmentStyle(item.overallAssessment)}
                             >
                               <p className="m-0">
-                                {item.overallAssessment || translations[language].notAvailable}
+                                {item.overallAssessment ||
+                                  translations[language].notAvailable}
                               </p>
                             </div>
                           </div>
@@ -535,29 +561,34 @@ const ReferenceVerificationSection = () => {
                         </div>
 
                         <h6 className="color-gray mb-2">
-                          {item.preferredAnswerType[index] || translations[language].notAvailable}
+                          {item.preferredAnswerType[index] ||
+                            translations[language].notAvailable}
                         </h6>
 
                         <div className="AIEnchanceAns-container mb-4">
-                          <p>{item.answers[index] || translations[language].noAnswerProvided}</p>
+                          <p>
+                            {item.answers[index] ||
+                              translations[language].noAnswerProvided}
+                          </p>
                         </div>
                       </div>
                     ))}
-                     {/* Add Overall Category Assessment */}
-                     {item.category !== "relationship" &&
-                        item.category !== "closingQuestions" && (
-                          <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                            <b>{getOverallAssessmentText(item.category)}</b>
-                            <div
-                              className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.overallAssessment)}
-                            >
-                              <p className="m-0">
-                                {item.overallAssessment || translations[language].notAvailable }
-                              </p>
-                            </div>
+                    {/* Add Overall Category Assessment */}
+                    {item.category !== "relationship" &&
+                      item.category !== "closingQuestions" && (
+                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                          <b>{getOverallAssessmentText(item.category)}</b>
+                          <div
+                            className="overall-assessment-detail"
+                            style={getAssessmentStyle(item.overallAssessment)}
+                          >
+                            <p className="m-0">
+                              {item.overallAssessment ||
+                                translations[language].notAvailable}
+                            </p>
                           </div>
-                        )}
+                        </div>
+                      )}
                   </div>
                 ))}
           </div>

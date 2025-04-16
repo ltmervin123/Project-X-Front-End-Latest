@@ -160,17 +160,41 @@ function ViewRequest({
   const getAssessmentStyle = (assessment) => {
     switch (assessment) {
       case "Unsatisfactory":
-        return { color: "#FF1D48", borderColor: "#FF1D48", backgroundColor: "rgba(255, 29, 72, 0.15)" };
+        return {
+          color: "#FF1D48",
+          borderColor: "#FF1D48",
+          backgroundColor: "rgba(255, 29, 72, 0.15)",
+        };
       case "Needs Improvement":
-        return { color: "#ED7D31", borderColor: "#ED7D31", backgroundColor: "rgba(237, 125, 49, 0.15)" };
+        return {
+          color: "#ED7D31",
+          borderColor: "#ED7D31",
+          backgroundColor: "rgba(237, 125, 49, 0.15)",
+        };
       case "Meets Expectations":
-        return { color: "#FFEA66", borderColor: "#FFEA66", backgroundColor: "rgba(255, 234, 102, 0.15)" };
+        return {
+          color: "#FFEA66",
+          borderColor: "#FFEA66",
+          backgroundColor: "rgba(255, 234, 102, 0.15)",
+        };
       case "Exceeds Expectations":
-        return { color: "#70AD47", borderColor: "#70AD47", backgroundColor: "rgba(112, 173, 71, 0.15)" };
+        return {
+          color: "#70AD47",
+          borderColor: "#70AD47",
+          backgroundColor: "rgba(112, 173, 71, 0.15)",
+        };
       case "Exceptional":
-        return { color: "#5D643F", borderColor: "#5D643F", backgroundColor: "rgba(93, 100, 63, 0.15)" };
+        return {
+          color: "#5D643F",
+          borderColor: "#5D643F",
+          backgroundColor: "rgba(93, 100, 63, 0.15)",
+        };
       default:
-        return { color: "grey", borderColor: "grey", backgroundColor: "rgba(128, 128, 128, 0.15)" };
+        return {
+          color: "grey",
+          borderColor: "grey",
+          backgroundColor: "rgba(128, 128, 128, 0.15)",
+        };
     }
   };
 
@@ -445,7 +469,7 @@ function ViewRequest({
                   className={isLandscape ? "landscape" : "portrait"}
                 />
               ) : (
-                <p>No image available</p> // Fallback if no image URL is provided
+                <p>No image available</p>
               )}
             </div>
           </div>
