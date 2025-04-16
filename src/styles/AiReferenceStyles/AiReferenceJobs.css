@@ -289,7 +289,7 @@
 /* Modal Styles */
 .custom-modal-job .modal-dialog {
   width: 60% !important; /* Adjust the width to 80% of the parent container */
-  max-width: 700px !important; /* Add a maximum width to prevent it from getting too large */
+  max-width: 750px !important; /* Add a maximum width to prevent it from getting too large */
   height: 380px;
 }
 

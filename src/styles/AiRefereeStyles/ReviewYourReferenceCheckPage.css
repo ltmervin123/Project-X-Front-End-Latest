@@ -533,6 +533,7 @@ padding: 20px;
 .front-id-img-container,
 .back-id-img-container{
 width: 80%;
+font-size: 12px;
 }
 .IdUploadSection-button-controls > button,
 .preview-controls > button {

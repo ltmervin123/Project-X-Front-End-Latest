@@ -35,9 +35,7 @@ const VerificationPreview = ({ image, onRetake, onSubmit }) => {
                 />
               </svg>
             <p className="m-0">
-              Please rest assured that all information provided will be treated
-              with the utmost confidentiality and handled in full compliance
-              with our data protection policies.
+            Rest assured, all information you provide will be kept strictly confidential and managed in full accordance with our data protection policies.
             </p>
           </div>
         </div>
