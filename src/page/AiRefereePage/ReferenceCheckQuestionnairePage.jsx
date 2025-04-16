@@ -609,7 +609,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
-      <div className="reference-progress-indicator">
+      <div className="reference-progress-indicator mt-5">
         {STEPS.map((step, index) => (
           <div key={index} className="reference-step-container">
             <div

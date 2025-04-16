@@ -187,10 +187,10 @@
   border-radius: 0.25rem; /* Rounded corners */
   box-shadow: none; /* Remove shadow */
 }
-.dropdown-content-q-sets ul {
+/* .dropdown-content-q-sets ul {
   max-height: 150px;
-  overflow-y: auto; /* Enable vertical scrolling */
-}
+  overflow-y: auto; 
+} */
 .dropdown-content-q-sets svg {
   cursor: pointer;
 
