@@ -10,6 +10,7 @@ const IdUploadSection = ({
   clearBackId,
   submitIdUpload,
   submitting,
+  setSelfie,
 }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
 
@@ -86,8 +87,11 @@ const IdUploadSection = ({
   return (
     <div className="ReviewYourReferenceCheck-container d-flex flex-column align-items- justify-content-between w-100">
       {showCamera ? (
-        <CameraVerification />
-        
+        <CameraVerification
+          setSelfie={setSelfie}
+          submitIdUpload={submitIdUpload}
+          submitting={submitting}
+        />
       ) : (
         <>
           <div className="w-100 d-flex justify-content-center align-items-center flex-column">

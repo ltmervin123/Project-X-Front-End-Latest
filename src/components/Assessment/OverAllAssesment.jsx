@@ -204,7 +204,7 @@ function OverAllAssesment({ onSubmit, category }) {
                     className="assessment-form-group"
                     style={{
                       border:
-                        selectedValue === current.nameId
+                        selectedValue === current.label
                           ? `1px solid ${current.borderColor}`
                           : "1px solid black",
                     }}

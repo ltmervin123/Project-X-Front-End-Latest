@@ -33,14 +33,15 @@ function ReviewYourReferenceCheckPage() {
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const allQuestionsAnswered = submittedAnswers.length === questions.length;
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
-  const [frontIdFile, setFrontIdFile] = useState(null);
-  const [backIdFile, setBackIdFile] = useState(null);
-  const [savedSignature, setSavedSignature] = useState(null);
   const [isCanvaEmpty, setIsCanvaEmpty] = useState(true);
   const [checked, setChecked] = useState(null);
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
+  const [frontIdFile, setFrontIdFile] = useState(null);
+  const [backIdFile, setBackIdFile] = useState(null);
+  const [savedSignature, setSavedSignature] = useState(null);
+  const [selfie, setSelfie] = useState(null);
   const referenceQuestionsData =
     JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
 
@@ -391,6 +392,7 @@ function ReviewYourReferenceCheckPage() {
       endDate,
       startDate,
       companyId,
+      currentCompany
     } = REFERENCE_DATA;
     const referenceQuestion = getReferenceQuestionData();
 
@@ -399,9 +401,11 @@ function ReviewYourReferenceCheckPage() {
     try {
       setSubmitting(true);
       const formdata = new FormData();
+      const selfieBlob = dataURLtoBlob(selfie);
       if (signatureMethod === "Draw Signature") {
         const signatureBlob = dataURLtoBlob(savedSignature);
         formdata.append("referenceRequestId", referenceId);
+        formdata.append("currentCompany", currentCompany);
         formdata.append("refereeTitle", positionTitle);
         formdata.append("refereeRelationshipWithCandidate", relationship);
         formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
@@ -410,9 +414,11 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("signatureFile", signatureBlob, "signature.png");
         formdata.append("frontIdFile", frontIdFile);
-        // formdata.append("backIdFile", backIdFile);
+        formdata.append("backIdFile", backIdFile);
+        formdata.append("selfieFile", selfieBlob, "selfie.png");
       } else {
         formdata.append("referenceRequestId", referenceId);
+        formdata.append("currentCompany", currentCompany);
         formdata.append("refereeTitle", positionTitle);
         formdata.append("refereeRelationshipWithCandidate", relationship);
         formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
@@ -421,7 +427,8 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("signatureFile", uploadedFile);
         formdata.append("frontIdFile", frontIdFile);
-        // formdata.append("backIdFile", backIdFile);
+        formdata.append("backIdFile", backIdFile);
+        formdata.append("selfieFile", selfieBlob, "selfie.png");
       }
       const response = await axios.post(URL, formdata, {
         headers: {
@@ -437,10 +444,6 @@ function ReviewYourReferenceCheckPage() {
           state: { referenceId, refereeId },
         });
       }
-
-      navigate("/reference-completed", {
-        state: { referenceId, refereeId },
-      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -537,6 +540,7 @@ function ReviewYourReferenceCheckPage() {
               clearBackId={clearBackId}
               submitIdUpload={submitIdUpload}
               submitting={submitting}
+              setSelfie={setSelfie}
             />
           </>
         ) : (

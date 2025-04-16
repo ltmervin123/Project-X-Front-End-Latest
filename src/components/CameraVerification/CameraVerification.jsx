@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import VerificationPreview from "../VerificationPreview/VerificationPreview";
 
-const CameraVerification = () => {
+const CameraVerification = ({ setSelfie, submitIdUpload, submitting }) => {
   const [method, setMethod] = useState("camera"); // 'camera' or 'upload'
   const [image, setImage] = useState(null);
   const [cameraAccess, setCameraAccess] = useState(false);
@@ -58,13 +58,13 @@ const CameraVerification = () => {
     canvas.width = videoRef.current.videoWidth;
     canvas.height = videoRef.current.videoHeight;
     const ctx = canvas.getContext("2d");
-    
+
     // Flip the image horizontally
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
-    
+
     ctx.drawImage(videoRef.current, 0, 0);
-    const imageData = canvas.toDataURL("image/jpeg");
+    const imageData = canvas.toDataURL("image/png");
     setImage(imageData);
     stopCamera();
   };
@@ -161,19 +161,18 @@ const CameraVerification = () => {
   };
 
   const handlePreview = () => {
+    setSelfie(image);
     setShowPreview(true);
   };
 
   const handleRetake = () => {
     setShowPreview(false);
     clearImage();
-    // Allow time for the canvas to be ready
     setTimeout(drawCutouts, 0);
   };
 
   const handleSubmit = () => {
-    // Handle submission logic here
-    console.log('Submitting verification...');
+    submitIdUpload();
   };
 
   if (showPreview && image) {
@@ -182,6 +181,7 @@ const CameraVerification = () => {
         image={image}
         onRetake={handleRetake}
         onSubmit={handleSubmit}
+        submitting={submitting}
       />
     );
   }
@@ -235,15 +235,13 @@ const CameraVerification = () => {
         </div>
 
         <div className="capture-area d-flex flex-column align-items-center">
-
           <div className="video-container">
-          {!cameraAccess && (
-            <div className="camera-request">
-              <button onClick={startCamera}>Enable Camera</button>
-              <p>Please allow camera access to continue</p>
-
-            </div>
-          )}
+            {!cameraAccess && (
+              <div className="camera-request">
+                <button onClick={startCamera}>Enable Camera</button>
+                <p>Please allow camera access to continue</p>
+              </div>
+            )}
             <canvas ref={canvasRef} className="cutout-overlay" />
 
             <video
@@ -267,10 +265,10 @@ const CameraVerification = () => {
             </div>
           </div>
           {cameraAccess && (
-            <button 
-              className="btn-capture mt-2" 
+            <button
+              className="btn-capture mt-2"
               onClick={capturePhoto}
-              disabled={!!image || method !== 'camera'} // Disable if image exists or method is not camera
+              disabled={!!image || method !== "camera"} // Disable if image exists or method is not camera
             >
               Capture
             </button>
@@ -290,12 +288,13 @@ const CameraVerification = () => {
                       }}
                     />
                     <p className="m-0">
-                      File uploaded: {shortenFileName(image.split(',')[1].substring(0, 20))}
+                      File uploaded:{" "}
+                      {shortenFileName(image.split(",")[1].substring(0, 20))}
                     </p>
                   </div>
-                  <button 
+                  <button
                     onClick={triggerFileInput}
-                    disabled={method === 'camera'} // Disable if method is camera
+                    disabled={method === "camera"} // Disable if method is camera
                   >
                     Select File
                   </button>
@@ -310,9 +309,9 @@ const CameraVerification = () => {
               ) : (
                 <div className="d-flex justify-content-between w-100">
                   <div className="front-id-img-container d-flex"></div>
-                  <button 
+                  <button
                     onClick={triggerFileInput}
-                    disabled={method === 'camera'} // Disable if method is camera
+                    disabled={method === "camera"} // Disable if method is camera
                   >
                     Select File
                   </button>
@@ -332,14 +331,14 @@ const CameraVerification = () => {
         <div className="preview-section">
           {/* <img src={image} alt="Captured" /> */}
           <div className="preview-controls d-flex gap-3 my-3 w-100 justify-content-center">
-            <button 
-              className="btn-clear" 
+            <button
+              className="btn-clear"
               onClick={clearImage}
               disabled={!image} // Disable if no image
             >
               Clear
             </button>
-            <button 
+            <button
               className="btn-preview"
               onClick={handlePreview}
               disabled={!image} // Disable if no image
