@@ -1,5 +1,6 @@
 import React from "react";
-import "./VerificationPreview.css";
+import "../../styles/AiRefereeStyles/VerificationPreview.css"
+
 
 const VerificationPreview = ({ image, onRetake, onSubmit }) => {
   return (
