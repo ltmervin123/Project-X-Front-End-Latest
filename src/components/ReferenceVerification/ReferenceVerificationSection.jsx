@@ -422,6 +422,7 @@ const ReferenceVerificationSection = () => {
 
   const steps = translations[language].steps;
 
+  //Display None will hide the downloadable PDF form to test temporarily comment it out
   return (
     <div className="row main-login justify-content-center position-relative">
       <div style={{ display: "none" }}>
@@ -461,7 +462,7 @@ const ReferenceVerificationSection = () => {
           <p className="mb-2">
             <b>{translations[language].refereeCompanyWorkedWith}: </b>
             <span className="Capitalize">
-              {referenceData?.refereeCompanyWorkedWith ||
+              {referenceData?.companyWorkedWith ||
                 translations[language].notAvailable}
             </span>
           </p>
@@ -537,10 +538,10 @@ const ReferenceVerificationSection = () => {
                             <b>{getOverallAssessmentText(item.category)}</b>
                             <div
                               className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.overallAssessment)}
+                              style={getAssessmentStyle(item.assessmentRating)}
                             >
                               <p className="m-0">
-                                {item.overallAssessment ||
+                                {item.assessmentRating ||
                                   translations[language].notAvailable}
                               </p>
                             </div>
