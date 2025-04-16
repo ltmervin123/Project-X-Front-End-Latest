@@ -495,33 +495,39 @@ function ReviewYourReferenceCheckPage() {
   return (
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
-        <h5 className="referencecheckquestiontitle text-left mb-2">
-          {translations[language].reviewResponses}
-        </h5>
         {showSignatureSection ? (
-          <Col md={12}>
-            <SignatureSection
-              signatureMethod={signatureMethod}
-              canvasRef={canvasRef}
-              startDrawing={startDrawing}
-              draw={draw}
-              stopDrawing={stopDrawing}
-              clearDrawing={clearDrawing}
-              handleProceedIDUpload={handleProceedIDUpload}
-              submitting={submitting}
-              handleFileDrop={handleFileDrop}
-              handleDragOver={handleDragOver}
-              uploadedFile={uploadedFile}
-              imagePreview={imagePreview}
-              errorMessage={errorMessage}
-              clearImage={clearImage}
-              setSignatureMethod={setSignatureMethod}
-              handleFileSelect={handleFileSelect}
-              isCanvaEmpty={isCanvaEmpty}
-            />
-          </Col>
+          <>
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {translations[language].reviewResponses}
+            </h5>
+            <Col md={12}>
+              <SignatureSection
+                signatureMethod={signatureMethod}
+                canvasRef={canvasRef}
+                startDrawing={startDrawing}
+                draw={draw}
+                stopDrawing={stopDrawing}
+                clearDrawing={clearDrawing}
+                handleProceedIDUpload={handleProceedIDUpload}
+                submitting={submitting}
+                handleFileDrop={handleFileDrop}
+                handleDragOver={handleDragOver}
+                uploadedFile={uploadedFile}
+                imagePreview={imagePreview}
+                errorMessage={errorMessage}
+                clearImage={clearImage}
+                setSignatureMethod={setSignatureMethod}
+                handleFileSelect={handleFileSelect}
+                isCanvaEmpty={isCanvaEmpty}
+              />
+            </Col>
+          </>
         ) : showIdUploadSection ? (
           <>
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {/* {translations[language].reviewResponses} */}
+              Document Verification
+            </h5>
             <IdUploadSection
               frontIdFile={frontIdFile}
               backIdFile={backIdFile}
@@ -535,6 +541,9 @@ function ReviewYourReferenceCheckPage() {
           </>
         ) : (
           <>
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {translations[language].reviewResponses}
+            </h5>
             <Col md={!showBothAnswers ? 9 : 12}>
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">

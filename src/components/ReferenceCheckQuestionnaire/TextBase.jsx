@@ -91,38 +91,6 @@ const TextBase = ({
               </button>
             </>
           )}
-          {reTry ? (
-            <>
-              <button onClick={handleReTry}>
-                {translations[language].retry}
-              </button>
-              {isLastQuestion ? (
-                <button onClick={handleProceed}>
-                  {translations[language].proceed}
-                </button>
-              ) : (
-                <button onClick={nextQuestion}>
-                  {translations[language].next}
-                </button>
-              )}
-            </>
-          ) : (
-            <>
-              <button
-                onClick={handleTextBaseSubmit}
-                disabled={!answer || loading || isSpeaking || isSubmitted}
-                className={
-                  !answer || loading || isSpeaking || isSubmitted
-                    ? "disabled"
-                    : ""
-                }
-              >
-                {loading
-                  ? translations[language].submitting
-                  : translations[language].submit}
-              </button>
-            </>
-          )}
         </div>
       </div>
     </div>

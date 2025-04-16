@@ -471,9 +471,11 @@ background: var(--input-bg) !important;
 }
 
 .preferred-id-container,
-.upload-id-container{
+.upload-id-container,
+.IdUploadSection-disclaimer{
   width: 70%;
 }
+
 .back-id-container {
   height: 120px;
 }
@@ -486,8 +488,10 @@ background: var(--input-bg) !important;
 .back-id-container > p{
   font-weight: bold;
 }
+
 .drawing-container  .front-id-container,
-.drawing-container  .back-id-container {
+.drawing-container  .back-id-container,
+.camera-verification-container .upload-section {
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 4px 0px #00000059;
@@ -503,7 +507,10 @@ padding: 20px;
 .front-id-container > div button,
 .back-id-container > div button,
 .front-id-container > div input,
-.back-id-container > div input
+.back-id-container > div input,
+.camera-verification-container .upload-section button,
+.camera-verification-container .upload-section input
+
 {
   background: var(--secondary-color);
   width: 170px;
@@ -516,15 +523,19 @@ padding: 20px;
 .front-id-container > div button:disabled ,
 .back-id-container > div button:disabled ,
 .front-id-container > div input:disabled ,
-.back-id-container > div input:disabled {
+.back-id-container > div input:disabled,
+.camera-verification-container > div > .btn-capture:disabled,
+.camera-verification-container .upload-section button:disabled {
   background: var(--input-bg) !important;
+  cursor: not-allowed;
 
 }
 .front-id-img-container,
 .back-id-img-container{
 width: 80%;
 }
-.IdUploadSection-button-controls > button {
+.IdUploadSection-button-controls > button,
+.preview-controls > button {
   width: 150px !important;
   padding: 5px 35px;
   font-size: 15px;
@@ -534,18 +545,190 @@ width: 80%;
   font-weight: 600;
   
 }
-.IdUploadSection-button-controls > button:disabled {
+.IdUploadSection-button-controls > button:disabled ,
+.preview-controls > button:disabled{
 background: var(--input-bg) !important;
   
 }
-.IdUploadSection-button-controls > button:nth-child(1) {
+.IdUploadSection-button-controls > button:nth-child(1),
+.preview-controls > button:nth-child(1)  {
   background: var(--secondary-color);
 
 }
-.IdUploadSection-button-controls > button:nth-child(2) {
+.IdUploadSection-button-controls > button:nth-child(2),
+.preview-controls > button:nth-child(2) {
   background: var(--primary-color);
 
 }
+.IdUploadSection-disclaimer{
+  background: #F2F3F7;
+  border-radius: 10px;
+  border: 1px solid var(--primary-color);
+  padding: 20px;
+  font-size: 12px;
+}
+.IdUploadSection-disclaimer svg{
+  height: 25px;
+  width: 25px;
+}
+
+.camera-verification-container{
+  width: 70%;
+}
+.camera-verification-container .upload-section{
+  background: #F2F3F7;
+  border-radius: 10px;
+  border: 1px solid var(--input-bg);
+  padding: 20px;
+}
+.camera-verification-container .video-container {
+  position: relative;
+  display: inline-block;
+  width: 440px;
+  height: 250px;
+}
+.camera-verification-container > div > button{
+  padding: 5px 30px;
+  font-size: 15px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  font-weight: 600;
+}
+.camera-verification-container > div > button svg{
+  width: 18px;
+}
+.camera-verification-container > div > .btn-switch-camera{
+  background: var(--primary-color);
+
+}
+.camera-verification-container > div > .btn-capture{
+  background: var(--primary-color);
+
+
+}
+.camera-verification-container > div > .btn-switch-upload{
+  background: var(--secondary-color);
+
+}
+
+.camera-verification-container .video-container video {
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.423);
+}
+.camera-verification-container .overlay-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+
+  /* Needed to allow blending to take effect */
+  isolation: isolate;
+}
+.camera-verification-container .camera-request{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+  background: #000000d7;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  justify-content: center;
+  flex-direction: column;
+color: var(--font-white);
+  /* Needed to allow blending to take effect */
+  isolation: isolate;
+}
+.camera-verification-container .camera-request button{
+  padding: 5px 30px;
+  font-size: 15px;
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  font-weight: 400;
+  background: var(--primary-color);
+}
+.camera-verification-container .cutout-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 440px;
+  height: 250px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.camera-verification-container .face-box,
+.camera-verification-container .id-box {
+  position: absolute;
+  border: 2px dashed white;
+  background: transparent;
+  z-index: 4; /* On top of the mask */
+}
+
+.camera-verification-container .face-box {
+  width: 120px;
+  height: 160px;
+  border-radius: 50%;
+  top: 45%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
+.camera-verification-container .id-box {
+  width: 120px;
+  height: 70px;
+  top: 60%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+
+/* Labels */
+.camera-verification-container .face-box .label {
+  position: absolute;
+  top: -20px;
+  width: 150px;
+  left: 60%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 10px;
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+}
+.camera-verification-container  .id-box .label{
+  position: absolute;
+  bottom: -20px;
+  width: 150px;
+  left: 70%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 10px;
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+}
+
+.camera-verification-container .tip {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 10px;
+  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+  z-index: 3;
+}
+
+
 /* Customizing the scrollbar */
 .answer-container::-webkit-scrollbar,
 .ai-enhanced-answer-container::-webkit-scrollbar {
