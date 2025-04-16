@@ -324,7 +324,7 @@ function ViewRequest({
           <p className="mb-2">
             <b>Current Company: </b>
             <span className="Capitalize">
-              {referenceData?.refereeCurrentCompany || "Not Available"}
+              {referenceData?.currentCompany || "Not Available"}
             </span>
           </p>
           <p className="mb-2">
@@ -333,8 +333,7 @@ function ViewRequest({
               {referenceData?.referenceRequestId?.candidate.firstName}):{" "}
             </b>
             <span>
-              {formatter(referenceData?.refereeCompanyYouWorkWithApplicant) ||
-                "Not Available"}
+              {formatter(referenceData?.companyWorkedWith) || "Not Available"}
             </span>
           </p>
           <p className="mb-2">
@@ -404,10 +403,10 @@ function ViewRequest({
                             <b>{getOverallAssessmentText(item.category)}</b>
                             <div
                               className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.overallAssessment)}
+                              style={getAssessmentStyle(item.assessmentRating)}
                             >
                               <p className="m-0">
-                                {item.overallAssessment || "Not Available"}
+                                {item.assessmentRating || "Not Available"}
                               </p>
                             </div>
                           </div>

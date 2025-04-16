@@ -40,6 +40,7 @@ const translations = {
     candidateName: "Applicant",
     refereeName: "Referee Name",
     refereeTitle: "Current Company",
+    currentCompany: "Current Company",
     relationshipToCandidate: "Relationship to the Applicant",
     datesWorkedTogether: "Dates Worked Together",
     from: "From",
@@ -65,7 +66,9 @@ const translations = {
     date: "Date",
     signature: "Signature",
     invalidDate: "Invalid Date",
-    refereeCompanyWorkedWith: "Company you worked with ",
+    refereeCompanyWorkedWith: function (candidateName) {
+      return `Company Worked With (${candidateName})`;
+    },
 
     question: function (index) {
       return `Question ${index + 1}`;
@@ -116,6 +119,7 @@ const translations = {
     candidateName: "応募者",
     refereeName: "推薦者名",
     refereeTitle: "現在の会社",
+    currentCompany: "現在の会社名",
     relationshipToCandidate: "応募者との関係",
     datesWorkedTogether: "一緒に働いた期間",
     from: "開始日",
@@ -453,14 +457,19 @@ const ReferenceVerificationSection = () => {
             </span>
           </p>
           <p className="mb-2">
-            <b>{translations[language].refereeTitle}: </b>
+            <b>{translations[language].currentCompany}: </b>
             <span className="Capitalize">
-              {referenceData?.refereeTitle ||
+              {referenceData?.currentCompany ||
                 translations[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>{translations[language].refereeCompanyWorkedWith}: </b>
+            <b>
+              {translations[language].refereeCompanyWorkedWith(
+                referenceData?.referenceRequestId?.candidate.firstName
+              )}
+              :{" "}
+            </b>
             <span className="Capitalize">
               {referenceData?.companyWorkedWith ||
                 translations[language].notAvailable}

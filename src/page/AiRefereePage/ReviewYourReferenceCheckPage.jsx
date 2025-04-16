@@ -392,6 +392,7 @@ function ReviewYourReferenceCheckPage() {
       endDate,
       startDate,
       companyId,
+      currentCompany
     } = REFERENCE_DATA;
     const referenceQuestion = getReferenceQuestionData();
 
@@ -404,6 +405,7 @@ function ReviewYourReferenceCheckPage() {
       if (signatureMethod === "Draw Signature") {
         const signatureBlob = dataURLtoBlob(savedSignature);
         formdata.append("referenceRequestId", referenceId);
+        formdata.append("currentCompany", currentCompany);
         formdata.append("refereeTitle", positionTitle);
         formdata.append("refereeRelationshipWithCandidate", relationship);
         formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
@@ -416,6 +418,7 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("selfieFile", selfieBlob, "selfie.png");
       } else {
         formdata.append("referenceRequestId", referenceId);
+        formdata.append("currentCompany", currentCompany);
         formdata.append("refereeTitle", positionTitle);
         formdata.append("refereeRelationshipWithCandidate", relationship);
         formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
