@@ -197,7 +197,7 @@ const ReferenceCheckQuestionnairePage = () => {
             ),
             answers: Array(qs.length).fill(""),
             normalizedAnswers: Array(qs.length).fill(""),
-            assessmentRating: Array(qs.length).fill("Not Available"),
+            assessmentRating: null,
           }));
 
       default:
@@ -208,7 +208,10 @@ const ReferenceCheckQuestionnairePage = () => {
   const getQuestions = () => {
     const replaceCandidateName = (q) =>
       typeof q === "string"
-        ? q.replace(/\$\{candidateName\}|\(candidate name\)/g, candidateName)
+        ? q.replace(
+            /\$\{candidateName\}|\(candidate name\)|\(applicant name\)/g,
+            candidateName
+          )
         : q;
 
     switch (referenceQuestions.formatType) {
@@ -557,6 +560,9 @@ const ReferenceCheckQuestionnairePage = () => {
   };
 
   const handleAssessmentSubmit = (rating) => {
+    if (referenceQuestions?.formatType === "CUSTOM-FORMAT") {
+      return;
+    }
     setAssessmentRating(rating);
 
     const currentQuestion = questions[currentQuestionIndex];

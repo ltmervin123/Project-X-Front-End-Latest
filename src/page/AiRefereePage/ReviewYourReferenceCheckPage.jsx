@@ -432,6 +432,7 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("backIdFile", backIdFile);
         formdata.append("selfieFile", selfieBlob, "selfie.png");
       }
+
       const response = await axios.post(URL, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
