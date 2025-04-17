@@ -3,8 +3,6 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
 const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
-  // Add onEdit prop
-  // Function to get the color based on status
   const getStatusColor = (status) => {
     switch (status) {
       case "New":
@@ -14,7 +12,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
       case "Failed":
         return "#FF0000";
       default:
-        return "black"; // Default color for unknown statuses
+        return "black";
     }
   };
 
@@ -58,13 +56,10 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
           </div>
         </div>
 
-        <div className="d-flex gap-4">
-          <div>
-            <p className="d-flex gap-2 align-items-center justify-content-start">
-              <strong
-                className="d-flex gap-2 align-items-center"
-                style={{ width: "150px" }}
-              >
+        <div className="d-flex gap-4 flex-column">
+          <div className="d-flex justify-content-start gap-3 applicant-details">
+            <p className="d-flex gap-2 align-items-center justify-content-start w-50">
+              <strong className="d-flex gap-2 align-items-center">
                 Status:
               </strong>{" "}
               <span style={{ color: getStatusColor(candidates.status) }}>
@@ -72,55 +67,36 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
                 {candidates.status}
               </span>
             </p>
-            <p className="d-flex gap-2 align-items-center justify-content-start">
-              <strong
-                className="d-flex gap-2 align-items-center"
-                style={{ width: "150px" }}
-              >
+            <p className="d-flex gap-2 align-items-center justify-content-start w-50">
+              <strong className="d-flex gap-2 align-items-center">
+                Position:
+              </strong>{" "}
+              <span>{candidates.position || "N/A"}</span>
+            </p>
+          </div>
+          <div className="d-flex justify-content-start gap-3 applicant-details">
+            <p className="d-flex gap-2 align-items-center justify-content-start w-50">
+              <strong className="d-flex gap-2 align-items-center">
                 {" "}
                 Email:
               </strong>{" "}
-              {candidates.email}
+              <span>{candidates.email}</span>
             </p>
-            <p className="d-flex gap-2 align-items-center justify-content-start">
-              <strong
-                className="d-flex gap-2 align-items-center"
-                style={{ width: "150px" }}
-              >
-                Reference Format:
-              </strong>{" "}
-              {candidates.referenceformat || "N/A"}
-            </p>
-          </div>
-          <div>
-            <p className="d-flex gap-2 align-items-center justify-content-start">
-              <strong
-                className="d-flex gap-2 align-items-center"
-                style={{ width: "150px" }}
-              >
-                Position:
-              </strong>{" "}
-              {candidates.position || "N/A"}
-            </p>           <p className="d-flex gap-2 align-items-center justify-content-start">
-              <strong
-                className="d-flex gap-2 align-items-center"
-                style={{ width: "150px" }}
-              >
-                Position:
-              </strong>{" "}
-              {candidates.position || "N/A"}
-            </p>
-            <p className="d-flex gap-2 align-items-center justify-content-start mb-5">
-              <strong
-                className="d-flex gap-2 align-items-center"
-                style={{ width: "150px" }}
-              >
+            <p className="d-flex gap-2 align-items-center justify-content-start w-50">
+              <strong className="d-flex gap-2 align-items-center">
                 Applied Date:
               </strong>{" "}
-              {formatDate(candidates.createdAt) || "N/A"}
+              <span>{formatDate(candidates.createdAt) || "N/A"}</span>
             </p>
           </div>
-       
+          <div className="d-flex justify-content-start gap-3 applicant-details mb-2">
+            <p className="d-flex gap-2 align-items-center justify-content-start w-50">
+              <strong className="d-flex gap-2 align-items-center">
+                Reference Format:
+              </strong>{" "}
+              <span>{candidates.questionName || "N/A"}</span>
+            </p>
+          </div>
         </div>
 
         <div className="candidate-button-controller w-100 d-flex justify-content-center align-items-center gap-3">

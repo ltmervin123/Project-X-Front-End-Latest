@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, selectedCount, isAll, isSingleItem }) => {
+const DeleteConfirmationApplicantPopUp = ({ onClose, onConfirmDelete, selectedCount, isAll, isSingleItem }) => {
   return (
     <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
@@ -25,4 +25,4 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, selectedCo
   );
 };
 
-export default DeleteConfirmationCandidatePopUp;
+export default DeleteConfirmationApplicantPopUp;

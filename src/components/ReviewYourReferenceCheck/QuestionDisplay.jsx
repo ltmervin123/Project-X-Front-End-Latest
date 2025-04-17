@@ -20,26 +20,26 @@ const QuestionDisplay = ({
 
   const language = sessionStorage.getItem("preferred-language") || "English";
 
-const translations = {
-  English: {
-    question: "Question {current}:",
-    originalAnswer: "Original Answer:",
-    aiEnhancedAnswer: "AI Enhanced Answer:",
-    editAnswers: "Edit Answers",
-    save: "Save",
-    saving: "Saving...",
-    discard: "Discard",
-  },
-  Japanese: {
-    question: "質問 {current}:",
-    originalAnswer: "元の回答:",
-    aiEnhancedAnswer: "AI強化回答:",
-    editAnswers: "回答を編集",
-    save: "保存",
-    saving: "保存中...",
-    discard: "破棄",
-  },
-};
+  const translations = {
+    English: {
+      question: "Question {current}:",
+      originalAnswer: "Original Answer:",
+      aiEnhancedAnswer: "AI Enhanced Answer:",
+      editAnswers: "Edit Answers",
+      save: "Save",
+      saving: "Saving...",
+      discard: "Discard",
+    },
+    Japanese: {
+      question: "質問 {current}:",
+      originalAnswer: "元の回答:",
+      aiEnhancedAnswer: "AI強化回答:",
+      editAnswers: "回答を編集",
+      save: "保存",
+      saving: "保存中...",
+      discard: "破棄",
+    },
+  };
   const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
@@ -93,14 +93,19 @@ const translations = {
   return (
     <div className="ReviewYourReferenceCheck-box-item h-100">
       <div className="question-container m-0">
-      <p className="question-text ">
-  <strong>{translations[language].question.replace("{current}", currentQuestionIndex + 1)}</strong> 
-  {questions[currentQuestionIndex]}
-</p>
+        <p className="question-text ">
+          <strong>
+            {translations[language].question.replace(
+              "{current}",
+              currentQuestionIndex + 1
+            )}
+          </strong>
+          {questions[currentQuestionIndex]}
+        </p>
       </div>
 
       <p className="orig-label d-flex justify-content-between align-items-center">
-      <strong>{translations[language].originalAnswer}</strong>
+        <strong>{translations[language].originalAnswer}</strong>
         {isEditing && editingType === "original" ? null : (
           <button
             className="btn-edit"
@@ -136,7 +141,7 @@ const translations = {
           </button>
         )}
       </p>
-      <div className={`answer-container mb-3 ${isEditing ? "edit" : ""}`}>
+      <div className={`answer-container  ${isEditing ? "edit" : ""}`}>
         {" "}
         {isEditing && editingType === "original" ? (
           <textarea
@@ -151,27 +156,28 @@ const translations = {
       </div>
 
       {isEditing && editingType === "original" && (
-  <div className="action-buttons d-flex gap-3 mb-3">
-    <button
-      className={`btn-save ${updating ? "disabled" : ""}`}
-      onClick={handleSaveOriginalAnswer}
-      disabled={updating}
-    >
-      {updating ? translations[language].saving : translations[language].save}
-    </button>
-    <button
-      className={`btn-discard ${updating ? "disabled" : ""}`}
-      onClick={handleDiscard}
-      disabled={updating}
-    >
-      {translations[language].discard}
-    </button>
-  </div>
-)}
+        <div className="action-buttons d-flex gap-3 ">
+          <button
+            className={`btn-save ${updating ? "disabled" : ""}`}
+            onClick={handleSaveOriginalAnswer}
+            disabled={updating}
+          >
+            {updating
+              ? translations[language].saving
+              : translations[language].save}
+          </button>
+          <button
+            className={`btn-discard ${updating ? "disabled" : ""}`}
+            onClick={handleDiscard}
+            disabled={updating}
+          >
+            {translations[language].discard}
+          </button>
+        </div>
+      )}
 
-
-      <p className="ai-enhanced-label d-flex justify-content-between align-items-center">
-      <strong>{translations[language].aiEnhancedAnswer}</strong>
+      <p className="ai-enhanced-label mt-3 d-flex justify-content-between align-items-center">
+        <strong>{translations[language].aiEnhancedAnswer}</strong>
         {isEditing && editingType === "aiEnhanced" ? null : (
           <button
             className="btn-edit"
@@ -210,7 +216,7 @@ const translations = {
         )}
       </p>
       <div
-        className={`ai-enhanced-answer-container mb-3 ${
+        className={`ai-enhanced-answer-container  ${
           isEditing ? "edit" : ""
         }`}
       >
@@ -229,20 +235,22 @@ const translations = {
 
       {isEditing && editingType === "aiEnhanced" && (
         <div className="action-buttons d-flex gap-3 mb-3">
-<button
-  className={`btn-save ${updating ? "disabled" : ""}`}
-  onClick={handleSaveOriginalAnswer}
-  disabled={updating}
->
-  {updating ? translations[language].saving : translations[language].save}
-</button>
-<button
-  className={`btn-discard ${updating ? "disabled" : ""}`}
-  onClick={handleDiscard}
-  disabled={updating}
->
-  {translations[language].discard}
-</button>
+          <button
+            className={`btn-save ${updating ? "disabled" : ""}`}
+            onClick={handleSaveOriginalAnswer}
+            disabled={updating}
+          >
+            {updating
+              ? translations[language].saving
+              : translations[language].save}
+          </button>
+          <button
+            className={`btn-discard ${updating ? "disabled" : ""}`}
+            onClick={handleDiscard}
+            disabled={updating}
+          >
+            {translations[language].discard}
+          </button>
         </div>
       )}
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const RecoverConfirmationCandidatePopUp = ({ onClose, onConfirmRecover, selectedCount, isAll, isSingleItem }) => {
+const RecoverConfirmationApplicantPopUp = ({ onClose, onConfirmRecover, selectedCount, isAll, isSingleItem }) => {
   return (
     <Modal show={true} onHide={onClose} centered backdrop={true}>
       <Modal.Body>
@@ -25,4 +25,4 @@ const RecoverConfirmationCandidatePopUp = ({ onClose, onConfirmRecover, selected
   );
 };
 
-export default RecoverConfirmationCandidatePopUp;
+export default RecoverConfirmationApplicantPopUp;
