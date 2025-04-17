@@ -3,6 +3,34 @@ import { socket } from "../../utils/socket/socketSetup";
 import axios from "axios";
 import TranscriptionWarning from "./TranscriptionWarning";
 
+const TRANSLATION = {
+  English: {
+    transcription: "Transcription:",
+    transcriptionPlaceholder: "Transcription will appear here....",
+    start: "Start",
+    stop: "Stop",
+    retry: "Retry",
+    proceed: "Proceed",
+    next: "Next",
+    saving: "Saving...",
+  },
+  Japanese: {
+    transcription: "トランスクリプション:",
+    transcriptionPlaceholder: "トランスクリプションがここに表示されます....",
+    start: "開始",
+    stop: "停止",
+    retry: "再試行",
+    proceed: "進む",
+    next: "次",
+    saving: "保存中...",
+  },
+};
+
+const LANGUAGE_CODE = {
+  English: "en-US",
+  Japanese: "ja-JP",
+};
+
 const AudioBase = ({
   setAudioBaseAnswer,
   handleAudioBaseSubmit,
@@ -15,14 +43,18 @@ const AudioBase = ({
   isLastQuestion,
   handleProceed,
   nextQuestion,
+  hideQuestionSection,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
+  const language = sessionStorage.getItem("preferred-language") || "English";
   // States
   const [isRecording, setIsRecording] = useState(false);
   const [hasTranscription, setHasTranscription] = useState(true);
   const [isSanitizingTranscription, setIsSanitizingTranscription] =
     useState(false);
+
+  //refs
   const mediaRecorder = useRef(null);
   const transcription = useRef("");
 
@@ -33,38 +65,9 @@ const AudioBase = ({
   const clearTranscription = () => {
     transcription.current = "";
   };
-  const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      transcription: "Transcription:",
-      transcriptionPlaceholder: "Transcription will appear here....",
-      start: "Start",
-      stop: "Stop",
-      retry: "Retry",
-      proceed: "Proceed",
-      next: "Next",
-      saving: "Saving...",
-    },
-    Japanese: {
-      transcription: "トランスクリプション:",
-      transcriptionPlaceholder: "トランスクリプションがここに表示されます....",
-      start: "開始",
-      stop: "停止",
-      retry: "再試行",
-      proceed: "進む",
-      next: "次",
-      saving: "保存中...",
-    },
-  };
-
-  const languageCode = {
-    English: "en-US",
-    Japanese: "ja-JP",
-  };
 
   const getlanguageCode = (language) => {
-    return languageCode[language];
+    return LANGUAGE_CODE[language];
   };
 
   // Ensure mediaRecorder is initialized
@@ -199,12 +202,15 @@ const AudioBase = ({
   };
 
   return (
-    <div className="transcription-answer-container">
-      <h4>{translations[language].transcription}</h4>
+    <div
+      className="transcription-answer-container"
+      style={{ display: hideQuestionSection ? "none" : "block" }}
+    >
+      <h4>{TRANSLATION[language].transcription}</h4>
       <textarea
         value={answer}
         rows="4"
-        placeholder={translations[language].transcriptionPlaceholder}
+        placeholder={TRANSLATION[language].transcriptionPlaceholder}
         disabled
       />
       <div className="d-flex justify-content-center align-items-center my-2 mb-2">
@@ -212,21 +218,21 @@ const AudioBase = ({
           {reTry && !isSubmitting ? (
             <>
               <button onClick={handleReTry}>
-                {translations[language].retry}
+                {TRANSLATION[language].retry}
               </button>
               {isLastQuestion ? (
                 <button disabled={!answer} onClick={handleProceed}>
-                  {translations[language].proceed}
+                  {TRANSLATION[language].proceed}
                 </button>
               ) : (
                 <button disabled={!answer} onClick={nextQuestion}>
-                  {translations[language].next}
+                  {TRANSLATION[language].next}
                 </button>
               )}
             </>
           ) : isSanitizingTranscription || isSubmitting ? (
             <button className="disabled" disabled>
-              {translations[language].saving}
+              {TRANSLATION[language].saving}
             </button>
           ) : !isRecording ? (
             <button
@@ -234,11 +240,11 @@ const AudioBase = ({
               onClick={startRecording}
               disabled={isSpeaking}
             >
-              {translations[language].start}
+              {TRANSLATION[language].start}
             </button>
           ) : (
             <button className="btn-stop-transcript" onClick={stopRecording}>
-              {translations[language].stop}
+              {TRANSLATION[language].stop}
             </button>
           )}
         </div>

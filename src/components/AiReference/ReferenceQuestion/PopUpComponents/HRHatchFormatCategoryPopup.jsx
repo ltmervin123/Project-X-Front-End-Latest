@@ -1,13 +1,13 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const HRHatchFormatCategoryPopup = ({ onClose, onSelectFormat }) => {
-  const formats = [
-    { title: "Standard Format" },
-    { title: "Management Format" },
-    { title: "Executive Format" },
-  ];
+const FORMATS = [
+  { title: "Standard Format" },
+  { title: "Management Format" },
+  { title: "Executive Format" },
+];
 
+const HRHatchFormatCategoryPopup = ({ onClose, onSelectFormat }) => {
   return (
     <Modal
       show={true}
@@ -17,27 +17,20 @@ const HRHatchFormatCategoryPopup = ({ onClose, onSelectFormat }) => {
       backdrop={true}
     >
       <Modal.Body className="p-4">
-        <div className="d-flex justify-content-end align-items-center mb-3">
-            <h5 className=" mb-0 text-center">Select Preferred <span className="color-orange">HR</span>-HΛTCH Format to Edit</h5>
-
-          <Button
-            className="closebtn"
-            variant="link"
-            onClick={onClose}
-            style={{ fontSize: "1.5rem", textDecoration: "none" }}
-          >
-            &times;
-          </Button>
+        <div className="d-flex justify-content-center align-items-center mb-3">
+          <h5 className=" mb-0 text-center">
+            Select Preferred <span className="color-orange">HR</span>-HΛTCH
+            Format to Customize
+          </h5>
         </div>
 
         <div className="d-flex gap-2 hr-hatch-option flex-column align-items-center justify-content-center">
-          {formats.map((format, index) => (
+          {FORMATS.map((format, index) => (
             <Button
               key={index}
               className="mb-2"
               onClick={() => {
-                console.log(`Editing ${format.title}`);
-                onSelectFormat(format.title); // Call the function to handle format selection
+                onSelectFormat(format.title);
               }}
             >
               {format.title}

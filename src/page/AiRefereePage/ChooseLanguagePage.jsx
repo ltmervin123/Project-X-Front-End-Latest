@@ -48,6 +48,16 @@ import axios from "axios";
 //   }
 // };
 
+const CURRENT_STEP = 2;
+
+const STEPS = [
+  "Basic Information",
+  "Select Language",
+  "Choose Method",
+  "Questionnaire",
+  "Reference Completed",
+];
+
 function ChooseLanguagePage() {
   const [language, setLanguage] = useState(
     sessionStorage.getItem("preferred-language") || "English"
@@ -56,18 +66,20 @@ function ChooseLanguagePage() {
   const TOKEN = sessionStorage.getItem("token") || null;
   const REFERENCE_QUESTIONS =
     JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
-  const { candidateName: CANDIDATE_NAME } =
-    JSON.parse(sessionStorage.getItem("refereeData")) || {};
+  const {
+    candidateName: CANDIDATE_NAME,
+    refereeId,
+    referenceId,
+  } = JSON.parse(sessionStorage.getItem("refereeData")) || {};
   const FORMAT = REFERENCE_QUESTIONS?.format || null;
   const location = useLocation();
-  const REFERENCE_ID = location.state?.referenceId || null;
-  const REFEREE_ID = location.state?.refereeId || null;
+  const REFERENCE_ID = location.state?.referenceId || referenceId;
+  const REFEREE_ID = location.state?.refereeId || refereeId;
   const [isOpen, setIsOpen] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  
   // const QUESTIONS = REFERENCE_QUESTIONS?.questions || {};
 
   const getTranslatedQuestion = async (format, candidateName) => {
@@ -161,31 +173,22 @@ function ChooseLanguagePage() {
     return <div className="loading-container">Loading...</div>;
   }
 
-  const currentStep = 2; // Set the current step (1 for Basic Information)
-
-  const steps = [
-    "Basic Information",
-    "Select Language",
-    "Choose Method",
-    "Questionnaire",
-    "Reference Completed",
-  ];
   return (
     <div className="container-fluid main-container login-page-container d-flex align-items-center flex-column justify-content-center">
-       <div className="reference-progress-indicator">
-      {steps.map((step, index) => (
-        <div key={index} className="reference-step-container">
-          <div
-            className={`step ${currentStep >= index + 1 ? "active" : ""}`} // Change here
-          >
-            <div className="bullet">{index + 1}</div>
-            {index < steps.length - 1 && <div className="line" />}{" "}
-            {/* Line between steps */}
+      <div className="reference-progress-indicator">
+        {STEPS.map((step, index) => (
+          <div key={index} className="reference-step-container">
+            <div
+              className={`step ${CURRENT_STEP >= index + 1 ? "active" : ""}`} // Change here
+            >
+              <div className="bullet">{index + 1}</div>
+              {index < STEPS.length - 1 && <div className="line" />}{" "}
+              {/* Line between steps */}
+            </div>
+            <div className="step-label">{step}</div>
           </div>
-          <div className="step-label">{step}</div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
       <div className="choose-language-container d-flex align-items-center justify-content-center flex-column">
         <h3>
           Choose Your <span className="color-orange"> Language </span>

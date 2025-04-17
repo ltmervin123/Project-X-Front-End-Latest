@@ -2,46 +2,47 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/AiRefereeStyles/ChooseYourReferenceMethodPage.css";
 
+const TRANSLATIONS = {
+  English: {
+    title: "Choose Your ",
+    coloredTitle: "Reference Method",
+    description:
+      "Please select the type of response you prefer for the reference questions.",
+    voiceResponse: "Voice Response",
+    voiceDescription: "Answer questions through voice",
+    textResponse: "Text-based Response",
+    textDescription: "Answer question through text",
+    steps: [
+      "Basic Information",
+      "Select Language",
+      "Choose Method",
+      "Questionnaire",
+      "Reference Completed",
+    ],
+  },
+  Japanese: {
+    title: "参照方法を選択してください",
+    coloredTitle: "参照方法",
+    description: "参照質問に対する回答の種類を選択してください。",
+    voiceResponse: "音声応答",
+    voiceDescription: "音声で質問に答える",
+    textResponse: "テキストベースの応答",
+    textDescription: "テキストで質問に答える",
+    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+  },
+};
+
+const CURRENT_STEP = 3;
+
 function ChooseYourReferenceMethodPage() {
   const navigate = useNavigate();
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Choose Your ",
-      coloredTitle: "Reference Method",
-      description:
-        "Please select the type of response you prefer for the reference questions.",
-      voiceResponse: "Voice Response",
-      voiceDescription: "Answer questions through voice",
-      textResponse: "Text-based Response",
-      textDescription: "Answer question through text",
-    },
-    Japanese: {
-      title: "参照方法を選択してください",
-      coloredTitle: "参照方法",
-      description: "参照質問に対する回答の種類を選択してください。",
-      voiceResponse: "音声応答",
-      voiceDescription: "音声で質問に答える",
-      textResponse: "テキストベースの応答",
-      textDescription: "テキストで質問に答える",
-    },
-  };
+  const steps = TRANSLATIONS[language].steps;
 
   const handleSelection = (method) => {
     sessionStorage.setItem("interview-method", method);
     navigate("/reference-instructions");
   };
-
-  const currentStep = 3; // Set the current step (1 for Basic Information)
-
-  const steps = [
-    "Basic Information",
-    "Select Language",
-    "Choose Method",
-    "Questionnaire",
-    "Reference Completed",
-  ];
 
   return (
     <div className="container-fluid main-container login-page-container flex-column d-flex align-items-center justify-content-center">
@@ -49,11 +50,10 @@ function ChooseYourReferenceMethodPage() {
         {steps.map((step, index) => (
           <div key={index} className="reference-step-container">
             <div
-              className={`step ${currentStep >= index + 1 ? "active" : ""}`} // Change here
+              className={`step ${CURRENT_STEP >= index + 1 ? "active" : ""}`}
             >
               <div className="bullet">{index + 1}</div>
               {index < steps.length - 1 && <div className="line" />}{" "}
-              {/* Line between steps */}
             </div>
             <div className="step-label">{step}</div>
           </div>
@@ -61,22 +61,19 @@ function ChooseYourReferenceMethodPage() {
       </div>
       <div className="chooseyourinterviewmethod-container d-flex align-items-center justify-content-center flex-column">
         <h3>
-          {translations[language].title}
+          {TRANSLATIONS[language].title}
           <span className="color-orange">
             {" "}
-            {translations[language].coloredTitle}{" "}
+            {TRANSLATIONS[language].coloredTitle}{" "}
           </span>
         </h3>
-        <p>{translations[language].description}</p>
+        <p>{TRANSLATIONS[language].description}</p>
 
-        {/* Cards Container */}
         <div className="row d-flex justify-content-center align-items-center">
-          {/* Card 1 - Voice Response */}
           <div className="col-12 col-md-5 mb-4">
             <div className="card" onClick={() => handleSelection("VOICE_BASE")}>
               <div className="card-body d-flex align-items-center justify-content-center gap-2">
                 <div className="icon-container">
-                  {/* SVG for Voice Response */}
                   <svg
                     width="41"
                     height="41"
@@ -91,19 +88,17 @@ function ChooseYourReferenceMethodPage() {
                   </svg>
                 </div>
                 <div className="card-text ml-3">
-                  <h5>{translations[language].voiceResponse}</h5>
-                  <p>{translations[language].voiceDescription}</p>
+                  <h5>{TRANSLATIONS[language].voiceResponse}</h5>
+                  <p>{TRANSLATIONS[language].voiceDescription}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Card 2 - Text-based Response */}
           <div className="col-12 col-md-5 mb-4">
             <div className="card" onClick={() => handleSelection("TEXT_BASE")}>
               <div className="card-body d-flex align-items-center justify-content-center gap-2">
                 <div className="icon-container">
-                  {/* SVG for Text-based Response */}
                   <svg
                     width="28"
                     height="28"
@@ -118,8 +113,8 @@ function ChooseYourReferenceMethodPage() {
                   </svg>
                 </div>
                 <div className="card-text ml-3">
-                  <h5>{translations[language].textResponse}</h5>
-                  <p>{translations[language].textDescription}</p>
+                  <h5>{TRANSLATIONS[language].textResponse}</h5>
+                  <p>{TRANSLATIONS[language].textDescription}</p>
                 </div>
               </div>
             </div>

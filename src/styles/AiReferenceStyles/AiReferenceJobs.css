@@ -7,75 +7,77 @@
   --text-color: #000;
   --sidebar-bg: #f2f3f7;
   --btn-view-color: #319f43;
+  --form-bg: #FEF8F3;
+}
+
+/* Button Styles */
+.btn-create-new-job,
+.btn-proceed,
+.btn-cancel-ref-req,
+.btn-yes-delete-job,
+.btn-no-delete-job,
+.add-referee {
+  border-radius: 50px;
+  border: none;
+  color: var(--font-white);
+  padding: 5px 20px;
+  width: 150px;
+  transition: background-color 0.3s;
+}
+
+.btn-create-new-job,
+.btn-proceed,
+.btn-yes-delete-job {
+  background: var(--primary-color);
+}
+
+.btn-cancel-ref-req,
+.btn-no-delete-job {
+  background: var(--secondary-color);
 }
 
 .btn-create-new-job {
-  background: var(--primary-color);
-  border: none;
-  color: var(--font-white);
   font-size: 1.25rem; /* Use rem for scalability */
-  border-radius: 50px;
   padding: 5px 25px 5px 15px; /* Increased padding for better touch targets */
   cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s; /* Smooth transition */
 }
 
 .btn-create-new-job:hover {
   background: darkorange; /* Darker shade on hover */
 }
 
+.btn-proceed:disabled {
+  background: var(--card-color);
+}
+
+.btn-cancel-ref-req:disabled {
+  background: var(--card-color);
+}
+
+.add-referee:disabled {
+  background-color: var(--card-color);
+  cursor: not-allowed;
+}
+
+/* Container Styles */
 .AiReferenceCheckerContent {
   border-radius: 20px; /* Slightly less rounded for a modern look */
   border: 3px solid var(--primary-color);
   padding: 40px; /* Adjusted padding */
-  height: 80vh;
   background: var(--font-white);
   margin: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
-.AiReference-table-title > h4 > svg {
-  cursor: pointer;
-}
-.job-tooltip-icon {
-  position: relative;
-}
 
-.job-tooltip-text {
-  display: inline-block;
-  position: absolute;
-  top: 20%;
-  left: 120%;
-  background-color: #ffffffae;
-  backdrop-filter: blur(1.4px) !important;
-
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  color: var(--card-color);
-  padding: 20px;
-  border-radius: 4px;
-  max-width: 490px;
-  min-width: 250px;
-  font-weight: 400;
-  height: auto;
-  word-wrap: break-word;
-  font-weight: 500;
-  z-index: 10;
-  font-size: 12px !important;
-  /* opacity: 0; */
-  transition: opacity 0.2s;
-}
-
-.job-tooltip-icon:hover .job-tooltip-text {
-  opacity: 1;
-  background: var(--btn-view-color);
-}
+/* Table Styles */
 .AiReference-active-jobs-container {
   background: var(--font-white);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border: 0.5px solid rgba(0, 0, 0, 0.25);
   border-radius: 20px;
-
   padding: 20px;
-  height: 60vh;
+      height: 60vh;
+
 }
 
 .AiReference-active-jobs-container table {
@@ -90,6 +92,7 @@
   max-height: 35vh; /* Set a max height for scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
 }
+
 .AiReference-active-jobs-container tr {
   display: table; /* Ensure rows are displayed as table rows */
   table-layout: fixed; /* Prevent layout shifts */
@@ -99,6 +102,7 @@
 .AiReference-active-jobs-container th {
   color: var(--card-color);
 }
+
 .AiReference-active-jobs-container th,
 .AiReference-active-jobs-container td {
   padding: 15px; /* Padding for table cells */
@@ -106,22 +110,27 @@
   transition: height 3s ease; /* Add transition for height only over 3 seconds */
   text-transform: capitalize;
 }
+
 .AiReference-active-jobs-container th,
 .AiReference-active-jobs-container td {
   width: 10%;
 }
+
 .AiReference-active-jobs-container th:nth-child(1),
 .AiReference-active-jobs-container td:nth-child(1) {
   width: 12%;
 }
+
 .AiReference-active-jobs-container th:nth-child(2),
 .AiReference-active-jobs-container td:nth-child(2) {
   width: 8%;
 }
+
 .AiReference-active-jobs-container th:nth-child(3),
 .AiReference-active-jobs-container td:nth-child(3) {
   width: 20%;
 }
+
 .AiReference-active-jobs-container td:nth-child(6) {
   padding-left: 20px;
 }
@@ -140,33 +149,37 @@
 .AiReference-active-jobs-container .btn-view-details:hover {
   background: darkgreen;
 }
-.custom-modal-job .modal-dialog {
-  width: 60% !important; /* Adjust the width to 80% of the parent container */
-  max-width: 700px !important; /* Add a maximum width to prevent it from getting too large */
-  height: 380px;
-  /* background: var(--primary-color); */
+
+.AiReference-active-jobs-container td {
+  height: auto;
+  font-weight: bold;
 }
+
+/* Form Styles */
 .job-container-form {
   border-radius: 20px;
   background: var(--font-white) !important;
   padding: 30px !important;
-  height: 65vh;
+  width: 750px;
+  background: var(--form-bg);
+  position: relative;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
+
 .job-container-form > b {
   width: 75%;
   max-width: 800px;
   height: 10%;
 }
+
 .job-container-form form {
-  width: 65%;
-  max-width: 620px;
-  height: 80%;
+  width: 540px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   font-size: 15px;
 }
+
 .job-container-form .form-label {
   font-weight: bold;
   display: flex;
@@ -174,12 +187,14 @@
   align-items: center;
   font-size: 15px;
 }
+
 .job-container-form input,
 .job-container-form select {
   border-radius: 50px;
   font-size: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
+
 .job-container-form .btn-create-job {
   background: var(--primary-color);
   border-radius: 10px;
@@ -225,7 +240,7 @@
 
 .action-options {
   position: absolute; /* or fixed if you want it to stay in view */
-  top: -20px;
+  top: 0;
   left: 20px;
   box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
   padding: 10px !important;
@@ -246,31 +261,38 @@
   position: absolute;
   font-size: 12px;
 }
+
+.job-container-form > .job-header {
+  width: 65%;
+  max-width: 540px;
+}
+
+.job-bg-behind {
+  background: var(--primary-color) !important;
+  border-radius: 20px 20px 0px 0px;
+  height: 15px;
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+}
+
 .job-container-form > b > span {
   color: var(--card-color);
 }
-.btn-no-delete-job {
-  background: var(--secondary-color);
-  width: 120px;
-  border-radius: 50px;
-  color: var(--font-white);
-  border: none;
-  padding: 5px 30px; /* Adjusted padding */
+
+.job-btn-container {
+  width: 750px;
+  gap: 20px; /* Added gap between buttons */
 }
-.btn-yes-delete-job {
-  background: var(--primary-color);
-  width: 120px;
-  border-radius: 50px;
-  color: var(--font-white);
-  border: none;
-  padding: 5px 30px; /* Adjusted padding */
+
+/* Modal Styles */
+.custom-modal-job .modal-dialog {
+  width: 60% !important; /* Adjust the width to 80% of the parent container */
+  max-width: 750px !important; /* Add a maximum width to prevent it from getting too large */
+  height: 380px;
 }
-/* .action-options p > svg:nth-child(1){
-  fill: var(--card-color) !important;
-}
-.action-options svg:nth-child(2){
-  fill: var(--text-color) !important;
-} */
+
 .custom-modal-job .modal-body {
   width: 100%;
   height: 100%;
@@ -288,6 +310,7 @@
   border-radius: 50px;
   border: 1px solid var(--avatar-bg);
 }
+
 .custom-modal-job .modal-body > form > div textarea {
   border-radius: 20px;
 }
@@ -300,15 +323,19 @@
   border: none;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
 }
+
 .custom-modal-job .modal-body .candidate-details .card > p {
   font-weight: 500 !important;
 }
+
 .custom-modal-job .modal-body .candidate-details .card > small {
   color: var(--card-color);
 }
+
 .custom-modal-job .modal-body .candidate-details .card > small > span {
   color: var(--text-color);
 }
+
 .custom-modal-job .modal-body .btn-create-job {
   background: var(--primary-color);
   border-radius: 50px;
@@ -317,6 +344,7 @@
   padding: 5px;
   color: var(--font-white);
 }
+
 .custom-modal-job .modal-body .btn-create-job:disabled {
   background: var(--card-color);
 }
@@ -338,70 +366,119 @@
   border-radius: 50px;
   border: none;
 }
+
 .custom-modal-job .modal-body .form-label {
   display: flex;
   align-items: center;
   margin: 0 !important;
   height: 38px;
 }
+
 .custom-modal-job .modal-body #dropdown-basic {
   background: none;
   color: var(--font-white) !important;
   border: none;
 }
+
 .custom-modal-job .modal-body #dropdown-basic::after {
   color: var(--text-color);
 }
 
-.add-referee {
-  background: var(--secondary-color);
-  padding: 5px 30px;
+/* Tooltip Styles */
+.job-tooltip-icon {
+  position: relative;
+}
+
+.job-icon {
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  background: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.job-icon > svg {
+  height: 12px;
+}
+
+.fill-req-container {
   border-radius: 50px;
-  border: none;
+  border: 1px solid var(--primary-color);
+  background: #f4690524;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  box-shadow: 0px 4px 4px #0000003d;
+  color: var(--primary-color);
+}
+
+.job-tooltip-text {
+  display: inline-block;
+  position: absolute;
+  top: 20%;
+  left: 120%;
+  background-color: #ffffffae;
+  backdrop-filter: blur(1.4px) !important;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: var(--card-color);
+  padding: 20px;
+  border-radius: 4px;
+  max-width: 490px;
+  min-width: 250px;
+  font-weight: 400;
+  height: auto;
+  word-wrap: break-word;
+  font-weight: 500;
+  z-index: 10;
+  font-size: 12px !important;
+  transition: opacity 0.2s;
+}
+
+.job-tooltip-icon:hover .job-tooltip-text {
+  opacity: 1;
+  background: var(--btn-view-color);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Applicant Container */
+.applicant-container{
+  padding: 20px 40px;
+  border-radius: 20px;
+  background-color: #f46a051a;
+  border: 1px solid var(--primary-color);
+
+}
+.applicant-container .applicant-header-label{
+  color: var(--primary-color);
+  font-size: 18px;
+}
+.applicant-container  .applicant-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  width: 18px;
+  height: 18px;
+  background-color: #F46A05;
+  font-size: 12px;
   color: var(--font-white);
 }
-.add-referee:disabled {
-  background-color: var(--card-color);
-  cursor: not-allowed;
+.applicant-container .form-label{
+  font-weight: 400;
+  color: var(--card-color);
 }
-.custom-modal-job .modal-body .form-control,
-.custom-modal-job .modal-body .form-select {
-  box-shadow: 0px 4px 4px #0000003d;
-}
-/* Apply custom styles to form controls and select dropdown */
-.custom-modal-job .modal-body .form-control,
-.custom-modal-job .modal-body .form-select {
-  box-shadow: 0px 4px 4px #0000003d;
-}
-/* Custom dropdown with background image for the icon */
-.custom-modal-job .modal-body .form-select {
-  position: relative;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
-  background-position: right 10px center;
-  background-repeat: no-repeat;
-  background-size: 12px 12px;
-  padding-right: 30px; /* Space for the icon */
-  appearance: none !important; /* Remove default arrow */
-  -webkit-appearance: none !important; /* For Safari */
-  -moz-appearance: none !important; /* For Firefox */
-  transition: background-image 0.3s ease; /* Smooth transition for the background */
-}
-
-/* Focus state when dropdown is open */
-.custom-modal-job .modal-body .form-select:focus {
-  outline: none; /* Remove default focus outline */
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
-  background-position: right 10px center;
-  background-repeat: no-repeat;
-  background-size: 12px 12px;
-}
-
-/* Ensure the background returns to default when not focused */
-.custom-modal-job .modal-body .form-select:not(:focus) {
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
-}
-
-/* Customizing the scrollbar */
+/* Scrollbar Customization */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar,
 .referees-list-container::-webkit-scrollbar,
 select::-webkit-scrollbar {

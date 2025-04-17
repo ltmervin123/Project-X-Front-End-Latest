@@ -31,9 +31,14 @@ const CATEGORY_ORDER = {
   ],
 };
 
-function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
+function ViewRequest({
+  referenceId,
+  refereeId,
+  token,
+  refereeQuestionFormat,
+  onClose,
+}) {
   const reportRef = useRef();
-  const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const [fetchingReference, setFetchingReference] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +46,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
   const [downloading, setDownloading] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
-    navigate(0);
+    onClose();
   };
 
   const fetchReferenceByReferenceId = async () => {
@@ -119,6 +124,80 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
     }
   }
 
+  function getOverallAssessmentText(category) {
+    switch (category) {
+      // Standard Format
+      case "jobResponsibilitiesAndPerformance":
+        return "Overall job performance assessment:";
+      case "skillAndCompetencies":
+        return "Overall Assessment of Skills and Competencies:";
+      case "workEthicAndBehavior":
+        return "Overall evaluation regarding work ethic and behavior:";
+
+      // Management Format
+      case "leadershipAndManagementSkills":
+        return "Overall performance in Leadership and Management:";
+      case "workEthicAndBehavior":
+        return "Overall evaluation regarding work ethic and behavior:";
+
+      // Executive Format
+      case "strategicLeadershipAndVision":
+        return "Overall assessment of strategic leadership:";
+      case "businessImpactAndResults":
+        return "Overall Assessment of Business Impact and Results:";
+      case "teamLeadershipAndOrganizationalDevelopment":
+        return "Overall Assessment of Team Leadership and Organizational Development:";
+      case "decisionMakingAndProblemSolving":
+        return "Overall Assessment of Decision Making and Problem Solving:";
+      case "innovationAndGrowth":
+        return "Overall Assessment of Innovation and Growth:";
+
+      default:
+        return `Overall ${formatCategories(category)} Assessment:`;
+    }
+  }
+
+  const getAssessmentStyle = (assessment) => {
+    switch (assessment) {
+      case "Unsatisfactory":
+        return {
+          color: "#FF1D48",
+          borderColor: "#FF1D48",
+          backgroundColor: "rgba(255, 29, 72, 0.15)",
+        };
+      case "Needs Improvement":
+        return {
+          color: "#ED7D31",
+          borderColor: "#ED7D31",
+          backgroundColor: "rgba(237, 125, 49, 0.15)",
+        };
+      case "Meets Expectations":
+        return {
+          color: "#FFEA66",
+          borderColor: "#FFEA66",
+          backgroundColor: "rgba(255, 234, 102, 0.15)",
+        };
+      case "Exceeds Expectations":
+        return {
+          color: "#70AD47",
+          borderColor: "#70AD47",
+          backgroundColor: "rgba(112, 173, 71, 0.15)",
+        };
+      case "Exceptional":
+        return {
+          color: "#5D643F",
+          borderColor: "#5D643F",
+          backgroundColor: "rgba(93, 100, 63, 0.15)",
+        };
+      default:
+        return {
+          color: "grey",
+          borderColor: "grey",
+          backgroundColor: "rgba(128, 128, 128, 0.15)",
+        };
+    }
+  };
+
   const downloadPDF = () => {
     if (!reportRef.current) return;
     setDownloading(true);
@@ -137,7 +216,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
 
     const options = {
       margin: 10,
-      filename: `${referenceData?.referenceRequestId?.candidate}-Reference-Report.pdf`,
+      filename: `${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}-Reference-Report.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
         scale: 2,
@@ -223,13 +302,13 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
             {referenceData?.questionFormat || "Not Available"}
           </h4>
           <p className="mb-2">
-            <b>Position: </b>
+            <b>Position Applied For: </b>
             <span className="Capitalize">
               {referenceData?.referenceRequestId?.position || "Not Available"}
             </span>
           </p>
           <p className="mb-2">
-            <b>Candidate Name: </b>
+            <b>Applicant: </b>
             <span className="Capitalize">
               {`${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}` ||
                 "Not Available"}
@@ -243,21 +322,29 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
             </span>
           </p>
           <p className="mb-2">
-            <b>Referee Title: </b>
+            <b>Current Company: </b>
             <span className="Capitalize">
-              {referenceData?.refereeTitle || "Not Available"}
+              {referenceData?.currentCompany || "Not Available"}
             </span>
           </p>
-
           <p className="mb-2">
-            <b>Relationship to Candidate: </b>
+            <b>
+              Company you worked with (
+              {referenceData?.referenceRequestId?.candidate.firstName}):{" "}
+            </b>
             <span>
-              {formatter(referenceData?.refereeRelationshipWithCandidate)}
+              {formatter(referenceData?.companyWorkedWith) || "Not Available"}
+            </span>
+          </p>
+          <p className="mb-2">
+            <b>Relationship to the Applicant: </b>
+            <span>
+              {formatter(referenceData?.refereeRelationshipWithCandidate) ||
+                "Not Available"}
             </span>
           </p>
           <p className="mb-2">
             <b>Dates Worked Together: </b>
-
             <span>
               {referenceData?.workDuration ? (
                 <>
@@ -308,6 +395,22 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
                           </div>
                         </div>
                       ))}
+
+                      {/* Add Overall Category Assessment */}
+                      {item.category !== "relationship" &&
+                        item.category !== "closingQuestions" && (
+                          <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                            <b>{getOverallAssessmentText(item.category)}</b>
+                            <div
+                              className="overall-assessment-detail"
+                              style={getAssessmentStyle(item.assessmentRating)}
+                            >
+                              <p className="m-0">
+                                {item.assessmentRating || "Not Available"}
+                              </p>
+                            </div>
+                          </div>
+                        )}
                     </div>
                   ))
               : referenceData?.referenceQuestion.map((item) => (
@@ -331,6 +434,22 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
                         </div>
                       </div>
                     ))}
+
+                    {/* Add Overall Category Assessment */}
+                    {item.category !== "relationship" &&
+                      item.category !== "closingQuestions" && (
+                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                          <b>{getOverallAssessmentText(item.category)}</b>
+                          <div
+                            className="overall-assessment-detail"
+                            style={getAssessmentStyle(item.overallAssessment)}
+                          >
+                            <p className="m-0">
+                              {item.overallAssessment || "Not Available"}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                   </div>
                 ))}
           </div>
@@ -349,7 +468,7 @@ function ViewRequest({ referenceId, refereeId, token, refereeQuestionFormat }) {
                   className={isLandscape ? "landscape" : "portrait"}
                 />
               ) : (
-                <p>No image available</p> // Fallback if no image URL is provided
+                <p>No image available</p>
               )}
             </div>
           </div>

@@ -6,7 +6,7 @@ import CandidateDetailsPopUp from "./PopUpComponents/CandidateDetailsPopUp";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import axios from "axios";
 
-const Candidates = () => {
+const Applicant = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const companyId = USER?.id;
   const token = USER?.token;
@@ -170,7 +170,7 @@ const Candidates = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3 className="mb-0">Candidates</h3>
+          <h3 className="mb-0">Applicant</h3>
           <p className="mb-2">
             Manage and track your potential hires through the reference checking
             process.
@@ -228,7 +228,7 @@ const Candidates = () => {
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex gap-2 align-items-center">
-            Candidate Lists
+          Applicant Lists
             <div className="position-relative d-flex">
               <svg
                 width="16"
@@ -256,7 +256,7 @@ const Candidates = () => {
               )}
             </div>
           </h4>
-          <p>Overview of all candidates in the system.</p>
+          <p>Overview of all applicant's in the system.</p>
         </div>
 
         {candidates && candidates.length > 0 ? (
@@ -437,4 +437,4 @@ const Candidates = () => {
   );
 };
 
-export default Candidates;
+export default Applicant;

@@ -314,6 +314,10 @@ const ReferenceRequest = () => {
         refereeId={selectedReferee._id}
         token={token}
         refereeQuestionFormat={selectedReferee.questionFormat}
+        onClose={() => {
+          setShowViewRequest(false);
+          setShowDetailsPopup(false);
+        }}
       />
     );
   }

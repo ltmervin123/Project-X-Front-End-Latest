@@ -151,23 +151,24 @@ const translations = {
       </div>
 
       {isEditing && editingType === "original" && (
-        <div className="action-buttons d-flex gap-3 mb-3">
-          <button
-            className={`btn-save ${updating ? "disabled" : ""}`}
-            onClick={handleSaveOriginalAnswer}
-            disabled={updating}
-          >
-            {updating ? "Saving..." : "Save"}
-          </button>
-          <button
-            className={`btn-discard ${updating ? "disabled" : ""}`}
-            onClick={handleDiscard}
-            disabled={updating}
-          >
-            Discard
-          </button>
-        </div>
-      )}
+  <div className="action-buttons d-flex gap-3 mb-3">
+    <button
+      className={`btn-save ${updating ? "disabled" : ""}`}
+      onClick={handleSaveOriginalAnswer}
+      disabled={updating}
+    >
+      {updating ? translations[language].saving : translations[language].save}
+    </button>
+    <button
+      className={`btn-discard ${updating ? "disabled" : ""}`}
+      onClick={handleDiscard}
+      disabled={updating}
+    >
+      {translations[language].discard}
+    </button>
+  </div>
+)}
+
 
       <p className="ai-enhanced-label d-flex justify-content-between align-items-center">
       <strong>{translations[language].aiEnhancedAnswer}</strong>

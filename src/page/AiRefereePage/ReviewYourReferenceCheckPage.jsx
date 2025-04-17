@@ -33,14 +33,15 @@ function ReviewYourReferenceCheckPage() {
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const allQuestionsAnswered = submittedAnswers.length === questions.length;
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
-  const [frontIdFile, setFrontIdFile] = useState(null);
-  const [backIdFile, setBackIdFile] = useState(null);
-  const [savedSignature, setSavedSignature] = useState(null);
   const [isCanvaEmpty, setIsCanvaEmpty] = useState(true);
   const [checked, setChecked] = useState(null);
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
+  const [frontIdFile, setFrontIdFile] = useState(null);
+  const [backIdFile, setBackIdFile] = useState(null);
+  const [savedSignature, setSavedSignature] = useState(null);
+  const [selfie, setSelfie] = useState(null);
   const referenceQuestionsData =
     JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
 
@@ -65,6 +66,7 @@ function ReviewYourReferenceCheckPage() {
       confirmSkip: "Are you sure you want to skip?",
       originalAnswer: "Original Answer",
       aiEnhancedAnswer: "AI Enhanced Answer",
+      documentVerification: "Document Verification",
     },
     Japanese: {
       reviewResponses: "回答を確認する",
@@ -80,6 +82,7 @@ function ReviewYourReferenceCheckPage() {
       confirmSkip: "本当にスキップしますか？",
       originalAnswer: "元の回答",
       aiEnhancedAnswer: "AI強化回答",
+      documentVerification: "本人確認書類",
     },
   };
   const handleConfirmSkip = () => {
@@ -391,6 +394,7 @@ function ReviewYourReferenceCheckPage() {
       endDate,
       startDate,
       companyId,
+      currentCompany,
     } = REFERENCE_DATA;
     const referenceQuestion = getReferenceQuestionData();
 
@@ -399,9 +403,11 @@ function ReviewYourReferenceCheckPage() {
     try {
       setSubmitting(true);
       const formdata = new FormData();
+      const selfieBlob = dataURLtoBlob(selfie);
       if (signatureMethod === "Draw Signature") {
         const signatureBlob = dataURLtoBlob(savedSignature);
         formdata.append("referenceRequestId", referenceId);
+        formdata.append("currentCompany", currentCompany);
         formdata.append("refereeTitle", positionTitle);
         formdata.append("refereeRelationshipWithCandidate", relationship);
         formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
@@ -410,9 +416,11 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("signatureFile", signatureBlob, "signature.png");
         formdata.append("frontIdFile", frontIdFile);
-        // formdata.append("backIdFile", backIdFile);
+        formdata.append("backIdFile", backIdFile);
+        formdata.append("selfieFile", selfieBlob, "selfie.png");
       } else {
         formdata.append("referenceRequestId", referenceId);
+        formdata.append("currentCompany", currentCompany);
         formdata.append("refereeTitle", positionTitle);
         formdata.append("refereeRelationshipWithCandidate", relationship);
         formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
@@ -421,7 +429,8 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("workDuration", JSON.stringify(workDuration));
         formdata.append("signatureFile", uploadedFile);
         formdata.append("frontIdFile", frontIdFile);
-        // formdata.append("backIdFile", backIdFile);
+        formdata.append("backIdFile", backIdFile);
+        formdata.append("selfieFile", selfieBlob, "selfie.png");
       }
       const response = await axios.post(URL, formdata, {
         headers: {
@@ -437,10 +446,6 @@ function ReviewYourReferenceCheckPage() {
           state: { referenceId, refereeId },
         });
       }
-
-      navigate("/reference-completed", {
-        state: { referenceId, refereeId },
-      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -495,33 +500,38 @@ function ReviewYourReferenceCheckPage() {
   return (
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
-        <h5 className="referencecheckquestiontitle text-left mb-2">
-          {translations[language].reviewResponses}
-        </h5>
         {showSignatureSection ? (
-          <Col md={12}>
-            <SignatureSection
-              signatureMethod={signatureMethod}
-              canvasRef={canvasRef}
-              startDrawing={startDrawing}
-              draw={draw}
-              stopDrawing={stopDrawing}
-              clearDrawing={clearDrawing}
-              handleProceedIDUpload={handleProceedIDUpload}
-              submitting={submitting}
-              handleFileDrop={handleFileDrop}
-              handleDragOver={handleDragOver}
-              uploadedFile={uploadedFile}
-              imagePreview={imagePreview}
-              errorMessage={errorMessage}
-              clearImage={clearImage}
-              setSignatureMethod={setSignatureMethod}
-              handleFileSelect={handleFileSelect}
-              isCanvaEmpty={isCanvaEmpty}
-            />
-          </Col>
+          <>
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {translations[language].reviewResponses}
+            </h5>
+            <Col md={12}>
+              <SignatureSection
+                signatureMethod={signatureMethod}
+                canvasRef={canvasRef}
+                startDrawing={startDrawing}
+                draw={draw}
+                stopDrawing={stopDrawing}
+                clearDrawing={clearDrawing}
+                handleProceedIDUpload={handleProceedIDUpload}
+                submitting={submitting}
+                handleFileDrop={handleFileDrop}
+                handleDragOver={handleDragOver}
+                uploadedFile={uploadedFile}
+                imagePreview={imagePreview}
+                errorMessage={errorMessage}
+                clearImage={clearImage}
+                setSignatureMethod={setSignatureMethod}
+                handleFileSelect={handleFileSelect}
+                isCanvaEmpty={isCanvaEmpty}
+              />
+            </Col>
+          </>
         ) : showIdUploadSection ? (
           <>
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {translations[language].documentVerification}
+            </h5>
             <IdUploadSection
               frontIdFile={frontIdFile}
               backIdFile={backIdFile}
@@ -531,10 +541,14 @@ function ReviewYourReferenceCheckPage() {
               clearBackId={clearBackId}
               submitIdUpload={submitIdUpload}
               submitting={submitting}
+              setSelfie={setSelfie}
             />
           </>
         ) : (
           <>
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {translations[language].reviewResponses}
+            </h5>
             <Col md={!showBothAnswers ? 9 : 12}>
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
