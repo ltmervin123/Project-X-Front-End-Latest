@@ -13,12 +13,6 @@ import HRHatchFormatCategoryPopup from "./PopUpComponents/HRHatchFormatCategoryP
 import DeleteConfirmationNewSetsQuestionPopup from "./PopUpComponents/DeleteConfirmationNewSetsQuestionPopup";
 import axios from "axios";
 
-const QUESTIONS_DESCRIPTION = {
-  StandardFormat: "Standard questions suitable for most positions.",
-  ManagementFormat: "Questions tailored for managerial and leadership roles.",
-  ExecutiveFormat: "In-depth questions for senior executive positions.",
-};
-
 // Standard format questions
 const STANDARD_QUESTIONS_SETS = [
   {
@@ -171,6 +165,24 @@ const EXECUTIVE_QUESTIONS_SET = [
   },
 ];
 
+const HR_HATCH_QUESTIONS_FORMAT = {
+  StandardFormat: {
+    description: "Standard questions suitable for most positions.",
+    name: "Standard Format",
+    questionSets: STANDARD_QUESTIONS_SETS,
+  },
+  ManagementFormat: {
+    description: "Questions tailored for managerial and leadership roles.",
+    name: "Management Format",
+    questionSets: MANAGEMENT_QUESTIONS_SETS,
+  },
+  ExecutiveFormat: {
+    description: "In-depth questions for senior executive positions.",
+    name: "Executive Format",
+    questionSets: EXECUTIVE_QUESTIONS_SET,
+  },
+};
+
 // Template format questions
 const TEMPLATE_QUESTIONS_SET = {
   name: "Follow this Format",
@@ -306,8 +318,9 @@ const ReferenceQuestion = () => {
   const [isEditHRHatchModalOpen, setIsEditHRHatchModalOpen] = useState(false);
   const [selectedFormatQuestions, setSelectedFormatQuestions] = useState([]);
   const [selectedFormatName, setSelectedFormatName] = useState("");
-  const [selectedFormatDescription, setSelectedFormatDescription] =
-    useState("");
+
+  const [selectedHRHATCHQUESTIONFORMAT, setSelectHRHATCHQUESTIONFORMAT] =
+    useState([]);
   const queryClient = useQueryClient();
 
   const handleButtonClick = (button) => {
@@ -425,43 +438,66 @@ const ReferenceQuestion = () => {
   const hrHatchButtonRef = useRef(null);
 
   const handleAutoClickHRHatchFormats = () => {
-    setActiveButton("HR-HATCH Formats"); // Change the active button
+    setActiveButton("HR-HATCH Formats");
     if (hrHatchButtonRef.current) {
-      hrHatchButtonRef.current.click(); // Programmatically click the button
+      hrHatchButtonRef.current.click();
     }
   };
 
   const handleSelectFormat = (formatName) => {
-    setSelectedFormatName(formatName);
-    let questionsWithCategories = [];
+    // setSelectedFormatName(formatName);
+    // let questionsWithCategories = [];
 
-    if (formatName === "Standard Format") {
-      setSelectedFormatDescription(QUESTIONS_DESCRIPTION.StandardFormat);
-      questionsWithCategories = STANDARD_QUESTIONS_SETS.flatMap((set) =>
-        set.questions.map((questionText) => ({
-          text: questionText,
-          category: set.category,
-        }))
-      );
-    } else if (formatName === "Management Format") {
-      setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ManagementFormat);
-      questionsWithCategories = MANAGEMENT_QUESTIONS_SETS.flatMap((set) =>
-        set.questions.map((questionText) => ({
-          text: questionText,
-          category: set.category,
-        }))
-      );
-    } else if (formatName === "Executive Format") {
-      setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ExecutiveFormat);
-      questionsWithCategories = EXECUTIVE_QUESTIONS_SET.flatMap((set) =>
-        set.questions.map((questionText) => ({
-          text: questionText,
-          category: set.category,
-        }))
-      );
+    // if (formatName === "Standard Format") {
+    //   setSelectedFormatDescription(QUESTIONS_DESCRIPTION.StandardFormat);
+    //   questionsWithCategories = STANDARD_QUESTIONS_SETS.flatMap((set) =>
+    //     set.questions.map((questionText) => ({
+    //       text: questionText,
+    //       category: set.category,
+    //     }))
+    //   );
+    // } else if (formatName === "Management Format") {
+    //   setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ManagementFormat);
+    //   questionsWithCategories = MANAGEMENT_QUESTIONS_SETS.flatMap((set) =>
+    //     set.questions.map((questionText) => ({
+    //       text: questionText,
+    //       category: set.category,
+    //     }))
+    //   );
+    // } else if (formatName === "Executive Format") {
+    //   setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ExecutiveFormat);
+    //   questionsWithCategories = EXECUTIVE_QUESTIONS_SET.flatMap((set) =>
+    //     set.questions.map((questionText) => ({
+    //       text: questionText,
+    //       category: set.category,
+    //     }))
+    //   );
+    // }
+
+    // setSelectedFormatQuestions(questionsWithCategories);
+
+    //Check the format question selected
+
+    switch (formatName) {
+      case "Standard Format":
+        setSelectHRHATCHQUESTIONFORMAT(
+          HR_HATCH_QUESTIONS_FORMAT.StandardFormat
+        );
+        break;
+      case "Management Format":
+        setSelectHRHATCHQUESTIONFORMAT(
+          HR_HATCH_QUESTIONS_FORMAT.ManagementFormat
+        );
+        break;
+      case "Executive Format":
+        setSelectHRHATCHQUESTIONFORMAT(
+          HR_HATCH_QUESTIONS_FORMAT.ExecutiveFormat
+        );
+        break;
+      default:
+        setSelectHRHATCHQUESTIONFORMAT([]);
     }
 
-    setSelectedFormatQuestions(questionsWithCategories);
     setIsHRHatchFormatPopupOpen(false);
     setIsEditHRHatchModalOpen(true);
   };
@@ -724,7 +760,6 @@ const ReferenceQuestion = () => {
                 )}
               </div>
 
-              {/* Question Set Container for Custom Sets */}
               {questionSets && questionSets.length > 0 ? (
                 questionSets
                   .filter((item) =>
@@ -735,7 +770,7 @@ const ReferenceQuestion = () => {
                       key={item._id}
                       className={`question-set-container border mb-3 ${
                         selectedSet === item._id ? "expanded" : ""
-                      }`} // Add 'expanded' class if selected
+                      }`}
                     >
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="question-set-info">
@@ -785,8 +820,8 @@ const ReferenceQuestion = () => {
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                                 onClick={() => {
-                                  setSelectedQuestionSet(item); // Set the selected question set
-                                  setIsEditModalOpen(true); // Open the edit modal
+                                  setSelectedQuestionSet(item);
+                                  setIsEditModalOpen(true);
                                 }}
                               >
                                 <path
@@ -876,17 +911,13 @@ const ReferenceQuestion = () => {
         <EditHRFormatQuestionPopup
           onClose={() => setIsEditHRHatchModalOpen(false)}
           reFetchUpdatedQuestions={reFetchUpdatedQuestions}
-          existingSet={{
-            name: selectedFormatName,
-            description: selectedFormatDescription,
-            questions: selectedFormatQuestions,
-          }}
+          selectedQuestionFormat={selectedHRHATCHQUESTIONFORMAT}
         />
       )}
       {isHRHatchFormatPopupOpen && (
         <HRHatchFormatCategoryPopup
-          onClose={() => setIsHRHatchFormatPopupOpen(false)} // Close the popup
-          onSelectFormat={handleSelectFormat} // Pass the format selection handler
+          onClose={() => setIsHRHatchFormatPopupOpen(false)}
+          onSelectFormat={handleSelectFormat}
         />
       )}
     </div>
