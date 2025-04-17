@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FaSearch } from "react-icons/fa";
 import JobTable from "./components/JobTable";
-import CandidateTable from "./components/CandidateTable";
+import ApplicantTable from "./components/ApplicantTable";
 import ReferenceRequestTable from "./components/ReferenceRequestTable";
 import ReferenceQuestionTable from "./components/ReferenceQuestionTable";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DeleteConfirmationJobPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationJobPopUp";
-import DeleteConfirmationCandidatePopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationCandidatePopUp";
+import DeleteConfirmationApplicantPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
 import DeleteConfirmationReferenceRequestPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
 import DeleteConfirmationReferenceQuestionPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationReferenceQuestionPopUp";
 import RecoverConfirmationJobPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationJobPopUp";
-import RecoverConfirmationCandidatePopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationCandidatePopUp";
+import RecoverConfirmationApplicantPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationApplicantPopUp";
 import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
 import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
@@ -78,16 +78,171 @@ const Trashbin = () => {
 
   const categories = [
     "Job",
-    "Candidate",
+    "Applicant",
     "Reference Request",
     "Reference Question",
   ];
+
+  // // Mock data for different categories
+  // const mockData = useMemo(() => {
+  //   return {
+  //     Job: [
+  //       // {
+  //       //   id: 1,
+  //       //   name: "Software Engineer",
+  //       //   vacancy: 2,
+  //       //   department: "Engineering",
+  //       //   hiringManager: "John Doe",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   name: "Product Manager",
+  //       //   vacancy: 1,
+  //       //   department: "Product",
+  //       //   hiringManager: "Sarah Wilson",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   name: "UI/UX Designer",
+  //       //   vacancy: 3,
+  //       //   department: "Design",
+  //       //   hiringManager: "Mike Thompson",
+  //       //   deletedDate: "2024-01-18",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   name: "Marketing Specialist",
+  //       //   vacancy: 2,
+  //       //   department: "Marketing",
+  //       //   hiringManager: "Emily Brown",
+  //       //   deletedDate: "2024-01-17",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   name: "Sales Manager",
+  //       //   vacancy: 1,
+  //       //   department: "Sales",
+  //       //   hiringManager: "David Clark",
+  //       //   deletedDate: "2024-01-16",
+  //       // },
+  //     ],
+  //     Candidate: [
+  //       // {
+  //       //   id: 1,
+  //       //   name: "Jane Smith",
+  //       //   email: "jane@example.com",
+  //       //   position: "Developer",
+  //       //   deletedDate: "2024-01-21",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   name: "Robert Johnson",
+  //       //   email: "robert@example.com",
+  //       //   position: "Designer",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   name: "Lisa Anderson",
+  //       //   email: "lisa@example.com",
+  //       //   position: "Manager",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   name: "Michael Lee",
+  //       //   email: "michael@example.com",
+  //       //   position: "Analyst",
+  //       //   deletedDate: "2024-01-18",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   name: "Emma Davis",
+  //       //   email: "emma@example.com",
+  //       //   position: "Coordinator",
+  //       //   deletedDate: "2024-01-17",
+  //       // },
+  //     ],
+  //     "Reference Request": [
+  //       // {
+  //       //   id: 1,
+  //       //   candidateName: "John Smith",
+  //       //   referentName: "Mary Johnson",
+  //       //   status: "Pending",
+  //       //   deletedDate: "2024-01-22",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   candidateName: "Sarah Wilson",
+  //       //   referentName: "James Brown",
+  //       //   status: "Completed",
+  //       //   deletedDate: "2024-01-21",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   candidateName: "Michael Davis",
+  //       //   referentName: "Emma Thompson",
+  //       //   status: "In Progress",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   candidateName: "Laura Miller",
+  //       //   referentName: "David Anderson",
+  //       //   status: "Pending",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   candidateName: "Robert Wilson",
+  //       //   referentName: "Jennifer Lee",
+  //       //   status: "Completed",
+  //       //   deletedDate: "2024-01-18",
+  //       // },
+  //     ],
+
+  //     "Reference Question": [
+  //       // {
+  //       //   id: 1,
+  //       //   question: "Describe your leadership style",
+  //       //   numberOfQuestions: "5",
+  //       //   deletedDate: "2024-01-23",
+  //       // },
+  //       // {
+  //       //   id: 2,
+  //       //   question: "How do you handle conflict resolution?",
+  //       //   numberOfQuestions: "4",
+  //       //   deletedDate: "2024-01-22",
+  //       // },
+  //       // {
+  //       //   id: 3,
+  //       //   question: "What are your key strengths and weaknesses?",
+  //       //   numberOfQuestions: "6",
+  //       //   deletedDate: "2024-01-21",
+  //       // },
+  //       // {
+  //       //   id: 4,
+  //       //   question: "Describe a challenging project you managed",
+  //       //   numberOfQuestions: "3",
+  //       //   deletedDate: "2024-01-20",
+  //       // },
+  //       // {
+  //       //   id: 5,
+  //       //   question: "How do you prioritize your work?",
+  //       //   numberOfQuestions: "4",
+  //       //   deletedDate: "2024-01-19",
+  //       // },
+  //     ],
+  //   };
+  // }, [referenceQuestion]);
 
   // Mock data for different categories
   const mockData = useMemo(() => {
     return {
       Job: [],
-      Candidate: [],
+      Applicant: [],
       "Reference Request": [],
 
       "Reference Question": referenceQuestion?.questions || [],
@@ -99,7 +254,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", id);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", id);
         break;
       case "Reference Request":
@@ -119,7 +274,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", id);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", id);
         break;
       case "Reference Request":
@@ -147,7 +302,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", selectedItems);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", selectedItems);
         break;
       case "Reference Request":
@@ -167,7 +322,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", selectedItems);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", selectedItems);
         break;
       case "Reference Request":
@@ -250,7 +405,7 @@ const Trashbin = () => {
           { label: "Deleted Date", className: "text-center" },
           "Actions",
         ];
-      case "Candidate":
+      case "Applicant":
         return [
           ...baseHeaders,
           "Name",
@@ -262,7 +417,7 @@ const Trashbin = () => {
       case "Reference Request":
         return [
           ...baseHeaders,
-          "Candidate",
+          "Applicant",
           "Referent",
           "Status",
           { label: "Deleted Date", className: "text-center" },
@@ -294,8 +449,8 @@ const Trashbin = () => {
     switch (selectedCategory) {
       case "Job":
         return <JobTable key={item._id} {...props} />;
-      case "Candidate":
-        return <CandidateTable key={item.id} {...props} />;
+      case "Applicant":
+        return <ApplicantTable key={item.id} {...props} />;
       case "Reference Request":
         return <ReferenceRequestTable key={item.id} {...props} />;
       case "Reference Question":
@@ -448,8 +603,8 @@ const Trashbin = () => {
               isAll={selectedItems.length === mockData[selectedCategory].length}
             />
           )}
-          {selectedCategory === "Candidate" && (
-            <DeleteConfirmationCandidatePopUp
+          {selectedCategory === "Applicant" && (
+            <DeleteConfirmationApplicantPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
@@ -486,8 +641,8 @@ const Trashbin = () => {
               isAll={selectedItems.length === mockData[selectedCategory].length}
             />
           )}
-          {selectedCategory === "Candidate" && (
-            <RecoverConfirmationCandidatePopUp
+          {selectedCategory === "Applicant" && (
+            <RecoverConfirmationApplicantPopUp
               onClose={() => setShowRecoverPopup(false)}
               onConfirmRecover={handleConfirmRestore}
               selectedCount={selectedItems.length}

@@ -29,13 +29,11 @@ const CandidateRequestEmailSection = () => {
           </div>
           {emails.length === 1 ? (
             <p className="w-100">
-              We have sent an email to <strong>{emails[0]}</strong> to input
-              their reference request.
+              We've just sent an email to <strong>{emails[0]}</strong>. Check the inbox to input their reference request.
             </p>
           ) : (
             <p className="w-100">
-              We've successfully sent the emails to the listed applicant to
-              input their reference requests.
+              We've successfully sent the emails to the listed applicants. Check the inbox to input their reference request.
             </p>
           )}
 

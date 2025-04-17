@@ -416,7 +416,7 @@ const MainDashboard = () => {
       title: "Total Candidates",
       count: totalCandidateCount,
       color: "#686868",
-      path: "/AiReferenceCandidates",
+      path: "/AiReferenceApplicant",
     },
   ];
 

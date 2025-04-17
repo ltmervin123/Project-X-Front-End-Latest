@@ -365,7 +365,7 @@ const ReferenceRequest = () => {
           >
             <input
               type="text"
-              placeholder="Search by candidate name..."
+              placeholder="Search by reference request..."
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

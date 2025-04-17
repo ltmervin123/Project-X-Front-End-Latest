@@ -3,8 +3,6 @@ import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
 const API = process.env.REACT_APP_API_URL;
-const USER = JSON.parse(localStorage.getItem("user"));
-const TOKEN = USER?.token;
 
 const EditHRFormatQuestionPopup = ({
   onClose,
@@ -13,6 +11,8 @@ const EditHRFormatQuestionPopup = ({
 }) => {
   const defaultName = selectedQuestionFormat.name || "N/A";
   const defaultDescription = selectedQuestionFormat.description || "N/A";
+  const USER = JSON.parse(localStorage.getItem("user"));
+  const TOKEN = USER?.token;
 
   // Create a reference map to track original questions and their indexes
   const questionRefMap = useRef(new Map());

@@ -428,6 +428,7 @@ const ReferenceVerificationSection = () => {
   return (
     <div className="row main-login justify-content-center position-relative">
       <div style={{ display: "none" }}>
+
         <div ref={reportRef} className="ViewRequest-container">
           <h4 className="color-orange mb-2">
             {translations[language].format[referenceData?.questionFormat] ||
@@ -580,7 +581,7 @@ const ReferenceVerificationSection = () => {
                       </div>
                     ))}
                     {/* Add Overall Category Assessment */}
-                    {item.category !== "relationship" &&
+                    {/* {item.category !== "relationship" &&
                       item.category !== "closingQuestions" && (
                         <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
                           <b>{getOverallAssessmentText(item.category)}</b>
@@ -594,7 +595,7 @@ const ReferenceVerificationSection = () => {
                             </p>
                           </div>
                         </div>
-                      )}
+                      )} */}
                   </div>
                 ))}
           </div>

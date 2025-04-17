@@ -436,7 +436,7 @@ function ViewRequest({
                     ))}
 
                     {/* Add Overall Category Assessment */}
-                    {item.category !== "relationship" &&
+                    {/* {item.category !== "relationship" &&
                       item.category !== "closingQuestions" && (
                         <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
                           <b>{getOverallAssessmentText(item.category)}</b>
@@ -449,7 +449,7 @@ function ViewRequest({
                             </p>
                           </div>
                         </div>
-                      )}
+                      )} */}
                   </div>
                 ))}
           </div>
