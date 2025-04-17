@@ -171,7 +171,7 @@ const ReferenceCheckQuestionnairePage = () => {
               questions: qs.map((q) =>
                 typeof q === "string"
                   ? q.replace(
-                      /\$\{candidateName\}|\(candidate name\)/g,
+                      /\$\{candidateName\}|\(candidate name\)|\(applicant name\)/g,
                       candidateName
                     )
                   : q
@@ -190,7 +190,7 @@ const ReferenceCheckQuestionnairePage = () => {
             questions: qs.map((q) =>
               typeof q === "string"
                 ? q.replace(
-                    /\$\{candidateName\}|\(candidate name\)/g,
+                    /\$\{candidateName\}|\(candidate name\)|\(applicant name\)/g,
                     candidateName
                   )
                 : q
