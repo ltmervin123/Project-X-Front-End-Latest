@@ -170,7 +170,7 @@ const Applicant = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3 className="mb-0">Applicant</h3>
+          <h3 className="mb-0">Applicants</h3>
           <p className="mb-2">
             Manage and track your potential hires through the reference checking
             process.
@@ -210,7 +210,7 @@ const Applicant = () => {
           >
             <input
               type="text"
-              placeholder="Search candidates..."
+              placeholder="Search applicants..."
               className="form-control ps-4 pe-5"
               value={searchQuery} // bind value to the searchQuery state
               onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
@@ -256,7 +256,7 @@ const Applicant = () => {
               )}
             </div>
           </h4>
-          <p>Overview of all applicant's in the system.</p>
+          <p>Overview of all applicants in the system.</p>
         </div>
 
         {candidates && candidates.length > 0 ? (

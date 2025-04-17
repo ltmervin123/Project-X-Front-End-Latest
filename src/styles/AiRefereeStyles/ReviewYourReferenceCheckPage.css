@@ -6,7 +6,7 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
-.ReviewYourReferenceCheck{
+.ReviewYourReferenceCheck {
   height: 100vh;
   overflow: auto;
   padding: 0 !important;
@@ -91,7 +91,6 @@
   border-bottom: 3px solid var(--primary-color);
 }
 
-
 .question-text {
   font-size: 16px;
   font-weight: 400;
@@ -102,33 +101,30 @@
   font-weight: 300;
 }
 .orig-label button,
-.ai-enhanced-label button{
-display: flex;
-gap: 5px;
-align-items: center;
-background: var(--secondary-color);
-border-radius: 50px;
-padding: 5px 20px;
-color: var(--font-white);
-border: none;
-font-size: 15px;
-/* width: 100px; */
+.ai-enhanced-label button {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  background: var(--secondary-color);
+  border-radius: 50px;
+  padding: 5px 20px;
+  color: var(--font-white);
+  border: none;
+  font-size: 15px;
+  /* width: 100px; */
 }
 .orig-label button > svg,
-.ai-enhanced-label button >  svg{
+.ai-enhanced-label button > svg {
   height: 13px;
 }
-.answer-container,
-.ai-enhanced-answer-container {
-  margin-bottom: 15px;
-}
+
 .answer-container {
   background: #f2f3f7;
   padding: 20px;
   border-radius: 20px;
   overflow-x: auto;
-  height: 155px;
-  min-height: 130px;
+  min-height: 140px;
+
   word-wrap: break-word;
   margin: 0;
 }
@@ -147,8 +143,7 @@ font-size: 15px;
   border-radius: 20px;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 155px;
-  min-height: 130px;
+  min-height: 140px;
 
   width: 100%;
 }
@@ -163,7 +158,7 @@ font-size: 15px;
   overflow-y: auto;
   color: var(--font-black);
 }
-.answer-container.edit{
+.answer-container.edit {
   background: #f2f3f7;
   padding: 20px;
   border-radius: 20px;
@@ -172,7 +167,7 @@ font-size: 15px;
   word-wrap: break-word;
   margin: 0;
 }
-.ai-enhanced-answer-container.edit{
+.ai-enhanced-answer-container.edit {
   background: #319f4331;
   padding: 20px;
   border-radius: 20px;
@@ -183,21 +178,19 @@ font-size: 15px;
   width: 100%;
 }
 
-
 .answer-container p,
 .ai-enhanced-answer-container p {
   margin: 0;
   padding: 0;
 }
 .ReviewYourReferenceCheck-box-item .action-buttons > button {
-
-border-radius: 50px;
-padding: 5px 20px;
-color: var(--font-white);
-border: none;
-font-size: 15px;
-width: 100px;
-text-align: center !important;
+  border-radius: 50px;
+  padding: 5px 20px;
+  color: var(--font-white);
+  border: none;
+  font-size: 15px;
+  width: 100px;
+  text-align: center !important;
 }
 .ReviewYourReferenceCheck-box-item .action-buttons > button:nth-child(1) {
   background: var(--primary-color);
@@ -237,10 +230,10 @@ text-align: center !important;
   font-size: 15px;
   width: 100px;
 }
-.edit-save-button-container .btn-save{
+.edit-save-button-container .btn-save {
   background: var(--primary-color);
 }
-.edit-save-button-container .btn-edit{
+.edit-save-button-container .btn-edit {
   background: var(--secondary-color);
 }
 .ReviewYourReferenceCheck-dropdown-content button {
@@ -342,16 +335,19 @@ text-align: center !important;
 .ReviewYourReferenceCheckAnswer-right-container > .button-controller-container {
   height: 30% !important;
 }
-.ReviewYourReferenceCheckAnswer-right-container > .button-controller-container button:disabled{
-background: var(--input-bg) !important;
+.ReviewYourReferenceCheckAnswer-right-container
+  > .button-controller-container
+  button:disabled {
+  background: var(--input-bg) !important;
 }
 .ReviewYourReferenceCheckAnswer-right-container
-  > .button-controller-container > small{
-    color: var(--input-bg);
-    font-size: 10px;
-    text-align: center;
-    width: 100%;
-  }
+  > .button-controller-container
+  > small {
+  color: var(--input-bg);
+  font-size: 10px;
+  text-align: center;
+  width: 100%;
+}
 .ReviewYourReferenceCheckAnswer-right-container
   > .button-controller-container
   button:nth-child(2) {
@@ -376,42 +372,33 @@ background: var(--input-bg) !important;
   height: 30px;
 }
 
-
-
-
-
 /* signature draw/image upload */
 .ReviewYourReferenceCheck-container .selection-container,
-.ReviewYourReferenceCheck-container .preferred-id-container{
+.ReviewYourReferenceCheck-container .preferred-id-container {
   width: 70%;
 }
 .ReviewYourReferenceCheck-container .selection-container > select,
-.ReviewYourReferenceCheck-container .preferred-id-container > select  {
+.ReviewYourReferenceCheck-container .preferred-id-container > select {
   width: 60%;
   height: 40px;
   border-radius: 50px;
   padding: 0px 20px 0px 10px;
   box-shadow: 0 4px 4px 0px #00000059;
-
 }
-.drawing-container{
+.drawing-container {
   width: 70%;
-  
 }
 .drawing-container > .drawing-container-box {
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 4px 0px #00000059;
-
 }
-.file-upload-container{
+.file-upload-container {
   width: 70%;
-
 }
 .file-upload-area {
   border-radius: 10px;
   box-shadow: 0 4px 4px 0px #00000059;
-
 }
 .file-upload-container button {
   width: 200px;
@@ -434,7 +421,6 @@ background: var(--input-bg) !important;
   border: none;
   color: var(--font-white);
   font-weight: 600;
-  
 }
 .ReviewYourReferenceCheck-button-controls > button:nth-child(1) {
   background: var(--primary-color);
@@ -452,16 +438,15 @@ background: var(--input-bg) !important;
   height: 100px;
   border-bottom: 1px solid var(--font-black);
 }
-.btn-no-skip{
+.btn-no-skip {
   background: var(--secondary-color);
   width: 120px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
   padding: 8px 30px; /* Adjusted padding */
-
 }
-.btn-yes-skip{
+.btn-yes-skip {
   background: var(--primary-color);
   width: 120px;
   border-radius: 50px;
@@ -472,7 +457,7 @@ background: var(--input-bg) !important;
 
 .preferred-id-container,
 .upload-id-container,
-.IdUploadSection-disclaimer{
+.IdUploadSection-disclaimer {
   width: 70%;
 }
 
@@ -485,33 +470,30 @@ background: var(--input-bg) !important;
 .file-upload-container > p,
 .upload-id-container > p,
 .front-id-container > p,
-.back-id-container > p{
+.back-id-container > p {
   font-weight: bold;
 }
 
-.drawing-container  .front-id-container,
-.drawing-container  .back-id-container,
+.drawing-container .front-id-container,
+.drawing-container .back-id-container,
 .camera-verification-container .upload-section {
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 4px 0px #00000059;
 }
 .front-id-container > div,
- .back-id-container > div{
-  background: #F2F3F7;
-border-radius: 10px;
-border: 1px solid var(--input-bg);
-padding: 20px;
-
+.back-id-container > div {
+  background: #f2f3f7;
+  border-radius: 10px;
+  border: 1px solid var(--input-bg);
+  padding: 20px;
 }
 .front-id-container > div button,
 .back-id-container > div button,
 .front-id-container > div input,
 .back-id-container > div input,
 .camera-verification-container .upload-section button,
-.camera-verification-container .upload-section input
-
-{
+.camera-verification-container .upload-section input {
   background: var(--secondary-color);
   width: 175px;
   font-size: 14px;
@@ -520,20 +502,19 @@ padding: 20px;
   border: none;
   padding: 8px 30px; /* Adjusted padding */
 }
-.front-id-container > div button:disabled ,
-.back-id-container > div button:disabled ,
-.front-id-container > div input:disabled ,
+.front-id-container > div button:disabled,
+.back-id-container > div button:disabled,
+.front-id-container > div input:disabled,
 .back-id-container > div input:disabled,
 .camera-verification-container > div > .btn-capture:disabled,
 .camera-verification-container .upload-section button:disabled {
   background: var(--input-bg) !important;
   cursor: not-allowed;
-
 }
 .front-id-img-container,
-.back-id-img-container{
-width: 60%;
-font-size: 12px;
+.back-id-img-container {
+  width: 60%;
+  font-size: 12px;
 }
 .IdUploadSection-button-controls > button,
 .preview-controls > button {
@@ -544,40 +525,36 @@ font-size: 12px;
   border: none;
   color: var(--font-white);
   font-weight: 600;
-  
 }
-.IdUploadSection-button-controls > button:disabled ,
-.preview-controls > button:disabled{
-background: var(--input-bg) !important;
-  
+.IdUploadSection-button-controls > button:disabled,
+.preview-controls > button:disabled {
+  background: var(--input-bg) !important;
 }
 .IdUploadSection-button-controls > button:nth-child(1),
-.preview-controls > button:nth-child(1)  {
+.preview-controls > button:nth-child(1) {
   background: var(--secondary-color);
-
 }
 .IdUploadSection-button-controls > button:nth-child(2),
 .preview-controls > button:nth-child(2) {
   background: var(--primary-color);
-
 }
-.IdUploadSection-disclaimer{
-  background: #F2F3F7;
+.IdUploadSection-disclaimer {
+  background: #f2f3f7;
   border-radius: 10px;
   border: 1px solid var(--primary-color);
   padding: 20px;
   font-size: 12px;
 }
-.IdUploadSection-disclaimer svg{
+.IdUploadSection-disclaimer svg {
   height: 25px;
   width: 25px;
 }
 
-.camera-verification-container{
+.camera-verification-container {
   width: 70%;
 }
-.camera-verification-container .upload-section{
-  background: #F2F3F7;
+.camera-verification-container .upload-section {
+  background: #f2f3f7;
   border-radius: 10px;
   border: 1px solid var(--input-bg);
   padding: 20px;
@@ -585,10 +562,11 @@ background: var(--input-bg) !important;
 .camera-verification-container .video-container {
   position: relative;
   display: inline-block;
-  width: 440px;
-  height: 250px;
+  width: 500px;
+  height: 290px;
+  border-radius: 10px;
 }
-.camera-verification-container > div > button{
+.camera-verification-container > div > button {
   padding: 5px 30px;
   font-size: 15px;
   border-radius: 50px;
@@ -596,28 +574,44 @@ background: var(--input-bg) !important;
   color: var(--font-white);
   font-weight: 600;
 }
-.camera-verification-container > div > button svg{
+.camera-verification-container > div > button svg {
   width: 18px;
 }
-.camera-verification-container > div > .btn-switch-camera{
+.camera-verification-container > div > .btn-switch-camera {
   background: var(--primary-color);
-
 }
-.camera-verification-container > div > .btn-capture{
-  background: var(--primary-color);
+.camera-verification-container .btn-capture {
+  background: transparent;
+  position: absolute;
+  bottom: 20px;
+  z-index: 7;
 
-
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-.camera-verification-container > div > .btn-switch-upload{
-  background: var(--secondary-color);
+.camera-verification-container .btn-capture svg{
+  height: 40px;
+  width: 40px;
+}
+.camera-verification-container .btn-capture:hover svg path {
+  fill: var(--primary-color) !important;
+  transition: fill 0.3s ease;
+}
 
+.camera-verification-container > div > .btn-switch-upload {
+  background: var(--secondary-color) !important;
 }
 
 .camera-verification-container .video-container video {
   border-radius: 10px;
-  width: 100%;
-  height: 100%;
+  width: 500px;
+  height: 290px;
   object-fit: cover;
+  border-radius: 10px;
   transform: scaleX(-1);
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.423);
 }
@@ -626,6 +620,7 @@ background: var(--input-bg) !important;
   top: 0;
   left: 0;
   width: 100%;
+  border-radius: 10px;
   height: 100%;
   pointer-events: none;
   z-index: 2;
@@ -633,7 +628,7 @@ background: var(--input-bg) !important;
   /* Needed to allow blending to take effect */
   isolation: isolate;
 }
-.camera-verification-container .camera-request{
+.camera-verification-container .camera-request {
   position: absolute;
   top: 0;
   left: 0;
@@ -648,11 +643,11 @@ background: var(--input-bg) !important;
   font-size: 12px;
   justify-content: center;
   flex-direction: column;
-color: var(--font-white);
+  color: var(--font-white);
   /* Needed to allow blending to take effect */
   isolation: isolate;
 }
-.camera-verification-container .camera-request button{
+.camera-verification-container .camera-request button {
   padding: 5px 30px;
   font-size: 15px;
   border-radius: 50px;
@@ -665,8 +660,11 @@ color: var(--font-white);
   position: absolute;
   top: 0;
   left: 0;
-  width: 440px;
-  height: 250px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+
+  height: 290px;
   z-index: 2;
   pointer-events: none;
 }
@@ -705,31 +703,46 @@ color: var(--font-white);
   transform: translateX(-50%);
   color: white;
   font-size: 10px;
-  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
 }
-.camera-verification-container  .id-box .label{
+.camera-verification-container .id-box .label {
   position: absolute;
   bottom: -20px;
   width: 150px;
-  left: 70%;
+  left: 62%;
   transform: translateX(-50%);
   color: white;
   font-size: 10px;
-  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
 }
 
 .camera-verification-container .tip {
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   width: 100%;
   text-align: center;
   color: white;
   font-size: 10px;
-  text-shadow: 0 0 4px rgba(0,0,0,0.8);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
   z-index: 3;
 }
+.camera-error,
+.camera-request,
+.camera-initializing {
+  color: var(--font-white);
+  border-radius: 10px;
 
-
+}
+.camera-error button,
+.camera-request button {
+  background: var(--primary-color);
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+}
+.camera-initializing .spinner-border {
+  color: var(--primary-color) !important;
+}
 /* Customizing the scrollbar */
 .answer-container::-webkit-scrollbar,
 .ai-enhanced-answer-container::-webkit-scrollbar {

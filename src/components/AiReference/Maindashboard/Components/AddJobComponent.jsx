@@ -221,10 +221,11 @@ const AddJobComponent = ({ onCancel }) => {
         <h3 className="mb-0">
           Create New <span className="color-blue">Job</span>{" "}
         </h3>
-        <p className="mb-2">
+        <p className="mb-4">
           Add a new job opening to the system. Fill out the details below.
         </p>
       </div>
+      <div className="d-flex w-100 justify-content-center align-items-center flex-column">
       <div className="job-container-form d-flex align-items-center justify-content-center flex-column">
         <div className="job-bg-behind"></div>
 
@@ -611,6 +612,8 @@ const AddJobComponent = ({ onCancel }) => {
           {loading ? "Creating Job..." : "Proceed"}
         </button>
       </div>
+      </div>
+
     </>
   );
 };

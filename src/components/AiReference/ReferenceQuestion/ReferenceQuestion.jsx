@@ -543,7 +543,7 @@ const ReferenceQuestion = () => {
               <div>
                 <div className="AiReference-table-title">
                   <h4 className="mb-0 d-flex gap-2 align-items-center">
-                    Custom Question Sets
+                    Custom Questionnaire
                     <div className="position-relative d-flex">
                       <svg
                         width="16"

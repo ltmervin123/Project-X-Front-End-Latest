@@ -63,7 +63,7 @@ const Sidebar = () => {
             fill="#686868"
           />
         </svg>
-        Applicant's
+        Applicants
       </NavLink>
 
       <NavLink

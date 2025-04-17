@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
-import DeleteConfirmationCandidatePopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationCandidatePopUp";
-import RecoverConfirmationCandidatePopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationCandidatePopUp";
+import DeleteConfirmationApplicantPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
+import RecoverConfirmationApplicantPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationApplicantPopUp";
 
-const CandidateTable = ({
+const ApplicantTable = ({
   data,
   selectedItems,
   onSelect,
@@ -113,7 +113,7 @@ const CandidateTable = ({
         </td>
       </tr>
       {showDeleteConfirmation && (
-        <DeleteConfirmationCandidatePopUp
+        <DeleteConfirmationApplicantPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
           selectedCount={1}
@@ -121,7 +121,7 @@ const CandidateTable = ({
         />
       )}
       {showRecoverConfirmation && (
-        <RecoverConfirmationCandidatePopUp
+        <RecoverConfirmationApplicantPopUp
           onClose={() => setShowRecoverConfirmation(false)}
           onConfirmRecover={handleConfirmRecover}
           selectedCount={1}
@@ -132,4 +132,4 @@ const CandidateTable = ({
   );
 };
 
-export default CandidateTable;
+export default ApplicantTable;

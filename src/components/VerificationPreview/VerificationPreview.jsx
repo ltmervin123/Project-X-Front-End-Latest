@@ -12,7 +12,7 @@ const VerificationPreview = ({ image, onRetake, onSubmit, submitting }) => {
       idReadable: "Your ID document is readable and all corners are visible",
       noGlare: "There is no glare or shadow obscuring important information",
       notBlurry: "The images are not blurry or pixelated",
-      privacyNotice: "Rest assured, all information you provide will be kept strictly confidential and managed in full accordance with our data protection policies.",
+      privacyNotice: "Please rest assured that all information provided will be treated with utmost confidentiality and handled in full compliance with our data protection policies.",
       retake: "Retake",
       submit: "Submit",
       submitting: "Submitting..."
@@ -24,7 +24,7 @@ const VerificationPreview = ({ image, onRetake, onSubmit, submitting }) => {
       idReadable: "身分証明書が読みやすく、すべての角が見えること",
       noGlare: "重要な情報を隠す光の反射や影がないこと",
       notBlurry: "画像がぼやけておらず、ピクセル化していないこと",
-      privacyNotice: "ご提供いただいた情報は、当社のデータ保護方針に従って厳重に機密として管理されます。",
+      privacyNotice: "提供された情報は、最高レベルの機密性を持って取り扱われ、当社のデータ保護方針に完全に準拠して管理されることをご安心ください。",
       retake: "再撮影",
       submit: "送信",
       submitting: "送信中..."

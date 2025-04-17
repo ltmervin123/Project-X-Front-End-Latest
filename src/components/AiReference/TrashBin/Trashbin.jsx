@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FaSearch } from "react-icons/fa";
 import JobTable from "./components/JobTable";
-import CandidateTable from "./components/CandidateTable";
+import ApplicantTable from "./components/ApplicantTable";
 import ReferenceRequestTable from "./components/ReferenceRequestTable";
 import ReferenceQuestionTable from "./components/ReferenceQuestionTable";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DeleteConfirmationJobPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationJobPopUp";
-import DeleteConfirmationCandidatePopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationCandidatePopUp";
+import DeleteConfirmationApplicantPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
 import DeleteConfirmationReferenceRequestPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
 import DeleteConfirmationReferenceQuestionPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationReferenceQuestionPopUp";
 import RecoverConfirmationJobPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationJobPopUp";
-import RecoverConfirmationCandidatePopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationCandidatePopUp";
+import RecoverConfirmationApplicantPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationApplicantPopUp";
 import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
 import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
@@ -78,7 +78,7 @@ const Trashbin = () => {
 
   const categories = [
     "Job",
-    "Candidate",
+    "Applicant",
     "Reference Request",
     "Reference Question",
   ];
@@ -128,7 +128,7 @@ const Trashbin = () => {
   //       //   deletedDate: "2024-01-16",
   //       // },
   //     ],
-  //     Candidate: [
+  //     Applicant: [
   //       // {
   //       //   id: 1,
   //       //   name: "Jane Smith",
@@ -242,7 +242,7 @@ const Trashbin = () => {
   const mockData = useMemo(() => {
     return {
       Job: [],
-      Candidate: [],
+      Applicant: [],
       "Reference Request": [],
 
       "Reference Question": referenceQuestion?.questions || [],
@@ -254,7 +254,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", id);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", id);
         break;
       case "Reference Request":
@@ -274,7 +274,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", id);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", id);
         break;
       case "Reference Request":
@@ -302,7 +302,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", selectedItems);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", selectedItems);
         break;
       case "Reference Request":
@@ -322,7 +322,7 @@ const Trashbin = () => {
       case "Job":
         console.log("Permanently deleting job:", selectedItems);
         break;
-      case "Candidate":
+      case "Applicant":
         console.log("Permanently deleting candidate:", selectedItems);
         break;
       case "Reference Request":
@@ -405,7 +405,7 @@ const Trashbin = () => {
           { label: "Deleted Date", className: "text-center" },
           "Actions",
         ];
-      case "Candidate":
+      case "Applicant":
         return [
           ...baseHeaders,
           "Name",
@@ -417,7 +417,7 @@ const Trashbin = () => {
       case "Reference Request":
         return [
           ...baseHeaders,
-          "Candidate",
+          "Applicant",
           "Referent",
           "Status",
           { label: "Deleted Date", className: "text-center" },
@@ -449,8 +449,8 @@ const Trashbin = () => {
     switch (selectedCategory) {
       case "Job":
         return <JobTable key={item._id} {...props} />;
-      case "Candidate":
-        return <CandidateTable key={item.id} {...props} />;
+      case "Applicant":
+        return <ApplicantTable key={item.id} {...props} />;
       case "Reference Request":
         return <ReferenceRequestTable key={item.id} {...props} />;
       case "Reference Question":
@@ -603,8 +603,8 @@ const Trashbin = () => {
               isAll={selectedItems.length === mockData[selectedCategory].length}
             />
           )}
-          {selectedCategory === "Candidate" && (
-            <DeleteConfirmationCandidatePopUp
+          {selectedCategory === "Applicant" && (
+            <DeleteConfirmationApplicantPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
@@ -640,8 +640,8 @@ const Trashbin = () => {
               isAll={selectedItems.length === mockData[selectedCategory].length}
             />
           )}
-          {selectedCategory === "Candidate" && (
-            <RecoverConfirmationCandidatePopUp
+          {selectedCategory === "Applicant" && (
+            <RecoverConfirmationApplicantPopUp
               onClose={() => setShowRecoverPopup(false)}
               onConfirmRecover={handleConfirmRestore}
               selectedCount={selectedItems.length}
