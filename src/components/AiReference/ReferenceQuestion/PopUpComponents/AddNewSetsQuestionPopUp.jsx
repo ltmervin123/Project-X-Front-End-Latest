@@ -62,7 +62,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
         description,
         questions: formatQuestions(),
       };
-      const response = await axios.post(URL, payload, {
+      const response = await axios.post(URL, {payload}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
