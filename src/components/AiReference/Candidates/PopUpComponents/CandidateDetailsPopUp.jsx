@@ -3,8 +3,6 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
 const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
-  // Add onEdit prop
-  // Function to get the color based on status
   const getStatusColor = (status) => {
     switch (status) {
       case "New":
@@ -14,7 +12,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
       case "Failed":
         return "#FF0000";
       default:
-        return "black"; // Default color for unknown statuses
+        return "black";
     }
   };
 
@@ -89,7 +87,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               >
                 Reference Format:
               </strong>{" "}
-              {candidates.referenceformat || "N/A"}
+              {candidates.questionName || "N/A"}
             </p>
           </div>
           <div>
@@ -101,7 +99,8 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
                 Position:
               </strong>{" "}
               {candidates.position || "N/A"}
-            </p>           <p className="d-flex gap-2 align-items-center justify-content-start">
+            </p>{" "}
+            <p className="d-flex gap-2 align-items-center justify-content-start">
               <strong
                 className="d-flex gap-2 align-items-center"
                 style={{ width: "150px" }}
@@ -120,7 +119,6 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               {formatDate(candidates.createdAt) || "N/A"}
             </p>
           </div>
-       
         </div>
 
         <div className="candidate-button-controller w-100 d-flex justify-content-center align-items-center gap-3">
