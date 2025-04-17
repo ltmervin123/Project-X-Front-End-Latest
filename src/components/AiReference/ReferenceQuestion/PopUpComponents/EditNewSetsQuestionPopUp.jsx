@@ -5,16 +5,19 @@ import axios from "axios";
 const EditNewSetsQuestionPopUp = ({
   onClose,
   reFetchUpdatedQuestions,
-  existingSet,
+  selectedQuestionSet,
   maxQuestions,
 }) => {
   const API = process.env.REACT_APP_API_URL;
-  const [name, setName] = useState(existingSet.name || "");
-  const [description, setDescription] = useState(existingSet.description || "");
+  const [name, setName] = useState(selectedQuestionSet.name || "");
+  const [description, setDescription] = useState(
+    selectedQuestionSet.description || ""
+  );
   const [isQuestionsEmpty, setIsQuestionsEmpty] = useState(false);
   const [questions, setQuestions] = useState(
-    existingSet.questions.map((q) => ({ text: q })) || [{ text: "" }]
+    selectedQuestionSet.questions.map((q) => ({ text: q })) || [{ text: "" }]
   );
+  const [submitting, setSubmitting] = useState(false);
 
   // Utility function to capitalize the first letter of each word
   const capitalizeWords = (str) => {
@@ -53,33 +56,161 @@ const EditNewSetsQuestionPopUp = ({
     return questions.map((question) => question.text);
   };
 
+  function extractCategoriesAndQuestions() {
+    return questions.map((item) => {
+      return {
+        category: item.text.category,
+        questions: item.text.questions.filter((q) => q && q.trim() !== ""),
+      };
+    });
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     const user = JSON.parse(localStorage.getItem("user"));
     const token = user?.token;
     try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/update-reference-questions/${existingSet._id}`;
+      const URL = `${API}/api/ai-referee/company-reference-questions/update-reference-questions/${selectedQuestionSet._id}`;
       const payload = {
-        name: capitalizeWords(name), // Capitalize name
+        name: capitalizeWords(name),
         description,
-        questions: formatQuestions(),
+        questions: selectedQuestionSet?.hrHatchCustomQuestionsFormat
+          ? extractCategoriesAndQuestions()
+          : formatQuestions(),
       };
-      const response = await axios.put(URL, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      const response = await axios.put(
+        URL,
+        { payload },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.status === 200) {
         reFetchUpdatedQuestions();
       }
       onClose();
     } catch (error) {
       console.error(error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const progress = Math.min(100, (questions.length / maxQuestions) * 100); // Dynamic progress calculation
-  console.log(maxQuestions);
+  const progress = Math.min(100, (questions.length / maxQuestions) * 100);
+
+  if (selectedQuestionSet?.hrHatchCustomQuestionsFormat) {
+    return (
+      <Modal
+        show={true}
+        onHide={onClose}
+        className="custom-modal-job"
+        centered
+        backdrop={true}
+      >
+        <Modal.Body>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <div>
+                <h5 className="mb-0">Edit Question Set</h5>
+                <small>
+                  Edit the existing set of reference check questions.
+                </small>
+              </div>
+            </div>
+            <Button
+              className="closebtn"
+              variant="link"
+              onClick={onClose}
+              style={{ fontSize: "1.5rem", textDecoration: "none" }}
+            >
+              &times;
+            </Button>
+          </div>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formTitle" className="mb-3">
+              <Form.Label className="me-2 px-2" style={{ width: "150px" }}>
+                Question Name
+              </Form.Label>
+              <Form.Control
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter set name"
+                required
+              />
+              <Form.Label className="me-2 px-2 mt-2" style={{ width: "300px" }}>
+                Question Description
+              </Form.Label>
+              <Form.Control
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Enter set description"
+                required
+              />
+            </Form.Group>
+
+            <div className="questions-list">
+              {questions.length !== 1 &&
+                questions.map((item, itemIndex) => (
+                  <div key={itemIndex} className="mb-4">
+                    <h5>{item.text.category}</h5>
+                    {Array.isArray(item.text.questions) &&
+                      item.text.questions.map((question, questionIndex) => {
+                        return (
+                          <div
+                            key={`${item.text.category}-${questionIndex}`}
+                            className="mb-3"
+                          >
+                            <Form.Label className="w-100 d-flex align-items-center px-2">
+                              <span className="me-2">
+                                Question {questionIndex + 1}
+                              </span>
+                            </Form.Label>
+
+                            <div className="position-relative w-100 px-2">
+                              <Form.Control
+                                as="textarea"
+                                className="text-area-question-hr-hatch"
+                                value={question}
+                                onChange={(e) => {
+                                  const updatedQuestions = [...questions];
+                                  updatedQuestions[itemIndex].text.questions[
+                                    questionIndex
+                                  ] = e.target.value;
+                                  setQuestions(updatedQuestions);
+                                }}
+                                required
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                ))}
+            </div>
+
+            <div className="d-flex justify-content-end align-items-start mt-3">
+              <div className="d-flex justify-content-end gap-2 w-100">
+                <button
+                  className="btn-add-candidate"
+                  type="submit"
+                  disabled={submitting}
+                >
+                  {submitting ? "Updating..." : "Update Set"}
+                </button>
+              </div>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
   return (
     <Modal
       show={true}
@@ -236,11 +367,11 @@ const EditNewSetsQuestionPopUp = ({
               <button
                 className={`btn-add-candidate ${
                   questions.length < 10 ? "disable" : ""
-                }`} // Add "disable" class if there are less than 10 questions
+                }`}
                 type="submit"
-                disabled={questions.length < maxQuestions} // Disable the button if there are less than maxQuestions
+                disabled={questions.length < maxQuestions || submitting}
               >
-                Update Set
+                {submitting ? "Updating..." : "Update Set"}
               </button>
             </div>
           </div>
