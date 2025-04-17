@@ -154,22 +154,20 @@ const EditHRFormatQuestionPopup = ({
     }
   };
 
-  const formatQuestions = () => {
-    // Group questions by category to send to the API
-    const questionsByCategory = questions.reduce((acc, question) => {
-      const category = question.category || "Default Category";
-      if (!acc[category]) {
-        acc[category] = {
-          category,
-          categoryId: question.categoryId,
-          questions: [],
-        };
-      }
-      acc[category].questions.push(question.text);
-      return acc;
-    }, {});
+  const formatQuestions = (data) => {
+    const grouped = {};
 
-    return Object.values(questionsByCategory);
+    data.forEach(({ category, text }) => {
+      if (!grouped[category]) {
+        grouped[category] = [];
+      }
+      grouped[category].push(text);
+    });
+
+    return Object.entries(grouped).map(([category, questions]) => ({
+      category,
+      questions,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -181,13 +179,19 @@ const EditHRFormatQuestionPopup = ({
       const payload = {
         name: capitalizeWords(name),
         description,
-        questions: formatQuestions(),
+        hrHatchCustomQuestionsFormat: true,
+        questions: formatQuestions(questions),
       };
-      const response = await axios.post(URL, payload, {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-      });
+
+      const response = await axios.post(
+        URL,
+        { payload },
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        }
+      );
       if (response.status === 201) {
         reFetchUpdatedQuestions();
       }
