@@ -13,12 +13,6 @@ import HRHatchFormatCategoryPopup from "./PopUpComponents/HRHatchFormatCategoryP
 import DeleteConfirmationNewSetsQuestionPopup from "./PopUpComponents/DeleteConfirmationNewSetsQuestionPopup";
 import axios from "axios";
 
-const QUESTIONS_DESCRIPTION = {
-  StandardFormat: "Standard questions suitable for most positions.",
-  ManagementFormat: "Questions tailored for managerial and leadership roles.",
-  ExecutiveFormat: "In-depth questions for senior executive positions.",
-};
-
 // Standard format questions
 const STANDARD_QUESTIONS_SETS = [
   {
@@ -171,52 +165,22 @@ const EXECUTIVE_QUESTIONS_SET = [
   },
 ];
 
-// Template format questions
-const TEMPLATE_QUESTIONS_SET = {
-  name: "Follow this Format",
-  lastUpdated: "2025-04-16",
-  questionCount: 13,
-  description: "Questions tailored for managerial and leadership roles.",
-  categories: [
-    {
-      name: "Relationship",
-      questions: [
-        "How do you know (applicant name), and how long have you worked together?",
-      ],
-    },
-    {
-      name: "Job Responsibilities and Performance",
-      questions: [
-        "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
-        "What do you consider to be (applicant name)'s key strengths?",
-        "What areas, if any, do you think (applicant name) could further develop or improve?",
-      ],
-    },
-    {
-      name: "Leadership & Management Skills",
-      questions: [
-        "How would you describe (applicant name)'s leadership style? If possible, please provide example(s) to support your answer.",
-        "How did (applicant name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
-        "How effective was (applicant name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
-        "What would you say are (applicant name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
-      ],
-    },
-    {
-      name: "Work Ethic and Behavior",
-      questions: [
-        "How would you describe (applicant name)'s attitude and professionalism?",
-        "How did (applicant name) handle feedback and criticism?",
-        "Did (applicant name) show initiative and a willingness to learn?",
-      ],
-    },
-    {
-      name: "Closing Questions",
-      questions: [
-        "If given the opportunity, would you work with or rehire (applicant name)?",
-        "Is there anything else you believe we should know about (applicant name)?",
-      ],
-    },
-  ],
+const HR_HATCH_QUESTIONS_FORMAT = {
+  StandardFormat: {
+    description: "Standard questions suitable for most positions.",
+    name: "Standard Format",
+    questionSets: STANDARD_QUESTIONS_SETS,
+  },
+  ManagementFormat: {
+    description: "Questions tailored for managerial and leadership roles.",
+    name: "Management Format",
+    questionSets: MANAGEMENT_QUESTIONS_SETS,
+  },
+  ExecutiveFormat: {
+    description: "In-depth questions for senior executive positions.",
+    name: "Executive Format",
+    questionSets: EXECUTIVE_QUESTIONS_SET,
+  },
 };
 
 // HR-HATCH Format Data
@@ -304,10 +268,9 @@ const ReferenceQuestion = () => {
   const [selectedQuestionSetId, setSelectedQuestionSetId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditHRHatchModalOpen, setIsEditHRHatchModalOpen] = useState(false);
-  const [selectedFormatQuestions, setSelectedFormatQuestions] = useState([]);
-  const [selectedFormatName, setSelectedFormatName] = useState("");
-  const [selectedFormatDescription, setSelectedFormatDescription] =
-    useState("");
+
+  const [selectedHRHATCHQUESTIONFORMAT, setSelectHRHATCHQUESTIONFORMAT] =
+    useState([]);
   const queryClient = useQueryClient();
 
   const handleButtonClick = (button) => {
@@ -425,43 +388,33 @@ const ReferenceQuestion = () => {
   const hrHatchButtonRef = useRef(null);
 
   const handleAutoClickHRHatchFormats = () => {
-    setActiveButton("HR-HATCH Formats"); // Change the active button
+    setActiveButton("HR-HATCH Formats");
     if (hrHatchButtonRef.current) {
-      hrHatchButtonRef.current.click(); // Programmatically click the button
+      hrHatchButtonRef.current.click();
     }
   };
 
   const handleSelectFormat = (formatName) => {
-    setSelectedFormatName(formatName);
-    let questionsWithCategories = [];
-
-    if (formatName === "Standard Format") {
-      setSelectedFormatDescription(QUESTIONS_DESCRIPTION.StandardFormat);
-      questionsWithCategories = STANDARD_QUESTIONS_SETS.flatMap((set) =>
-        set.questions.map((questionText) => ({
-          text: questionText,
-          category: set.category,
-        }))
-      );
-    } else if (formatName === "Management Format") {
-      setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ManagementFormat);
-      questionsWithCategories = MANAGEMENT_QUESTIONS_SETS.flatMap((set) =>
-        set.questions.map((questionText) => ({
-          text: questionText,
-          category: set.category,
-        }))
-      );
-    } else if (formatName === "Executive Format") {
-      setSelectedFormatDescription(QUESTIONS_DESCRIPTION.ExecutiveFormat);
-      questionsWithCategories = EXECUTIVE_QUESTIONS_SET.flatMap((set) =>
-        set.questions.map((questionText) => ({
-          text: questionText,
-          category: set.category,
-        }))
-      );
+    switch (formatName) {
+      case "Standard Format":
+        setSelectHRHATCHQUESTIONFORMAT(
+          HR_HATCH_QUESTIONS_FORMAT.StandardFormat
+        );
+        break;
+      case "Management Format":
+        setSelectHRHATCHQUESTIONFORMAT(
+          HR_HATCH_QUESTIONS_FORMAT.ManagementFormat
+        );
+        break;
+      case "Executive Format":
+        setSelectHRHATCHQUESTIONFORMAT(
+          HR_HATCH_QUESTIONS_FORMAT.ExecutiveFormat
+        );
+        break;
+      default:
+        setSelectHRHATCHQUESTIONFORMAT([]);
     }
 
-    setSelectedFormatQuestions(questionsWithCategories);
     setIsHRHatchFormatPopupOpen(false);
     setIsEditHRHatchModalOpen(true);
   };
@@ -622,216 +575,219 @@ const ReferenceQuestion = () => {
             </div>
 
             <div className="AiReference-Question-Sets-Container">
-              {/* Static Customized HR-HATCH Option */}
-              <div className="question-set-container border mb-3">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="question-set-info">
-                    <h5>{TEMPLATE_QUESTIONS_SET.name}</h5>
-                    <p className="d-flex">
-                      <span className="color-orange">
-                        {TEMPLATE_QUESTIONS_SET.questionCount} questions
-                      </span>
-                      &nbsp;• Last updated: {TEMPLATE_QUESTIONS_SET.lastUpdated}
-                    </p>
-                  </div>
-                  <div className="d-flex justify-content-end gap-5 question-controls">
-                    <button
-                      className="dropdown-toggle-q-sets border-0"
-                      onClick={() => handleSetClick("management-format-2")}
-                    >
-                      <svg
-                        className={
-                          flippedState["management-format-2"]
-                            ? "dropdown-flipped"
-                            : ""
-                        }
-                        width="28"
-                        height="17"
-                        viewBox="0 0 28 17"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
-                          fill="#686868"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                {selectedSet === "management-format-2" && (
-                  <div className="dropdown-content-q-sets mt-3">
-                    <p className="w-100 d-flex justify-content-between pb-2">
-                      {TEMPLATE_QUESTIONS_SET.description}
-                      <div className="d-flex justify-content-center gap-3">
-                        <svg
-                          className="icon"
-                          width="20"
-                          height="auto"
-                          viewBox="0 0 29 27"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          onClick={() => {
-                            setIsEditModalOpen(true); // Open the edit modal
-                          }}
-                        >
-                          <path
-                            d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
-                            stroke="#1877F2"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19. 8163Z"
-                            fill="#1877F2"
-                          />
-                        </svg>
-
-                        <svg
-                          width="18"
-                          height="20"
-                          viewBox="0 0 30 34"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          onClick={() => {
-                            setIsDeleteModalOpen(true);
-                          }}
-                        >
-                          <path
-                            d="M5.86408 33.6667C4.93769 33.6667 4.14533 33.3368 3.48699 32.6771C2.82866 32.0174 2.4988 31.2264 2.49741 30.3042V4.5H1.45574C1.15991 4.5 0.912688 4.4 0.714077 4.2C0.515466 4 0.415466 3.75208 0.414077 3.45625C0.412688 3.16042 0.512688 2.91319 0.714077 2.71458C0.915466 2.51597 1.16269 2.41667 1.45574 2.41667H8.74741C8.74741 1.98611 8.90713 1.61111 9.22658 1.29167C9.54602 0.972222 9.92102 0.8125 10.3516 0.8125H19.6432C20.0738 0.8125 20.4488 0.972222 20.7682 1.29167C21.0877 1.61111 21.2474 1.98611 21.2474 2.41667H28.5391C28.8349 2.41667 29.0821 2.51667 29.2807 2.71667C29.4794 2.91667 29.5794 3.16458 29.5807 3.46042C29.5821 3.75625 29.4821 4.00347 29.2807 4.20208C29.0794 4.40069 28.8321 4.5 28.5391 4.5H27.4974V30.3021C27.4974 31.2271 27.1676 32.0187 26.5078 32.6771C25.8481 33.3354 25.0564 33.6653 24.1328 33.6667H5.86408ZM25.4141 4.5H4.58074V30.3021C4.58074 30.6757 4.70088 30.9826 4.94116 31.2229C5.18144 31.4632 5.48908 31.5833 5.86408 31.5833H24.1328C24.5064 31.5833 24.8134 31.4632 25.0537 31.2229C25.2939 30.9826 25.4141 30.6757 25.4141 30.3021V4.5ZM11.4724 27.4167C11.7682 27.4167 12.0162 27.3167 12.2162 27.1167C12.4162 26.9167 12.5155 26.6694 12.5141 26.375V9.70833C12.5141 9.4125 12.4141 9.16528 12.2141 8.96667C12.0141 8.76806 11.7662 8.66806 11.4703 8.66667C11.1745 8.66528 10.9273 8.76528 10.7287 8.96667C10.53 9.16806 10.4307 9.41528 10.4307 9.70833V26.375C10.4307 26.6708 10.5307 26.9181 10.7307 27.1167C10.9307 27.3167 11.178 27.4167 11.4724 27.4167ZM18.5245 27.4167C18.8203 27.4167 19.0675 27.3167 19.2662 27.1167C19.4648 26.9167 19.5641 26.6694 19.5641 26.375V9.70833C19.5641 9.4125 19.4641 9.16528 19.2641 8.96667C19.0641 8.76667 18.8169 8.66667 18.5224 8.66667C18.2266 8.66667 17.9787 8.76667 17.7787 8.96667C17.5787 9.16667 17.4794 9.41389 17.4807 9.70833V26.375C17.4807 26.6708 17.5807 26.9181 17.7807 27.1167C17.9807 27.3153 18.2287 27.4153 18.5245 27.4167Z"
-                            fill="#686868"
-                          />
-                        </svg>
-                      </div>
-                    </p>
-
-                    {TEMPLATE_QUESTIONS_SET.categories.map(
-                      (category, index) => (
-                        <div key={index}>
-                          <strong>{category.name}</strong>
-                          <ul>
-                            {category.questions.map((question, qIndex) => (
-                              <li key={qIndex}>{question}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Question Set Container for Custom Sets */}
-              {questionSets && questionSets.length > 0 ? (
+              {questionSets.length > 0 &&
                 questionSets
                   .filter((item) =>
                     item.name.toLowerCase().includes(searchQuery.toLowerCase())
                   )
-                  .map((item) => (
-                    <div
-                      key={item._id}
-                      className={`question-set-container border mb-3 ${
-                        selectedSet === item._id ? "expanded" : ""
-                      }`} // Add 'expanded' class if selected
-                    >
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="question-set-info">
-                          <h5>{item.name}</h5>
-                          <p className="d-flex">
-                            <span className="color-orange">
-                              {item.questions.length} questions
-                            </span>
-                            &nbsp;• Last updated: {formatDate(item.updatedAt)}
-                          </p>
-                        </div>
-                        <div className="d-flex justify-content-end gap-5 question-controls">
-                          <button
-                            className="dropdown-toggle-q-sets border-0"
-                            onClick={() => handleSetClick(item._id)}
-                          >
-                            <svg
-                              className={
-                                flippedState[item._id] ? "dropdown-flipped" : ""
-                              }
-                              width="28"
-                              height="17"
-                              viewBox="0 0 28 17"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                  .map((item) =>
+                    item.hrHatchCustomQuestionsFormat ? (
+                      <div className="question-set-container border mb-3">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="question-set-info">
+                            <h5>{item.name}</h5>
+                            <p className="d-flex">
+                              <span className="color-orange">
+                                {item.questions.reduce(
+                                  (acc, group) => acc + group.questions.length,
+                                  0
+                                )}{" "}
+                                questions
+                              </span>
+                              &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                            </p>
+                          </div>
+                          <div className="d-flex justify-content-end gap-5 question-controls">
+                            <button
+                              className="dropdown-toggle-q-sets border-0"
+                              onClick={() => handleSetClick(item._id)}
                             >
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
-                                fill="#686868"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                      {selectedSet === item._id && (
-                        <div className="dropdown-content-q-sets mt-3">
-                          <p className="w-100 d-flex justify-content-between pb-2">
-                            {item.description}{" "}
-                            <div className="d-flex justify-content-center gap-3">
                               <svg
-                                className="icon"
-                                width="20"
-                                height="auto"
-                                viewBox="0 0 29 27"
+                                className={
+                                  flippedState[item._id]
+                                    ? "dropdown-flipped"
+                                    : ""
+                                }
+                                width="28"
+                                height="17"
+                                viewBox="0 0 28 17"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
-                                onClick={() => {
-                                  setSelectedQuestionSet(item); // Set the selected question set
-                                  setIsEditModalOpen(true); // Open the edit modal
-                                }}
                               >
                                 <path
-                                  d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
-                                  stroke="#1877F2"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19. 8163Z"
-                                  fill="#1877F2"
-                                />
-                              </svg>
-
-                              <svg
-                                width="18"
-                                height="20"
-                                viewBox="0 0 30 34"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                onClick={() => {
-                                  setSelectedQuestionSetId(item._id);
-                                  setIsDeleteModalOpen(true);
-                                }}
-                              >
-                                <path
-                                  d="M5.86408 33.6667C4.93769 33.6667 4.14533 33.3368 3.48699 32.6771C2.82866 32.0174 2.4988 31.2264 2.49741 30.3042V4.5H1.45574C1.15991 4.5 0.912688 4.4 0.714077 4.2C0.515466 4 0.415466 3.75208 0.414077 3.45625C0.412688 3.16042 0.512688 2.91319 0.714077 2.71458C0.915466 2.51597 1.16269 2.41667 1.45574 2.41667H8.74741C8.74741 1.98611 8.90713 1.61111 9.22658 1.29167C9.54602 0.972222 9.92102 0.8125 10.3516 0.8125H19.6432C20.0738 0.8125 20.4488 0.972222 20.7682 1.29167C21.0877 1.61111 21.2474 1.98611 21.2474 2.41667H28.5391C28.8349 2.41667 29.0821 2.51667 29.2807 2.71667C29.4794 2.91667 29.5794 3.16458 29.5807 3.46042C29.5821 3.75625 29.4821 4.00347 29.2807 4.20208C29.0794 4.40069 28.8321 4.5 28.5391 4.5H27.4974V30.3021C27.4974 31.2271 27.1676 32.0187 26.5078 32.6771C25.8481 33.3354 25.0564 33.6653 24.1328 33.6667H5.86408ZM25.4141 4.5H4.58074V30.3021C4.58074 30.6757 4.70088 30.9826 4.94116 31.2229C5.18144 31.4632 5.48908 31.5833 5.86408 31.5833H24.1328C24.5064 31.5833 24.8134 31.4632 25.0537 31.2229C25.2939 30.9826 25.4141 30.6757 25.4141 30.3021V4.5ZM11.4724 27.4167C11.7682 27.4167 12.0162 27.3167 12.2162 27.1167C12.4162 26.9167 12.5155 26.6694 12.5141 26.375V9.70833C12.5141 9.4125 12.4141 9.16528 12.2141 8.96667C12.0141 8.76806 11.7662 8.66806 11.4703 8.66667C11.1745 8.66528 10.9273 8.76528 10.7287 8.96667C10.53 9.16806 10.4307 9.41528 10.4307 9.70833V26.375C10.4307 26.6708 10.5307 26.9181 10.7307 27.1167C10.9307 27.3167 11.178 27.4167 11.4724 27.4167ZM18.5245 27.4167C18.8203 27.4167 19.0675 27.3167 19.2662 27.1167C19.4648 26.9167 19.5641 26.6694 19.5641 26.375V9.70833C19.5641 9.4125 19.4641 9.16528 19.2641 8.96667C19.0641 8.76667 18.8169 8.66667 18.5224 8.66667C18.2266 8.66667 17.9787 8.76667 17.7787 8.96667C17.5787 9.16667 17.4794 9.41389 17.4807 9.70833V26.375C17.4807 26.6708 17.5807 26.9181 17.7807 27.1167C17.9807 27.3153 18.2287 27.4153 18.5245 27.4167Z"
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
                                   fill="#686868"
                                 />
                               </svg>
-                            </div>
-                          </p>
-                          <ul>
-                            {item.questions.map((question, qIndex) => (
-                              <li key={qIndex}>{question}</li>
-                            ))}
-                          </ul>
+                            </button>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  ))
-              ) : (
-                <b></b>
-              )}
+                        {selectedSet === item._id && (
+                          <div className="dropdown-content-q-sets mt-3">
+                            <p className="w-100 d-flex justify-content-between pb-2">
+                              {item.description}{" "}
+                              <div className="d-flex justify-content-center gap-3">
+                                <svg
+                                  className="icon"
+                                  width="20"
+                                  height="auto"
+                                  viewBox="0 0 29 27"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  onClick={() => {
+                                    setSelectedQuestionSet(item);
+                                    setIsEditModalOpen(true);
+                                  }}
+                                >
+                                  <path
+                                    d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
+                                    stroke="#1877F2"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                  <path
+                                    d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19. 8163Z"
+                                    fill="#1877F2"
+                                  />
+                                </svg>
+
+                                <svg
+                                  width="18"
+                                  height="20"
+                                  viewBox="0 0 30 34"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  onClick={() => {
+                                    setSelectedQuestionSetId(item._id);
+                                    setIsDeleteModalOpen(true);
+                                  }}
+                                >
+                                  <path
+                                    d="M5.86408 33.6667C4.93769 33.6667 4.14533 33.3368 3.48699 32.6771C2.82866 32.0174 2.4988 31.2264 2.49741 30.3042V4.5H1.45574C1.15991 4.5 0.912688 4.4 0.714077 4.2C0.515466 4 0.415466 3.75208 0.414077 3.45625C0.412688 3.16042 0.512688 2.91319 0.714077 2.71458C0.915466 2.51597 1.16269 2.41667 1.45574 2.41667H8.74741C8.74741 1.98611 8.90713 1.61111 9.22658 1.29167C9.54602 0.972222 9.92102 0.8125 10.3516 0.8125H19.6432C20.0738 0.8125 20.4488 0.972222 20.7682 1.29167C21.0877 1.61111 21.2474 1.98611 21.2474 2.41667H28.5391C28.8349 2.41667 29.0821 2.51667 29.2807 2.71667C29.4794 2.91667 29.5794 3.16458 29.5807 3.46042C29.5821 3.75625 29.4821 4.00347 29.2807 4.20208C29.0794 4.40069 28.8321 4.5 28.5391 4.5H27.4974V30.3021C27.4974 31.2271 27.1676 32.0187 26.5078 32.6771C25.8481 33.3354 25.0564 33.6653 24.1328 33.6667H5.86408ZM25.4141 4.5H4.58074V30.3021C4.58074 30.6757 4.70088 30.9826 4.94116 31.2229C5.18144 31.4632 5.48908 31.5833 5.86408 31.5833H24.1328C24.5064 31.5833 24.8134 31.4632 25.0537 31.2229C25.2939 30.9826 25.4141 30.6757 25.4141 30.3021V4.5ZM11.4724 27.4167C11.7682 27.4167 12.0162 27.3167 12.2162 27.1167C12.4162 26.9167 12.5155 26.6694 12.5141 26.375V9.70833C12.5141 9.4125 12.4141 9.16528 12.2141 8.96667C12.0141 8.76806 11.7662 8.66806 11.4703 8.66667C11.1745 8.66528 10.9273 8.76528 10.7287 8.96667C10.53 9.16806 10.4307 9.41528 10.4307 9.70833V26.375C10.4307 26.6708 10.5307 26.9181 10.7307 27.1167C10.9307 27.3167 11.178 27.4167 11.4724 27.4167ZM18.5245 27.4167C18.8203 27.4167 19.0675 27.3167 19.2662 27.1167C19.4648 26.9167 19.5641 26.6694 19.5641 26.375V9.70833C19.5641 9.4125 19.4641 9.16528 19.2641 8.96667C19.0641 8.76667 18.8169 8.66667 18.5224 8.66667C18.2266 8.66667 17.9787 8.76667 17.7787 8.96667C17.5787 9.16667 17.4794 9.41389 17.4807 9.70833V26.375C17.4807 26.6708 17.5807 26.9181 17.7807 27.1167C17.9807 27.3153 18.2287 27.4153 18.5245 27.4167Z"
+                                    fill="#686868"
+                                  />
+                                </svg>
+                              </div>
+                            </p>
+
+                            {item.questions.map((questionData, index) => (
+                              <div key={index}>
+                                <strong>{questionData.category}</strong>
+                                <ul>
+                                  {questionData.questions.map(
+                                    (question, qIndex) => (
+                                      <li key={qIndex}>{question}</li>
+                                    )
+                                  )}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div
+                        key={item._id}
+                        className={`question-set-container border mb-3`}
+                      >
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div className="question-set-info">
+                            <h5>{item.name}</h5>
+                            <p className="d-flex">
+                              <span className="color-orange">
+                                {item.questions.length} questions
+                              </span>
+                              &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                            </p>
+                          </div>
+                          <div className="d-flex justify-content-end gap-5 question-controls">
+                            <button
+                              className="dropdown-toggle-q-sets border-0"
+                              onClick={() => handleSetClick(item._id)}
+                            >
+                              <svg
+                                className={
+                                  flippedState[item._id]
+                                    ? "dropdown-flipped"
+                                    : ""
+                                }
+                                width="28"
+                                height="17"
+                                viewBox="0 0 28 17"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
+                                  fill="#686868"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        {selectedSet === item._id && (
+                          <div className="dropdown-content-q-sets mt-3">
+                            <p className="w-100 d-flex justify-content-between pb-2">
+                              {item.description}{" "}
+                              <div className="d-flex justify-content-center gap-3">
+                                <svg
+                                  className="icon"
+                                  width="20"
+                                  height="auto"
+                                  viewBox="0 0 29 27"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  onClick={() => {
+                                    setSelectedQuestionSet(item);
+                                    setIsEditModalOpen(true);
+                                  }}
+                                >
+                                  <path
+                                    d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L25.6612 6.54302C26.2408 5.96321 26.5664 5.17693 26.5664 4.35708C26.5664 3.53724 26.2408 2.75096 25.6612 2.17115L25.3953 1.90525C24.8154 1.32562 24.0292 1 23.2093 1C22.3895 1 21.6032 1.32562 21.0234 1.90525L3.11233 19.8163Z"
+                                    stroke="#1877F2"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                  <path
+                                    d="M3.11233 19.8163L1.56641 26L7.7501 24.4541L23.2093 8.99488L18.5716 4.35712L3.11233 19. 8163Z"
+                                    fill="#1877F2"
+                                  />
+                                </svg>
+
+                                <svg
+                                  width="18"
+                                  height="20"
+                                  viewBox="0 0 30 34"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  onClick={() => {
+                                    setSelectedQuestionSetId(item._id);
+                                    setIsDeleteModalOpen(true);
+                                  }}
+                                >
+                                  <path
+                                    d="M5.86408 33.6667C4.93769 33.6667 4.14533 33.3368 3.48699 32.6771C2.82866 32.0174 2.4988 31.2264 2.49741 30.3042V4.5H1.45574C1.15991 4.5 0.912688 4.4 0.714077 4.2C0.515466 4 0.415466 3.75208 0.414077 3.45625C0.412688 3.16042 0.512688 2.91319 0.714077 2.71458C0.915466 2.51597 1.16269 2.41667 1.45574 2.41667H8.74741C8.74741 1.98611 8.90713 1.61111 9.22658 1.29167C9.54602 0.972222 9.92102 0.8125 10.3516 0.8125H19.6432C20.0738 0.8125 20.4488 0.972222 20.7682 1.29167C21.0877 1.61111 21.2474 1.98611 21.2474 2.41667H28.5391C28.8349 2.41667 29.0821 2.51667 29.2807 2.71667C29.4794 2.91667 29.5794 3.16458 29.5807 3.46042C29.5821 3.75625 29.4821 4.00347 29.2807 4.20208C29.0794 4.40069 28.8321 4.5 28.5391 4.5H27.4974V30.3021C27.4974 31.2271 27.1676 32.0187 26.5078 32.6771C25.8481 33.3354 25.0564 33.6653 24.1328 33.6667H5.86408ZM25.4141 4.5H4.58074V30.3021C4.58074 30.6757 4.70088 30.9826 4.94116 31.2229C5.18144 31.4632 5.48908 31.5833 5.86408 31.5833H24.1328C24.5064 31.5833 24.8134 31.4632 25.0537 31.2229C25.2939 30.9826 25.4141 30.6757 25.4141 30.3021V4.5ZM11.4724 27.4167C11.7682 27.4167 12.0162 27.3167 12.2162 27.1167C12.4162 26.9167 12.5155 26.6694 12.5141 26.375V9.70833C12.5141 9.4125 12.4141 9.16528 12.2141 8.96667C12.0141 8.76806 11.7662 8.66806 11.4703 8.66667C11.1745 8.66528 10.9273 8.76528 10.7287 8.96667C10.53 9.16806 10.4307 9.41528 10.4307 9.70833V26.375C10.4307 26.6708 10.5307 26.9181 10.7307 27.1167C10.9307 27.3167 11.178 27.4167 11.4724 27.4167ZM18.5245 27.4167C18.8203 27.4167 19.0675 27.3167 19.2662 27.1167C19.4648 26.9167 19.5641 26.6694 19.5641 26.375V9.70833C19.5641 9.4125 19.4641 9.16528 19.2641 8.96667C19.0641 8.76667 18.8169 8.66667 18.5224 8.66667C18.2266 8.66667 17.9787 8.76667 17.7787 8.96667C17.5787 9.16667 17.4794 9.41389 17.4807 9.70833V26.375C17.4807 26.6708 17.5807 26.9181 17.7807 27.1167C17.9807 27.3153 18.2287 27.4153 18.5245 27.4167Z"
+                                    fill="#686868"
+                                  />
+                                </svg>
+                              </div>
+                            </p>
+                            <ul>
+                              {item.questions.map((question, qIndex) => (
+                                <li key={qIndex}>{question}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  )}
               {questionSets.filter((item) =>
                 item.name.toLowerCase().includes(searchQuery.toLowerCase())
               ).length === 0 && <b>No questions found</b>}
@@ -862,7 +818,7 @@ const ReferenceQuestion = () => {
         <EditNewSetsQuestionPopUp
           onClose={() => setIsEditModalOpen(false)}
           reFetchUpdatedQuestions={reFetchUpdatedQuestions}
-          existingSet={selectedQuestionSet}
+          selectedQuestionSet={selectedQuestionSet}
           maxQuestions={selectedQuestionSet?.questions.length}
         />
       )}
@@ -876,17 +832,13 @@ const ReferenceQuestion = () => {
         <EditHRFormatQuestionPopup
           onClose={() => setIsEditHRHatchModalOpen(false)}
           reFetchUpdatedQuestions={reFetchUpdatedQuestions}
-          existingSet={{
-            name: selectedFormatName,
-            description: selectedFormatDescription,
-            questions: selectedFormatQuestions,
-          }}
+          selectedQuestionFormat={selectedHRHATCHQUESTIONFORMAT}
         />
       )}
       {isHRHatchFormatPopupOpen && (
         <HRHatchFormatCategoryPopup
-          onClose={() => setIsHRHatchFormatPopupOpen(false)} // Close the popup
-          onSelectFormat={handleSelectFormat} // Pass the format selection handler
+          onClose={() => setIsHRHatchFormatPopupOpen(false)}
+          onSelectFormat={handleSelectFormat}
         />
       )}
     </div>
