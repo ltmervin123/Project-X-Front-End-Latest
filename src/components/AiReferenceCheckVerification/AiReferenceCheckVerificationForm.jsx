@@ -3,6 +3,16 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees"; // Import the Privacy Agreement component
 
+const STEPS = [
+  "Basic Information",
+  "Select Language",
+  "Choose Method",
+  "Questionnaire",
+  "Reference Completed",
+];
+
+const CURRENT_STEP = 1;
+
 const AiReferenceCheckVerificationForm = ({
   refereeName,
   referenceId,
@@ -13,19 +23,21 @@ const AiReferenceCheckVerificationForm = ({
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const [formData, setFormData] = useState({
-    referenceId: "",
+    referenceId: referenceId,
     refereeName: {
-      firstName: "",
-      lastName: "",
+      firstName: refereeName.firstName,
+      lastName: refereeName.lastName,
     },
+    candidateName: candidateName,
+    refereeId: refereeId,
+    companyId: companyId,
+    currentCompany: "",
     positionTitle: "",
     companyWorkedWith: "",
     relationship: "",
-    candidateName: "",
     startDate: "",
     endDate: "",
     otherRelationship: "",
-    refereeId: "",
   });
   const [processing, setProcessing] = useState(false);
   const [isOtherSelected, setIsOtherSelected] = useState(false);
@@ -35,15 +47,7 @@ const AiReferenceCheckVerificationForm = ({
 
   const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
-  const currentStep = 1;
 
-  const steps = [
-    "Basic Information",
-    "Select Language",
-    "Choose Method",
-    "Questionnaire",
-    "Reference Completed",
-  ];
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -78,54 +82,18 @@ const AiReferenceCheckVerificationForm = ({
     e.preventDefault();
     // await getReferenceQuestions();
     saveRefereeDataTemporary();
-    new Promise((resolve) => setTimeout(resolve, 1000));
+
     navigate("/reference-choose-language", {
       state: { referenceId, refereeId },
     });
   };
-  // Sync refereeName when it changes
-  useEffect(() => {
-    if (refereeName) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        refereeName: refereeName,
-      }));
-    }
-
-    if (referenceId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        referenceId: referenceId,
-      }));
-    }
-
-    if (candidateName) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        candidateName: candidateName,
-      }));
-    }
-
-    if (companyId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        companyId: companyId,
-      }));
-    }
-
-    if (refereeId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        refereeId: refereeId,
-      }));
-    }
-  }, [refereeName, referenceId, candidateName, companyId]);
 
   const isFormValid = () => {
     return (
       formData.refereeName.firstName &&
       formData.refereeName.lastName &&
       formData.positionTitle &&
+      formData.currentCompany &&
       formData.companyWorkedWith &&
       (isOtherSelected ? formData.otherRelationship : formData.relationship) &&
       formData.startDate &&
@@ -192,13 +160,13 @@ const AiReferenceCheckVerificationForm = ({
       </i>
       <div className="d-flex align-items-center justify-content-center flex-column h-100 w-100 my-2 mt-4">
         <div className="reference-progress-indicator">
-          {steps.map((step, index) => (
+          {STEPS.map((step, index) => (
             <div key={index} className="reference-step-container">
               <div
-                className={`step ${currentStep === index + 1 ? "active" : ""}`}
+                className={`step ${CURRENT_STEP === index + 1 ? "active" : ""}`}
               >
                 <div className="bullet">{index + 1}</div>
-                {index < steps.length - 1 && <div className="line" />}{" "}
+                {index < STEPS.length - 1 && <div className="line" />}{" "}
                 {/* Line between steps */}
               </div>
               <div className="step-label">{step}</div>
@@ -243,8 +211,18 @@ const AiReferenceCheckVerificationForm = ({
                   </div>
                 </Form.Group>
 
+                <Form.Group controlId="current-company">
+                  <Form.Label className="mb-1">Current Company</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="currentCompany"
+                    value={formData.currentCompany}
+                    onChange={handleChange}
+                    placeholder="Enter Current Company"
+                  />
+                </Form.Group>
                 <Form.Group controlId="position-title">
-                  <Form.Label className="mb-1">Position Title</Form.Label>
+                  <Form.Label className="mb-1">Current Position</Form.Label>
                   <Form.Control
                     type="text"
                     name="positionTitle"
@@ -255,7 +233,9 @@ const AiReferenceCheckVerificationForm = ({
                 </Form.Group>
 
                 <Form.Group controlId="company-worked-with">
-                  <Form.Label>Company You Worked With the Candidate</Form.Label>
+                  <Form.Label>
+                    Company you worked with <b>{candidateName}</b>{" "}
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="companyWorkedWith"
@@ -267,7 +247,7 @@ const AiReferenceCheckVerificationForm = ({
 
                 <Form.Group controlId="relationship">
                   <Form.Label className="mb-1">
-                    Relationship to the Candidate
+                    Relationship to the Applicant
                   </Form.Label>
                   {!isOtherSelected ? (
                     <Form.Control
@@ -347,7 +327,7 @@ const AiReferenceCheckVerificationForm = ({
               />
               <label
                 htmlFor="privacyAgreementCheckbox"
-                className="ms-2 privacyAgreementCheckbox"
+                className="ms-2 privacyAgreementCheckbox color-grey"
               >
                 By continuing, you’ve read, understood and agreed to the Privacy
                 Agreement for Referees

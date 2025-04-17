@@ -1,18 +1,8 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ReferenceRequestEmailSentPopup = () => {
-  const location = useLocation();
-  const refereeEmails = location.state?.refereeEmail || [];
-
-  const emails =
-    refereeEmails.length > 0 ? refereeEmails.join(", ") : "No email found";
-  // Retry email handler (you can expand this logic as needed)
-  const handleCustomerService = () => {
-    alert("Retrying email send...");
-    // Your retry logic would go here
-  };
-
+  const navigate = useNavigate();
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
@@ -35,23 +25,18 @@ const ReferenceRequestEmailSentPopup = () => {
           </div>
 
           <p>
-            We have sent reference requests for the listed candidates and their
-            referees for confirmation.
+            We've successfully sent emails to the listed referees with
+            instructions to complete their reference requests.
           </p>
 
           <p className="w-100">
             {" "}
             Not working? Contact{" "}
-            <strong className="color-blue" onClick={handleCustomerService}>
-              customersupport@hr-hatch.com
-            </strong>
+            <strong className="color-blue">customersupport@hr-hatch.com</strong>
             .
           </p>
-          <button
-            className="btn-activate-now"
-            onClick={() => (window.location.href = "/AiReferenceRequest")}
-          >
-            Return
+          <button className="btn-activate-now" onClick={() => navigate("/")}>
+            Exit
           </button>
         </div>
       </div>

@@ -95,3 +95,11 @@ background: var(--bg-fade-signup);
   margin: 0 !important;
   padding: 0;
 }
+
+.overall-assessment-detail {
+  border-radius: 20px;
+  border: 2px solid;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}

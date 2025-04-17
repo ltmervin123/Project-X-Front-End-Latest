@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
@@ -22,6 +22,46 @@ const EditCandidatePopUp = ({
     return jobs.map((job) => job.jobName);
   });
 
+  const [selectedFormat, setSelectedFormat] = useState("");
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
+  const [isCustomOpen, setIsCustomOpen] = useState(false);
+
+  const hrHatchQuestion = useMemo(() => {
+    return [
+      {
+        name: "Standard Format",
+        value: "STANDARD",
+        _id: "67b404a91eb4c9da22cff68e",
+      },
+      {
+        name: "Management Format",
+        value: "MANAGEMENT",
+        _id: "67b405191eb4c9da22cff690",
+      },
+      {
+        name: "Executive Format",
+        value: "EXECUTIVE",
+        _id: "67b405a41eb4c9da22cff691",
+      },
+    ];
+  }, []);
+
+  const customQuestion = useMemo(() => {
+    const questions = JSON.parse(localStorage.getItem("questions")) || [];
+    return questions.map((question) => ({
+      name: question.name,
+      _id: question._id,
+    }));
+  }, []);
+
+  const handleQuestionSelect = (question, format) => {
+    setSelectedQuestion(question);
+    setSelectedFormat(format);
+    setIsHrHatchOpen(false);
+    setIsCustomOpen(false);
+  };
+
   const capitalizeWords = (str) => {
     return str
       .split(" ")
@@ -35,6 +75,11 @@ const EditCandidatePopUp = ({
       setLastName(candidateDetails.name.lastName);
       setEmail(candidateDetails.email);
       setPosition(candidateDetails.position);
+      setSelectedFormat(candidateDetails.questionFormat || "");
+      setSelectedQuestion({
+        name: candidateDetails.questionName,
+        _id: candidateDetails.questionId,
+      });
     }
   }, [candidateDetails]);
 
@@ -60,7 +105,11 @@ const EditCandidatePopUp = ({
         },
         email,
         position,
+        questionFormat: selectedFormat,
+        questionId: selectedQuestion?._id,
+        questionName: selectedQuestion?.name,
       };
+
       const response = await axios.put(URL, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -89,7 +138,7 @@ const EditCandidatePopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0">Edit Candidate</h5>
+            <h5 className="m-0">Edit Applicant</h5>
             <small>Update the details of the candidate below.</small>
           </div>
           <Button
@@ -102,55 +151,9 @@ const EditCandidatePopUp = ({
           </Button>
         </div>
         <Form onSubmit={handleSubmit}>
-          <Form.Group
-            controlId="formCandidateFirstName"
-            className="d-flex align-items-center mb-3"
-          >
-            <Form.Label
-              className="m-0"
-              style={{ width: "150px", height: "38px" }}
-            >
-              Candidate
-            </Form.Label>
-            <div className="d-flex gap-2 w-100">
-              <Form.Control
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="John"
-                required
-              />
-
-              <Form.Control
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Doe"
-                required
-              />
-            </div>
-          </Form.Group>
-          <Form.Group
-            controlId="formCandidateEmail"
-            className="d-flex align-items-center mb-3"
-          >
-            <Form.Label
-              className="m-0"
-              style={{ width: "150px", height: "38px" }}
-            >
-              Email
-            </Form.Label>
-            <Form.Control
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="sample@hrhatch.com"
-              required
-            />
-          </Form.Group>
-          <Form.Group
+        <Form.Group
             controlId="formCandidatePosition"
-            className="d-flex align-items-center mb-3"
+            className="mb-4"
           >
             <Form.Label
               className="m-0"
@@ -173,6 +176,132 @@ const EditCandidatePopUp = ({
                 </option>
               ))}
             </Form.Select>
+          </Form.Group>
+          <Form.Group
+            controlId="formReferenceFormat"
+            className="mb-4"
+          >
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
+              Reference Format
+            </Form.Label>
+            <div className="w-100 reference-question-format-container d-flex gap-3">
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
+                  } ${isHrHatchOpen ? "dropdown-open" : ""}`}
+                  onClick={() => {
+                    setIsHrHatchOpen(!isHrHatchOpen);
+                    setIsCustomOpen(false);
+                  }}
+                >
+                  {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
+                    ? selectedQuestion.name
+                    : "HR-HATCH"}
+                </div>
+                {isHrHatchOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {hrHatchQuestion.map((question) => (
+                      <div
+                        key={question._id}
+                        className="dropdown-item-ref-req"
+                        onClick={() =>
+                          handleQuestionSelect(question, "HR-HATCH-FORMAT")
+                        }
+                      >
+                        {question.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="custom-dropdown-ref-req">
+                <div
+                  className={`dropdown-header-ref-req ${
+                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
+                  } ${isCustomOpen ? "dropdown-open" : ""}`}
+                  onClick={() => {
+                    setIsCustomOpen(!isCustomOpen);
+                    setIsHrHatchOpen(false);
+                  }}
+                >
+                  {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
+                    ? selectedQuestion.name
+                    : "Custom"}
+                </div>
+                {isCustomOpen && (
+                  <div className="dropdown-list-ref-req">
+                    {customQuestion.length > 0 ? (
+                      customQuestion.map((question) => (
+                        <div
+                          key={question._id}
+                          className="dropdown-item-ref-req"
+                          onClick={() =>
+                            handleQuestionSelect(question, "CUSTOM-FORMAT")
+                          }
+                        >
+                          {question.name}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="dropdown-item-ref-req" disabled>
+                        No custom questions available
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </Form.Group>
+          <Form.Group
+            controlId="formCandidateFirstName"
+            className="mb-4"
+          >
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
+              Applicant
+            </Form.Label>
+            <div className="d-flex gap-3 w-100">
+              <Form.Control
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="John"
+                required
+              />
+
+              <Form.Control
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Doe"
+                required
+              />
+            </div>
+          </Form.Group>
+          <Form.Group
+            controlId="formCandidateEmail"
+            className="mb-4"
+          >
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
+              Email
+            </Form.Label>
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="sample@hrhatch.com"
+              required
+            />
           </Form.Group>
 
           <div className="d-flex justify-content-end">
