@@ -288,8 +288,8 @@
 
 /* Modal Styles */
 .custom-modal-job .modal-dialog {
-  width: 60% !important; /* Adjust the width to 80% of the parent container */
-  max-width: 750px !important; /* Add a maximum width to prevent it from getting too large */
+  width: 70% !important; /* Adjust the width to 80% of the parent container */
+  max-width: 820px !important; /* Add a maximum width to prevent it from getting too large */
   height: 380px;
 }
 
@@ -382,6 +382,18 @@
 
 .custom-modal-job .modal-body #dropdown-basic::after {
   color: var(--text-color);
+}
+.custom-modal-job .applicant-details > div{
+  width: 50%;
+  height: auto;
+}
+.custom-modal-job .applicant-details strong{
+  width: 150px !important;
+}
+.custom-modal-job .applicant-details span{
+  width: 210px;
+  display: block;
+  word-wrap: break-word
 }
 
 /* Tooltip Styles */
