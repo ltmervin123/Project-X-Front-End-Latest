@@ -128,7 +128,7 @@ const Trashbin = () => {
   //       //   deletedDate: "2024-01-16",
   //       // },
   //     ],
-  //     Applicant: [
+  //     Candidate: [
   //       // {
   //       //   id: 1,
   //       //   name: "Jane Smith",
@@ -621,6 +621,7 @@ const Trashbin = () => {
           )}
           {selectedCategory === "Reference Question" && (
             <DeleteConfirmationReferenceQuestionPopUp
+              onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}

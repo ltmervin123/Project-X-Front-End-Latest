@@ -66,7 +66,7 @@ function ReviewYourReferenceCheckPage() {
       confirmSkip: "Are you sure you want to skip?",
       originalAnswer: "Original Answer",
       aiEnhancedAnswer: "AI Enhanced Answer",
-      documentVerification: "Document Verification"
+      documentVerification: "Document Verification",
     },
     Japanese: {
       reviewResponses: "回答を確認する",
@@ -82,8 +82,8 @@ function ReviewYourReferenceCheckPage() {
       confirmSkip: "本当にスキップしますか？",
       originalAnswer: "元の回答",
       aiEnhancedAnswer: "AI強化回答",
-      documentVerification: "本人確認書類"
-    }
+      documentVerification: "本人確認書類",
+    },
   };
   const handleConfirmSkip = () => {
     const remainingOriginalAnswer = questions
@@ -394,7 +394,7 @@ function ReviewYourReferenceCheckPage() {
       endDate,
       startDate,
       companyId,
-      currentCompany
+      currentCompany,
     } = REFERENCE_DATA;
     const referenceQuestion = getReferenceQuestionData();
 
@@ -432,6 +432,7 @@ function ReviewYourReferenceCheckPage() {
         formdata.append("backIdFile", backIdFile);
         formdata.append("selfieFile", selfieBlob, "selfie.png");
       }
+
       const response = await axios.post(URL, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
