@@ -468,7 +468,7 @@ const Trashbin = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3 className="mb-0">Trash bin</h3>
+        <h3 className="mb-0">Trash Bin</h3>
         <p className="mb-2">View and restore deleted items from your system.</p>
       </div>
 

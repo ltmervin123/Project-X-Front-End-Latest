@@ -128,21 +128,21 @@ function ViewRequest({
     switch (category) {
       // Standard Format
       case "jobResponsibilitiesAndPerformance":
-        return "Overall job performance assessment:";
+        return "Overall Job Performance Assessment:";
       case "skillAndCompetencies":
         return "Overall Assessment of Skills and Competencies:";
       case "workEthicAndBehavior":
-        return "Overall evaluation regarding work ethic and behavior:";
+        return "Overall Evaluation Regarding Work Ethic and Behavior:";
 
       // Management Format
       case "leadershipAndManagementSkills":
-        return "Overall performance in Leadership and Management:";
+        return "Overall Performance in Leadership and Management:";
       case "workEthicAndBehavior":
-        return "Overall evaluation regarding work ethic and behavior:";
+        return "Overall Evaluation Regarding Work Ethic and Behavior:";
 
       // Executive Format
       case "strategicLeadershipAndVision":
-        return "Overall assessment of strategic leadership:";
+        return "Overall Assessment of Strategic Leadership:";
       case "businessImpactAndResults":
         return "Overall Assessment of Business Impact and Results:";
       case "teamLeadershipAndOrganizationalDevelopment":
