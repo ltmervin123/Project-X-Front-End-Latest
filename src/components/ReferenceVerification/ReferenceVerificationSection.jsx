@@ -93,13 +93,13 @@ const translations = {
       Exceptional: "Exceptional",
     },
     overallAssessments: {
-      jobPerformance: "Overall job performance assessment:",
+      jobPerformance: "Overall Job Performance Assessment:",
       skillsAndCompetencies: "Overall Assessment of Skills and Competencies:",
       workEthicAndBehavior:
-        "Overall evaluation regarding work ethic and behavior:",
+        "Overall Evaluation Regarding Work Ethic and Behavior:",
       leadershipAndManagement:
-        "Overall performance in Leadership and Management:",
-      strategicLeadership: "Overall assessment of strategic leadership:",
+        "Overall Performance in Leadership and Management:",
+      strategicLeadership: "Overall Assessment of Strategic Leadership:",
       businessImpact: "Overall Assessment of Business Impact and Results:",
       teamLeadership:
         "Overall Assessment of Team Leadership and Organizational Development:",

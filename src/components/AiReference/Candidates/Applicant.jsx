@@ -228,7 +228,7 @@ const Applicant = () => {
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex gap-2 align-items-center">
-          Applicant Lists
+          Applicants List
             <div className="position-relative d-flex">
               <svg
                 width="16"
