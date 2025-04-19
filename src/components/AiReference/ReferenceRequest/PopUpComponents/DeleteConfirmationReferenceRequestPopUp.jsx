@@ -1,9 +1,10 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const DeleteConfirmationReferenceRequestPopUp = ({
   onClose,
   onConfirmDelete,
+  isDeleting,
 }) => {
   return (
     <Modal show={true} onHide={onClose} centered backdrop={true}>
@@ -14,8 +15,12 @@ const DeleteConfirmationReferenceRequestPopUp = ({
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
-            <button className="btn-yes-delete" onClick={onConfirmDelete}>
-              Yes
+            <button
+              className="btn-yes-delete"
+              onClick={onConfirmDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Yes"}
             </button>
             <button className="btn-no-delete" onClick={onClose}>
               No
