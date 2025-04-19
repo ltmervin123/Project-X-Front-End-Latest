@@ -131,6 +131,10 @@ const Applicant = () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceRequest"],
         });
+
+        queryClient.invalidateQueries({
+          queryKey: ["archivedCandidates"],
+        });
       }
     } catch (error) {
       console.error(error);

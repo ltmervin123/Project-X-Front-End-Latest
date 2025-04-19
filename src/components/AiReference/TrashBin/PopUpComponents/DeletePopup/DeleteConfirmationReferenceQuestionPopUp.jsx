@@ -4,7 +4,6 @@ import { Modal } from "react-bootstrap";
 const DeleteConfirmationReferenceQuestionPopUp = ({
   onClose,
   onConfirmDelete,
-  selectedCount,
   isAll,
   isSingleItem,
   isDeletingReferenceQuestions,
@@ -29,7 +28,14 @@ const DeleteConfirmationReferenceQuestionPopUp = ({
               onClick={onConfirmDelete}
               disabled={isDeletingReferenceQuestions}
             >
-              {isDeletingReferenceQuestions ? "Deleting..." : "Yes"}
+              {isDeletingReferenceQuestions ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                ></div>
+              ) : (
+                "Yes"
+              )}
             </button>
             <button className="btn-no-delete" onClick={onClose}>
               No

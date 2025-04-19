@@ -41,12 +41,10 @@ const ReferenceQuestionTable = ({
 
   const handleConfirmDelete = () => {
     onDelete(data._id);
-    setShowDeleteConfirmation(false);
   };
 
   const handleConfirmRecover = () => {
     onRestore(data._id);
-    setShowRecoverConfirmation(false);
   };
 
   return (
@@ -119,6 +117,7 @@ const ReferenceQuestionTable = ({
           selectedCount={1}
           isSingleItem={true}
           isDeletingReferenceQuestions={isDeletingReferenceQuestions}
+          onClose={() => setShowDeleteConfirmation(false)}
         />
       )}
       {showRecoverConfirmation && (
@@ -126,6 +125,8 @@ const ReferenceQuestionTable = ({
           onConfirmRecover={handleConfirmRecover}
           selectedCount={1}
           isSingleItem={true}
+          isRecoveringReferenceQuestions={isRecoveringReferenceQuestions}
+          onClose={() => setShowRecoverConfirmation(false)}
         />
       )}
     </>
