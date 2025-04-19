@@ -15,9 +15,8 @@ import RecoverConfirmationApplicantPopUp from "./PopUpComponents/RecoverPopup/Re
 import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
 import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
-import { getArchiveReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
-import { deleteReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
-import { restoreReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
+import * as ReferenceQuestionArchiveAPI from "../../../api/ai-reference/archive/reference-question-api";
+import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/reference-request-api";
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -42,20 +41,53 @@ const Trashbin = () => {
 
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
-
+  //Reference Request API
   const {
-    data: referenceQuestion,
+    data: referenceRequest,
     isLoading: isLoadingReferenceQuestion,
     isError: isErrorReferenceQuestion,
   } = useQuery({
+    queryKey: ["archivedReferenceRequest"],
+    queryFn: ReferenceRequestArchiveAPI.getArchiveReferenceRequest,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { mutate: deleteReference, isLoading: isDeletingReferenceRequest } =
+    useMutation({
+      mutationFn: ReferenceRequestArchiveAPI.deleteReferenceRequest,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceRequest"],
+        });
+        setShowDeletePopup(false);
+      },
+    });
+
+  const { mutate: restoreReference, isLoading: isRecoveringReferenceRequest } =
+    useMutation({
+      mutationFn: ReferenceRequestArchiveAPI.restoreReferenceRequest,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceRequest"],
+        });
+        setShowRecoverPopup(false);
+      },
+    });
+
+  //Reference Question API
+  const {
+    data: referenceQuestion,
+    isLoading: isLoadingReferenceRequest,
+    isError: isErrorReferenceRequest,
+  } = useQuery({
     queryKey: ["archivedReferenceQuestions"],
-    queryFn: getArchiveReferenceQuestion,
+    queryFn: ReferenceQuestionArchiveAPI.getArchiveReferenceQuestion,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const { mutate: deleteQuestions, isLoading: isDeletingReferenceQuestions } =
     useMutation({
-      mutationFn: deleteReferenceQuestion,
+      mutationFn: ReferenceQuestionArchiveAPI.deleteReferenceQuestion,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
@@ -66,7 +98,7 @@ const Trashbin = () => {
 
   const { mutate: restoreQuestion, isLoading: isRecoveringReferenceQuestions } =
     useMutation({
-      mutationFn: restoreReferenceQuestion,
+      mutationFn: ReferenceQuestionArchiveAPI.restoreReferenceQuestion,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
@@ -243,11 +275,11 @@ const Trashbin = () => {
     return {
       Job: [],
       Applicant: [],
-      "Reference Request": [],
+      "Reference Request": referenceRequest?.archivedReferenceRequest || [],
 
       "Reference Question": referenceQuestion?.questions || [],
     };
-  }, [referenceQuestion]);
+  }, [referenceQuestion, referenceRequest]);
 
   const handleRestore = (id) => {
     switch (selectedCategory) {
@@ -258,7 +290,8 @@ const Trashbin = () => {
         console.log("Permanently deleting candidate:", id);
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", id);
+        const referenceRequestId = [id];
+        restoreReference({ referenceRequestId });
         break;
       case "Reference Question":
         const questionIds = [id];
@@ -278,7 +311,8 @@ const Trashbin = () => {
         console.log("Permanently deleting candidate:", id);
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", id);
+        const referenceRequestId = [id];
+        deleteReference({ referenceRequestId });
         break;
       case "Reference Question":
         const questionIds = [id];
@@ -306,7 +340,7 @@ const Trashbin = () => {
         console.log("Permanently deleting candidate:", selectedItems);
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", selectedItems);
+        restoreReference({ referenceRequestId: selectedItems });
         break;
       case "Reference Question":
         restoreQuestion({ questionIds: selectedItems });
@@ -326,7 +360,7 @@ const Trashbin = () => {
         console.log("Permanently deleting candidate:", selectedItems);
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", selectedItems);
+        deleteReference({ referenceRequestId: selectedItems });
         break;
       case "Reference Question":
         deleteQuestions({ questionIds: selectedItems });
@@ -418,7 +452,7 @@ const Trashbin = () => {
         return [
           ...baseHeaders,
           "Applicant",
-          "Referent",
+          "Referees",
           "Status",
           { label: "Deleted Date", className: "text-center" },
           "Actions",
@@ -452,14 +486,26 @@ const Trashbin = () => {
       case "Applicant":
         return <ApplicantTable key={item.id} {...props} />;
       case "Reference Request":
-        return <ReferenceRequestTable key={item.id} {...props} />;
+        const referenceRequestPropsData = {
+          ...props,
+          isDeletingReferenceRequest,
+          isRecoveringReferenceRequest,
+        };
+        return (
+          <ReferenceRequestTable key={item.id} {...referenceRequestPropsData} />
+        );
       case "Reference Question":
-        const propsData = {
+        const referenceQuestionsPropsData = {
           ...props,
           isDeletingReferenceQuestions,
           isRecoveringReferenceQuestions,
         };
-        return <ReferenceQuestionTable key={item._id} {...propsData} />;
+        return (
+          <ReferenceQuestionTable
+            key={item._id}
+            {...referenceQuestionsPropsData}
+          />
+        );
       default:
         return null;
     }
