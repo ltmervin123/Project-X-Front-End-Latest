@@ -15,9 +15,11 @@ import RecoverConfirmationApplicantPopUp from "./PopUpComponents/RecoverPopup/Re
 import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
 import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
-import { getArchiveReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
-import { deleteReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
-import { restoreReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
+
+import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/reference-question-api";
+// import { getArchiveReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
+// import { deleteReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
+// import { restoreReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,13 +51,13 @@ const Trashbin = () => {
     isError: isErrorReferenceQuestion,
   } = useQuery({
     queryKey: ["archivedReferenceQuestions"],
-    queryFn: getArchiveReferenceQuestion,
+    queryFn: ReferenceRequestArchiveAPI.getArchiveReferenceQuestion,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const { mutate: deleteQuestions, isLoading: isDeletingReferenceQuestions } =
     useMutation({
-      mutationFn: deleteReferenceQuestion,
+      mutationFn: ReferenceRequestArchiveAPI.deleteReferenceQuestion,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
@@ -66,7 +68,7 @@ const Trashbin = () => {
 
   const { mutate: restoreQuestion, isLoading: isRecoveringReferenceQuestions } =
     useMutation({
-      mutationFn: restoreReferenceQuestion,
+      mutationFn: ReferenceRequestArchiveAPI.restoreReferenceQuestion,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
@@ -418,7 +420,7 @@ const Trashbin = () => {
         return [
           ...baseHeaders,
           "Applicant",
-          "Referent",
+          "Referees",
           "Status",
           { label: "Deleted Date", className: "text-center" },
           "Actions",
@@ -468,7 +470,7 @@ const Trashbin = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3 className="mb-0">Trash bin</h3>
+        <h3 className="mb-0">Trash Bin</h3>
         <p className="mb-2">View and restore deleted items from your system.</p>
       </div>
 
@@ -558,8 +560,8 @@ const Trashbin = () => {
               : "Delete"}
           </button>
         </div>
-
-        {mockData[selectedCategory].length > 0 ? (
+        {/* mockData[selectedCategory].length > 0  */}
+        {true ? (
           <table>
             <thead>
               <tr>
