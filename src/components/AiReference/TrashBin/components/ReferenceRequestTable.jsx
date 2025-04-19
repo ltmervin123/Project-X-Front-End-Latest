@@ -10,6 +10,8 @@ const ReferenceRequestTable = ({
   onRestore,
   onDelete,
   showCheckboxes,
+  isDeletingReferenceRequest,
+  isRecoveringReferenceRequest,
 }) => {
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -41,12 +43,10 @@ const ReferenceRequestTable = ({
 
   const handleConfirmDelete = () => {
     onDelete(data._id);
-    setShowDeleteConfirmation(false);
   };
 
   const handleConfirmRecover = () => {
     onRestore(data._id);
-    setShowRecoverConfirmation(false);
   };
 
   function concatenateStatus() {
@@ -126,6 +126,7 @@ const ReferenceRequestTable = ({
           onConfirmDelete={handleConfirmDelete}
           selectedCount={1}
           isSingleItem={true}
+          isDeletingReferenceRequest={isDeletingReferenceRequest}
         />
       )}
       {showRecoverConfirmation && (
@@ -134,6 +135,7 @@ const ReferenceRequestTable = ({
           onConfirmRecover={handleConfirmRecover}
           selectedCount={1}
           isSingleItem={true}
+          isRecoveringReferenceRequest={isRecoveringReferenceRequest}
         />
       )}
     </>

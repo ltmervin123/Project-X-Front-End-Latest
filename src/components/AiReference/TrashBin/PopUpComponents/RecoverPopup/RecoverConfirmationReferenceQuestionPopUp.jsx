@@ -4,7 +4,6 @@ import { Modal } from "react-bootstrap";
 const RecoverConfirmationReferenceQuestionPopUp = ({
   onClose,
   onConfirmRecover,
-  selectedCount,
   isAll,
   isSingleItem,
   isRecoveringReferenceQuestions,
@@ -30,7 +29,14 @@ const RecoverConfirmationReferenceQuestionPopUp = ({
               onClick={onConfirmRecover}
               disabled={isRecoveringReferenceQuestions}
             >
-              {isRecoveringReferenceQuestions ? "Recovering..." : "Yes"}
+              {isRecoveringReferenceQuestions ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                ></div>
+              ) : (
+                "Yes"
+              )}
             </button>
             <button className="btn-no-recover" onClick={onClose}>
               No
