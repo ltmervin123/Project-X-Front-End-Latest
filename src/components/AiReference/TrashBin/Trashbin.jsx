@@ -18,6 +18,7 @@ import PopupGuide from "../../AiReference/PopupGuide";
 import * as ReferenceQuestionArchiveAPI from "../../../api/ai-reference/archive/reference-question-api";
 import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/reference-request-api";
 import * as CandidateArchiveAPI from "../../../api/ai-reference/archive/candidate-api";
+import * as JobArchiveAPI from "../../../api/ai-reference/archive/jobs-api";
 
 const CATEGORIES = [
   "Job",
@@ -155,21 +156,66 @@ const Trashbin = () => {
       },
     });
 
+  //Job API
+  const {
+    data: jobs,
+    isLoading: isLoadingJobs,
+    isError: isErrorJobs,
+  } = useQuery({
+    queryKey: ["archivedJobs"],
+    queryFn: JobArchiveAPI.getArchiveJobs,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { mutate: deleteJobs, isPending: isDeletingJobs } = useMutation({
+    mutationFn: JobArchiveAPI.deleteJobs,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["archivedJobs"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedCandidates"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedReferenceRequest"],
+      });
+      setShowDeletePopup(false);
+    },
+  });
+
+  const { mutate: restoreJobs, isPending: isRecoveringJobs } = useMutation({
+    mutationFn: JobArchiveAPI.restoreJobs,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["archivedJobs"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedCandidates"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedReferenceRequest"],
+      });
+      setShowRecoverPopup(false);
+    },
+  });
+
   // Mock data for different categories
   const mockData = useMemo(() => {
     return {
-      Job: [],
+      Job: jobs?.archivedJobs || [],
       Applicant: candidates?.archiveCandidates || [],
       "Reference Request": referenceRequest?.archivedReferenceRequest || [],
 
       "Reference Question": referenceQuestion?.questions || [],
     };
-  }, [referenceQuestion, referenceRequest, candidates]);
+  }, [referenceQuestion, referenceRequest, candidates, jobs]);
 
   const handleRestore = (id) => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", id);
+        const jobIds = [id];
+        console.log("jobIds", jobIds);
+        restoreJobs({ jobIds });
         break;
       case "Applicant":
         const candidateIds = [id];
@@ -191,7 +237,8 @@ const Trashbin = () => {
   const handleDelete = (id) => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", id);
+        const jobIds = [id];
+        deleteJobs({ jobIds });
         break;
       case "Applicant":
         const candidateIds = [id];
@@ -221,7 +268,8 @@ const Trashbin = () => {
   const handleConfirmRestore = () => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", selectedItems);
+        console.log("jobIds", selectedItems);
+        restoreJobs({ jobIds: selectedItems });
         break;
       case "Applicant":
         restoreCandidate({ candidateIds: selectedItems });
@@ -241,7 +289,7 @@ const Trashbin = () => {
   const handleConfirmDelete = () => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", selectedItems);
+        deleteJobs({ jobIds: selectedItems });
         break;
       case "Applicant":
         deleteCandidates({ candidateIds: selectedItems });
@@ -256,7 +304,6 @@ const Trashbin = () => {
         return;
     }
     setSelectedItems([]);
-    // setShowDeletePopup(false);
   };
 
   const handleSelectAll = () => {
@@ -369,7 +416,12 @@ const Trashbin = () => {
 
     switch (selectedCategory) {
       case "Job":
-        return <JobTable key={item._id} {...props} />;
+        const jobPropsData = {
+          ...props,
+          isDeletingJobs,
+          isRecoveringJobs,
+        };
+        return <JobTable key={item._id} {...jobPropsData} />;
       case "Applicant":
         const applicantPropsData = {
           ...props,
@@ -539,6 +591,7 @@ const Trashbin = () => {
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isDeletingJobs={isDeletingJobs}
             />
           )}
           {selectedCategory === "Applicant" && (
@@ -579,6 +632,7 @@ const Trashbin = () => {
               onConfirmRecover={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isRecoveringJobs={isRecoveringJobs}
             />
           )}
           {selectedCategory === "Applicant" && (

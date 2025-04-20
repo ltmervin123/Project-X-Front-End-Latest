@@ -1,6 +1,27 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const TRANSLATIONS = {
+  English: {
+    question: "Question {current}: ",
+    originalAnswer: "Original Answer: ",
+    aiEnhancedAnswer: "AI Enhanced Answer: ",
+    editAnswers: "Edit Answers",
+    save: "Save",
+    saving: "Saving...",
+    discard: "Discard",
+  },
+  Japanese: {
+    question: "質問 {current}: ",
+    originalAnswer: "元の回答: ",
+    aiEnhancedAnswer: "AI強化回答: ",
+    editAnswers: "回答を編集",
+    save: "保存",
+    saving: "保存中...",
+    discard: "破棄",
+  },
+};
+
 const QuestionDisplay = ({
   currentQuestionIndex,
   questions,
@@ -20,26 +41,6 @@ const QuestionDisplay = ({
 
   const language = sessionStorage.getItem("preferred-language") || "English";
 
-  const translations = {
-    English: {
-      question: "Question {current}:",
-      originalAnswer: "Original Answer:",
-      aiEnhancedAnswer: "AI Enhanced Answer:",
-      editAnswers: "Edit Answers",
-      save: "Save",
-      saving: "Saving...",
-      discard: "Discard",
-    },
-    Japanese: {
-      question: "質問 {current}:",
-      originalAnswer: "元の回答:",
-      aiEnhancedAnswer: "AI強化回答:",
-      editAnswers: "回答を編集",
-      save: "保存",
-      saving: "保存中...",
-      discard: "破棄",
-    },
-  };
   const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
@@ -47,14 +48,6 @@ const QuestionDisplay = ({
       return newAnswers;
     });
     await handleNormalizedAnswers();
-    setEditedOriginalAnswer("");
-    setEditedAIEnhancedAnswer("");
-    setIsEditing(false);
-    setEditingType(null);
-  };
-
-  const handleSaveAIEnhancedAnswer = () => {
-    handleUpdateEnhanceAnswer(editedAIEnhancedAnswer);
     setEditedOriginalAnswer("");
     setEditedAIEnhancedAnswer("");
     setIsEditing(false);
@@ -95,7 +88,7 @@ const QuestionDisplay = ({
       <div className="question-container m-0">
         <p className="question-text ">
           <strong>
-            {translations[language].question.replace(
+            {TRANSLATIONS[language].question.replace(
               "{current}",
               currentQuestionIndex + 1
             )}
@@ -105,7 +98,7 @@ const QuestionDisplay = ({
       </div>
 
       <p className="orig-label d-flex justify-content-between align-items-center">
-        <strong>{translations[language].originalAnswer}</strong>
+        <strong>{TRANSLATIONS[language].originalAnswer}</strong>
         {isEditing && editingType === "original" ? null : (
           <button
             className="btn-edit"
@@ -137,7 +130,7 @@ const QuestionDisplay = ({
                 stroke-linejoin="round"
               />
             </svg>
-            {translations[language].editAnswers}
+            {TRANSLATIONS[language].editAnswers}
           </button>
         )}
       </p>
@@ -163,21 +156,21 @@ const QuestionDisplay = ({
             disabled={updating}
           >
             {updating
-              ? translations[language].saving
-              : translations[language].save}
+              ? TRANSLATIONS[language].saving
+              : TRANSLATIONS[language].save}
           </button>
           <button
             className={`btn-discard ${updating ? "disabled" : ""}`}
             onClick={handleDiscard}
             disabled={updating}
           >
-            {translations[language].discard}
+            {TRANSLATIONS[language].discard}
           </button>
         </div>
       )}
 
       <p className="ai-enhanced-label mt-3 d-flex justify-content-between align-items-center">
-        <strong>{translations[language].aiEnhancedAnswer}</strong>
+        <strong>{TRANSLATIONS[language].aiEnhancedAnswer}</strong>
         {isEditing && editingType === "aiEnhanced" ? null : (
           <button
             className="btn-edit"
@@ -211,14 +204,12 @@ const QuestionDisplay = ({
                 stroke-linejoin="round"
               />
             </svg>
-            {translations[language].editAnswers}
+            {TRANSLATIONS[language].editAnswers}
           </button>
         )}
       </p>
       <div
-        className={`ai-enhanced-answer-container  ${
-          isEditing ? "edit" : ""
-        }`}
+        className={`ai-enhanced-answer-container  ${isEditing ? "edit" : ""}`}
       >
         {" "}
         {isEditing && editingType === "aiEnhanced" ? (
@@ -241,15 +232,15 @@ const QuestionDisplay = ({
             disabled={updating}
           >
             {updating
-              ? translations[language].saving
-              : translations[language].save}
+              ? TRANSLATIONS[language].saving
+              : TRANSLATIONS[language].save}
           </button>
           <button
             className={`btn-discard ${updating ? "disabled" : ""}`}
             onClick={handleDiscard}
             disabled={updating}
           >
-            {translations[language].discard}
+            {TRANSLATIONS[language].discard}
           </button>
         </div>
       )}

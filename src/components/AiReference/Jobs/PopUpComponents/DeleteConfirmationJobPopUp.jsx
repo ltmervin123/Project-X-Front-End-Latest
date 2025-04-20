@@ -7,22 +7,34 @@ const DeleteConfirmationJobPopUp = ({
   isDeleting,
 }) => {
   return (
-    <Modal show={true} onHide={onClose} centered backdrop={true}>
+    <Modal
+      show={true}
+      onHide={onClose}
+      centered
+      backdrop="static"
+      keyboard={false}
+    >
       <Modal.Body>
-
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
-        <p className="text-center m-0">
-        Are you sure you want to delete this job? Deleting this job will
+          <p className="text-center m-0">
+            Are you sure you want to delete this job? Deleting this job will
             also remove all associated candidates and their reference records.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
-          <button
+            <button
               className="btn-yes-delete-job"
               disabled={isDeleting}
               onClick={onConfirmDelete}
             >
-              {isDeleting ? "Deleting..." : "Yes"}
+              {isDeleting ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                ></div>
+              ) : (
+                "Yes"
+              )}
             </button>
             <button
               className="btn-no-delete-job"
@@ -31,7 +43,6 @@ const DeleteConfirmationJobPopUp = ({
             >
               No
             </button>
-            
           </div>
         </div>
       </Modal.Body>

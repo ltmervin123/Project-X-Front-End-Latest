@@ -7,7 +7,13 @@ const DeleteConfirmationReferenceRequestPopUp = ({
   isDeleting,
 }) => {
   return (
-    <Modal show={true} onHide={onClose} centered backdrop={true}>
+    <Modal
+      show={true}
+      onHide={onClose}
+      centered
+      backdrop="static"
+      keyboard={false}
+    >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
@@ -20,7 +26,14 @@ const DeleteConfirmationReferenceRequestPopUp = ({
               onClick={onConfirmDelete}
               disabled={isDeleting}
             >
-              {isDeleting ? "Deleting..." : "Yes"}
+              {isDeleting ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                ></div>
+              ) : (
+                "Yes"
+              )}
             </button>
             <button className="btn-no-delete" onClick={onClose}>
               No
