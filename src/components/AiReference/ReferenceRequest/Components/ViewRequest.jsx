@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import "../../../../styles/AiRefereeStyles/ViewRequest.css";
-import { useNavigate } from "react-router-dom";
+
 import html2pdf from "html2pdf.js";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
-import axios from "axios";
+import { fetchReferenceByReferenceId } from "../../../../api/ai-reference/reference-request/reference-request-api";
 
 const CATEGORY_ORDER = {
   "Standard Format": [
@@ -40,38 +41,24 @@ function ViewRequest({
   onClose,
 }) {
   const reportRef = useRef();
-  const API = process.env.REACT_APP_API_URL;
-  const [fetchingReference, setFetchingReference] = useState(false);
-  const [error, setError] = useState("");
-  const [referenceData, setReferenceData] = useState(null);
+
   const [downloading, setDownloading] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
     onClose();
   };
 
-  const fetchReferenceByReferenceId = async () => {
-    try {
-      setFetchingReference(true);
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference/${referenceId}/${refereeId}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setReferenceData(response.data.referenceDetails);
-      }
-    } catch (error) {
-      setError(
-        error?.response?.data?.message ||
-          "An error occurred while fetching reference"
-      );
-    } finally {
-      setFetchingReference(false);
-    }
-  };
+  const {
+    data: referenceData,
+    isLoading: fetchingReference,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["reference", { referenceId, refereeId, token }],
+    queryFn: fetchReferenceByReferenceId,
+    staleTime: 1000 * 60 * 5,
+    enabled: !!referenceId && !!refereeId && !!token,
+  });
 
   function formatDate(date) {
     const newDate = new Date(date);
@@ -241,14 +228,14 @@ function ViewRequest({
         setDownloading(false);
       });
   };
+  const handleImageLoad = (event) => {
+    const { naturalWidth, naturalHeight } = event.target;
+    setIsLandscape(naturalWidth > naturalHeight);
+  };
 
-  useEffect(() => {
-    const fetchingRefenceWhenRender = async () => {
-      await fetchReferenceByReferenceId();
-    };
-
-    fetchingRefenceWhenRender();
-  }, []);
+  const handleImageError = () => {
+    console.error("Image failed to load");
+  };
 
   if (fetchingReference) {
     return (
@@ -278,15 +265,6 @@ function ViewRequest({
       </div>
     );
   }
-
-  const handleImageLoad = (event) => {
-    const { naturalWidth, naturalHeight } = event.target;
-    setIsLandscape(naturalWidth > naturalHeight);
-  };
-
-  const handleImageError = () => {
-    console.error("Image failed to load");
-  };
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">

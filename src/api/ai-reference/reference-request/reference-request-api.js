@@ -10,5 +10,5 @@ export const fetchReferenceByReferenceId = async ({ queryKey }) => {
     },
   });
 
-  return response.data;
+  return response.data.referenceDetails;
 };
