@@ -203,12 +203,14 @@ function ViewRequest({
     }
 
     const options = {
-      margin: 10,
+      margin: [15, 10, 15, 10],
       filename: `${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}-Reference-Report.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
         scale: 2,
         useCORS: true,
+        logging: false,
+        letterRendering: true,
       },
       jsPDF: {
         unit: "mm",
@@ -217,7 +219,11 @@ function ViewRequest({
         putOnlyUsedFonts: true,
         compressPDF: true,
       },
-      pagebreak: { mode: ["avoid-all", "legacy"] },
+      pagebreak: {
+        mode: ["avoid-all", "css", "legacy"],
+        before: ".page-break-before",
+        after: ".page-break-after",
+      },
     };
 
     html2pdf()
@@ -228,6 +234,7 @@ function ViewRequest({
         setDownloading(false);
       });
   };
+
   const handleImageLoad = (event) => {
     const { naturalWidth, naturalHeight } = event.target;
     setIsLandscape(naturalWidth > naturalHeight);
@@ -485,7 +492,17 @@ function ViewRequest({
 
         <div className="d-flex justify-content-center">
           <button onClick={downloadPDF} disabled={downloading}>
-            {downloading ? "Downloading..." : "Download Reference Report"}
+            {downloading ? (
+              <div className="d-flex align-items-center justify-content-center">
+                <div
+                  className="spinner-border spinner-border-sm text-light me-2"
+                  role="status"
+                ></div>
+                <span>Downloading...</span>
+              </div>
+            ) : (
+              <span>Download Reference</span>
+            )}
           </button>
         </div>
       </div>
