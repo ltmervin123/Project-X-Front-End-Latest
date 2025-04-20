@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../../../styles/AiRefereeStyles/ViewRequest.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import html2pdf from "html2pdf.js";
+import { Spinner, Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
 
 const CATEGORY_ORDER = {
   "Standard Format": [
@@ -251,9 +252,22 @@ function ViewRequest({
 
   if (fetchingReference) {
     return (
-      <div className="MockMainDashboard-content d-flex flex-column gap-2">
-        <h3>Loading Reference Request...</h3>
-      </div>
+      <Container className="d-flex justify-content-center align-items-center vh-100">
+        <Row className="text-center">
+          <Col>
+            <Spinner
+              animation="border"
+              variant="primary"
+              role="status"
+              style={{ width: "5rem", height: "5rem" }}
+            />
+            <h3>Loading Reference Request...</h3>
+            <p className="text-muted">
+              Please wait while we fetch the reference data
+            </p>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
