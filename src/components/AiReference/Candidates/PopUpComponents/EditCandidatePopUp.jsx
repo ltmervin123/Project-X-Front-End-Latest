@@ -134,7 +134,8 @@ const EditCandidatePopUp = ({
       onHide={onClose}
       centered
       className="custom-modal-job"
-      backdrop={true}
+      backdrop="static"
+      keyboard={false}
     >
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -303,7 +304,14 @@ const EditCandidatePopUp = ({
               type="submit"
               disabled={isLoading || !isFormValid}
             >
-              {isLoading ? "Updating..." : "Update Candidate"}
+              {isLoading ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                ></div>
+              ) : (
+                "Update Candidate"
+              )}
             </button>
           </div>
         </Form>
