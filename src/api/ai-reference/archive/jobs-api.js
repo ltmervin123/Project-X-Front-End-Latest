@@ -14,12 +14,12 @@ export const getArchiveJobs = async () => {
   return response.data;
 };
 
-export const deleteJobs = async ({ jobsIds }) => {
+export const deleteJobs = async ({ jobIds }) => {
   const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
   const URL = `${API}/api/ai-referee/company-jobs/hard-delete-job`;
   const response = await axios.delete(URL, {
-    data: { jobsIds },
+    data: { jobIds },
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -28,13 +28,13 @@ export const deleteJobs = async ({ jobsIds }) => {
   return response.data;
 };
 
-export const restoreJobs = async ({ jobsIds }) => {
+export const restoreJobs = async ({ jobIds }) => {
   const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
-  const URL = `${API}/api/ai-referee/company-jobs/restore-candidate`;
+  const URL = `${API}/api/ai-referee/company-jobs/restore-job`;
   const response = await axios.post(
     URL,
-    { jobsIds },
+    { jobIds },
     {
       headers: {
         "Content-Type": "application/json",
