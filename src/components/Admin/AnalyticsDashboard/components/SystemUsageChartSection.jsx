@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 
-const SystemUsageChartSection = ({ isVisible }) => {
+const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
   const [selectedPeriod, setSelectedPeriod] = useState("Daily");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -19,12 +19,44 @@ const SystemUsageChartSection = ({ isVisible }) => {
     }
   };
 
+  const getCompanyData = () => {
+    if (selectedCompany === "All Company") {
+      return {
+        usageData: [30, 25, 45, 80, 75, 65, 35],
+        referenceChecks: [1234, 1100, 8500, 32000, 122000],
+        averageUsage: [
+          { average: "22.1 checks", peakTime: "December" },
+          { average: "18.5 checks", peakTime: "January" },
+          { average: "20.3 checks", peakTime: "February" },
+          { average: "25.0 checks", peakTime: "March" }
+        ]
+      };
+    }
+
+    const companySpecificData = {
+      "HR-HΛTCH": {
+        usageData: [25, 30, 40, 70, 65, 55, 30],
+        referenceChecks: [1000, 900, 7000, 28000, 100000],
+        averageUsage: [
+          { average: "20.1 checks", peakTime: "December" },
+          { average: "17.5 checks", peakTime: "January" },
+          { average: "19.3 checks", peakTime: "February" }
+        ]
+      },
+      // Add similar data for other companies...
+    };
+
+    return companySpecificData[selectedCompany] || companySpecificData["HR-HΛTCH"];
+  };
+
+  const companyData = getCompanyData();
+
   const systemUsageData = {
     labels: getLabels(),
     datasets: [
       {
         label: "System Usage",
-        data: [30, 25, 45, 80, 75, 65, 35],
+        data: companyData.usageData,
         borderColor: "#f46a05",
         backgroundColor: "rgba(244, 106, 5, 0.1)",
         fill: true,
@@ -55,22 +87,13 @@ const SystemUsageChartSection = ({ isVisible }) => {
       },
     },
   };
-  // Sample data for total reference checks
-  const totalReferenceChecksData = [
-    { period: "Today", value: 1234 },
-    { period: "Yesterday", value: 1100 },
-    { period: "Last 7 Days", value: 8500 },
-    { period: "Last 30 Days", value: 32000 },
-    { period: "Last 90 Days", value: 122000 },
 
-  ];
-    // Sample data for average usage per user
-    const averageUsageData = [
-        { average: "22.1 checks", peakTime: "December" },
-        { average: "18.5 checks", peakTime: "January" },
-        { average: "20.3 checks", peakTime: "February" },
-        { average: "25.0 checks", peakTime: "March" },
-      ];
+  const totalReferenceChecksData = companyData.referenceChecks.map((value, index) => ({
+    period: ["Today", "Yesterday", "Last 7 Days", "Last 30 Days", "Last 90 Days"][index],
+    value
+  }));
+
+  const averageUsageData = companyData.averageUsage;
 
   return (
     <Row>
@@ -133,11 +156,16 @@ const SystemUsageChartSection = ({ isVisible }) => {
             isVisible ? "visible" : ""
           }`}
         >
-          <div className="chart-content">
+          <div className="chart-content d-flex justify-content-between align-items-center">
+            <div>
             <b className="chart-title mb-0">Total Reference Checks</b>
             <p className="chart-subtitle mb-0">
               Processed in current period across all companies
             </p>
+            </div>
+            <div className="total-reference-check-count">
+            23,600
+            </div>
           </div>
           <div className="total-reference-check-data mt-3">
             {totalReferenceChecksData.slice(0, 4).map((data, index) => (

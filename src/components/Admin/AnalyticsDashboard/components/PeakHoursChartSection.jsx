@@ -1,3 +1,4 @@
+import { color } from 'highcharts';
 import React from 'react';
 import { Row, Col } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
@@ -39,42 +40,116 @@ const PeakHoursChartSection = ({ isVisible }) => {
   };
 
   const topUsers = [
-    { name: 'Sarah Johnson', checks: 145, company: 'HR Solutions Inc.' },
-    { name: 'Michael Chen', checks: 132, company: 'TalentFirst' },
-    { name: 'Emma Williams', checks: 128, company: 'StaffLink Pro' },
-    { name: 'David Miller', checks: 115, company: 'RecruitRight' },
-    { name: 'Lisa Thompson', checks: 98, company: 'HR Partners' }
+    { 
+      name: 'John Doe',
+      email: 'john@example.com',
+      plan: 'Basic',
+      checks: 250,
+      avatar: 'JD'
+    },
+    { 
+      name: 'John Doe',
+      email: 'john@example.com',
+      plan: 'Basic',
+      checks: 250,
+      avatar: 'JD'
+    },
+    { 
+      name: 'John Doe',
+      email: 'john@example.com',
+      plan: 'Regular',
+      checks: 250,
+      avatar: 'JD'
+    },
+    { 
+      name: 'John Doe',
+      email: 'john@example.com',
+      plan: 'Premium',
+      checks: 250,
+      avatar: 'JD'
+    },
+    { 
+      name: 'John Doe',
+      email: 'john@example.com',
+      plan: 'Basic',
+      checks: 250,
+      avatar: 'JD'
+    },
+    { 
+      name: 'John Doe',
+      email: 'john@example.com',
+      plan: 'Enterprise',
+      checks: 250,
+      avatar: 'JD'
+    }
   ];
+
+  const getPlanStyle = (plan) => {
+    switch (plan) {
+      case 'Basic':
+        return { backgroundColor: 'rgba(248, 189, 0, 0.3)', borderColor: '#F8BD00', color: '#F8BD00' };
+      case 'Regular':
+        return { backgroundColor: 'rgba(244, 106, 5, 0.3)', borderColor: '#F46A05', color: '#F46A05' };
+      case 'Premium':
+        return { backgroundColor: 'rgba(49, 159, 67, 0.3)', borderColor: '#319F43', color: '#319F43' };
+      case 'Enterprise':
+        return { backgroundColor: 'rgba(24, 119, 242, 0.3)', borderColor: '#1877F2', color: '#1877F2' };
+      default:
+        return {};
+    }
+  };
 
   return (
     <Row className='mb-4'>
       <Col md="6">
-        <div className={`usage-chart-container fade-in ${isVisible ? "visible" : ""}`}>
+        <div className={`peak-hours-chart-container fade-in ${isVisible ? "visible" : ""}`}>
           <div className="chart-content">
             <b className="chart-title mb-0">Peak Hours</b>
             <p className="chart-subtitle mb-0">Busiest times by hour of day for <span className='color-orange'>HR</span>-HΛTCH</p>
           </div>
-          <div className="usage-user-chart">
+          <div className="peak-hours-user-chart">
             <Line data={peakHoursData} options={options} />
+          </div>
+          <div className="peak-usage-time">
+            <p className="mb-0">Peak Usage Time: </p>
+            <p className="mb-0 color-blue">2pm - 3pm</p>
           </div>
         </div>
       </Col>
       <Col md="6">
-        <div className={`usage-chart-container fade-in ${isVisible ? "visible" : ""}`}>
+        <div className={`peak-hours-chart-container fade-in ${isVisible ? "visible" : ""}`}>
           <div className="chart-content">
             <b className="chart-title mb-0">Top Active Users</b>
-            <p className="chart-subtitle mb-0">Ranked by reference checks for <span className='color-orange'>HR</span>-HATCH</p>
+            <p className="chart-subtitle mb-0">Most active users on the platform</p>
           </div>
           <div className="total-reference-check-data mt-3">
             {topUsers.map((user, index) => (
-              <div key={index} className="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                  <p className="mb-0 fw-bold">{user.name}</p>
-                  <p className="mb-0 text-muted small">{user.company}</p>
+              <div key={index} className="d-flex align-items-center mb-3">
+                <span className="user-number me-2">{index + 1}.</span>
+                <div className="user-avatar me-2">
+                  {user.avatar}
                 </div>
-                <div className="text-end">
-                  <p className="mb-0">{user.checks}</p>
-                  <p className="mb-0 text-muted small">checks</p>
+                <div className="user-info d-flex align-items-center justify-content-between w-100">
+                  <div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <p className="mb-0 fw-bold d-flex align-items-end gap-2">{user.name}
+                    <span 
+                      className="mb-0 small" 
+                      style={getPlanStyle(user.plan)}
+                    >
+                      {user.plan}
+                    </span>
+                    </p>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <p className="mb-0 text-muted small">{user.email}</p>
+                  </div>
+                  </div>
+           
+                  <div>
+                  <p className="user-checks mb-0">{user.checks}</p>
+
+                  </div>
                 </div>
               </div>
             ))}

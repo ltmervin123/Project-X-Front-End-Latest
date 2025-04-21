@@ -1,34 +1,124 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
-import { Bar, Pie } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
+import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import UserStatisticsChartSection from './components/UserStatisticsChartSection';
-import SystemUsageChartSection from './components/SystemUsageChartSection';
-import SubscriptionChartSection from './components/SubscriptionChartSection';
-import PeakHoursChartSection from './components/PeakHoursChartSection';
+import UserStatisticsChartSection from "./components/UserStatisticsChartSection";
+import SystemUsageChartSection from "./components/SystemUsageChartSection";
+import SubscriptionChartSection from "./components/SubscriptionChartSection";
+import PeakHoursChartSection from "./components/PeakHoursChartSection";
 
 const AnalyticsDashboard = () => {
   const navigate = useNavigate();
 
-  // Static data for cards
-  const staticData = {
-    totalUser: 150,
-    totalActiveUsers: 75,
-    totalReferenceCheck: 280,
-    totalRevenue: 15000,
+  const [selectedCompany, setSelectedCompany] = useState("All Company");
+
+  // Sample companies data
+  const companies = [
+    {
+      name: "HR-HΛTCH",
+      totalUser: 150,
+      totalActiveUsers: 75,
+      totalReferenceCheck: 280,
+      totalRevenue: 15000,
+    },
+    {
+      name: "TechCorp",
+      totalUser: 200,
+      totalActiveUsers: 120,
+      totalReferenceCheck: 350,
+      totalRevenue: 20000,
+    },
+    {
+      name: "GlobalHR",
+      totalUser: 180,
+      totalActiveUsers: 90,
+      totalReferenceCheck: 310,
+      totalRevenue: 17000,
+    },
+  ];
+
+  // Add filtered companies based on search query
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const filteredCompanies = companies.filter(company =>
+    company.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  useEffect(() => {
+    if (searchQuery) {
+      setShowSuggestions(true);
+      const filteredResults = companies.filter(company =>
+        company.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      if (filteredResults.length === 1) {
+        setSelectedCompany(filteredResults[0].name);
+      }
+    } else {
+      setShowSuggestions(false);
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filteredCompanies = companies.filter(company =>
+        company.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      
+      // If there's exactly one match, select that company
+      if (filteredCompanies.length === 1) {
+        setSelectedCompany(filteredCompanies[0].name);
+      }
+      // If search is cleared, reset to "All Company"
+      else if (searchQuery === '') {
+        setSelectedCompany("All Company");
+      }
+      setShowCustomizeDropdown(true);
+    }
+  }, [searchQuery]);
+
+  // Add this effect to handle dropdown visibility
+  useEffect(() => {
+    if (searchQuery) {
+      setShowCustomizeDropdown(false);
+    }
+  }, [searchQuery]);
+
+  // Get current company data or combined data if "All Company" is selected
+  const getCurrentCompanyData = () => {
+    if (selectedCompany === "All Company") {
+      return {
+        totalUser: companies.reduce((sum, company) => sum + company.totalUser, 0),
+        totalActiveUsers: companies.reduce(
+          (sum, company) => sum + company.totalActiveUsers,
+          0
+        ),
+        totalReferenceCheck: companies.reduce(
+          (sum, company) => sum + company.totalReferenceCheck,
+          0
+        ),
+        totalRevenue: companies.reduce(
+          (sum, company) => sum + company.totalRevenue, 0
+        ),
+      };
+    }
+    return companies.find((company) => company.name === selectedCompany) || companies[0];
   };
 
+  const currentCompanyData = getCurrentCompanyData();
+
+  // Replace static data with dynamic data
   const { totalUser, totalActiveUsers, totalReferenceCheck, totalRevenue } =
-    staticData;
+    currentCompanyData;
 
   // For fade in smooth animation
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
     useState(false);
   const [isLineChartVisible, setIsLineChartVisible] = useState(false);
+  const [showCustomizeDropdown, setShowCustomizeDropdown] = useState(false);
+
   const [isBarChartVisible, setIsBarChartVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState('userStatistics');
+  const [activeTab, setActiveTab] = useState("userStatistics");
 
   useEffect(() => {
     const timers = [
@@ -248,10 +338,12 @@ const AnalyticsDashboard = () => {
   ];
 
   const renderActiveSection = () => {
-    switch(activeTab) {
-      case 'userStatistics':
+    switch (activeTab) {
+      case "userStatistics":
         return (
-          <UserStatisticsChartSection 
+          <UserStatisticsChartSection
+            selectedCompany={selectedCompany}
+            companies={companies}
             isLineChartVisible={isLineChartVisible}
             isBarChartVisible={isBarChartVisible}
             doubleBarData={doubleBarData}
@@ -263,12 +355,24 @@ const AnalyticsDashboard = () => {
             circleChartOptions={circleChartOptions}
           />
         );
-      case 'systemUsage':
-        return <SystemUsageChartSection isVisible={isLineChartVisible} />;
-      case 'subscription':
-        return <SubscriptionChartSection isVisible={isLineChartVisible} />;
-      case 'peakHours':
-        return <PeakHoursChartSection isVisible={isLineChartVisible} />;
+      case "systemUsage":
+        return <SystemUsageChartSection 
+          isVisible={isLineChartVisible} 
+          selectedCompany={selectedCompany}
+          companies={companies}
+        />;
+      case "subscription":
+        return <SubscriptionChartSection 
+          isVisible={isLineChartVisible}
+          selectedCompany={selectedCompany}
+          companies={companies}
+        />;
+      case "peakHours":
+        return <PeakHoursChartSection 
+          isVisible={isLineChartVisible}
+          selectedCompany={selectedCompany}
+          companies={companies}
+        />;
       default:
         return null;
     }
@@ -319,30 +423,104 @@ const AnalyticsDashboard = () => {
       <Row>
         <Col md="6">
           <div className="analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center">
-            <button 
-              className={activeTab === 'userStatistics' ? 'active' : ''} 
-              onClick={() => setActiveTab('userStatistics')}
+            <button
+              className={activeTab === "userStatistics" ? "active" : ""}
+              onClick={() => setActiveTab("userStatistics")}
             >
               User Statistics
             </button>
-            <button 
-              className={activeTab === 'systemUsage' ? 'active' : ''} 
-              onClick={() => setActiveTab('systemUsage')}
+            <button
+              className={activeTab === "systemUsage" ? "active" : ""}
+              onClick={() => setActiveTab("systemUsage")}
             >
               System Usage
             </button>
-            <button 
-              className={activeTab === 'subscription' ? 'active' : ''} 
-              onClick={() => setActiveTab('subscription')}
+            <button
+              className={activeTab === "subscription" ? "active" : ""}
+              onClick={() => setActiveTab("subscription")}
             >
               Subscription
             </button>
-            <button 
-              className={activeTab === 'peakHours' ? 'active' : ''} 
-              onClick={() => setActiveTab('peakHours')}
+            <button
+              className={activeTab === "peakHours" ? "active" : ""}
+              onClick={() => setActiveTab("peakHours")}
             >
               Peak Hours
             </button>
+          </div>
+        </Col>
+        <Col md="6" className="d-flex align-items-center  mb-2">
+          <div className="search-company d-flex justify-content-between w-100">
+            <div className="d-flex align-items-center">
+              <div className="search-wrapper position-relative">
+                <input
+                  type="text"
+                  placeholder="Search company..."
+                  className="form-control ps-4 pe-5"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+                {showSuggestions && searchQuery && (
+                  <div className="search-suggestions position-absolute w-100 mt-1">
+                    {filteredCompanies.length > 0 ? (
+                      filteredCompanies.map((company, index) => (
+                        <div
+                          key={index}
+                          className={`suggestion-item p-2 ${selectedCompany === company.name ? 'active' : ''}`}
+                          onClick={() => {
+                            setSelectedCompany(company.name);
+                            setSearchQuery('');
+                            setShowSuggestions(false);
+                          }}
+                        >
+                          {company.name}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="suggestion-item p-2 text-muted">
+                        No companies found
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="customize-dropdown position-relative">
+              <button
+                className={`btn-dropdown-company d-flex align-items-center gap-2 ${
+                  showCustomizeDropdown ? "dropdown-open" : ""
+                }`}
+                onClick={() => !searchQuery && setShowCustomizeDropdown(!showCustomizeDropdown)}
+              >
+                {selectedCompany}
+              </button>
+              {showCustomizeDropdown && !searchQuery && (
+                <div className="dropdown-menu show position-absolute end-0">
+                  <div
+                    className={`dropdown-item ${selectedCompany === "All Company" ? 'active' : ''}`}
+                    onClick={() => {
+                      setSelectedCompany("All Company");
+                      setShowCustomizeDropdown(false);
+                    }}
+                  >
+                    All Company
+                  </div>
+                  {companies.map((company, index) => (
+                    <div
+                      key={index}
+                      className={`dropdown-item ${selectedCompany === company.name ? 'active' : ''}`}
+                      onClick={() => {
+                        setSelectedCompany(company.name);
+                        setShowCustomizeDropdown(false);
+                      }}
+                    >
+                      {company.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </Col>
       </Row>
