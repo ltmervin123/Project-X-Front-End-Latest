@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../../styles/AiRefereeStyles/ChooseLanguagePage.css";
 import axios from "axios";
-
+import { Spinner, Container, Row, Col } from "react-bootstrap";
 // const translateQuestion = async (questions, targetLanguage) => {
 //   const URL = `${API}/api/ai-referee/reference/translate-question`;
 //   const requestBody = {
@@ -170,7 +170,21 @@ function ChooseLanguagePage() {
   };
 
   if (fetching) {
-    return <div className="loading-container">Loading...</div>;
+    return (
+      <Container className="d-flex justify-content-center align-items-center vh-100">
+        <Row className="text-center">
+          <Col>
+            <Spinner
+              animation="border"
+              variant="primary"
+              role="status"
+              style={{ width: "5rem", height: "5rem" }}
+            />
+            <p className="mt-3">Fetching questions, please wait...</p>
+          </Col>
+        </Row>
+      </Container>
+    );
   }
 
   return (
@@ -254,7 +268,14 @@ function ChooseLanguagePage() {
           className="btn-continue-language mt-3"
           disabled={isLoading}
         >
-          {isLoading ? "Loading..." : "Continue"}
+          {isLoading ? (
+            <div
+              className="spinner-border spinner-border-sm text-light"
+              role="status"
+            ></div>
+          ) : (
+            "Continue"
+          )}
         </button>
       </div>
     </div>

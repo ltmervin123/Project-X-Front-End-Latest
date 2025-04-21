@@ -10,19 +10,20 @@ const JobTable = ({
   onRestore,
   onDelete,
   showCheckboxes,
+  isDeletingJobs,
+  isRecoveringJobs,
 }) => {
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
 
   const handleToggleOptions = (candidateId, event) => {
-    const { clientY } = event; // Get the Y position of the click
+    const { clientY } = event;
     setVisibleOptions((prev) => {
-      // If the clicked candidate's options are already visible, hide it; otherwise, show it
       if (prev[candidateId]) {
         return { ...prev, [candidateId]: false };
       }
-      // Hide options for all other candidates and show options for the clicked candidate
+
       const updatedOptions = {};
       updatedOptions[candidateId] = true;
       return updatedOptions;
@@ -30,7 +31,7 @@ const JobTable = ({
 
     const optionsElement = document.getElementById(`options-${candidateId}`);
     if (optionsElement) {
-      optionsElement.style.top = `${clientY}px`; // Adjust the positioning as needed
+      optionsElement.style.top = `${clientY}px`;
     }
   };
 
@@ -41,8 +42,7 @@ const JobTable = ({
   };
 
   const handleConfirmDelete = () => {
-    onDelete(data.id);
-    setShowDeleteConfirmation(false);
+    onDelete(data._id);
   };
 
   const handleRecoverClick = (e) => {
@@ -52,35 +52,36 @@ const JobTable = ({
   };
 
   const handleConfirmRecover = () => {
-    onRestore(data.id);
-    setShowRecoverConfirmation(false);
+    onRestore(data._id);
   };
 
   return (
     <>
-      <tr className={selectedItems.includes(data.id) ? "table-active" : ""}>
+      <tr className={selectedItems.includes(data._id) ? "table-active" : ""}>
         {showCheckboxes && (
           <td style={{ width: "50px" }}>
             <input
               type="checkbox"
               className="form-check-input"
-              checked={selectedItems.includes(data.id)}
-              onChange={() => onSelect(data.id)}
+              checked={selectedItems.includes(data._id)}
+              onChange={() => onSelect(data._id)}
             />
           </td>
         )}
-        <td>{data.name}</td>
-        <td className="text-center">{data.vacancy}</td>
+        <td>{data.jobName}</td>
+        <td className="text-center">{data.vacancies}</td>
         <td>{data.department}</td>
         <td>{data.hiringManager}</td>
-        <td className="text-center">{data.deletedDate}</td>
+        <td className="text-center">
+          {data.deletedAt.toString().split("T")[0]}
+        </td>
         <td className="d-flex align-items-center w-100 justify-content-center">
           <div className="position-relative ">
             <div className="action-menu">
               <p
                 className="m-0"
                 style={{ cursor: "pointer" }}
-                onClick={(e) => handleToggleOptions(data.id, e)}
+                onClick={(e) => handleToggleOptions(data._id, e)}
               >
                 <svg
                   className="menu-icon-request"
@@ -95,7 +96,7 @@ const JobTable = ({
                     fill="black"
                   />
                 </svg>
-                {visibleOptions[data.id] && (
+                {visibleOptions[data._id] && (
                   <div className="action-options">
                     <p
                       className="d-flex align-items-center gap-2"
@@ -129,6 +130,7 @@ const JobTable = ({
           onConfirmDelete={handleConfirmDelete}
           selectedCount={1}
           isSingleItem={true}
+          isDeletingJobs={isDeletingJobs}
         />
       )}
       {showRecoverConfirmation && (
@@ -137,6 +139,7 @@ const JobTable = ({
           onConfirmRecover={handleConfirmRecover}
           selectedCount={1}
           isSingleItem={true}
+          isRecoveringJobs={isRecoveringJobs}
         />
       )}
     </>

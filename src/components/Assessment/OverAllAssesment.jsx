@@ -169,7 +169,9 @@ function OverAllAssesment({ onSubmit, category }) {
         <div className="top-display w-100"></div>
         <Form className="job-performance-assessment-form">
           <div className="form-header">
-            <h5 className="mb-0 text-center">{getOverallAssessmentText(category)} </h5>
+            <h5 className="mb-0 text-center">
+              {getOverallAssessmentText(category)}{" "}
+            </h5>
             <p className="mb-0 text-center">
               {" "}
               {t.question} {category}?
@@ -189,50 +191,58 @@ function OverAllAssesment({ onSubmit, category }) {
               >
                 {Array.from(checkboxSelection).map((current, index) => (
                   <FormControlLabel
-                  key={index}
-                  value={current.label}
-                  control={
-                    <Radio
-                      sx={{
-                        color: "#333",
-                        "&.Mui-checked": {
-                          color: current.checkboxColor,
-                        },
-                      }}
-                    />
-                  }
-                  className="assessment-form-group"
-                  style={{
-                    border:
-                      selectedValue === current.label
-                        ? `1px solid ${current.borderColor} !important`
-                        : "1px solid black",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      border: `1px solid ${current.borderColor} !important`,
-                      boxShadow: `0 0 5px ${current.borderColor}`,
-                    },
-                  }}
-                  sx={{
-                    "& .MuiFormControlLabel-root": {
+                    key={index}
+                    value={current.label}
+                    control={
+                      <Radio
+                        sx={{
+                          color: "#333",
+                          "&.Mui-checked": {
+                            color: current.checkboxColor,
+                          },
+                        }}
+                      />
+                    }
+                    className="assessment-form-group"
+                    style={{
+                      border:
+                        selectedValue === current.label
+                          ? `1px solid ${current.borderColor} !important`
+                          : "",
+                      boxShadow:
+                        selectedValue === current.label
+                          ? `0 0 5px ${current.borderColor}`
+                          : "",
                       transition: "all 0.3s ease",
-                    },
-                    "&:hover": {
-                      border: `1px solid ${current.borderColor} !important`,
-                      boxShadow: `0 0 5px ${current.borderColor}`,
-                    },
-                  }}
-                  label={
-                    <>
-                      <span className="assessment-form-label">
-                        {current.label}
-                      </span>
-                      <div className="assessment-form-label-discription">
-                        {current.labelDiscription}
-                      </div>
-                    </>
-                  }
-                />
+                      "&:hover": {
+                        border: `1px solid ${current.borderColor} !important`,
+                        boxShadow: `0 0 5px ${current.borderColor}`,
+                      },
+                    }}
+                    sx={{
+                      border:
+                        selectedValue === current.label
+                          ? `1px solid ${current.borderColor} !important`
+                          : "",
+                      "& .MuiFormControlLabel-root": {
+                        transition: "all 0.3s ease",
+                      },
+                      "&:hover": {
+                        border: `1px solid ${current.borderColor} !important`,
+                        boxShadow: `0 0 5px ${current.borderColor}`,
+                      },
+                    }}
+                    label={
+                      <>
+                        <span className="assessment-form-label">
+                          {current.label}
+                        </span>
+                        <div className="assessment-form-label-discription">
+                          {current.labelDiscription}
+                        </div>
+                      </>
+                    }
+                  />
                 ))}
               </RadioGroup>
             </FormControl>

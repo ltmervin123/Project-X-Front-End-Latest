@@ -85,9 +85,17 @@ const TextBase = ({
                     : ""
                 }
               >
-                {loading
-                  ? translations[language].submitting
-                  : translations[language].submit}
+                {loading ? (
+                  <div className="d-flex align-items-center justify-content-center">
+                    <div
+                      className="spinner-border spinner-border-sm text-light me-2"
+                      role="status"
+                    ></div>
+                    <span>{translations[language].submitting}</span>
+                  </div>
+                ) : (
+                  translations[language].submit
+                )}
               </button>
             </>
           )}

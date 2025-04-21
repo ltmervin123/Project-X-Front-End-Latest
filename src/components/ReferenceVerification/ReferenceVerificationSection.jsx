@@ -428,7 +428,6 @@ const ReferenceVerificationSection = () => {
   return (
     <div className="row main-login justify-content-center position-relative">
       <div style={{ display: "none" }}>
-
         <div ref={reportRef} className="ViewRequest-container">
           <h4 className="color-orange mb-2">
             {translations[language].format[referenceData?.questionFormat] ||
@@ -715,9 +714,17 @@ const ReferenceVerificationSection = () => {
               onClick={downloadPDF}
               disabled={downloading || fetchingReference}
             >
-              {downloading
-                ? translations[language].downloading
-                : translations[language].download}{" "}
+              {downloading ? (
+                <div className="d-flex align-items-center justify-content-center">
+                  <div
+                    className="spinner-border spinner-border-sm text-light me-2"
+                    role="status"
+                  ></div>
+                  <span>{translations[language].downloading}</span>
+                </div>
+              ) : (
+                translations[language].download
+              )}
             </button>
             <button
               className="btn-exit"
@@ -725,6 +732,7 @@ const ReferenceVerificationSection = () => {
                 clearReferenceSessionStorage();
                 window.location.href = "/";
               }}
+              disabled={downloading || fetchingReference}
             >
               {translations[language].exit}
             </button>
