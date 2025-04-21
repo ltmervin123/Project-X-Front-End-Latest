@@ -1,0 +1,256 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --sidebar-bg: #f2f3f7;
+}
+.analytics-dashboard-button-controller {
+  background: var(--font-white);
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  gap: 10px;
+}
+.analytics-dashboard-button-controller > button {
+  background: var(--font-white);
+  border-radius: 50px;
+  border: none;
+  width: 23%;
+  padding: 5px;
+  font-size: 0.8rem;
+}
+.analytics-dashboard-button-controller > button.active {
+  color: var(--font-white);
+  background: var(--primary-color);
+}
+.active-chart-container,
+.monthly-user-chart-container,
+.usage-chart-container,
+.subscription-chart-container {
+  width: 100%;
+  height: 45vh;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+.user-by-role-chart-container {
+  width: 100%;
+  height: 93.6vh;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+.active-chart-container .chart-content,
+.monthly-user-chart-container .chart-content,
+.subscription-chart-container .chart-content,
+.subscription-analytics-chart-container .chart-content {
+  height: 20%;
+}
+.active-chart-container .chart-subtitle,
+.monthly-user-chart-container .chart-subtitle,
+.user-by-role-chart-container .chart-subtitle,
+.usage-chart-container .chart-subtitle,
+.subscription-chart-container .chart-subtitle,
+.subscription-analytics-chart-container .chart-subtitle {
+  color: var(--card-color);
+  font-size: 13px;
+}
+.active-inactive-user-chart,
+.monthly-users-chart,
+.subscription-user-chart {
+  height: 80%;
+  width: 100%;
+  background: var(--font-white) !important;
+  border-radius: 15px;
+  border-radius: 15px;
+  position: relative;
+}
+.active-inactive-user-chart canvas,
+.monthly-users-chart canvas,
+.usage-user-chart canvas,
+.subscription-user-chart canvas {
+  width: 100% !important;
+  height: auto;
+}
+
+.user-by-role-chart-container .pie-chart-wrapper {
+  height: 80%;
+  width: 100%;
+  position: relative;
+}
+.user-by-role-chart-container .chart-content {
+  height: 20%;
+}
+.user-by-role-chart canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+.user-by-role-chart-container .percentage-center {
+  text-align: center;
+  z-index: 1;
+}
+
+.percentage-label h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.percentage-label p {
+  font-size: 12px;
+  margin: 0;
+}
+
+.usage-chart-container .custom-dropdown {
+  position: relative;
+  min-width: 120px;
+}
+.usage-chart-container {
+  width: 100%;
+  height: 63.6vh;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+.usage-user-chart {
+  height: 80%;
+  width: 100%;
+  background: var(--font-white) !important;
+  border-radius: 15px;
+  border-radius: 15px;
+  position: relative;
+}
+.usage-chart-container .chart-content {
+  height: 20%;
+}
+.usage-chart-container .dropdown-header {
+  padding: 5px 15px;
+  border-radius: 50px;
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  color: var(--font-black) !important;
+}
+.usage-chart-container .dropdown-header.dropdown-open {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 10px 10px 0px 0px !important;
+  border-bottom: none !important;
+  background-color: var(--font-white) !important;
+}
+
+.usage-chart-container .dropdown-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: -1px;
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  border-radius: 0px 0px 10px 10px !important;
+  border-top: none;
+  width: 100%;
+  z-index: 10;
+}
+
+.usage-chart-container .dropdown-item {
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.usage-chart-container .dropdown-item:hover {
+  background: rgba(244, 106, 5, 0.1);
+}
+
+.usage-chart-container .dropdown-item.active {
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+.usage-chart-container .dropdown-item:nth-child(3) {
+  border-radius: 0px 0px 10px 10px !important;
+}
+.total-reference-check-chart-container {
+  width: 100%;
+  height: 30vh;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+.total-reference-check-chart-container .chart-content {
+  height: 20%;
+}
+.total-reference-check-chart-container .chart-subtitle {
+  color: var(--card-color);
+  font-size: 13px;
+}
+.total-reference-check-chart-container .total-reference-check-data {
+  height: 80%;
+}
+.total-reference-check-chart-container .total-reference-check-data p {
+  font-size: 14px;
+}
+.total-reference-check-chart-container .total-reference-check-header {
+  color: var(--card-color);
+}
+.total-reference-check-chart-container
+  .total-reference-check-data
+  > div:nth-child(4) {
+  color: var(--card-color);
+}
+.subscription-analytics-chart-container {
+    width: 100%;
+    height: 35vh;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 0.5px solid rgba(0, 0, 0, 0.104);
+    padding: 20px;
+  }
+
+.subscription-analytics-chart-container .subscription-analytics {
+  padding: 20px 0;
+}
+
+.subscription-analytics-chart-container  .progress-item {
+  padding: 10px;
+  height: 20px;
+  border-radius: 50px;
+
+}
+
+.subscription-analytics-chart-container  .progress-item span {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.subscription-analytics-chart-container  .progress {
+    border-radius: 50px;
+    height: 20px;
+
+    background-color: var(--sidebar-bg);
+}
+
+.subscription-analytics-chart-container  .progress-bar {
+  transition: width 0.6s ease;
+  border-radius: 50px !important;
+
+}
+
+.subscription-analytics-chart-container  .progress-item span:nth-child(1) {
+    width: 40%;
+  }

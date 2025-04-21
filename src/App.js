@@ -66,6 +66,9 @@ import CreatedAccount from "./page/CreatedAccountPage.jsx";
 /* Our Partners Page */
 import OurParternersPage from "./page/OurPartnersPage.jsx";
 
+// PaymentMethod
+import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
+
 /*Ai Referee */
 import AiReferenceMainDashboardPage from "./page/AiReferencePage/AiReferenceMainDashboardPage.jsx";
 import AiReferenceJobsPage from "./page/AiReferencePage/AiReferenceJobsPage.jsx";
@@ -76,6 +79,7 @@ import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPag
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
 import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 import ReferenceRequestResendEmailPage from "./page/AiReferencePage/ReferenceRequestResendEmailPage.jsx";
+import ViewRequest from "./components/AiReference/ReferenceRequest/Components/ViewRequest.jsx";
 
 // CompanyRegistrationPage
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
@@ -86,44 +90,23 @@ import CompanyExpiredLink from "./page/CompanyExpiredLinkPage.jsx";
 /*Company Registration Check Email Confirmation page*/
 import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistrationCheckEmailConfirmationPage.jsx";
 
-// AiReferenceCheckVerificationPage
+// Referee
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
-
-// ChooseLanguagePage
 import ChooseLanguagePage from "./page/AiRefereePage/ChooseLanguagePage.jsx";
-
-// LanguageSelectionConfirmationPage
 import LanguageSelectionConfirmationPage from "./page/AiRefereePage/LanguageSelectionConfirmationPage.jsx";
-
-// ChooseYourReferenceMethodPage
 import ChooseYourReferenceMethodPage from "./page/AiRefereePage/ChooseYourReferenceMethodPage.jsx";
-
-// ReferenceCheckQuestionnairePage
-import ReferenceCheckQuestionnairePage from "./page/AiRefereePage/ReferenceCheckQuestionnairePage.jsx";
-
-// ReviewYourReferenceCheckPage
-import ReviewYourReferenceCheckPage from "./page/AiRefereePage/ReviewYourReferenceCheckPage.jsx";
-
-// ReferenceCheckInstructionsPage
 import ReferenceCheckInstructionsPage from "./page/AiRefereePage/ReferenceCheckInstructionsPage.jsx";
-
-// ReferenceCheckThankYouMsgPage
+import ReferenceCheckQuestionnairePage from "./page/AiRefereePage/ReferenceCheckQuestionnairePage.jsx";
+import ReviewYourReferenceCheckPage from "./page/AiRefereePage/ReviewYourReferenceCheckPage.jsx";
 import ReferenceCheckThankYouMsgPage from "./page/AiRefereePage/ReferenceCheckThankYouMsgPage.jsx";
-
-// ViewRequest
-import ViewRequest from "./components/AiReference/ReferenceRequest/Components/ViewRequest.jsx";
-
-// ReferenceRequestEmailSentPage
-import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
-
-// RRFormSubmittedSuccessfullyPage
-import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
 
 // ReferenceRequestFormPage
 import ReferenceRequestFormPage from "./page/ReferenceRequestFormPage.jsx";
+import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
+import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
 
-// PaymentMethod
-import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
+// Admin
+import AnalyticsDashboardPage from "./page/AdminPage/AnalyticsDashboardPage.jsx";
 
 function App() {
   const { user } = useAuthContext();
@@ -383,6 +366,17 @@ function App() {
         />
 
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
+
+
+
+
+        {/* Admin */}
+        <Route
+          path="/AnalyticsDashboard"
+          element={<AnalyticsDashboardPage />}
+        />
+
+
         {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>

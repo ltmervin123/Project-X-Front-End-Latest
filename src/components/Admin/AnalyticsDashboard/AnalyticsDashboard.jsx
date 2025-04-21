@@ -1,0 +1,354 @@
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Row, Col } from "react-bootstrap";
+import { Bar, Pie } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+import { useNavigate } from "react-router-dom";
+import UserStatisticsChartSection from './components/UserStatisticsChartSection';
+import SystemUsageChartSection from './components/SystemUsageChartSection';
+import SubscriptionChartSection from './components/SubscriptionChartSection';
+import PeakHoursChartSection from './components/PeakHoursChartSection';
+
+const AnalyticsDashboard = () => {
+  const navigate = useNavigate();
+
+  // Static data for cards
+  const staticData = {
+    totalUser: 150,
+    totalActiveUsers: 75,
+    totalReferenceCheck: 280,
+    totalRevenue: 15000,
+  };
+
+  const { totalUser, totalActiveUsers, totalReferenceCheck, totalRevenue } =
+    staticData;
+
+  // For fade in smooth animation
+  const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
+    useState(false);
+  const [isLineChartVisible, setIsLineChartVisible] = useState(false);
+  const [isBarChartVisible, setIsBarChartVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState('userStatistics');
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsAiReferenceCardVisible(true), 300),
+      setTimeout(() => setIsLineChartVisible(true), 900),
+      setTimeout(() => setIsBarChartVisible(true), 1200),
+    ];
+
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
+
+  const getWeeklyData = () => {
+    const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const activeUsers = [8, 12, 15, 10, 9, 5, 3];
+    const inactiveUsers = [4, 6, 8, 5, 7, 10, 12];
+    return { weekDays, activeUsers, inactiveUsers };
+  };
+
+  function getMonthlyNewUsers() {
+    const months = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const newUsers = [55, 42, 58, 50, 62, 48, 55];
+    return { months, newUsers };
+  }
+
+  function getUserRolesData() {
+    const rawData = [40, 60]; // Regular users first (80%), Premium users second (20%)
+    const total = rawData.reduce((a, b) => a + b, 0);
+    const data = rawData.map((value) =>
+      Number(((value / total) * 100).toFixed(0))
+    );
+
+    return {
+      labels: ["Premium", "Regular"], // Switched order to match rawData
+      datasets: [
+        {
+          data: data,
+          backgroundColor: ["#f46a05", "#1706ac"], // Colors match the new label order
+          borderWidth: 0,
+        },
+      ],
+    };
+  }
+
+  function calculateLabelPosition(percentage, index, total) {
+    const startAngle = -Math.PI / 1; // Start from the top (12 o'clock position)
+
+    // Calculate cumulative percentages for segments before the current one
+    let cumulativePercentage = 0;
+    for (let i = 0; i < index; i++) {
+      cumulativePercentage += getUserRolesData().datasets[0].data[i];
+    }
+
+    // Calculate angle for the current segment
+    const currentAngle =
+      startAngle + (cumulativePercentage / total) * (2 * Math.PI);
+    const segmentAngle = (percentage / 100) * (2 * Math.PI);
+    const midAngle = currentAngle + segmentAngle / 2; // Mid-angle for label positioning
+
+    // Adjust label distance for centering
+    const labelDistance = 230; // Adjust this value as needed for centering
+
+    // Calculate x and y positions
+    const x = Math.cos(midAngle) * labelDistance;
+    const y = Math.sin(midAngle) * labelDistance;
+
+    return {
+      left: `calc(50% + ${x}px)`,
+      top: `calc(50% + ${y}px)`,
+      transform: "translate(-50%, -50%)",
+      position: "absolute",
+      textAlign: "center",
+      width: "120px",
+      fontSize: "12px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    };
+  }
+
+  // Chart configurations
+  const { weekDays, activeUsers, inactiveUsers } = getWeeklyData();
+  const { months, newUsers } = getMonthlyNewUsers();
+
+  const doubleBarData = {
+    labels: weekDays,
+    datasets: [
+      {
+        label: "Active Users",
+        data: activeUsers,
+        backgroundColor: "#f46a05",
+        borderRadius: 4,
+      },
+      {
+        label: "Inactive Users",
+        data: inactiveUsers,
+        backgroundColor: "#1706ac",
+        borderRadius: 4,
+      },
+    ],
+  };
+
+  const doubleBarOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        beginAtZero: true,
+      },
+    },
+    barPercentage: 0.7,
+    categoryPercentage: 0.8,
+  };
+
+  const barData = {
+    labels: months,
+    datasets: [
+      {
+        label: "New Users",
+        backgroundColor: "#1706ac",
+        borderColor: "transparent",
+        borderWidth: 2,
+        data: newUsers,
+        borderRadius: 10,
+      },
+    ],
+  };
+
+  const barOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+        },
+      },
+    },
+  };
+
+  const circleChartOptions = {
+    rotation: 0,
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+    cutout: "65%",
+
+    rotation: -90, // Start from top
+  };
+
+  const cardData = [
+    {
+      title: "Total Users",
+      count: totalUser,
+      color: "#f46a05",
+      path: "/AiReferenceJobs",
+    },
+    {
+      title: "Active Users",
+      count: totalActiveUsers,
+      color: "#F8BD00",
+      path: "/AiReferenceRequest",
+    },
+    {
+      title: "Reference Checks",
+      count: totalReferenceCheck,
+      color: "#319F43",
+      path: "/AiReferenceRequest",
+    },
+    {
+      title: "Revenue",
+      count: totalRevenue,
+      color: "#686868",
+      path: "/AiReferenceApplicant",
+    },
+  ];
+
+  const renderActiveSection = () => {
+    switch(activeTab) {
+      case 'userStatistics':
+        return (
+          <UserStatisticsChartSection 
+            isLineChartVisible={isLineChartVisible}
+            isBarChartVisible={isBarChartVisible}
+            doubleBarData={doubleBarData}
+            doubleBarOptions={doubleBarOptions}
+            barData={barData}
+            barOptions={barOptions}
+            getUserRolesData={getUserRolesData}
+            calculateLabelPosition={calculateLabelPosition}
+            circleChartOptions={circleChartOptions}
+          />
+        );
+      case 'systemUsage':
+        return <SystemUsageChartSection isVisible={isLineChartVisible} />;
+      case 'subscription':
+        return <SubscriptionChartSection isVisible={isLineChartVisible} />;
+      case 'peakHours':
+        return <PeakHoursChartSection isVisible={isLineChartVisible} />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="MockMainDashboard-content d-flex flex-column gap-2">
+      <div>
+        <h3 className="mb-0"> Admin Dashboard</h3>
+        <p className="mb-2">View analytics and metrics for your application.</p>
+      </div>
+
+      <div>
+        <Row className="mb-3 AiReferenceCard-container">
+          {cardData.map((card, index) => (
+            <Col
+              key={index}
+              md={3}
+              className={` fade-in ${
+                isAiReferenceCardVisible ? "visible" : ""
+              }`}
+            >
+              <div
+                className="AiReferenceCard"
+                onClick={() => navigate(card.path)}
+              >
+                <div className="h-100">
+                  <p className="d-flex title">
+                    <div
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: card.color,
+                        marginRight: "10px",
+                      }}
+                    ></div>
+                    {card.title}
+                  </p>
+                  <p className="d-flex align-items-center justify-content-center count">
+                    {card.count}
+                  </p>
+                </div>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      </div>
+      <Row>
+        <Col md="6">
+          <div className="analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center">
+            <button 
+              className={activeTab === 'userStatistics' ? 'active' : ''} 
+              onClick={() => setActiveTab('userStatistics')}
+            >
+              User Statistics
+            </button>
+            <button 
+              className={activeTab === 'systemUsage' ? 'active' : ''} 
+              onClick={() => setActiveTab('systemUsage')}
+            >
+              System Usage
+            </button>
+            <button 
+              className={activeTab === 'subscription' ? 'active' : ''} 
+              onClick={() => setActiveTab('subscription')}
+            >
+              Subscription
+            </button>
+            <button 
+              className={activeTab === 'peakHours' ? 'active' : ''} 
+              onClick={() => setActiveTab('peakHours')}
+            >
+              Peak Hours
+            </button>
+          </div>
+        </Col>
+      </Row>
+      {renderActiveSection()}
+    </div>
+  );
+};
+
+export default AnalyticsDashboard;
