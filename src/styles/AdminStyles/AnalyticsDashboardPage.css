@@ -186,7 +186,7 @@
 }
 
 .user-by-role-chart-container .pie-chart-wrapper {
-  height: 80%;
+  height: 60% !important;
   width: 100%;
   position: relative;
 }

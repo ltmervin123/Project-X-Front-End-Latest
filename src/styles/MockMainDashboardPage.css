@@ -169,14 +169,14 @@
   z-index: 999;
   width: 16.5%;
   text-align: left;
-  min-width: 210px;
+  min-width: 230px;
 }
 
 .MockMain-sidebar > a {
   text-decoration: none;
   padding-left: 5px;
   border-left: 4px solid var(--sidebar-bg);
-  font-size: 15px;
+  font-size: 14px;
   transition: all 0.3s ease; /* Add transition to all properties */
   display: flex;
   align-items: center;
@@ -582,7 +582,7 @@
 
   .MockMain-sidebar > a,
   .MockMain-sidebar .follow-us h5 {
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
@@ -594,10 +594,10 @@
 
   .MockMain-sidebar > a,
   .MockMain-sidebar .follow-us h5 {
-    font-size: 19px;
+    font-size: 18px;
   }
   .MockMain-sidebar .follow-us p {
-    font-size: 17px;
+    font-size: 15px;
 
   }
 }
@@ -613,10 +613,10 @@
 
   .MockMain-sidebar > a ,
   .MockMain-sidebar .follow-us h5{
-    font-size: 20px;
+    font-size: 18px;
   }
   .MockMain-sidebar .follow-us p {
-    font-size: 17px;
+    font-size: 15px;
 
   }
 }

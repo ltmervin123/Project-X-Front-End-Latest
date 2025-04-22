@@ -65,6 +65,63 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
     ],
   };
 
+  const createCustomTooltip = () => ({
+    enabled: false,
+    external: function (context) {
+      const tooltipEl = document.getElementById("chartjs-tooltip");
+
+      let tooltipElement = tooltipEl;
+      if (!tooltipElement) {
+        tooltipElement = document.createElement("div");
+        tooltipElement.id = "chartjs-tooltip";
+        tooltipElement.innerHTML = "<table></table>";
+        document.body.appendChild(tooltipElement);
+      }
+
+      const tooltipModel = context.tooltip;
+      if (tooltipModel.opacity === 0) {
+        tooltipElement.style.opacity = 0;
+        return;
+      }
+
+      tooltipElement.style.opacity = 1;
+      tooltipElement.style.backgroundColor = "#fff";
+      tooltipElement.style.padding = "10px";
+      tooltipElement.style.position = "absolute";
+      tooltipElement.style.zIndex = 1000;
+      tooltipElement.style.boxShadow = "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+      tooltipElement.style.borderRadius = "10px";
+      tooltipElement.style.pointerEvents = "none";
+
+      const position = context.chart.canvas.getBoundingClientRect();
+      const tooltipWidth = tooltipElement.offsetWidth;
+      let tooltipX = position.left + window.scrollX + tooltipModel.caretX;
+      let tooltipY = position.top + window.scrollY + tooltipModel.caretY;
+
+      if (tooltipX + tooltipWidth > position.left + position.width) {
+        tooltipX -= tooltipWidth;
+      }
+
+      tooltipElement.style.left = tooltipX + "px";
+      tooltipElement.style.top = tooltipY + "px";
+
+      const dataIndex = tooltipModel.dataPoints[0].dataIndex;
+      const time = context.chart.data.labels[dataIndex];
+      const usage = tooltipModel.dataPoints[0].parsed.y;
+
+      const content = `
+        <tr>
+          <td style="font-weight: 500;font-size: 13px;">${time}</td>
+        </tr>
+        <tr>
+          <td style="color: #f46a05; font-weight: 400; font-size: 13px;">Usage: ${usage}</td>
+        </tr>
+      `;
+
+      tooltipElement.querySelector("table").innerHTML = content;
+    }
+  });
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -72,6 +129,7 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
       legend: {
         display: false,
       },
+      tooltip: createCustomTooltip()
     },
     scales: {
       x: {
@@ -108,7 +166,7 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
               <div>
                 <b className="chart-title mb-0">Usage Trends</b>
                 <p className="chart-subtitle mb-0">
-                  Reference checks processed over time cross all companies
+                  Reference checks processed over time for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
                 </p>
               </div>
               <div className="custom-dropdown">
@@ -160,7 +218,7 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
             <div>
             <b className="chart-title mb-0">Total Reference Checks</b>
             <p className="chart-subtitle mb-0">
-              Processed in current period across all companies
+              Processed in current period for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
             </p>
             </div>
             <div className="total-reference-check-count">
@@ -188,7 +246,7 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
           <div className="chart-content">
             <b className="chart-title mb-0">Average Usage per User</b>
             <p className="chart-subtitle mb-0">
-              Reference checks per user across all companies
+              Reference checks per user for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
             </p>
           </div>
           <div className="total-reference-check-data mt-4">

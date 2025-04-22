@@ -12,6 +12,7 @@ const AnalyticsDashboard = () => {
   const navigate = useNavigate();
 
   const [selectedCompany, setSelectedCompany] = useState("All Company");
+  const [showCustomizeDropdown, setShowCustomizeDropdown] = useState(false);
 
   // Sample companies data
   const companies = [
@@ -115,14 +116,14 @@ const AnalyticsDashboard = () => {
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
     useState(false);
   const [isLineChartVisible, setIsLineChartVisible] = useState(false);
-  const [showCustomizeDropdown, setShowCustomizeDropdown] = useState(false);
-
+  const [isButtonControllerVisible, setIsButtonControllerVisible] = useState(false);
   const [isBarChartVisible, setIsBarChartVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("userStatistics");
 
   useEffect(() => {
     const timers = [
       setTimeout(() => setIsAiReferenceCardVisible(true), 300),
+      setTimeout(() => setIsButtonControllerVisible(true), 600),
       setTimeout(() => setIsLineChartVisible(true), 900),
       setTimeout(() => setIsBarChartVisible(true), 1200),
     ];
@@ -293,47 +294,30 @@ const AnalyticsDashboard = () => {
     },
   };
 
-  const circleChartOptions = {
-    rotation: 0,
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        enabled: true,
-      },
-    },
-    cutout: "65%",
-
-    rotation: -90, // Start from top
-  };
-
   const cardData = [
     {
       title: "Total Users",
       count: totalUser,
       color: "#f46a05",
-      path: "/AiReferenceJobs",
+      path: "/AnalyticsDashboard",
     },
     {
       title: "Active Users",
       count: totalActiveUsers,
       color: "#F8BD00",
-      path: "/AiReferenceRequest",
+      path: "/AnalyticsDashboard",
     },
     {
       title: "Reference Checks",
       count: totalReferenceCheck,
       color: "#319F43",
-      path: "/AiReferenceRequest",
+      path: "/AnalyticsDashboard",
     },
     {
       title: "Revenue",
-      count: totalRevenue,
+      count: `¥ ${totalRevenue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`,
       color: "#686868",
-      path: "/AiReferenceApplicant",
+      path: "/AnalyticsDashboard",
     },
   ];
 
@@ -352,7 +336,6 @@ const AnalyticsDashboard = () => {
             barOptions={barOptions}
             getUserRolesData={getUserRolesData}
             calculateLabelPosition={calculateLabelPosition}
-            circleChartOptions={circleChartOptions}
           />
         );
       case "systemUsage":
@@ -422,7 +405,9 @@ const AnalyticsDashboard = () => {
       </div>
       <Row>
         <Col md="6">
-          <div className="analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center">
+          <div className={` analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
+                isButtonControllerVisible ? "visible" : ""
+              }`}>
             <button
               className={activeTab === "userStatistics" ? "active" : ""}
               onClick={() => setActiveTab("userStatistics")}
@@ -450,7 +435,9 @@ const AnalyticsDashboard = () => {
           </div>
         </Col>
         <Col md="6" className="d-flex align-items-center  mb-2">
-          <div className="search-company d-flex justify-content-between w-100">
+          <div className={`search-company d-flex justify-content-between w-100 fade-in ${
+                isButtonControllerVisible ? "visible" : ""
+              }`}>
             <div className="d-flex align-items-center">
               <div className="search-wrapper position-relative">
                 <input
