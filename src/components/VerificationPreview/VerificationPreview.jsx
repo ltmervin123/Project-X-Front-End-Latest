@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/AiRefereeStyles/VerificationPreview.css"
+import "../../styles/AiRefereeStyles/VerificationPreview.css";
 
 const VerificationPreview = ({ image, onRetake, onSubmit, submitting }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
@@ -12,10 +12,11 @@ const VerificationPreview = ({ image, onRetake, onSubmit, submitting }) => {
       idReadable: "Your ID document is readable and all corners are visible",
       noGlare: "There is no glare or shadow obscuring important information",
       notBlurry: "The images are not blurry or pixelated",
-      privacyNotice: "Please rest assured that all information provided will be treated with utmost confidentiality and handled in full compliance with our data protection policies.",
+      privacyNotice:
+        "Please rest assured that all information provided will be treated with utmost confidentiality and handled in full compliance with our data protection policies.",
       retake: "Retake",
       submit: "Submit",
-      submitting: "Submitting..."
+      submitting: "Submitting...",
     },
     Japanese: {
       verificationPreview: "確認プレビュー",
@@ -24,11 +25,12 @@ const VerificationPreview = ({ image, onRetake, onSubmit, submitting }) => {
       idReadable: "身分証明書が読みやすく、すべての角が見えること",
       noGlare: "重要な情報を隠す光の反射や影がないこと",
       notBlurry: "画像がぼやけておらず、ピクセル化していないこと",
-      privacyNotice: "提供された情報は、最高レベルの機密性を持って取り扱われ、当社のデータ保護方針に完全に準拠して管理されることをご安心ください。",
+      privacyNotice:
+        "提供された情報は、最高レベルの機密性を持って取り扱われ、当社のデータ保護方針に完全に準拠して管理されることをご安心ください。",
       retake: "再撮影",
       submit: "送信",
-      submitting: "送信中..."
-    }
+      submitting: "送信中...",
+    },
   };
 
   return (
@@ -62,9 +64,7 @@ const VerificationPreview = ({ image, onRetake, onSubmit, submitting }) => {
                 fill="#F46A05"
               />
             </svg>
-            <p className="m-0">
-              {translations[language].privacyNotice}
-            </p>
+            <p className="m-0">{translations[language].privacyNotice}</p>
           </div>
         </div>
 
@@ -81,7 +81,17 @@ const VerificationPreview = ({ image, onRetake, onSubmit, submitting }) => {
             onClick={onSubmit}
             disabled={submitting}
           >
-            {submitting ? translations[language].submitting : translations[language].submit}
+            {submitting ? (
+              <div className="d-flex align-items-center justify-content-center">
+                <div
+                  className="spinner-border spinner-border-sm text-light me-2"
+                  role="status"
+                ></div>
+                <span>{translations[language].submitting}</span>
+              </div>
+            ) : (
+              translations[language].submit
+            )}
           </button>
         </div>
       </div>

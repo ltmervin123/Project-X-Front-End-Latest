@@ -232,19 +232,23 @@ const AudioBase = ({
             </>
           ) : isSanitizingTranscription || isSubmitting ? (
             <button className="disabled" disabled>
+              <div
+                className="spinner-border spinner-border-sm text-light"
+                role="status"
+              ></div>
               {TRANSLATION[language].saving}
             </button>
-          ) : !isRecording ? (
+          ) : isRecording ? (
+            <button className="btn-stop-transcript" onClick={stopRecording}>
+              {TRANSLATION[language].stop}
+            </button>
+          ) : (
             <button
               className={isSpeaking ? "disabled" : ""}
               onClick={startRecording}
               disabled={isSpeaking}
             >
               {TRANSLATION[language].start}
-            </button>
-          ) : (
-            <button className="btn-stop-transcript" onClick={stopRecording}>
-              {TRANSLATION[language].stop}
             </button>
           )}
         </div>

@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditCandidatePopUp from "./PopUpComponents/EditCandidatePopUp";
-import DeleteConfirmationCandidatePopUp from "./PopUpComponents/DeleteConfirmationCandidatePopUp"; // Import the confirmation popup
+import DeleteConfirmationCandidatePopUp from "./PopUpComponents/DeleteConfirmationCandidatePopUp";
 import CandidateDetailsPopUp from "./PopUpComponents/CandidateDetailsPopUp";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Applicant = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const companyId = USER?.id;
   const token = USER?.token;
   const API = process.env.REACT_APP_API_URL;
-  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const queryClient = useQueryClient();
+  const [searchQuery, setSearchQuery] = useState("");
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [visibleOptions, setVisibleOptions] = useState({});
-  const [showEditPopup, setShowEditPopup] = useState(false); // Add this line
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // State for delete confirmation
-  const [candidateToDelete, setCandidateToDelete] = useState(null); // State to hold the candidate ID to delete
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [candidateToDelete, setCandidateToDelete] = useState(null);
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
@@ -126,6 +128,13 @@ const Applicant = () => {
 
       if (response.status === 200) {
         await refetchCandidates();
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceRequest"],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: ["archivedCandidates"],
+        });
       }
     } catch (error) {
       console.error(error);
@@ -228,7 +237,7 @@ const Applicant = () => {
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex gap-2 align-items-center">
-          Applicants List
+            Applicants List
             <div className="position-relative d-flex">
               <svg
                 width="16"

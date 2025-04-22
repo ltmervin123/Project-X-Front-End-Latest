@@ -15,9 +15,17 @@ import RecoverConfirmationApplicantPopUp from "./PopUpComponents/RecoverPopup/Re
 import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
 import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
-import { getArchiveReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
-import { deleteReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
-import { restoreReferenceQuestion } from "../../../api/ai-reference/archive/reference-question-api.js";
+import * as ReferenceQuestionArchiveAPI from "../../../api/ai-reference/archive/reference-question-api";
+import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/reference-request-api";
+import * as CandidateArchiveAPI from "../../../api/ai-reference/archive/candidate-api";
+import * as JobArchiveAPI from "../../../api/ai-reference/archive/jobs-api";
+
+const CATEGORIES = [
+  "Job",
+  "Applicant",
+  "Reference Request",
+  "Reference Question",
+];
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,7 +39,6 @@ const Trashbin = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showRecoverPopup, setShowRecoverPopup] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
-  const jobButtonRef = useRef(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -43,19 +50,53 @@ const Trashbin = () => {
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
 
+  //Reference Request API
   const {
-    data: referenceQuestion,
+    data: referenceRequest,
     isLoading: isLoadingReferenceQuestion,
     isError: isErrorReferenceQuestion,
   } = useQuery({
+    queryKey: ["archivedReferenceRequest"],
+    queryFn: ReferenceRequestArchiveAPI.getArchiveReferenceRequest,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { mutate: deleteReference, isPending: isDeletingReferenceRequest } =
+    useMutation({
+      mutationFn: ReferenceRequestArchiveAPI.deleteReferenceRequest,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceRequest"],
+        });
+        setShowDeletePopup(false);
+      },
+    });
+
+  const { mutate: restoreReference, isPending: isRecoveringReferenceRequest } =
+    useMutation({
+      mutationFn: ReferenceRequestArchiveAPI.restoreReferenceRequest,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceRequest"],
+        });
+        setShowRecoverPopup(false);
+      },
+    });
+
+  //Reference Question API
+  const {
+    data: referenceQuestion,
+    isLoading: isLoadingReferenceRequest,
+    isError: isErrorReferenceRequest,
+  } = useQuery({
     queryKey: ["archivedReferenceQuestions"],
-    queryFn: getArchiveReferenceQuestion,
+    queryFn: ReferenceQuestionArchiveAPI.getArchiveReferenceQuestion,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
-  const { mutate: deleteQuestions, isLoading: isDeletingReferenceQuestions } =
+  const { mutate: deleteQuestions, isPending: isDeletingReferenceQuestions } =
     useMutation({
-      mutationFn: deleteReferenceQuestion,
+      mutationFn: ReferenceQuestionArchiveAPI.deleteReferenceQuestion,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
@@ -64,9 +105,9 @@ const Trashbin = () => {
       },
     });
 
-  const { mutate: restoreQuestion, isLoading: isRecoveringReferenceQuestions } =
+  const { mutate: restoreQuestion, isPending: isRecoveringReferenceQuestions } =
     useMutation({
-      mutationFn: restoreReferenceQuestion,
+      mutationFn: ReferenceQuestionArchiveAPI.restoreReferenceQuestion,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
@@ -76,189 +117,113 @@ const Trashbin = () => {
       },
     });
 
-  const categories = [
-    "Job",
-    "Applicant",
-    "Reference Request",
-    "Reference Question",
-  ];
+  //Candidate API
+  const {
+    data: candidates,
+    isLoading: isLoadingCandidates,
+    isError: isErrorCandidates,
+  } = useQuery({
+    queryKey: ["archivedCandidates"],
+    queryFn: CandidateArchiveAPI.getArchiveCandidate,
+    staleTime: 1000 * 60 * 5,
+  });
 
-  // // Mock data for different categories
-  // const mockData = useMemo(() => {
-  //   return {
-  //     Job: [
-  //       // {
-  //       //   id: 1,
-  //       //   name: "Software Engineer",
-  //       //   vacancy: 2,
-  //       //   department: "Engineering",
-  //       //   hiringManager: "John Doe",
-  //       //   deletedDate: "2024-01-20",
-  //       // },
-  //       // {
-  //       //   id: 2,
-  //       //   name: "Product Manager",
-  //       //   vacancy: 1,
-  //       //   department: "Product",
-  //       //   hiringManager: "Sarah Wilson",
-  //       //   deletedDate: "2024-01-19",
-  //       // },
-  //       // {
-  //       //   id: 3,
-  //       //   name: "UI/UX Designer",
-  //       //   vacancy: 3,
-  //       //   department: "Design",
-  //       //   hiringManager: "Mike Thompson",
-  //       //   deletedDate: "2024-01-18",
-  //       // },
-  //       // {
-  //       //   id: 4,
-  //       //   name: "Marketing Specialist",
-  //       //   vacancy: 2,
-  //       //   department: "Marketing",
-  //       //   hiringManager: "Emily Brown",
-  //       //   deletedDate: "2024-01-17",
-  //       // },
-  //       // {
-  //       //   id: 5,
-  //       //   name: "Sales Manager",
-  //       //   vacancy: 1,
-  //       //   department: "Sales",
-  //       //   hiringManager: "David Clark",
-  //       //   deletedDate: "2024-01-16",
-  //       // },
-  //     ],
-  //     Candidate: [
-  //       // {
-  //       //   id: 1,
-  //       //   name: "Jane Smith",
-  //       //   email: "jane@example.com",
-  //       //   position: "Developer",
-  //       //   deletedDate: "2024-01-21",
-  //       // },
-  //       // {
-  //       //   id: 2,
-  //       //   name: "Robert Johnson",
-  //       //   email: "robert@example.com",
-  //       //   position: "Designer",
-  //       //   deletedDate: "2024-01-20",
-  //       // },
-  //       // {
-  //       //   id: 3,
-  //       //   name: "Lisa Anderson",
-  //       //   email: "lisa@example.com",
-  //       //   position: "Manager",
-  //       //   deletedDate: "2024-01-19",
-  //       // },
-  //       // {
-  //       //   id: 4,
-  //       //   name: "Michael Lee",
-  //       //   email: "michael@example.com",
-  //       //   position: "Analyst",
-  //       //   deletedDate: "2024-01-18",
-  //       // },
-  //       // {
-  //       //   id: 5,
-  //       //   name: "Emma Davis",
-  //       //   email: "emma@example.com",
-  //       //   position: "Coordinator",
-  //       //   deletedDate: "2024-01-17",
-  //       // },
-  //     ],
-  //     "Reference Request": [
-  //       // {
-  //       //   id: 1,
-  //       //   candidateName: "John Smith",
-  //       //   referentName: "Mary Johnson",
-  //       //   status: "Pending",
-  //       //   deletedDate: "2024-01-22",
-  //       // },
-  //       // {
-  //       //   id: 2,
-  //       //   candidateName: "Sarah Wilson",
-  //       //   referentName: "James Brown",
-  //       //   status: "Completed",
-  //       //   deletedDate: "2024-01-21",
-  //       // },
-  //       // {
-  //       //   id: 3,
-  //       //   candidateName: "Michael Davis",
-  //       //   referentName: "Emma Thompson",
-  //       //   status: "In Progress",
-  //       //   deletedDate: "2024-01-20",
-  //       // },
-  //       // {
-  //       //   id: 4,
-  //       //   candidateName: "Laura Miller",
-  //       //   referentName: "David Anderson",
-  //       //   status: "Pending",
-  //       //   deletedDate: "2024-01-19",
-  //       // },
-  //       // {
-  //       //   id: 5,
-  //       //   candidateName: "Robert Wilson",
-  //       //   referentName: "Jennifer Lee",
-  //       //   status: "Completed",
-  //       //   deletedDate: "2024-01-18",
-  //       // },
-  //     ],
+  const { mutate: deleteCandidates, isPending: isDeletingCandidates } =
+    useMutation({
+      mutationFn: CandidateArchiveAPI.deleteCandidate,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedCandidates"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceRequest"],
+        });
+        setShowDeletePopup(false);
+      },
+    });
 
-  //     "Reference Question": [
-  //       // {
-  //       //   id: 1,
-  //       //   question: "Describe your leadership style",
-  //       //   numberOfQuestions: "5",
-  //       //   deletedDate: "2024-01-23",
-  //       // },
-  //       // {
-  //       //   id: 2,
-  //       //   question: "How do you handle conflict resolution?",
-  //       //   numberOfQuestions: "4",
-  //       //   deletedDate: "2024-01-22",
-  //       // },
-  //       // {
-  //       //   id: 3,
-  //       //   question: "What are your key strengths and weaknesses?",
-  //       //   numberOfQuestions: "6",
-  //       //   deletedDate: "2024-01-21",
-  //       // },
-  //       // {
-  //       //   id: 4,
-  //       //   question: "Describe a challenging project you managed",
-  //       //   numberOfQuestions: "3",
-  //       //   deletedDate: "2024-01-20",
-  //       // },
-  //       // {
-  //       //   id: 5,
-  //       //   question: "How do you prioritize your work?",
-  //       //   numberOfQuestions: "4",
-  //       //   deletedDate: "2024-01-19",
-  //       // },
-  //     ],
-  //   };
-  // }, [referenceQuestion]);
+  const { mutate: restoreCandidate, isPending: isRecoveringCandidate } =
+    useMutation({
+      mutationFn: CandidateArchiveAPI.restoreCandidate,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["archivedCandidates"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["archivedReferenceRequest"],
+        });
+        setShowRecoverPopup(false);
+      },
+    });
+
+  //Job API
+  const {
+    data: jobs,
+    isLoading: isLoadingJobs,
+    isError: isErrorJobs,
+  } = useQuery({
+    queryKey: ["archivedJobs"],
+    queryFn: JobArchiveAPI.getArchiveJobs,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { mutate: deleteJobs, isPending: isDeletingJobs } = useMutation({
+    mutationFn: JobArchiveAPI.deleteJobs,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["archivedJobs"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedCandidates"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedReferenceRequest"],
+      });
+      setShowDeletePopup(false);
+    },
+  });
+
+  const { mutate: restoreJobs, isPending: isRecoveringJobs } = useMutation({
+    mutationFn: JobArchiveAPI.restoreJobs,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["archivedJobs"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedCandidates"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["archivedReferenceRequest"],
+      });
+      setShowRecoverPopup(false);
+    },
+  });
 
   // Mock data for different categories
   const mockData = useMemo(() => {
     return {
-      Job: [],
-      Applicant: [],
-      "Reference Request": [],
+      Job: jobs?.archivedJobs || [],
+      Applicant: candidates?.archiveCandidates || [],
+      "Reference Request": referenceRequest?.archivedReferenceRequest || [],
 
       "Reference Question": referenceQuestion?.questions || [],
     };
-  }, [referenceQuestion]);
+  }, [referenceQuestion, referenceRequest, candidates, jobs]);
 
   const handleRestore = (id) => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", id);
+        const jobIds = [id];
+        console.log("jobIds", jobIds);
+        restoreJobs({ jobIds });
         break;
       case "Applicant":
-        console.log("Permanently deleting candidate:", id);
+        const candidateIds = [id];
+        restoreCandidate({ candidateIds });
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", id);
+        const referenceRequestId = [id];
+        restoreReference({ referenceRequestId });
         break;
       case "Reference Question":
         const questionIds = [id];
@@ -272,13 +237,16 @@ const Trashbin = () => {
   const handleDelete = (id) => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", id);
+        const jobIds = [id];
+        deleteJobs({ jobIds });
         break;
       case "Applicant":
-        console.log("Permanently deleting candidate:", id);
+        const candidateIds = [id];
+        deleteCandidates({ candidateIds });
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", id);
+        const referenceRequestId = [id];
+        deleteReference({ referenceRequestId });
         break;
       case "Reference Question":
         const questionIds = [id];
@@ -290,23 +258,24 @@ const Trashbin = () => {
   };
 
   const handleBulkRestore = () => {
-    setShowRecoverPopup(true); // Shows the recover confirmation popup
+    setShowRecoverPopup(true);
   };
 
   const handleBulkDelete = () => {
-    setShowDeletePopup(true); // Shows the delete confirmation popup
+    setShowDeletePopup(true);
   };
 
   const handleConfirmRestore = () => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", selectedItems);
+        console.log("jobIds", selectedItems);
+        restoreJobs({ jobIds: selectedItems });
         break;
       case "Applicant":
-        console.log("Permanently deleting candidate:", selectedItems);
+        restoreCandidate({ candidateIds: selectedItems });
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", selectedItems);
+        restoreReference({ referenceRequestId: selectedItems });
         break;
       case "Reference Question":
         restoreQuestion({ questionIds: selectedItems });
@@ -320,13 +289,13 @@ const Trashbin = () => {
   const handleConfirmDelete = () => {
     switch (selectedCategory) {
       case "Job":
-        console.log("Permanently deleting job:", selectedItems);
+        deleteJobs({ jobIds: selectedItems });
         break;
       case "Applicant":
-        console.log("Permanently deleting candidate:", selectedItems);
+        deleteCandidates({ candidateIds: selectedItems });
         break;
       case "Reference Request":
-        console.log("Permanently deleting reference request:", selectedItems);
+        deleteReference({ referenceRequestId: selectedItems });
         break;
       case "Reference Question":
         deleteQuestions({ questionIds: selectedItems });
@@ -335,7 +304,6 @@ const Trashbin = () => {
         return;
     }
     setSelectedItems([]);
-    // setShowDeletePopup(false);
   };
 
   const handleSelectAll = () => {
@@ -418,7 +386,7 @@ const Trashbin = () => {
         return [
           ...baseHeaders,
           "Applicant",
-          "Referent",
+          "Referees",
           "Status",
           { label: "Deleted Date", className: "text-center" },
           "Actions",
@@ -448,18 +416,40 @@ const Trashbin = () => {
 
     switch (selectedCategory) {
       case "Job":
-        return <JobTable key={item._id} {...props} />;
+        const jobPropsData = {
+          ...props,
+          isDeletingJobs,
+          isRecoveringJobs,
+        };
+        return <JobTable key={item._id} {...jobPropsData} />;
       case "Applicant":
-        return <ApplicantTable key={item.id} {...props} />;
+        const applicantPropsData = {
+          ...props,
+          isDeletingCandidates,
+          isRecoveringCandidate,
+        };
+        return <ApplicantTable key={item.id} {...applicantPropsData} />;
       case "Reference Request":
-        return <ReferenceRequestTable key={item.id} {...props} />;
+        const referenceRequestPropsData = {
+          ...props,
+          isDeletingReferenceRequest,
+          isRecoveringReferenceRequest,
+        };
+        return (
+          <ReferenceRequestTable key={item.id} {...referenceRequestPropsData} />
+        );
       case "Reference Question":
-        const propsData = {
+        const referenceQuestionsPropsData = {
           ...props,
           isDeletingReferenceQuestions,
           isRecoveringReferenceQuestions,
         };
-        return <ReferenceQuestionTable key={item._id} {...propsData} />;
+        return (
+          <ReferenceQuestionTable
+            key={item._id}
+            {...referenceQuestionsPropsData}
+          />
+        );
       default:
         return null;
     }
@@ -490,7 +480,7 @@ const Trashbin = () => {
           </div>
         </div>
         <div className="trashbin-category-filters d-flex gap-2 mb-3">
-          {categories.map((category) => (
+          {CATEGORIES.map((category) => (
             <button
               key={category}
               className={` ${selectedCategory === category ? "active" : ""}`}
@@ -601,6 +591,7 @@ const Trashbin = () => {
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isDeletingJobs={isDeletingJobs}
             />
           )}
           {selectedCategory === "Applicant" && (
@@ -609,6 +600,7 @@ const Trashbin = () => {
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isDeletingCandidates={isDeletingCandidates}
             />
           )}
           {selectedCategory === "Reference Request" && (
@@ -617,6 +609,7 @@ const Trashbin = () => {
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isDeletingReferenceRequest={isDeletingReferenceRequest}
             />
           )}
           {selectedCategory === "Reference Question" && (
@@ -639,6 +632,7 @@ const Trashbin = () => {
               onConfirmRecover={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isRecoveringJobs={isRecoveringJobs}
             />
           )}
           {selectedCategory === "Applicant" && (
@@ -647,6 +641,7 @@ const Trashbin = () => {
               onConfirmRecover={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isRecoveringCandidate={isRecoveringCandidate}
             />
           )}
           {selectedCategory === "Reference Request" && (
@@ -655,6 +650,7 @@ const Trashbin = () => {
               onConfirmRecover={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
+              isRecoveringReferenceRequest={isRecoveringReferenceRequest}
             />
           )}
           {selectedCategory === "Reference Question" && (

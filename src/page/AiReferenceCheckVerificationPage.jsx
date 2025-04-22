@@ -5,6 +5,7 @@ import "../styles/AiReferenceCheckVerification.css";
 import Header from "../components/AiReferenceCheckVerification/Header";
 import AiReferenceCheckVerificationForm from "../components/AiReferenceCheckVerification/AiReferenceCheckVerificationForm";
 import axios from "axios";
+import { Spinner, Container, Row, Col } from "react-bootstrap";
 
 function AiReferenceCheckVerificationPage() {
   const { token } = useParams();
@@ -15,11 +16,10 @@ function AiReferenceCheckVerificationPage() {
   const [refereeId, setRefereeId] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [candidateName, setCandidateName] = useState("");
-  const [verifying, setVerifying] = useState(false);
+  const [isVerify, setIsVerify] = useState(false);
 
   const validateSession = async () => {
     try {
-      setVerifying(true);
       const URL = `${API}/api/ai-referee/reference/verify-reference-link`;
       const response = await axios.post(
         URL,
@@ -39,11 +39,10 @@ function AiReferenceCheckVerificationPage() {
         setReferenceId(response.data.referenceId);
         setRefereeId(response.data.refereeId);
         setCompanyId(response.data.companyId);
+        setIsVerify(true);
       }
     } catch (error) {
       setIsExpired(true);
-    } finally {
-      setVerifying(false);
     }
   };
 
@@ -55,8 +54,21 @@ function AiReferenceCheckVerificationPage() {
     validateSession();
   }, []);
 
-  if (verifying) {
-    return <div>Verifying link....</div>;
+  if (isVerify) {
+    return (
+      <>
+        <div className=" login-page-container AiReferenceCheckVerification-page-container">
+          <Header />
+          <AiReferenceCheckVerificationForm
+            refereeName={refereeName}
+            referenceId={referenceId}
+            candidateName={candidateName}
+            refereeId={refereeId}
+            companyId={companyId}
+          />
+        </div>
+      </>
+    );
   }
 
   // If expired, navigate to "/reference-expired-link"
@@ -65,18 +77,19 @@ function AiReferenceCheckVerificationPage() {
   }
 
   return (
-    <>
-      <div className=" login-page-container AiReferenceCheckVerification-page-container">
-        <Header />
-        <AiReferenceCheckVerificationForm
-          refereeName={refereeName}
-          referenceId={referenceId}
-          candidateName={candidateName}
-          refereeId={refereeId}
-          companyId={companyId}
-        />
-      </div>
-    </>
+    <Container className="d-flex justify-content-center align-items-center vh-100">
+      <Row className="text-center">
+        <Col>
+          <Spinner
+            animation="border"
+            variant="primary"
+            role="status"
+            style={{ width: "5rem", height: "5rem" }}
+          />
+          <p className="mt-3">Verifying link, please wait...</p>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

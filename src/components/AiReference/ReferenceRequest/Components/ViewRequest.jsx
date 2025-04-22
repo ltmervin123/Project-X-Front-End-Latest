@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import "../../../../styles/AiRefereeStyles/ViewRequest.css";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import html2pdf from "html2pdf.js";
+import { Spinner, Container, Row, Col } from "react-bootstrap";
+import { fetchReferenceByReferenceId } from "../../../../api/ai-reference/reference-request/reference-request-api";
 
 const CATEGORY_ORDER = {
   "Standard Format": [
@@ -39,38 +41,24 @@ function ViewRequest({
   onClose,
 }) {
   const reportRef = useRef();
-  const API = process.env.REACT_APP_API_URL;
-  const [fetchingReference, setFetchingReference] = useState(false);
-  const [error, setError] = useState("");
-  const [referenceData, setReferenceData] = useState(null);
+
   const [downloading, setDownloading] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
     onClose();
   };
 
-  const fetchReferenceByReferenceId = async () => {
-    try {
-      setFetchingReference(true);
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference/${referenceId}/${refereeId}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setReferenceData(response.data.referenceDetails);
-      }
-    } catch (error) {
-      setError(
-        error?.response?.data?.message ||
-          "An error occurred while fetching reference"
-      );
-    } finally {
-      setFetchingReference(false);
-    }
-  };
+  const {
+    data: referenceData,
+    isLoading: fetchingReference,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["reference", { referenceId, refereeId, token }],
+    queryFn: fetchReferenceByReferenceId,
+    staleTime: 1000 * 60 * 5,
+    enabled: !!referenceId && !!refereeId && !!token,
+  });
 
   function formatDate(date) {
     const newDate = new Date(date);
@@ -215,12 +203,14 @@ function ViewRequest({
     }
 
     const options = {
-      margin: 10,
+      margin: [15, 10, 15, 10],
       filename: `${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}-Reference-Report.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: {
         scale: 2,
         useCORS: true,
+        logging: false,
+        letterRendering: true,
       },
       jsPDF: {
         unit: "mm",
@@ -229,7 +219,11 @@ function ViewRequest({
         putOnlyUsedFonts: true,
         compressPDF: true,
       },
-      pagebreak: { mode: ["avoid-all", "legacy"] },
+      pagebreak: {
+        mode: ["avoid-all", "css", "legacy"],
+        before: ".page-break-before",
+        after: ".page-break-after",
+      },
     };
 
     html2pdf()
@@ -241,19 +235,33 @@ function ViewRequest({
       });
   };
 
-  useEffect(() => {
-    const fetchingRefenceWhenRender = async () => {
-      await fetchReferenceByReferenceId();
-    };
+  const handleImageLoad = (event) => {
+    const { naturalWidth, naturalHeight } = event.target;
+    setIsLandscape(naturalWidth > naturalHeight);
+  };
 
-    fetchingRefenceWhenRender();
-  }, []);
+  const handleImageError = () => {
+    console.error("Image failed to load");
+  };
 
   if (fetchingReference) {
     return (
-      <div className="MockMainDashboard-content d-flex flex-column gap-2">
-        <h3>Loading Reference Request...</h3>
-      </div>
+      <Container className="d-flex justify-content-center align-items-center vh-100">
+        <Row className="text-center">
+          <Col>
+            <Spinner
+              animation="border"
+              variant="primary"
+              role="status"
+              style={{ width: "5rem", height: "5rem" }}
+            />
+            <h3>Loading Reference Request...</h3>
+            <p className="text-muted">
+              Please wait while we fetch the reference data
+            </p>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
@@ -264,15 +272,6 @@ function ViewRequest({
       </div>
     );
   }
-
-  const handleImageLoad = (event) => {
-    const { naturalWidth, naturalHeight } = event.target;
-    setIsLandscape(naturalWidth > naturalHeight);
-  };
-
-  const handleImageError = () => {
-    console.error("Image failed to load");
-  };
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -493,7 +492,17 @@ function ViewRequest({
 
         <div className="d-flex justify-content-center">
           <button onClick={downloadPDF} disabled={downloading}>
-            {downloading ? "Downloading..." : "Download Reference Report"}
+            {downloading ? (
+              <div className="d-flex align-items-center justify-content-center">
+                <div
+                  className="spinner-border spinner-border-sm text-light me-2"
+                  role="status"
+                ></div>
+                <span>Downloading...</span>
+              </div>
+            ) : (
+              <span>Download Reference</span>
+            )}
           </button>
         </div>
       </div>
