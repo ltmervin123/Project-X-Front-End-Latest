@@ -25,7 +25,10 @@ const RequireAuthAIReference = () => {
     }
   }, [user]);
 
-  return user && user.token && user.service === SERVICE ? (
+  return user &&
+    user.token &&
+    user.service === SERVICE &&
+    user.accountType === "company" ? (
     <Outlet />
   ) : (
     <Navigate to="/login" />

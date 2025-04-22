@@ -20,16 +20,20 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password, service);
-    if (isLogin && isLogin?.service) {
-      switch (isLogin.service) {
-        case SERVICE[0]:
-          navigate("/AiReferenceMaindashboard");
-          break;
-        case SERVICE[1]:
-          navigate("/maindashboard");
-          break;
-        default:
-          navigate("/login");
+    console.log(isLogin);
+    if (isLogin) {
+      if (
+        isLogin?.service === SERVICE[0] &&
+        isLogin?.accountType === "company"
+      ) {
+        navigate("/AiReferenceMaindashboard");
+      } else if (
+        isLogin?.service === SERVICE[0] &&
+        isLogin?.accountType === "admin"
+      ) {
+        navigate("/AnalyticsDashboard");
+      } else if (isLogin?.service === SERVICE[1]) {
+        navigate("/maindashboard");
       }
     }
   };

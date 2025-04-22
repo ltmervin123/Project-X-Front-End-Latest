@@ -28,6 +28,7 @@ export const useLogin = () => {
         email: data.user.email,
         id: data.user._id,
         token: data.user.token,
+        accountType: data.user.accountType,
       };
       if (response.status === 200) {
         dispatch({ type: "LOGIN", payload: user });
