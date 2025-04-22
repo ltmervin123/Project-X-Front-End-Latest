@@ -6,12 +6,14 @@ import {
   connectSocket,
   disconnectSocket,
 } from "../../utils/socket/socketSetup";
+import { Spinner, Container, Row, Col } from "react-bootstrap";
 
 const RequireAuthVerifyReferee = () => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
   const referenceData = sessionStorage.getItem("referenceData");
-  const [isSessionValid, setIsSessionValid] = useState(null);
+  const [isSessionValid, setIsSessionValid] = useState(false);
+  const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
     const validateSession = async () => {
@@ -35,7 +37,7 @@ const RequireAuthVerifyReferee = () => {
           setIsSessionValid(true);
         }
       } catch (error) {
-        setIsSessionValid(false); // Mark as invalid
+        setIsExpired(true);
       }
     };
 
@@ -46,14 +48,28 @@ const RequireAuthVerifyReferee = () => {
     };
   }, []);
 
-  if (isSessionValid === null) {
-    return <div>Verifying session...</div>;
+  if (isSessionValid) {
+    return <Outlet />;
   }
 
-  return isSessionValid ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/reference-expired-link" />
+  if (isExpired) {
+    return <Navigate to="/reference-expired-link" />;
+  }
+
+  return (
+    <Container className="d-flex justify-content-center align-items-center vh-100">
+      <Row className="text-center">
+        <Col>
+          <Spinner
+            animation="border"
+            variant="primary"
+            role="status"
+            style={{ width: "5rem", height: "5rem" }}
+          />
+          <p className="mt-3">Verifying link, please wait...</p>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

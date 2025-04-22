@@ -17,7 +17,6 @@ function AiReferenceCheckerPage() {
           <Col md={2} className="p-0 MockSidebar">
             <Sidebar />
           </Col>
-
           <Col md={10} className="p-3">
             <Jobs />
           </Col>

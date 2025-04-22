@@ -208,12 +208,18 @@ function ReferenceRequestForm() {
               ))}
             </div>
             <div className="mb-0 d-flex flex-row justify-content-center btn-container">
-
               <button
                 className="send-reference-request-referee-btn reference-request-referee-btn"
                 disabled={isLoading || isRefereeFieldMissing}
               >
-                {isLoading ? "Sending..." : "Send Reference Request"}
+                {isLoading ? (
+                  <div
+                    className="spinner-border spinner-border-sm text-light"
+                    role="status"
+                  ></div>
+                ) : (
+                  "Send Reference Request"
+                )}
               </button>
             </div>
           </Col>

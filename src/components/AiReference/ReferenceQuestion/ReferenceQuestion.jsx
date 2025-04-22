@@ -349,7 +349,7 @@ const ReferenceQuestion = () => {
       });
 
       if (reponse.status === 200) {
-        reFetchUpdatedQuestions();
+        await reFetchUpdatedQuestions();
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
         });

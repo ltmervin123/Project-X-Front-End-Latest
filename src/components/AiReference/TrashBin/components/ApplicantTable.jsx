@@ -10,6 +10,8 @@ const ApplicantTable = ({
   onRestore,
   onDelete,
   showCheckboxes,
+  isDeletingCandidates,
+  isRecoveringCandidate,
 }) => {
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -40,39 +42,37 @@ const ApplicantTable = ({
   };
 
   const handleConfirmDelete = () => {
-    onDelete(data.id);
-    setShowDeleteConfirmation(false);
+    onDelete(data._id);
   };
 
   const handleConfirmRecover = () => {
-    onRestore(data.id);
-    setShowRecoverConfirmation(false);
+    onRestore(data._id);
   };
 
   return (
     <>
-      <tr className={selectedItems.includes(data.id) ? "table-active" : ""}>
+      <tr className={selectedItems.includes(data._id) ? "table-active" : ""}>
         {showCheckboxes && (
           <td style={{ width: "50px" }}>
             <input
               type="checkbox"
               className="form-check-input"
-              checked={selectedItems.includes(data.id)}
-              onChange={() => onSelect(data.id)}
+              checked={selectedItems.includes(data._id)}
+              onChange={() => onSelect(data._id)}
             />
           </td>
         )}
         <td>{data.name}</td>
         <td>{data.email}</td>
         <td>{data.position}</td>
-        <td className="text-center">{data.deletedDate}</td>
+        <td className="text-center">{data.deletedAt.split("T")[0]}</td>
         <td className="d-flex align-items-center w-100 justify-content-center">
           <div className="position-relative">
             <div className="action-menu">
               <p
                 className="m-0"
                 style={{ cursor: "pointer" }}
-                onClick={(e) => handleToggleOptions(data.id, e)}
+                onClick={(e) => handleToggleOptions(data._id, e)}
               >
                 <svg
                   className="menu-icon-request"
@@ -87,7 +87,7 @@ const ApplicantTable = ({
                     fill="black"
                   />
                 </svg>
-                {visibleOptions[data.id] && (
+                {visibleOptions[data._id] && (
                   <div className="action-options">
                     <p
                       className="d-flex align-items-center gap-2"
@@ -118,6 +118,7 @@ const ApplicantTable = ({
           onConfirmDelete={handleConfirmDelete}
           selectedCount={1}
           isSingleItem={true}
+          isDeletingCandidates={isDeletingCandidates}
         />
       )}
       {showRecoverConfirmation && (
@@ -126,6 +127,7 @@ const ApplicantTable = ({
           onConfirmRecover={handleConfirmRecover}
           selectedCount={1}
           isSingleItem={true}
+          isRecoveringCandidate={isRecoveringCandidate}
         />
       )}
     </>

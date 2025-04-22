@@ -10,6 +10,7 @@ const EditCandidatePopUp = ({
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -95,6 +96,7 @@ const EditCandidatePopUp = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const URL = `${API}/api/ai-referee/company-candidates/update-candidate-by-id/${candidateDetails._id}`;
     setIsLoading(true);
     try {
@@ -104,7 +106,6 @@ const EditCandidatePopUp = ({
           lastName: capitalizeWords(lastName),
         },
         email,
-        position,
         questionFormat: selectedFormat,
         questionId: selectedQuestion?._id,
         questionName: selectedQuestion?.name,
@@ -133,7 +134,8 @@ const EditCandidatePopUp = ({
       onHide={onClose}
       centered
       className="custom-modal-job"
-      backdrop={true}
+      backdrop="static"
+      keyboard={false}
     >
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -151,10 +153,7 @@ const EditCandidatePopUp = ({
           </Button>
         </div>
         <Form onSubmit={handleSubmit}>
-        <Form.Group
-            controlId="formCandidatePosition"
-            className="mb-4"
-          >
+          <Form.Group controlId="formCandidatePosition" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "150px", height: "38px" }}
@@ -177,10 +176,7 @@ const EditCandidatePopUp = ({
               ))}
             </Form.Select>
           </Form.Group>
-          <Form.Group
-            controlId="formReferenceFormat"
-            className="mb-4"
-          >
+          <Form.Group controlId="formReferenceFormat" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "150px", height: "38px" }}
@@ -191,7 +187,9 @@ const EditCandidatePopUp = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT" ? "active" : ""
+                    !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT"
+                      ? "active"
+                      : ""
                   } ${isHrHatchOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsHrHatchOpen(!isHrHatchOpen);
@@ -222,7 +220,9 @@ const EditCandidatePopUp = ({
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
-                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT" ? "active" : ""
+                    !isCustomOpen && selectedFormat === "CUSTOM-FORMAT"
+                      ? "active"
+                      : ""
                   } ${isCustomOpen ? "dropdown-open" : ""}`}
                   onClick={() => {
                     setIsCustomOpen(!isCustomOpen);
@@ -257,10 +257,7 @@ const EditCandidatePopUp = ({
               </div>
             </div>
           </Form.Group>
-          <Form.Group
-            controlId="formCandidateFirstName"
-            className="mb-4"
-          >
+          <Form.Group controlId="formCandidateFirstName" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "150px", height: "38px" }}
@@ -285,10 +282,7 @@ const EditCandidatePopUp = ({
               />
             </div>
           </Form.Group>
-          <Form.Group
-            controlId="formCandidateEmail"
-            className="mb-4"
-          >
+          <Form.Group controlId="formCandidateEmail" className="mb-4">
             <Form.Label
               className="m-0"
               style={{ width: "150px", height: "38px" }}
@@ -310,7 +304,14 @@ const EditCandidatePopUp = ({
               type="submit"
               disabled={isLoading || !isFormValid}
             >
-              {isLoading ? "Updating..." : "Update Candidate"}
+              {isLoading ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                ></div>
+              ) : (
+                "Update Candidate"
+              )}
             </button>
           </div>
         </Form>
