@@ -221,6 +221,7 @@ function App() {
               element={<AiReferenceTrashBinPage />}
             />
           </Route>
+
           {/* InputReferenceRequestEmailSentPage*/}
           <Route
             path="/candidate-request-sent"
@@ -232,28 +233,7 @@ function App() {
           />
         </Route>
 
-        {/* ReferenceRequestFormPage*/}
-        {/* eh change ni na route into candidate*/}
-
-        <Route
-          path="/candidate/:token"
-          element={<ReferenceRequestFormPage />}
-        />
-        {/* ReferenceRequestEmailSentPage*/}
-        <Route
-          path="/reference-request-sent"
-          element={<ReferenceRequestEmailSentPage />}
-        />
-
-        {/* AiReferenceCheckVerificationPage*/}
-        <Route
-          path="/reference-request/:token"
-          element={<AiReferenceCheckVerificationPage />}
-        />
-
         <Route element={<RequireAuthVefifyReferee />}>
-          {/* Reference Verification page */}
-
           {/* ChooseLanguagePage*/}
           <Route
             path="/reference-choose-language"
@@ -300,25 +280,38 @@ function App() {
           />
         </Route>
 
-        {/* reference expired link */}
+        <Route
+          path="/candidate/:token"
+          element={<ReferenceRequestFormPage />}
+        />
+
+        <Route
+          path="/reference-request-sent"
+          element={<ReferenceRequestEmailSentPage />}
+        />
+
+        <Route
+          path="/reference-request/:token"
+          element={<AiReferenceCheckVerificationPage />}
+        />
+
         <Route path="/reference-expired-link" element={<ExpiredLink />} />
 
-        {/*Company Registration */}
         <Route
           path="/company-registration"
           element={<CompanyRegistrationPage />}
         />
-        {/* CompanyRegistrationCheckEmailConfirmationPage */}
+
         <Route
           path="/company-email-verification"
           element={<CompanyRegistrationCheckEmailConfirmationPage />}
         />
-        {/* Password Changed */}
+
         <Route
           path="/company-account-password-changed"
           element={<PassChanged />}
         />
-        {/* Created Account page*/}
+
         <Route
           path="/company-activate-account/:token"
           element={<CreatedAccount />}
@@ -327,14 +320,13 @@ function App() {
           path="/company-expired-activation"
           element={<CompanyExpiredLink />}
         />
-        {/* Created Account page*/}
+
         <Route path="/company-created-account" element={<CreatedAccount />} />
 
-        {/* Forgot pass */}
         <Route path="/forgotpassword" element={<Forgotpassword />} />
-        {/* Use token as param */}
+
         <Route path="/reset-password/:token" element={<Resetpassword />} />
-        {/* OUr Partners */}
+
         <Route path="/ourpartners" element={<OurParternersPage />} />
 
         <Route path="/ResumeFitOptimizer" element={<RFOMainPage />} />
@@ -359,7 +351,6 @@ function App() {
           element={<RFOSaveAndExportResumePage />}
         />
 
-        {/* RRFormSubmittedSuccessfullyPage*/}
         <Route
           path="/ReferenceRequestFormSubmittedSuccessfully"
           element={<RRFormSubmittedSuccessfullyPage />}
@@ -367,17 +358,6 @@ function App() {
 
         <Route path="/PaymentMethod" element={<PaymentMethod />} />
 
-
-
-
-        {/* Admin */}
-        <Route
-          path="/AnalyticsDashboard"
-          element={<AnalyticsDashboardPage />}
-        />
-
-
-        {/* Catch all un existing routes */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
