@@ -14,6 +14,7 @@ import UserProfilePage from "./page/UserProfilePage.jsx";
 import CompanyProfilePage from "./page/CompanyProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
+import RequireAuthAdmin from "./components/session/requireAuthAdmin.jsx";
 import RequireAuthMockAI from "./components/session/requireAuthMockAI.jsx";
 import RequireAuthAIReference from "./components/session/requireAuthAIReference.jsx";
 import RequireAuthVefifyReferee from "./components/session/requireAuthVerifyReferee.jsx";
@@ -140,18 +141,7 @@ function App() {
           {/* Authentication Routes */}
           <Route path="/loginfailed" element={<FailedPage />} />
           <Route path="/loginsuccess" element={<SuccessPage />} />
-          <Route
-            path="/login"
-            element={
-              !user ? (
-                <Login />
-              ) : user.service === "MOCK_AI" ? (
-                <Navigate to="/maindashboard" />
-              ) : (
-                <Navigate to="/AiReferenceMaindashboard" />
-              )
-            }
-          />
+          <Route path="/login" element={<Login />} />
 
           {/* Protected Routes - Require Authentication */}
           <Route element={<RequireAuthMockAI />}>
@@ -220,17 +210,23 @@ function App() {
               path="/AiReferenceTrashbin"
               element={<AiReferenceTrashBinPage />}
             />
+
+            <Route
+              path="/candidate-request-sent"
+              element={<CandidateRequestEmailPage />}
+            />
+            <Route
+              path="/reference-request-reminder-sent"
+              element={<ReferenceRequestResendEmailPage />}
+            />
           </Route>
 
-          {/* InputReferenceRequestEmailSentPage*/}
-          <Route
-            path="/candidate-request-sent"
-            element={<CandidateRequestEmailPage />}
-          />
-          <Route
-            path="/reference-request-reminder-sent"
-            element={<ReferenceRequestResendEmailPage />}
-          />
+          <Route element={<RequireAuthAdmin />}>
+            <Route
+              path="/AnalyticsDashboard"
+              element={<AnalyticsDashboardPage />}
+            />
+          </Route>
         </Route>
 
         <Route element={<RequireAuthVefifyReferee />}>
