@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 const SERVICE = "AI_REFERENCE";
 
-const RequireAuthMockAI = () => {
+const RequireAuthAdmin = () => {
   const { user } = useAuthContext();
 
   return user &&
@@ -15,4 +15,4 @@ const RequireAuthMockAI = () => {
   );
 };
 
-export default RequireAuthMockAI;
+export default RequireAuthAdmin;
