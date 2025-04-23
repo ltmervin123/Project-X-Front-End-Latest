@@ -57,9 +57,13 @@ const ReferenceRequestTable = ({
 
   return (
     <>
-      <tr className={selectedItems.includes(data._id) ? "table-active" : ""}>
-        {showCheckboxes && (
-          <td style={{ width: "50px" }}>
+      <tr
+        className={selectedItems.includes(data._id) ? "table-active" : ""}
+        onClick={() => onSelect(data._id)}
+        style={{ cursor: "pointer" }}
+      >
+        {(showCheckboxes || selectedItems.length > 0) && (
+          <td style={{width: "30px"}} onClick={(e) => e.stopPropagation()}>
             <input
               type="checkbox"
               className="form-check-input"

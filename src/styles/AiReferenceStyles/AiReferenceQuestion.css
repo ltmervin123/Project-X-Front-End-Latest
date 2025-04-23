@@ -363,9 +363,9 @@ transform: scale(1.01);
   height: 37vh;
   padding-right: 10px;
 }
-.AiReference-table-title{
+/* .AiReference-table-title{
   height: 10vh;
-}
+} */
 .reference-question-returnbtn-container{
   height: 10vh;
   
@@ -376,4 +376,187 @@ transform: scale(1.01);
   border: none;
   padding: 5px 15px;
   color: var(--font-white);
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .AiReference-question-container {
+    padding: 15px;
+    height: auto;
+  }
+
+  .button-controls-question button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .btn-create-new-candidate,
+  .btn-edit-hr-hatch-formats {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .question-set-container {
+    padding: 15px;
+  }
+
+  .question-set-info {
+    width: 100%;
+  }
+
+  .question-controls {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .question-controls > div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hr-hatch-card {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .search-wrapper input {
+    width: 100%;
+  }
+}
+
+/* Enhanced Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .AiReference-question-container {
+    padding: 15px;
+    height: auto;
+    min-height: 40vh;
+  }
+
+  .button-controls-question {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 15px;
+  }
+
+  .button-controls-question button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .hr-hatch-card-container {
+    flex-direction: column;
+    height: auto !important;
+    gap: 20px;
+  }
+
+  .hr-hatch-card {
+    width: 100%;
+    height: auto;
+    min-height: 220px;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .search-wrapper input {
+    width: 100%;
+    padding: 10px 35px 10px 15px;
+  }
+
+  .question-set-container {
+    padding: 15px;
+  }
+
+  .question-set-info {
+    width: 100%;
+  }
+
+  .question-set-info h5 {
+    font-size: 16px;
+  }
+
+  .question-controls {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  .dropdown-content-q-sets {
+    padding: 10px;
+  }
+
+  .btn-view-questions {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .btn-create-new-candidate,
+  .btn-edit-hr-hatch-formats {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  .custom-modal-question .modal-dialog {
+    width: 95% !important;
+    margin: 10px auto;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .AiReference-question-container {
+    padding: 10px;
+  }
+
+  .AiReference-table-title h4 {
+    font-size: 18px;
+  }
+
+  .AiReference-table-title p {
+    font-size: 14px;
+  }
+
+  .question-set-container {
+    padding: 10px;
+  }
+
+  .question-set-info p {
+    font-size: 12px;
+  }
+
+  .dropdown-content-q-sets {
+    font-size: 14px;
+  }
+
+  .hr-hatch-card > h5 {
+    padding: 15px;
+    font-size: 16px;
+  }
+
+  .hr-hatch-card > p {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .hr-hatch-card > small {
+    padding: 10px 15px;
+  }
+
+  .questions-list {
+    max-height: none;
+  }
+
+  .Format-Container {
+    height: auto;
+    max-height: none;
+  }
+
+  .reference-question-returnbtn-container {
+    height: auto;
+    padding: 10px 0;
+  }
 }

@@ -7,6 +7,9 @@ import { useLogout } from "../../hook/useLogout";
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuthContext();
+  const service = user?.service || null;
+  const userId = user?.id || null;
+  const accountType = user?.accountType || null;
   const API = process.env.REACT_APP_API_URL;
   const URL = `${API}/api/user/auth/verify-session`;
   const { logout } = useLogout();
@@ -18,7 +21,7 @@ const PersistLogin = () => {
       try {
         const response = await axios.post(
           URL,
-          {},
+          { service, userId, accountType },
           {
             headers: {
               "Content-Type": "application/json",

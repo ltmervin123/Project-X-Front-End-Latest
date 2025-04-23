@@ -362,18 +362,18 @@ const ReferenceRequest = () => {
                   filteredReferences.map((reference) => (
                     <React.Fragment key={reference._id}>
                       <tr>
-                        <td>
+                        <td data-label="Candidate">
                           {`${reference.candidate.firstName} ${reference.candidate.lastName}`}
                         </td>
-                        <td>{reference.position}</td>
-                        <td className="text-center">
+                        <td data-label="Position">{reference.position}</td>
+                        <td data-label="Referees" className="text-center">
                           {reference.referees &&
                           Array.isArray(reference.referees) &&
                           reference.referees.length > 1
                             ? `${reference.referees.length} Referees`
                             : "1 Referee"}
                         </td>
-                        <td>
+                        <td data-label="Status">
                           {(() => {
                             const status = calculateCandidateStatus(reference);
                             return (
@@ -430,13 +430,13 @@ const ReferenceRequest = () => {
                             );
                           })()}
                         </td>
-                        <td className="text-center">
+                        <td data-label="Date Sent" className="text-center">
                           {formatDate(reference.dateSent)}
                         </td>
-                        <td className="text-center">
+                        <td data-label="Date Due" className="text-center">
                           {formatDate(reference.dueDate)}
                         </td>
-                        <td className="d-flex gap-2 align-items-center justify-content-center w-100 ">
+                        <td data-label="Actions" className="d-flex gap-2 align-items-center justify-content-center w-100">
                           <div className="position-relative d-flex justify-content-center">
                             <button
                               className={`btn-view-details ${

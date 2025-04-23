@@ -57,9 +57,11 @@ const JobTable = ({
 
   return (
     <>
-      <tr className={selectedItems.includes(data._id) ? "table-active" : ""}>
-        {showCheckboxes && (
-          <td style={{ width: "50px" }}>
+      <tr className={selectedItems.includes(data._id) ? "table-active" : ""}
+              onClick={() => onSelect(data._id)}
+              style={{ cursor: 'pointer' }}>
+        {(showCheckboxes || selectedItems.length > 0) && (
+          <td style={{width: "30px"}}>
             <input
               type="checkbox"
               className="form-check-input"
@@ -72,11 +74,9 @@ const JobTable = ({
         <td className="text-center">{data.vacancies}</td>
         <td>{data.department}</td>
         <td>{data.hiringManager}</td>
-        <td className="text-center">
-          {data.deletedAt.toString().split("T")[0]}
-        </td>
+        <td className="text-center">{data.deletedAt.toString().split("T")[0]}</td>
         <td className="d-flex align-items-center w-100 justify-content-center">
-          <div className="position-relative ">
+          <div className="position-relative d-flex align-items-center ">
             <div className="action-menu">
               <p
                 className="m-0"

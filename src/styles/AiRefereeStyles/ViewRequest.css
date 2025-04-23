@@ -103,3 +103,46 @@ background: var(--bg-fade-signup);
   font-size: 12px;
   font-weight: 600;
 }
+
+/* Add mobile styles */
+/* @media screen and (max-width: 768px) {
+  .ViewRequest-container {
+    padding: 15px;
+  }
+
+  .btn-back-to-reference-request {
+    font-size: 14px;
+    padding: 8px 12px;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .overall-assessment-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .overall-assessment-detail {
+    width: 100%;
+    text-align: center;
+  }
+
+  .signature-feild {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .uploaded-id-container img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .btn-download-reference {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .AIEnchanceAns-container {
+    padding: 15px;
+  }
+} */

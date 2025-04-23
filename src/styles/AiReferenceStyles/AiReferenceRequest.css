@@ -115,8 +115,10 @@
 }
 .action-menu{
   position: absolute;
-  top: 20%;
+  top: 25%;
   right: -25px;
+  display: flex;
+  align-items: center;
 }
 .action-options-reference {
   position: absolute; /* or fixed if you want it to stay in view */
@@ -176,6 +178,7 @@
   display: table; /* Ensure rows are displayed as table rows */
   table-layout: fixed; /* Prevent layout shifts */
   width: 100%; /* Full width for rows */
+  
 }
 .AiReference-reference-request-container  th {
   color: var(--card-color);
@@ -619,6 +622,100 @@ background-color: none !important;
     padding: 8px; /* Adjusted padding */
     font-size: 14px;
   }
-  
+}
 
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .AiReference-reference-request-container {
+    padding: 10px;
+    max-height: 70vh;
+  }
+
+  .reference-table {
+    display: block;
+    overflow-x: auto;
+    font-size: 12px !important;
+  }
+
+
+
+  .reference-dropdown-container.expanded {
+    height: auto;
+    min-height: 190px;
+  }
+
+  .referee-list {
+    flex-direction: column;
+  }
+
+  .referee-item {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .referee-left-container {
+    width: 60%;
+    padding-right: 0 !important;
+  }
+
+  .referee-status {
+    width: 100%;
+    text-align: left;
+  }
+
+  .action-menu {
+    position: relative;
+    right: 0;
+    padding-top: 5px;
+
+  }
+
+  .action-options-reference {
+    left: auto;
+    right: 0;
+  }
+
+  .btn-view-details, 
+  .btn-view-referee {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .custom-modal-reference .modal-dialog {
+    width: 95% !important;
+    margin: 10px auto;
+  }
+
+  .custom-modal-reference .modal-body {
+    padding: 15px;
+  }
+
+  .search-candidates {
+    width: 100%;
+  }
+
+  .search-wrapper {
+    width: 100%;
+  }
+}
+
+/* Small Mobile Devices */
+@media screen and (max-width: 480px) {
+  .AiReference-reference-request-container {
+    padding: 5px;
+  }
+
+  .referee-item {
+    padding: 10px;
+    height: auto;
+  }
+
+  .reference-table td::before {
+    width: 90px;
+    min-width: 90px;
+  }
+
+  .custom-modal-reference .modal-body {
+    padding: 10px;
+  }
 }

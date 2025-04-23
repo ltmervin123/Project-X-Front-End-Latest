@@ -9,20 +9,16 @@ function SuccessPage() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
 
-    const extractedInfo = {
+    const user = {
       token: urlParams.get("token"),
       name: urlParams.get("name"),
       id: urlParams.get("_id"),
       email: urlParams.get("email"),
+      service: urlParams.get("service"),
     };
 
-    if (
-      extractedInfo.token &&
-      extractedInfo.name &&
-      extractedInfo.id &&
-      extractedInfo.email
-    ) {
-      dispatch({ type: "LOGIN", payload: extractedInfo });
+    if (user.token && user.name && user.id && user.email && user.service) {
+      dispatch({ type: "LOGIN", payload: user });
     }
 
     // Remove query parameters from the URL

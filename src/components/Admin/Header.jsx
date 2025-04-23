@@ -16,12 +16,13 @@ function Header() {
   const username = user ? user.name.split(" ")[0] : "";
 
   return (
+    
     <Navbar
       expand="lg"
       className="MockMain-Header d-flex align-items-center justify-content-between"
     >
       <Navbar.Brand
-        href="/maindashboard"
+        href="/AiReferenceMaindashboard"
         className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
         <img src={logo} alt="Logo" width="125" height="18" />
@@ -50,7 +51,7 @@ function Header() {
               {/* Conditionally applying the active class to Dropdown.Item based on current location */}
               <Dropdown.Item
                 as={NavLink}
-                to="/userprofile#personal-info"
+                to="/CompanyProfile#personal-info"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 Profile

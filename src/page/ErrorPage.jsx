@@ -6,7 +6,6 @@ import Header from "../components/Error/Header";
 function ErrorPage() {
   return (
     <>
-    
       <Header />
       <ErrorSection />
 
