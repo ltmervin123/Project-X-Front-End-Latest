@@ -1,0 +1,570 @@
+/* Variables */
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --sidebar-bg: #f2f3f7;
+}
+
+/* Common Button Styles */
+.analytics-dashboard-button-controller {
+  background: var(--font-white);
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  gap: 10px;
+}
+
+.analytics-dashboard-button-controller > button {
+  background: var(--font-white);
+  border-radius: 50px;
+  border: none;
+  width: 23%;
+  padding: 5px;
+  font-size: 0.8rem;
+}
+
+.analytics-dashboard-button-controller > button.active {
+  color: var(--font-white);
+  background: var(--primary-color);
+}
+/* Customize Dropdown button and search company Styles */
+.search-company .search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search-company .suggestion-item {
+  cursor: pointer;
+}
+
+.search-company .suggestion-item:hover {
+  background-color: rgba(244, 106, 5, 0.1);
+}
+
+.search-company .suggestion-item.active {
+  background-color: rgba(244, 106, 5, 0.1);
+  color: #f46a05;
+}
+.search-company .customize-dropdown .btn-dropdown-company {
+  padding: 8px 15px;
+  min-width: 140px;
+  border-radius: 50px;
+  font-size: 14px;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  fill: var(--font-white);
+  color: var(--font-white) !important;
+  background: var(--primary-color);
+  border: none;
+  text-align: center;
+}
+.search-company .customize-dropdown .btn-dropdown-company.dropdown-open {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 10px 10px 0px 0px !important;
+  border: 1px solid var(--card-color) !important;
+  background: var(--font-white);
+  border-bottom: none !important;
+  color: var(--text-color) !important;
+}
+
+
+.search-company .customize-dropdown .dropdown-menu {
+  min-width: 140px;
+
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: -1px;
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  border-radius: 0px 0px 10px 10px !important;
+  border-top: none;
+  width: 100%;
+  z-index:3;
+  padding: 0;
+}
+
+.search-company .customize-dropdown .dropdown-item {
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.search-company .customize-dropdown .dropdown-item:nth-last-child(1) {
+  border-radius: 0px 0px 10px 10px !important;
+}
+
+
+.search-company .customize-dropdown .dropdown-item:hover {
+  background: rgba(244, 106, 5, 0.1);
+}
+.search-company .customize-dropdown .dropdown-item.active {
+  background: var(--primary-color);
+}
+.search-company .customize-dropdown .dropdown-item.active:hover {
+  background: rgba(244, 106, 5, 0.1);
+}
+
+
+/* Common Container Styles */
+.active-chart-container,
+.monthly-user-chart-container,
+.usage-chart-container,
+.subscription-chart-container,
+.peak-hours-chart-container {
+  width: 100%;
+  height: 45vh;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+
+/* Common Chart Content Styles */
+.active-chart-container .chart-content,
+.monthly-user-chart-container .chart-content,
+.subscription-chart-container .chart-content,
+.subscription-analytics-chart-container .chart-content,
+.usage-chart-container .chart-content,
+.peak-hours-chart-container .chart-content {
+  height: 20%;
+}
+
+.active-chart-container .chart-subtitle,
+.monthly-user-chart-container .chart-subtitle,
+.user-by-role-chart-container .chart-subtitle,
+.usage-chart-container .chart-subtitle,
+.subscription-chart-container .chart-subtitle,
+.subscription-analytics-chart-container .chart-subtitle,
+.peak-hours-chart-container .chart-subtitle {
+  color: var(--card-color);
+  font-size: 13px;
+}
+
+/* Chart Canvas Styles */
+.active-inactive-user-chart,
+.monthly-users-chart,
+.subscription-user-chart,
+.usage-user-chart {
+  height: 80%;
+  width: 100%;
+  background: var(--font-white) !important;
+  border-radius: 15px;
+  position: relative;
+}
+
+.active-inactive-user-chart canvas,
+.monthly-users-chart canvas,
+.usage-user-chart canvas,
+.subscription-user-chart canvas,
+.peak-hours-user-chart canvas {
+  width: 100% !important;
+  height: auto;
+}
+
+/* User Role Chart Styles */
+.user-by-role-chart-container {
+  width: 100%;
+  height: 93.6vh;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+
+.user-by-role-chart-container .pie-chart-wrapper {
+  height: 60% !important;
+  width: 100%;
+  position: relative;
+}
+
+.user-by-role-chart-container .chart-content {
+  height: 20%;
+}
+
+.user-by-role-chart canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.user-by-role-chart-container .percentage-center {
+  text-align: center;
+  z-index: 1;
+}
+
+.user-by-role-chart-container .percentage-label h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.user-by-role-chart-container .percentage-label p {
+  font-size: 12px;
+  margin: 0;
+}
+
+/* Usage Chart Specific Styles */
+.usage-chart-container,
+.peak-hours-chart-container {
+  height: 63.6vh;
+}
+
+/* Dropdown Styles */
+.usage-chart-container .custom-dropdown {
+  position: relative;
+  min-width: 120px;
+}
+
+.usage-chart-container .dropdown-header {
+  padding: 5px 15px;
+  border-radius: 50px;
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  color: var(--font-black) !important;
+}
+
+.usage-chart-container .dropdown-header.dropdown-open {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 10px 10px 0px 0px !important;
+  border-bottom: none !important;
+  background-color: var(--font-white) !important;
+}
+
+.usage-chart-container .dropdown-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: -1px;
+  background: var(--font-white);
+  border: 1px solid var(--card-color);
+  border-radius: 0px 0px 10px 10px !important;
+  border-top: none;
+  width: 100%;
+  z-index: 3;
+}
+
+.usage-chart-container .dropdown-item {
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.usage-chart-container .dropdown-item:hover {
+  background: rgba(244, 106, 5, 0.1);
+}
+
+.usage-chart-container .dropdown-item.active {
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+
+.usage-chart-container .dropdown-item:nth-child(3) {
+  border-radius: 0px 0px 10px 10px !important;
+}
+
+/* Reference Check Styles */
+.total-reference-check-chart-container {
+  width: 100%;
+  height: 30vh;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+
+.total-reference-check-chart-container .total-reference-check-count {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.total-reference-check-chart-container .chart-content {
+  height: 20%;
+}
+
+.total-reference-check-chart-container .total-reference-check-data {
+  height: 80%;
+}
+
+.total-reference-check-chart-container .total-reference-check-data p {
+  font-size: 14px;
+}
+
+.total-reference-check-chart-container .total-reference-check-header {
+  color: var(--card-color);
+}
+
+/* Subscription Analytics Styles */
+.subscription-analytics-chart-container {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: 0.5px solid rgba(0, 0, 0, 0.104);
+  padding: 20px;
+}
+
+.subscription-analytics-chart-container .subscription-analytics {
+  padding: 15px 0;
+}
+
+.subscription-analytics-chart-container .progress-item {
+  padding: 10px;
+  height: 20px;
+  border-radius: 50px;
+}
+
+.subscription-analytics-chart-container .progress {
+  border-radius: 50px;
+  height: 20px;
+  background-color: var(--sidebar-bg);
+}
+
+.subscription-analytics-chart-container .progress-bar {
+  transition: width 0.6s ease;
+  border-radius: 50px !important;
+}
+
+.subscription-analytics-chart-container .progress-item span {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.subscription-analytics-chart-container .progress-item span:nth-child(1) {
+  width: 50%;
+  text-align: left;
+}
+
+.subscription-analytics-chart-container > div:nth-child(1) {
+  width: 70%;
+}
+
+.subscription-analytics-chart-container > div:nth-child(2) {
+  width: 30%;
+}
+
+.subscription-analytics-chart-container > div:nth-child(2) b {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  color: var(--card-color);
+}
+
+.subscription-analytics-chart-container > div:nth-child(2) p {
+  font-weight: 600;
+  font-size: 25px;
+}
+/* Peak Hours Styles */
+.peak-hours-user-chart {
+  height: 70%;
+  width: 100%;
+  background: var(--font-white) !important;
+  border-radius: 15px;
+  position: relative;
+}
+.peak-hours-chart-container .chart-content {
+  height: 15%;
+}
+.peak-hours-chart-container .peak-usage-time {
+  height: 10%;
+  color: var(--card-color);
+  font-size: 13px;
+}
+
+.peak-hours-chart-container .user-avatar {
+  width: 40px !important;
+  height: 33px;
+  background-color: var(--avatar-bg);
+  color: var(--font-black);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.peak-hours-chart-container .user-info {
+  width: calc(100% - 55px);
+}
+
+.peak-hours-chart-container .user-number {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--card-color);
+  min-width: 25px;
+}
+.peak-hours-chart-container .user-info span {
+  padding: 2px 7px;
+  border-radius: 50px;
+  border: 1px solid var(--card-color);
+  font-size: 12px;
+}
+.peak-hours-chart-container .user-info .user-checks {
+  font-weight: 600;
+  font-size: 20px;
+  padding-right: 10px;
+}
+.peak-hours-chart-container .total-reference-check-data {
+  height: 75%;
+  overflow-y: auto;
+}
+/* Customizing the scrollbar */
+.peak-hours-chart-container .total-reference-check-data::-webkit-scrollbar {
+  width: 6px; /* Scrollbar width */
+}
+
+.peak-hours-chart-container
+  .total-reference-check-data::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.peak-hours-chart-container
+  .total-reference-check-data::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.peak-hours-chart-container
+  .total-reference-check-data::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .analytics-dashboard-button-controller {
+    display: flex;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+  }
+
+  .analytics-dashboard-button-controller > button {
+    width: 48% !important;
+    font-size: 0.7rem;
+    padding: 8px 5px;
+  }
+
+  .search-company {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-company .search-wrapper {
+    width: 300px;
+  }
+
+  .search-company .customize-dropdown {
+    width: 100%;
+  }
+
+  .search-company .btn-dropdown-company {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .active-chart-container,
+  .monthly-user-chart-container,
+  .usage-chart-container,
+  .subscription-chart-container,
+  .peak-hours-chart-container{
+    height: auto;
+    min-height: 45vh;
+    padding: 15px;
+  }
+
+  .subscription-analytics-chart-container {
+    flex-direction: column !important;
+  }
+
+  .subscription-analytics-chart-container > div:nth-child(1),
+  .subscription-analytics-chart-container > div:nth-child(2) {
+    width: 100%;
+  }
+
+  .subscription-analytics-chart-container .progress-item span {
+    font-size: 12px;
+  }
+
+  .subscription-analytics-chart-container .progress-item span:nth-child(1) {
+    width: 40%;
+  }
+
+  .peak-hours-chart-container .user-info {
+    width: 100%;
+  }
+
+  .peak-hours-chart-container .user-avatar {
+    width: 35px !important;
+    height: 30px;
+  }
+
+  .peak-hours-chart-container .user-info .user-checks {
+    font-size: 16px;
+  }
+
+  .total-reference-check-chart-container {
+    height: auto;
+    min-height: 30vh;
+  }
+
+  .total-reference-check-chart-container .total-reference-check-count {
+    font-size: 20px;
+  }
+
+  .total-reference-check-chart-container .total-reference-check-data p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .analytics-dashboard-button-controller > button {
+    width: 100% !important;
+  }
+
+  .active-chart-container,
+  .monthly-user-chart-container,
+  .usage-chart-container,
+  .subscription-chart-container,
+  .peak-hours-chart-container {
+    height: auto;
+    min-height: 40vh;
+    padding: 10px;
+  }
+
+  .chart-subtitle {
+    font-size: 11px;
+  }
+
+  .usage-chart-container .dropdown-header,
+  .usage-chart-container .dropdown-item {
+    font-size: 11px;
+  }
+
+  .peak-hours-chart-container .user-info span {
+    font-size: 10px;
+  }
+}

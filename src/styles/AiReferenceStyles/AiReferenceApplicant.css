@@ -10,6 +10,7 @@
 }
 .search-candidates .search-wrapper {
   position: relative;
+  width: 300px;
 }
 
 .search-wrapper input {
@@ -272,4 +273,57 @@ border: none;
 .AiReference-candidates-container tbody::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .AiReference-candidates-container {
+    padding: 10px;
+    max-height: 70vh;
+  }
+
+  .AiReference-candidates-container table {
+    font-size: 13px;
+  }
+
+  .AiReference-candidates-container th,
+  .AiReference-candidates-container td {
+    padding: 8px;
+  }
+
+
+
+  .btn-view-details {
+    width: 100px;
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .action-options {
+    right: 0;
+    left: auto;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .AiReference-candidates-container th:nth-child(2),
+  .AiReference-candidates-container td:nth-child(2),
+  .AiReference-candidates-container th:nth-child(3),
+  .AiReference-candidates-container td:nth-child(3) {
+    display: none;
+  }
+
+  .search-candidates .search-wrapper input {
+    width: 200px;
+  }
+
+  .AiReference-candidates-container th,
+  .AiReference-candidates-container td {
+    padding: 5px;
+  }
+
+  .btn-create-new-candidate {
+    font-size: 0.9rem;
+    padding: 5px 15px;
+  }
 }

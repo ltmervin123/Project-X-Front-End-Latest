@@ -228,3 +228,185 @@
 .fade-in.visible {
   opacity: 1;
 }
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .ai-reference-sidebar-container {
+    width: 100%;
+    padding: 15px !important;
+  }
+
+  .LogoBrand {
+    width: 150px;
+    height: 55px;
+  }
+
+  .btn-start-reference-check {
+    font-size: 0.8rem;
+    padding: 8px 15px;
+  }
+
+  .AiReferenceMaindashboard {
+    padding: 5px;
+  }
+
+  .AiReferenceMaindashboard > h3 {
+    font-size: 1.5rem;
+  }
+
+  .AiReferenceCard {
+    height: 15vh;
+    margin-bottom: 10px;
+  }
+
+  .AiReferenceCard .count {
+    font-size: 30px !important;
+  }
+
+  .AiReferenceCard .value {
+    font-size: 25px !important;
+    padding-top: 5%;
+  }
+
+  .line-bar-chart-container {
+    height: 50vh;
+    margin-bottom: 15px;
+  }
+
+  .line-chart,
+  .bar-chart {
+    padding: 40px 10px 10px 10px;
+  }
+
+  .line-title-overlay,
+  .bar-title-overlay {
+    font-size: 14px;
+    top: 15px;
+    left: 15px;
+  }
+
+  .LogContainer {
+    padding: 15px;
+  }
+
+  .log-item .avatar-letter {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .log-item {
+    font-size: 14px;
+  }
+
+  .pie-labels {
+    position: relative;
+    right: 0;
+    margin-top: 10px;
+  }
+
+  .pie-labels p {
+    font-size: 12px;
+  }
+
+  .start-reference-check-container > i {
+    font-size: 10px;
+  }
+
+  /* Improve touch targets for mobile */
+  .list-log-container {
+    padding: 5px;
+  }
+
+  .log-item {
+    padding: 10px 5px;
+  }
+
+  /* Adjust chart responsiveness */
+  .bar-chart > canvas,
+  .line-chart > canvas {
+    max-height: 300px;
+  }
+
+  .AiReferenceMaindashboard h3 {
+    font-size: 1.5rem;
+  }
+
+  .btn-start-reference-check {
+    font-size: 0.8rem;
+    padding: 8px 15px;
+  }
+
+  .AiReferenceCard {
+    height: 15vh;
+    margin-bottom: 10px;
+  }
+
+  .AiReferenceCard .count {
+    font-size: 24px !important;
+  }
+
+  .AiReferenceCard .value {
+    font-size: 20px !important;
+    padding-top: 5%;
+  }
+
+  .line-bar-chart-container {
+    height: 45vh;
+    margin-bottom: 15px;
+  }
+
+  .LogContainer {
+    padding: 10px;
+  }
+
+  .log-item {
+    font-size: 13px;
+  }
+
+  .log-item .avatar-letter {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .AiReferenceCard {
+    height: 12vh;
+  }
+
+  .AiReferenceCard .count {
+    font-size: 24px !important;
+  }
+
+  .AiReferenceCard .title {
+    font-size: 14px;
+  }
+
+  .line-bar-chart-container {
+    height: 40vh;
+  }
+
+  .LogContainer {
+    padding: 10px;
+  }
+
+  .log-item {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .start-reference-check-container {
+    width: 100%;
+  }
+
+  .AiReferenceCard {
+    height: 12vh;
+  }
+
+  .line-bar-chart-container {
+    height: 35vh;
+  }
+}

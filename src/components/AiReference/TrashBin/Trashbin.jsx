@@ -21,21 +21,20 @@ import * as CandidateArchiveAPI from "../../../api/ai-reference/archive/candidat
 import * as JobArchiveAPI from "../../../api/ai-reference/archive/jobs-api";
 
 const CATEGORIES = [
-  "Job",
-  "Applicant",
-  "Reference Request",
-  "Reference Question",
+  "Jobs",
+  "Applicants",
+  "Reference Requests",
+  "Reference Questions",
 ];
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Job");
+  const [selectedCategory, setSelectedCategory] = useState("Jobs");
   const [isSearchAndButtonsVisible, setIsSearchAndButtonsVisible] =
     useState(false);
   const [isContainerVisible, setIsContainerVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
-  const [selectButtonState, setSelectButtonState] = useState("Select");
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showRecoverPopup, setShowRecoverPopup] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
@@ -202,30 +201,65 @@ const Trashbin = () => {
   // Mock data for different categories
   const mockData = useMemo(() => {
     return {
-      Job: jobs?.archivedJobs || [],
-      Applicant: candidates?.archiveCandidates || [],
-      "Reference Request": referenceRequest?.archivedReferenceRequest || [],
-
-      "Reference Question": referenceQuestion?.questions || [],
+      Jobs: jobs?.archivedJobs || [],
+      Applicants: candidates?.archiveCandidates || [],
+      "Reference Requests": referenceRequest?.archivedReferenceRequest || [],
+      "Reference Questions": referenceQuestion?.questions || [],
     };
   }, [referenceQuestion, referenceRequest, candidates, jobs]);
 
+  const filterDataBySearch = (data) => {
+    if (!searchQuery) return data;
+
+    const query = searchQuery.toLowerCase();
+
+    switch (selectedCategory) {
+      case "Jobs":
+        return data.filter(
+          (job) =>
+            job.jobName?.toLowerCase().includes(query) ||
+            job.department?.toLowerCase().includes(query) ||
+            job.hiringManager?.toLowerCase().includes(query)
+        );
+      case "Applicants":
+        return data.filter(
+          (applicant) =>
+            applicant.name?.toLowerCase().includes(query) ||
+            applicant.email?.toLowerCase().includes(query) ||
+            applicant.position?.toLowerCase().includes(query)
+        );
+      case "Reference Requests":
+        return data.filter(
+          (request) =>
+            request.applicant?.toLowerCase().includes(query) ||
+            request.referees?.toLowerCase().includes(query) ||
+            request.status?.join(" ").toLowerCase().includes(query)
+        );
+      case "Reference Questions":
+        return data.filter((question) =>
+          question.name?.toLowerCase().includes(query)
+        );
+      default:
+        return data;
+    }
+  };
+
   const handleRestore = (id) => {
     switch (selectedCategory) {
-      case "Job":
+      case "Jobs":
         const jobIds = [id];
         console.log("jobIds", jobIds);
         restoreJobs({ jobIds });
         break;
-      case "Applicant":
+      case "Applicants":
         const candidateIds = [id];
         restoreCandidate({ candidateIds });
         break;
-      case "Reference Request":
+      case "Reference Requests":
         const referenceRequestId = [id];
         restoreReference({ referenceRequestId });
         break;
-      case "Reference Question":
+      case "Reference Questions":
         const questionIds = [id];
         restoreQuestion({ questionIds });
         break;
@@ -236,19 +270,19 @@ const Trashbin = () => {
 
   const handleDelete = (id) => {
     switch (selectedCategory) {
-      case "Job":
+      case "Jobs":
         const jobIds = [id];
         deleteJobs({ jobIds });
         break;
-      case "Applicant":
+      case "Applicants":
         const candidateIds = [id];
         deleteCandidates({ candidateIds });
         break;
-      case "Reference Request":
+      case "Reference Requests":
         const referenceRequestId = [id];
         deleteReference({ referenceRequestId });
         break;
-      case "Reference Question":
+      case "Reference Questions":
         const questionIds = [id];
         deleteQuestions({ questionIds });
         break;
@@ -267,17 +301,17 @@ const Trashbin = () => {
 
   const handleConfirmRestore = () => {
     switch (selectedCategory) {
-      case "Job":
+      case "Jobs":
         console.log("jobIds", selectedItems);
         restoreJobs({ jobIds: selectedItems });
         break;
-      case "Applicant":
+      case "Applicants":
         restoreCandidate({ candidateIds: selectedItems });
         break;
-      case "Reference Request":
+      case "Reference Requests":
         restoreReference({ referenceRequestId: selectedItems });
         break;
-      case "Reference Question":
+      case "Reference Questions":
         restoreQuestion({ questionIds: selectedItems });
         break;
       default:
@@ -288,16 +322,16 @@ const Trashbin = () => {
 
   const handleConfirmDelete = () => {
     switch (selectedCategory) {
-      case "Job":
+      case "Jobs":
         deleteJobs({ jobIds: selectedItems });
         break;
-      case "Applicant":
+      case "Applicants":
         deleteCandidates({ candidateIds: selectedItems });
         break;
-      case "Reference Request":
+      case "Reference Requests":
         deleteReference({ referenceRequestId: selectedItems });
         break;
-      case "Reference Question":
+      case "Reference Questions":
         deleteQuestions({ questionIds: selectedItems });
         break;
       default:
@@ -306,64 +340,68 @@ const Trashbin = () => {
     setSelectedItems([]);
   };
 
-  const handleSelectAll = () => {
-    switch (selectButtonState) {
-      case "Select":
-        setShowCheckboxes(true);
-        setSelectButtonState("Select All");
-        break;
-      case "Select All":
-        setSelectedItems(mockData[selectedCategory].map((item) => item._id));
-        setSelectButtonState("Unselect All");
-        break;
-      case "Unselect All":
-        setSelectedItems([]);
-        setShowCheckboxes(false);
-        setSelectButtonState("Select");
-        break;
-      default:
-        return;
-    }
-  };
-
   const handleSelect = (id) => {
+    setShowCheckboxes(true); // Show checkboxes when selecting a row
     setSelectedItems((prev) => {
       if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
+        const newItems = prev.filter((item) => item !== id);
+        if (newItems.length === 0) {
+          setShowCheckboxes(false); // Hide checkboxes when no items selected
+        }
+        return newItems;
       } else {
         return [...prev, id];
       }
     });
   };
 
+  const handleSelectAll = () => {
+    if (selectedItems.length === mockData[selectedCategory].length) {
+      // Unselect all
+      setSelectedItems([]);
+      setShowCheckboxes(false);
+    } else {
+      // Select all
+      setShowCheckboxes(true);
+      setSelectedItems(mockData[selectedCategory].map((item) => item._id));
+    }
+  };
+
   const handleSelectAllCheckbox = () => {
     if (selectedItems.length === mockData[selectedCategory].length) {
+      // If all items are selected, unselect all
       setSelectedItems([]);
+      setShowCheckboxes(false);
     } else {
-      setSelectedItems(mockData[selectedCategory].map((item) => item.id));
+      // Select all items
+      setShowCheckboxes(true);
+      const allIds = mockData[selectedCategory].map((item) => item._id);
+      setSelectedItems(allIds);
     }
   };
 
   const getTableHeaders = () => {
-    const baseHeaders = showCheckboxes
-      ? [
-          {
-            label: (
-              <input
-                type="checkbox"
-                className="form-check-input"
-                checked={
-                  selectedItems.length === mockData[selectedCategory].length
-                }
-                onChange={handleSelectAllCheckbox}
-              />
-            ),
-            width: "50px",
-          },
-        ]
-      : [];
+    const baseHeaders =
+      showCheckboxes || selectedItems.length > 0
+        ? [
+            {
+              label: (
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={
+                    selectedItems.length > 0 &&
+                    selectedItems.length === mockData[selectedCategory].length
+                  }
+                  onChange={handleSelectAllCheckbox}
+                />
+              ),
+              width: "30px",
+            },
+          ]
+        : [];
     switch (selectedCategory) {
-      case "Job":
+      case "Jobs":
         return [
           ...baseHeaders,
           "Job Name",
@@ -373,7 +411,7 @@ const Trashbin = () => {
           { label: "Deleted Date", className: "text-center" },
           "Actions",
         ];
-      case "Applicant":
+      case "Applicants":
         return [
           ...baseHeaders,
           "Name",
@@ -382,7 +420,7 @@ const Trashbin = () => {
           { label: "Deleted Date", className: "text-center" },
           "Actions",
         ];
-      case "Reference Request":
+      case "Reference Requests":
         return [
           ...baseHeaders,
           "Applicant",
@@ -391,7 +429,7 @@ const Trashbin = () => {
           { label: "Deleted Date", className: "text-center" },
           "Actions",
         ];
-      case "Reference Question":
+      case "Reference Questions":
         return [
           ...baseHeaders,
           "Question",
@@ -415,21 +453,21 @@ const Trashbin = () => {
     };
 
     switch (selectedCategory) {
-      case "Job":
+      case "Jobs":
         const jobPropsData = {
           ...props,
           isDeletingJobs,
           isRecoveringJobs,
         };
         return <JobTable key={item._id} {...jobPropsData} />;
-      case "Applicant":
+      case "Applicants":
         const applicantPropsData = {
           ...props,
           isDeletingCandidates,
           isRecoveringCandidate,
         };
         return <ApplicantTable key={item.id} {...applicantPropsData} />;
-      case "Reference Request":
+      case "Reference Requests":
         const referenceRequestPropsData = {
           ...props,
           isDeletingReferenceRequest,
@@ -438,7 +476,7 @@ const Trashbin = () => {
         return (
           <ReferenceRequestTable key={item.id} {...referenceRequestPropsData} />
         );
-      case "Reference Question":
+      case "Reference Questions":
         const referenceQuestionsPropsData = {
           ...props,
           isDeletingReferenceQuestions,
@@ -463,7 +501,7 @@ const Trashbin = () => {
       </div>
 
       <div
-        className={`d-flex justify-content-between align-items-center mb-3 fade-in ${
+        className={`d-flex justify-content-between trashbin-controls align-items-center mb-3 fade-in ${
           isSearchAndButtonsVisible ? "visible" : ""
         }`}
       >
@@ -471,7 +509,7 @@ const Trashbin = () => {
           <div className="search-wrapper position-relative">
             <input
               type="text"
-              placeholder="Search in trash..."
+              placeholder={`Search in ${selectedCategory.toLowerCase()}...`}
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -488,7 +526,6 @@ const Trashbin = () => {
                 setSelectedCategory(category);
                 setShowCheckboxes(false);
                 setSelectedItems([]);
-                setSelectButtonState("Select");
               }}
             >
               {category}
@@ -503,8 +540,8 @@ const Trashbin = () => {
         }`}
       >
         <div className="trash-header mb-3">
-          <h4 className="mb-2">Deleted {selectedCategory}s</h4>
-          <p className="trashbin-important-text d-flex gap-2 align-items-center">
+          <h4 className="mb-2">Deleted {selectedCategory}</h4>
+          <div className="trashbin-important-text d-flex gap-2 align-items-center">
             <svg
               width="16"
               height="16"
@@ -517,17 +554,18 @@ const Trashbin = () => {
                 fill="#F46A05"
               />
             </svg>
-            Items in trash will be permanently deleted after 10 days. Restore
-            items to prevent permanent deletion.
-          </p>
+            <p className="m-0">
+            Items in the trash will be permanently deleted after 10 days. To avoid this, please restore any items you want to keep before the 10-day period ends.
+
+            </p>
+          </div>
         </div>
 
         <div className="button-controls mb-3 d-flex gap-2 align-items-center justify-content-end">
-          <button
-            onClick={handleSelectAll}
-            className={showCheckboxes ? "active" : ""}
-          >
-            {selectButtonState}
+          <button onClick={handleSelectAll}>
+            {selectedItems.length === mockData[selectedCategory].length
+              ? "Unselect All"
+              : "Select All"}
           </button>
           <button
             disabled={selectedItems.length === 0}
@@ -549,43 +587,65 @@ const Trashbin = () => {
           </button>
         </div>
 
-        {mockData[selectedCategory].length > 0 ? (
-          <table>
-            <thead>
+        <table>
+          <thead>
+            <tr>
+              {getTableHeaders().map((header, index) => (
+                <th
+                  key={index}
+                  style={
+                    typeof header === "object"
+                      ? { width: header.width }
+                      : undefined
+                  }
+                  className={typeof header === "object" ? header.className : ""}
+                >
+                  {typeof header === "object"
+                    ? typeof header.label === "string"
+                      ? header.label
+                      : header.label
+                    : header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {mockData[selectedCategory].length > 0 ? (
+              <>
+                {filterDataBySearch(mockData[selectedCategory])?.length > 0 ? (
+                  filterDataBySearch(mockData[selectedCategory])?.map((item) =>
+                    renderTableRow(item)
+                  )
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={getTableHeaders().length}
+                      className="text-center py-4"
+                    >
+                      No matching {selectedCategory.toLowerCase()} found for "
+                      {searchQuery}"
+                    </td>
+                  </tr>
+                )}
+              </>
+            ) : (
               <tr>
-                {getTableHeaders().map((header, index) => (
-                  <th
-                    key={index}
-                    style={
-                      typeof header === "object"
-                        ? { width: header.width }
-                        : undefined
-                    }
-                    className={
-                      typeof header === "object" ? header.className : ""
-                    }
-                  >
-                    {typeof header === "object"
-                      ? typeof header.label === "string"
-                        ? header.label
-                        : header.label
-                      : header}
-                  </th>
-                ))}
+                <td
+                  colSpan={getTableHeaders().length}
+                  className="text-center py-4"
+                >
+                  No {selectedCategory.toLowerCase()} in trash bin
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {mockData[selectedCategory]?.map((item) => renderTableRow(item))}
-            </tbody>
-          </table>
-        ) : (
-          <div>No records found.</div>
-        )}
+            )}
+          </tbody>
+        </table>
       </div>
 
       {showDeletePopup && (
         <>
-          {selectedCategory === "Job" && (
+          {selectedCategory === "Jobs" && (
             <DeleteConfirmationJobPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -594,7 +654,7 @@ const Trashbin = () => {
               isDeletingJobs={isDeletingJobs}
             />
           )}
-          {selectedCategory === "Applicant" && (
+          {selectedCategory === "Applicants" && (
             <DeleteConfirmationApplicantPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -603,7 +663,7 @@ const Trashbin = () => {
               isDeletingCandidates={isDeletingCandidates}
             />
           )}
-          {selectedCategory === "Reference Request" && (
+          {selectedCategory === "Reference Requests" && (
             <DeleteConfirmationReferenceRequestPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -612,7 +672,7 @@ const Trashbin = () => {
               isDeletingReferenceRequest={isDeletingReferenceRequest}
             />
           )}
-          {selectedCategory === "Reference Question" && (
+          {selectedCategory === "Reference Questions" && (
             <DeleteConfirmationReferenceQuestionPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -626,7 +686,7 @@ const Trashbin = () => {
 
       {showRecoverPopup && (
         <>
-          {selectedCategory === "Job" && (
+          {selectedCategory === "Jobs" && (
             <RecoverConfirmationJobPopUp
               onClose={() => setShowRecoverPopup(false)}
               onConfirmRecover={handleConfirmRestore}
@@ -635,7 +695,7 @@ const Trashbin = () => {
               isRecoveringJobs={isRecoveringJobs}
             />
           )}
-          {selectedCategory === "Applicant" && (
+          {selectedCategory === "Applicants" && (
             <RecoverConfirmationApplicantPopUp
               onClose={() => setShowRecoverPopup(false)}
               onConfirmRecover={handleConfirmRestore}
@@ -644,7 +704,7 @@ const Trashbin = () => {
               isRecoveringCandidate={isRecoveringCandidate}
             />
           )}
-          {selectedCategory === "Reference Request" && (
+          {selectedCategory === "Reference Requests" && (
             <RecoverConfirmationReferenceRequestPopUp
               onClose={() => setShowRecoverPopup(false)}
               onConfirmRecover={handleConfirmRestore}
@@ -653,7 +713,7 @@ const Trashbin = () => {
               isRecoveringReferenceRequest={isRecoveringReferenceRequest}
             />
           )}
-          {selectedCategory === "Reference Question" && (
+          {selectedCategory === "Reference Questions" && (
             <RecoverConfirmationReferenceQuestionPopUp
               onClose={() => setShowRecoverPopup(false)}
               onConfirmRecover={handleConfirmRestore}
