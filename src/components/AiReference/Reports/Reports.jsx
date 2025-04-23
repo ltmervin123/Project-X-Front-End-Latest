@@ -378,6 +378,7 @@ const Reports = () => {
         refereeId={refereeId}
         token={token}
         refereeQuestionFormat={refereeQuestionFormat}
+        onClose={() => setIsDownload(false)}
       />
     );
   }
