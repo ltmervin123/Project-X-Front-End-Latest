@@ -7,7 +7,7 @@ import AnalyticsDashboard from "../../components/Admin/AnalyticsDashboard/Analyt
 import "../../styles/AdminStyles/AnalyticsDashboardPage.css";
 
 function AnalyticsDashboardPage() {
-  const isAuthenticated = sessionStorage.getItem("authenticated") || false;
+  // const isAuthenticated = sessionStorage.getItem("authenticated") || false;
 
   return (
     <>
@@ -24,7 +24,7 @@ function AnalyticsDashboardPage() {
           </Col>
         </Row>
       </div>
-      {isAuthenticated && <PopupGuide introKey="mainDashboard" />}
+      {/* {isAuthenticated && <PopupGuide introKey="mainDashboard" />} */}
     </>
   );
 }
