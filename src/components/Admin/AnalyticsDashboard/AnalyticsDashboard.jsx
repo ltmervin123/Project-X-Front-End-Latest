@@ -7,12 +7,23 @@ import UserStatisticsChartSection from "./components/UserStatisticsChartSection"
 import SystemUsageChartSection from "./components/SystemUsageChartSection";
 import SubscriptionChartSection from "./components/SubscriptionChartSection";
 import PeakHoursChartSection from "./components/PeakHoursChartSection";
+import * as AdminAPI from "../../../api/ai-reference/admin/admin-api";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AnalyticsDashboard = () => {
   const navigate = useNavigate();
-
   const [selectedCompany, setSelectedCompany] = useState("All Company");
   const [showCustomizeDropdown, setShowCustomizeDropdown] = useState(false);
+
+  const {
+    data: analyticsData,
+    isLoading: isLoadingAnalyticsData,
+    isError: isErrorAnalyticsData,
+  } = useQuery({
+    queryKey: ["adminDashboardStat"],
+    queryFn: AdminAPI.getDashboardStat,
+    staleTime: 1000 * 60 * 1,
+  });
 
   // Sample companies data
   const companies = [
@@ -89,22 +100,10 @@ const AnalyticsDashboard = () => {
   const getCurrentCompanyData = () => {
     if (selectedCompany === "All Company") {
       return {
-        totalUser: companies.reduce(
-          (sum, company) => sum + company.totalUser,
-          0
-        ),
-        totalActiveUsers: companies.reduce(
-          (sum, company) => sum + company.totalActiveUsers,
-          0
-        ),
-        totalReferenceCheck: companies.reduce(
-          (sum, company) => sum + company.totalReferenceCheck,
-          0
-        ),
-        totalRevenue: companies.reduce(
-          (sum, company) => sum + company.totalRevenue,
-          0
-        ),
+        totalUser: analyticsData?.totalCompany || 0,
+        totalActiveUsers: analyticsData?.activeCompany || 0,
+        totalReferenceCheck: analyticsData?.referenceCheck || 0,
+        totalRevenue: 0,
       };
     }
     return (
