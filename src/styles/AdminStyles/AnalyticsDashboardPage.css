@@ -170,7 +170,8 @@
 .active-inactive-user-chart canvas,
 .monthly-users-chart canvas,
 .usage-user-chart canvas,
-.subscription-user-chart canvas {
+.subscription-user-chart canvas,
+.peak-hours-user-chart canvas {
   width: 100% !important;
   height: auto;
 }
@@ -328,7 +329,7 @@
 }
 
 .subscription-analytics-chart-container .subscription-analytics {
-  padding: 20px 0;
+  padding: 15px 0;
 }
 
 .subscription-analytics-chart-container .progress-item {
@@ -355,6 +356,7 @@
 
 .subscription-analytics-chart-container .progress-item span:nth-child(1) {
   width: 50%;
+  text-align: left;
 }
 
 .subscription-analytics-chart-container > div:nth-child(1) {
@@ -450,4 +452,119 @@
   .total-reference-check-data::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .analytics-dashboard-button-controller {
+    display: flex;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+  }
+
+  .analytics-dashboard-button-controller > button {
+    width: 48% !important;
+    font-size: 0.7rem;
+    padding: 8px 5px;
+  }
+
+  .search-company {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-company .search-wrapper {
+    width: 300px;
+  }
+
+  .search-company .customize-dropdown {
+    width: 100%;
+  }
+
+  .search-company .btn-dropdown-company {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .active-chart-container,
+  .monthly-user-chart-container,
+  .usage-chart-container,
+  .subscription-chart-container,
+  .peak-hours-chart-container{
+    height: auto;
+    min-height: 45vh;
+    padding: 15px;
+  }
+
+  .subscription-analytics-chart-container {
+    flex-direction: column !important;
+  }
+
+  .subscription-analytics-chart-container > div:nth-child(1),
+  .subscription-analytics-chart-container > div:nth-child(2) {
+    width: 100%;
+  }
+
+  .subscription-analytics-chart-container .progress-item span {
+    font-size: 12px;
+  }
+
+  .subscription-analytics-chart-container .progress-item span:nth-child(1) {
+    width: 40%;
+  }
+
+  .peak-hours-chart-container .user-info {
+    width: 100%;
+  }
+
+  .peak-hours-chart-container .user-avatar {
+    width: 35px !important;
+    height: 30px;
+  }
+
+  .peak-hours-chart-container .user-info .user-checks {
+    font-size: 16px;
+  }
+
+  .total-reference-check-chart-container {
+    height: auto;
+    min-height: 30vh;
+  }
+
+  .total-reference-check-chart-container .total-reference-check-count {
+    font-size: 20px;
+  }
+
+  .total-reference-check-chart-container .total-reference-check-data p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .analytics-dashboard-button-controller > button {
+    width: 100% !important;
+  }
+
+  .active-chart-container,
+  .monthly-user-chart-container,
+  .usage-chart-container,
+  .subscription-chart-container,
+  .peak-hours-chart-container {
+    height: auto;
+    min-height: 40vh;
+    padding: 10px;
+  }
+
+  .chart-subtitle {
+    font-size: 11px;
+  }
+
+  .usage-chart-container .dropdown-header,
+  .usage-chart-container .dropdown-item {
+    font-size: 11px;
+  }
+
+  .peak-hours-chart-container .user-info span {
+    font-size: 10px;
+  }
 }

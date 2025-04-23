@@ -849,7 +849,9 @@ const MainDashboard = () => {
               {cardData.map((card, index) => (
                 <Col
                   key={index}
-                  md={3}
+                  xs={12}  // Full width on extra small devices
+                  sm={6}   // Half width on small devices
+                  md={3}   // Quarter width on medium and larger devices
                   className={` fade-in ${
                     isAiReferenceCardVisible ? "visible" : ""
                   }`}

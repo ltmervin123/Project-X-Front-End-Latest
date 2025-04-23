@@ -390,7 +390,7 @@ const Reports = () => {
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
-      <div>
+      <div className="reports-header">
         <h3 className="mb-0">Analytics & Reports</h3>
         <p className="mb-2">
           Gain insights into your reference checking process and hiring
@@ -399,11 +399,15 @@ const Reports = () => {
       </div>
       <Row className="d-flex justify-content-center AiReferenceReportCard-container">
         {cardData.map((card, index) => (
-          <Col key={index} md={3}>
+          <Col 
+            key={index}
+            xs={12}  // Full width on mobile
+            sm={6}  // Full width on small tablets
+            md={4}   // One-third width on medium+ screens
+            className="mb-3" // Add bottom margin for spacing on mobile
+          >
             <div
-              className={`AiReferenceCard fade-in ${
-                isReportsCardVisible ? "visible" : ""
-              }`}
+              className={`AiReferenceCard fade-in ${isReportsCardVisible ? "visible" : ""}`}
               onClick={() => {
                 if (card.refresh) {
                   window.location.reload();
@@ -413,7 +417,6 @@ const Reports = () => {
               }}
               style={{ cursor: "pointer" }}
             >
-              {/* Title and Count */}
               <div className="h-100">
                 <p className="d-flex title">
                   <div
@@ -459,11 +462,7 @@ const Reports = () => {
         </button>
       </div>
 
-      <div
-        className={`AiReference-report-container position-relative fade-in ${
-          isChartVisible ? "visible" : ""
-        }`}
-      >
+      <div className={`AiReference-report-container position-relative fade-in ${isChartVisible ? "visible" : ""}`}>
         {activeButton === "Reports" ? (
           <>
             <div className="AiReference-table-title">
@@ -498,48 +497,50 @@ const Reports = () => {
               </h4>
               <p>Download or view detailed reports.</p>
             </div>
-            {candidateData.length > 0 ? (
-              <table className="AiReference-report-table">
-                <thead>
-                  <tr>
-                    <th>Candidate</th>
-                    <th>Referee</th>
-                    <th className="text-center">Status</th>
-                    <th className="text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {candidateData.map((entry, index) => (
-                    <tr key={index}>
-                      <td>{`${entry.candidate.firstName} ${entry.candidate.lastName}`}</td>
-                      <td>{`${entry.refereeName.firstName} ${entry.refereeName.lastName}`}</td>
-                      <td
-                        className="text-center"
-                        style={{
-                          color: getStatusColor(entry.status),
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {entry.status}
-                      </td>
-                      <td>
-                        <div className="d-flex justify-content-center">
-                          <button
-                            variant="link"
-                            className="btn-view-details"
-                            onClick={() => handleDownloadRecord(entry)}
-                          >
-                            Download PDF
-                          </button>
-                        </div>
-                      </td>
+            <div className="table-responsive"> {/* Add wrapper for table responsiveness */}
+              {candidateData.length > 0 ? (
+                <table className="AiReference-report-table">
+                  <thead>
+                    <tr>
+                      <th>Candidate</th>
+                      <th>Referee</th>
+                      <th className="text-center">Status</th>
+                      <th className="text-center">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <div>No records found</div>
-            )}
+                  </thead>
+                  <tbody>
+                    {candidateData.map((entry, index) => (
+                      <tr key={index}>
+                        <td>{`${entry.candidate.firstName} ${entry.candidate.lastName}`}</td>
+                        <td>{`${entry.refereeName.firstName} ${entry.refereeName.lastName}`}</td>
+                        <td
+                          className="text-center"
+                          style={{
+                            color: getStatusColor(entry.status),
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {entry.status}
+                        </td>
+                        <td>
+                          <div className="d-flex justify-content-center">
+                            <button
+                              variant="link"
+                              className="btn-view-details"
+                              onClick={() => handleDownloadRecord(entry)}
+                            >
+                              Download PDF
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <div className="text-center py-3">No records found</div>
+              )}
+            </div>
           </>
         ) : (
           <>
@@ -575,14 +576,13 @@ const Reports = () => {
               </h4>
               <p>Overview of completed and pending reference checks.</p>
             </div>
-            <Row>
-              <Col md={5}>
+            <Row >
+              <Col xs={12} md={5} >
                 <div className="chart-container-report">
                   <Bar data={chartData} options={barOptions} />
                 </div>
               </Col>
-              <Col md={7}>
-                {/* Custom legend below the chart */}
+              <Col xs={12} md={7} >
                 <div className="custom-legend h-100 d-flex flex-column align-items-center justify-content-center">
                   <ul>
                     <li>

@@ -373,8 +373,10 @@ const AnalyticsDashboard = () => {
           {cardData.map((card, index) => (
             <Col
               key={index}
-              md={3}
-              className={` fade-in ${
+              xs={12}  // Full width on extra small devices
+              sm={6}   // Half width on small devices
+              md={3}   // Quarter width on medium and larger devices
+              className={`mb-2 fade-in ${
                 isAiReferenceCardVisible ? "visible" : ""
               }`}
             >
@@ -404,10 +406,10 @@ const AnalyticsDashboard = () => {
         </Row>
       </div>
       <Row>
-        <Col md="6">
-          <div className={` analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
-                isButtonControllerVisible ? "visible" : ""
-              }`}>
+        <Col xs={12} md={6}>
+          <div className={`analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
+            isButtonControllerVisible ? "visible" : ""
+          }`}>
             <button
               className={activeTab === "userStatistics" ? "active" : ""}
               onClick={() => setActiveTab("userStatistics")}
@@ -434,7 +436,7 @@ const AnalyticsDashboard = () => {
             </button>
           </div>
         </Col>
-        <Col md="6" className="d-flex align-items-center  mb-2">
+        <Col xs={12} md={6} className="d-flex align-items-center mb-2">
           <div className={`search-company d-flex justify-content-between w-100 fade-in ${
                 isButtonControllerVisible ? "visible" : ""
               }`}>

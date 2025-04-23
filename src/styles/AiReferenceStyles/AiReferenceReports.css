@@ -136,7 +136,6 @@ word-wrap: break-word;
 }
 
 .AiReference-report-container canvas {
-  max-height: 30vh; /* Set a max height for scrolling */
   width: 100% !important; /* Ensure the canvas takes up the full width */
   object-fit: contain; /* Ensure the canvas resizes without distortion */
 }
@@ -190,4 +189,317 @@ word-wrap: break-word;
 .AiReference-report-container tbody::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .button-controls-report {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-controls-report button {
+    width: 100%;
+  }
+
+  .AiReference-report-container {
+    padding: 15px;
+    max-height: none;
+  }
+
+  .AiReferenceCard-report {
+    height: auto;
+    min-height: 150px;
+    margin-bottom: 15px;
+  }
+
+  .AiReferenceCard-report .count,
+  .AiReferenceCard-report .value {
+    font-size: 24px !important;
+    padding-top: 5%;
+  }
+
+  .chart-container-report {
+    height: 300px;
+  }
+
+
+
+  .custom-legend {
+    margin-top: 20px;
+  }
+
+  .custom-legend li {
+    left: 0;
+    font-size: 14px;
+    justify-content: center;
+  }
+
+  .AiReference-report-container table {
+    font-size: 13px;
+  }
+
+  .AiReference-report-container th,
+  .AiReference-report-container td {
+    padding: 8px;
+  }
+
+  .btn-view-details {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
+
+  .reports-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .reports-header p {
+    font-size: 0.9rem;
+  }
+
+  .AiReferenceCard {
+    margin-bottom: 15px;
+    min-height: 120px;
+  }
+
+  .AiReferenceCard .value {
+    font-size: 24px !important;
+    padding-top: 10px;
+  }
+
+  .button-controls-report {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 0 15px;
+  }
+
+  .button-controls-report button {
+    width: 100%;
+    margin: 0;
+    padding: 8px 15px;
+  }
+
+  .AiReference-report-container {
+    padding: 15px;
+    margin: 0 15px;
+  }
+
+  .table-responsive {
+    margin: 0 -15px;
+    padding: 0 15px;
+    width: calc(100% + 30px);
+  }
+
+  .analytics-row {
+    flex-direction: column;
+  }
+
+  .chart-col {
+    margin-bottom: 20px;
+  }
+
+  .chart-container-report {
+    height: 250px;
+  }
+
+  .custom-legend {
+    padding: 15px 0;
+  }
+
+  .custom-legend li {
+    left: 0;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .AiReference-report-table {
+    font-size: 14px;
+  }
+
+  .AiReference-report-table th,
+  .AiReference-report-table td {
+    padding: 8px;
+  }
+
+  .btn-view-details {
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .AiReferenceCard {
+    margin-bottom: 15px;
+  }
+
+  .AiReferenceReportCard-container {
+    padding: 0 15px;
+  }
+
+  .AiReference-report-container {
+    margin: 0 10px;
+    padding: 15px;
+  }
+
+  .chart-container-report {
+    height: 250px;
+    margin-bottom: 20px;
+  }
+
+  .custom-legend {
+    padding: 15px 0;
+  }
+
+  .custom-legend li {
+    left: 0;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .AiReference-table-title h4 {
+    font-size: 18px;
+    flex-wrap: wrap;
+  }
+
+  .AiReference-table-title p {
+    font-size: 14px;
+  }
+
+  .table-responsive {
+    margin: 0 -15px;
+    overflow-x: auto;
+  }
+
+  .AiReference-report-table th,
+  .AiReference-report-table td {
+    white-space: nowrap;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .btn-view-details {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .AiReferenceReportCard-container {
+    margin: 0;
+  }
+
+  .AiReferenceCard-report {
+    margin-bottom: 10px;
+  }
+
+  .chart-container-report {
+    height: 250px;
+  }
+
+  .AiReference-report-container th:nth-child(2),
+  .AiReference-report-container td:nth-child(2) {
+    display: none;
+  }
+
+  .AiReference-report-container th,
+  .AiReference-report-container td {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .custom-legend li {
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+
+  .legend-box {
+    width: 12px;
+    height: 12px;
+  }
+
+  .AiReference-table-title h4 {
+    font-size: 18px;
+  }
+
+  .AiReference-table-title p {
+    font-size: 14px;
+  }
+
+  /* .AiReference-report-container tbody {
+    max-height: 50vh;
+  } */
+
+  .AiReference-table-title h4 {
+    font-size: 16px;
+  }
+
+  .AiReference-table-title p {
+    font-size: 12px;
+  }
+
+  .chart-container-report {
+    height: 200px;
+  }
+
+  .custom-legend li {
+    font-size: 12px;
+  }
+
+  .AiReference-report-table {
+    font-size: 12px;
+  }
+
+  .AiReference-report-table th,
+  .AiReference-report-table td {
+    padding: 6px;
+  }
+
+  .btn-view-details {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  .reports-header h3 {
+    font-size: 20px;
+  }
+
+  .reports-header p {
+    font-size: 14px;
+  }
+
+  .AiReferenceCard .value {
+    font-size: 20px !important;
+  }
+
+  .AiReference-report-table {
+    font-size: 12px;
+  }
+
+  .AiReference-report-table th,
+  .AiReference-report-table td {
+    padding: 6px;
+  }
+
+  .chart-container-report {
+    height: 200px;
+  }
+
+  .custom-legend li {
+    font-size: 12px;
+  }
+
+  .legend-box {
+    width: 10px;
+    height: 10px;
+  }
+
+  .btn-view-details {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .job-tooltip-text {
+    max-width: 200px;
+    font-size: 12px;
+  }
 }

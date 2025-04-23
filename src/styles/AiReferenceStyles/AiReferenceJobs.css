@@ -516,3 +516,57 @@ select::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .AiReference-active-jobs-container {
+    padding: 15px;
+    max-height: 70vh;
+  }
+
+  .btn-create-new-job {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .search-wrapper input {
+    width: 100%;
+  }
+
+  .AiReference-active-jobs-container table {
+    font-size: 13px;
+  }
+
+  .AiReference-active-jobs-container th,
+  .AiReference-active-jobs-container td {
+    padding: 8px;
+  }
+
+  .action-options {
+    right: 0;
+    left: auto;
+  }
+
+  .job-container-form {
+    width: 95%;
+    padding: 15px !important;
+  }
+
+  .job-container-form form {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .AiReference-active-jobs-container th:nth-child(3),
+  .AiReference-active-jobs-container td:nth-child(3),
+  .AiReference-active-jobs-container th:nth-child(4),
+  .AiReference-active-jobs-container td:nth-child(4) {
+    display: none;
+  }
+
+  .btn-view-details {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
