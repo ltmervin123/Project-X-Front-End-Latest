@@ -10,7 +10,7 @@
 }
 .search-candidates .search-wrapper {
   position: relative;
-  width: 250px;
+  width: 300px;
 }
 
 .search-wrapper input {
@@ -291,9 +291,7 @@ border: none;
     padding: 8px;
   }
 
-  .search-candidates .search-wrapper input {
-    width: 250px;
-  }
+
 
   .btn-view-details {
     width: 100px;

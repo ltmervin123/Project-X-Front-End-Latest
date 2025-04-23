@@ -403,7 +403,7 @@ const Reports = () => {
             key={index}
             xs={12}  // Full width on mobile
             sm={6}  // Full width on small tablets
-            md={4}   // One-third width on medium+ screens
+            md={3}   // One-third width on medium+ screens
             className="mb-3" // Add bottom margin for spacing on mobile
           >
             <div
