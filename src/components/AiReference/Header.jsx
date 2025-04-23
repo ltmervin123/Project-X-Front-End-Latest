@@ -6,12 +6,22 @@ import defaultAvatar from "../../assets/default.png";
 import logo from "../../assets/logo.png"; // Adjust the path to your logo image
 import { useLogout } from "../../hook/useLogout";
 import { useAuthContext } from "../../hook/useAuthContext";
+import * as AuthAPI from "../../api/ai-reference/auth/auth-api";
 
 function Header() {
   const { logout } = useLogout();
-  const { user } = useAuthContext(); // Assuming 'user' contains the user information
-  const handleLogout = () => {
-    logout();
+  const { user } = useAuthContext();
+  const handleLogout = async () => {
+    try {
+      if (user.accountType === "company" && user.service === "AI_REFERENCE") {
+        const companyId = user.id;
+        const response = await AuthAPI.logoutCompany(companyId);
+      }
+    } catch (error) {
+      console.error("Error during logout:", error); 
+    } finally {
+      logout();
+    }
   };
   const username = user ? user.name.split(" ")[0] : "";
 

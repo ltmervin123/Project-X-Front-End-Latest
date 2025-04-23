@@ -7,12 +7,23 @@ import UserStatisticsChartSection from "./components/UserStatisticsChartSection"
 import SystemUsageChartSection from "./components/SystemUsageChartSection";
 import SubscriptionChartSection from "./components/SubscriptionChartSection";
 import PeakHoursChartSection from "./components/PeakHoursChartSection";
+import * as AdminAPI from "../../../api/ai-reference/admin/admin-api";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AnalyticsDashboard = () => {
   const navigate = useNavigate();
-
   const [selectedCompany, setSelectedCompany] = useState("All Company");
   const [showCustomizeDropdown, setShowCustomizeDropdown] = useState(false);
+
+  const {
+    data: analyticsData,
+    isLoading: isLoadingAnalyticsData,
+    isError: isErrorAnalyticsData,
+  } = useQuery({
+    queryKey: ["adminDashboardStat"],
+    queryFn: AdminAPI.getDashboardStat,
+    staleTime: 1000 * 60 * 1,
+  });
 
   // Sample companies data
   const companies = [
@@ -42,14 +53,14 @@ const AnalyticsDashboard = () => {
   // Add filtered companies based on search query
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const filteredCompanies = companies.filter(company =>
+  const filteredCompanies = companies.filter((company) =>
     company.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
     if (searchQuery) {
       setShowSuggestions(true);
-      const filteredResults = companies.filter(company =>
+      const filteredResults = companies.filter((company) =>
         company.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       if (filteredResults.length === 1) {
@@ -62,16 +73,16 @@ const AnalyticsDashboard = () => {
 
   useEffect(() => {
     if (searchQuery) {
-      const filteredCompanies = companies.filter(company =>
+      const filteredCompanies = companies.filter((company) =>
         company.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      
+
       // If there's exactly one match, select that company
       if (filteredCompanies.length === 1) {
         setSelectedCompany(filteredCompanies[0].name);
       }
       // If search is cleared, reset to "All Company"
-      else if (searchQuery === '') {
+      else if (searchQuery === "") {
         setSelectedCompany("All Company");
       }
       setShowCustomizeDropdown(true);
@@ -89,21 +100,16 @@ const AnalyticsDashboard = () => {
   const getCurrentCompanyData = () => {
     if (selectedCompany === "All Company") {
       return {
-        totalUser: companies.reduce((sum, company) => sum + company.totalUser, 0),
-        totalActiveUsers: companies.reduce(
-          (sum, company) => sum + company.totalActiveUsers,
-          0
-        ),
-        totalReferenceCheck: companies.reduce(
-          (sum, company) => sum + company.totalReferenceCheck,
-          0
-        ),
-        totalRevenue: companies.reduce(
-          (sum, company) => sum + company.totalRevenue, 0
-        ),
+        totalUser: analyticsData?.totalCompany || 0,
+        totalActiveUsers: analyticsData?.activeCompany || 0,
+        totalReferenceCheck: analyticsData?.referenceCheck || 0,
+        totalRevenue: 0,
       };
     }
-    return companies.find((company) => company.name === selectedCompany) || companies[0];
+    return (
+      companies.find((company) => company.name === selectedCompany) ||
+      companies[0]
+    );
   };
 
   const currentCompanyData = getCurrentCompanyData();
@@ -116,7 +122,8 @@ const AnalyticsDashboard = () => {
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
     useState(false);
   const [isLineChartVisible, setIsLineChartVisible] = useState(false);
-  const [isButtonControllerVisible, setIsButtonControllerVisible] = useState(false);
+  const [isButtonControllerVisible, setIsButtonControllerVisible] =
+    useState(false);
   const [isBarChartVisible, setIsBarChartVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("userStatistics");
 
@@ -315,7 +322,9 @@ const AnalyticsDashboard = () => {
     },
     {
       title: "Revenue",
-      count: `¥ ${totalRevenue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`,
+      count: `¥ ${totalRevenue
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
       color: "#686868",
       path: "/AnalyticsDashboard",
     },
@@ -339,23 +348,29 @@ const AnalyticsDashboard = () => {
           />
         );
       case "systemUsage":
-        return <SystemUsageChartSection 
-          isVisible={isLineChartVisible} 
-          selectedCompany={selectedCompany}
-          companies={companies}
-        />;
+        return (
+          <SystemUsageChartSection
+            isVisible={isLineChartVisible}
+            selectedCompany={selectedCompany}
+            companies={companies}
+          />
+        );
       case "subscription":
-        return <SubscriptionChartSection 
-          isVisible={isLineChartVisible}
-          selectedCompany={selectedCompany}
-          companies={companies}
-        />;
+        return (
+          <SubscriptionChartSection
+            isVisible={isLineChartVisible}
+            selectedCompany={selectedCompany}
+            companies={companies}
+          />
+        );
       case "peakHours":
-        return <PeakHoursChartSection 
-          isVisible={isLineChartVisible}
-          selectedCompany={selectedCompany}
-          companies={companies}
-        />;
+        return (
+          <PeakHoursChartSection
+            isVisible={isLineChartVisible}
+            selectedCompany={selectedCompany}
+            companies={companies}
+          />
+        );
       default:
         return null;
     }
@@ -405,9 +420,11 @@ const AnalyticsDashboard = () => {
       </div>
       <Row>
         <Col md="6">
-          <div className={` analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
-                isButtonControllerVisible ? "visible" : ""
-              }`}>
+          <div
+            className={` analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
+              isButtonControllerVisible ? "visible" : ""
+            }`}
+          >
             <button
               className={activeTab === "userStatistics" ? "active" : ""}
               onClick={() => setActiveTab("userStatistics")}
@@ -435,9 +452,11 @@ const AnalyticsDashboard = () => {
           </div>
         </Col>
         <Col md="6" className="d-flex align-items-center  mb-2">
-          <div className={`search-company d-flex justify-content-between w-100 fade-in ${
-                isButtonControllerVisible ? "visible" : ""
-              }`}>
+          <div
+            className={`search-company d-flex justify-content-between w-100 fade-in ${
+              isButtonControllerVisible ? "visible" : ""
+            }`}
+          >
             <div className="d-flex align-items-center">
               <div className="search-wrapper position-relative">
                 <input
@@ -454,10 +473,12 @@ const AnalyticsDashboard = () => {
                       filteredCompanies.map((company, index) => (
                         <div
                           key={index}
-                          className={`suggestion-item p-2 ${selectedCompany === company.name ? 'active' : ''}`}
+                          className={`suggestion-item p-2 ${
+                            selectedCompany === company.name ? "active" : ""
+                          }`}
                           onClick={() => {
                             setSelectedCompany(company.name);
-                            setSearchQuery('');
+                            setSearchQuery("");
                             setShowSuggestions(false);
                           }}
                         >
@@ -478,14 +499,19 @@ const AnalyticsDashboard = () => {
                 className={`btn-dropdown-company d-flex align-items-center gap-2 ${
                   showCustomizeDropdown ? "dropdown-open" : ""
                 }`}
-                onClick={() => !searchQuery && setShowCustomizeDropdown(!showCustomizeDropdown)}
+                onClick={() =>
+                  !searchQuery &&
+                  setShowCustomizeDropdown(!showCustomizeDropdown)
+                }
               >
                 {selectedCompany}
               </button>
               {showCustomizeDropdown && !searchQuery && (
                 <div className="dropdown-menu show position-absolute end-0">
                   <div
-                    className={`dropdown-item ${selectedCompany === "All Company" ? 'active' : ''}`}
+                    className={`dropdown-item ${
+                      selectedCompany === "All Company" ? "active" : ""
+                    }`}
                     onClick={() => {
                       setSelectedCompany("All Company");
                       setShowCustomizeDropdown(false);
@@ -496,7 +522,9 @@ const AnalyticsDashboard = () => {
                   {companies.map((company, index) => (
                     <div
                       key={index}
-                      className={`dropdown-item ${selectedCompany === company.name ? 'active' : ''}`}
+                      className={`dropdown-item ${
+                        selectedCompany === company.name ? "active" : ""
+                      }`}
                       onClick={() => {
                         setSelectedCompany(company.name);
                         setShowCustomizeDropdown(false);

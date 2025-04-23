@@ -20,7 +20,7 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isLogin = await login(email, password, service);
-    console.log(isLogin);
+
     if (isLogin) {
       if (
         isLogin?.service === SERVICE[0] &&
