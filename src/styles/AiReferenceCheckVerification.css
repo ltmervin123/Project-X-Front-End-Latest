@@ -158,10 +158,19 @@
 }
 .cr-privacy-modal-agreement .modal-dialog {
   width: 100% !important;
-  max-width: 800px !important;
+  max-width: 700px !important;
+}
+.cr-privacy-modal-agreement .cr-section-title{
+  font-size: 15px;
+
+}
+.cr-privacy-modal-agreement .btn-cr-continue {
+  font-size: 13px !important;
+  padding: 5px 30px !important;
+
 }
 .cr-privacy-modal-agreement .cr-section-description{
-  font-size: 15px;
+  font-size: 13px;
 }
 
 /* Customizing the scrollbar */

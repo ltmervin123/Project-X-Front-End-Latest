@@ -5,10 +5,11 @@
     --font-white: #fff;
     --font-black: #000;
     --select-bg: #F2F3F7;
+    --container-bg: #FEF8F3;
 }
 
 .choose-language-container {
-    background: var(--font-white);
+    background: var(--container-bg);
     width: 600px;
     height: 50%;
     max-height: 400px;

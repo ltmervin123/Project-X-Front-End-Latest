@@ -8,6 +8,8 @@
   --sidebar-bg: #f2f3f7;
   --btn-view-color: #319f43;
   --form-bg: #FEF8F3;
+  --container-bg: #FEF8F3;
+
 }
 
 /* Button Styles */
@@ -158,7 +160,7 @@
 /* Form Styles */
 .job-container-form {
   border-radius: 20px;
-  background: var(--font-white) !important;
+  background: var(--container-bg) !important;
   padding: 30px !important;
   width: 750px;
   background: var(--form-bg);

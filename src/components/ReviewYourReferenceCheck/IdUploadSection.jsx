@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CameraVerificationPopUp from "../CameraVerification/CameraVerificationPopUp";
 import VerificationPreviewPopUp from "../VerificationPreviewPopUp/VerificationPreviewPopUp";
+import { useNavigate } from "react-router-dom";
 
 const IdUploadSection = ({
   frontIdFile,
@@ -13,6 +14,8 @@ const IdUploadSection = ({
   submitting,
   setSelfie,
 }) => {
+  const navigate = useNavigate();
+
   const language = sessionStorage.getItem("preferred-language") || "English";
 
   const translations = {
@@ -73,9 +76,9 @@ const IdUploadSection = ({
   const [selectedOption, setSelectedOption] = useState(null); // Add this state
 
   const shortenFileName = (fileName) => {
-    if (!fileName) return '';
-    if (typeof fileName === 'string' && fileName.startsWith('data:')) {
-      return 'captured_image.jpg';
+    if (!fileName) return "";
+    if (typeof fileName === "string" && fileName.startsWith("data:")) {
+      return "captured_image.jpg";
     }
     if (fileName.length > 12) {
       const extension = fileName.split(".").pop();
@@ -118,12 +121,13 @@ const IdUploadSection = ({
 
   const handleSubmit = () => {
     // Revise ang save condition ani
+    navigate("/reference-completed");
   };
 
   const handleCaptureComplete = (image) => {
     setCapturedImage(image);
     setShowCameraPopup(false);
-    setSelectedOption('camera');
+    setSelectedOption("camera");
   };
 
   const handleVerificationFileUpload = (event) => {
@@ -137,7 +141,7 @@ const IdUploadSection = ({
         reader.onloadend = () => {
           setPreviewImage(reader.result);
           setShowPreviewPopup(true);
-          setSelectedOption('upload');
+          setSelectedOption("upload");
         };
         reader.readAsDataURL(file);
       }
@@ -161,7 +165,11 @@ const IdUploadSection = ({
       <>
         <div className="w-100 d-flex justify-content-center align-items-center flex-column">
           <div className="preferred-id-container mb-3">
-            <p>{translations[language].identificationDocument}</p>
+            <p className=" d-flex gap-2 align-items-center">
+              {" "}
+              <div className="label-number">1</div>{" "}
+              {translations[language].identificationDocument}
+            </p>
             <select
               name="preferred-id"
               id="preferred-id"
@@ -185,7 +193,9 @@ const IdUploadSection = ({
           <div className="upload-id-container">
             <div className="d-flex gap-4">
               <div className="front-id-container mb-3 w-100 ">
-                <p>{translations[language].frontIdPage}</p>
+                <p>
+                  {translations[language].frontIdPage}
+                </p>
 
                 <div className="d-flex justify-content-between w-100">
                   {frontIdFile ? (
@@ -284,7 +294,9 @@ const IdUploadSection = ({
           </div>
 
           <div className="camera-verification-option-container mb-3">
-            <p className="mb-3">{translations[language].cameraVerification}</p>
+          <p className="mb-3 d-flex gap-2 align-items-center">
+                  {" "}
+                  <div className="label-number">2</div>{translations[language].cameraVerification}</p>
             <div className="row d-flex align-items-center">
               <div className="col-md-5 text-center">
                 <div className="take-a-photo-container">
@@ -295,12 +307,15 @@ const IdUploadSection = ({
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M30.8932 16.6667C38.9141 16.6667 45.3307 23.0833 45.3307 31.1042C45.3307 39.125 38.9141 45.5417 30.8932 45.5417C22.8724 45.5417 16.4557 39.125 16.4557 31.1042C16.4557 23.0833 22.8724 16.6667 30.8932 16.6667ZM30.8932 19.875C27.9151 19.875 25.0589 21.0581 22.953 23.1639C20.8471 25.2698 19.6641 28.126 19.6641 31.1042C19.6641 34.0823 20.8471 36.9385 22.953 39.0444C25.0589 41.1503 27.9151 42.3333 30.8932 42.3333C33.8714 42.3333 36.7276 41.1503 38.8334 39.0444C40.9393 36.9385 42.1224 34.0823 42.1224 31.1042C42.1224 28.126 40.9393 25.2698 38.8334 23.1639C36.7276 21.0581 33.8714 19.875 30.8932 19.875ZM10.0391 7.04167H16.4557L22.8724 0.625H38.9141L45.3307 7.04167H51.7474C54.3001 7.04167 56.7483 8.05573 58.5533 9.86076C60.3583 11.6658 61.3724 14.114 61.3724 16.6667V45.5417C61.3724 48.0944 60.3583 50.5425 58.5533 52.3476C56.7483 54.1526 54.3001 55.1667 51.7474 55.1667H10.0391C7.48635 55.1667 5.0382 54.1526 3.23316 52.3476C1.42812 50.5425 0.414063 48.0944 0.414062 45.5417V16.6667C0.414063 14.114 1.42812 11.6658 3.23316 9.86076C5.0382 8.05573 7.48635 7.04167 10.0391 7.04167ZM24.1878 3.83333L17.7711 10.25H10.0391C8.33726 10.25 6.70515 10.926 5.50179 12.1294C4.29843 13.3328 3.6224 14.9649 3.6224 16.6667V45.5417C3.6224 47.2435 4.29843 48.8756 5.50179 50.0789C6.70515 51.2823 8.33726 51.9583 10.0391 51.9583H51.7474C53.4492 51.9583 55.0813 51.2823 56.2847 50.0789C57.488 48.8756 58.1641 47.2435 58.1641 45.5417V16.6667C58.1641 14.9649 57.488 13.3328 56.2847 12.1294C55.0813 10.926 53.4492 10.25 51.7474 10.25H44.0153L37.5986 3.83333H24.1878Z" fill="black" />
+                    <path
+                      d="M30.8932 16.6667C38.9141 16.6667 45.3307 23.0833 45.3307 31.1042C45.3307 39.125 38.9141 45.5417 30.8932 45.5417C22.8724 45.5417 16.4557 39.125 16.4557 31.1042C16.4557 23.0833 22.8724 16.6667 30.8932 16.6667ZM30.8932 19.875C27.9151 19.875 25.0589 21.0581 22.953 23.1639C20.8471 25.2698 19.6641 28.126 19.6641 31.1042C19.6641 34.0823 20.8471 36.9385 22.953 39.0444C25.0589 41.1503 27.9151 42.3333 30.8932 42.3333C33.8714 42.3333 36.7276 41.1503 38.8334 39.0444C40.9393 36.9385 42.1224 34.0823 42.1224 31.1042C42.1224 28.126 40.9393 25.2698 38.8334 23.1639C36.7276 21.0581 33.8714 19.875 30.8932 19.875ZM10.0391 7.04167H16.4557L22.8724 0.625H38.9141L45.3307 7.04167H51.7474C54.3001 7.04167 56.7483 8.05573 58.5533 9.86076C60.3583 11.6658 61.3724 14.114 61.3724 16.6667V45.5417C61.3724 48.0944 60.3583 50.5425 58.5533 52.3476C56.7483 54.1526 54.3001 55.1667 51.7474 55.1667H10.0391C7.48635 55.1667 5.0382 54.1526 3.23316 52.3476C1.42812 50.5425 0.414063 48.0944 0.414062 45.5417V16.6667C0.414063 14.114 1.42812 11.6658 3.23316 9.86076C5.0382 8.05573 7.48635 7.04167 10.0391 7.04167ZM24.1878 3.83333L17.7711 10.25H10.0391C8.33726 10.25 6.70515 10.926 5.50179 12.1294C4.29843 13.3328 3.6224 14.9649 3.6224 16.6667V45.5417C3.6224 47.2435 4.29843 48.8756 5.50179 50.0789C6.70515 51.2823 8.33726 51.9583 10.0391 51.9583H51.7474C53.4492 51.9583 55.0813 51.2823 56.2847 50.0789C57.488 48.8756 58.1641 47.2435 58.1641 45.5417V16.6667C58.1641 14.9649 57.488 13.3328 56.2847 12.1294C55.0813 10.926 53.4492 10.25 51.7474 10.25H44.0153L37.5986 3.83333H24.1878Z"
+                      fill="black"
+                    />
                   </svg>
 
                   {capturedImage ? (
                     <div className="d-flex align-items-center justify-content-center">
-                      <p >
+                      <p>
                         {translations[language].fileUploaded.replace(
                           "{fileName}",
                           shortenFileName(
@@ -313,7 +328,12 @@ const IdUploadSection = ({
                     <button
                       className="btn btn-primary"
                       onClick={() => setShowCameraPopup(true)}
-                      disabled={selectedOption === 'upload' || capturedImage || submitting || hasNoId()}
+                      disabled={
+                        selectedOption === "upload" ||
+                        capturedImage ||
+                        submitting ||
+                        hasNoId()
+                      }
                     >
                       {translations[language].takePhoto}
                     </button>
@@ -366,11 +386,12 @@ const IdUploadSection = ({
 
                   {uploadedImage ? (
                     <div className="d-flex flex-column align-items-center justify-content-center">
-
-                      <p >
+                      <p>
                         {translations[language].fileUploaded.replace(
                           "{fileName}",
-                          typeof uploadedImage === 'string' ? 'captured_image.jpg' : shortenFileName(uploadedImage.name)
+                          typeof uploadedImage === "string"
+                            ? "captured_image.jpg"
+                            : shortenFileName(uploadedImage.name)
                         )}
                       </p>
                     </div>
@@ -378,7 +399,12 @@ const IdUploadSection = ({
                     <button
                       className="btn btn-secondary"
                       onClick={handleVerificationFileUpload}
-                      disabled={selectedOption === 'camera' || uploadedImage || submitting || hasNoId()}
+                      disabled={
+                        selectedOption === "camera" ||
+                        uploadedImage ||
+                        submitting ||
+                        hasNoId()
+                      }
                     >
                       {translations[language].selectFile}
                     </button>
@@ -408,7 +434,10 @@ const IdUploadSection = ({
             <button onClick={clearId} disabled={submitting || hasNoId()}>
               {translations[language].clear}
             </button>
-            <button onClick={handleSubmit} disabled={submitting || hasNoId() || hasNoVerification()}>
+            <button
+              onClick={handleSubmit}
+              disabled={submitting || hasNoId() || hasNoVerification()}
+            >
               {translations[language].submit}
             </button>
           </div>
