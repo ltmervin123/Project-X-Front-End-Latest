@@ -10,7 +10,7 @@
 width: 70%;
   margin: 0 auto;
 }
-
+/* 
 .preview-image-container {
   margin-bottom: 24px;
   border-radius: 8px;
@@ -18,7 +18,7 @@ width: 70%;
     width: auto;
   height: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .preview-image-container img {
 width: 100%;
