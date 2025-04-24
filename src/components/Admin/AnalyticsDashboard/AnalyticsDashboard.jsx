@@ -8,7 +8,7 @@ import SystemUsageChartSection from "./components/SystemUsageChartSection";
 import SubscriptionChartSection from "./components/SubscriptionChartSection";
 import PeakHoursChartSection from "./components/PeakHoursChartSection";
 import * as AdminAPI from "../../../api/ai-reference/admin/admin-api";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 const AnalyticsDashboard = () => {
   const navigate = useNavigate();
@@ -98,18 +98,24 @@ const AnalyticsDashboard = () => {
 
   // Get current company data or combined data if "All Company" is selected
   const getCurrentCompanyData = () => {
-    if (selectedCompany === "All Company") {
-      return {
-        totalUser: analyticsData?.totalCompany || 0,
-        totalActiveUsers: analyticsData?.activeCompany || 0,
-        totalReferenceCheck: analyticsData?.referenceCheck || 0,
-        totalRevenue: 0,
-      };
-    }
-    return (
-      companies.find((company) => company.name === selectedCompany) ||
-      companies[0]
-    );
+    // if (selectedCompany === "All Company") {
+    //   return {
+    //     totalUser: analyticsData?.totalCompany || 0,
+    //     totalActiveUsers: analyticsData?.activeCompany || 0,
+    //     totalReferenceCheck: analyticsData?.referenceCheck || 0,
+    //     totalRevenue: 0,
+    //   };
+    // }
+    // return (
+    //   companies.find((company) => company.name === selectedCompany) ||
+    //   companies[0]
+    // );
+    return {
+      totalUser: analyticsData?.totalCompany || 0,
+      totalActiveUsers: analyticsData?.activeCompany || 0,
+      totalReferenceCheck: analyticsData?.referenceCheck || 0,
+      totalRevenue: 0,
+    };
   };
 
   const currentCompanyData = getCurrentCompanyData();
@@ -146,8 +152,18 @@ const AnalyticsDashboard = () => {
   };
 
   function getMonthlyNewUsers() {
-    const months = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const newUsers = [55, 42, 58, 50, 62, 48, 55];
+    const months = [
+      "April",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const newUsers = [44, 11, 55, 42, 58, 50, 62, 48, 55];
     return { months, newUsers };
   }
 
@@ -388,9 +404,9 @@ const AnalyticsDashboard = () => {
           {cardData.map((card, index) => (
             <Col
               key={index}
-              xs={12}  // Full width on extra small devices
-              sm={6}   // Half width on small devices
-              md={3}   // Quarter width on medium and larger devices
+              xs={12} // Full width on extra small devices
+              sm={6} // Half width on small devices
+              md={3} // Quarter width on medium and larger devices
               className={`mb-2 fade-in ${
                 isAiReferenceCardVisible ? "visible" : ""
               }`}
@@ -422,9 +438,11 @@ const AnalyticsDashboard = () => {
       </div>
       <Row>
         <Col xs={12} md={6}>
-          <div className={`analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
-            isButtonControllerVisible ? "visible" : ""
-          }`}>
+          <div
+            className={`analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
+              isButtonControllerVisible ? "visible" : ""
+            }`}
+          >
             <button
               className={activeTab === "userStatistics" ? "active" : ""}
               onClick={() => setActiveTab("userStatistics")}
@@ -452,9 +470,11 @@ const AnalyticsDashboard = () => {
           </div>
         </Col>
         <Col xs={12} md={6} className="d-flex align-items-center mb-2">
-          <div className={`search-company d-flex justify-content-between w-100 fade-in ${
-                isButtonControllerVisible ? "visible" : ""
-              }`}>
+          <div
+            className={`search-company d-flex justify-content-between w-100 fade-in ${
+              isButtonControllerVisible ? "visible" : ""
+            }`}
+          >
             <div className="d-flex align-items-center">
               <div className="search-wrapper position-relative">
                 <input
