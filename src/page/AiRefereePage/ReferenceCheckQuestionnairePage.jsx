@@ -475,6 +475,44 @@ const ReferenceCheckQuestionnairePage = () => {
     return currentQuestionCategory ? currentQuestionCategory.category : null;
   };
 
+  // Add this new helper function
+  const getCategoryForQuestionIndex = (questionIndex) => {
+    const question = questions[questionIndex];
+    const category = referenceQuestionsData.find((cat) =>
+      cat.questions.includes(question)
+    );
+    return category ? category.category : null;
+  };
+
+  // Add this helper function to determine if a bullet is an assessment
+  const isAssessmentBullet = (index) => {
+    const category = getCategoryForQuestionIndex(index);
+    const prevCategory = index > 0 ? getCategoryForQuestionIndex(index - 1) : null;
+    
+    return category !== prevCategory && 
+           CATEGORY_TO_RATE.includes(prevCategory) && 
+           index > 0;
+  };
+
+  // Add this helper function to calculate total questions including assessments
+  const getTotalCount = () => {
+    let count = 0;
+    let prevCategory = null;
+    
+    questions.forEach((_, index) => {
+      const currentCategory = getCategoryForQuestionIndex(index);
+      if (currentCategory !== prevCategory && 
+          CATEGORY_TO_RATE.includes(prevCategory) && 
+          index > 0) {
+        count++; // Count assessment
+      }
+      count++; // Count question
+      prevCategory = currentCategory;
+    });
+    
+    return count;
+  };
+
   // Fetch normalized answer from API
   const handleNormalizedAnswers = async (answer) => {
     try {
@@ -699,6 +737,33 @@ const ReferenceCheckQuestionnairePage = () => {
           />
         )}
       </>
+
+      <div className="category-progress-container">
+        <div className="bullet-progress">
+          <div className="total-count">
+            {currentQuestionIndex + 1}/{getTotalCount()}
+          </div>
+          {questions.map((_, index) => {
+            const isCurrentQuestion = index === currentQuestionIndex;
+            const isCompleted = index < currentQuestionIndex;
+            const category = getCategoryForQuestionIndex(index);
+            const isAssessment = isAssessmentBullet(index);
+
+            return (
+              <div key={index} className="bullet-item">
+                <div 
+                  className={`bullet ${isCurrentQuestion ? 'active' : isCompleted ? 'completed' : ''} ${isAssessment ? 'assessment' : ''}`}
+                >
+                  {/* {isAssessment ? 'A' : index + 1} */}
+                </div>
+                <div className="bullet-label">
+                  {isAssessment ? 'Assessment' : TRANSLATIONS[language].questionCategory[category]}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

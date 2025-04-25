@@ -79,9 +79,6 @@ const IdUploadSection = ({
     if (!fileName) return "";
     if (typeof fileName === "string" && fileName.startsWith("data:")) {
       return "captured_image.jpg";
-    if (!fileName) return "";
-    if (typeof fileName === "string" && fileName.startsWith("data:")) {
-      return "captured_image.jpg";
     }
     if (fileName.length > 12) {
       const extension = fileName.split(".").pop();

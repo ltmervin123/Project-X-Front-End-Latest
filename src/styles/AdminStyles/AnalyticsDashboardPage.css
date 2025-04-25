@@ -441,10 +441,15 @@
 }
 .company-table-container td,
 .company-table-container th{
-
   font-weight: bold;
   padding: 15px;
   word-wrap: break-word;
+}
+.company-table-container td:nth-child(4),
+.company-table-container th:nth-child(4),
+.company-table-container td:nth-child(5),
+.company-table-container th:nth-child(5){
+  text-align: center;
 }
 .company-table-container table{
   width: 100%;

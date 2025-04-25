@@ -564,7 +564,6 @@ const AnalyticsDashboard = () => {
                       <th
                         key={key}
                         onClick={() => sortData(key)}
-                        className="sortable"
                         style={{ cursor: "pointer" }}
                       >
                         {label}
