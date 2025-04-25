@@ -14,15 +14,15 @@ export const getDashboardStat = async () => {
   return response.data.dashboardStat;
 };
 
-export const getWeeklyActivityAndMonthlyNewUsersStats = async () => {
+export const getUserStatistic = async () => {
   const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
-  const URL = `${API}/api/admin/dashboard-weekly-activity`;
+  const URL = `${API}/api/admin/dashboard-user-statistics`;
   const response = await axios.get(URL, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data.weeklyStat;
+  return response.data.userStatistics;
 };
