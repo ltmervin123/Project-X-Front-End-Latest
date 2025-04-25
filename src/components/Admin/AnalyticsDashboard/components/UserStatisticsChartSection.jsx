@@ -227,7 +227,8 @@ const UserStatisticsChartSection = ({
       datasets: [
         {
           data: companyTier.data,
-          backgroundColor: ["#f46a05", "#1706ac", "#1877f2"],
+          backgroundColor:
+            userStatistics?.companyTierDistribution?.colors || [],
           borderWidth: 0,
         },
       ],
