@@ -7,16 +7,11 @@ import { useQuery } from "@tanstack/react-query";
 const UserStatisticsChartSection = ({
   isLineChartVisible,
   isBarChartVisible,
-  calculateLabelPosition,
 }) => {
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
   const chartRef = useRef(null);
 
-  const {
-    data: userStatistics,
-    isLoading: isLoadingAnalyticsData,
-    isError: isErrorAnalyticsData,
-  } = useQuery({
+  const { data: userStatistics, a } = useQuery({
     queryKey: ["adminDashboardUserStatistics"],
     queryFn: getUserStatistic,
     staleTime: 1000 * 60 * 1,
@@ -49,7 +44,7 @@ const UserStatisticsChartSection = ({
 
     // Dynamic label distance calculation
     const radius = Math.min(chartSize.width, chartSize.height) / 2;
-    const labelDistanceRatio = 1.2; // 80% of radius - adjust this value to move labels closer or further
+    const labelDistanceRatio = 1.2;
     const labelDistance = radius * labelDistanceRatio;
 
     const x = Math.cos(midAngle) * labelDistance;
@@ -62,7 +57,7 @@ const UserStatisticsChartSection = ({
       position: "absolute",
       textAlign: "center",
       width: "120px",
-      fontSize: `${Math.max(radius * 0.04, 12)}px`, // Dynamic font size with minimum of 12px
+      fontSize: `${Math.max(radius * 0.04, 12)}px`,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -134,7 +129,6 @@ const UserStatisticsChartSection = ({
           </tr>
         `;
       } else {
-        // For single bar/line/pie chart
         const value =
           tooltipModel.dataPoints[0]?.parsed?.y ??
           tooltipModel.dataPoints[0]?.parsed;
@@ -268,7 +262,6 @@ const UserStatisticsChartSection = ({
             <b className="chart-title mb-0">Active & Inactive Users</b>
             <p className="chart-subtitle mb-0">
               Active and inactive users over time for all companies
-
             </p>
           </div>
           <div className="active-inactive-user-chart">
