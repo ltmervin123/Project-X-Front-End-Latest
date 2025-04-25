@@ -50,14 +50,13 @@
   }
   
   .error-section button {
-    padding: 10px 20px; /* Padding for the button */
+    padding: 5px 20px; /* Padding for the button */
     font-size: 1rem; /* Font size for the button */
     border: none; /* Remove border */
     border-radius: 50px; /* Rounded corners */
     background-color: var(--secondary-color); /* Button background color */
     color: white; /* Button text color */
     cursor: pointer; /* Pointer on hover */
-    height: 40px;
     transition: background-color 0.3s; /* Smooth transition */
   }
   
