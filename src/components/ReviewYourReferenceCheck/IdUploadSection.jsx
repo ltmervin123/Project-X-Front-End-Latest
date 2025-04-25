@@ -77,17 +77,18 @@ const IdUploadSection = ({
 
   const shortenFileName = (fileName) => {
     if (!fileName) return "";
+
     if (typeof fileName === "string" && fileName.startsWith("data:")) {
-      return "captured_image.jpg";
-    if (!fileName) return "";
-    if (typeof fileName === "string" && fileName.startsWith("data:")) {
-      return "captured_image.jpg";
+      if (!fileName) return "";
+      if (typeof fileName === "string" && fileName.startsWith("data:")) {
+        return "captured_image.jpg";
+      }
+      if (fileName.length > 12) {
+        const extension = fileName.split(".").pop();
+        return `${fileName.substring(0, 8)}....${extension}`;
+      }
+      return fileName;
     }
-    if (fileName.length > 12) {
-      const extension = fileName.split(".").pop();
-      return `${fileName.substring(0, 8)}....${extension}`;
-    }
-    return fileName;
   };
 
   // Function to trigger the file input click
@@ -195,9 +196,7 @@ const IdUploadSection = ({
           <div className="upload-id-container">
             <div className="d-flex gap-4">
               <div className="front-id-container mb-3 w-100 ">
-                <p>
-                  {translations[language].frontIdPage}
-                </p>
+                <p>{translations[language].frontIdPage}</p>
 
                 <div className="d-flex justify-content-between w-100">
                   {frontIdFile ? (
@@ -296,9 +295,11 @@ const IdUploadSection = ({
           </div>
 
           <div className="camera-verification-option-container mb-3">
-          <p className="mb-3 d-flex gap-2 align-items-center">
-                  {" "}
-                  <div className="label-number">2</div>{translations[language].cameraVerification}</p>
+            <p className="mb-3 d-flex gap-2 align-items-center">
+              {" "}
+              <div className="label-number">2</div>
+              {translations[language].cameraVerification}
+            </p>
             <div className="row d-flex align-items-center">
               <div className="col-md-5 text-center">
                 <div className="take-a-photo-container">
