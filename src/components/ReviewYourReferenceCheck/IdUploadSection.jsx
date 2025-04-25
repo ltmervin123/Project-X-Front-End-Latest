@@ -79,6 +79,9 @@ const IdUploadSection = ({
     if (!fileName) return "";
     if (typeof fileName === "string" && fileName.startsWith("data:")) {
       return "captured_image.jpg";
+    if (!fileName) return "";
+    if (typeof fileName === "string" && fileName.startsWith("data:")) {
+      return "captured_image.jpg";
     }
     if (fileName.length > 12) {
       const extension = fileName.split(".").pop();
@@ -104,6 +107,7 @@ const IdUploadSection = ({
     setCapturedImage(null);
     setUploadedImage(null);
     setSelectedOption(null);
+    setSelfie(null);
   };
 
   // Handle change in the preferred ID dropdown
@@ -120,13 +124,11 @@ const IdUploadSection = ({
   };
 
   const handleSubmit = () => {
-    // Revise ang save condition ani
-    navigate("/reference-completed");
+    submitIdUpload();
   };
 
   const handleCaptureComplete = (image) => {
     setCapturedImage(image);
-    setShowCameraPopup(false);
     setSelectedOption("camera");
   };
 
@@ -438,7 +440,14 @@ const IdUploadSection = ({
               onClick={handleSubmit}
               disabled={submitting || hasNoId() || hasNoVerification()}
             >
-              {translations[language].submit}
+              {submitting ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                ></div>
+              ) : (
+                translations[language].submit
+              )}
             </button>
           </div>
         </div>
@@ -448,7 +457,8 @@ const IdUploadSection = ({
         isOpen={showCameraPopup}
         onClose={() => setShowCameraPopup(false)}
         setSelfie={setSelfie}
-        submitIdUpload={(image) => handleCaptureComplete(image)}
+        handleImageCapture={(image) => handleCaptureComplete(image)}
+        submitIdUpload={submitIdUpload}
         submitting={submitting}
       />
 
