@@ -14,7 +14,7 @@ export const getDashboardStat = async () => {
   return response.data.dashboardStat;
 };
 
-export const getWeeklyActivityAndMonthlyNewUsersStats = async () => {
+export const getUserStatistic = async () => {
   const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
   const URL = `${API}/api/admin/dashboard-weekly-activity`;
@@ -24,5 +24,5 @@ export const getWeeklyActivityAndMonthlyNewUsersStats = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data.weeklyStat;
+  return response.data.userStatistics;
 };
