@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 
-const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
+const SystemUsageChartSection = ({ isVisible }) => {
   const [selectedPeriod, setSelectedPeriod] = useState("Daily");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -20,36 +20,25 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
   };
 
   const getCompanyData = () => {
-    if (selectedCompany === "All Company") {
-      return {
-        usageData: [30, 25, 45, 80, 75, 65, 35],
-        referenceChecks: [1234, 1100, 8500, 32000, 122000],
-        averageUsage: [
-          { average: "22.1 checks", peakTime: "December" },
-          { average: "18.5 checks", peakTime: "January" },
-          { average: "20.3 checks", peakTime: "February" },
-          { average: "25.0 checks", peakTime: "March" }
-        ]
-      };
-    }
-
-    const companySpecificData = {
-      "HR-HΛTCH": {
-        usageData: [25, 30, 40, 70, 65, 55, 30],
-        referenceChecks: [1000, 900, 7000, 28000, 100000],
-        averageUsage: [
-          { average: "20.1 checks", peakTime: "December" },
-          { average: "17.5 checks", peakTime: "January" },
-          { average: "19.3 checks", peakTime: "February" }
-        ]
-      },
-      // Add similar data for other companies...
+    return {
+      usageData: [30, 25, 45, 80, 75, 65, 35],
+      referenceChecks: [1234, 1100, 8500, 32000, 122000],
+      averageUsage: [
+        { average: "22.1 checks", peakTime: "December" },
+        { average: "18.5 checks", peakTime: "January" },
+        { average: "20.3 checks", peakTime: "February" }
+      ]
     };
-
-    return companySpecificData[selectedCompany] || companySpecificData["HR-HΛTCH"];
   };
 
   const companyData = getCompanyData();
+
+  const totalReferenceChecksData = companyData.referenceChecks.map((value, index) => ({
+    period: ["Today", "Yesterday", "Last 7 Days", "Last 30 Days", "Last 90 Days"][index],
+    value
+  }));
+
+  const averageUsageData = companyData.averageUsage;
 
   const systemUsageData = {
     labels: getLabels(),
@@ -146,13 +135,6 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
     },
   };
 
-  const totalReferenceChecksData = companyData.referenceChecks.map((value, index) => ({
-    period: ["Today", "Yesterday", "Last 7 Days", "Last 30 Days", "Last 90 Days"][index],
-    value
-  }));
-
-  const averageUsageData = companyData.averageUsage;
-
   return (
     <Row>
       <Col md="6">
@@ -166,7 +148,7 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
               <div>
                 <b className="chart-title mb-0">Usage Trends</b>
                 <p className="chart-subtitle mb-0">
-                  Reference checks processed over time for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
+                  Reference checks processed over time for all companies
                 </p>
               </div>
               <div className="custom-dropdown">
@@ -218,7 +200,7 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
             <div>
             <b className="chart-title mb-0">Total Reference Checks</b>
             <p className="chart-subtitle mb-0">
-              Processed in current period for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
+              Processed in current period for all companies
             </p>
             </div>
             <div className="total-reference-check-count">
@@ -246,7 +228,7 @@ const SystemUsageChartSection = ({ isVisible, selectedCompany, companies }) => {
           <div className="chart-content">
             <b className="chart-title mb-0">Average Usage per User</b>
             <p className="chart-subtitle mb-0">
-              Reference checks per user for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
+              Reference checks per user for all companies
             </p>
           </div>
           <div className="total-reference-check-data mt-4">

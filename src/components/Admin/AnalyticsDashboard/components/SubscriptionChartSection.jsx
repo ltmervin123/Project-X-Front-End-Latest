@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
-const SubscriptionChartSection = ({ isVisible, selectedCompany, companies }) => {
+const SubscriptionChartSection = ({ isVisible }) => {
   const createCustomTooltip = (isRevenue = false) => ({
     enabled: false,
     external: function (context) {
@@ -60,33 +60,11 @@ const SubscriptionChartSection = ({ isVisible, selectedCompany, companies }) => 
   });
 
   const getCompanyData = () => {
-    if (selectedCompany === "All Company") {
-      return {
-        subscriptionTiers: [30, 45, 20, 5],
-        revenue: [300, 4500, 8000, 2500],
-        conversions: [20, 20, 20],
-      };
-    }
-
-    const companySpecificData = {
-      "HR-HΛTCH": {
-        subscriptionTiers: [35, 40, 15, 10],
-        revenue: [350, 4000, 6000, 3000],
-        conversions: [25, 15, 18],
-      },
-      TechCorp: {
-        subscriptionTiers: [25, 50, 20, 5],
-        revenue: [250, 5000, 8000, 2000],
-        conversions: [22, 18, 15],
-      },
-      GlobalHR: {
-        subscriptionTiers: [30, 45, 25, 0],
-        revenue: [300, 4500, 10000, 0],
-        conversions: [18, 25, 22],
-      },
+    return {
+      subscriptionTiers: [30, 45, 20, 5],
+      revenue: [300, 4500, 8000, 2500],
+      conversions: [20, 20, 20],
     };
-
-    return companySpecificData[selectedCompany] || companySpecificData["HR-HΛTCH"];
   };
 
   const companyData = getCompanyData();
@@ -187,7 +165,7 @@ const SubscriptionChartSection = ({ isVisible, selectedCompany, companies }) => 
             <div className="chart-content">
               <b className="chart-title mb-0">Users per Subscription Tier</b>
               <p className="chart-subtitle mb-0">
-                Distribution across subscription plans for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
+                Distribution across subscription plans for all companies
               </p>
             </div>
             <div className="subscription-user-chart">
@@ -204,7 +182,7 @@ const SubscriptionChartSection = ({ isVisible, selectedCompany, companies }) => 
             <div className="chart-content">
               <b className="chart-title mb-0">Revenue by Subscription Tier</b>
               <p className="chart-subtitle mb-0">
-                Monthly revenue by subscription tier for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
+                Monthly revenue by subscription tier for all companies
               </p>
             </div>
             <div className="subscription-user-chart">
@@ -223,7 +201,7 @@ const SubscriptionChartSection = ({ isVisible, selectedCompany, companies }) => 
             <div className="chart-content">
               <b className="chart-title mb-0">Subscription Analytics</b>
               <p className="chart-subtitle mb-0">
-                Detailed breakdown of subscription data for {selectedCompany === "All Company" ? "all companies" : <span className="color-orange">{selectedCompany}</span>}
+                Detailed breakdown of subscription data for all companies
               </p>
             </div>
             <div className="subscription-analytics">

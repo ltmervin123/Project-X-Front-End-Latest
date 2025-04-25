@@ -432,6 +432,46 @@
   height: 75%;
   overflow-y: auto;
 }
+
+.company-table-container{
+  border-radius: 15px;
+}
+.company-table-container th{
+  color: var(--card-color);
+}
+.company-table-container td,
+.company-table-container th{
+
+  font-weight: bold;
+  padding: 15px;
+  word-wrap: break-word;
+}
+.company-table-container table{
+  width: 100%;
+    height: 80%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+.company-prev-next-btn-control button {
+  border: none;
+  background: none;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.company-prev-next-btn-control button svg path {
+  fill: var(--primary-color) !important;
+}
+
+.company-prev-next-btn-control span {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.company-prev-next-btn-control button:disabled svg path {
+  fill: var(--card-color) !important;
+}
+
 /* Customizing the scrollbar */
 .peak-hours-chart-container .total-reference-check-data::-webkit-scrollbar {
   width: 6px; /* Scrollbar width */

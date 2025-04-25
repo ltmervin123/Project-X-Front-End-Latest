@@ -1,9 +1,8 @@
-import { color } from "highcharts";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 
-const PeakHoursChartSection = ({ isVisible, selectedCompany }) => {
+const PeakHoursChartSection = ({ isVisible }) => {
   const peakHoursData = {
     labels: ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"],
     datasets: [
@@ -117,7 +116,7 @@ const PeakHoursChartSection = ({ isVisible, selectedCompany }) => {
     {
       name: "John Doe",
       email: "john@example.com",
-      plan: "Regular",
+      plan: "Basic",
       checks: 250,
       avatar: "JD",
     },
@@ -152,12 +151,6 @@ const PeakHoursChartSection = ({ isVisible, selectedCompany }) => {
           borderColor: "#F8BD00",
           color: "#F8BD00",
         };
-      case "Regular":
-        return {
-          backgroundColor: "rgba(244, 106, 5, 0.3)",
-          borderColor: "#F46A05",
-          color: "#F46A05",
-        };
       case "Premium":
         return {
           backgroundColor: "rgba(49, 159, 67, 0.3)",
@@ -185,14 +178,7 @@ const PeakHoursChartSection = ({ isVisible, selectedCompany }) => {
         >
           <div className="chart-content">
             <b className="chart-title mb-0">Peak Hours</b>
-            <p className="chart-subtitle mb-0">
-              Busiest times by hour of day for{" "}
-              {selectedCompany === "All Company" ? (
-                "all companies"
-              ) : (
-                <span className="color-orange">{selectedCompany}</span>
-              )}
-            </p>
+            <p className="chart-subtitle mb-0">Busiest times by hour of day</p>
           </div>
           <div className="peak-hours-user-chart">
             <Line data={peakHoursData} options={options} />
@@ -212,12 +198,7 @@ const PeakHoursChartSection = ({ isVisible, selectedCompany }) => {
           <div className="chart-content">
             <b className="chart-title mb-0">Top Active Users</b>
             <p className="chart-subtitle mb-0">
-              Most active users on the platform for{" "}
-              {selectedCompany === "All Company" ? (
-                "all companies"
-              ) : (
-                <span className="color-orange">{selectedCompany}</span>
-              )}
+              Most active users on the platform for all companies
             </p>
           </div>
           <div className="total-reference-check-data mt-3">

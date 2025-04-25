@@ -7,8 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 const UserStatisticsChartSection = ({
   isLineChartVisible,
   isBarChartVisible,
-  selectedCompany,
-  companies,
   calculateLabelPosition,
 }) => {
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
@@ -154,47 +152,14 @@ const UserStatisticsChartSection = ({
   });
 
   const getCompanyData = () => {
-    if (selectedCompany === "All Company") {
-      return {
-        activeInactive: {
-          active: [8, 12, 15, 10, 9, 5, 3],
-          inactive: [4, 6, 8, 5, 7, 10, 12],
-        },
-        monthlyNewUsers: weeklyStat?.monthlyCreatedCompanies?.count || [0],
-        userRoles: [40, 60],
-      };
-    }
-
-    const companySpecificData = {
-      "HR-HΛTCH": {
-        activeInactive: {
-          active: [6, 10, 12, 8, 7, 4, 2],
-          inactive: [3, 5, 6, 4, 5, 8, 10],
-        },
-        monthlyNewUsers: [45, 38, 50, 42, 55, 40, 48],
-        userRoles: [35, 65],
+    return {
+      activeInactive: {
+        active: weeklyStat?.dailyActiveAndInactiveCompanies?.active || [0],
+        inactive: weeklyStat?.dailyActiveAndInactiveCompanies?.inactive || [0],
       },
-      TechCorp: {
-        activeInactive: {
-          active: [10, 15, 18, 12, 11, 6, 4],
-          inactive: [5, 7, 9, 6, 8, 12, 14],
-        },
-        monthlyNewUsers: [60, 45, 65, 55, 70, 52, 58],
-        userRoles: [45, 55],
-      },
-      GlobalHR: {
-        activeInactive: {
-          active: [7, 11, 14, 9, 8, 5, 3],
-          inactive: [4, 6, 7, 5, 6, 9, 11],
-        },
-        monthlyNewUsers: [50, 40, 55, 45, 58, 44, 52],
-        userRoles: [38, 62],
-      },
+      monthlyNewUsers: weeklyStat?.monthlyCreatedCompanies?.count || [0],
+      userRoles: [40, 30, 20, 10], // Updated percentages for Free, Basic, Premium, Enterprise
     };
-
-    return (
-      companySpecificData[selectedCompany] || companySpecificData["HR-HΛTCH"]
-    );
   };
 
   const companyData = getCompanyData();
@@ -266,13 +231,13 @@ const UserStatisticsChartSection = ({
   };
 
   const getUserRolesData = () => {
-    const [premium, regular] = companyData.userRoles;
+    const [free, basic, premium, enterprise] = companyData.userRoles;
     return {
-      labels: ["Premium", "Regular"],
+      labels: ["Free", "Basic", "Premium", "Enterprise"],
       datasets: [
         {
-          data: [premium, regular],
-          backgroundColor: ["#f46a05", "#1706ac"],
+          data: [free, basic, premium, enterprise],
+          backgroundColor: ["#1706ac", "#F8BD00", "#319F43", "#1877F2"],
           borderWidth: 0,
         },
       ],
@@ -311,12 +276,8 @@ const UserStatisticsChartSection = ({
           <div className="chart-content">
             <b className="chart-title mb-0">Active & Inactive Users</b>
             <p className="chart-subtitle mb-0">
-              Active and inactive users over time for{" "}
-              {selectedCompany === "All Company" ? (
-                "all companies"
-              ) : (
-                <span className="color-orange">{selectedCompany}</span>
-              )}
+              Active and inactive users over time for all companies
+
             </p>
           </div>
           <div className="active-inactive-user-chart">
@@ -331,12 +292,7 @@ const UserStatisticsChartSection = ({
           <div className="chart-content">
             <b className="chart-title mb-0">Monthly New Users</b>
             <p className="chart-subtitle mb-0">
-              New user registrations for{" "}
-              {selectedCompany === "All Company" ? (
-                "all companies"
-              ) : (
-                <span className="color-orange">{selectedCompany}</span>
-              )}
+              New user registrations for all companies
             </p>
           </div>
           <div className="monthly-users-chart">
@@ -353,12 +309,7 @@ const UserStatisticsChartSection = ({
           <div className="chart-content">
             <b className="chart-title mb-0">Users by Role</b>
             <p className="chart-subtitle mb-0">
-              Distribution of users by role type for{" "}
-              {selectedCompany === "All Company" ? (
-                "all companies"
-              ) : (
-                <span className="color-orange">{selectedCompany}</span>
-              )}
+              Distribution of users by role type for all companies
             </p>
           </div>
           <div
