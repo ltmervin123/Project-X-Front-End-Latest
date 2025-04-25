@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Bar, Pie } from "react-chartjs-2";
-import { getWeeklyActivityAndMonthlyNewUsersStats } from "../../../../api/ai-reference/admin/admin-api";
+import { getUserStatistic } from "../../../../api/ai-reference/admin/admin-api";
 import { useQuery } from "@tanstack/react-query";
 
 const UserStatisticsChartSection = ({
@@ -13,12 +13,12 @@ const UserStatisticsChartSection = ({
   const chartRef = useRef(null);
 
   const {
-    data: weeklyStat,
+    data: userStatistics,
     isLoading: isLoadingAnalyticsData,
     isError: isErrorAnalyticsData,
   } = useQuery({
-    queryKey: ["adminDashboardWeeklyActivity"],
-    queryFn: getWeeklyActivityAndMonthlyNewUsersStats,
+    queryKey: ["adminDashboardUserStatistics"],
+    queryFn: getUserStatistic,
     staleTime: 1000 * 60 * 1,
   });
 
@@ -39,7 +39,7 @@ const UserStatisticsChartSection = ({
     const startAngle = -Math.PI / 1;
     let cumulativePercentage = 0;
     for (let i = 0; i < index; i++) {
-      cumulativePercentage += getUserRolesData().datasets[0].data[i];
+      cumulativePercentage += companyTierData().datasets[0].data[i];
     }
 
     const currentAngle =
@@ -151,46 +151,33 @@ const UserStatisticsChartSection = ({
     },
   });
 
-  const getCompanyData = () => {
-    return {
-      activeInactive: {
-        active: weeklyStat?.dailyActiveAndInactiveCompanies?.active || [0],
-        inactive: weeklyStat?.dailyActiveAndInactiveCompanies?.inactive || [0],
-      },
-      monthlyNewUsers: weeklyStat?.monthlyCreatedCompanies?.count || [0],
-      userRoles: [40, 30, 20, 10], // Updated percentages for Free, Basic, Premium, Enterprise
-    };
-  };
-
-  const companyData = getCompanyData();
-
-  const doubleBarData = {
-    labels: weeklyStat?.dailyActiveAndInactiveCompanies?.days || [""],
+  const userWeeklyStatData = {
+    labels: userStatistics?.dailyActiveAndInactiveCompanies?.days || [""],
     datasets: [
       {
         label: "Active Users",
-        data: weeklyStat?.dailyActiveAndInactiveCompanies?.active || [0],
+        data: userStatistics?.dailyActiveAndInactiveCompanies?.active || [0],
         backgroundColor: "#f46a05",
         borderRadius: 4,
       },
       {
         label: "Inactive Users",
-        data: weeklyStat?.dailyActiveAndInactiveCompanies?.inactive || [0],
+        data: userStatistics?.dailyActiveAndInactiveCompanies?.inactive || [0],
         backgroundColor: "#1706ac",
         borderRadius: 4,
       },
     ],
   };
 
-  const barData = {
-    labels: weeklyStat?.monthlyCreatedCompanies?.month || [""],
+  const monthlyNewUserData = {
+    labels: userStatistics?.monthlyCreatedCompanies?.month || [""],
     datasets: [
       {
         label: "New Users",
         backgroundColor: "#1706ac",
         borderColor: "transparent",
         borderWidth: 2,
-        data: weeklyStat?.monthlyCreatedCompanies?.count || [0],
+        data: userStatistics?.monthlyCreatedCompanies?.count || [0],
         borderRadius: 10,
       },
     ],
@@ -230,14 +217,17 @@ const UserStatisticsChartSection = ({
     },
   };
 
-  const getUserRolesData = () => {
-    const [free, basic, premium, enterprise] = companyData.userRoles;
+  const companyTierData = () => {
+    const companyTier = {
+      labels: userStatistics?.companyTierDistribution?.companyTier || [],
+      data: userStatistics?.companyTierDistribution?.percentage || [],
+    };
     return {
-      labels: ["Free", "Basic", "Premium", "Enterprise"],
+      labels: companyTier.labels,
       datasets: [
         {
-          data: [free, basic, premium, enterprise],
-          backgroundColor: ["#1706ac", "#F8BD00", "#319F43", "#1877F2"],
+          data: companyTier.data,
+          backgroundColor: ["#f46a05", "#1706ac", "#1877f2"],
           borderWidth: 0,
         },
       ],
@@ -281,7 +271,7 @@ const UserStatisticsChartSection = ({
             </p>
           </div>
           <div className="active-inactive-user-chart">
-            <Bar data={doubleBarData} options={doubleBarOptions} />
+            <Bar data={userWeeklyStatData} options={doubleBarOptions} />
           </div>
         </div>
         <div
@@ -296,7 +286,7 @@ const UserStatisticsChartSection = ({
             </p>
           </div>
           <div className="monthly-users-chart">
-            <Bar data={barData} options={barOptions} />
+            <Bar data={monthlyNewUserData} options={barOptions} />
           </div>
         </div>
       </Col>
@@ -327,15 +317,15 @@ const UserStatisticsChartSection = ({
                 left: 0,
               }}
             >
-              {getUserRolesData().datasets[0].data.map((value, index) => {
-                const total = getUserRolesData().datasets[0].data.reduce(
+              {companyTierData().datasets[0].data.map((value, index) => {
+                const total = companyTierData().datasets[0].data.reduce(
                   (a, b) => a + b,
                   0
                 );
                 const percentage = ((value / total) * 100).toFixed(0);
-                const label = getUserRolesData().labels[index];
+                const label = companyTierData().labels[index];
                 const color =
-                  getUserRolesData().datasets[0].backgroundColor[index];
+                  companyTierData().datasets[0].backgroundColor[index];
                 const position = calculateAutoLabelPosition(
                   Number(percentage),
                   index,
@@ -353,7 +343,7 @@ const UserStatisticsChartSection = ({
                   </div>
                 );
               })}
-              <Pie data={getUserRolesData()} options={circleChartOptions} />
+              <Pie data={companyTierData()} options={circleChartOptions} />
             </div>
           </div>
         </div>
