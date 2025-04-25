@@ -72,7 +72,7 @@ const DashboardController = ({
             <div className="search-wrapper position-relative ">
               <input
                 type="text"
-                placeholder="Search companies..."
+                placeholder="Search company"
                 className="form-control ps-4 pe-5"
                 value={searchQuery}
                 onClick={() => setShowTable(true)}
