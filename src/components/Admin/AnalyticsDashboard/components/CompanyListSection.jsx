@@ -1,127 +1,44 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import * as AdminAPI from "../../../../api/ai-reference/admin/admin-api";
 
 const CompanyListSection = ({ searchQuery }) => {
-  const [sortConfig, setSortConfig] = useState({
-    key: "name",
-    direction: "asc",
-  });
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
-  const companies = [
-    {
-      name: "John Smith",
-      email: "john.smith@hrhatch.com",
-      company: "HR-HΛTCH",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1250,
-    },
-    {
-      name: "Sarah Johnson",
-      email: "sarah.j@techcorp.com",
-      company: "TechCorp",
-      status: "Inactive",
-      lastLogin: "2024-01-14",
-      checks: 980,
-    },
-    {
-      name: "Michael Chen",
-      email: "m.chen@globalhr.com",
-      company: "GlobalHR",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1500,
-    },
-    {
-      name: "Emma Davis",
-      email: "emma.d@innovatech.com",
-      company: "InnovaTech",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 2100,
-    },
-    {
-      name: "Alex Wong",
-      email: "alex.w@nexushr.com",
-      company: "NexusHR",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1750,
-    },
-    {
-      name: "Maria Garcia",
-      email: "maria.g@talentpro.com",
-      company: "TalentPro",
-      status: "Inactive",
-      lastLogin: "2024-01-13",
-      checks: 850,
-    },
-    {
-      name: "David Kim",
-      email: "david.k@hrmaster.com",
-      company: "HR Master",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1620,
-    },
-    {
-      name: "Lisa Thompson",
-      email: "lisa.t@peoplefirst.com",
-      company: "People First",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1890,
-    },
-    {
-      name: "James Wilson",
-      email: "james.w@workday.com",
-      company: "WorkDay Solutions",
-      status: "Inactive",
-      lastLogin: "2024-01-12",
-      checks: 720,
-    },
-    {
-      name: "Sophie Martin",
-      email: "sophie.m@talentwise.com",
-      company: "TalentWise",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1380,
-    },
-  ];
-  const filteredCompanies = companies.filter((company) =>
-    company.company.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  // Get paginated data
-  const getPaginatedData = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredCompanies.slice(startIndex, endIndex);
-  };
+  const itemsPerPage = 10;
 
-  const totalPages = Math.ceil(filteredCompanies.length / itemsPerPage);
+  const { data: result } = useQuery({
+    queryKey: ["adminDashboardCompanyList"],
+    queryFn: AdminAPI.getCompanies,
+    staleTime: 1000 * 60 * 1,
+  });
+
+  const companies = useMemo(() => {
+    return result || [];
+  }, [result]);
+
+  const filteredCompanies = useMemo(() => {
+    if (!companies) return [];
+
+    return companies.filter((company) =>
+      company.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [result, searchQuery]);
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    setCurrentPage((prev) =>
+      Math.min(prev + 1, Math.ceil(filteredCompanies.length / itemsPerPage))
+    );
   };
-  // Add sort function
-  const sortData = (key) => {
-    const direction =
-      sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    setSortConfig({ key, direction });
 
-    const sortedData = [...filteredCompanies].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
+  const paginatedCompanies = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredCompanies.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredCompanies, currentPage]);
 
-    return sortedData;
-  };
   return (
     <div className="company-table-container bg-white shadow p-3 mb-4">
       <table className=" mb-0">
@@ -134,33 +51,36 @@ const CompanyListSection = ({ searchQuery }) => {
               { key: "status", label: "Status" },
               { key: "lastLogin", label: "Last Login" },
             ].map(({ key, label }) => (
-              <th
-                key={key}
-                onClick={() => sortData(key)}
-                className="sortable"
-                style={{ cursor: "pointer" }}
-              >
+              <th key={key} className="sortable" style={{ cursor: "pointer" }}>
                 {label}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {getPaginatedData().map((company, index) => (
-            <tr key={index}>
-              <td>{company.name}</td>
-              <td>{company.email}</td>
-              <td>{company.company}</td>
-              <td
-                style={{
-                  color: company.status === "Active" ? "#319F43" : "#FF0000",
-                }}
-              >
-                {company.status}
+          {paginatedCompanies.length !== 0 ? (
+            paginatedCompanies.map((company, index) => (
+              <tr key={index}>
+                <td>{company.personInCharge}</td>
+                <td>{company.email}</td>
+                <td>{company.name}</td>
+                <td
+                  style={{
+                    color: company.isLogin === "Active" ? "#319F43" : "#FF0000",
+                  }}
+                >
+                  {company.isLogin}
+                </td>
+                <td>{company.lastLoginAt}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} className="text-center">
+                No data available
               </td>
-              <td>{company.lastLogin}</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       <div className="d-flex company-prev-next-btn-control justify-content-center align-items-center gap-3 mt-3">
@@ -181,7 +101,10 @@ const CompanyListSection = ({ searchQuery }) => {
           </svg>
         </button>
         <span>{currentPage}</span>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === Math.ceil(companies.length / itemsPerPage)}
+        >
           <svg
             width="8"
             height="13"
