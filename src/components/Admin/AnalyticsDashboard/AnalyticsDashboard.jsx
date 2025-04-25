@@ -1,33 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import UserStatisticsChartSection from "./components/UserStatisticsChartSection";
 import SystemUsageChartSection from "./components/SystemUsageChartSection";
 import SubscriptionChartSection from "./components/SubscriptionChartSection";
 import PeakHoursChartSection from "./components/PeakHoursChartSection";
-import * as AdminAPI from "../../../api/ai-reference/admin/admin-api";
-import { useQuery } from "@tanstack/react-query";
+import CompanyListSection from "./components/CompanyListSection";
+import DashboardController from "./components/DashboardController";
+import CardMetrics from "./components/CardMetrics";
 
 const AnalyticsDashboard = () => {
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [showTable, setShowTable] = useState(false);
-  const [sortConfig, setSortConfig] = useState({
-    key: "name",
-    direction: "asc",
-  });
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
-
-  const { data: analyticsData } = useQuery({
-    queryKey: ["adminDashboardStat"],
-    queryFn: AdminAPI.getDashboardStat,
-    staleTime: 1000 * 60 * 1,
-  });
-
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
     useState(false);
   const [isLineChartVisible, setIsLineChartVisible] = useState(false);
@@ -46,142 +30,6 @@ const AnalyticsDashboard = () => {
 
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
-
-  const cardData = [
-    {
-      title: "Total Users",
-      count: analyticsData?.totalCompany || 0,
-      color: "#f46a05",
-      path: "/AnalyticsDashboard",
-    },
-    {
-      title: "Active Users",
-      count: analyticsData?.activeCompany || 0,
-      color: "#F8BD00",
-      path: "/AnalyticsDashboard",
-    },
-    {
-      title: "Reference Checks",
-      count: analyticsData?.referenceCheck || 0,
-      color: "#319F43",
-      path: "/AnalyticsDashboard",
-    },
-    {
-      title: "Revenue",
-      count: `¥ ${
-        analyticsData?.totalRevenue ||
-        (0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      }`,
-      color: "#686868",
-      path: "/AnalyticsDashboard",
-    },
-  ];
-
-  const companies = [
-    {
-      name: "John Smith",
-      email: "john.smith@hrhatch.com",
-      company: "HR-HΛTCH",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1250,
-    },
-    {
-      name: "Sarah Johnson",
-      email: "sarah.j@techcorp.com",
-      company: "TechCorp",
-      status: "Inactive",
-      lastLogin: "2024-01-14",
-      checks: 980,
-    },
-    {
-      name: "Michael Chen",
-      email: "m.chen@globalhr.com",
-      company: "GlobalHR",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1500,
-    },
-    {
-      name: "Emma Davis",
-      email: "emma.d@innovatech.com",
-      company: "InnovaTech",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 2100,
-    },
-    {
-      name: "Alex Wong",
-      email: "alex.w@nexushr.com",
-      company: "NexusHR",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1750,
-    },
-    {
-      name: "Maria Garcia",
-      email: "maria.g@talentpro.com",
-      company: "TalentPro",
-      status: "Inactive",
-      lastLogin: "2024-01-13",
-      checks: 850,
-    },
-    {
-      name: "David Kim",
-      email: "david.k@hrmaster.com",
-      company: "HR Master",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1620,
-    },
-    {
-      name: "Lisa Thompson",
-      email: "lisa.t@peoplefirst.com",
-      company: "People First",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1890,
-    },
-    {
-      name: "James Wilson",
-      email: "james.w@workday.com",
-      company: "WorkDay Solutions",
-      status: "Inactive",
-      lastLogin: "2024-01-12",
-      checks: 720,
-    },
-    {
-      name: "Sophie Martin",
-      email: "sophie.m@talentwise.com",
-      company: "TalentWise",
-      status: "Active",
-      lastLogin: "2024-01-15",
-      checks: 1380,
-    },
-  ];
-
-  const filteredCompanies = companies.filter((company) =>
-    company.company.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Get paginated data
-  const getPaginatedData = () => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return filteredCompanies.slice(startIndex, endIndex);
-  };
-
-  // Calculate total pages
-  const totalPages = Math.ceil(filteredCompanies.length / itemsPerPage);
-
-  // Handle page changes
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
 
   const renderActiveSection = () => {
     if (showTable) {
@@ -207,21 +55,6 @@ const AnalyticsDashboard = () => {
     }
   };
 
-  // Add sort function
-  const sortData = (key) => {
-    const direction =
-      sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc";
-    setSortConfig({ key, direction });
-
-    const sortedData = [...filteredCompanies].sort((a, b) => {
-      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
-      return 0;
-    });
-
-    return sortedData;
-  };
-
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
@@ -230,203 +63,24 @@ const AnalyticsDashboard = () => {
       </div>
 
       <div>
-        <Row className="mb-3 AiReferenceCard-container">
-          {cardData.map((card, index) => (
-            <Col
-              key={index}
-              xs={12} // Full width on extra small devices
-              sm={6} // Half width on small devices
-              md={3} // Quarter width on medium and larger devices
-              className={`mb-2 fade-in ${
-                isAiReferenceCardVisible ? "visible" : ""
-              }`}
-            >
-              <div
-                className="AiReferenceCard"
-                onClick={() => navigate(card.path)}
-              >
-                <div className="h-100">
-                  <p className="d-flex title">
-                    <div
-                      style={{
-                        width: "20px",
-                        height: "20px",
-                        backgroundColor: card.color,
-                        marginRight: "10px",
-                      }}
-                    ></div>
-                    {card.title}
-                  </p>
-                  <p className="d-flex align-items-center justify-content-center count">
-                    {card.count}
-                  </p>
-                </div>
-              </div>
-            </Col>
-          ))}
-        </Row>
+        <CardMetrics isAiReferenceCardVisible={isAiReferenceCardVisible} />
       </div>
       <Row>
-        <Col xs={12} md={6}>
-          <div
-            className={`analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
-              isButtonControllerVisible ? "visible" : ""
-            }`}
-          >
-            <button
-              className={
-                activeTab === "userStatistics" && !showTable ? "active" : ""
-              }
-              onClick={() => {
-                setActiveTab("userStatistics");
-                setShowTable(false);
-              }}
-            >
-              User Statistics
-            </button>
-            <button
-              className={
-                activeTab === "systemUsage" && !showTable ? "active" : ""
-              }
-              onClick={() => {
-                setActiveTab("systemUsage");
-                setShowTable(false);
-              }}
-            >
-              System Usage
-            </button>
-            <button
-              className={
-                activeTab === "subscription" && !showTable ? "active" : ""
-              }
-              onClick={() => {
-                setActiveTab("subscription");
-                setShowTable(false);
-              }}
-            >
-              Subscription
-            </button>
-            <button
-              className={
-                activeTab === "peakHours" && !showTable ? "active" : ""
-              }
-              onClick={() => {
-                setActiveTab("peakHours");
-                setShowTable(false);
-              }}
-            >
-              Peak Hours
-            </button>
-          </div>
-        </Col>
-        <Col xs={12} md={6} className="d-flex align-items-center mb-2">
-          <div
-            className={`search-company d-flex  w-100 fade-in ${
-              isButtonControllerVisible ? "visible" : ""
-            }`}
-          >
-            <div className="d-flex align-items-center justify-content-end w-100">
-              <div className="search-wrapper position-relative ">
-                <input
-                  type="text"
-                  placeholder="Search companies..."
-                  className="form-control ps-4 pe-5"
-                  value={searchQuery}
-                  onClick={() => setShowTable(true)}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
-              </div>
-            </div>
-          </div>
-        </Col>
+        <DashboardController
+          isButtonControllerVisible={isButtonControllerVisible}
+          showTable={showTable}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          setShowTable={setShowTable}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
       </Row>
 
       {showTable ? (
         <Row>
           <Col xs={12}>
-            <div className="company-table-container bg-white shadow p-3 mb-4">
-              <table className=" mb-0">
-                <thead>
-                  <tr>
-                    {[
-                      { key: "name", label: "Name" },
-                      { key: "email", label: "Email" },
-                      { key: "company", label: "Company" },
-                      { key: "status", label: "Status" },
-                      { key: "lastLogin", label: "Last Login" },
-                    ].map(({ key, label }) => (
-                      <th
-                        key={key}
-                        onClick={() => sortData(key)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        {label}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {getPaginatedData().map((company, index) => (
-                    <tr key={index}>
-                      <td>{company.name}</td>
-                      <td>{company.email}</td>
-                      <td>{company.company}</td>
-                      <td
-                        style={{
-                          color:
-                            company.status === "Active" ? "#319F43" : "#FF0000",
-                        }}
-                      >
-                        {company.status}
-                      </td>
-                      <td>{company.lastLogin}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="d-flex company-prev-next-btn-control justify-content-center align-items-center gap-3 mt-3">
-                <button
-                  onClick={handlePreviousPage}
-                  disabled={currentPage === 1}
-                >
-                  <svg
-                    width="8"
-                    height="13"
-                    viewBox="0 0 8 13"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M0.371133 5.62144L6.08746 0.0244005L7.48647 1.45323L2.48456 6.35077L7.3821 11.3527L5.95327 12.7517L0.356225 7.03536C0.170741 6.84587 0.0681127 6.59047 0.0709085 6.32532C0.0737042 6.06017 0.181695 5.80698 0.371133 5.62144Z"
-                      fill="#F46A05"
-                    />
-                  </svg>
-                </button>
-                <span>{currentPage}</span>
-                <button
-                  onClick={handleNextPage}
-                  disabled={currentPage === totalPages}
-                >
-                  <svg
-                    width="8"
-                    height="13"
-                    viewBox="0 0 8 13"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M7.14131 7.071L1.48431 12.728L0.0703125 11.314L5.02031 6.364L0.0703125 1.414L1.48431 0L7.14131 5.657C7.32878 5.84453 7.4341 6.09884 7.4341 6.364C7.4341 6.62916 7.32878 6.88347 7.14131 7.071Z"
-                      fill="#F46A05"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+            <CompanyListSection searchQuery={searchQuery} />
           </Col>
         </Row>
       ) : (
