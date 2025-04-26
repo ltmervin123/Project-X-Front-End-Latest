@@ -10,6 +10,8 @@ const PeakHoursChartSection = ({ isVisible }) => {
     queryKey: ["adminDashboardPeakHourStat"],
     queryFn: getPeakHourStat,
     staleTime: 1000 * 60 * 1,
+    refetchInterval: 1000 * 60 * 1,
+    refetchIntervalInBackground: true,
   });
   const peakHourData = useMemo(() => {
     return {

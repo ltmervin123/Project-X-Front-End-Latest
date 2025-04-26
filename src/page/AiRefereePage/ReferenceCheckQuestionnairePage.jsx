@@ -76,6 +76,7 @@ const TRANSLATIONS = {
       "Questionnaire",
       "Reference Completed",
     ],
+    question: "Question",
   },
   Japanese: {
     referenceCheckQuestionnaire: "リファレンスチェック質問票",
@@ -97,6 +98,7 @@ const TRANSLATIONS = {
     goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
     reattemptingCamera: "カメラへのアクセスを再試行しています...",
     steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    question: "質問",
   },
 };
 
@@ -694,22 +696,22 @@ const ReferenceCheckQuestionnairePage = () => {
 
   // Add this helper function before the groupProgressItems function
   const getCategoryBulletLine = (groupItems) => {
-    if (groupItems.length === 0 || groupItems[0].type === 'assessment') {
+    if (groupItems.length === 0 || groupItems[0].type === "assessment") {
       return null;
     }
 
     return (
-      <div 
+      <div
         className="bullet-line-connector"
         style={{
-          position: 'absolute',
-          height: '1.5px',
-          backgroundColor: '#000000',
-          top: '29px',
-          left: '30px',
-          right: '30px',
-          transform: 'translateY(-50%)',
-          zIndex: 0
+          position: "absolute",
+          height: "1.5px",
+          backgroundColor: "#000000",
+          top: "29px",
+          left: "30px",
+          right: "30px",
+          transform: "translateY(-50%)",
+          zIndex: 0,
         }}
       />
     );
@@ -772,7 +774,7 @@ const ReferenceCheckQuestionnairePage = () => {
           >
             <div className="question-container">
               <h5 className="question-title w-100 d-flex justify-content-between">
-                {currentQuestionCategory}
+                {currentQuestionCategory || TRANSLATIONS[language].question}
 
                 <span>
                   {" "}
@@ -834,30 +836,58 @@ const ReferenceCheckQuestionnairePage = () => {
                 {/* {getCategoryBulletLine(group.items)} */}
                 {group.items.map((item, itemIndex) => {
                   const absoluteIndex = group.startIndex + itemIndex;
-                  const isCurrentItem = item.type === 'question' 
-                    ? item.index === currentQuestionIndex
-                    : hideQuestionSection && getQuestionCategory() === item.category;
-                  const isCompleted = item.type === 'question'
-                    ? item.index < currentQuestionIndex
-                    : getQuestionCategory() !== item.category && currentQuestionIndex > group.startIndex;
+                  const isCurrentItem =
+                    item.type === "question"
+                      ? item.index === currentQuestionIndex
+                      : hideQuestionSection &&
+                        getQuestionCategory() === item.category;
+                  const isCompleted =
+                    item.type === "question"
+                      ? item.index < currentQuestionIndex
+                      : getQuestionCategory() !== item.category &&
+                        currentQuestionIndex > group.startIndex;
                   const isFirstBullet = itemIndex === 0;
                   const isLastBullet = itemIndex === group.items.length - 1;
 
                   return (
                     <>
                       <div key={absoluteIndex} className="bullet-item">
-                        <div className={`${
-                          item.type === 'assessment' 
-                            ? `bullet-circle ${hideQuestionSection && isCurrentItem ? 'active' : isCompleted || (getQuestionCategory() !== item.category && referenceQuestionsData.find(c => c.category === item.category)?.assessmentRating) ? 'completed' : ''}`
-                            : `bullet ${!hideQuestionSection && isCurrentItem ? 'active' : isCompleted || isCategoryCompleted(item.category) ? 'completed' : ''}`
-                        }`} />
+                        <div
+                          className={`${
+                            item.type === "assessment"
+                              ? `bullet-circle ${
+                                  hideQuestionSection && isCurrentItem
+                                    ? "active"
+                                    : isCompleted ||
+                                      (getQuestionCategory() !==
+                                        item.category &&
+                                        referenceQuestionsData.find(
+                                          (c) => c.category === item.category
+                                        )?.assessmentRating)
+                                    ? "completed"
+                                    : ""
+                                }`
+                              : `bullet ${
+                                  !hideQuestionSection && isCurrentItem
+                                    ? "active"
+                                    : isCompleted ||
+                                      isCategoryCompleted(item.category)
+                                    ? "completed"
+                                    : ""
+                                }`
+                          }`}
+                        />
                         {/* {(isFirstBullet || isLastBullet) && item.type !== 'assessment' && (
                           <div className="bullet-line"></div>
                         )} */}
                       </div>
                       {isFirstBullet && (
                         <div className="bullet-label w-100 mt-2">
-                          {item.type === 'assessment' ? '' : TRANSLATIONS[language].questionCategory[item.category]}
+                          {item.type === "assessment"
+                            ? ""
+                            : TRANSLATIONS[language].questionCategory[
+                                item.category
+                              ]}
                         </div>
                       )}
                     </>
