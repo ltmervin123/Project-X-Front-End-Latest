@@ -11,6 +11,8 @@ const SubscriptionChartSection = ({ isVisible }) => {
     queryKey: ["adminDashboardSubscriptionStat"],
     queryFn: getSubscriptionStat,
     staleTime: 1000 * 60 * 1,
+    refetchInterval: 1000 * 60 * 1,
+    refetchIntervalInBackground: true,
   });
 
   const subscriptionData = useMemo(() => {

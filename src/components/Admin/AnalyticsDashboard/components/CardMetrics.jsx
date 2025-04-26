@@ -10,6 +10,8 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
     queryKey: ["adminDashboardStat"],
     queryFn: AdminAPI.getDashboardStat,
     staleTime: 1000 * 60 * 1,
+    refetchInterval: 1000 * 60 * 1,
+    refetchIntervalInBackground: true,
   });
 
   const cardData = [
