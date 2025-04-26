@@ -34,7 +34,6 @@ const Trashbin = () => {
     useState(false);
   const [isContainerVisible, setIsContainerVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showRecoverPopup, setShowRecoverPopup] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
@@ -341,13 +340,9 @@ const Trashbin = () => {
   };
 
   const handleSelect = (id) => {
-    setShowCheckboxes(true); // Show checkboxes when selecting a row
     setSelectedItems((prev) => {
       if (prev.includes(id)) {
         const newItems = prev.filter((item) => item !== id);
-        if (newItems.length === 0) {
-          setShowCheckboxes(false); // Hide checkboxes when no items selected
-        }
         return newItems;
       } else {
         return [...prev, id];
@@ -359,10 +354,8 @@ const Trashbin = () => {
     if (selectedItems.length === mockData[selectedCategory].length) {
       // Unselect all
       setSelectedItems([]);
-      setShowCheckboxes(false);
     } else {
       // Select all
-      setShowCheckboxes(true);
       setSelectedItems(mockData[selectedCategory].map((item) => item._id));
     }
   };
@@ -371,35 +364,30 @@ const Trashbin = () => {
     if (selectedItems.length === mockData[selectedCategory].length) {
       // If all items are selected, unselect all
       setSelectedItems([]);
-      setShowCheckboxes(false);
     } else {
       // Select all items
-      setShowCheckboxes(true);
       const allIds = mockData[selectedCategory].map((item) => item._id);
       setSelectedItems(allIds);
     }
   };
 
   const getTableHeaders = () => {
-    const baseHeaders =
-      showCheckboxes || selectedItems.length > 0
-        ? [
-            {
-              label: (
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  checked={
-                    selectedItems.length > 0 &&
-                    selectedItems.length === mockData[selectedCategory].length
-                  }
-                  onChange={handleSelectAllCheckbox}
-                />
-              ),
-              width: "30px",
-            },
-          ]
-        : [];
+    const baseHeaders = [
+      {
+        label: (
+          <input
+            type="checkbox"
+            className="form-check-input"
+            checked={
+              selectedItems.length > 0 &&
+              selectedItems.length === mockData[selectedCategory].length
+            }
+            onChange={handleSelectAllCheckbox}
+          />
+        ),
+        width: "30px",
+      },
+    ];
     switch (selectedCategory) {
       case "Jobs":
         return [
@@ -449,7 +437,7 @@ const Trashbin = () => {
       onSelect: handleSelect,
       onRestore: handleRestore,
       onDelete: handleDelete,
-      showCheckboxes,
+      showCheckboxes: true, // Always show checkboxes
     };
 
     switch (selectedCategory) {
@@ -524,7 +512,6 @@ const Trashbin = () => {
               className={` ${selectedCategory === category ? "active" : ""}`}
               onClick={() => {
                 setSelectedCategory(category);
-                setShowCheckboxes(false);
                 setSelectedItems([]);
               }}
             >

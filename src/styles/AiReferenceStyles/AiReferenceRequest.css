@@ -115,7 +115,7 @@
 }
 .action-menu{
   position: absolute;
-  top: 25%;
+  top: 22%;
   right: -25px;
   display: flex;
   align-items: center;
@@ -467,6 +467,7 @@ background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/s
   background-size: 12px 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: background-image 0.3s ease;
+  background: var(--font-white);
 }
 
 .custom-dropdown-ref-req .dropdown-list-ref-req {

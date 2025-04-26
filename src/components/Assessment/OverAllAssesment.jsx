@@ -167,7 +167,7 @@ function OverAllAssesment({ onSubmit, category }) {
     <div className="assessment-form-container">
       <div className="job-performance-assessment-content">
         <div className="top-display w-100"></div>
-        <Form className="job-performance-assessment-form">
+        <Form className="job-performance-assessment-form gap-3 p-2">
           <div className="form-header">
             <h5 className="mb-0 text-center">
               {getOverallAssessmentText(category)}{" "}
@@ -246,7 +246,9 @@ function OverAllAssesment({ onSubmit, category }) {
                 ))}
               </RadioGroup>
             </FormControl>
-            <div className="assessment-form-btn-container">
+
+          </div>
+          <div className="assessment-form-btn-container">
               <button
                 className="assessment-form-btn-submit"
                 onClick={handleSubmit}
@@ -255,7 +257,6 @@ function OverAllAssesment({ onSubmit, category }) {
                 {t.submit}
               </button>
             </div>
-          </div>
         </Form>
       </div>
     </div>

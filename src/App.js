@@ -63,6 +63,7 @@ import ReferenceRequestFormPage from "./page/ReferenceRequestFormPage.jsx";
 import ReferenceRequestEmailSentPage from "./page/AiRefereePage/ReferenceRequestEmailSentPage.jsx";
 import RRFormSubmittedSuccessfullyPage from "./page/RRFormSubmittedSuccessfullyPage.jsx";
 import AnalyticsDashboardPage from "./page/AdminPage/AnalyticsDashboardPage.jsx";
+import UserManagementPage from "./page/AdminPage/UserManagementPage.jsx";
 
 function App() {
   return (
@@ -151,7 +152,12 @@ function App() {
               path="/AnalyticsDashboard"
               element={<AnalyticsDashboardPage />}
             />
+            <Route
+              path="/UserManagement"
+              element={<UserManagementPage />}
+            />
           </Route>
+          
         </Route>
 
         <Route element={<RequireAuthVefifyReferee />}>

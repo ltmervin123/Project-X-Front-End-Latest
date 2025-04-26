@@ -78,7 +78,7 @@ const SignatureSection = ({
               <canvas
                 ref={canvasRef}
                 style={{
-                  border: "1px solid black",
+              
                   width: "100%",
                   height: "100%",
                 }}
@@ -113,7 +113,7 @@ const SignatureSection = ({
               onDrop={handleFileDrop} // Ensure this is defined in the parent
               onDragOver={handleDragOver} // Ensure this is defined in the parent
               style={{
-                border: "1px solid black",
+                
                 padding: "20px",
                 height: "260px",
                 textAlign: "center",

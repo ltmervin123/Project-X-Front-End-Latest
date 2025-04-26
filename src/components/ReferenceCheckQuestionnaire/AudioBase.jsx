@@ -206,7 +206,7 @@ const AudioBase = ({
       className="transcription-answer-container"
       style={{ display: hideQuestionSection ? "none" : "block" }}
     >
-      <h4>{TRANSLATION[language].transcription}</h4>
+      <h5>{TRANSLATION[language].transcription}</h5>
       <textarea
         value={answer}
         rows="4"

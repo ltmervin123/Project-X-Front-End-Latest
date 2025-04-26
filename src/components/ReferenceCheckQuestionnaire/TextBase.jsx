@@ -49,7 +49,7 @@ const TextBase = ({
       className="transcription-answer-container"
       style={{ display: hideQuestionSection ? "none" : "block" }}
     >
-      <h4>{translations[language].answer}</h4>
+      <h5>{translations[language].answer}</h5>
       <textarea
         value={answer}
         disabled={loading || isSubmitted || reTry}

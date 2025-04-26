@@ -475,6 +475,70 @@ const ReferenceCheckQuestionnairePage = () => {
     return currentQuestionCategory ? currentQuestionCategory.category : null;
   };
 
+  // Add this new helper function
+  const getCategoryForQuestionIndex = (questionIndex) => {
+    const question = questions[questionIndex];
+    const category = referenceQuestionsData.find((cat) =>
+      cat.questions.includes(question)
+    );
+    return category ? category.category : null;
+  };
+
+  // Add this helper function to determine if a bullet is an assessment
+  const isAssessmentBullet = (index) => {
+    const category = getCategoryForQuestionIndex(index);
+    const prevCategory =
+      index > 0 ? getCategoryForQuestionIndex(index - 1) : null;
+
+    return (
+      category !== prevCategory &&
+      CATEGORY_TO_RATE.includes(prevCategory) &&
+      index > 0
+    );
+  };
+
+  // Add this helper function to calculate total questions including assessments
+  const getTotalCount = () => {
+    let count = questions.length; // Start with total questions
+
+    // Add assessment count for each category that needs rating
+    referenceQuestionsData.forEach((category) => {
+      if (CATEGORY_TO_RATE.includes(category.category)) {
+        count++; // Add one for each category that needs assessment
+      }
+    });
+
+    return count;
+  };
+
+  // Add this helper to get all items (questions + assessments) in order
+  const getAllProgressItems = () => {
+    const items = [];
+    let questionCount = 0;
+
+    referenceQuestionsData.forEach((category) => {
+      // Add all questions for this category
+      category.questions.forEach((question) => {
+        items.push({
+          type: "question",
+          category: category.category,
+          question,
+          index: questionCount++,
+        });
+      });
+
+      // Add assessment item if category needs rating
+      if (CATEGORY_TO_RATE.includes(category.category)) {
+        items.push({
+          type: "assessment",
+          category: category.category,
+        });
+      }
+    });
+
+    return items;
+  };
+
   // Fetch normalized answer from API
   const handleNormalizedAnswers = async (answer) => {
     try {
@@ -592,6 +656,65 @@ const ReferenceCheckQuestionnairePage = () => {
     );
   };
 
+  // Add this helper function before the return statement
+  const isCategoryCompleted = (category) => {
+    const categoryData = referenceQuestionsData.find(
+      (c) => c.category === category
+    );
+    return (
+      categoryData && categoryData.answers.every((answer) => answer !== "")
+    );
+  };
+
+  // Add this function before the return statement
+  const groupProgressItems = (items) => {
+    const groups = [];
+    let currentGroup = null;
+
+    items.forEach((item, index) => {
+      if (
+        !currentGroup ||
+        currentGroup.category !== item.category ||
+        item.type === "assessment"
+      ) {
+        // Create new group
+        currentGroup = {
+          category: item.category,
+          type: item.type,
+          startIndex: index,
+          items: [],
+        };
+        groups.push(currentGroup);
+      }
+      currentGroup.items.push(item);
+    });
+
+    return groups;
+  };
+
+  // Add this helper function before the groupProgressItems function
+  const getCategoryBulletLine = (groupItems) => {
+    if (groupItems.length === 0 || groupItems[0].type === 'assessment') {
+      return null;
+    }
+
+    return (
+      <div 
+        className="bullet-line-connector"
+        style={{
+          position: 'absolute',
+          height: '1.5px',
+          backgroundColor: '#000000',
+          top: '29px',
+          left: '30px',
+          right: '30px',
+          transform: 'translateY(-50%)',
+          zIndex: 0
+        }}
+      />
+    );
+  };
+
   if (isReattemptingCamera) {
     return (
       <div className="container-fluid d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -615,7 +738,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   return (
     <div className="container-fluid login-page-container main-container d-flex align-items-center justify-content-center flex-column positio-relative">
-      <div className="reference-progress-indicator mt-5">
+      <div className="reference-progress-indicator mt-3">
         {STEPS.map((step, index) => (
           <div key={index} className="reference-step-container">
             <div
@@ -636,19 +759,19 @@ const ReferenceCheckQuestionnairePage = () => {
         />
       ) : (
         <>
-          <h2
+          <h4
             className="referencecheckquestiontitle text-left mb-2"
             style={{ display: hideQuestionSection ? "none" : "block" }}
           >
             {TRANSLATIONS[language].referenceCheckQuestionnaire}
-          </h2>
+          </h4>
 
           <div
             className="referencecheckquestion-container mb-5"
             style={{ display: hideQuestionSection ? "none" : "block" }}
           >
             <div className="question-container">
-              <p className="question-title w-100 d-flex justify-content-between">
+              <h5 className="question-title w-100 d-flex justify-content-between">
                 {currentQuestionCategory}
 
                 <span>
@@ -659,7 +782,7 @@ const ReferenceCheckQuestionnairePage = () => {
                   </span>{" "}
                   / {getCurrentCategoryQuestionInfo().total}
                 </span>
-              </p>
+              </h5>
               <p>{questions[currentQuestionIndex]}</p>
             </div>
           </div>
@@ -699,6 +822,52 @@ const ReferenceCheckQuestionnairePage = () => {
           />
         )}
       </>
+
+      <div className="category-progress-container mt-3">
+        <div className="bullet-progress d-flex gap-3 align-items-center justify-content-center">
+          {(() => {
+            const items = getAllProgressItems();
+            const groups = groupProgressItems(items);
+
+            return groups.map((group, groupIndex) => (
+              <div key={groupIndex} className="bullet-group position-relative">
+                {/* {getCategoryBulletLine(group.items)} */}
+                {group.items.map((item, itemIndex) => {
+                  const absoluteIndex = group.startIndex + itemIndex;
+                  const isCurrentItem = item.type === 'question' 
+                    ? item.index === currentQuestionIndex
+                    : hideQuestionSection && getQuestionCategory() === item.category;
+                  const isCompleted = item.type === 'question'
+                    ? item.index < currentQuestionIndex
+                    : getQuestionCategory() !== item.category && currentQuestionIndex > group.startIndex;
+                  const isFirstBullet = itemIndex === 0;
+                  const isLastBullet = itemIndex === group.items.length - 1;
+
+                  return (
+                    <>
+                      <div key={absoluteIndex} className="bullet-item">
+                        <div className={`${
+                          item.type === 'assessment' 
+                            ? `bullet-circle ${hideQuestionSection && isCurrentItem ? 'active' : isCompleted || (getQuestionCategory() !== item.category && referenceQuestionsData.find(c => c.category === item.category)?.assessmentRating) ? 'completed' : ''}`
+                            : `bullet ${!hideQuestionSection && isCurrentItem ? 'active' : isCompleted || isCategoryCompleted(item.category) ? 'completed' : ''}`
+                        }`} />
+                        {/* {(isFirstBullet || isLastBullet) && item.type !== 'assessment' && (
+                          <div className="bullet-line"></div>
+                        )} */}
+                      </div>
+                      {isFirstBullet && (
+                        <div className="bullet-label w-100 mt-2">
+                          {item.type === 'assessment' ? '' : TRANSLATIONS[language].questionCategory[item.category]}
+                        </div>
+                      )}
+                    </>
+                  );
+                })}
+              </div>
+            ));
+          })()}
+        </div>
+      </div>
     </div>
   );
 };
