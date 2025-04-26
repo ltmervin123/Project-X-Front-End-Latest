@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 const TopActiveUserRankingSection = ({ isVisible, companiesRankingData }) => {
   const getPlanStyle = (plan) => {
     switch (plan) {
