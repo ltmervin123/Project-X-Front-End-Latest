@@ -1,16 +1,19 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
-const SubmitConfirmationPopUp = ({
-  onClose,
-  onConfirmSubmit,
-}) => {
+const SubmitConfirmationPopUp = ({ onClose, onConfirmSubmit }) => {
   return (
-    <Modal show={true} onHide={onClose} centered backdrop={true}>
+    <Modal
+      show={true}
+      onHide={onClose}
+      centered
+      backdrop="static"
+      keyboard={false}
+    >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Kindly review the information provided. Do you wish to proceed?"
+            Kindly review the information provided. Do you wish to proceed?
           </p>
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button
