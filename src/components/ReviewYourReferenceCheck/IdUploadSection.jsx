@@ -81,6 +81,8 @@ const IdUploadSection = ({
     if (typeof fileName === "string" && fileName.startsWith("data:")) {
       return "captured_image.jpg";
     }
+
+    return fileName;
   };
 
   // Function to trigger the file input click
