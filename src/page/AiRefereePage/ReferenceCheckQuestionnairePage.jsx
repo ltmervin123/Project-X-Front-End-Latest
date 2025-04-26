@@ -76,6 +76,7 @@ const TRANSLATIONS = {
       "Questionnaire",
       "Reference Completed",
     ],
+    question: "Question",
   },
   Japanese: {
     referenceCheckQuestionnaire: "リファレンスチェック質問票",
@@ -97,6 +98,7 @@ const TRANSLATIONS = {
     goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
     reattemptingCamera: "カメラへのアクセスを再試行しています...",
     steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    question: "質問",
   },
 };
 
@@ -772,7 +774,7 @@ const ReferenceCheckQuestionnairePage = () => {
           >
             <div className="question-container">
               <h5 className="question-title w-100 d-flex justify-content-between">
-                {currentQuestionCategory}
+                {currentQuestionCategory || TRANSLATIONS[language].question}
 
                 <span>
                   {" "}

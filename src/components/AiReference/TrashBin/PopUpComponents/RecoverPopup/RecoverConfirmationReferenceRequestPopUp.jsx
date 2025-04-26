@@ -9,7 +9,13 @@ const RecoverConfirmationReferenceRequestPopUp = ({
   isRecoveringReferenceRequest,
 }) => {
   return (
-    <Modal show={true} onHide={onClose} centered backdrop={true}>
+    <Modal
+      show={true}
+      onHide={onClose}
+      className="custom-modal-edit-user"
+      centered
+      backdrop={true}
+    >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">

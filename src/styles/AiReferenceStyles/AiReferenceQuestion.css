@@ -7,6 +7,8 @@
   --text-color: #000;
   --sidebar-bg: #f2f3f7;
   --btn-view-color: #319f43;
+  --popup-bg-container: #FEF8F3;
+
 }
 .AiReference-question-container {
   background: var(--font-white);
@@ -267,6 +269,9 @@
 
 .custom-modal-question .modal-body{
   width: 100%;
+  background: var(--popup-bg-container);
+  border-radius: 20px;
+
 }
 .custom-modal-question .modal-body .hr-hatch-option > button{
   border: none;

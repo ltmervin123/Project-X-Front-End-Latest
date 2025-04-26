@@ -32,7 +32,9 @@ const SubscriptionChartSection = ({ isVisible }) => {
         </Col>
       </Row>
       <Row className="mb-3">
-        <SubscriptionAnalyticSection isVisible={isVisible} />
+        <Col md="12">
+          <SubscriptionAnalyticSection isVisible={isVisible} />
+        </Col>
       </Row>
     </>
   );

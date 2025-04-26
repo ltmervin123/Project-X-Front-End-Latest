@@ -148,8 +148,9 @@
 .user-table-container {
   border-radius: 15px;
   position: relative;
+  height: 60vh;
   padding-top: 30px !important;
-  z-index: 1; /* Added z-index */
+  z-index: 1;
 }
 .user-table-container::before {
   content: "";
@@ -167,16 +168,18 @@
 .user-table-container td,
 .user-table-container th {
   font-weight: bold;
-  padding: 15px;
+  padding: 10px;
   word-wrap: break-word;
+  height: auto;
 }
+
 
 .user-table-container table {
   width: 100%;
-  height: 80%;
   border-collapse: collapse;
   font-size: 15px;
 }
+
 .user-table-container .btn-status {
   border: none;
   background: transparent;

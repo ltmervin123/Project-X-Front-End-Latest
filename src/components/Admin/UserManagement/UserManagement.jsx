@@ -15,7 +15,7 @@ const UserManagement = () => {
   const [isButtonControllerVisible, setIsButtonControllerVisible] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 5;
   const filterRef = useRef(null);
   const [showStatusOptions, setShowStatusOptions] = useState(null);
   const [showActionOptions, setShowActionOptions] = useState(null);

@@ -4,7 +4,7 @@ import * as AdminAPI from "../../../../api/ai-reference/admin/admin-api";
 
 const CompanyListSection = ({ searchQuery }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
 
   const { data: result } = useQuery({
     queryKey: ["adminDashboardCompanyList"],
@@ -40,7 +40,7 @@ const CompanyListSection = ({ searchQuery }) => {
   }, [filteredCompanies, currentPage]);
 
   return (
-    <div className="company-table-container bg-white shadow p-3 mb-4">
+    <div className="company-table-container bg-white shadow p-3 mb-2">
       <table className=" mb-0">
         <thead>
           <tr>
@@ -83,7 +83,7 @@ const CompanyListSection = ({ searchQuery }) => {
           )}
         </tbody>
       </table>
-      <div className="d-flex company-prev-next-btn-control justify-content-center align-items-center gap-3 mt-3">
+      <div className="d-flex company-prev-next-btn-control justify-content-center align-items-center gap-3 ">
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
           <svg
             width="8"
