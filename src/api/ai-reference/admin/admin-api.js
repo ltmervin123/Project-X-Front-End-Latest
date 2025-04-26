@@ -52,3 +52,16 @@ export const getSystemUsage = async () => {
   });
   return response.data.systemUsage;
 };
+
+export const getPeakHourStat = async () => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
+  const token = USER?.token;
+  const URL = `${API}/api/admin/dashboard-get-peak-hours-stat`;
+  const response = await axios.get(URL, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data.peakHourStat;
+};
