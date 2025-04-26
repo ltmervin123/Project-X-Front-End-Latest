@@ -1,17 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
+import UserProfileTables from './UserProfileTables';
+import ActiveLogTables from './ActiveLogTables';
+import APIUsageTable from './APIUsageTable';
+import ReferenceLogsTable from './ReferenceLogsTable';
 
 const UserManagement = () => {
-  const [activeTab, setActiveTab] = useState("userProfile");
+  const [activeTab, setActiveTab] = useState("userprofile");
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [signupDateFilter, setSignupDateFilter] = useState("");
-  const [isButtonControllerVisible, setIsButtonControllerVisible] =
-    useState(true);
+  const [isButtonControllerVisible, setIsButtonControllerVisible] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const filterRef = useRef(null);
+  const [showStatusOptions, setShowStatusOptions] = useState(null);
+  const [showActionOptions, setShowActionOptions] = useState(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -22,6 +29,81 @@ const UserManagement = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const StatusOptionsMenu = ({ index }) => (
+    <div className="action-option-status " style={{ zIndex: 1000 }}>
+      <div className="d-flex flex-column gap-2">
+        <button >Warn</button>
+        <button >Banned</button>
+        <button >Force Logout</button>
+      </div>
+    </div>
+  );
+
+  const ViewDetailsMenu = ({ index, user }) => (
+    <div className="action-option-action" style={{ zIndex: 1000 }}>
+      <div className="d-flex flex-column gap-2">
+        <button>Edit User</button>
+        <button>Reset Password</button>
+        {/* {user.actions.canDelete && ( */}
+          <button>Delete User</button>
+        {/* )} */}
+      </div>
+    </div>
+  );
+
+  const getFilterOptions = () => {
+    switch (activeTab) {
+      case 'userprofile':
+        return [
+          { key: 'role', label: 'Role' },
+          { key: 'status', label: 'Status' },
+          { key: 'signupdate', label: 'Signup Date' }
+        ];
+      case 'activitylog':
+        return [
+          { key: 'company', label: 'Company' },
+          { key: 'action', label: 'Action' },
+          { key: 'timestamp', label: 'Timestamp' }
+        ];
+      case 'apiusage':
+        return [
+          { key: 'endpoint', label: 'End Point' },
+          { key: 'status', label: 'Status' },
+          { key: 'timestamp', label: 'Timestamp' }
+        ];
+      case 'referencelogs':
+        return [
+          { key: 'pending', label: 'Pending' },
+          { key: 'success', label: 'Success' },
+          { key: 'failed', label: 'Failed' },
+          { key: 'deleted', label: 'Deleted' }
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const getSearchPlaceholder = () => {
+    switch (activeTab) {
+      case 'userprofile':
+        return 'Search by user...';
+      case 'activitylog':
+        return 'Search by company or action...';
+      case 'apiusage':
+        return 'Search by endpoint...';
+      case 'referencelogs':
+        return 'Search by company...';
+      default:
+        return 'Search...';
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearchQuery(value);
+    // Reset page when searching
+    setCurrentPage(1);
+  };
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
@@ -36,6 +118,7 @@ const UserManagement = () => {
         <Col xs={12} md={6}>
           <div className="user-management-button-controller mb-3 d-flex align-items-center justify-content-center">
             {[
+
               "User Profile",
               "Activity Log",
               "API Usage",
@@ -56,46 +139,36 @@ const UserManagement = () => {
           </div>
         </Col>
         <Col xs={12} md={6}>
-          <div className="filter-search-container d-flex justify-content-between align-items-center">
+          <div className="filter-search-container d-flex justify-content-end gap-4 align-items-center">
             <div className="filter-section position-relative" ref={filterRef}>
               <button
+                className={`d-flex align-items-center ${isFilterOpen ? 'open' : ''}`}
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
               >
-                Filter by
+                Filter by 
               </button>
               {isFilterOpen && (
-                <div className="filter-dropdown ">
+                <div className="filter-dropdown">
                   <div className="d-flex flex-column gap-2">
-                    <button
-                      onClick={() => setRoleFilter(roleFilter ? "" : "role")}
-                    >
-                      Role
-                    </button>
-                    <button
-                      onClick={() =>
-                        setStatusFilter(statusFilter ? "" : "status")
-                      }
-                    >
-                      Status
-                    </button>
-                    <button
-                      onClick={() =>
-                        setSignupDateFilter(signupDateFilter ? "" : "date")
-                      }
-                    >
-                      Signup Date
-                    </button>
+                    {getFilterOptions().map(({ key, label }) => (
+                      <button 
+                        key={key}
+                        onClick={() => setRoleFilter(roleFilter === key ? "" : key)}
+                      >
+                        {label} {roleFilter === key && '✓'}
+                      </button>
+                    ))}
                   </div>
                 </div>
               )}
             </div>
-            <div className="search-wrapper position-relative ">
+            <div className="search-wrapper position-relative">
               <input
                 type="text"
-                placeholder="Search user..."
+                placeholder={getSearchPlaceholder()}
                 className="form-control ps-4 pe-5"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => handleSearch(e.target.value)}
               />
               <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
             </div>
@@ -103,7 +176,21 @@ const UserManagement = () => {
         </Col>
       </Row>
 
-      {/* Content sections will be added here based on activeTab */}
+      {activeTab === 'userprofile' && (
+        <UserProfileTables 
+          searchQuery={searchQuery}
+          showStatusOptions={showStatusOptions}
+          showActionOptions={showActionOptions}
+          setShowStatusOptions={setShowStatusOptions}
+          setShowActionOptions={setShowActionOptions}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
+      {activeTab === 'activitylog' && <ActiveLogTables />}
+      {activeTab === 'apiusage' && <APIUsageTable />}
+      {activeTab === 'referencelogs' && <ReferenceLogsTable />}
     </div>
   );
 };
