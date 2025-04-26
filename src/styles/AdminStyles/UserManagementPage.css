@@ -31,3 +31,18 @@
   color: var(--font-white);
   background: var(--primary-color);
 }
+
+.filter-search-container .filter-dropdown {
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.filter-search-container .filter-dropdown button {
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.filter-search-container .filter-dropdown button:hover {
+  background-color: #f8f9fa;
+}
