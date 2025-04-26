@@ -25,12 +25,16 @@ const SystemUsageChartSection = ({ isVisible }) => {
       averageUsage: {
         usages: systemUsage?.averageUsage || [],
       },
+      usageTrends: systemUsage?.usageTrends || {},
     };
   }, [systemUsage]);
   return (
     <Row>
       <Col md="6">
-        <UsageTrendSection isVisible={isVisible} />
+        <UsageTrendSection
+          isVisible={isVisible}
+          usageTrendsData={data.usageTrends}
+        />
       </Col>
       <Col
         md="6"
