@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
-import UserProfileTables from './UserProfileTables';
-import ActiveLogTables from './ActiveLogTables';
-import APIUsageTable from './APIUsageTable';
-import ReferenceLogsTable from './ReferenceLogsTable';
+import UserProfileTables from './Components/UserProfileTables';
+import ActiveLogTables from './Components/ActiveLogTables';
+import APIUsageTable from './Components/APIUsageTable';
+import ReferenceLogsTable from './Components/ReferenceLogsTable';
 
 const UserManagement = () => {
   const [activeTab, setActiveTab] = useState("userprofile");
@@ -15,7 +15,7 @@ const UserManagement = () => {
   const [isButtonControllerVisible, setIsButtonControllerVisible] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 7;
   const filterRef = useRef(null);
   const [showStatusOptions, setShowStatusOptions] = useState(null);
   const [showActionOptions, setShowActionOptions] = useState(null);
@@ -30,27 +30,6 @@ const UserManagement = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const StatusOptionsMenu = ({ index }) => (
-    <div className="action-option-status " style={{ zIndex: 1000 }}>
-      <div className="d-flex flex-column gap-2">
-        <button >Warn</button>
-        <button >Banned</button>
-        <button >Force Logout</button>
-      </div>
-    </div>
-  );
-
-  const ViewDetailsMenu = ({ index, user }) => (
-    <div className="action-option-action" style={{ zIndex: 1000 }}>
-      <div className="d-flex flex-column gap-2">
-        <button>Edit User</button>
-        <button>Reset Password</button>
-        {/* {user.actions.canDelete && ( */}
-          <button>Delete User</button>
-        {/* )} */}
-      </div>
-    </div>
-  );
 
   const getFilterOptions = () => {
     switch (activeTab) {
@@ -107,12 +86,18 @@ const UserManagement = () => {
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
+      <div className="d-flex justify-content-between align-items-center mb-4">
       <div>
         <h3 className="mb-0">User Management</h3>
         <p className="mb-2">
           Manage your users, view details, and modify their settings.
         </p>
       </div>
+      <button className="btn-export-data">
+        Export
+      </button>
+      </div>
+
 
       <Row>
         <Col xs={12} md={6}>
@@ -142,7 +127,7 @@ const UserManagement = () => {
           <div className="filter-search-container d-flex justify-content-end gap-4 align-items-center">
             <div className="filter-section position-relative" ref={filterRef}>
               <button
-                className={`d-flex align-items-center ${isFilterOpen ? 'open' : ''}`}
+                className={` ${isFilterOpen ? 'open' : ''}`}
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
               >
                 Filter by 
@@ -188,9 +173,9 @@ const UserManagement = () => {
           itemsPerPage={itemsPerPage}
         />
       )}
-      {activeTab === 'activitylog' && <ActiveLogTables />}
-      {activeTab === 'apiusage' && <APIUsageTable />}
-      {activeTab === 'referencelogs' && <ReferenceLogsTable />}
+      {activeTab === 'activitylog' && <ActiveLogTables searchQuery={searchQuery} />}
+      {activeTab === 'apiusage' && <APIUsageTable searchQuery={searchQuery} />}
+      {activeTab === 'referencelogs' && <ReferenceLogsTable searchQuery={searchQuery} />}
     </div>
   );
 };

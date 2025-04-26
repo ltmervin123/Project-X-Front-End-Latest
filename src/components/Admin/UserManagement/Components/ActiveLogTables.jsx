@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 
-const ActiveLogTables = () => {
+const ActiveLogTables = ({ searchQuery }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 7;
 
   const activityLogs = [
     { company: "Tech Corp", action: "User Created", timestamp: "2023-07-20", details: "New admin user added" },
@@ -17,10 +17,17 @@ const ActiveLogTables = () => {
     { company: "Data Corp", action: "Profile Updated", timestamp: "2023-07-16", details: "User info modified" }
   ];
 
+  const filteredLogs = useMemo(() => {
+    return activityLogs.filter((log) =>
+      log.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      log.action.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [activityLogs, searchQuery]);
+
   const paginatedLogs = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return activityLogs.slice(startIndex, startIndex + itemsPerPage);
-  }, [activityLogs, currentPage]);
+    return filteredLogs.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredLogs, currentPage]);
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -28,7 +35,7 @@ const ActiveLogTables = () => {
 
   const handleNextPage = () => {
     setCurrentPage((prev) =>
-      Math.min(prev + 1, Math.ceil(activityLogs.length / itemsPerPage))
+      Math.min(prev + 1, Math.ceil(filteredLogs.length / itemsPerPage))
     );
   };
 
@@ -44,14 +51,20 @@ const ActiveLogTables = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedLogs.map((log, index) => (
-            <tr key={index}>
-              <td>{log.company}</td>
-              <td>{log.action}</td>
-              <td>{log.timestamp}</td>
-              <td>{log.details}</td>
+          {paginatedLogs.length > 0 ? (
+            paginatedLogs.map((log, index) => (
+              <tr key={index}>
+                <td>{log.company}</td>
+                <td>{log.action}</td>
+                <td>{log.timestamp}</td>
+                <td>{log.details}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="text-center">No data available</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       <div className="d-flex company-prev-next-btn-control justify-content-center align-items-center gap-3 mt-3">
@@ -61,7 +74,7 @@ const ActiveLogTables = () => {
           </svg>
         </button>
         <span>{currentPage}</span>
-        <button onClick={handleNextPage} disabled={currentPage === Math.ceil(activityLogs.length / itemsPerPage)}>
+        <button onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredLogs.length / itemsPerPage)}>
           <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd" d="M7.14131 7.071L1.48431 12.728L0.0703125 11.314L5.02031 6.364L0.0703125 1.414L1.48431 0L7.14131 5.657C7.32878 5.84453 7.4341 6.09884 7.4341 6.364C7.4341 6.62916 7.32878 6.88347 7.14131 7.071Z" fill="#F46A05"/>
           </svg>
