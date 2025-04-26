@@ -11,6 +11,8 @@ const SystemUsageChartSection = ({ isVisible }) => {
     queryKey: ["adminDashboardSystemUsage"],
     queryFn: getSystemUsage,
     staleTime: 1000 * 60 * 1,
+    refetchInterval: 1000 * 60 * 1,
+    refetchIntervalInBackground: true,
   });
   const data = useMemo(() => {
     return {

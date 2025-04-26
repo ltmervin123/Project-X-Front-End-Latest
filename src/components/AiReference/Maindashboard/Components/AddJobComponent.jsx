@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
 import { addJob } from "../../../../api/ai-reference/job/jobs-api";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
+import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
+import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
+
 const AddJobComponent = ({ onCancel }) => {
   const navigate = useNavigate();
 
@@ -19,6 +22,8 @@ const AddJobComponent = ({ onCancel }) => {
   const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
   const [isCustomOpen, setIsCustomOpen] = useState(false);
   const [candidates, setCandidates] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -119,8 +124,14 @@ const AddJobComponent = ({ onCancel }) => {
       return;
     }
 
+    // Show confirmation popup instead of submitting directly
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmSubmit = async () => {
     try {
       setLoading(true);
+      setShowConfirmation(false);
 
       if (!isJobFieldsFilled && !areCandidateFieldsFilled) {
         return;
@@ -136,15 +147,14 @@ const AddJobComponent = ({ onCancel }) => {
         },
       };
 
-      // //Create a job
+      // Create a job
       const createdJob = await addJob(payload);
 
-      //Create candidate
+      // Create candidate
       await handleAddCandidate(createdJob?.createdJob);
 
       // Store candidate emails before navigation
       const candidateEmails = candidates.map((c) => c.email);
-
       sessionStorage.setItem(
         "candidateEmails",
         JSON.stringify(candidateEmails)
@@ -205,15 +215,6 @@ const AddJobComponent = ({ onCancel }) => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [onCancel]);
-
-  const handleCancel = () => {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to cancel? Your progress will be lost."
-    );
-    if (userConfirmed) {
-      onCancel();
-    }
-  };
 
   return (
     <>
@@ -601,7 +602,7 @@ const AddJobComponent = ({ onCancel }) => {
           <button
             className="btn-cancel-ref-req"
             type="button"
-            onClick={handleCancel}
+            onClick={() => setShowCancelConfirmation(true)}
             disabled={loading}
           >
             Cancel
@@ -625,6 +626,18 @@ const AddJobComponent = ({ onCancel }) => {
           </button>
         </div>
       </div>
+      {showConfirmation && (
+        <SubmitConfirmationPopUp
+          onClose={() => setShowConfirmation(false)}
+          onConfirmSubmit={handleConfirmSubmit}
+        />
+      )}
+      {showCancelConfirmation && (
+        <CancelConfirmationPopUp
+          onClose={() => setShowCancelConfirmation(false)}
+          onConfirmSubmit={() => onCancel()}
+        />
+      )}
     </>
   );
 };

@@ -10,6 +10,8 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
     queryKey: ["adminDashboardStat"],
     queryFn: AdminAPI.getDashboardStat,
     staleTime: 1000 * 60 * 1,
+    refetchInterval: 1000 * 60 * 1,
+    refetchIntervalInBackground: true,
   });
 
   const cardData = [
@@ -17,7 +19,7 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
       title: "Total Users",
       count: analyticsData?.totalCompany || 0,
       color: "#f46a05",
-      path: "/AnalyticsDashboard",
+      path: "/UserManagement",
     },
     {
       title: "Active Users",

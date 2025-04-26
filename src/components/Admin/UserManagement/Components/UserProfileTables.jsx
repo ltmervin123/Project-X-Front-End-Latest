@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import WarnUserPopup from "../../UserManagement/PopUpComponents/WarnUserPopup";
 import SuspendedUserPopUp from "../../UserManagement/PopUpComponents/SuspendedUserPopUp";
 import ForcedLogoutPopUp from "../../UserManagement/PopUpComponents/ForcedLogoutPopUp";
@@ -14,7 +14,7 @@ const UserProfileTables = ({
   setShowActionOptions,
   currentPage,
   setCurrentPage,
-  itemsPerPage,
+  isTableVisible,
 }) => {
   const [showWarnPopup, setShowWarnPopup] = useState(false);
   const [showSuspendPopup, setShowSuspendPopup] = useState(false);
@@ -24,7 +24,30 @@ const UserProfileTables = ({
   const [showResetPasswordPopup, setShowResetPasswordPopup] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
+  useEffect(() => {
+    const calculateItemsPerPage = () => {
+      // Calculate items per page based on table height
+      // Assuming each row is approximately 53px (including padding and borders)
+      // and table header is about 40px
+      const tableHeight = window.innerHeight * 0.46; // 60vh in pixels
+      const rowHeight = 53; // approximate height of each row
+      const headerHeight = 40;
+      const availableHeight = tableHeight - headerHeight;
+      const calculatedItems = Math.floor(availableHeight / rowHeight);
+      setItemsPerPage(Math.max(calculatedItems, 1)); // Ensure at least 1 item
+    };
+
+    // Initial calculation
+    calculateItemsPerPage();
+
+    // Add resize event listener
+    window.addEventListener("resize", calculateItemsPerPage);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", calculateItemsPerPage);
+  }, []);
   const handleWarn = async () => {
     setIsProcessing(true);
     try {
@@ -406,7 +429,11 @@ const UserProfileTables = ({
   );
 
   return (
-    <div className="user-table-container bg-white shadow p-3 mb-4">
+    <div
+      className={`user-table-container bg-white shadow d-flex flex-column justify-content-between p-3 mb-2 fade-in ${
+        isTableVisible ? "visible" : ""
+      }`}
+    >
       <table className="mb-0">
         <thead>
           <tr>
@@ -519,7 +546,7 @@ const UserProfileTables = ({
           )}
         </tbody>
       </table>
-      <div className="d-flex company-prev-next-btn-control justify-content-center align-items-center gap-3 mt-3">
+      <div className="d-flex company-prev-next-btn-control justify-content-center align-items-center gap-3 ">
         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
           <svg
             width="8"

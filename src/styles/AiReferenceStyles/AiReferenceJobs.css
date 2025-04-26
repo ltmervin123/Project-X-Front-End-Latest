@@ -9,6 +9,7 @@
   --btn-view-color: #319f43;
   --form-bg: #FEF8F3;
   --container-bg: #FEF8F3;
+  --popup-bg-container: #FEF8F3;
 
 }
 
@@ -299,6 +300,8 @@
   width: 100%;
   height: 100%;
   padding: 40px;
+  background: var(--popup-bg-container);
+
   border-radius: 20px; /* Slightly less rounded for a modern look */
 }
 

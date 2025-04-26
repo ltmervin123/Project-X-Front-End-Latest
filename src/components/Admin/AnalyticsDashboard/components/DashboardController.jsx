@@ -64,11 +64,10 @@ const DashboardController = ({
       </Col>
       <Col xs={12} md={6} className="d-flex align-items-center mb-2">
         <div
-          className={`search-company d-flex  w-100 fade-in ${
+          className={` filter-search-container d-flex justify-content-end  w-100 fade-in ${
             isButtonControllerVisible ? "visible" : ""
           }`}
         >
-          <div className="d-flex align-items-center justify-content-end w-100">
             <div className="search-wrapper position-relative ">
               <input
                 type="text"
@@ -80,7 +79,7 @@ const DashboardController = ({
               />
               <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
             </div>
-          </div>
+          
         </div>
       </Col>
     </>
