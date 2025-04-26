@@ -65,3 +65,16 @@ export const getPeakHourStat = async () => {
   });
   return response.data.peakHourStat;
 };
+
+export const getSubscriptionStat = async () => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
+  const token = USER?.token;
+  const URL = `${API}/api/admin/dashboard-get-subscription-stat`;
+  const response = await axios.get(URL, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data.subscriptionSummary;
+};
