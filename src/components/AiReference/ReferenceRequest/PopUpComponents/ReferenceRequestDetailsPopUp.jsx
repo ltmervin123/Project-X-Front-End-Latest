@@ -3,18 +3,16 @@ import { Row, Col, Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API = process.env.REACT_APP_API_URL;
-const USER = JSON.parse(localStorage.getItem("user")) || null;
-// const { token, id: companyId } = USER;
-const token = USER?.token || null;
-const companyId = USER?.id || null;
-
 const ReferenceRequestDetailsPopUp = ({
   candidate,
   referee,
   onClose,
   onViewReference,
 }) => {
+  const API = process.env.REACT_APP_API_URL;
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
+  const token = USER?.token || null;
+  const companyId = USER?.id || null;
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const navigate = useNavigate();

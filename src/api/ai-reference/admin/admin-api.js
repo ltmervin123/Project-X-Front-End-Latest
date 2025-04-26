@@ -39,3 +39,16 @@ export const getCompanies = async () => {
   });
   return response.data.companies;
 };
+
+export const getSystemUsage = async () => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
+  const token = USER?.token;
+  const URL = `${API}/api/admin/dashboard-get-system-usage`;
+  const response = await axios.get(URL, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data.systemUsage;
+};
