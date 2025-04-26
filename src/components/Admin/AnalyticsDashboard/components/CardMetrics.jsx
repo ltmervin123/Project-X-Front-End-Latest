@@ -17,7 +17,7 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
       title: "Total Users",
       count: analyticsData?.totalCompany || 0,
       color: "#f46a05",
-      path: "/AnalyticsDashboard",
+      path: "/UserManagement",
     },
     {
       title: "Active Users",

@@ -10,9 +10,6 @@ const UserManagement = () => {
   const [activeTab, setActiveTab] = useState("userprofile");
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [signupDateFilter, setSignupDateFilter] = useState("");
-  const [isButtonControllerVisible, setIsButtonControllerVisible] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -20,6 +17,19 @@ const UserManagement = () => {
   const [showStatusOptions, setShowStatusOptions] = useState(null);
   const [showActionOptions, setShowActionOptions] = useState(null);
 
+
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
+    const [isTableVisible, setIsTable] =
+      useState(false);
+
+    useEffect(() => {
+      const timers = [
+        setTimeout(() => setIsFilterVisible(true), 300),
+        setTimeout(() => setIsTable(true), 600),
+      ];
+  
+      return () => timers.forEach((timer) => clearTimeout(timer));
+    }, []);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (filterRef.current && !filterRef.current.contains(event.target)) {
@@ -101,7 +111,10 @@ const UserManagement = () => {
 
       <Row>
         <Col xs={12} md={6}>
-          <div className="user-management-button-controller mb-3 d-flex align-items-center justify-content-center">
+          <div className={`user-management-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
+              isFilterVisible ? "visible" : ""
+            }`}>
+
             {[
 
               "User Profile",
@@ -124,7 +137,10 @@ const UserManagement = () => {
           </div>
         </Col>
         <Col xs={12} md={6}>
-          <div className="filter-search-container d-flex justify-content-end gap-4 align-items-center">
+          <div className={`filter-search-container d-flex justify-content-end gap-4 align-items-center fade-in ${
+              isFilterVisible ? "visible" : ""
+            }`}>
+
             <div className="filter-section position-relative" ref={filterRef}>
               <button
                 className={` ${isFilterOpen ? 'open' : ''}`}
@@ -171,6 +187,7 @@ const UserManagement = () => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           itemsPerPage={itemsPerPage}
+          isTableVisible={isTableVisible}
         />
       )}
       {activeTab === 'activitylog' && <ActiveLogTables searchQuery={searchQuery} />}

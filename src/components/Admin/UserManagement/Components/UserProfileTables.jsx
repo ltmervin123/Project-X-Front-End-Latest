@@ -14,6 +14,7 @@ const UserProfileTables = ({
   setShowActionOptions,
   currentPage,
   setCurrentPage,
+  isTableVisible,
 }) => {
   const [showWarnPopup, setShowWarnPopup] = useState(false);
   const [showSuspendPopup, setShowSuspendPopup] = useState(false);
@@ -42,10 +43,10 @@ const UserProfileTables = ({
     calculateItemsPerPage();
 
     // Add resize event listener
-    window.addEventListener('resize', calculateItemsPerPage);
+    window.addEventListener("resize", calculateItemsPerPage);
 
     // Cleanup
-    return () => window.removeEventListener('resize', calculateItemsPerPage);
+    return () => window.removeEventListener("resize", calculateItemsPerPage);
   }, []);
   const handleWarn = async () => {
     setIsProcessing(true);
@@ -428,7 +429,11 @@ const UserProfileTables = ({
   );
 
   return (
-    <div className="user-table-container bg-white shadow d-flex flex-column justify-content-between p-3 mb-2">
+    <div
+      className={`user-table-container bg-white shadow d-flex flex-column justify-content-between p-3 mb-2 fade-in ${
+        isTableVisible ? "visible" : ""
+      }`}
+    >
       <table className="mb-0">
         <thead>
           <tr>

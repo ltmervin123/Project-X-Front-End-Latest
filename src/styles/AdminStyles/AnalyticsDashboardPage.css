@@ -25,6 +25,10 @@
   width: 23%;
   padding: 5px;
   font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+.analytics-dashboard-button-controller > button:hover {
+  color: var(--primary-color);
 }
 
 .analytics-dashboard-button-controller > button.active {
@@ -40,7 +44,7 @@
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   max-height: 200px;
   overflow-y: auto;
 }
@@ -82,7 +86,6 @@
   color: var(--text-color) !important;
 }
 
-
 .search-company .customize-dropdown .dropdown-menu {
   min-width: 140px;
 
@@ -95,7 +98,7 @@
   border-radius: 0px 0px 10px 10px !important;
   border-top: none;
   width: 100%;
-  z-index:3;
+  z-index: 3;
   padding: 0;
 }
 
@@ -108,7 +111,6 @@
   border-radius: 0px 0px 10px 10px !important;
 }
 
-
 .search-company .customize-dropdown .dropdown-item:hover {
   background: rgba(244, 106, 5, 0.1);
 }
@@ -118,7 +120,6 @@
 .search-company .customize-dropdown .dropdown-item.active:hover {
   background: rgba(244, 106, 5, 0.1);
 }
-
 
 /* Common Container Styles */
 .active-chart-container,
@@ -255,6 +256,7 @@
   background-color: var(--font-white) !important;
 }
 
+
 .usage-chart-container .dropdown-options {
   position: absolute;
   top: 100%;
@@ -266,6 +268,7 @@
   border-top: none;
   width: 100%;
   z-index: 3;
+  
 }
 
 .usage-chart-container .dropdown-item {
@@ -284,7 +287,7 @@
 }
 
 .usage-chart-container .dropdown-item:nth-child(3) {
-  border-radius: 0px 0px 10px 10px !important;
+  border-radius: 0px 0px 8px 8px !important;
 }
 
 /* Reference Check Styles */
@@ -433,28 +436,28 @@
   overflow-y: auto;
 }
 
-.company-table-container{
+.company-table-container {
   border-radius: 15px;
   position: relative;
   height: 60vh;
   padding-top: 30px !important;
   z-index: 1;
 }
-.company-table-container::before{
+.company-table-container::before {
   content: "";
   position: absolute;
   top: 0;
-left: 0;
+  left: 0;
   width: 100%;
   height: 20px;
   background-color: var(--primary-color);
   border-radius: 20px 20px 0px 0px;
 }
-.company-table-container th{
+.company-table-container th {
   color: var(--card-color);
 }
 .company-table-container td,
-.company-table-container th{
+.company-table-container th {
   font-weight: bold;
   padding: 10px;
   word-wrap: break-word;
@@ -462,14 +465,14 @@ left: 0;
 .company-table-container td:nth-child(4),
 .company-table-container th:nth-child(4),
 .company-table-container td:nth-child(5),
-.company-table-container th:nth-child(5){
+.company-table-container th:nth-child(5) {
   text-align: center;
 }
-.company-table-container table{
+.company-table-container table {
   width: 100%;
-    height: 50vh;
-    border-collapse: collapse;
-    font-size: 15px;
+  height: 50vh;
+  border-collapse: collapse;
+  font-size: 15px;
 }
 .company-prev-next-btn-control button {
   border: none;
@@ -549,7 +552,7 @@ left: 0;
   .monthly-user-chart-container,
   .usage-chart-container,
   .subscription-chart-container,
-  .peak-hours-chart-container{
+  .peak-hours-chart-container {
     height: auto;
     min-height: 45vh;
     padding: 15px;
