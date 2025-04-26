@@ -5,6 +5,7 @@ import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetter
 import { addJob } from "../../../../api/ai-reference/job/jobs-api";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
+import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
 
 const AddJobComponent = ({ onCancel }) => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const AddJobComponent = ({ onCancel }) => {
   const [isCustomOpen, setIsCustomOpen] = useState(false);
   const [candidates, setCandidates] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -153,7 +155,10 @@ const AddJobComponent = ({ onCancel }) => {
 
       // Store candidate emails before navigation
       const candidateEmails = candidates.map((c) => c.email);
-      sessionStorage.setItem("candidateEmails", JSON.stringify(candidateEmails));
+      sessionStorage.setItem(
+        "candidateEmails",
+        JSON.stringify(candidateEmails)
+      );
 
       navigate("/candidate-request-sent");
     } catch (error) {
@@ -210,15 +215,6 @@ const AddJobComponent = ({ onCancel }) => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [onCancel]);
-
-  const handleCancel = () => {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to cancel? Your progress will be lost."
-    );
-    if (userConfirmed) {
-      onCancel();
-    }
-  };
 
   return (
     <>
@@ -606,7 +602,7 @@ const AddJobComponent = ({ onCancel }) => {
           <button
             className="btn-cancel-ref-req"
             type="button"
-            onClick={handleCancel}
+            onClick={() => setShowCancelConfirmation(true)}
             disabled={loading}
           >
             Cancel
@@ -634,6 +630,12 @@ const AddJobComponent = ({ onCancel }) => {
         <SubmitConfirmationPopUp
           onClose={() => setShowConfirmation(false)}
           onConfirmSubmit={handleConfirmSubmit}
+        />
+      )}
+      {showCancelConfirmation && (
+        <CancelConfirmationPopUp
+          onClose={() => setShowCancelConfirmation(false)}
+          onConfirmSubmit={() => onCancel()}
         />
       )}
     </>
