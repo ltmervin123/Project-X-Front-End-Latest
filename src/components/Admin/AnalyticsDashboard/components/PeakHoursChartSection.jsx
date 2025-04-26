@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Row, Col } from "react-bootstrap";
 import PeakHourSection from "./PeakHourSection";
 import TopActiveUserRankingSection from "./TopActiveUserRankingSection";
@@ -11,13 +11,20 @@ const PeakHoursChartSection = ({ isVisible }) => {
     queryFn: getPeakHourStat,
     staleTime: 1000 * 60 * 1,
   });
-  const peakHourData = {
-    companiesRanking: peakHourStat?.companiesRanking || [],
-  };
+  const peakHourData = useMemo(() => {
+    return {
+      companiesRanking: peakHourStat?.companiesRanking || [],
+      peakHour: peakHourStat?.peakHourData || {},
+    };
+  }, [peakHourStat]);
+
   return (
     <Row className="mb-4">
       <Col md="6">
-        <PeakHourSection isVisible={isVisible} />
+        <PeakHourSection
+          isVisible={isVisible}
+          peakHourData={peakHourData.peakHour}
+        />
       </Col>
       <Col md="6">
         <TopActiveUserRankingSection
