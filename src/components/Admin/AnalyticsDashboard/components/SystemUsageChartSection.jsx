@@ -22,6 +22,9 @@ const SystemUsageChartSection = ({ isVisible }) => {
         last7Days: systemUsage?.referenceCheckStat?.last7Days || 0,
         last30Days: systemUsage?.referenceCheckStat?.last30Days || 0,
       },
+      averageUsage: {
+        usages: systemUsage?.averageUsage || [],
+      },
     };
   }, [systemUsage]);
   return (
@@ -37,7 +40,10 @@ const SystemUsageChartSection = ({ isVisible }) => {
           isVisible={isVisible}
           referenceCheckStatData={data.referenceCheckStat}
         />
-        <AverageUsageSection isVisible={isVisible} />
+        <AverageUsageSection
+          isVisible={isVisible}
+          averageUsageData={data.averageUsage}
+        />
       </Col>
     </Row>
   );
