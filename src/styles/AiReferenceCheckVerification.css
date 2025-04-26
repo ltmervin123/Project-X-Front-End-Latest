@@ -46,8 +46,8 @@
 }
 
 .reference-progress-indicator .bullet {
-  width: 30px;
-  height: 29px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background-color: lightgray;
   display: flex;
