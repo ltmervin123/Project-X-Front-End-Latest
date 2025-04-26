@@ -7,24 +7,20 @@ import AnalyticsDashboard from "../../components/Admin/AnalyticsDashboard/Analyt
 import "../../styles/AdminStyles/AnalyticsDashboardPage.css";
 
 function AnalyticsDashboardPage() {
-  // const isAuthenticated = sessionStorage.getItem("authenticated") || false;
-
   return (
     <>
       <Header />
       <div className="MockMaindashboard-container ">
         <Row>
-          {/* Sidebar with 3/12 width */}
           <Col md={2} className="p-0 MockSidebar">
             <Sidebar />
           </Col>
-          {/* Main content area with 9/12 width */}
+
           <Col md={10} className="p-3">
             <AnalyticsDashboard />
           </Col>
         </Row>
       </div>
-      {/* {isAuthenticated && <PopupGuide introKey="mainDashboard" />} */}
     </>
   );
 }

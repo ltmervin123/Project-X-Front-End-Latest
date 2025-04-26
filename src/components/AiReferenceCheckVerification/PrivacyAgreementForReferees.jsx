@@ -21,7 +21,7 @@ const PrivacyAgreementForReferees = ({
         <div className="cr-privacy-container d-flex justify-content-between align-items-center">
           <div className="cr-privacy-content d-flex flex-column align-items-center justify-content-start">
             <div className="cr-section mb-4">
-              <h2 className="m-0">Privacy Agreement for Referees</h2>
+              <h3 className="m-0">Privacy Agreement for Referees</h3>
               <small>
                 As a referee participating in this reference check, you
                 acknowledge and agree to the following:

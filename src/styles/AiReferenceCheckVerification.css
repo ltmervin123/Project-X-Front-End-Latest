@@ -46,8 +46,8 @@
 }
 
 .reference-progress-indicator .bullet {
-  width: 30px;
-  height: 29px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background-color: lightgray;
   display: flex;
@@ -158,10 +158,19 @@
 }
 .cr-privacy-modal-agreement .modal-dialog {
   width: 100% !important;
-  max-width: 800px !important;
+  max-width: 700px !important;
+}
+.cr-privacy-modal-agreement .cr-section-title{
+  font-size: 15px;
+
+}
+.cr-privacy-modal-agreement .btn-cr-continue {
+  font-size: 13px !important;
+  padding: 5px 30px !important;
+
 }
 .cr-privacy-modal-agreement .cr-section-description{
-  font-size: 15px;
+  font-size: 13px;
 }
 
 /* Customizing the scrollbar */

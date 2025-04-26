@@ -52,7 +52,6 @@ const ReferenceQuestionTable = ({
       <tr className={selectedItems.includes(data._id) ? "table-active" : ""}
               onClick={() => onSelect(data._id)}
               style={{ cursor: 'pointer' }}>
-        {(showCheckboxes || selectedItems.length > 0) && (
           <td style={{width: "30px"}}>
             <input
               type="checkbox"
@@ -61,17 +60,16 @@ const ReferenceQuestionTable = ({
               onChange={() => onSelect(data._id)}
             />
           </td>
-        )}
+  
         <td>{data.name}</td>
         <td className="text-center">{data.questionCount}</td>
         <td className="text-center">
           {data.deletedAt.toString().split("T")[0]}
         </td>
-        <td className="d-flex align-items-center w-100 justify-content-center">
-          <div className="position-relative">
-            <div className="action-menu">
-              <p
-                className="m-0"
+        <td className="position-relative text-center">
+          <div className="action-menu d-flex justify-content-center align-items-center">
+            <p
+              className="m-0 position-relative"
                 style={{ cursor: "pointer" }}
                 onClick={(e) => handleToggleOptions(data._id, e)}
               >
@@ -109,7 +107,7 @@ const ReferenceQuestionTable = ({
                   </div>
                 )}
               </p>
-            </div>
+            
           </div>
         </td>
       </tr>

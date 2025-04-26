@@ -5,6 +5,8 @@
   --font-black: #000;
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
+  --container-bg: #FEF8F3;
+
 }
 .ReviewYourReferenceCheck {
   height: 100vh;
@@ -28,7 +30,7 @@
   flex-direction: column; /* Arrange items vertically */
   width: 100%;
   height: 540px;
-  background: var(--font-white);
+  background: var(--container-bg);
   padding: 20px 40px;
   border-radius: 20px;
   box-shadow: 0 4px 4px 0px #00000059;
@@ -41,7 +43,7 @@
   flex-direction: column; /* Arrange items vertically */
   width: 100%;
   height: 540px;
-  background: var(--font-white);
+  background: var(--container-bg);
   padding: 20px 40px;
   border-radius: 20px;
   box-shadow: 0 4px 4px 0px #00000059;
@@ -54,13 +56,14 @@
   flex-direction: column; /* Arrange items vertically */
   width: 85%;
   max-width: 1400px;
-  height: 540px;
-  background: var(--font-white);
+  /* height: 540px; */
+  background: var(--container-bg);
   padding: 20px 40px;
   border-radius: 20px;
   box-shadow: 0 4px 4px 0px #00000059;
   /* margin: 10vh 0vh !important; */
   position: relative;
+  font-size: 14px;
   overflow: hidden; /* Ensure content doesn’t overflow the container */
 }
 
@@ -379,7 +382,7 @@
 }
 .ReviewYourReferenceCheck-container .selection-container > select,
 .ReviewYourReferenceCheck-container .preferred-id-container > select {
-  width: 60%;
+  width: 100%;
   height: 40px;
   border-radius: 50px;
   padding: 0px 20px 0px 10px;
@@ -412,6 +415,8 @@
 .drawing-container > .drawing-container-box > canvas {
   border-radius: 10px !important;
   width: 100%;
+  background: var(--font-white);
+
 }
 .ReviewYourReferenceCheck-button-controls > button {
   width: 150px !important;
@@ -470,7 +475,8 @@
 .file-upload-container > p,
 .upload-id-container > p,
 .front-id-container > p,
-.back-id-container > p {
+.back-id-container > p,
+.camera-verification-container p {
   font-weight: bold;
 }
 
@@ -483,9 +489,9 @@
 }
 .front-id-container > div,
 .back-id-container > div {
-  background: #f2f3f7;
   border-radius: 10px;
-  border: 1px solid var(--input-bg);
+  background-color: var(--font-white);
+ box-shadow: 0 4px 4px 0px #00000059;
   padding: 20px;
 }
 .front-id-container > div button,
@@ -493,7 +499,8 @@
 .front-id-container > div input,
 .back-id-container > div input,
 .camera-verification-container .upload-section button,
-.camera-verification-container .upload-section input {
+.camera-verification-container .upload-section input,
+.camera-verification-option-container .take-a-photo-container button {
   background: var(--secondary-color);
   width: 175px;
   font-size: 14px;
@@ -507,7 +514,8 @@
 .front-id-container > div input:disabled,
 .back-id-container > div input:disabled,
 .camera-verification-container > div > .btn-capture:disabled,
-.camera-verification-container .upload-section button:disabled {
+.camera-verification-container .upload-section button:disabled,
+.camera-verification-option-container .take-a-photo-container button:disabled {
   background: var(--input-bg) !important;
   cursor: not-allowed;
 }
@@ -539,11 +547,12 @@
   background: var(--primary-color);
 }
 .IdUploadSection-disclaimer {
-  background: #f2f3f7;
+  background-color: var(--font-white);
   border-radius: 10px;
   border: 1px solid var(--primary-color);
   padding: 20px;
-  font-size: 12px;
+  font-size: 9.5px;
+  box-shadow: 0 4px 4px 0px #00000059;
 }
 .IdUploadSection-disclaimer svg {
   height: 25px;
@@ -551,10 +560,10 @@
 }
 
 .camera-verification-container {
-  width: 70%;
+  width: 100%;
 }
 .camera-verification-container .upload-section {
-  background: #f2f3f7;
+  background-color: var(--font-white);
   border-radius: 10px;
   border: 1px solid var(--input-bg);
   padding: 20px;
@@ -562,8 +571,8 @@
 .camera-verification-container .video-container {
   position: relative;
   display: inline-block;
-  width: 500px;
-  height: 290px;
+  width: 600px;
+  height: 340px;
   border-radius: 10px;
 }
 .camera-verification-container > div > button {
@@ -585,13 +594,13 @@
   position: absolute;
   bottom: 20px;
   z-index: 7;
+right: 45%;
+left: 45%;
 
   border: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+
 }
 .camera-verification-container .btn-capture svg{
   height: 40px;
@@ -608,8 +617,8 @@
 
 .camera-verification-container .video-container video {
   border-radius: 10px;
-  width: 500px;
-  height: 290px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 10px;
   transform: scaleX(-1);
@@ -621,7 +630,7 @@
   left: 0;
   width: 100%;
   border-radius: 10px;
-  height: 100%;
+  height: 100% !important;
   pointer-events: none;
   z-index: 2;
 
@@ -661,7 +670,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   border-radius: 10px;
 
   height: 290px;
@@ -764,4 +773,88 @@
 .ai-enhanced-answer-container::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
+}
+
+.camera-verification-option-container {
+  width: 70%;
+}
+.camera-verification-option-container  .row{
+  height: 170px;
+
+}
+.take-a-photo-container{
+  border: 2px solid var(--font-black);
+  border-style: dashed;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--font-white);
+  gap: 10px;
+}
+.or-container{
+  height: 170px;
+}
+.or-container::before{
+  content: "";
+  width: 1px;
+  height: 100%;
+  border-left: 1px solid var(--font-black);
+}
+  
+  
+.or-container > div{
+  position: absolute;
+  z-index: 1;
+  padding: 5px;
+  background: var(--font-white);
+  font-size: 20px;
+  width: 50px;
+  border: 1px solid var(--font-black);
+}
+
+.custom-modal-take-picture .modal-dialog {
+  width: 70% !important;
+  max-width: 700px !important;
+  height: 380px;
+}
+.custom-modal-take-picture .modal-content{
+  padding: 20px;
+}
+
+.preview-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 340px;
+  z-index: 3;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.preview-controls {
+  margin-top: 20px;
+}
+
+.preview-controls button {
+  min-width: 120px;
+}
+.preferred-id-container .label-number,
+.camera-verification-option-container .label-number{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 1px 0px 0px;
+    border-radius: 50px;
+    width: 18px;
+    height: 18px;
+    background-color: #F46A05;
+    font-size: 12px;
+    color: var(--font-white);
+}
+.camera-verification-option-container p{
+  font-weight: 600;
 }

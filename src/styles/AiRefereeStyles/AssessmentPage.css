@@ -14,7 +14,6 @@
 /* Main container */
 .assessment-form-container {
     width: 100%;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,13 +57,11 @@
     width: 100%;
     height: auto;
     min-height: 200px;
-    padding-block: var(--form-padding-block);
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: var(--form-padding-block);
 }
 .form-header {
     padding-inline: var(--form-padding);
@@ -94,7 +91,7 @@
     margin: 0 !important;
 }
 .assessment-form-label {
-    font-size: 16px;
+    font-size: 15px;
 }
 .assessment-form-label-discription {
     font-size: 14px;
@@ -107,7 +104,6 @@
     justify-content: center;
     align-items: center;
     gap: 30px;
-    padding-top: 40px;
     padding-bottom: 0px;
 }
 .assessment-form-btn-submit {
@@ -120,4 +116,29 @@
 }
 .assessment-form-btn-submit:disabled{
     background: var(--input-bg);
+}
+
+/* Add hover effects for assessment form radio groups */
+.assessment-form-radio-group-container .MuiFormControlLabel-root:hover .MuiRadio-root {
+  color: #5D643F;
+}
+
+.assessment-form-radio-group-container .MuiFormControlLabel-root:nth-child(1):hover .MuiRadio-root {
+  color: #5D643F;
+}
+
+.assessment-form-radio-group-container .MuiFormControlLabel-root:nth-child(2):hover .MuiRadio-root {
+  color: #70AD47;
+}
+
+.assessment-form-radio-group-container .MuiFormControlLabel-root:nth-child(3):hover .MuiRadio-root {
+  color: #FFEA66;
+}
+
+.assessment-form-radio-group-container .MuiFormControlLabel-root:nth-child(4):hover .MuiRadio-root {
+  color: #ED7D31;
+}
+
+.assessment-form-radio-group-container .MuiFormControlLabel-root:nth-child(5):hover .MuiRadio-root {
+  color: #FF1D48;
 }

@@ -62,7 +62,6 @@ const ReferenceRequestTable = ({
         onClick={() => onSelect(data._id)}
         style={{ cursor: "pointer" }}
       >
-        {(showCheckboxes || selectedItems.length > 0) && (
           <td style={{width: "30px"}} onClick={(e) => e.stopPropagation()}>
             <input
               type="checkbox"
@@ -71,18 +70,17 @@ const ReferenceRequestTable = ({
               onChange={() => onSelect(data._id)}
             />
           </td>
-        )}
+     
         <td>{data.applicant}</td>
         <td>{data.referees}</td>
         <td>{concatenateStatus()}</td>
         <td className="text-center">
           {data.deletedAt.toString().split("T")[0]}
         </td>
-        <td className="d-flex align-items-center w-100 justify-content-center">
-          <div className="position-relative">
-            <div className="action-menu">
-              <p
-                className="m-0"
+        <td className="position-relative text-center">
+          <div className="action-menu d-flex justify-content-center align-items-center">
+            <p
+              className="m-0 position-relative"
                 style={{ cursor: "pointer" }}
                 onClick={(e) => handleToggleOptions(data._id, e)}
               >
@@ -120,7 +118,7 @@ const ReferenceRequestTable = ({
                   </div>
                 )}
               </p>
-            </div>
+            
           </div>
         </td>
       </tr>

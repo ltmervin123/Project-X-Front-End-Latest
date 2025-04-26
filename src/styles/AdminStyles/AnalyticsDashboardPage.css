@@ -432,6 +432,63 @@
   height: 75%;
   overflow-y: auto;
 }
+
+.company-table-container{
+  border-radius: 15px;
+  position: relative;
+  padding-top: 30px !important;
+}
+.company-table-container::before{
+  content: "";
+  position: absolute;
+  top: 0;
+left: 0;
+  width: 100%;
+  height: 20px;
+  background-color: var(--primary-color);
+  border-radius: 20px 20px 0px 0px;
+}
+.company-table-container th{
+  color: var(--card-color);
+}
+.company-table-container td,
+.company-table-container th{
+  font-weight: bold;
+  padding: 15px;
+  word-wrap: break-word;
+}
+.company-table-container td:nth-child(4),
+.company-table-container th:nth-child(4),
+.company-table-container td:nth-child(5),
+.company-table-container th:nth-child(5){
+  text-align: center;
+}
+.company-table-container table{
+  width: 100%;
+    height: 80%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+.company-prev-next-btn-control button {
+  border: none;
+  background: none;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.company-prev-next-btn-control button svg path {
+  fill: var(--primary-color) !important;
+}
+
+.company-prev-next-btn-control span {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.company-prev-next-btn-control button:disabled svg path {
+  fill: var(--card-color) !important;
+}
+
 /* Customizing the scrollbar */
 .peak-hours-chart-container .total-reference-check-data::-webkit-scrollbar {
   width: 6px; /* Scrollbar width */

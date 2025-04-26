@@ -88,7 +88,7 @@ right: 0;
 .AiReference-trashbin-container .action-options {
     position: absolute;
     top: 0;
-    /* left: 20px !important; */
+    left: -90px !important;
 }
 .AiReference-trashbin-container th:nth-last-child(1){
     text-align: center;
