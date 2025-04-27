@@ -47,13 +47,9 @@ const CompanyListSection = ({ searchQuery }) => {
   }, [filteredCompanies, currentPage, itemsPerPage]);
 
   return (
-<<<<<<< HEAD
     <div className="company-table-container d-flex justify-content-between flex-column bg-white shadow p-3 mb-2">
       <table className=" mb-0">
-=======
-    <div className="company-table-container bg-white shadow p-3 mb-2">
-      <table className=" mb-0" style={{ minHeight: "300px" }}>
->>>>>>> 8e4be07e6b07e9dbd8bb825b4458f000bf618127
+
         <thead>
           <tr>
             {[

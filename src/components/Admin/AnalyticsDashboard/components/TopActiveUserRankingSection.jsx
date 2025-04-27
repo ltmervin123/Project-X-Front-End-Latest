@@ -2,21 +2,27 @@ import React, { useMemo } from "react";
 const TopActiveUserRankingSection = ({ isVisible, companiesRankingData }) => {
   const getPlanStyle = (plan) => {
     switch (plan) {
+      case "Free":
+        return {
+          backgroundColor: "#1706ac43",
+          borderColor: "#1706ac",
+          color: "#1706ac",
+        };
       case "Basic":
         return {
-          backgroundColor: "rgba(248, 189, 0, 0.3)",
+          backgroundColor: "#F8BD0043",
           borderColor: "#F8BD00",
           color: "#F8BD00",
         };
       case "Premium":
         return {
-          backgroundColor: "rgba(49, 159, 67, 0.3)",
+          backgroundColor: "#319F4343",
           borderColor: "#319F43",
           color: "#319F43",
         };
       case "Enterprise":
         return {
-          backgroundColor: "rgba(24, 119, 242, 0.3)",
+          backgroundColor: "#1877F243",
           borderColor: "#1877F2",
           color: "#1877F2",
         };

@@ -19,7 +19,7 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
       title: "Total Users",
       count: analyticsData?.totalCompany || 0,
       color: "#f46a05",
-      path: "/UserManagement",
+      path: "/AnalyticsDashboard",
     },
     {
       title: "Active Users",
@@ -46,7 +46,7 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
 
   return (
     <>
-      <Row className="mb-3 AiReferenceCard-container">
+      <Row className="mb-3 AnalyticsCard-container">
         {cardData.map((card, index) => (
           <Col
             key={index}
@@ -58,7 +58,7 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
             }`}
           >
             <div
-              className="AiReferenceCard"
+              className="AnalyticsCard"
               onClick={() => navigate(card.path)}
             >
               <div className="h-100">
