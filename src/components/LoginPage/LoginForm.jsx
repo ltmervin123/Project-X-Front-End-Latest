@@ -31,7 +31,7 @@ const LoginForm = () => {
         isLogin?.service === SERVICE[0] &&
         isLogin?.accountType === "admin"
       ) {
-        navigate("/AnalyticsDashboard");
+        navigate("/analytics-dashboard");
       } else if (isLogin?.service === SERVICE[1]) {
         navigate("/maindashboard");
       }
