@@ -429,7 +429,7 @@ const ReferenceQuestion = () => {
         </p>
       </div>
       <div
-        className={`d-flex justify-content-center align-items-center button-controls-question gap-4 mb-3 fade-in ${
+        className={`d-flex justify-content-center align-items-center button-controls-question gap-4 mb-2 fade-in ${
           isButtonVisible ? "visible" : ""
         }`}
       >

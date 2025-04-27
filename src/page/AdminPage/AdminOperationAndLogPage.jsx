@@ -2,11 +2,9 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/Admin/Header";
 import Sidebar from "../../components/Admin/Sidebar";
-
-import AnalyticsDashboard from "../../components/Admin/AnalyticsDashboard/AnalyticsDashboard";
 import "../../styles/AdminStyles/AnalyticsDashboardPage.css";
 
-function AnalyticsDashboardPage() {
+function AdminOperationAndLogPage() {
   return (
     <>
       <Header />
@@ -16,13 +14,11 @@ function AnalyticsDashboardPage() {
             <Sidebar />
           </Col>
 
-          <Col md={10} className="p-3">
-            <AnalyticsDashboard />
-          </Col>
+          <Col md={10} className="p-3"></Col>
         </Row>
       </div>
     </>
   );
 }
 
-export default AnalyticsDashboardPage;
+export default AdminOperationAndLogPage;
