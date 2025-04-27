@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const SubmitConfirmationPopUp = ({ onClose, onConfirmSubmit }) => {
+const CancelConfirmationPopUp = ({ onClose, onConfirmSubmit: onCancel }) => {
   return (
     <Modal
       show={true}
@@ -13,13 +13,10 @@ const SubmitConfirmationPopUp = ({ onClose, onConfirmSubmit }) => {
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Kindly review the information provided. Do you wish to proceed?
+            Are you sure you want to cancel? Your progress will be lost.
           </p>
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
-            <button
-              className="btn-yes-submit-request"
-              onClick={onConfirmSubmit}
-            >
+            <button className="btn-yes-submit-request" onClick={onCancel}>
               Yes
             </button>
             <button className="btn-no-submit-request" onClick={onClose}>
@@ -32,4 +29,4 @@ const SubmitConfirmationPopUp = ({ onClose, onConfirmSubmit }) => {
   );
 };
 
-export default SubmitConfirmationPopUp;
+export default CancelConfirmationPopUp;

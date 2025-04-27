@@ -47,8 +47,13 @@ const CompanyListSection = ({ searchQuery }) => {
   }, [filteredCompanies, currentPage, itemsPerPage]);
 
   return (
+<<<<<<< HEAD
     <div className="company-table-container d-flex justify-content-between flex-column bg-white shadow p-3 mb-2">
       <table className=" mb-0">
+=======
+    <div className="company-table-container bg-white shadow p-3 mb-2">
+      <table className=" mb-0" style={{ minHeight: "300px" }}>
+>>>>>>> 8e4be07e6b07e9dbd8bb825b4458f000bf618127
         <thead>
           <tr>
             {[
@@ -66,21 +71,32 @@ const CompanyListSection = ({ searchQuery }) => {
         </thead>
         <tbody>
           {paginatedCompanies.length !== 0 ? (
-            paginatedCompanies.map((company, index) => (
-              <tr key={index}>
-                <td>{company.personInCharge}</td>
-                <td>{company.email}</td>
-                <td>{company.name}</td>
-                <td
-                  style={{
-                    color: company.isLogin === "Active" ? "#319F43" : "#FF0000",
-                  }}
-                >
-                  {company.isLogin}
-                </td>
-                <td>{company.lastLoginAt}</td>
-              </tr>
-            ))
+            <>
+              {paginatedCompanies.map((company, index) => (
+                <tr key={index}>
+                  <td>{company.personInCharge}</td>
+                  <td>{company.email}</td>
+                  <td>{company.name}</td>
+                  <td
+                    style={{
+                      color:
+                        company.isLogin === "Active" ? "#319F43" : "#FF0000",
+                    }}
+                  >
+                    {company.isLogin}
+                  </td>
+                  <td>{company.lastLoginAt}</td>
+                </tr>
+              ))}
+
+              {Array.from({
+                length: itemsPerPage - paginatedCompanies.length,
+              }).map((_, index) => (
+                <tr key={`empty-${index}`} style={{ height: "54px" }}>
+                  <td colSpan={5}>&nbsp;</td>
+                </tr>
+              ))}
+            </>
           ) : (
             <tr>
               <td colSpan={5} className="text-center">

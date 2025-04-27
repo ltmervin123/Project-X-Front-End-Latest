@@ -12,8 +12,7 @@ const DeleteConfirmationJobPopUp = ({
       onHide={onClose}
       centered
       backdrop="static"
-            className="custom-modal-edit-user"
-
+      className="custom-modal-edit-user"
       keyboard={false}
     >
       <Modal.Body>

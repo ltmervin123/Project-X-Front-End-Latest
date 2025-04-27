@@ -15,6 +15,8 @@ const UserStatisticsChartSection = ({
     queryKey: ["adminDashboardUserStatistics"],
     queryFn: getUserStatistic,
     staleTime: 1000 * 60 * 1,
+    refetchInterval: 1000 * 60 * 1,
+    refetchIntervalInBackground: true,
   });
 
   useEffect(() => {
