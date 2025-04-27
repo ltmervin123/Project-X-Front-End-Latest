@@ -253,10 +253,10 @@ const UserStatisticsChartSection = ({
   };
 
   return (
-    <Row className="mb-3">
+    <Row className="mb-3 user-stats-container">
       <Col md="6">
         <div
-          className={`active-chart-container mb-4 fade-in ${
+          className={`active-chart-container 1 mb-4 fade-in ${
             isLineChartVisible ? "visible" : ""
           }`}
         >

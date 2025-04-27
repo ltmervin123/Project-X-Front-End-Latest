@@ -15,22 +15,29 @@ const Sidebar = () => {
 
   return (
     <>
-      <button className={`mobile-menu-btn ${showSidebar ? 'show' : ''}`} onClick={toggleSidebar}>
+      <button
+        className={`mobile-menu-btn ${showSidebar ? "show" : ""}`}
+        onClick={toggleSidebar}
+      >
         {showSidebar ? <FaTimes /> : <FaBars />}
       </button>
-      
+
       {/* Overlay */}
-      <div 
-        className={`sidebar-overlay ${showSidebar ? 'show' : ''}`}
+      <div
+        className={`sidebar-overlay ${showSidebar ? "show" : ""}`}
         onClick={closeSidebar}
       />
 
-      <div className={`MockMain-sidebar d-flex flex-column gap-4 ${showSidebar ? 'show' : ''}`}>
+      <div
+        className={`MockMain-sidebar d-flex flex-column gap-4 ${
+          showSidebar ? "show" : ""
+        }`}
+      >
         <NavLink
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AnalyticsDashboard"
+          to="/analytics-dashboard"
         >
           <svg
             width="14"
@@ -48,7 +55,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/UserManagement"
+          to="/user-management"
         >
           <svg
             width="12"
@@ -70,7 +77,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AdminOperations&Logs"
+          to="/admin-operations"
         >
           <svg
             width="11"

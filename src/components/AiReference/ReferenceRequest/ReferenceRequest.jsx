@@ -283,8 +283,7 @@ const ReferenceRequest = () => {
         <div>
           <h3 className="mb-0">Reference Request</h3>
           <p className="mb-2">
-            Manage and track reference checks for your candidates.
-          </p>
+          Manage and track reference checks for your applicants.          </p>
         </div>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -348,7 +347,7 @@ const ReferenceRequest = () => {
             <table className="reference-table">
               <thead>
                 <tr>
-                  <th>Candidate</th>
+                  <th>Applicant</th>
                   <th>Position</th>
                   <th className="text-center">Referees</th>
                   <th>Status</th>
