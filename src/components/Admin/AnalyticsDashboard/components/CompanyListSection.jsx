@@ -88,7 +88,7 @@ const CompanyListSection = ({ searchQuery }) => {
               {Array.from({
                 length: itemsPerPage - paginatedCompanies.length,
               }).map((_, index) => (
-                <tr key={`empty-${index}`} style={{ height: "54px" }}>
+                <tr key={`empty-${index}`}>
                   <td colSpan={5}>&nbsp;</td>
                 </tr>
               ))}
