@@ -505,7 +505,7 @@ const Trashbin = () => {
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
         </div>
-        <div className="trashbin-category-filters d-flex gap-2 mb-3">
+        <div className="trashbin-category-filters d-flex gap-2 ">
           {CATEGORIES.map((category) => (
             <button
               key={category}

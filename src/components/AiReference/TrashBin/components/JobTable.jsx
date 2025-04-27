@@ -18,6 +18,8 @@ const JobTable = ({
   const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
 
   const handleToggleOptions = (candidateId, event) => {
+    event.stopPropagation(); // Stop event propagation here
+
     const { clientY } = event;
     setVisibleOptions((prev) => {
       if (prev[candidateId]) {
@@ -62,7 +64,12 @@ const JobTable = ({
         onClick={() => onSelect(data._id)}
         style={{ cursor: "pointer" }}
       >
-        <td style={{ width: "30px" }}>
+        {/* Add stopPropagation to checkbox container */}
+        <td
+          style={{ width: "30px", cursor: "pointer" }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {" "}
           <input
             type="checkbox"
             className="form-check-input"

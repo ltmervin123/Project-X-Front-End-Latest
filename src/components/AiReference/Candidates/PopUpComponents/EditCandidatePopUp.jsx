@@ -141,7 +141,7 @@ const EditCandidatePopUp = ({
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h5 className="m-0">Edit Applicant</h5>
-            <small>Update the details of the candidate below.</small>
+            <small>Update the details of the applicant below.</small>
           </div>
           <Button
             className="closebtn"

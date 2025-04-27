@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import * as AdminAPI from "../../../../api/ai-reference/admin/admin-api";
 
 const CompanyListSection = ({ searchQuery }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [itemsPerPage, setItemsPerPage] = useState(0);
+  const rowHeight = 40; // Set the height of each row in pixels
 
   const { data: result } = useQuery({
     queryKey: ["adminDashboardCompanyList"],
@@ -24,6 +25,12 @@ const CompanyListSection = ({ searchQuery }) => {
     );
   }, [result, searchQuery]);
 
+  useEffect(() => {
+    const tableHeight = window.innerHeight * 0.4; // 50vh in pixels
+    const calculatedItemsPerPage = Math.floor(tableHeight / rowHeight);
+    setItemsPerPage(calculatedItemsPerPage);
+  }, []);
+
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
@@ -37,10 +44,10 @@ const CompanyListSection = ({ searchQuery }) => {
   const paginatedCompanies = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredCompanies.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredCompanies, currentPage]);
+  }, [filteredCompanies, currentPage, itemsPerPage]);
 
   return (
-    <div className="company-table-container bg-white shadow p-3 mb-2">
+    <div className="company-table-container d-flex justify-content-between flex-column bg-white shadow p-3 mb-2">
       <table className=" mb-0">
         <thead>
           <tr>
