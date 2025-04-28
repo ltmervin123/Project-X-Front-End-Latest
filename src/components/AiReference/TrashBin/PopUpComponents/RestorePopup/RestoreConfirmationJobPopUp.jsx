@@ -1,13 +1,13 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const RecoverConfirmationReferenceRequestPopUp = ({
+const RestoreConfirmationJobPopUp = ({
   onClose,
-  onConfirmRecover,
+  onConfirmRestore,
   selectedCount,
   isAll,
   isSingleItem,
-  isRecoveringReferenceRequest,
+  isRestoreingJobs,
 }) => {
   return (
     <Modal
@@ -20,28 +20,28 @@ const RecoverConfirmationReferenceRequestPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to recover{" "} <strong>
+            Would you like to restore{" "}
             {isSingleItem || selectedCount === 1
-              ? "this reference request"
+              ? "this job"
               : isAll
-              ? "all"
-              : "selected"}{" "}</strong>
-          ? This action will move{" "} <strong>
+              ? "all these jobs"
+              : `these jobs`}
+            ? This action will move{" "}
             {isSingleItem || selectedCount === 1
-              ? "the reference request"
+              ? "the job"
               : isAll
-              ? "all reference requests"
-              : `the selected reference requests`}</strong>
-           {" "} back to the reference request list.
+              ? "all these jobs"
+              : `these jobs`}
+           {" "} back to the Jobs list.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button
               className="btn-yes-recover"
-              onClick={onConfirmRecover}
-              disabled={isRecoveringReferenceRequest}
+              onClick={onConfirmRestore}
+              disabled={isRestoreingJobs}
             >
-              {isRecoveringReferenceRequest ? (
+              {isRestoreingJobs ? (
                 <div
                   className="spinner-border spinner-border-sm text-light"
                   role="status"
@@ -60,4 +60,4 @@ const RecoverConfirmationReferenceRequestPopUp = ({
   );
 };
 
-export default RecoverConfirmationReferenceRequestPopUp;
+export default RestoreConfirmationJobPopUp;

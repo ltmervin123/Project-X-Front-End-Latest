@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationApplicantPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
-import RecoverConfirmationApplicantPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationApplicantPopUp";
+import RecoverConfirmationApplicantPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationApplicantPopUp";
 
 const ApplicantTable = ({
   data,
@@ -66,14 +66,14 @@ const ApplicantTable = ({
         >
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />
         </td>
 
         <td>{data.name}</td>
-        <td>{data.email}</td>
+        <td style={{width : "25%"}}>{data.email}</td>
         <td>{data.position}</td>
         <td className="text-center">{data.deletedAt.split("T")[0]}</td>
         <td className="position-relative text-center">

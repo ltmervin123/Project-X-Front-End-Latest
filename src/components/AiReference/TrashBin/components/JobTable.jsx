@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationJobPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationJobPopUp";
-import RecoverConfirmationJobPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationJobPopUp";
+import RecoverConfirmationJobPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationJobPopUp";
 
 const JobTable = ({
   data,
@@ -73,13 +73,13 @@ const JobTable = ({
           {" "}
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />
         </td>
-        <td>{data.jobName}</td>
-        <td className="text-center">{data.vacancies}</td>
+        <td style={{width : "12%"}}>{data.jobName}</td>
+        <td className="text-center" >{data.vacancies}</td>
         <td>{data.department}</td>
         <td>{data.hiringManager}</td>
         <td className="text-center">

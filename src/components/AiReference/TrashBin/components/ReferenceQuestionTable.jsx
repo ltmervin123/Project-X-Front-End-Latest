@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceQuestionPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceQuestionPopUp";
-import RecoverConfirmationReferenceQuestionPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
+import RecoverConfirmationReferenceQuestionPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceQuestionPopUp";
 
 const ReferenceQuestionTable = ({
   data,
@@ -64,7 +64,7 @@ const ReferenceQuestionTable = ({
           {" "}
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />

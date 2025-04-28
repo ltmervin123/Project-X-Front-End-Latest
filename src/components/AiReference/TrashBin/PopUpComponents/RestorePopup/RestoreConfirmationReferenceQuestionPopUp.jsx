@@ -1,14 +1,14 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const RecoverConfirmationReferenceQuestionPopUp = ({
+const RestoreConfirmationReferenceQuestionPopUp = ({
   onClose,
-  onConfirmRecover,
+  onConfirmRestore,
   selectedCount,
 
   isAll,
   isSingleItem,
-  isRecoveringReferenceQuestions,
+  isRestoreingReferenceQuestions,
 }) => {
   return (
     <Modal
@@ -21,28 +21,28 @@ const RecoverConfirmationReferenceQuestionPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to recover{" "}<strong>
+            Would you like to restore{" "}
             {isSingleItem || selectedCount === 1
-              ? "this reference question"
+              ? "this reference question sets"
               : isAll
-              ? "all"
-              : "selected"}{" "}</strong>
-            ? This action will move{" "} <strong>
+              ? "all these reference questions sets"
+              : "these reference question sets"}{" "}
+            ? This action will move{" "} 
             {isSingleItem || selectedCount === 1
-              ? "the reference question"
+              ? "the reference question sets"
               : isAll
-              ? "all reference questions"
-              : `the selected reference questions`}</strong>
-           {" "} back to the reference question list.
+              ? "all these reference questions sets"
+              : "these reference question sets"}{" "}
+           back to the Reference Question list.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button
               className="btn-yes-recover"
-              onClick={onConfirmRecover}
-              disabled={isRecoveringReferenceQuestions}
+              onClick={onConfirmRestore}
+              disabled={isRestoreingReferenceQuestions}
             >
-              {isRecoveringReferenceQuestions ? (
+              {isRestoreingReferenceQuestions ? (
                 <div
                   className="spinner-border spinner-border-sm text-light"
                   role="status"
@@ -61,4 +61,4 @@ const RecoverConfirmationReferenceQuestionPopUp = ({
   );
 };
 
-export default RecoverConfirmationReferenceQuestionPopUp;
+export default RestoreConfirmationReferenceQuestionPopUp;

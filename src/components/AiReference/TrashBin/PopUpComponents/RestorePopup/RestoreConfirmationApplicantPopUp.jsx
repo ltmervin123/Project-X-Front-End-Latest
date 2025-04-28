@@ -1,13 +1,13 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const RecoverConfirmationApplicantPopUp = ({
+const RestoreConfirmationApplicantPopUp = ({
   onClose,
-  onConfirmRecover,
+  onConfirmRestore,
   selectedCount,
   isAll,
   isSingleItem,
-  isRecoveringCandidate,
+  isRestoreingCandidate,
 }) => {
   return (
     <Modal
@@ -20,31 +20,31 @@ const RecoverConfirmationApplicantPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to recover{" "} <strong>
+            Would you like to restore{" "} 
             {isSingleItem || selectedCount === 1
               ? "this applicant"
               : isAll
-              ? "all applicants"
-              : `selected applicants`}
-              </strong>
+              ? "all these applicants"
+              : `these applicants`}
+              
             ? This action will move{" "}
-            <strong>
+            
             {isSingleItem || selectedCount === 1
               ? "the applicant"
               : isAll
-              ? "all applicants"
-              : `the selected applicants`}
-              </strong>
-           {" "} back to the applicant list.
+              ? "all these applicants"
+              : `these applicants`}
+              
+           {" "} back to the Applicants list.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button
               className="btn-yes-recover"
-              onClick={onConfirmRecover}
-              disabled={isRecoveringCandidate}
+              onClick={onConfirmRestore}
+              disabled={isRestoreingCandidate}
             >
-              {isRecoveringCandidate ? (
+              {isRestoreingCandidate ? (
                 <div
                   className="spinner-border spinner-border-sm text-light"
                   role="status"
@@ -63,4 +63,4 @@ const RecoverConfirmationApplicantPopUp = ({
   );
 };
 
-export default RecoverConfirmationApplicantPopUp;
+export default RestoreConfirmationApplicantPopUp;

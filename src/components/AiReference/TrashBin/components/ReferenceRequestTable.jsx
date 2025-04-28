@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceRequestPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
-import RecoverConfirmationReferenceRequestPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
+import RecoverConfirmationReferenceRequestPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
 
 const ReferenceRequestTable = ({
   data,
@@ -50,11 +50,42 @@ const ReferenceRequestTable = ({
   const handleConfirmRecover = () => {
     onRestore(data._id);
   };
-
+  const filterDataBySearch = (requests, searchTerm) => {
+    return requests.filter((request) => {
+      const referees = request.referees;
+      const refereesString = Array.isArray(referees) 
+        ? referees.join(", ") 
+        : (typeof referees === "string" ? referees : "");
+      return refereesString.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  };
+  
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "In Progress":
+        return "#F8BD00";
+      case "Expired":
+        return "#FF0000";
+      case "Completed":
+        return "#1877F2";
+      case "New":
+        return "#319F43";
+      default:
+        return "black";
+    }
+  };
   function concatenateStatus() {
     if (!Array.isArray(data.status)) return "";
 
-    return data.status.join(" - ");
+    const statusCount = {};
+
+    data.status.forEach((status) => {
+      statusCount[status] = (statusCount[status] || 0) + 1;
+    });
+
+    return Object.entries(statusCount)
+      .map(([status, count]) => `${count} ${status}`)
+      .join(" - ");
   }
 
   return (
@@ -72,15 +103,32 @@ const ReferenceRequestTable = ({
           {" "}
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />
         </td>
 
-        <td>{data.applicant}</td>
-        <td>{data.referees}</td>
-        <td>{concatenateStatus()}</td>
+        <td style={{width : "12%"}}>{data.applicant}</td>
+        <td className="text-center" >{data.referees}</td>
+        <td>
+          {(() => {
+            const concatenatedStatus = concatenateStatus();
+            if (!concatenatedStatus) {
+              return <span style={{ color: "black" }}>No Status</span>;
+            }
+            return concatenatedStatus.split(" - ").map((status, index) => {
+              const [count, ...statusParts] = status.split(" ");
+              const statusText = statusParts.join(" ");
+              return (
+                <span key={index} style={{ color: getStatusColor(statusText) }}>
+                  {count} {statusText}
+                  {index !== concatenatedStatus.split(" - ").length - 1 && " "}
+                </span>
+              );
+            });
+          })()}
+        </td>
         <td className="text-center">
           {data.deletedAt.toString().split("T")[0]}
         </td>
@@ -135,7 +183,6 @@ const ReferenceRequestTable = ({
           selectedCount={selectedCount} // Pass the selected count
           isSingleItem={selectedCount === 1} // Check if only one item is selected
           isAll={selectedCount === data.length} // Check if all items are selected
-
           isDeletingReferenceRequest={isDeletingReferenceRequest}
         />
       )}
@@ -146,7 +193,6 @@ const ReferenceRequestTable = ({
           selectedCount={selectedCount} // Pass the selected count
           isSingleItem={selectedCount === 1} // Check if only one item is selected
           isAll={selectedCount === data.length} // Check if all items are selected
-
           isRecoveringReferenceRequest={isRecoveringReferenceRequest}
         />
       )}

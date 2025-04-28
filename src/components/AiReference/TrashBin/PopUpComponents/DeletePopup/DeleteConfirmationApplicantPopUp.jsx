@@ -20,12 +20,12 @@ const DeleteConfirmationApplicantPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Are you sure you want to permanently delete{" "} <strong>
+            Are you sure you want to permanently delete{" "} 
             {isSingleItem || selectedCount === 1
               ? "this applicant"
               : isAll
-              ? "all applicants"
-              : `selected applicants`}</strong>
+              ? "all these applicants"
+              : `these selected applicants`}
             ? This action cannot be undone.
           </p>
 

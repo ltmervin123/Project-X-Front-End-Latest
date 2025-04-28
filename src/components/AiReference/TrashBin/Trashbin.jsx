@@ -10,10 +10,10 @@ import DeleteConfirmationJobPopUp from "./PopUpComponents/DeletePopup/DeleteConf
 import DeleteConfirmationApplicantPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
 import DeleteConfirmationReferenceRequestPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
 import DeleteConfirmationReferenceQuestionPopUp from "./PopUpComponents/DeletePopup/DeleteConfirmationReferenceQuestionPopUp";
-import RecoverConfirmationJobPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationJobPopUp";
-import RecoverConfirmationApplicantPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationApplicantPopUp";
-import RecoverConfirmationReferenceRequestPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
-import RecoverConfirmationReferenceQuestionPopUp from "./PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
+import RestoreConfirmationJobPopUp from "./PopUpComponents/RestorePopup/RestoreConfirmationJobPopUp";
+import RestoreConfirmationApplicantPopUp from "./PopUpComponents/RestorePopup/RestoreConfirmationApplicantPopUp";
+import RestoreConfirmationReferenceRequestPopUp from "./PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
+import RestoreConfirmationReferenceQuestionPopUp from "./PopUpComponents/RestorePopup/RestoreConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
 import * as ReferenceQuestionArchiveAPI from "../../../api/ai-reference/archive/reference-question-api";
 import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/reference-request-api";
@@ -35,7 +35,7 @@ const Trashbin = () => {
   const [isContainerVisible, setIsContainerVisible] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [showRecoverPopup, setShowRecoverPopup] = useState(false);
+  const [showRestorePopup, setShowRestorePopup] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
   const queryClient = useQueryClient();
 
@@ -70,14 +70,14 @@ const Trashbin = () => {
       },
     });
 
-  const { mutate: restoreReference, isPending: isRecoveringReferenceRequest } =
+  const { mutate: restoreReference, isPending: isRestoreingReferenceRequest } =
     useMutation({
       mutationFn: ReferenceRequestArchiveAPI.restoreReferenceRequest,
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceRequest"],
         });
-        setShowRecoverPopup(false);
+        setShowRestorePopup(false);
       },
     });
 
@@ -103,7 +103,7 @@ const Trashbin = () => {
       },
     });
 
-  const { mutate: restoreQuestion, isPending: isRecoveringReferenceQuestions } =
+  const { mutate: restoreQuestion, isPending: isRestoreingReferenceQuestions } =
     useMutation({
       mutationFn: ReferenceQuestionArchiveAPI.restoreReferenceQuestion,
       onSuccess: () => {
@@ -111,7 +111,7 @@ const Trashbin = () => {
           queryKey: ["archivedReferenceQuestions"],
         });
         localStorage.removeItem("questions");
-        setShowRecoverPopup(false);
+        setShowRestorePopup(false);
       },
     });
 
@@ -140,7 +140,7 @@ const Trashbin = () => {
       },
     });
 
-  const { mutate: restoreCandidate, isPending: isRecoveringCandidate } =
+  const { mutate: restoreCandidate, isPending: isRestoreingCandidate } =
     useMutation({
       mutationFn: CandidateArchiveAPI.restoreCandidate,
       onSuccess: () => {
@@ -150,7 +150,7 @@ const Trashbin = () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceRequest"],
         });
-        setShowRecoverPopup(false);
+        setShowRestorePopup(false);
       },
     });
 
@@ -181,7 +181,7 @@ const Trashbin = () => {
     },
   });
 
-  const { mutate: restoreJobs, isPending: isRecoveringJobs } = useMutation({
+  const { mutate: restoreJobs, isPending: isRestoreingJobs } = useMutation({
     mutationFn: JobArchiveAPI.restoreJobs,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -193,7 +193,7 @@ const Trashbin = () => {
       queryClient.invalidateQueries({
         queryKey: ["archivedReferenceRequest"],
       });
-      setShowRecoverPopup(false);
+      setShowRestorePopup(false);
     },
   });
 
@@ -231,7 +231,6 @@ const Trashbin = () => {
         return data.filter(
           (request) =>
             request.applicant?.toLowerCase().includes(query) ||
-            request.referees?.toLowerCase().includes(query) ||
             request.status?.join(" ").toLowerCase().includes(query)
         );
       case "Reference Questions":
@@ -291,7 +290,7 @@ const Trashbin = () => {
   };
 
   const handleBulkRestore = () => {
-    setShowRecoverPopup(true);
+    setShowRestorePopup(true);
   };
 
   const handleBulkDelete = () => {
@@ -350,6 +349,9 @@ const Trashbin = () => {
     });
   };
 
+  const handleClearSelection = () => {
+    setSelectedItems([]);
+  };
   const handleSelectAll = () => {
     if (selectedItems.length === mockData[selectedCategory].length) {
       // Unselect all
@@ -377,7 +379,7 @@ const Trashbin = () => {
         label: (
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={
               selectedItems.length > 0 &&
               selectedItems.length === mockData[selectedCategory].length
@@ -392,7 +394,7 @@ const Trashbin = () => {
       case "Jobs":
         return [
           ...baseHeaders,
-          "Job Name",
+          { label: "Job Name", width: "12%" },
           { label: "Vacancy", className: "text-center" },
           "Department",
           "Hiring Manager",
@@ -403,7 +405,7 @@ const Trashbin = () => {
         return [
           ...baseHeaders,
           "Name",
-          "Email",
+          { label: "Email", width: "25%" },
           "Position",
           { label: "Deleted Date", className: "text-center" },
           "Actions",
@@ -411,8 +413,11 @@ const Trashbin = () => {
       case "Reference Requests":
         return [
           ...baseHeaders,
-          "Applicant",
-          "Referees",
+
+          { label: "Applicant", width: "12%" },
+
+          { label: "Referees", className: "text-center" },
+
           "Status",
           { label: "Deleted Date", className: "text-center" },
           "Actions",
@@ -445,21 +450,21 @@ const Trashbin = () => {
         const jobPropsData = {
           ...props,
           isDeletingJobs,
-          isRecoveringJobs,
+          isRestoreingJobs,
         };
         return <JobTable key={item._id} {...jobPropsData} />;
       case "Applicants":
         const applicantPropsData = {
           ...props,
           isDeletingCandidates,
-          isRecoveringCandidate,
+          isRestoreingCandidate,
         };
         return <ApplicantTable key={item.id} {...applicantPropsData} />;
       case "Reference Requests":
         const referenceRequestPropsData = {
           ...props,
           isDeletingReferenceRequest,
-          isRecoveringReferenceRequest,
+          isRestoreingReferenceRequest,
         };
         return (
           <ReferenceRequestTable key={item.id} {...referenceRequestPropsData} />
@@ -468,7 +473,7 @@ const Trashbin = () => {
         const referenceQuestionsPropsData = {
           ...props,
           isDeletingReferenceQuestions,
-          isRecoveringReferenceQuestions,
+          isRestoreingReferenceQuestions,
         };
         return (
           <ReferenceQuestionTable
@@ -542,17 +547,24 @@ const Trashbin = () => {
               />
             </svg>
             <p className="m-0">
-            Items in the trash will be permanently deleted after 10 days. To avoid this, please restore any items you want to keep before the 10-day period ends.
-
+              Items in the trash will be permanently deleted after 10 days. To
+              avoid this, please restore any items you want to keep before the
+              10-day period ends.
             </p>
           </div>
         </div>
 
         <div className="button-controls mb-3 d-flex gap-2 align-items-center justify-content-end">
-          <button onClick={handleSelectAll}>
-            {selectedItems.length === mockData[selectedCategory].length
-              ? "Unselect All"
-              : "Select All"}
+          <button
+            onClick={
+              selectedItems.length > 0 ? handleClearSelection : handleSelectAll
+            }
+          >
+            {selectedItems.length === 0
+              ? "Select All"
+              : selectedItems.length === mockData[selectedCategory].length
+              ? `Clear Selection (${selectedItems.length})`
+              : `Clear Selection (${selectedItems.length})`}
           </button>
           <button
             disabled={selectedItems.length === 0}
@@ -560,17 +572,22 @@ const Trashbin = () => {
             className={`${selectedItems.length === 0 ? "disabled" : ""}`}
           >
             {selectedItems.length === mockData[selectedCategory].length
-              ? "Recover All"
-              : "Recover"}
+              ? "Restore All"
+              : selectedItems.length === 1
+              ? "Restore"
+              : `Restore (${selectedItems.length})`}
           </button>
+
           <button
             disabled={selectedItems.length === 0}
             onClick={handleBulkDelete}
-            className={` ${selectedItems.length === 0 ? "disabled" : ""}`}
+            className={`${selectedItems.length === 0 ? "disabled" : ""}`}
           >
             {selectedItems.length === mockData[selectedCategory].length
               ? "Delete All"
-              : "Delete"}
+              : selectedItems.length === 1
+              ? "Delete"
+              : `Delete (${selectedItems.length})`}
           </button>
         </div>
 
@@ -605,25 +622,49 @@ const Trashbin = () => {
                     renderTableRow(item)
                   )
                 ) : (
-                  <tr>
-                    <td
-                      colSpan={getTableHeaders().length}
-                      className="text-center py-4"
+                  <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 23 23"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
+                      <path
+                        d="M16.375 14.5H15.3875L15.0375 14.1625C16.3049 12.6926 17.0015 10.8159 17 8.875C17 7.26803 16.5235 5.69715 15.6307 4.361C14.7379 3.02485 13.469 1.98344 11.9843 1.36848C10.4997 0.75352 8.86599 0.592618 7.28989 0.906123C5.7138 1.21963 4.26606 1.99346 3.12976 3.12976C1.99346 4.26606 1.21963 5.7138 0.906123 7.28989C0.592618 8.86599 0.75352 10.4997 1.36848 11.9843C1.98344 13.469 3.02485 14.7379 4.361 15.6307C5.69715 16.5235 7.26803 17 8.875 17C10.8875 17 12.7375 16.2625 14.1625 15.0375L14.5 15.3875V16.375L20.75 22.6125L22.6125 20.75L16.375 14.5ZM8.875 14.5C5.7625 14.5 3.25 11.9875 3.25 8.875C3.25 5.7625 5.7625 3.25 8.875 3.25C11.9875 3.25 14.5 5.7625 14.5 8.875C14.5 11.9875 11.9875 14.5 8.875 14.5Z"
+                        fill="#F46A05"
+                      />
+                    </svg>
+
+                    <h4>
                       No matching {selectedCategory.toLowerCase()} found for "
                       {searchQuery}"
-                    </td>
+                    </h4>
                   </tr>
                 )}
               </>
             ) : (
-              <tr>
-                <td
-                  colSpan={getTableHeaders().length}
-                  className="text-center py-4"
+              <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
+                <svg
+                  width="30"
+                  height="41"
+                  viewBox="0 0 40 51"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
+                  <path
+                    d="M40 2.83333H30L27.1429 0H12.8571L10 2.83333H0V8.5H40M2.85714 45.3333C2.85714 46.8362 3.45918 48.2776 4.53082 49.3403C5.60245 50.403 7.05591 51 8.57143 51H31.4286C32.9441 51 34.3975 50.403 35.4692 49.3403C36.5408 48.2776 37.1429 46.8362 37.1429 45.3333V11.3333H2.85714V45.3333Z"
+                    fill="#F46A05"
+                  />
+                </svg>
+
+                <h4 className="m-0">
                   No {selectedCategory.toLowerCase()} in trash bin
-                </td>
+                </h4>
+                <p>
+                  When you delete {selectedCategory.toLowerCase()}, they will
+                  appear here for 10 days before being permanently removed.
+                </p>
               </tr>
             )}
           </tbody>
@@ -671,42 +712,42 @@ const Trashbin = () => {
         </>
       )}
 
-      {showRecoverPopup && (
+      {showRestorePopup && (
         <>
           {selectedCategory === "Jobs" && (
-            <RecoverConfirmationJobPopUp
-              onClose={() => setShowRecoverPopup(false)}
-              onConfirmRecover={handleConfirmRestore}
+            <RestoreConfirmationJobPopUp
+              onClose={() => setShowRestorePopup(false)}
+              onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRecoveringJobs={isRecoveringJobs}
+              isRestoreingJobs={isRestoreingJobs}
             />
           )}
           {selectedCategory === "Applicants" && (
-            <RecoverConfirmationApplicantPopUp
-              onClose={() => setShowRecoverPopup(false)}
-              onConfirmRecover={handleConfirmRestore}
+            <RestoreConfirmationApplicantPopUp
+              onClose={() => setShowRestorePopup(false)}
+              onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRecoveringCandidate={isRecoveringCandidate}
+              isRestoreingCandidate={isRestoreingCandidate}
             />
           )}
           {selectedCategory === "Reference Requests" && (
-            <RecoverConfirmationReferenceRequestPopUp
-              onClose={() => setShowRecoverPopup(false)}
-              onConfirmRecover={handleConfirmRestore}
+            <RestoreConfirmationReferenceRequestPopUp
+              onClose={() => setShowRestorePopup(false)}
+              onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRecoveringReferenceRequest={isRecoveringReferenceRequest}
+              isRestoreingReferenceRequest={isRestoreingReferenceRequest}
             />
           )}
           {selectedCategory === "Reference Questions" && (
-            <RecoverConfirmationReferenceQuestionPopUp
-              onClose={() => setShowRecoverPopup(false)}
-              onConfirmRecover={handleConfirmRestore}
+            <RestoreConfirmationReferenceQuestionPopUp
+              onClose={() => setShowRestorePopup(false)}
+              onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRecoveringReferenceQuestions={isRecoveringReferenceQuestions}
+              isRestoreingReferenceQuestions={isRestoreingReferenceQuestions}
             />
           )}
         </>
