@@ -19,19 +19,19 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
       title: "Total Users",
       count: analyticsData?.totalCompany || 0,
       color: "#f46a05",
-      path: "/AnalyticsDashboard",
+      path: "/analytics-dashboard",
     },
     {
       title: "Active Users",
       count: analyticsData?.activeCompany || 0,
       color: "#F8BD00",
-      path: "/AnalyticsDashboard",
+      path: "/analytics-dashboard",
     },
     {
       title: "Reference Checks",
       count: analyticsData?.referenceCheck || 0,
       color: "#319F43",
-      path: "/AnalyticsDashboard",
+      path: "/analytics-dashboard",
     },
     {
       title: "Revenue",
@@ -40,7 +40,7 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
         (0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       }`,
       color: "#686868",
-      path: "/AnalyticsDashboard",
+      path: "/analytics-dashboard",
     },
   ];
 
@@ -57,10 +57,7 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
               isAiReferenceCardVisible ? "visible" : ""
             }`}
           >
-            <div
-              className="AnalyticsCard"
-              onClick={() => navigate(card.path)}
-            >
+            <div className="AnalyticsCard" onClick={() => navigate(card.path)}>
               <div className="h-100">
                 <p className="d-flex title">
                   <div
