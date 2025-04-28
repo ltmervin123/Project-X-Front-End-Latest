@@ -16,6 +16,7 @@ const JobTable = ({
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
     event.stopPropagation(); // Stop event propagation here
@@ -135,8 +136,10 @@ const JobTable = ({
         <DeleteConfirmationJobPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount} // Pass the selected count
+          isSingleItem={selectedCount === 1} // Check if only one item is selected
+          isAll={selectedCount === data.length} // Check if all items are selected
+
           isDeletingJobs={isDeletingJobs}
         />
       )}
@@ -144,8 +147,10 @@ const JobTable = ({
         <RecoverConfirmationJobPopUp
           onClose={() => setShowRecoverConfirmation(false)}
           onConfirmRecover={handleConfirmRecover}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount} // Pass the selected count
+          isSingleItem={selectedCount === 1} // Check if only one item is selected
+          isAll={selectedCount === data.length} // Check if all items are selected
+
           isRecoveringJobs={isRecoveringJobs}
         />
       )}

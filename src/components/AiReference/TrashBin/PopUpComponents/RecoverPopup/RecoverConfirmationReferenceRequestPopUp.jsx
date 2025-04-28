@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 const RecoverConfirmationReferenceRequestPopUp = ({
   onClose,
   onConfirmRecover,
+  selectedCount,
   isAll,
   isSingleItem,
   isRecoveringReferenceRequest,
@@ -19,14 +20,19 @@ const RecoverConfirmationReferenceRequestPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to recover{" "}
-            {isSingleItem
+            Would you like to recover{" "} <strong>
+            {isSingleItem || selectedCount === 1
               ? "this reference request"
               : isAll
               ? "all"
-              : "selected"}{" "}
-            reference requests? This action will move all requests back to the
-            reference requests list.{" "}
+              : "selected"}{" "}</strong>
+          ? This action will move{" "} <strong>
+            {isSingleItem || selectedCount === 1
+              ? "the reference request"
+              : isAll
+              ? "all reference requests"
+              : `the selected reference requests`}</strong>
+           {" "} back to the reference request list.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">

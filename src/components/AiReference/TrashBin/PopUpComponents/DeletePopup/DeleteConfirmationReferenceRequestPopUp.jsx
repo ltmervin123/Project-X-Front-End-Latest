@@ -4,6 +4,8 @@ import { Modal } from "react-bootstrap";
 const DeleteConfirmationReferenceRequestPopUp = ({
   onClose,
   onConfirmDelete,
+  selectedCount,
+
   isAll,
   isSingleItem,
   isDeletingReferenceRequest,
@@ -19,12 +21,12 @@ const DeleteConfirmationReferenceRequestPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Are you sure you want to permanently delete{" "}
-            {isSingleItem
+            Are you sure you want to permanently delete{" "} <strong>
+            {isSingleItem || selectedCount === 1
               ? "this reference request"
               : isAll
               ? "all reference requests"
-              : `selected reference requests`}
+              : `selected reference requests`}</strong>
             ? This action cannot be undone.{" "}
           </p>
 

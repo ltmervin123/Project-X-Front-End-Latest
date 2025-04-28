@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 const DeleteConfirmationApplicantPopUp = ({
   onClose,
   onConfirmDelete,
+  selectedCount,
   isAll,
   isSingleItem,
   isDeletingCandidates,
@@ -19,12 +20,12 @@ const DeleteConfirmationApplicantPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Are you sure you want to permanently delete{" "}
-            {isSingleItem
-              ? "this candidate"
+            Are you sure you want to permanently delete{" "} <strong>
+            {isSingleItem || selectedCount === 1
+              ? "this applicant"
               : isAll
-              ? "all candidates"
-              : `selected candidates`}
+              ? "all applicants"
+              : `selected applicants`}</strong>
             ? This action cannot be undone.
           </p>
 

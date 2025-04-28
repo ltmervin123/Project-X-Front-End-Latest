@@ -503,7 +503,7 @@ const Reports = () => {
                 <table className="AiReference-report-table">
                   <thead>
                     <tr>
-                      <th>Candidate</th>
+                      <th>Applicant</th>
                       <th>Referee</th>
                       <th className="text-center">Status</th>
                       <th className="text-center">Actions</th>

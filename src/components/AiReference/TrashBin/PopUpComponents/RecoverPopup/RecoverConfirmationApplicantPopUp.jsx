@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 const RecoverConfirmationApplicantPopUp = ({
   onClose,
   onConfirmRecover,
+  selectedCount,
   isAll,
   isSingleItem,
   isRecoveringCandidate,
@@ -19,13 +20,22 @@ const RecoverConfirmationApplicantPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to recover{" "}
-            {isSingleItem
-              ? "this candidate"
+            Would you like to recover{" "} <strong>
+            {isSingleItem || selectedCount === 1
+              ? "this applicant"
               : isAll
-              ? "all candidates"
-              : `selected candidates`}
-            ? This action will move all candidates back to the candidate list.
+              ? "all applicants"
+              : `selected applicants`}
+              </strong>
+            ? This action will move{" "}
+            <strong>
+            {isSingleItem || selectedCount === 1
+              ? "the applicant"
+              : isAll
+              ? "all applicants"
+              : `the selected applicants`}
+              </strong>
+           {" "} back to the applicant list.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">

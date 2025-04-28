@@ -7,7 +7,9 @@ const DeleteConfirmationNewSetsQuestionPopup = ({
   isDeleting,
 }) => {
   return (
-    <Modal show={true} onHide={onClose} centered backdrop="static">
+    <Modal show={true}
+    className="custom-modal-edit-user"
+    onHide={onClose} centered backdrop="static">
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">

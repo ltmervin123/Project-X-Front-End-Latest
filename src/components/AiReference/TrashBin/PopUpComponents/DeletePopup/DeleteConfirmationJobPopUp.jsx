@@ -4,6 +4,8 @@ import { Modal } from "react-bootstrap";
 const DeleteConfirmationJobPopUp = ({
   onClose,
   onConfirmDelete,
+  selectedCount,
+
   isAll,
   isSingleItem,
   isDeletingJobs,
@@ -19,9 +21,13 @@ const DeleteConfirmationJobPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Are you sure you want to permanently delete{" "}
-            {isSingleItem ? "this job" : isAll ? "all" : "selected"} jobs? This
-            action cannot be undone.
+            Are you sure you want to permanently delete{" "} <strong>
+            {isSingleItem || selectedCount === 1
+              ? "this job"
+              : isAll
+              ? "all jobs"
+              : "selected jobs"}</strong>
+            ? This action cannot be undone.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">

@@ -16,6 +16,8 @@ const ApplicantTable = ({
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  // Add this line to calculate the number of selected items
+  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
     event.stopPropagation(); // Stop event propagation here
@@ -59,7 +61,7 @@ const ApplicantTable = ({
       >
         {/* Add stopPropagation to checkbox container */}
         <td
-          style={{ width: "30px",cursor: "pointer" }}
+          style={{ width: "30px", cursor: "pointer" }}
           onClick={(e) => e.stopPropagation()}
         >
           <input
@@ -122,8 +124,9 @@ const ApplicantTable = ({
         <DeleteConfirmationApplicantPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount} // Pass the selected count
+          isSingleItem={selectedCount === 1} // Check if only one item is selected
+          isAll={selectedCount === data.length} // Check if all items are selected
           isDeletingCandidates={isDeletingCandidates}
         />
       )}
@@ -131,8 +134,9 @@ const ApplicantTable = ({
         <RecoverConfirmationApplicantPopUp
           onClose={() => setShowRecoverConfirmation(false)}
           onConfirmRecover={handleConfirmRecover}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount} // Pass the selected count
+          isSingleItem={selectedCount === 1} // Check if only one item is selected
+          isAll={selectedCount === data.length} // Check if all items are selected
           isRecoveringCandidate={isRecoveringCandidate}
         />
       )}
