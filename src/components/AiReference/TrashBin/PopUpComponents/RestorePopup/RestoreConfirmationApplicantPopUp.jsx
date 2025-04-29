@@ -7,7 +7,7 @@ const RestoreConfirmationApplicantPopUp = ({
   selectedCount,
   isAll,
   isSingleItem,
-  isRestoreingCandidate,
+  isRestoringCandidate,
 }) => {
   return (
     <Modal
@@ -42,9 +42,9 @@ const RestoreConfirmationApplicantPopUp = ({
             <button
               className="btn-yes-recover"
               onClick={onConfirmRestore}
-              disabled={isRestoreingCandidate}
+              disabled={isRestoringCandidate}
             >
-              {isRestoreingCandidate ? (
+              {isRestoringCandidate ? (
                 <div
                   className="spinner-border spinner-border-sm text-light"
                   role="status"

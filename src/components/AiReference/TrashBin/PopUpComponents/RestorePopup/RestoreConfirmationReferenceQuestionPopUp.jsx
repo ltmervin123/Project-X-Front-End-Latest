@@ -8,7 +8,7 @@ const RestoreConfirmationReferenceQuestionPopUp = ({
 
   isAll,
   isSingleItem,
-  isRestoreingReferenceQuestions,
+  isRestoringReferenceQuestions,
 }) => {
   return (
     <Modal
@@ -40,9 +40,9 @@ const RestoreConfirmationReferenceQuestionPopUp = ({
             <button
               className="btn-yes-recover"
               onClick={onConfirmRestore}
-              disabled={isRestoreingReferenceQuestions}
+              disabled={isRestoringReferenceQuestions}
             >
-              {isRestoreingReferenceQuestions ? (
+              {isRestoringReferenceQuestions ? (
                 <div
                   className="spinner-border spinner-border-sm text-light"
                   role="status"
