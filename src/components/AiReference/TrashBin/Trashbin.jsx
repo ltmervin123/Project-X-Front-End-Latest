@@ -246,7 +246,6 @@ const Trashbin = () => {
     switch (selectedCategory) {
       case "Jobs":
         const jobIds = [id];
-        console.log("jobIds", jobIds);
         restoreJobs({ jobIds });
         break;
       case "Applicants":
@@ -300,7 +299,6 @@ const Trashbin = () => {
   const handleConfirmRestore = () => {
     switch (selectedCategory) {
       case "Jobs":
-        console.log("jobIds", selectedItems);
         restoreJobs({ jobIds: selectedItems });
         break;
       case "Applicants":
