@@ -41,12 +41,24 @@ const ReferenceQuestionTable = ({
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting reference question: ", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
-  const handleConfirmRestore = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring reference question: ", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
 
   return (
@@ -125,7 +137,6 @@ const ReferenceQuestionTable = ({
           selectedCount={selectedCount} // Pass the selected count
           isSingleItem={selectedCount === 1} // Check if only one item is selected
           isAll={selectedCount === data.length} // Check if all items are selected
-
           isDeletingReferenceQuestions={isDeletingReferenceQuestions}
           onClose={() => setShowDeleteConfirmation(false)}
         />
@@ -136,7 +147,6 @@ const ReferenceQuestionTable = ({
           selectedCount={selectedCount} // Pass the selected count
           isSingleItem={selectedCount === 1} // Check if only one item is selected
           isAll={selectedCount === data.length} // Check if all items are selected
-
           isRestoringReferenceQuestions={isRestoringReferenceQuestions}
           onClose={() => setShowRestoreConfirmation(false)}
         />

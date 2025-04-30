@@ -43,23 +43,38 @@ const ReferenceRequestTable = ({
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting reference request: ", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
-  const handleConfirmRestore = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring reference request: ", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
+
   const filterDataBySearch = (requests, searchTerm) => {
     return requests.filter((request) => {
       const referees = request.referees;
-      const refereesString = Array.isArray(referees) 
-        ? referees.join(", ") 
-        : (typeof referees === "string" ? referees : "");
+      const refereesString = Array.isArray(referees)
+        ? referees.join(", ")
+        : typeof referees === "string"
+        ? referees
+        : "";
       return refereesString.toLowerCase().includes(searchTerm.toLowerCase());
     });
   };
-  
+
   const getStatusColor = (status) => {
     switch (status) {
       case "In Progress":
@@ -109,8 +124,8 @@ const ReferenceRequestTable = ({
           />
         </td>
 
-        <td style={{width : "12%"}}>{data.applicant}</td>
-        <td className="text-center" >{data.referees}</td>
+        <td style={{ width: "12%" }}>{data.applicant}</td>
+        <td className="text-center">{data.referees}</td>
         <td>
           {(() => {
             const concatenatedStatus = concatenateStatus();
@@ -180,9 +195,9 @@ const ReferenceRequestTable = ({
         <DeleteConfirmationReferenceRequestPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isDeletingReferenceRequest={isDeletingReferenceRequest}
         />
       )}
@@ -190,9 +205,9 @@ const ReferenceRequestTable = ({
         <RestoreConfirmationReferenceRequestPopUp
           onClose={() => setShowRestoreConfirmation(false)}
           onConfirmRestore={handleConfirmRestore}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isRestoringReferenceRequest={isRestoringReferenceRequest}
         />
       )}

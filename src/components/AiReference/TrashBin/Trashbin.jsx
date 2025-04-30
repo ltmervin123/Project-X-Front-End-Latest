@@ -66,6 +66,8 @@ const Trashbin = () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceRequest"],
         });
+      },
+      onSettled: () => {
         setShowDeletePopup(false);
       },
     });
@@ -77,6 +79,8 @@ const Trashbin = () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceRequest"],
         });
+      },
+      onSettled: () => {
         setShowRestorePopup(false);
       },
     });
@@ -99,6 +103,8 @@ const Trashbin = () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceQuestions"],
         });
+      },
+      onSettled: () => {
         setShowDeletePopup(false);
       },
     });
@@ -111,6 +117,8 @@ const Trashbin = () => {
           queryKey: ["archivedReferenceQuestions"],
         });
         localStorage.removeItem("questions");
+      },
+      onSettled: () => {
         setShowRestorePopup(false);
       },
     });
@@ -136,6 +144,8 @@ const Trashbin = () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceRequest"],
         });
+      },
+      onSettled: () => {
         setShowDeletePopup(false);
       },
     });
@@ -150,6 +160,8 @@ const Trashbin = () => {
         queryClient.invalidateQueries({
           queryKey: ["archivedReferenceRequest"],
         });
+      },
+      onSettled: () => {
         setShowRestorePopup(false);
       },
     });
@@ -177,6 +189,8 @@ const Trashbin = () => {
       queryClient.invalidateQueries({
         queryKey: ["archivedReferenceRequest"],
       });
+    },
+    onSettled: () => {
       setShowDeletePopup(false);
     },
   });
@@ -193,6 +207,8 @@ const Trashbin = () => {
       queryClient.invalidateQueries({
         queryKey: ["archivedReferenceRequest"],
       });
+    },
+    onSettled: () => {
       setShowRestorePopup(false);
     },
   });
@@ -246,20 +262,48 @@ const Trashbin = () => {
     switch (selectedCategory) {
       case "Jobs":
         const jobIds = [id];
-        restoreJobs({ jobIds });
-        break;
+        // restoreJobs({ jobIds });
+        return new Promise((resolve) => {
+          restoreJobs(
+            { jobIds },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       case "Applicants":
         const candidateIds = [id];
-        restoreCandidate({ candidateIds });
-        break;
+        // restoreCandidate({ candidateIds });
+        return new Promise((resolve) => {
+          restoreCandidate(
+            { candidateIds },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       case "Reference Requests":
         const referenceRequestId = [id];
-        restoreReference({ referenceRequestId });
-        break;
+        // restoreReference({ referenceRequestId });
+        return new Promise((resolve) => {
+          restoreReference(
+            { referenceRequestId },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       case "Reference Questions":
         const questionIds = [id];
         restoreQuestion({ questionIds });
-        break;
+        return new Promise((resolve) => {
+          restoreQuestion(
+            { questionIds },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       default:
         return;
     }
@@ -269,20 +313,48 @@ const Trashbin = () => {
     switch (selectedCategory) {
       case "Jobs":
         const jobIds = [id];
-        deleteJobs({ jobIds });
-        break;
+        // deleteJobs({ jobIds });
+        return new Promise((resolve) => {
+          deleteJobs(
+            { jobIds },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       case "Applicants":
         const candidateIds = [id];
-        deleteCandidates({ candidateIds });
-        break;
+        // deleteCandidates({ candidateIds });
+        return new Promise((resolve) => {
+          deleteCandidates(
+            { candidateIds },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       case "Reference Requests":
         const referenceRequestId = [id];
-        deleteReference({ referenceRequestId });
-        break;
+        // deleteReference({ referenceRequestId });
+        return new Promise((resolve) => {
+          deleteReference(
+            { referenceRequestId },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       case "Reference Questions":
         const questionIds = [id];
-        deleteQuestions({ questionIds });
-        break;
+        // deleteQuestions({ questionIds });
+        return new Promise((resolve) => {
+          deleteQuestions(
+            { questionIds },
+            {
+              onSettled: resolve,
+            }
+          );
+        });
       default:
         return;
     }

@@ -44,12 +44,24 @@ const ApplicantTable = ({
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting applicant: ", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
-  const handleConfirmRestore = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring applicant: ", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
 
   return (
@@ -73,7 +85,7 @@ const ApplicantTable = ({
         </td>
 
         <td>{data.name}</td>
-        <td style={{width : "25%"}}>{data.email}</td>
+        <td style={{ width: "25%" }}>{data.email}</td>
         <td>{data.position}</td>
         <td className="text-center">{data.deletedAt.split("T")[0]}</td>
         <td className="position-relative text-center">
@@ -124,9 +136,9 @@ const ApplicantTable = ({
         <DeleteConfirmationApplicantPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isDeletingCandidates={isDeletingCandidates}
         />
       )}
@@ -134,9 +146,9 @@ const ApplicantTable = ({
         <RestoreConfirmationApplicantPopUp
           onClose={() => setShowRestoreConfirmation(false)}
           onConfirmRestore={handleConfirmRestore}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isRestoringCandidate={isRestoringCandidate}
         />
       )}
