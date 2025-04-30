@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationApplicantPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
-import RecoverConfirmationApplicantPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationApplicantPopUp";
+import RestoreConfirmationApplicantPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationApplicantPopUp";
 
 const ApplicantTable = ({
   data,
@@ -11,11 +11,11 @@ const ApplicantTable = ({
   onDelete,
   showCheckboxes,
   isDeletingCandidates,
-  isRecoveringCandidate,
+  isRestoringCandidate,
 }) => {
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
   // Add this line to calculate the number of selected items
   const selectedCount = selectedItems.length;
 
@@ -38,9 +38,9 @@ const ApplicantTable = ({
     setVisibleOptions({});
   };
 
-  const handleRecoverClick = (e) => {
+  const handleRestoreClick = (e) => {
     e.stopPropagation();
-    setShowRecoverConfirmation(true);
+    setShowRestoreConfirmation(true);
     setVisibleOptions({});
   };
 
@@ -48,7 +48,7 @@ const ApplicantTable = ({
     onDelete(data._id);
   };
 
-  const handleConfirmRecover = () => {
+  const handleConfirmRestore = () => {
     onRestore(data._id);
   };
 
@@ -100,11 +100,11 @@ const ApplicantTable = ({
                 <div className="action-options">
                   <p
                     className="d-flex align-items-center gap-2"
-                    onClick={handleRecoverClick}
+                    onClick={handleRestoreClick}
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Recover
+                    Restore
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -130,14 +130,14 @@ const ApplicantTable = ({
           isDeletingCandidates={isDeletingCandidates}
         />
       )}
-      {showRecoverConfirmation && (
-        <RecoverConfirmationApplicantPopUp
-          onClose={() => setShowRecoverConfirmation(false)}
-          onConfirmRecover={handleConfirmRecover}
+      {showRestoreConfirmation && (
+        <RestoreConfirmationApplicantPopUp
+          onClose={() => setShowRestoreConfirmation(false)}
+          onConfirmRestore={handleConfirmRestore}
           selectedCount={selectedCount} // Pass the selected count
           isSingleItem={selectedCount === 1} // Check if only one item is selected
           isAll={selectedCount === data.length} // Check if all items are selected
-          isRecoveringCandidate={isRecoveringCandidate}
+          isRestoringCandidate={isRestoringCandidate}
         />
       )}
     </>

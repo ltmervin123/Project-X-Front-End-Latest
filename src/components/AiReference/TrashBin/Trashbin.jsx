@@ -70,7 +70,7 @@ const Trashbin = () => {
       },
     });
 
-  const { mutate: restoreReference, isPending: isRestoreingReferenceRequest } =
+  const { mutate: restoreReference, isPending: isRestoringReferenceRequest } =
     useMutation({
       mutationFn: ReferenceRequestArchiveAPI.restoreReferenceRequest,
       onSuccess: () => {
@@ -103,7 +103,7 @@ const Trashbin = () => {
       },
     });
 
-  const { mutate: restoreQuestion, isPending: isRestoreingReferenceQuestions } =
+  const { mutate: restoreQuestion, isPending: isRestoringReferenceQuestions } =
     useMutation({
       mutationFn: ReferenceQuestionArchiveAPI.restoreReferenceQuestion,
       onSuccess: () => {
@@ -140,7 +140,7 @@ const Trashbin = () => {
       },
     });
 
-  const { mutate: restoreCandidate, isPending: isRestoreingCandidate } =
+  const { mutate: restoreCandidate, isPending: isRestoringCandidate } =
     useMutation({
       mutationFn: CandidateArchiveAPI.restoreCandidate,
       onSuccess: () => {
@@ -181,7 +181,7 @@ const Trashbin = () => {
     },
   });
 
-  const { mutate: restoreJobs, isPending: isRestoreingJobs } = useMutation({
+  const { mutate: restoreJobs, isPending: isRestoringJobs } = useMutation({
     mutationFn: JobArchiveAPI.restoreJobs,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -448,21 +448,21 @@ const Trashbin = () => {
         const jobPropsData = {
           ...props,
           isDeletingJobs,
-          isRestoreingJobs,
+          isRestoringJobs,
         };
         return <JobTable key={item._id} {...jobPropsData} />;
       case "Applicants":
         const applicantPropsData = {
           ...props,
           isDeletingCandidates,
-          isRestoreingCandidate,
+          isRestoringCandidate,
         };
         return <ApplicantTable key={item.id} {...applicantPropsData} />;
       case "Reference Requests":
         const referenceRequestPropsData = {
           ...props,
           isDeletingReferenceRequest,
-          isRestoreingReferenceRequest,
+          isRestoringReferenceRequest,
         };
         return (
           <ReferenceRequestTable key={item.id} {...referenceRequestPropsData} />
@@ -471,7 +471,7 @@ const Trashbin = () => {
         const referenceQuestionsPropsData = {
           ...props,
           isDeletingReferenceQuestions,
-          isRestoreingReferenceQuestions,
+          isRestoringReferenceQuestions,
         };
         return (
           <ReferenceQuestionTable
@@ -718,7 +718,7 @@ const Trashbin = () => {
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRestoreingJobs={isRestoreingJobs}
+              isRestoringJobs={isRestoringJobs}
             />
           )}
           {selectedCategory === "Applicants" && (
@@ -727,7 +727,7 @@ const Trashbin = () => {
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRestoreingCandidate={isRestoreingCandidate}
+              isRestoringCandidate={isRestoringCandidate}
             />
           )}
           {selectedCategory === "Reference Requests" && (
@@ -736,7 +736,7 @@ const Trashbin = () => {
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRestoreingReferenceRequest={isRestoreingReferenceRequest}
+              isRestoringReferenceRequest={isRestoringReferenceRequest}
             />
           )}
           {selectedCategory === "Reference Questions" && (
@@ -745,7 +745,7 @@ const Trashbin = () => {
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
               isAll={selectedItems.length === mockData[selectedCategory].length}
-              isRestoreingReferenceQuestions={isRestoreingReferenceQuestions}
+              isRestoringReferenceQuestions={isRestoringReferenceQuestions}
             />
           )}
         </>

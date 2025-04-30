@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceRequestPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
-import RecoverConfirmationReferenceRequestPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
+import RestoreConfirmationReferenceRequestPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
 
 const ReferenceRequestTable = ({
   data,
@@ -11,11 +11,11 @@ const ReferenceRequestTable = ({
   onDelete,
   showCheckboxes,
   isDeletingReferenceRequest,
-  isRecoveringReferenceRequest,
+  isRestoringReferenceRequest,
 }) => {
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
   const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
@@ -37,9 +37,9 @@ const ReferenceRequestTable = ({
     setVisibleOptions({});
   };
 
-  const handleRecoverClick = (e) => {
+  const handleRestoreClick = (e) => {
     e.stopPropagation();
-    setShowRecoverConfirmation(true);
+    setShowRestoreConfirmation(true);
     setVisibleOptions({});
   };
 
@@ -47,7 +47,7 @@ const ReferenceRequestTable = ({
     onDelete(data._id);
   };
 
-  const handleConfirmRecover = () => {
+  const handleConfirmRestore = () => {
     onRestore(data._id);
   };
   const filterDataBySearch = (requests, searchTerm) => {
@@ -156,11 +156,11 @@ const ReferenceRequestTable = ({
                 <div className="action-options">
                   <p
                     className="d-flex align-items-center gap-2"
-                    onClick={handleRecoverClick}
+                    onClick={handleRestoreClick}
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Recover
+                    Restore
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -186,14 +186,14 @@ const ReferenceRequestTable = ({
           isDeletingReferenceRequest={isDeletingReferenceRequest}
         />
       )}
-      {showRecoverConfirmation && (
-        <RecoverConfirmationReferenceRequestPopUp
-          onClose={() => setShowRecoverConfirmation(false)}
-          onConfirmRecover={handleConfirmRecover}
+      {showRestoreConfirmation && (
+        <RestoreConfirmationReferenceRequestPopUp
+          onClose={() => setShowRestoreConfirmation(false)}
+          onConfirmRestore={handleConfirmRestore}
           selectedCount={selectedCount} // Pass the selected count
           isSingleItem={selectedCount === 1} // Check if only one item is selected
           isAll={selectedCount === data.length} // Check if all items are selected
-          isRecoveringReferenceRequest={isRecoveringReferenceRequest}
+          isRestoringReferenceRequest={isRestoringReferenceRequest}
         />
       )}
     </>
