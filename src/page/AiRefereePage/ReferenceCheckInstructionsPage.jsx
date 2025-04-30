@@ -41,10 +41,30 @@ const INSTRUCTION_DATA = [
       Japanese: "ステップ 3",
     },
     description: {
-      English:
-        "To complete the reference process, we require identity verification through two steps:\n\nMandatory: Upload a valid photo ID (e.g., driver’s license, passport, or national ID).\n\nChoose one of the following:\n- Upload a business card,\n- OR take a selfie while holding your photo ID clearly visible using your computer’s camera.\n\nThis two-step verification helps ensure the legitimacy and integrity of the reference.",
-      Japanese:
-        "リファレンスプロセスを完了するには、以下の2ステップで本人確認が必要です：\n\n【必須】有効な写真付き身分証明書（運転免許証、パスポート、または国民IDなど）をアップロードしてください。\n\n以下のいずれかを選択してください：\n・名刺をアップロードする\n・または、写真付き身分証明書を持った状態でセルフィーを撮影してください（カメラ使用）\n\nこの2段階認証は、リファレンスの正当性と信頼性を確保するために行われます。",
+      English: {
+        intro:
+          "To complete the reference process, we require identity verification through two steps:",
+        mandatory:
+          "Mandatory: Upload a valid photo ID (e.g., driver’s license, passport, or national ID).",
+        chooseOne: "Choose one of the following:",
+        option1: "Upload a business card,",
+        or: "OR",
+        option2:
+          "Use your computer’s camera to take a selfie while holding your photo ID clearly visible.",
+        note: "This two-step verification helps ensure the legitimacy and integrity of the reference.",
+      },
+      Japanese: {
+        intro:
+          "リファレンスプロセスを完了するには、以下の2ステップで本人確認が必要です：",
+        mandatory:
+          "【必須】有効な写真付き身分証明書（運転免許証、パスポート、または国民IDなど）をアップロードしてください。",
+        chooseOne: "以下のいずれかを選択してください：",
+        option1: "名刺をアップロードする",
+        or: "または",
+        option2:
+          "写真付き身分証明書を持った状態でセルフィーを撮影してください（カメラ使用）",
+        note: "この2段階認証は、リファレンスの正当性と信頼性を確保するために行われます。",
+      },
     },
     overlayLabel: {
       English: "Referee Identity Verification",
@@ -93,7 +113,7 @@ function ReferenceCheckInstructionsPage() {
             <div
               key={index}
               className={`instruction-card ${
-                index + 1 <= currentStep ? "active" : "inactive"
+                index + 1 <= currentStep ? "active" : "active"
               }`}
             >
               <h3 className="text-center">{step.title[language]}</h3>
@@ -114,7 +134,27 @@ function ReferenceCheckInstructionsPage() {
                 <div className="overlay-label-step">
                   {step.overlayLabel[language]}
                 </div>
-                <p>{step.description[language]}</p>
+                {Array.isArray(step.description[language]) ? (
+                  step.description[language].map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))
+                ) : typeof step.description[language] === "object" ? (
+                  <>
+                    <p>{step.description[language].intro}</p>
+                    <ul className="list-style1">
+                      <li>{step.description[language].mandatory}</li>
+                      <li>{step.description[language].chooseOne}</li>
+                    </ul>
+                    <ul>
+                      <li>{step.description[language].option1}</li>
+                      <p>{step.description[language].or}</p>
+                      <li>{step.description[language].option2}</li>
+                    </ul>
+                    <p>{step.description[language].note}</p>
+                  </>
+                ) : (
+                  <p>{step.description[language]}</p>
+                )}
               </div>
             </div>
           ))}

@@ -188,7 +188,7 @@ const Jobs = () => {
             <thead>
               <tr>
                 <th>Job Name</th>
-                <th className="text-center">Vacancies</th>
+                {/* <th className="text-center">Vacancies</th> */}
                 <th>Department</th>
                 <th>Hiring Manager</th>
                 <th className="text-center">Posted Date</th>
@@ -206,7 +206,7 @@ const Jobs = () => {
                   return (
                     <tr key={job._id}>
                       <td>{job.jobName}</td>
-                      <td className="text-center">{job.vacancies}</td>
+                      {/* <td className="text-center">{job.vacancies}</td> */}
                       <td>{job.department || "Department not specified"}</td>
                       <td>
                         {" "}

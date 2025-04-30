@@ -163,7 +163,14 @@ function ReviewYourReferenceCheckPage() {
 
   const handleProceed = () => {
     setShowSignatureSection(true);
+  
+    setTimeout(() => {
+      console.log("Resizing canvas");
+
+      resizeCanvas();
+    }, 200); // 300 milliseconds = 0.3 seconds
   };
+  
 
   const handleSelectChange = (e) => {
     setSignatureMethod(e.target.value);
@@ -233,68 +240,78 @@ function ReviewYourReferenceCheckPage() {
     setIsCanvaEmpty(false);
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect(); // Get the bounding rectangle of the canvas
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Calculate x coordinate
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Calculate y coordinate
+    const { x, y } = getMousePos(e);
     ctx.beginPath();
     ctx.moveTo(x, y);
     setIsDrawing(true);
   };
-
+  
   const draw = (e) => {
     if (!isDrawing) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect(); // Get the bounding rectangle of the canvas
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Calculate x coordinate
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Calculate y coordinate
+    const { x, y } = getMousePos(e);
     ctx.lineTo(x, y);
     ctx.stroke();
   };
-
+  
   const stopDrawing = () => {
     setIsDrawing(false);
   };
 
-  useLayoutEffect(() => {
-    if (signatureMethod === "Draw Signature") {
-      const intervalId = setInterval(() => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-          resizeCanvas();
-          clearInterval(intervalId);
-        }
-      }, 100);
-      return () => {
-        clearInterval(intervalId);
-      };
-    }
-  }, [signatureMethod]);
+useLayoutEffect(() => {
 
-  const resizeCanvas = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  if (signatureMethod === "Draw Signature") {
 
-    const context = canvas.getContext("2d");
-    const scale = window.devicePixelRatio || 1; // Get the device pixel ratio
-    const container = canvas.parentElement; // Get the parent container
-    const width = container.clientWidth * scale; // Set width based on container size
-    const height = container.clientHeight * scale; // Set height based on container size
+      console.log("Resizing canvas");
 
-    canvas.width = width; // Set the canvas width
-    canvas.height = height; // Set the canvas height
+      resizeCanvas();
+    
+  }
+}, [signatureMethod]);
 
-    // Clear the canvas after resizing
-    context.clearRect(0, 0, canvas.width, canvas.height); // <-- Ensure the canvas is cleared
+const resizeCanvas = () => {
+  const canvas = canvasRef.current;
+  if (!canvas) return;
 
-    // Set drawing styles
-    context.scale(scale, scale); // Scale the context
-    context.lineWidth = 2 * scale; // Set line width
-    context.lineCap = "round"; // Set line cap
-    context.lineJoin = "round"; // Set line join
-    context.strokeStyle = "black"; // Set stroke color
+  const container = canvas.parentElement;
+  const scale = window.devicePixelRatio || 1;
+
+  // Get the logical CSS dimensions
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  // Set canvas pixel size and style size
+  canvas.width = width * scale;
+  canvas.height = height * scale;
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${height}px`;
+
+  const context = canvas.getContext("2d");
+
+  // Reset transform then scale
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  context.scale(scale, scale);
+
+  // Set drawing styles
+  context.lineWidth = 2;
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.strokeStyle = "black";
+};
+
+// Converts mouse/touch position to canvas position
+const getMousePos = (e) => {
+  const canvas = canvasRef.current;
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY,
   };
-
+};
   const getReferenceQuestionData = () => {
     // Attach the submitted answers and their preferred answer types to their respective questions
     const organizedReferenceQuestionData = referenceQuestionsData.map(
@@ -344,6 +361,7 @@ function ReviewYourReferenceCheckPage() {
 
   const handleProceedIDUpload = () => {
     if (isCanvaEmpty && signatureMethod === "Draw Signature") {
+
       return;
     }
     if (canvasRef.current) {

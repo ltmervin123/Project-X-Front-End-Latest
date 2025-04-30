@@ -124,7 +124,8 @@ const ReferenceRequestTable = ({
           />
         </td>
 
-        <td style={{ width: "12%" }}>{data.applicant}</td>
+        {/* <td style={{ width: "12%" }}>{data.applicant}</td> */}
+        <td>{data.applicant}</td>
         <td className="text-center">{data.referees}</td>
         <td>
           {(() => {

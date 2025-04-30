@@ -464,8 +464,9 @@ const Trashbin = () => {
       case "Jobs":
         return [
           ...baseHeaders,
-          { label: "Job Name", width: "12%" },
-          { label: "Vacancy", className: "text-center" },
+          // { label: "Job Name", width: "12%" },
+          "Job Name",
+          // { label: "Vacancy", className: "text-center d-none" },
           "Department",
           "Hiring Manager",
           { label: "Deleted Date", className: "text-center" },
@@ -484,8 +485,8 @@ const Trashbin = () => {
         return [
           ...baseHeaders,
 
-          { label: "Applicant", width: "12%" },
-
+          // { label: "Applicant", width: "12%" },
+          "Applicant",
           { label: "Referees", className: "text-center" },
 
           "Status",

@@ -90,8 +90,10 @@ const JobTable = ({
             onChange={() => onSelect(data._id)}
           />
         </td>
-        <td style={{ width: "12%" }}>{data.jobName}</td>
-        <td className="text-center">{data.vacancies}</td>
+        {/* <td style={{ width: "12%" }}>{data.jobName}</td> */}
+        <td >{data.jobName}</td>
+
+        {/* <td className="text-center">{data.vacancies}</td> */}
         <td>{data.department}</td>
         <td>{data.hiringManager}</td>
         <td className="text-center">

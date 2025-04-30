@@ -81,16 +81,25 @@ const IdUploadSection = ({
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null); // Add this state
 
-  const shortenFileName = (fileName) => {
+  const shortenFileName = (fileName, maxLength = 20) => {
     if (!fileName) return "";
-
+  
     if (typeof fileName === "string" && fileName.startsWith("data:")) {
       return "captured_image.jpg";
     }
-
-    return fileName;
+  
+    if (fileName.length <= maxLength) return fileName;
+  
+    const dotIndex = fileName.lastIndexOf(".");
+    if (dotIndex === -1) return fileName.slice(0, maxLength - 3) + "...";
+  
+    const name = fileName.substring(0, dotIndex);
+    const ext = fileName.substring(dotIndex);
+    const shortenedName = name.substring(0, maxLength - ext.length - 3) + "...";
+  
+    return shortenedName + ext;
   };
-
+  
   // Function to trigger the file input click
   const triggerFrontFileInput = () => {
     document.getElementById("frontIdInput").click();

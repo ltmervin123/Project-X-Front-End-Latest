@@ -114,7 +114,7 @@
   text-transform: capitalize;
 }
 
-.AiReference-active-jobs-container th,
+/* .AiReference-active-jobs-container th,
 .AiReference-active-jobs-container td {
   width: 10%;
 }
@@ -122,12 +122,12 @@
 .AiReference-active-jobs-container th:nth-child(1),
 .AiReference-active-jobs-container td:nth-child(1) {
   width: 12%;
-}
+} */
 
-.AiReference-active-jobs-container th:nth-child(2),
+/* .AiReference-active-jobs-container th:nth-child(2),
 .AiReference-active-jobs-container td:nth-child(2) {
   width: 8%;
-}
+} */
 
 .AiReference-active-jobs-container th:nth-child(3),
 .AiReference-active-jobs-container td:nth-child(3) {

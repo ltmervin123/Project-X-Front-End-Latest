@@ -225,7 +225,7 @@ const QuestionDisplay = ({
       </div>
 
       {isEditing && editingType === "aiEnhanced" && (
-        <div className="action-buttons d-flex gap-3 mb-3">
+        <div className="action-buttons d-flex gap-3 mb-0">
           <button
             className={`btn-save ${updating ? "disabled" : ""}`}
             onClick={handleSaveOriginalAnswer}
