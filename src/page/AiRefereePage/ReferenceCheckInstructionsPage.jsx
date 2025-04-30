@@ -15,8 +15,8 @@ const INSTRUCTION_DATA = [
         "候補者のスキル、労働倫理、全体的なパフォーマンスに関する10以上の質問がされます。彼らと一緒に働いた経験に基づいて、正直で詳細かつ具体的な回答を提供してください。あなたの洞察は、私たちが十分に情報に基づいた採用決定を下すのに役立ちます。",
     },
     overlayLabel: {
-      English: "Answer Candidate Questions",
-      Japanese: "候補者の質問に答える",
+      English: "Answer Reference Questions",
+      Japanese: "リファレンス質問に答える",
     },
   },
   {
@@ -26,9 +26,9 @@ const INSTRUCTION_DATA = [
     },
     description: {
       English:
-        "Review all your answers and select your preferred answer whether Original Answer or AI Enhanced Answer.",
+        "Please review all the answers provided and select your preferred version either the original response or the AI-enhanced version. The AI-enhanced answer does not alter the meaning or content of the original response; it simply improves clarity by correcting spelling mistakes, grammatical errors, and removing unnecessary filler words.",
       Japanese:
-        "すべての回答を確認し、元の回答またはAI強化回答のいずれかを選択してください。",
+        "すべての回答を確認し、元の回答またはAI強化版のいずれかを選択してください。AI強化版の回答は元の意味や内容を変更するものではなく、スペルミスや文法の誤りを修正し、不要な言葉を取り除くことで明瞭さを向上させるものです。",
     },
     overlayLabel: {
       English: "Review your Answer",
@@ -42,16 +42,17 @@ const INSTRUCTION_DATA = [
     },
     description: {
       English:
-        "Sign using your mouse or touchpad, or upload a scanned signature along with your ID. Both must be clear and legible for verification purposes. Click submit and wait for confirmation.",
+        "To complete the reference process, we require identity verification through two steps:\n\nMandatory: Upload a valid photo ID (e.g., driver’s license, passport, or national ID).\n\nChoose one of the following:\n- Upload a business card,\n- OR take a selfie while holding your photo ID clearly visible using your computer’s camera.\n\nThis two-step verification helps ensure the legitimacy and integrity of the reference.",
       Japanese:
-        "マウスまたはタッチパッドを使用して署名するか、IDとともにスキャンした署名をアップロードしてください。両方とも確認のために明確で読みやすい必要があります。送信をクリックし、確認を待ってください。",
+        "リファレンスプロセスを完了するには、以下の2ステップで本人確認が必要です：\n\n【必須】有効な写真付き身分証明書（運転免許証、パスポート、または国民IDなど）をアップロードしてください。\n\n以下のいずれかを選択してください：\n・名刺をアップロードする\n・または、写真付き身分証明書を持った状態でセルフィーを撮影してください（カメラ使用）\n\nこの2段階認証は、リファレンスの正当性と信頼性を確保するために行われます。",
     },
     overlayLabel: {
-      English: "Provide Signature and Valid ID",
-      Japanese: "署名と有効なIDを提供する",
+      English: "Referee Identity Verification",
+      Japanese: "リファレンス本人確認",
     },
   },
 ];
+
 // Add button translations
 const BUTTON_TRANSLATIONS = {
   StartNow: {

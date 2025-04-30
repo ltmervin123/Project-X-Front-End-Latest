@@ -36,9 +36,12 @@ const IdUploadSection = ({
       confidentialityDisclaimer:
         "Please rest assured that all information provided will be treated with the utmost confidentiality and handled in full compliance with our data protection policies.",
       proceed: "Proceed",
-      documentVerification: "Document Verification",
-      identificationDocument: "Identification Document",
-      cameraVerification: "Camera Verification",
+      documentVerification: "Referee Identity Verification",
+      identificationDocument:
+        "Step 1: Select ID type and upload for verification.",
+      cameraVerification:
+        "Step 2: Please verify using your camera or upload your business card for confirmation.",
+
       takePhoto: "Take a photo",
       or: "OR",
     },
@@ -59,9 +62,12 @@ const IdUploadSection = ({
       confidentialityDisclaimer:
         "提供された情報はすべて機密として扱われ、当社のデータ保護方針に完全に従って処理されることをご安心ください。",
       proceed: "進む",
-      documentVerification: "本人確認書類",
-      identificationDocument: "身分証明書",
-      cameraVerification: "カメラ認証",
+      documentVerification: "推薦者の本人確認",
+      identificationDocument:
+        "ステップ1：IDタイプを選択してアップロードしてください。",
+      cameraVerification:
+        "ステップ2：カメラで認証するか、名刺をアップロードしてください。",
+
       takePhoto: "写真を撮る",
       or: "または",
     },

@@ -312,7 +312,11 @@ const ReferenceCheckQuestionnairePage = () => {
       "referenceQuestionsData",
       JSON.stringify(referenceQuestionsData)
     );
-    navigate("/reference-thankyou-msg");
+    //old
+    // navigate("/reference-thankyou-msg");
+    // new
+    navigate("/reference-review");
+
   };
 
   // Prevent accidental page exit

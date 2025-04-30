@@ -125,17 +125,17 @@
   background: #f2f3f7;
   padding: 20px;
   border-radius: 20px;
-  overflow-x: auto;
-  min-height: 140px;
-
+  height: 140px;
+overflow: auto;
   word-wrap: break-word;
   margin: 0;
 }
+
 .answer-container-extended {
   background: #f2f3f7;
   padding: 20px;
   border-radius: 20px;
-  overflow-x: auto;
+  overflow: auto;
   height: 245px;
   word-wrap: break-word;
   margin: 0;
@@ -144,9 +144,8 @@
   background: #319f4331;
   padding: 20px;
   border-radius: 20px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-height: 140px;
+  overflow: auto;
+  height: 140px;
 
   width: 100%;
 }
@@ -755,7 +754,7 @@ left: 45%;
 /* Customizing the scrollbar */
 .answer-container::-webkit-scrollbar,
 .ai-enhanced-answer-container::-webkit-scrollbar {
-  width: 8px; /* Scrollbar width */
+  width: 4px; /* Scrollbar width */
 }
 
 .answer-container::-webkit-scrollbar-thumb,

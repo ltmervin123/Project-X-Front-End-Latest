@@ -275,7 +275,7 @@ const Applicant = () => {
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Position</th>
+                  <th>Job Name</th>
                   <th className="text-center">Status</th>
                   <th className="text-center">Actions</th>
                 </tr>

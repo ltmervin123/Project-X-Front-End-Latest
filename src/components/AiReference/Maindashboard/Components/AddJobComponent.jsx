@@ -25,6 +25,15 @@ const AddJobComponent = ({ onCancel }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  const minDateStr = tomorrow.toISOString().split('T')[0];
+
   // Create a ref for the form
   const formRef = useRef(null);
 
@@ -291,23 +300,34 @@ const AddJobComponent = ({ onCancel }) => {
                     className="m-0"
                     style={{ width: "220px", height: "38px" }}
                   >
-                    Vacancies
+                    Date
                     <span className="color-orange"> &nbsp;*</span>
                   </Form.Label>
+<Form.Control
+  type="date"
+  required
+  value={todayStr}
+  min={minDateStr}
+  disabled
+/>
+
+                  {/* display hide the vacancy input */}
                   <Form.Control
                     type="number"
+                    className="d-none"
                     min={1}
                     value={vacancies}
-                    onChange={(e) => setVacancies(parseInt(e.target.value))} // Update vacancies using setVacancies
+                    onChange={(e) => setVacancies(parseInt(e.target.value))}
                     required
                   />
-                  {errorMessages.vacancies && (
+                  {/* {errorMessages.vacancies && (
                     <div className="px-3 py-1 text-danger">
                       {errorMessages.vacancies}
                     </div>
-                  )}
+                  )} */}
                 </Form.Group>
               </div>
+
               <div className="positiom-relative w-50">
                 <Form.Group controlId="formDepartment" className="mb-4">
                   <Form.Label

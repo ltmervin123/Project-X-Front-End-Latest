@@ -58,8 +58,7 @@ function ReviewYourReferenceCheckPage() {
       answerIndicator: "Answer {current} to {total}",
       chooseAnswer: "Please choose how you'd like the answer to be presented",
       skipWarning:
-        "You can click 'Skip' to use your original answers for the remaining questions, except for those that have already been submitted.",
-      skip: "Skip",
+      "You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.",      skip: "Skip",
       proceed: "Proceed",
       submit: "Submit",
       allQuestionsAnswered: "All questions have been answered.",
@@ -74,8 +73,7 @@ function ReviewYourReferenceCheckPage() {
       answerIndicator: "回答 {current} / {total}",
       chooseAnswer: "回答の提示方法を選択してください",
       skipWarning:
-        "残りの質問に対して元の回答を使用するには「スキップ」をクリックできます。ただし、すでに提出された質問は除きます。",
-      skip: "スキップ",
+      "「スキップ」をクリックすると、すでに提出されたものを除き、残りの質問に対して元の回答またはAI強化回答のいずれかを使用できます。",      skip: "スキップ",
       proceed: "進む",
       submit: "送信",
       allQuestionsAnswered: "すべての質問に回答されました。",
@@ -615,7 +613,7 @@ function ReviewYourReferenceCheckPage() {
                         <div className="form-check">
                           <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="form-check-input custom-checkbox"
                             id="originalAnswer"
                             checked={checked === "Original Answer"}
                             onChange={() => {
@@ -637,7 +635,7 @@ function ReviewYourReferenceCheckPage() {
                         <div className="form-check">
                           <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="form-check-input custom-checkbox"
                             id="aiEnhancedAnswer"
                             checked={checked === "AI Enhanced Answer"}
                             onChange={() => {
