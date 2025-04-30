@@ -44,8 +44,14 @@ const JobTable = ({
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting job:", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
   const handleRestoreClick = (e) => {
@@ -54,8 +60,14 @@ const JobTable = ({
     setVisibleOptions({});
   };
 
-  const handleConfirmRestore = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring job:", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
 
   return (
@@ -78,8 +90,8 @@ const JobTable = ({
             onChange={() => onSelect(data._id)}
           />
         </td>
-        <td style={{width : "12%"}}>{data.jobName}</td>
-        <td className="text-center" >{data.vacancies}</td>
+        <td style={{ width: "12%" }}>{data.jobName}</td>
+        <td className="text-center">{data.vacancies}</td>
         <td>{data.department}</td>
         <td>{data.hiringManager}</td>
         <td className="text-center">
@@ -136,10 +148,9 @@ const JobTable = ({
         <DeleteConfirmationJobPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
-
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isDeletingJobs={isDeletingJobs}
         />
       )}
@@ -147,10 +158,9 @@ const JobTable = ({
         <RestoreConfirmationJobPopUp
           onClose={() => setShowRestoreConfirmation(false)}
           onConfirmRestore={handleConfirmRestore}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
-
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isRestoringJobs={isRestoringJobs}
         />
       )}
