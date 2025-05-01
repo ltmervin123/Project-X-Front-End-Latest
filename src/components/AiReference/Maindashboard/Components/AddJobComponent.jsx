@@ -28,11 +28,11 @@ const AddJobComponent = ({ onCancel }) => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const today = new Date();
-  const todayStr = today.toISOString().split('T')[0];
+  const todayStr = today.toISOString().split("T")[0];
 
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
-  const minDateStr = tomorrow.toISOString().split('T')[0];
+  const minDateStr = tomorrow.toISOString().split("T")[0];
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -303,13 +303,13 @@ const AddJobComponent = ({ onCancel }) => {
                     Date
                     <span className="color-orange"> &nbsp;*</span>
                   </Form.Label>
-<Form.Control
-  type="date"
-  required
-  value={todayStr}
-  min={minDateStr}
-  disabled
-/>
+                  <Form.Control
+                    type="date"
+                    required
+                    value={todayStr}
+                    min={minDateStr}
+                    disabled
+                  />
 
                   {/* display hide the vacancy input */}
                   <Form.Control
@@ -632,7 +632,10 @@ const AddJobComponent = ({ onCancel }) => {
             type="button"
             onClick={handleSubmit}
             disabled={
-              loading || !isJobFieldsFilled || !areCandidateFieldsFilled
+              loading ||
+              !isJobFieldsFilled ||
+              !areCandidateFieldsFilled ||
+              !selectedQuestion
             }
           >
             {loading ? (
