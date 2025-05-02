@@ -756,7 +756,10 @@ const AddJobComponent = ({ onCancel }) => {
             type="button"
             onClick={handleSubmit}
             disabled={
-              loading || !isJobFieldsFilled || !areCandidateFieldsFilled
+              loading ||
+              !isJobFieldsFilled ||
+              !areCandidateFieldsFilled ||
+              !selectedQuestion
             }
           >
             {loading ? (
