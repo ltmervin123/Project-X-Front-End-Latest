@@ -1,6 +1,23 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    deleteConfirmation: "Would you like to confirm to delete this reference request?",
+    yes: "Yes",
+    no: "No"
+  },
+  Japanese: {
+    deleteConfirmation: "このリファレンス依頼を削除してもよろしいですか？",
+    yes: "はい",
+    no: "いいえ"
+  }
+};
+
 const DeleteConfirmationReferenceRequestPopUp = ({
   onClose,
   onConfirmDelete,
@@ -18,7 +35,7 @@ const DeleteConfirmationReferenceRequestPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to confirm to delete this reference request?
+            {TRANSLATIONS[language].deleteConfirmation}
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
@@ -33,11 +50,11 @@ const DeleteConfirmationReferenceRequestPopUp = ({
                   role="status"
                 ></div>
               ) : (
-                "Yes"
+                TRANSLATIONS[language].yes
               )}
             </button>
             <button className="btn-no-delete" onClick={onClose}>
-              No
+              {TRANSLATIONS[language].no}
             </button>
           </div>
         </div>

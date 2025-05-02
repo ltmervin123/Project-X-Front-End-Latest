@@ -6,20 +6,98 @@ import { useNavigate } from "react-router-dom";
 import ViewRequest from "../ReferenceRequest/Components/ViewRequest";
 import PopupGuide from "../../AiReference/PopupGuide";
 
-const MONTHS_OF_YEAR = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary - Enhanced with all static content
+const TRANSLATIONS = {
+  English: {
+    analyticsAndReports: "Analytics and Reports",
+    totalReferences: "Total References",
+    completionRate: "Completion Rate",
+    averageResponseTime: "Avg. Response Time",
+    referenceCheckAnalytics: "Reference Check Analytics",
+    completed: "Completed",
+    pending: "Pending",
+    overviewOfCompletedAndPending:
+      "Overview of the completed and pending reference checks",
+    overview: "Overview",
+    reports: "Reports",
+    gainInsights:
+      "Gain insights into your reference checking process and hiring efficiency.",
+    recentReports: "Recent Reports",
+    downloadOrView: "Download or view detailed reports.",
+    noRecordsFound: "No records found",
+    applicant: "Applicant",
+    referee: "Referee",
+    status: "Status",
+    actions: "Actions",
+    downloadPDF: "Download PDF",
+    tooltipReports:
+      "Access recent completed requests and download them as needed.",
+    tooltipAnalytics:
+      "This section will allow you to track the completed progress of your referees and download them as needed.",
+    day: "day",
+    days: "days",
+    inProgress: "In Progress",
+    expired: "Expired",
+    new: "New",
+    months: [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ],
+  },
+  Japanese: {
+    analyticsAndReports: "分析・レポート",
+    totalReferences: "総リファレンス数",
+    completionRate: "完了率",
+    averageResponseTime: "平均回答時間",
+    referenceCheckAnalytics: "リファレンスチェック分析",
+    completed: "完了",
+    pending: "未完了",
+    overviewOfCompletedAndPending: "完了・未完了のリファレンスチェックの概要",
+    overview: "概要",
+    reports: "レポート",
+    gainInsights:
+      "リファレンスチェックのプロセスと採用効率に関するインサイトを取得しましょう。",
+    recentReports: "最新レポート",
+    downloadOrView: "詳細レポートをダウンロードまたは表示します。",
+    noRecordsFound: "レコードが見つかりません",
+    applicant: "応募者",
+    referee: "推薦者",
+    status: "ステータス",
+    actions: "アクション",
+    downloadPDF: "PDFをダウンロード",
+    tooltipReports:
+      "最近完了したリクエストにアクセスし、必要に応じてダウンロードできます。",
+    tooltipAnalytics:
+      "このセクションでは、推薦者の完了状況を追跡し、必要に応じてダウンロードすることができます。",
+    day: "日",
+    days: "日間",
+    inProgress: "進行中",
+    expired: "期限切れ",
+    new: "新規",
+    months: [
+      "1月", "2月", "3月", "4月", "5月", "6月", 
+      "7月", "8月", "9月", "10月", "11月", "12月"
+    ],
+  },
+};
+
+// const MONTHS_OF_YEAR = [
+//   "January",
+//   "February",
+//   "March",
+//   "April",
+//   "May",
+//   "June",
+//   "July",
+//   "August",
+//   "September",
+//   "October",
+//   "November",
+//   "December",
+// ];
 
 const Reports = () => {
   const navigate = useNavigate(); // Move useNavigate here
@@ -68,8 +146,8 @@ const Reports = () => {
     // Initialize month map
     reference.forEach((record) => {
       const date = new Date(record.dateSent);
-      const month = MONTHS_OF_YEAR[date.getMonth()];
-
+      const month = TRANSLATIONS[language].months[date.getMonth()];
+    
       if (!monthMap.has(month)) {
         monthMap.set(month, { total: 0, pending: 0, completed: 0 });
       }
@@ -93,7 +171,7 @@ const Reports = () => {
 
     // Sort months based on order in the monthNames array
     const months = Array.from(monthMap.keys()).sort(
-      (a, b) => MONTHS_OF_YEAR.indexOf(a) - MONTHS_OF_YEAR.indexOf(b)
+      (a, b) => TRANSLATIONS[language].months.indexOf(a) - TRANSLATIONS[language].months.indexOf(b)
     );
     const totalPendingReference = months.map(
       (month) => monthMap.get(month).pending
@@ -166,19 +244,19 @@ const Reports = () => {
 
   const cardData = [
     {
-      title: "Total References",
+      title: TRANSLATIONS[language].totalReferences,
       value: countTotalReference,
       color: "#1877F2",
-      route: "/AiReferenceCandidates", // Add route for Total References
+      route: "/AiReferenceApplicant", // Add route for Total References
     },
     {
-      title: "Completion Rate",
+      title: TRANSLATIONS[language].completionRate,
       value: calculateCompletionRate,
       color: "#F8BD00",
       refresh: true, // Indicate that this card should refresh the page
     },
     {
-      title: "Avg. Response Time",
+      title: TRANSLATIONS[language].averageResponseTime,
       value:
         calculateAverageResponseDays > 1
           ? `${calculateAverageResponseDays} days`
@@ -207,12 +285,12 @@ const Reports = () => {
     labels: months,
     datasets: [
       {
-        label: "Completed",
+        label: TRANSLATIONS[language].completed,
         data: completedReferenceCounts,
         backgroundColor: "#1877F2",
       },
       {
-        label: "Pending",
+        label: TRANSLATIONS[language].pending,
         data: totalPendingReference,
         backgroundColor: "#F8BD00",
       },
@@ -287,10 +365,10 @@ const Reports = () => {
                 <td style="font-weight: 500;">${month}</td>
               </tr>
               <tr>
-                <td style="color: #1877F2; font-weight: 400;">Completed: ${completed}</td>
+                <td style="color: #1877F2; font-weight: 400;">${TRANSLATIONS[language].completed}: ${completed}</td>
               </tr>
               <tr>
-                <td style="color: #F8BD00; font-weight: 400;">Pending: ${pending}</td>
+                <td style="color: #F8BD00; font-weight: 400;">${TRANSLATIONS[language].pending}: ${pending}</td>
               </tr>
             </table>
           `;
@@ -392,23 +470,22 @@ const Reports = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div className="reports-header">
-        <h3 className="mb-0">Analytics & Reports</h3>
-        <p className="mb-2">
-          Gain insights into your reference checking process and hiring
-          efficiency.
-        </p>
+        <h3 className="mb-0"> {TRANSLATIONS[language].analyticsAndReports}</h3>
+        <p className="mb-2">{TRANSLATIONS[language].gainInsights}</p>
       </div>
       <Row className="d-flex justify-content-center AiReferenceReportCard-container">
         {cardData.map((card, index) => (
-          <Col 
+          <Col
             key={index}
-            xs={12}  // Full width on mobile
-            sm={6}  // Full width on small tablets
-            md={3}   // One-third width on medium+ screens
+            xs={12} // Full width on mobile
+            sm={6} // Full width on small tablets
+            md={3} // One-third width on medium+ screens
             className="mb-3" // Add bottom margin for spacing on mobile
           >
             <div
-              className={`AiReferenceCard fade-in ${isReportsCardVisible ? "visible" : ""}`}
+              className={`AiReferenceCard fade-in ${
+                isReportsCardVisible ? "visible" : ""
+              }`}
               onClick={() => {
                 if (card.refresh) {
                   window.location.reload();
@@ -450,7 +527,7 @@ const Reports = () => {
           }`}
           onClick={() => handleButtonClick("Overview")}
         >
-          Overview
+          {TRANSLATIONS[language].overview}
         </button>
         <button
           ref={reportButtonRef} // Assign the ref here
@@ -459,16 +536,20 @@ const Reports = () => {
           }`}
           onClick={() => handleButtonClick("Reports")}
         >
-          Reports
+          {TRANSLATIONS[language].reports}
         </button>
       </div>
 
-      <div className={`AiReference-report-container position-relative fade-in ${isChartVisible ? "visible" : ""}`}>
+      <div
+        className={`AiReference-report-container position-relative fade-in ${
+          isChartVisible ? "visible" : ""
+        }`}
+      >
         {activeButton === "Reports" ? (
           <>
             <div className="AiReference-table-title">
               <h4 className="mb-0 d-flex gap-2 align-items-center">
-                Recent Reports
+                {TRANSLATIONS[language].recentReports}
                 <div className="position-relative d-flex">
                   <svg
                     width="16"
@@ -490,23 +571,28 @@ const Reports = () => {
                   </svg>
                   {showTooltip && (
                     <span className="job-tooltip-text">
-                      Access recent completed requests and download them as
-                      needed.
+                      {TRANSLATIONS[language].tooltipReports}
                     </span>
                   )}
                 </div>
               </h4>
-              <p>Download or view detailed reports.</p>
+              <p>{TRANSLATIONS[language].downloadOrView}</p>
             </div>
-            <div className="table-responsive"> {/* Add wrapper for table responsiveness */}
+            <div className="table-responsive">
+              {" "}
+              {/* Add wrapper for table responsiveness */}
               {candidateData.length > 0 ? (
                 <table className="AiReference-report-table">
                   <thead>
                     <tr>
-                      <th>Applicant</th>
-                      <th>Referee</th>
-                      <th className="text-center">Status</th>
-                      <th className="text-center">Actions</th>
+                      <th>{TRANSLATIONS[language].applicant}</th>
+                      <th>{TRANSLATIONS[language].referee}</th>
+                      <th className="text-center">
+                        {TRANSLATIONS[language].status}
+                      </th>
+                      <th className="text-center">
+                        {TRANSLATIONS[language].actions}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -530,7 +616,7 @@ const Reports = () => {
                               className="btn-view-details"
                               onClick={() => handleDownloadRecord(entry)}
                             >
-                              Download PDF
+                              {TRANSLATIONS[language].downloadPDF}
                             </button>
                           </div>
                         </td>
@@ -539,7 +625,9 @@ const Reports = () => {
                   </tbody>
                 </table>
               ) : (
-                <div className="text-center py-3">No records found</div>
+                <div className="text-center py-3">
+                  {TRANSLATIONS[language].noRecordsFound}
+                </div>
               )}
             </div>
           </>
@@ -547,7 +635,8 @@ const Reports = () => {
           <>
             <div className="AiReference-table-title">
               <h4 className="mb-0 d-flex gap-2 align-items-center">
-                Reference Check Analytics
+                {TRANSLATIONS[language].referenceCheckAnalytics}
+
                 <div className="position-relative d-flex">
                   <svg
                     width="16"
@@ -569,30 +658,29 @@ const Reports = () => {
                   </svg>
                   {showTooltip && (
                     <span className="job-tooltip-text">
-                      This section will allow you to track the completed
-                      progress of your referees and download them as needed.
+                      {TRANSLATIONS[language].tooltipAnalytics}
                     </span>
                   )}
                 </div>
               </h4>
-              <p>Overview of completed and pending reference checks.</p>
+              <p> {TRANSLATIONS[language].overviewOfCompletedAndPending}</p>
             </div>
-            <Row >
-              <Col xs={12} md={5} >
+            <Row>
+              <Col xs={12} md={5}>
                 <div className="chart-container-report">
                   <Bar data={chartData} options={barOptions} />
                 </div>
               </Col>
-              <Col xs={12} md={7} >
+              <Col xs={12} md={7}>
                 <div className="custom-legend h-100 d-flex flex-column align-items-center justify-content-center">
                   <ul>
                     <li>
                       <div className="legend-box completed"></div>
-                      Completed
+                      {TRANSLATIONS[language].completed}
                     </li>
                     <li>
                       <div className="legend-box pending"></div>
-                      Pending
+                      {TRANSLATIONS[language].pending}
                     </li>
                   </ul>
                 </div>

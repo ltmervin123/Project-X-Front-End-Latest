@@ -20,16 +20,92 @@ import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/r
 import * as CandidateArchiveAPI from "../../../api/ai-reference/archive/candidate-api";
 import * as JobArchiveAPI from "../../../api/ai-reference/archive/jobs-api";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+const TRANSLATIONS = {
+  English: {
+    trashBin: "Trash Bin",
+    viewAndRestoreDeletedItems: "View and Restore Deleted Items from your System",
+    jobs: "Jobs",
+    applicants: "Applicants",
+    referenceRequest: "Reference Requests",
+    referenceQuestions: "Reference Questions",
+    deletedJobs: "Deleted Jobs",
+    deletedApplicants: "Deleted Applicants",
+    deletedReferenceRequests: "Deleted Reference Requests",
+    deletedReferenceQuestions: "Deleted Reference Questions",
+    jobName: "Job Name",
+    department: "Department",
+    hiringManager: "Hiring Manager",
+    deletedDate: "Deleted Date",
+    actions: "Actions",
+    name: "Name",
+    email: "Email",
+    position: "Position",
+    applicant: "Applicant",
+    referees: "Referees",
+    status: "Status",
+    question: "Question",
+    numberOfQuestions: "No. of Questions",
+    selectAll: "Select All",
+    clearSelection: "Clear Selection",
+    restore: "Restore",
+    delete: "Delete",
+    restoreAll: "Restore All",
+    deleteAll: "Delete All",
+    searchPlaceholder: "Search in",
+    noItemsInTrash: "No items in trash bin",
+    noMatchingItems: "No matching items found for",
+    trashWarning: "Items in the trash will be permanently deleted after 10 days. To avoid this, please restore any items you want to keep before the 10-day period ends."
+  },
+  Japanese: {
+    trashBin: "ゴミ箱",
+    viewAndRestoreDeletedItems: "削除済みアイテムの表示と復元",
+    jobs: "求人",
+    applicants: "応募者",
+    referenceRequest: "リファレンスリクエスト",
+    referenceQuestions: "リファレンス質問",
+    deletedJobs: "削除済みの求人",
+    deletedApplicants: "削除済みの応募者",
+    deletedReferenceRequests: "削除済みのリファレンスリクエスト",
+    deletedReferenceQuestions: "削除済みのリファレンス質問",
+    jobName: "求人名",
+    department: "部署",
+    hiringManager: "採用担当者",
+    deletedDate: "削除日",
+    actions: "アクション",
+    name: "名前",
+    email: "メールアドレス",
+    position: "役職",
+    applicant: "応募者",
+    referees: "推薦者",
+    status: "ステータス",
+    question: "質問",
+    numberOfQuestions: "質問数",
+    selectAll: "すべて選択",
+    clearSelection: "選択解除",
+    restore: "復元",
+    delete: "削除",
+    restoreAll: "すべて復元",
+    deleteAll: "すべて削除",
+    searchPlaceholder: "検索",
+    noItemsInTrash: "ゴミ箱にアイテムがありません",
+    noMatchingItems: "該当するアイテムが見つかりません",
+    trashWarning: "ゴミ箱内のアイテムは10日後に完全に削除されます。必要なアイテムは10日以内に復元してください。"
+  }
+};
+
 const CATEGORIES = [
-  "Jobs",
-  "Applicants",
-  "Reference Requests",
-  "Reference Questions",
+  TRANSLATIONS[language].jobs,
+  TRANSLATIONS[language].applicants,
+  TRANSLATIONS[language].referenceRequest,
+  TRANSLATIONS[language].referenceQuestions,
 ];
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Jobs");
+  const [selectedCategory, setSelectedCategory] = useState(TRANSLATIONS[language].jobs);
   const [isSearchAndButtonsVisible, setIsSearchAndButtonsVisible] =
     useState(false);
   const [isContainerVisible, setIsContainerVisible] = useState(false);
@@ -213,15 +289,19 @@ const Trashbin = () => {
     },
   });
 
-  // Mock data for different categories
   const mockData = useMemo(() => {
+    const translatedJobsKey = TRANSLATIONS[language].jobs;
+    const translatedApplicantsKey = TRANSLATIONS[language].applicants;
+    const translatedRequestsKey = TRANSLATIONS[language].referenceRequest;
+    const translatedQuestionsKey = TRANSLATIONS[language].referenceQuestions;
+
     return {
-      Jobs: jobs?.archivedJobs || [],
-      Applicants: candidates?.archiveCandidates || [],
-      "Reference Requests": referenceRequest?.archivedReferenceRequest || [],
-      "Reference Questions": referenceQuestion?.questions || [],
+      [translatedJobsKey]: jobs?.archivedJobs || [],
+      [translatedApplicantsKey]: candidates?.archiveCandidates || [],
+      [translatedRequestsKey]: referenceRequest?.archivedReferenceRequest || [],
+      [translatedQuestionsKey]: referenceQuestion?.questions || [],
     };
-  }, [referenceQuestion, referenceRequest, candidates, jobs]);
+  }, [referenceQuestion, referenceRequest, candidates, jobs, language]);
 
   const filterDataBySearch = (data) => {
     if (!searchQuery) return data;
@@ -229,27 +309,27 @@ const Trashbin = () => {
     const query = searchQuery.toLowerCase();
 
     switch (selectedCategory) {
-      case "Jobs":
+      case TRANSLATIONS[language].jobs:
         return data.filter(
           (job) =>
             job.jobName?.toLowerCase().includes(query) ||
             job.department?.toLowerCase().includes(query) ||
             job.hiringManager?.toLowerCase().includes(query)
         );
-      case "Applicants":
+      case TRANSLATIONS[language].applicants:
         return data.filter(
           (applicant) =>
             applicant.name?.toLowerCase().includes(query) ||
             applicant.email?.toLowerCase().includes(query) ||
             applicant.position?.toLowerCase().includes(query)
         );
-      case "Reference Requests":
+      case TRANSLATIONS[language].referenceRequest:
         return data.filter(
           (request) =>
             request.applicant?.toLowerCase().includes(query) ||
             request.status?.join(" ").toLowerCase().includes(query)
         );
-      case "Reference Questions":
+      case TRANSLATIONS[language].referenceQuestions:
         return data.filter((question) =>
           question.name?.toLowerCase().includes(query)
         );
@@ -260,9 +340,8 @@ const Trashbin = () => {
 
   const handleRestore = (id) => {
     switch (selectedCategory) {
-      case "Jobs":
+      case TRANSLATIONS[language].jobs:
         const jobIds = [id];
-        // restoreJobs({ jobIds });
         return new Promise((resolve) => {
           restoreJobs(
             { jobIds },
@@ -271,9 +350,8 @@ const Trashbin = () => {
             }
           );
         });
-      case "Applicants":
+      case TRANSLATIONS[language].applicants:
         const candidateIds = [id];
-        // restoreCandidate({ candidateIds });
         return new Promise((resolve) => {
           restoreCandidate(
             { candidateIds },
@@ -282,9 +360,8 @@ const Trashbin = () => {
             }
           );
         });
-      case "Reference Requests":
+      case TRANSLATIONS[language].referenceRequest:
         const referenceRequestId = [id];
-        // restoreReference({ referenceRequestId });
         return new Promise((resolve) => {
           restoreReference(
             { referenceRequestId },
@@ -293,9 +370,8 @@ const Trashbin = () => {
             }
           );
         });
-      case "Reference Questions":
+      case TRANSLATIONS[language].referenceQuestions:
         const questionIds = [id];
-        restoreQuestion({ questionIds });
         return new Promise((resolve) => {
           restoreQuestion(
             { questionIds },
@@ -311,9 +387,8 @@ const Trashbin = () => {
 
   const handleDelete = (id) => {
     switch (selectedCategory) {
-      case "Jobs":
+      case TRANSLATIONS[language].jobs:
         const jobIds = [id];
-        // deleteJobs({ jobIds });
         return new Promise((resolve) => {
           deleteJobs(
             { jobIds },
@@ -322,9 +397,8 @@ const Trashbin = () => {
             }
           );
         });
-      case "Applicants":
+      case TRANSLATIONS[language].applicants:
         const candidateIds = [id];
-        // deleteCandidates({ candidateIds });
         return new Promise((resolve) => {
           deleteCandidates(
             { candidateIds },
@@ -333,9 +407,8 @@ const Trashbin = () => {
             }
           );
         });
-      case "Reference Requests":
+      case TRANSLATIONS[language].referenceRequest:
         const referenceRequestId = [id];
-        // deleteReference({ referenceRequestId });
         return new Promise((resolve) => {
           deleteReference(
             { referenceRequestId },
@@ -344,9 +417,8 @@ const Trashbin = () => {
             }
           );
         });
-      case "Reference Questions":
+      case TRANSLATIONS[language].referenceQuestions:
         const questionIds = [id];
-        // deleteQuestions({ questionIds });
         return new Promise((resolve) => {
           deleteQuestions(
             { questionIds },
@@ -370,16 +442,16 @@ const Trashbin = () => {
 
   const handleConfirmRestore = () => {
     switch (selectedCategory) {
-      case "Jobs":
+      case TRANSLATIONS[language].jobs:
         restoreJobs({ jobIds: selectedItems });
         break;
-      case "Applicants":
+      case TRANSLATIONS[language].applicants:
         restoreCandidate({ candidateIds: selectedItems });
         break;
-      case "Reference Requests":
+      case TRANSLATIONS[language].referenceRequest:
         restoreReference({ referenceRequestId: selectedItems });
         break;
-      case "Reference Questions":
+      case TRANSLATIONS[language].referenceQuestions:
         restoreQuestion({ questionIds: selectedItems });
         break;
       default:
@@ -390,16 +462,16 @@ const Trashbin = () => {
 
   const handleConfirmDelete = () => {
     switch (selectedCategory) {
-      case "Jobs":
+      case TRANSLATIONS[language].jobs:
         deleteJobs({ jobIds: selectedItems });
         break;
-      case "Applicants":
+      case TRANSLATIONS[language].applicants:
         deleteCandidates({ candidateIds: selectedItems });
         break;
-      case "Reference Requests":
+      case TRANSLATIONS[language].referenceRequest:
         deleteReference({ referenceRequestId: selectedItems });
         break;
-      case "Reference Questions":
+      case TRANSLATIONS[language].referenceQuestions:
         deleteQuestions({ questionIds: selectedItems });
         break;
       default:
@@ -422,23 +494,22 @@ const Trashbin = () => {
   const handleClearSelection = () => {
     setSelectedItems([]);
   };
+
   const handleSelectAll = () => {
-    if (selectedItems.length === mockData[selectedCategory].length) {
-      // Unselect all
+    const currentData = mockData[selectedCategory] || [];
+    if (selectedItems.length === currentData.length) {
       setSelectedItems([]);
     } else {
-      // Select all
-      setSelectedItems(mockData[selectedCategory].map((item) => item._id));
+      setSelectedItems(currentData.map((item) => item._id));
     }
   };
 
   const handleSelectAllCheckbox = () => {
-    if (selectedItems.length === mockData[selectedCategory].length) {
-      // If all items are selected, unselect all
+    const currentData = mockData[selectedCategory] || [];
+    if (selectedItems.length === currentData.length) {
       setSelectedItems([]);
     } else {
-      // Select all items
-      const allIds = mockData[selectedCategory].map((item) => item._id);
+      const allIds = currentData.map((item) => item._id);
       setSelectedItems(allIds);
     }
   };
@@ -452,7 +523,7 @@ const Trashbin = () => {
             className="form-check-input custom-checkbox"
             checked={
               selectedItems.length > 0 &&
-              selectedItems.length === mockData[selectedCategory].length
+              selectedItems.length === (mockData[selectedCategory]?.length || 0)
             }
             onChange={handleSelectAllCheckbox}
           />
@@ -461,45 +532,40 @@ const Trashbin = () => {
       },
     ];
     switch (selectedCategory) {
-      case "Jobs":
+      case TRANSLATIONS[language].jobs:
         return [
           ...baseHeaders,
-          // { label: "Job Name", width: "12%" },
-          "Job Name",
-          // { label: "Vacancy", className: "text-center d-none" },
-          "Department",
-          "Hiring Manager",
-          { label: "Deleted Date", className: "text-center" },
-          "Actions",
+          TRANSLATIONS[language].jobName,
+          TRANSLATIONS[language].department,
+          TRANSLATIONS[language].hiringManager,
+          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].actions,
         ];
-      case "Applicants":
+      case TRANSLATIONS[language].applicants:
         return [
           ...baseHeaders,
-          "Name",
-          { label: "Email", width: "25%" },
-          "Position",
-          { label: "Deleted Date", className: "text-center" },
-          "Actions",
+          TRANSLATIONS[language].name,
+          { label: TRANSLATIONS[language].email, width: "25%" },
+          TRANSLATIONS[language].position,
+          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].actions,
         ];
-      case "Reference Requests":
+      case TRANSLATIONS[language].referenceRequest:
         return [
           ...baseHeaders,
-
-          // { label: "Applicant", width: "12%" },
-          "Applicant",
-          { label: "Referees", className: "text-center" },
-
-          "Status",
-          { label: "Deleted Date", className: "text-center" },
-          "Actions",
+          TRANSLATIONS[language].applicant,
+          { label: TRANSLATIONS[language].referees, className: "text-center" },
+          TRANSLATIONS[language].status,
+          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].actions,
         ];
-      case "Reference Questions":
+      case TRANSLATIONS[language].referenceQuestions:
         return [
           ...baseHeaders,
-          "Question",
-          { label: "No. of Questions", className: "text-center" },
-          { label: "Deleted Date", className: "text-center" },
-          "Actions",
+          TRANSLATIONS[language].question,
+          { label: TRANSLATIONS[language].numberOfQuestions, className: "text-center" },
+          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].actions,
         ];
       default:
         return [];
@@ -517,21 +583,21 @@ const Trashbin = () => {
     };
 
     switch (selectedCategory) {
-      case "Jobs":
+      case TRANSLATIONS[language].jobs:
         const jobPropsData = {
           ...props,
           isDeletingJobs,
           isRestoringJobs,
         };
         return <JobTable key={item._id} {...jobPropsData} />;
-      case "Applicants":
+      case TRANSLATIONS[language].applicants:
         const applicantPropsData = {
           ...props,
           isDeletingCandidates,
           isRestoringCandidate,
         };
         return <ApplicantTable key={item.id} {...applicantPropsData} />;
-      case "Reference Requests":
+      case TRANSLATIONS[language].referenceRequest:
         const referenceRequestPropsData = {
           ...props,
           isDeletingReferenceRequest,
@@ -540,7 +606,7 @@ const Trashbin = () => {
         return (
           <ReferenceRequestTable key={item.id} {...referenceRequestPropsData} />
         );
-      case "Reference Questions":
+      case TRANSLATIONS[language].referenceQuestions:
         const referenceQuestionsPropsData = {
           ...props,
           isDeletingReferenceQuestions,
@@ -557,11 +623,61 @@ const Trashbin = () => {
     }
   };
 
+  const renderTableBody = () => {
+    const currentData = mockData[selectedCategory] || [];
+    const filteredData = filterDataBySearch(currentData);
+
+    if (currentData.length === 0) {
+      return (
+        <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
+          <svg
+            width="30"
+            height="41"
+            viewBox="0 0 40 51"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M40 2.83333H30L27.1429 0H12.8571L10 2.83333H0V8.5H40M2.85714 45.3333C2.85714 46.8362 3.45918 48.2776 4.53082 49.3403C5.60245 50.403 7.05591 51 8.57143 51H31.4286C32.9441 51 34.3975 50.403 35.4692 49.3403C36.5408 48.2776 37.1429 46.8362 37.1429 45.3333V11.3333H2.85714V45.3333Z"
+              fill="#F46A05"
+            />
+          </svg>
+          <h4 className="m-0">{TRANSLATIONS[language].noItemsInTrash}</h4>
+          <p>
+            {TRANSLATIONS[language].trashWarning}
+          </p>
+        </tr>
+      );
+    }
+
+    if (filteredData.length === 0) {
+      return (
+        <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 23 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.375 14.5H15.3875L15.0375 14.1625C16.3049 12.6926 17.0015 10.8159 17 8.875C17 7.26803 16.5235 5.69715 15.6307 4.361C14.7379 3.02485 13.469 1.98344 11.9843 1.36848C10.4997 0.75352 8.86599 0.592618 7.28989 0.906123C5.7138 1.21963 4.26606 1.99346 3.12976 3.12976C1.99346 4.26606 1.21963 5.7138 0.906123 7.28989C0.592618 8.86599 0.75352 10.4997 1.36848 11.9843C1.98344 13.469 3.02485 14.7379 4.361 15.6307C5.69715 16.5235 7.26803 17 8.875 17C10.8875 17 12.7375 16.2625 14.1625 15.0375L14.5 15.3875V16.375L20.75 22.6125L22.6125 20.75L16.375 14.5ZM8.875 14.5C5.7625 14.5 3.25 11.9875 3.25 8.875C3.25 5.7625 5.7625 3.25 8.875 3.25C11.9875 3.25 14.5 5.7625 14.5 8.875C14.5 11.9875 11.9875 14.5 8.875 14.5Z"
+              fill="#F46A05"
+            />
+          </svg>
+          <h4>{TRANSLATIONS[language].noMatchingItems} "{searchQuery}"</h4>
+        </tr>
+      );
+    }
+
+    return filteredData.map((item) => renderTableRow(item));
+  };
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3 className="mb-0">Trash Bin</h3>
-        <p className="mb-2">View and restore deleted items from your system.</p>
+        <h3 className="mb-0">{TRANSLATIONS[language].trashBin}</h3>
+        <p className="mb-2">{TRANSLATIONS[language].viewAndRestoreDeletedItems}</p>
       </div>
 
       <div
@@ -573,7 +689,7 @@ const Trashbin = () => {
           <div className="search-wrapper position-relative">
             <input
               type="text"
-              placeholder={`Search in ${selectedCategory.toLowerCase()}...`}
+              placeholder={`${TRANSLATIONS[language].searchPlaceholder} ${selectedCategory.toLowerCase()}...`}
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -603,7 +719,7 @@ const Trashbin = () => {
         }`}
       >
         <div className="trash-header mb-3">
-          <h4 className="mb-2">Deleted {selectedCategory}</h4>
+          <h4 className="mb-2">{TRANSLATIONS[language].deletedJobs}</h4>
           <div className="trashbin-important-text d-flex gap-2 align-items-center">
             <svg
               width="16"
@@ -618,9 +734,7 @@ const Trashbin = () => {
               />
             </svg>
             <p className="m-0">
-              Items in the trash will be permanently deleted after 10 days. To
-              avoid this, please restore any items you want to keep before the
-              10-day period ends.
+            {TRANSLATIONS[language].trashWarning}
             </p>
           </div>
         </div>
@@ -632,10 +746,10 @@ const Trashbin = () => {
             }
           >
             {selectedItems.length === 0
-              ? "Select All"
+              ? TRANSLATIONS[language].selectAll
               : selectedItems.length === mockData[selectedCategory].length
-              ? `Clear Selection (${selectedItems.length})`
-              : `Clear Selection (${selectedItems.length})`}
+              ? `${TRANSLATIONS[language].clearSelection} (${selectedItems.length})`
+              : `${TRANSLATIONS[language].clearSelection} (${selectedItems.length})`}
           </button>
           <button
             disabled={selectedItems.length === 0}
@@ -643,10 +757,10 @@ const Trashbin = () => {
             className={`${selectedItems.length === 0 ? "disabled" : ""}`}
           >
             {selectedItems.length === mockData[selectedCategory].length
-              ? "Restore All"
+              ? TRANSLATIONS[language].restoreAll
               : selectedItems.length === 1
-              ? "Restore"
-              : `Restore (${selectedItems.length})`}
+              ? TRANSLATIONS[language].restore
+              : `${TRANSLATIONS[language].restore} (${selectedItems.length})`}
           </button>
 
           <button
@@ -655,10 +769,10 @@ const Trashbin = () => {
             className={`${selectedItems.length === 0 ? "disabled" : ""}`}
           >
             {selectedItems.length === mockData[selectedCategory].length
-              ? "Delete All"
+              ? TRANSLATIONS[language].deleteAll
               : selectedItems.length === 1
-              ? "Delete"
-              : `Delete (${selectedItems.length})`}
+              ? TRANSLATIONS[language].delete
+              : `${TRANSLATIONS[language].delete} (${selectedItems.length})`}
           </button>
         </div>
 
@@ -686,65 +800,14 @@ const Trashbin = () => {
           </thead>
 
           <tbody>
-            {mockData[selectedCategory].length > 0 ? (
-              <>
-                {filterDataBySearch(mockData[selectedCategory])?.length > 0 ? (
-                  filterDataBySearch(mockData[selectedCategory])?.map((item) =>
-                    renderTableRow(item)
-                  )
-                ) : (
-                  <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
-                    <svg
-                      width="40"
-                      height="40"
-                      viewBox="0 0 23 23"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16.375 14.5H15.3875L15.0375 14.1625C16.3049 12.6926 17.0015 10.8159 17 8.875C17 7.26803 16.5235 5.69715 15.6307 4.361C14.7379 3.02485 13.469 1.98344 11.9843 1.36848C10.4997 0.75352 8.86599 0.592618 7.28989 0.906123C5.7138 1.21963 4.26606 1.99346 3.12976 3.12976C1.99346 4.26606 1.21963 5.7138 0.906123 7.28989C0.592618 8.86599 0.75352 10.4997 1.36848 11.9843C1.98344 13.469 3.02485 14.7379 4.361 15.6307C5.69715 16.5235 7.26803 17 8.875 17C10.8875 17 12.7375 16.2625 14.1625 15.0375L14.5 15.3875V16.375L20.75 22.6125L22.6125 20.75L16.375 14.5ZM8.875 14.5C5.7625 14.5 3.25 11.9875 3.25 8.875C3.25 5.7625 5.7625 3.25 8.875 3.25C11.9875 3.25 14.5 5.7625 14.5 8.875C14.5 11.9875 11.9875 14.5 8.875 14.5Z"
-                        fill="#F46A05"
-                      />
-                    </svg>
-
-                    <h4>
-                      No matching {selectedCategory.toLowerCase()} found for "
-                      {searchQuery}"
-                    </h4>
-                  </tr>
-                )}
-              </>
-            ) : (
-              <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
-                <svg
-                  width="30"
-                  height="41"
-                  viewBox="0 0 40 51"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M40 2.83333H30L27.1429 0H12.8571L10 2.83333H0V8.5H40M2.85714 45.3333C2.85714 46.8362 3.45918 48.2776 4.53082 49.3403C5.60245 50.403 7.05591 51 8.57143 51H31.4286C32.9441 51 34.3975 50.403 35.4692 49.3403C36.5408 48.2776 37.1429 46.8362 37.1429 45.3333V11.3333H2.85714V45.3333Z"
-                    fill="#F46A05"
-                  />
-                </svg>
-
-                <h4 className="m-0">
-                  No {selectedCategory.toLowerCase()} in trash bin
-                </h4>
-                <p>
-                  When you delete {selectedCategory.toLowerCase()}, they will
-                  appear here for 10 days before being permanently removed.
-                </p>
-              </tr>
-            )}
+            {renderTableBody()}
           </tbody>
         </table>
       </div>
 
       {showDeletePopup && (
         <>
-          {selectedCategory === "Jobs" && (
+          {selectedCategory === TRANSLATIONS[language].jobs && (
             <DeleteConfirmationJobPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -753,7 +816,7 @@ const Trashbin = () => {
               isDeletingJobs={isDeletingJobs}
             />
           )}
-          {selectedCategory === "Applicants" && (
+          {selectedCategory === TRANSLATIONS[language].applicants && (
             <DeleteConfirmationApplicantPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -762,7 +825,7 @@ const Trashbin = () => {
               isDeletingCandidates={isDeletingCandidates}
             />
           )}
-          {selectedCategory === "Reference Requests" && (
+          {selectedCategory === TRANSLATIONS[language].referenceRequest && (
             <DeleteConfirmationReferenceRequestPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -771,7 +834,7 @@ const Trashbin = () => {
               isDeletingReferenceRequest={isDeletingReferenceRequest}
             />
           )}
-          {selectedCategory === "Reference Questions" && (
+          {selectedCategory === TRANSLATIONS[language].referenceQuestions && (
             <DeleteConfirmationReferenceQuestionPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
@@ -785,7 +848,7 @@ const Trashbin = () => {
 
       {showRestorePopup && (
         <>
-          {selectedCategory === "Jobs" && (
+          {selectedCategory === TRANSLATIONS[language].jobs && (
             <RestoreConfirmationJobPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}
@@ -794,7 +857,7 @@ const Trashbin = () => {
               isRestoringJobs={isRestoringJobs}
             />
           )}
-          {selectedCategory === "Applicants" && (
+          {selectedCategory === TRANSLATIONS[language].applicants && (
             <RestoreConfirmationApplicantPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}
@@ -803,7 +866,7 @@ const Trashbin = () => {
               isRestoringCandidate={isRestoringCandidate}
             />
           )}
-          {selectedCategory === "Reference Requests" && (
+          {selectedCategory === TRANSLATIONS[language].referenceRequest && (
             <RestoreConfirmationReferenceRequestPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}
@@ -812,7 +875,7 @@ const Trashbin = () => {
               isRestoringReferenceRequest={isRestoringReferenceRequest}
             />
           )}
-          {selectedCategory === "Reference Questions" && (
+          {selectedCategory === TRANSLATIONS[language].referenceQuestions && (
             <RestoreConfirmationReferenceQuestionPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}

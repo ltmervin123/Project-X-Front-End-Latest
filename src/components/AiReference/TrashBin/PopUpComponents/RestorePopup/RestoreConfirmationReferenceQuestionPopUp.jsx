@@ -1,15 +1,45 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
+const TRANSLATIONS = {
+  English: {
+    confirmMessage: 'Would you like to restore',
+    singleItem: 'this reference question sets',
+    allItems: 'all these reference questions sets',
+    selectedItems: 'these reference question sets',
+    actionMessage: 'This action will move',
+    theSingleItem: 'the reference question sets',
+    theAllItems: 'all these reference questions sets',
+    theSelectedItems: 'these reference question sets',
+    destination: 'back to the Reference Question list',
+    yes: 'Yes',
+    no: 'No'
+  },
+  Japanese: {
+    confirmMessage: '復元してもよろしいですか',
+    singleItem: 'この推薦状質問セット',
+    allItems: 'これらすべての推薦状質問セット',
+    selectedItems: 'これらの推薦状質問セット',
+    actionMessage: 'この操作により',
+    theSingleItem: '推薦状質問セット',
+    theAllItems: 'すべての推薦状質問セット',
+    theSelectedItems: 'これらの推薦状質問セット',
+    destination: 'が推薦状質問リストに戻ります',
+    yes: 'はい',
+    no: 'いいえ'
+  }
+};
+
 const RestoreConfirmationReferenceQuestionPopUp = ({
   onClose,
   onConfirmRestore,
   selectedCount,
-
   isAll,
   isSingleItem,
   isRestoringReferenceQuestions,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
   return (
     <Modal
       show={true}
@@ -21,19 +51,19 @@ const RestoreConfirmationReferenceQuestionPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to restore{" "}
+            {TRANSLATIONS[language].confirmMessage}{" "}
             {isSingleItem || selectedCount === 1
-              ? "this reference question sets"
+              ? TRANSLATIONS[language].singleItem
               : isAll
-              ? "all these reference questions sets"
-              : "these reference question sets"}{" "}
-            ? This action will move{" "} 
+              ? TRANSLATIONS[language].allItems
+              : TRANSLATIONS[language].selectedItems}{" "}
+            ? {TRANSLATIONS[language].actionMessage}{" "} 
             {isSingleItem || selectedCount === 1
-              ? "the reference question sets"
+              ? TRANSLATIONS[language].theSingleItem
               : isAll
-              ? "all these reference questions sets"
-              : "these reference question sets"}{" "}
-           back to the Reference Question list.
+              ? TRANSLATIONS[language].theAllItems
+              : TRANSLATIONS[language].theSelectedItems}{" "}
+            {TRANSLATIONS[language].destination}.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
@@ -48,11 +78,11 @@ const RestoreConfirmationReferenceQuestionPopUp = ({
                   role="status"
                 ></div>
               ) : (
-                "Yes"
+                TRANSLATIONS[language].yes
               )}
             </button>
             <button className="btn-no-recover" onClick={onClose}>
-              No
+              {TRANSLATIONS[language].no}
             </button>
           </div>
         </div>

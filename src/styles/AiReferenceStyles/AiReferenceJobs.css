@@ -249,7 +249,7 @@
   padding: 10px !important;
   z-index: 1000;
   background: var(--font-white);
-  width: auto;
+  width: 90px;
   font-size: 13px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
   animation: fadeIn 0.5s ease-in; /* Apply the fade-in animation */

@@ -132,14 +132,14 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
   return (
     <Modal show={true} onHide={onClose} className="custom-modal-job" centered>
       <Modal.Body>
-        <h5>Edit Reference Request</h5>
+        <h5>{reference.labels.editReferenceRequest}</h5>
         <Form ref={formRef} onSubmit={handleSubmit}>
           <Form.Group
             controlId="formPosition"
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "220px" }}>
-              Position
+              {reference.labels.position}
             </Form.Label>
             <Form.Select value={position} disabled required>
               <option>{position}</option>
@@ -331,7 +331,9 @@ const EditRequestPopUp = ({ onClose, onEditRequest, requestData }) => {
               type="submit"
               disabled={!isFormValid || isLoading}
             >
-              {isLoading ? "Updating..." : "Update Request"}
+              {isLoading
+                ? reference.buttons.updating
+                : reference.buttons.updateRequest}
             </button>
           </div>
         </Form>

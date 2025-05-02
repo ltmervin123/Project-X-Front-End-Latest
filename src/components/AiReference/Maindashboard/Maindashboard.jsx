@@ -8,10 +8,52 @@ import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const TRANSLATIONS = {
+  English: {
+    Dashboard: "Dashboard",
+
+    ManageTrackResponse: "Manage and track your reference response",
+    StartReferenceCheck: "Start Reference Check",
+    ActiveJobs: "Active Jobs",
+    PendingReferences: "Pending References",
+    CompletedReferences: "Completed References",
+    TotalCandidates: "Total Candidates",
+    ReferenceOverview: "Reference Overview",
+    ByDepartment: "By Department",
+    RecentActivities: "Recent Activities",
+    ClickToStart: "Click here to begin the reference check process.",
+    ManageTrackProcesses: "Manage and track your reference check processes.",
+    completed: "completed",
+    NoRecentActivities: "No recent activities",
+    ViewAll: "View All",      
+    ShowLess: "Show Less",  
+  },
+  Japanese: {
+    Dashboard: "ダッシュボード",
+
+    ManageTrackResponse: "リファレンスチェックの管理と追跡",
+    StartReferenceCheck: "リファレンスチェックを開始する",
+    ActiveJobs: "求人",
+    PendingReferences: "保留中のリファレンス",
+    CompletedReferences: "完了リファレンス",
+    TotalCandidates: "候補者数",
+    ReferenceOverview: "リファレンスチェック概要",
+    ByDepartment: "部門別",
+    RecentActivities: "最近の活動",
+    ClickToStart:
+      "ここをクリックしてリファレンスチェックプロセスを開始します。",
+    ManageTrackProcesses: "リファレンスチェックプロセスを管理し、追跡します。",
+    completed: "完了",
+    NoRecentActivities: "最近の活動はありません",
+    ViewAll: "すべて表示",         
+    ShowLess: "表示を減らす",  
+  },
+};
+
 // Register all necessary components
 Chart.register(...registerables);
 
-const LogContainer = ({ completedRecords }) => {
+const LogContainer = ({ completedRecords, language }) => {
   const handleToggleShowAll = (event) => {
     event.preventDefault(); // Prevent default anchor behavior
     setShowAll(!showAll);
@@ -49,9 +91,9 @@ const LogContainer = ({ completedRecords }) => {
   return (
     <div className="LogContainer my-4">
       <div className="d-flex justify-content-between align-items-center">
-        <p className="mb-3">Recent Activities</p>
+        <p className="mb-3">{TRANSLATIONS[language].RecentActivities}</p>
         <a href="#" onClick={handleToggleShowAll}>
-          {showAll ? "Show Less" : "View All"}
+          {showAll ? TRANSLATIONS[language].ShowLess: TRANSLATIONS[language].ViewAll}
         </a>
       </div>
       <div className="list-log-containerlist-log-container">
@@ -71,7 +113,7 @@ const LogContainer = ({ completedRecords }) => {
                   </div>
                   <div>
                     <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    completed a reference check for{" "}
+                    {TRANSLATIONS[language].completed} a reference check for{" "}
                     <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
                     <div className="text-muted">
                       {timeAgo(log.completedDate)}
@@ -80,7 +122,7 @@ const LogContainer = ({ completedRecords }) => {
                 </div>
               ))
           ) : (
-            <div>No recent activities</div>
+            <div>{TRANSLATIONS[language].NoRecentActivities}</div>
           )
         }
       </div>
@@ -95,8 +137,8 @@ const MainDashboard = () => {
   const id = USER?.id;
   const token = USER?.token;
   const [showJobForm, setShowJobForm] = useState(false);
-
-  // For fade in smooth animation
+  // Define language here
+  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
@@ -395,31 +437,30 @@ const MainDashboard = () => {
 
   const cardData = [
     {
-      title: "Active Jobs",
+      title: TRANSLATIONS[language].ActiveJobs, // Use translation
       count: activeJobCount,
       color: "#1877F2",
       path: "/AiReferenceJobs",
     },
     {
-      title: "Pending References",
+      title: TRANSLATIONS[language].PendingReferences,
       count: pendingReferenceCount,
       color: "#F8BD00",
       path: "/AiReferenceRequest",
     },
     {
-      title: "Completed References",
+      title: TRANSLATIONS[language].CompletedReferences,
       count: totalCompletedReference,
       color: "#319F43",
       path: "/AiReferenceRequest",
     },
     {
-      title: "Total Candidates",
+      title: TRANSLATIONS[language].TotalCandidates,
       count: totalCandidateCount,
       color: "#686868",
       path: "/AiReferenceApplicant",
     },
   ];
-
   // Data for the line chart
   const lineData = {
     labels: months,
@@ -805,9 +846,9 @@ const MainDashboard = () => {
       ) : (
         <>
           <div>
-            <h3 className="mb-0">Dashboard</h3>
+            <h3 className="mb-0">{TRANSLATIONS[language].Dashboard}</h3>
             <p className="mb-2">
-              Manage and track your reference check processes.
+              {TRANSLATIONS[language].ManageTrackResponse}{" "}
             </p>
           </div>
           <div className="d-flex justify-content-start mb-3 w-100">
@@ -822,7 +863,7 @@ const MainDashboard = () => {
                   className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-3 "
                   onClick={handleOpenJobForm}
                 >
-                  Start Reference Check{" "}
+                  {TRANSLATIONS[language].StartReferenceCheck}{" "}
                   <svg
                     width="17"
                     height="17"
@@ -837,7 +878,7 @@ const MainDashboard = () => {
                   </svg>
                 </button>
                 <i className="w-100 text-center my-1">
-                  "Click here to begin the reference check process."
+                  " {TRANSLATIONS[language].ClickToStart} "
                 </i>
               </Col>
               <Col md={6} className="p-0"></Col>
@@ -849,9 +890,9 @@ const MainDashboard = () => {
               {cardData.map((card, index) => (
                 <Col
                   key={index}
-                  xs={12}  // Full width on extra small devices
-                  sm={6}   // Half width on small devices
-                  md={3}   // Quarter width on medium and larger devices
+                  xs={12} // Full width on extra small devices
+                  sm={6} // Half width on small devices
+                  md={3} // Quarter width on medium and larger devices
                   className={` fade-in ${
                     isAiReferenceCardVisible ? "visible" : ""
                   }`}
@@ -890,7 +931,7 @@ const MainDashboard = () => {
               >
                 <div className="line-chart">
                   <p className="mb-3 line-title-overlay">
-                    Reference Check Overview
+                    {TRANSLATIONS[language].ReferenceOverview}{" "}
                   </p>
                   <Line data={lineData} options={lineOptions} />
                 </div>
@@ -903,7 +944,10 @@ const MainDashboard = () => {
                 }`}
               >
                 <div className="bar-chart">
-                  <p className="mb-3 bar-title-overlay">By Department</p>
+                  <p className="mb-3 bar-title-overlay">
+                    {" "}
+                    {TRANSLATIONS[language].ByDepartment}{" "}
+                  </p>
 
                   <Bar data={barData} options={barOptions} />
                 </div>
@@ -911,7 +955,10 @@ const MainDashboard = () => {
             </Col>
           </Row>
           <div className={`fade-in ${isLogContainerVisible ? "visible" : ""}`}>
-            <LogContainer completedRecords={completedRecords} />
+            <LogContainer
+              completedRecords={completedRecords}
+              language={language}
+            />{" "}
           </div>
         </>
       )}

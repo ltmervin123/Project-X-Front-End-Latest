@@ -6,6 +6,39 @@ import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
+const TRANSLATIONS = {
+  English: {
+    Jobs: "Jobs",
+    ActiveJobs: "Active Jobs",
+
+    JobName: "Job Name",
+    Vacancies: "Vacancies",
+    Department: "Department",
+    HiringManager: "Hiring Manager",
+    PostedDate: "Posted Date",
+    Actions: "Actions",
+
+    ManageAndTrackPositions: "Manage and track your open positions.",
+    SearchJobName: "Search job name...",
+    ViewManageTrack: "View, manage, and track open job positions. You can edit details or delete listings as needed."
+  },
+  Japanese: {
+    Jobs: "求人",
+    ActiveJobs: "求人",
+
+    JobName: "職種名",
+    Vacancies: "求人情報",
+    Department: "部門",
+    HiringManager: "採用担当者",
+    PostedDate: "掲載日",
+    Actions: "操作",
+
+    ManageAndTrackPositions: "空いているポジションを管理および追跡します。",
+    SearchJobName: "職種名を検索...",
+    ViewManageTrack: "公開されている求人情報を表示、管理、追跡できます。詳細を編集したり、必要に応じてリストを削除したりできます。"
+  },
+};
+
 const Jobs = () => {
   const queryClient = useQueryClient();
   const API = process.env.REACT_APP_API_URL;
@@ -23,12 +56,13 @@ const Jobs = () => {
   const [activeJobs, setActiveJobs] = useState(
     JSON.parse(localStorage.getItem("jobs")) || []
   );
+  // Define language here
+  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-
   useEffect(() => {
-    const timers = [setTimeout(() => setIsSearchVisible(true), 300)];
-
-    return () => timers.forEach((timer) => clearTimeout(timer));
+    const timer = setTimeout(() => setIsSearchVisible(true), 300);
+    return () => clearTimeout(timer);
   }, []);
 
   const fetchJobs = async () => {
@@ -121,8 +155,10 @@ const Jobs = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3 className="mb-0">Jobs</h3>
-          <p className="mb-2">Manage and track your open positions.</p>
+          <h3 className="mb-0">{TRANSLATIONS[language].Jobs}</h3>
+          <p className="mb-2">
+            {TRANSLATIONS[language].ManageAndTrackPositions}
+          </p>
         </div>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -134,7 +170,7 @@ const Jobs = () => {
           >
             <input
               type="text"
-              placeholder="Search job name..."
+              placeholder={TRANSLATIONS[language].SearchJobName} // Remove unnecessary string interpolation
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -152,7 +188,7 @@ const Jobs = () => {
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex align-items-center gap-2 ">
-            Active Jobs{" "}
+            {TRANSLATIONS[language].ActiveJobs}{" "}
             <div className="position-relative d-flex">
               <svg
                 width="16"
@@ -174,25 +210,30 @@ const Jobs = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  View, manage, and track open job positions. You can edit
-                  details or delete listings as needed.
+                  {TRANSLATIONS[language].ViewManageTrack}
                 </span>
               )}
             </div>
           </h4>
-          <p>Manage and track your open positions.</p>
+          <p>{TRANSLATIONS[language].ManageAndTrackPositions}</p>
         </div>
 
         {activeJobs && activeJobs.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th>Job Name</th>
-                {/* <th className="text-center">Vacancies</th> */}
-                <th>Department</th>
-                <th>Hiring Manager</th>
-                <th className="text-center">Posted Date</th>
-                <th className="text-center">Actions</th>
+                <th>{TRANSLATIONS[language].JobName}</th>
+                <th className="text-center">
+                  {TRANSLATIONS[language].Vacancies}
+                </th>
+                <th>{TRANSLATIONS[language].Department}</th>
+                <th>{TRANSLATIONS[language].HiringManager}</th>
+                <th className="text-center">
+                  {TRANSLATIONS[language].PostedDate}
+                </th>
+                <th className="text-center">
+                  {TRANSLATIONS[language].Actions}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -206,7 +247,7 @@ const Jobs = () => {
                   return (
                     <tr key={job._id}>
                       <td>{job.jobName}</td>
-                      {/* <td className="text-center">{job.vacancies}</td> */}
+                      <td className="text-center">{job.vacancies}</td>
                       <td>{job.department || "Department not specified"}</td>
                       <td>
                         {" "}

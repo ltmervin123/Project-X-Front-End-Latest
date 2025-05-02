@@ -2,8 +2,33 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 
+const TRANSLATIONS = {
+  English: {
+    Dashboard: "Dashboard",
+    Jobs: "Jobs",
+    Applicants: "Applicants",
+    ReferenceRequest: "Reference Request",
+    ReferenceQuestion: "Reference Question",
+    Reports: "Reports",
+    TrashBin: "Trash Bin",
+    FollowUsOn: "Follow Us On",
+  },
+  Japanese: {
+    Dashboard: "ダッシュボード",
+    Jobs: "求人",
+    Applicants: "応募者",
+    ReferenceRequest: "リファレンス依頼",
+    ReferenceQuestion: "リファレンス質問",
+    Reports: "レポート",
+    TrashBin: "ゴミ箱",
+    FollowUsOn: "フォローしてください",
+  },
+};
+
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
+  // Define language here
+  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -26,8 +51,12 @@ const Sidebar = () => {
         className={`sidebar-overlay ${showSidebar ? "show" : ""}`}
         onClick={closeSidebar}
       />
-      <div className={`MockMain-sidebar d-flex flex-column gap-4 ${showSidebar ? 'show' : ''}`}>
-      <NavLink
+      <div
+        className={`MockMain-sidebar d-flex flex-column gap-4 ${
+          showSidebar ? "show" : ""
+        }`}
+      >
+        <NavLink
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
@@ -42,7 +71,7 @@ const Sidebar = () => {
           >
             <path d="M0.281738 18.9484V6.94836L8.28174 0.948364L16.2817 6.94836V18.9484H10.2817V11.9484H6.28174V18.9484H0.281738Z" />
           </svg>
-          Dashboard
+          {TRANSLATIONS[language].Dashboard}{" "}
         </NavLink>
 
         <NavLink
@@ -65,7 +94,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          Jobs
+          {TRANSLATIONS[language].Jobs}{" "}
         </NavLink>
 
         <NavLink
@@ -86,7 +115,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          Applicants
+          {TRANSLATIONS[language].Applicants}{" "}
         </NavLink>
 
         <NavLink
@@ -107,7 +136,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          Reference Request
+          {TRANSLATIONS[language].ReferenceRequest}{" "}
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -127,7 +156,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          Reference Question
+          {TRANSLATIONS[language].ReferenceQuestion}{" "}
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -155,7 +184,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          Reports
+          {TRANSLATIONS[language].Reports}{" "}
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -175,12 +204,12 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          Trash Bin
+          {TRANSLATIONS[language].TrashBin}{" "}
         </NavLink>
 
         {/* Follow Us Section */}
         <div className="follow-us p-3">
-          <p className="mb-3">FOLLOW US ON</p>
+          <p className="mb-3"> {TRANSLATIONS[language].FollowUsOn} </p>
           <div className="social-icons d-flex align-item-center justify-content-around gap-1">
             <a
               href="https://www.linkedin.com/company/hr-hatch/?viewAsMember=true&fbclid=IwZXh0bgNhZW0CMTEAAR04-4YiMGiy8P8WBncX6i1SV_ojpFaXku3y8a6sW17Cnxag9zYkgTPrmPU_aem_17xurdIqUzSoNuVh-ZcU4w"

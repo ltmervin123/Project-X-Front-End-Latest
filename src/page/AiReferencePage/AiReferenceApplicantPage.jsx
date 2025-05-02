@@ -4,6 +4,8 @@ import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import Candidates from "../../components/AiReference/Candidates/Applicant";
 import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
+import TranslationDropdown from "../../components/AiReference/TranslationDropdown";
+
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 import "../../styles/AiReferenceStyles/AiReferenceApplicant.css";
 
@@ -22,6 +24,8 @@ function AiReferenceApplicantPage() {
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
               <Candidates />
+                          <TranslationDropdown />
+              
             </Col>
           </Row>
         </div>

@@ -6,6 +6,35 @@ import html2pdf from "html2pdf.js";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import { fetchReferenceByReferenceId } from "../../../../api/ai-reference/reference-request/reference-request-api";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    loading: "Loading Reference Request...",
+    pleaseWait: "Please wait while we fetch the reference data",
+    returnToReference: "Return to Reference Request",
+    notAvailable: "Not Available",
+    noImage: "No image available",
+    idDisplayed: "ID displayed here...",
+    signatureDisplay: "Signature here...",
+    downloading: "Downloading...",
+    downloadReference: "Download Reference",
+  },
+  Japanese: {
+    loading: "リファレンス依頼を読み込んでいます...",
+    pleaseWait: "リファレンスデータを取得中です。お待ちください。",
+    returnToReference: "リファレンス依頼に戻る",
+    notAvailable: "利用不可",
+    noImage: "画像がありません",
+    idDisplayed: "IDがここに表示されます...",
+    signatureDisplay: "署名がここに...",
+    downloading: "ダウンロード中...",
+    downloadReference: "リファレンスをダウンロード",
+  },
+};
+
 const CATEGORY_ORDER = {
   "Standard Format": [
     "relationship",
@@ -255,10 +284,8 @@ function ViewRequest({
               role="status"
               style={{ width: "5rem", height: "5rem" }}
             />
-            <h3>Loading Reference Request...</h3>
-            <p className="text-muted">
-              Please wait while we fetch the reference data
-            </p>
+            <h3>{TRANSLATIONS[language].loading}</h3>
+            <p className="text-muted">{TRANSLATIONS[language].pleaseWait}</p>
           </Col>
         </Row>
       </Container>
@@ -292,38 +319,38 @@ function ViewRequest({
               fill="white"
             />
           </svg>
-          Return to Reference Request
+          {TRANSLATIONS[language].returnToReference}
         </button>
       </div>
       <div className="ViewRequest-container">
         <div ref={reportRef}>
           <h4 className="color-orange mb-2">
-            {referenceData?.questionFormat || "Not Available"}
+            {referenceData?.questionFormat || TRANSLATIONS[language].notAvailable}
           </h4>
           <p className="mb-2">
             <b>Position Applied For: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.position || "Not Available"}
+              {referenceData?.referenceRequestId?.position || TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
             <b>Applicant: </b>
             <span className="Capitalize">
               {`${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}` ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
             <b>Referee Name: </b>
             <span className="Capitalize">
               {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
             <b>Current Company: </b>
             <span className="Capitalize">
-              {referenceData?.currentCompany || "Not Available"}
+              {referenceData?.currentCompany || TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
@@ -332,14 +359,14 @@ function ViewRequest({
               {referenceData?.referenceRequestId?.candidate.firstName}):{" "}
             </b>
             <span>
-              {formatter(referenceData?.companyWorkedWith) || "Not Available"}
+              {formatter(referenceData?.companyWorkedWith) || TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
             <b>Relationship to the Applicant: </b>
             <span>
               {formatter(referenceData?.refereeRelationshipWithCandidate) ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
@@ -357,7 +384,7 @@ function ViewRequest({
                   )}
                 </>
               ) : (
-                "Not Available"
+                TRANSLATIONS[language].notAvailable
               )}
             </span>
           </p>
@@ -405,7 +432,7 @@ function ViewRequest({
                               style={getAssessmentStyle(item.assessmentRating)}
                             >
                               <p className="m-0">
-                                {item.assessmentRating || "Not Available"}
+                                {item.assessmentRating || TRANSLATIONS[language].notAvailable}
                               </p>
                             </div>
                           </div>
@@ -444,7 +471,7 @@ function ViewRequest({
                             style={getAssessmentStyle(item.overallAssessment)}
                           >
                             <p className="m-0">
-                              {item.overallAssessment || "Not Available"}
+                              {item.overallAssessment || TRANSLATIONS[language].notAvailable}
                             </p>
                           </div>
                         </div>
@@ -461,27 +488,27 @@ function ViewRequest({
               {referenceData?.frontIdImageURL ? (
                 <img
                   src={referenceData.frontIdImageURL}
-                  alt="ID displayed here..."
+                  alt={TRANSLATIONS[language].idDisplayed}
                   onLoad={handleImageLoad}
                   onError={handleImageError}
                   className={isLandscape ? "landscape" : "portrait"}
                 />
               ) : (
-                <p>No image available</p>
+                <p>{TRANSLATIONS[language].noImage}</p>
               )}
             </div>
           </div>
           <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}
-            alt="Signature here..."
+            alt={TRANSLATIONS[language].signatureDisplay}
           />
 
           <p className="mb-2">
             <b>Referee Name: </b>
             <span className="Capitalize">
               {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className=" mb-2">
@@ -498,10 +525,10 @@ function ViewRequest({
                   className="spinner-border spinner-border-sm text-light me-2"
                   role="status"
                 ></div>
-                <span>Downloading...</span>
+                <span>{TRANSLATIONS[language].downloading}</span>
               </div>
             ) : (
-              <span>Download Reference</span>
+              <span>{TRANSLATIONS[language].downloadReference}</span>
             )}
           </button>
         </div>

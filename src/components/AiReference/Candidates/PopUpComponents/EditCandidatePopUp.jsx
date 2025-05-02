@@ -2,6 +2,51 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
+const TRANSLATIONS = {
+  English: {
+    EditApplicant: "Edit Applicant",
+    UpdateDetails: "Update the details of the applicant below.",
+    Position: "Position",
+    SelectPosition: "Select a position",
+    ReferenceFormat: "Reference Format",
+    NoCustomQuestions: "No custom questions available",
+    Applicant: "Applicant",
+    Email: "Email",
+    UpdateCandidate: "Update Candidate",
+    Custom: "Custom",
+    HrHatch: "HR-HATCH",
+    StandardFormat: "Standard Format",
+    ManagementFormat: "Management Format",
+    ExecutiveFormat: "Executive Format",
+    FormatValues: {
+      STANDARD: "Standard Format",
+      MANAGEMENT: "Management Format",
+      EXECUTIVE: "Executive Format",
+    },
+  },
+  Japanese: {
+    EditApplicant: "応募者を編集",
+    UpdateDetails: "以下の応募者の詳細を更新してください。",
+    Position: "職位",
+    SelectPosition: "職位を選択",
+    ReferenceFormat: "リファレンス形式",
+    NoCustomQuestions: "カスタム質問はありません",
+    Applicant: "応募者",
+    Email: "メール",
+    UpdateCandidate: "応募者を更新",
+    Custom: "カスタム",
+    HrHatch: "HR-HATCH",
+    StandardFormat: "標準フォーマット",
+    ManagementFormat: "管理職フォーマット",
+    ExecutiveFormat: "エグゼクティブフォーマット",
+    FormatValues: {
+      STANDARD: "標準フォーマット",
+      MANAGEMENT: "管理職フォーマット",
+      EXECUTIVE: "エグゼクティブフォーマット",
+    },
+  },
+};
+
 const EditCandidatePopUp = ({
   onClose,
   onUpdateCandidate,
@@ -10,6 +55,8 @@ const EditCandidatePopUp = ({
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
+
+  const language = sessionStorage.getItem("preferred-language") || "English";
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,22 +78,22 @@ const EditCandidatePopUp = ({
   const hrHatchQuestion = useMemo(() => {
     return [
       {
-        name: "Standard Format",
+        name: TRANSLATIONS[language].StandardFormat,
         value: "STANDARD",
         _id: "67b404a91eb4c9da22cff68e",
       },
       {
-        name: "Management Format",
+        name: TRANSLATIONS[language].ManagementFormat,
         value: "MANAGEMENT",
         _id: "67b405191eb4c9da22cff690",
       },
       {
-        name: "Executive Format",
+        name: TRANSLATIONS[language].ExecutiveFormat,
         value: "EXECUTIVE",
         _id: "67b405a41eb4c9da22cff691",
       },
     ];
-  }, []);
+  }, [language]);
 
   const customQuestion = useMemo(() => {
     const questions = JSON.parse(localStorage.getItem("questions")) || [];
@@ -56,8 +103,19 @@ const EditCandidatePopUp = ({
     }));
   }, []);
 
+  const getTranslatedQuestionName = (format, originalName) => {
+    if (format === "HR-HATCH-FORMAT") {
+      return TRANSLATIONS[language].FormatValues[originalName] || originalName;
+    }
+    return originalName;
+  };
+
   const handleQuestionSelect = (question, format) => {
-    setSelectedQuestion(question);
+    const translatedQuestion = {
+      ...question,
+      name: getTranslatedQuestionName(format, question.value),
+    };
+    setSelectedQuestion(translatedQuestion);
     setSelectedFormat(format);
     setIsHrHatchOpen(false);
     setIsCustomOpen(false);
@@ -108,7 +166,7 @@ const EditCandidatePopUp = ({
         email,
         questionFormat: selectedFormat,
         questionId: selectedQuestion?._id,
-        questionName: selectedQuestion?.name,
+        questionName: selectedQuestion?.value || selectedQuestion?.name,
       };
 
       const response = await axios.put(URL, payload, {
@@ -140,8 +198,8 @@ const EditCandidatePopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0">Edit Applicant</h5>
-            <small>Update the details of the applicant below.</small>
+            <h5 className="m-0">{TRANSLATIONS[language].EditApplicant}</h5>
+            <small>{TRANSLATIONS[language].UpdateDetails}</small>
           </div>
           <Button
             className="closebtn"
@@ -158,7 +216,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              Position
+              {TRANSLATIONS[language].Position}
             </Form.Label>
             <Form.Select
               value={position}
@@ -167,7 +225,7 @@ const EditCandidatePopUp = ({
               disabled={true}
             >
               <option value="" disabled>
-                Select a position
+                {TRANSLATIONS[language].SelectPosition}
               </option>
               {positions.map((pos, index) => (
                 <option key={index} value={pos}>
@@ -181,7 +239,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              Reference Format
+              {TRANSLATIONS[language].ReferenceFormat}
             </Form.Label>
             <div className="w-100 reference-question-format-container d-flex gap-3">
               <div className="custom-dropdown-ref-req">
@@ -198,7 +256,7 @@ const EditCandidatePopUp = ({
                 >
                   {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
                     ? selectedQuestion.name
-                    : "HR-HATCH"}
+                    : TRANSLATIONS[language].HrHatch}
                 </div>
                 {isHrHatchOpen && (
                   <div className="dropdown-list-ref-req">
@@ -231,7 +289,7 @@ const EditCandidatePopUp = ({
                 >
                   {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
                     ? selectedQuestion.name
-                    : "Custom"}
+                    : TRANSLATIONS[language].Custom}
                 </div>
                 {isCustomOpen && (
                   <div className="dropdown-list-ref-req">
@@ -249,7 +307,7 @@ const EditCandidatePopUp = ({
                       ))
                     ) : (
                       <div className="dropdown-item-ref-req" disabled>
-                        No custom questions available
+                        {TRANSLATIONS[language].NoCustomQuestions}
                       </div>
                     )}
                   </div>
@@ -262,7 +320,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              Applicant
+              {TRANSLATIONS[language].Applicant}
             </Form.Label>
             <div className="d-flex gap-3 w-100">
               <Form.Control
@@ -287,7 +345,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              Email
+              {TRANSLATIONS[language].Email}
             </Form.Label>
             <Form.Control
               type="email"
@@ -310,7 +368,7 @@ const EditCandidatePopUp = ({
                   role="status"
                 ></div>
               ) : (
-                "Update Candidate"
+                TRANSLATIONS[language].UpdateCandidate
               )}
             </button>
           </div>

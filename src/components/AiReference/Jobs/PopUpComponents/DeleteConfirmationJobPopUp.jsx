@@ -1,6 +1,21 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+const TRANSLATIONS = {
+  English: {
+    confirmDelete: "Are you sure you want to delete this job? Deleting this job will also remove all associated candidates and their reference records.",
+    yes: "Yes",
+    no: "No"
+  },
+  Japanese: {
+    confirmDelete: "このジョブを削除してもよろしいですか？このジョブを削除すると、関連する候補者とその参照記録もすべて削除されます。",
+    yes: "はい",
+    no: "いいえ"
+  }
+};
+
 const DeleteConfirmationJobPopUp = ({
   onClose,
   onConfirmDelete,
@@ -18,8 +33,7 @@ const DeleteConfirmationJobPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Are you sure you want to delete this job? Deleting this job will
-            also remove all associated candidates and their reference records.
+            {TRANSLATIONS[language].confirmDelete}
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
@@ -34,7 +48,7 @@ const DeleteConfirmationJobPopUp = ({
                   role="status"
                 ></div>
               ) : (
-                "Yes"
+                TRANSLATIONS[language].yes
               )}
             </button>
             <button
@@ -42,7 +56,7 @@ const DeleteConfirmationJobPopUp = ({
               disabled={isDeleting}
               onClick={onClose}
             >
-              No
+              {TRANSLATIONS[language].no}
             </button>
           </div>
         </div>

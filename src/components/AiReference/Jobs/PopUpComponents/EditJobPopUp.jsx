@@ -2,6 +2,75 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+const TRANSLATIONS = {
+  English: {
+    editJob: "Edit Job",
+    updateJobDetails: "Update the job details below.",
+    jobName: "Job Name",
+    vacancies: "Vacancies",
+    department: "Department",
+    hiringManager: "Hiring Manager",
+    firstName: "First Name",
+    lastName: "Last Name",
+    updateJob: "Update Job",
+    selectDepartment: "Select Department",
+    departments: {
+      sales: "Sales",
+      marketing: "Marketing",
+      customerService: "Customer Service",
+      hr: "Human Resources (HR)",
+      finance: "Finance",
+      accounting: "Accounting",
+      operations: "Operations",
+      it: "IT (Information Technology)",
+      legal: "Legal",
+      administration: "Administration",
+      productDev: "Product Development",
+      rAndD: "Research and Development (R&D)",
+      logistics: "Logistics, Supply Chain & Procurement",
+      businessDev: "Business Development",
+      pr: "Public Relations (PR)",
+      design: "Design",
+      compliance: "Compliance",
+      riskManagement: "Risk Management"
+    }
+  },
+  Japanese: {
+    editJob: "ジョブを編集",
+    updateJobDetails: "以下のジョブ詳細を更新してください。",
+    jobName: "職種名",
+    vacancies: "募集人数",
+    department: "部署",
+    hiringManager: "採用担当者",
+    firstName: "名",
+    lastName: "姓",
+    updateJob: "更新",
+    selectDepartment: "部署を選択",
+    departments: {
+      sales: "営業",
+      marketing: "マーケティング",
+      customerService: "カスタマーサービス",
+      hr: "人事",
+      finance: "財務",
+      accounting: "経理",
+      operations: "運営",
+      it: "IT",
+      legal: "法務",
+      administration: "総務",
+      productDev: "製品開発",
+      rAndD: "研究開発",
+      logistics: "物流・調達",
+      businessDev: "事業開発",
+      pr: "広報",
+      design: "デザイン",
+      compliance: "コンプライアンス",
+      riskManagement: "リスク管理"
+    }
+  }
+};
+
 const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
@@ -15,7 +84,6 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Populate form fields with job details when the component mounts
   useEffect(() => {
     if (jobDetails) {
       setJobName(jobDetails.jobName);
@@ -26,13 +94,13 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
     }
   }, [jobDetails]);
 
-  // Utility function to capitalize the first letter of each word
   const capitalizeWords = (str) => {
     return str
       .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,8 +151,8 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0">Edit Job</h5>
-            <small>Update the job details below.</small>
+            <h5 className="m-0">{TRANSLATIONS[language].editJob}</h5>
+            <small>{TRANSLATIONS[language].updateJobDetails}</small>
           </div>
           <Button
             className="closebtn"
@@ -102,7 +170,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               className="m-0"
               style={{ width: "220px", height: "38px" }}
             >
-              Job Name
+              {TRANSLATIONS[language].jobName}
             </Form.Label>
             <Form.Control
               type="text"
@@ -116,13 +184,14 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               className="m-0"
               style={{ width: "220px", height: "38px" }}
             >
-              Vacancies
+              {TRANSLATIONS[language].vacancies}
             </Form.Label>
             <Form.Control
               type="number"
               min={1}
               value={vacancies}
               onChange={(e) => setVacancies(parseInt(e.target.value))}
+              disabled
               required
             />
           </Form.Group>
@@ -131,40 +200,32 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               className="m-0"
               style={{ width: "220px", height: "38px" }}
             >
-              Department
+              {TRANSLATIONS[language].department}
             </Form.Label>
             <Form.Select
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
               required
             >
-              <option value="">Select Department</option>
-              <option value="Sales">Sales</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Customer Service">Customer Service</option>
-              <option value="Human Resources (HR)">Human Resources (HR)</option>
-              <option value="Finance">Finance</option>
-              <option value="Accounting">Accounting</option>
-              <option value="Operations">Operations</option>
-              <option value="IT (Information Technology)">
-                IT (Information Technology)
-              </option>
-              <option value="Legal">Legal</option>
-              <option value="Administration">Administration</option>
-              <option value="Product Development">Product Development</option>
-              <option value="Research and Development (R&D)">
-                Research and Development (R&D)
-              </option>
-              <option value="Logistics, Supply Chain & Procurement">
-                Logistics, Supply Chain & Procurement
-              </option>
-              <option value="Business Development">Business Development</option>
-              <option value="Public Relations (PR)">
-                Public Relations (PR)
-              </option>
-              <option value="Design">Design</option>
-              <option value="Compliance">Compliance</option>
-              <option value="Risk Management">Risk Management</option>
+              <option value="">{TRANSLATIONS[language].selectDepartment}</option>
+              <option value="Sales">{TRANSLATIONS[language].departments.sales}</option>
+              <option value="Marketing">{TRANSLATIONS[language].departments.marketing}</option>
+              <option value="Customer Service">{TRANSLATIONS[language].departments.customerService}</option>
+              <option value="Human Resources (HR)">{TRANSLATIONS[language].departments.hr}</option>
+              <option value="Finance">{TRANSLATIONS[language].departments.finance}</option>
+              <option value="Accounting">{TRANSLATIONS[language].departments.accounting}</option>
+              <option value="Operations">{TRANSLATIONS[language].departments.operations}</option>
+              <option value="IT (Information Technology)">{TRANSLATIONS[language].departments.it}</option>
+              <option value="Legal">{TRANSLATIONS[language].departments.legal}</option>
+              <option value="Administration">{TRANSLATIONS[language].departments.administration}</option>
+              <option value="Product Development">{TRANSLATIONS[language].departments.productDev}</option>
+              <option value="Research and Development (R&D)">{TRANSLATIONS[language].departments.rAndD}</option>
+              <option value="Logistics, Supply Chain & Procurement">{TRANSLATIONS[language].departments.logistics}</option>
+              <option value="Business Development">{TRANSLATIONS[language].departments.businessDev}</option>
+              <option value="Public Relations (PR)">{TRANSLATIONS[language].departments.pr}</option>
+              <option value="Design">{TRANSLATIONS[language].departments.design}</option>
+              <option value="Compliance">{TRANSLATIONS[language].departments.compliance}</option>
+              <option value="Risk Management">{TRANSLATIONS[language].departments.riskManagement}</option>
             </Form.Select>
           </Form.Group>
           <Form.Group controlId="formHiringManager" className="mb-4">
@@ -172,7 +233,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               className="m-0"
               style={{ width: "220px", height: "38px" }}
             >
-              Hiring Manager
+              {TRANSLATIONS[language].hiringManager}
             </Form.Label>
             <div className="d-flex gap-3 w-100">
               <div className="position-relative w-50">
@@ -180,7 +241,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="First Name"
+                  placeholder={TRANSLATIONS[language].firstName}
                   required
                 />
               </div>
@@ -189,7 +250,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Last Name"
+                  placeholder={TRANSLATIONS[language].lastName}
                   required
                 />
               </div>
@@ -207,7 +268,7 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
                   role="status"
                 ></div>
               ) : (
-                "Update Job"
+                TRANSLATIONS[language].updateJob
               )}
             </button>
           </div>

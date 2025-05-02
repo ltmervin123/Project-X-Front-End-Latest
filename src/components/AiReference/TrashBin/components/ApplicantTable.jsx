@@ -3,6 +3,18 @@ import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationApplicantPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
 import RestoreConfirmationApplicantPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationApplicantPopUp";
 
+const TRANSLATIONS = {
+  English: {
+    restore: "Restore",
+    delete: "Delete",
+
+  },
+  Japanese: {
+    restore: "復元",
+    delete: "削除",
+ 
+  },
+};
 const ApplicantTable = ({
   data,
   selectedItems,
@@ -13,6 +25,8 @@ const ApplicantTable = ({
   isDeletingCandidates,
   isRestoringCandidate,
 }) => {
+    const language = sessionStorage.getItem("preferred-language") || "English";
+
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
@@ -116,7 +130,7 @@ const ApplicantTable = ({
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Restore
+                    {TRANSLATIONS[language].restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -124,7 +138,7 @@ const ApplicantTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    Delete
+                    {TRANSLATIONS[language].delete}
                   </p>
                 </div>
               )}

@@ -7,6 +7,57 @@ import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 
+const TRANSLATIONS = {
+  English: {
+    Jobs: "Jobs",
+    ActiveJobs: "Active Jobs",
+    JobName: "Job Name",
+    Vacancies: "Vacancies",
+    Department: "Department",
+    HiringManager: "Hiring Manager",
+    PostedDate: "Posted Date",
+    Actions: "Actions",
+    Applicants: "Applicants",
+    ManageAndTrack: "Manage and track your potential hires through the reference checking process.",
+    SearchApplicants: "Search applicants...",
+    ApplicantsList: "Applicants List",
+    Overview: "Overview of all applicants in the system.",
+    Name: "Name",
+    Email: "Email",
+    Status: "Status",
+    MonitorAndTrack: "Monitor and track potential hires, check their status, and access their details.",
+    ViewDetails: "View Details",
+    Edit: "Edit",
+    Delete: "Delete",
+    CandidateNotFound: "Candidate not found",
+    NoCandidateRecord: "No candidate record"
+  },
+  Japanese: {
+    Jobs: "求人",
+    ActiveJobs: "求人",
+    JobName: "職種名",
+    Vacancies: "求人情報",
+    Department: "部門",
+    HiringManager: "採用担当者",
+    PostedDate: "掲載日",
+    Actions: "操作",
+    Applicants: "応募者",
+    ManageAndTrack: "リファレンスチェックプロセスを通じて、潜在的な採用者を管理し追跡します。",
+    SearchApplicants: "応募者を検索...",
+    ApplicantsList: "応募者リスト",
+    Overview: "システム内のすべての応募者の概要。",
+    Name: "名前",
+    Email: "メール",
+    Status: "ステータス",
+    MonitorAndTrack: "潜在的な採用者を監視し、彼らのステータスを確認し、詳細をアクセスします。",
+    ViewDetails: "詳細を見る",
+    Edit: "編集",
+    Delete: "削除",
+    CandidateNotFound: "候補者が見つかりません",
+    NoCandidateRecord: "候補者記録なし"
+  }
+};
+
 const Applicant = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const companyId = USER?.id;
@@ -23,6 +74,9 @@ const Applicant = () => {
   const [candidates, setCandidates] = useState(
     JSON.parse(localStorage.getItem("candidates")) || []
   );
+  // Define language here
+  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+
   const [isDeleting, setIsDeleting] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -179,36 +233,11 @@ const Applicant = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3 className="mb-0">Applicants</h3>
+          <h3 className="mb-0">{TRANSLATIONS[language].Applicants}</h3>
           <p className="mb-2">
-            Manage and track your potential hires through the reference checking
-            process.
+            {TRANSLATIONS[language].ManageAndTrack}
           </p>
         </div>
-        {/* <button
-          onClick={handleAddNewCandidate}
-          className="btn-create-new-candidate d-flex align-items-center justify-content-center gap-1"
-        >
-          <svg
-            width="30"
-            height="30"
-            viewBox="0 0 37 37"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M27.7487 20.0384H20.0404V27.7467C20.0404 28.1556 19.8779 28.5477 19.5888 28.8369C19.2997 29.126 18.9076 29.2884 18.4987 29.2884C18.0898 29.2884 17.6977 29.126 17.4086 28.8369C17.1195 28.5477 16.957 28.1556 16.957 27.7467V20.0384H9.2487C8.83982 20.0384 8.44769 19.876 8.15858 19.5869C7.86946 19.2977 7.70703 18.9056 7.70703 18.4967C7.70703 18.0879 7.86946 17.6957 8.15858 17.4066C8.44769 17.1175 8.83982 16.9551 9.2487 16.9551H16.957V9.24674C16.957 8.83787 17.1195 8.44574 17.4086 8.15662C17.6977 7.8675 18.0898 7.70508 18.4987 7.70508C18.9076 7.70508 19.2997 7.8675 19.5888 8.15662C19.8779 8.44574 20.0404 8.83787 20.0404 9.24674V16.9551H27.7487C28.1576 16.9551 28.5497 17.1175 28.8388 17.4066C29.1279 17.6957 29.2904 18.0879 29.2904 18.4967C29.2904 18.9056 29.1279 19.2977 28.8388 19.5869C28.5497 19.876 28.1576 20.0384 27.7487 20.0384Z"
-              fill="white"
-            />
-          </svg>
-          Add New Candidate
-        </button>
-        {showPopup && (
-          <AddCandidatePopUp
-            onClose={handleClosePopup}
-            onAddCandidate={handleAddCandidate}
-          />
-        )} */}
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex align-items-center search-candidates">
@@ -219,7 +248,7 @@ const Applicant = () => {
           >
             <input
               type="text"
-              placeholder="Search applicants..."
+              placeholder={TRANSLATIONS[language].SearchApplicants}
               className="form-control ps-4 pe-5"
               value={searchQuery} // bind value to the searchQuery state
               onChange={(e) => setSearchQuery(e.target.value)} // update the searchQuery state on input change
@@ -237,7 +266,7 @@ const Applicant = () => {
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex gap-2 align-items-center">
-            Applicants List
+            {TRANSLATIONS[language].ApplicantsList}
             <div className="position-relative d-flex">
               <svg
                 width="16"
@@ -259,13 +288,12 @@ const Applicant = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  Monitor and track potential hires, check their status, and
-                  access their details.
+                  {TRANSLATIONS[language].MonitorAndTrack}
                 </span>
               )}
             </div>
           </h4>
-          <p>Overview of all applicants in the system.</p>
+          <p>{TRANSLATIONS[language].Overview}</p>
         </div>
 
         {candidates && candidates.length > 0 ? (
@@ -273,11 +301,11 @@ const Applicant = () => {
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Job Name</th>
-                  <th className="text-center">Status</th>
-                  <th className="text-center">Actions</th>
+                  <th>{TRANSLATIONS[language].Name}</th>
+                  <th>{TRANSLATIONS[language].Email}</th>
+                  <th>{TRANSLATIONS[language].JobName}</th>
+                  <th className="text-center">{TRANSLATIONS[language].Status}</th>
+                  <th className="text-center">{TRANSLATIONS[language].Actions}</th>
                 </tr>
               </thead>
               <tbody>
@@ -327,7 +355,7 @@ const Applicant = () => {
                               className="btn-view-details"
                               onClick={() => handleViewDetails(candidate)}
                             >
-                              View Details
+                              {TRANSLATIONS[language].ViewDetails}
                             </button>{" "}
                             <div className="action-menu">
                               <p
@@ -363,7 +391,7 @@ const Applicant = () => {
                                       style={{ cursor: "pointer" }}
                                     >
                                       <FaEdit />
-                                      Edit
+                                      {TRANSLATIONS[language].Edit}
                                     </p>
                                     <p
                                       className="d-flex align-items-center gap-2"
@@ -376,7 +404,7 @@ const Applicant = () => {
                                       }}
                                     >
                                       <FaTrash />
-                                      Delete
+                                      {TRANSLATIONS[language].Delete}
                                     </p>
                                   </div>
                                 )}
@@ -407,7 +435,7 @@ const Applicant = () => {
                 }).length === 0 && (
                   <tr>
                     <td colSpan="5" className="text-center">
-                      Candidate not found
+                      {TRANSLATIONS[language].CandidateNotFound}
                     </td>
                   </tr>
                 )}
@@ -415,7 +443,7 @@ const Applicant = () => {
             </table>
           </>
         ) : (
-          <div>No candidate record</div>
+          <div>{TRANSLATIONS[language].NoCandidateRecord}</div>
         )}
       </div>
       {showDeleteConfirmation && (

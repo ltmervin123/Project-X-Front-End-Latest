@@ -3,6 +3,19 @@ import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationJobPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationJobPopUp";
 import RestoreConfirmationJobPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationJobPopUp";
 
+const TRANSLATIONS = {
+  English: {
+    restore: "Restore",
+    delete: "Delete",
+
+  },
+  Japanese: {
+    restore: "復元",
+    delete: "削除",
+ 
+  },
+};
+
 const JobTable = ({
   data,
   selectedItems,
@@ -13,6 +26,7 @@ const JobTable = ({
   isDeletingJobs,
   isRestoringJobs,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
@@ -90,10 +104,7 @@ const JobTable = ({
             onChange={() => onSelect(data._id)}
           />
         </td>
-        {/* <td style={{ width: "12%" }}>{data.jobName}</td> */}
-        <td >{data.jobName}</td>
-
-        {/* <td className="text-center">{data.vacancies}</td> */}
+        <td>{data.jobName}</td>
         <td>{data.department}</td>
         <td>{data.hiringManager}</td>
         <td className="text-center">
@@ -127,7 +138,7 @@ const JobTable = ({
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Restore
+                    {TRANSLATIONS[language].restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -138,7 +149,7 @@ const JobTable = ({
                     }}
                   >
                     <FaTrash />
-                    Delete
+                    {TRANSLATIONS[language].delete}
                   </p>
                 </div>
               )}

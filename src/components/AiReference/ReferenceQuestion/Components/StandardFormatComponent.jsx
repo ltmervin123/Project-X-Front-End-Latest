@@ -1,4 +1,27 @@
 import React, { useState } from "react";
+// Define language here
+const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+
+const TRANSLATIONS = {
+  English: {
+    standardFormat: "Standard Format",
+    hrhatchQuestionFormats: "Question Formats",
+    standardizedQuestionSets: "Standardized question sets provided by",
+    tooltip:
+      "Designed to be asked in most interviews, these questions focus on skills, experience, and personality.",
+    noQuestionsFound: "No questions found",
+    returnToHRHatch: "Return to HR-HATCH Formats",
+  },
+  Japanese: {
+    standardFormat: "標準フォーマット",
+    hrhatchQuestionFormats: "質問フォーマット",
+    standardizedQuestionSets: "によって提供される標準化された質問セット",
+    tooltip:
+      "ほとんどの面接で尋ねられるように設計されており、スキル、経験、性格に焦点を当てています。",
+    noQuestionsFound: "質問が見つかりません",
+    returnToHRHatch: "HR-HATCH フォーマットに戻る",
+  },
+};
 
 const StandardFormatComponent = ({
   StandardQuestionsSets,
@@ -14,7 +37,8 @@ const StandardFormatComponent = ({
       <div className="AiReference-table-title">
         {/* format will depend on selectedFormat */}
         <h4 className="color-green mb-0 d-flex gap-2 align-items-center">
-          Standard Format
+          {TRANSLATIONS[language].standardFormat}
+
           <div className="position-relative d-flex">
             <svg
               width="16"
@@ -36,14 +60,14 @@ const StandardFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-                Designed to be asked in most interviews, these questions focus
-                on skills, experience, and personality?
+                          {TRANSLATIONS[language].tooltip}
+
               </span>
             )}
           </div>
         </h4>
         <p>
-          Standardized question sets provided by
+          {TRANSLATIONS[language].standardizedQuestionSets}
           <b>
             <span className="color-orange"> HR</span>
             -HΛTCH
@@ -57,7 +81,7 @@ const StandardFormatComponent = ({
             <div key={item.id} className="question-set-container border mb-3">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="question-set-info">
-                  <h5 className="mb-0">{item.category}</h5>
+                  <h5 className="mb-0">{item.category[language]}</h5>
                 </div>
                 <div className="d-flex justify-content-end gap-5 question-controls">
                   <button
@@ -88,7 +112,7 @@ const StandardFormatComponent = ({
                 <div className="dropdown-content-q-sets mt-3">
                   <ul>
                     {item.questions.map((question, qIndex) => (
-                      <li key={qIndex}>{question}</li>
+                      <li key={qIndex}>{question[language]}</li>
                     ))}
                   </ul>
                 </div>
@@ -96,16 +120,16 @@ const StandardFormatComponent = ({
             </div>
           ))
         ) : (
-          <div>No questions found</div>
+          <div> {TRANSLATIONS[language].noQuestionsFound}</div>
         )}
       </div>
       <div className="d-flex justify-content-center align-items-center reference-question-returnbtn-container">
         {/* Return Button */}
         <button
           className="btn-return"
-          onClick={() => handleButtonClick("HR-HATCH Formats")} // Set to HR-HATCH Formats
+          onClick={() => handleButtonClick("HR-HATCH Formats")}
         >
-          Return to HR-HATCH Formats
+          {TRANSLATIONS[language].returnToHRHatch}
         </button>
       </div>
     </>

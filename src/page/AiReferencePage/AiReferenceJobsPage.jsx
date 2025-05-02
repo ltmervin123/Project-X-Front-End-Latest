@@ -4,6 +4,8 @@ import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import Jobs from "../../components/AiReference/Jobs/Jobs";
 import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
+import TranslationDropdown from "../../components/AiReference/TranslationDropdown";
+
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 
 function AiReferenceCheckerPage() {
@@ -19,6 +21,8 @@ function AiReferenceCheckerPage() {
           </Col>
           <Col md={10} className="p-3">
             <Jobs />
+                        <TranslationDropdown />
+            
           </Col>
         </Row>
       </div>

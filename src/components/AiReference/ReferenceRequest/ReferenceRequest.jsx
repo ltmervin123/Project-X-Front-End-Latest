@@ -8,6 +8,68 @@ import ViewRequest from "./Components/ViewRequest";
 import axios from "axios";
 import { socket } from "../../../utils/socket/socketSetup";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    noRecord: "No reference requests record",
+    notFound: "Reference requests not found",
+    referee: "Referee",
+    referees: "Referees",
+    status: "Status",
+    noStatus: "No Status",
+    inProgress: "In Progress",
+    completed: "Completed",
+    expired: "Expired",
+    search: "Search by reference request...",
+    referenceRequest: "Reference Request",
+    referenceRequestDesc:
+      "Manage and track reference checks for your applicants.",
+    referenceRequestList: "Reference Request List",
+    referenceRequestListDesc: "Overview of all reference requests.",
+    applicants: "Applicants",
+    jobName: "Job Name",
+    dateSent: "Date Sent",
+    dueDate: "Due Date",
+    actions: "Actions",
+    viewReports: "View Reports",
+    hideReports: "Hide Reports",
+    viewReferee: "View Referee",
+    Delete: "Delete",
+    manageTrackTooltip:
+      "Review and manage reference requests for candidates, track their status, and take action.",
+  },
+  Japanese: {
+    noRecord: "リファレンス依頼の記録がありません",
+    notFound: "リファレンス依頼が見つかりません",
+    referee: "リファレンス提供者",
+    referees: "リファレンス提供者",
+    status: "ステータス",
+    noStatus: "ステータスなし",
+    inProgress: "進行中",
+    completed: "完了",
+    expired: "期限切れ",
+    search: "リファレンス依頼で検索...",
+    referenceRequest: "リファレンス依頼",
+    referenceRequestDesc: "応募者のリファレンスチェックを管理し、追跡します。",
+    referenceRequestList: "リファレンス依頼 リスト",
+    referenceRequestListDesc: "すべてのリファレンス依頼の概要。",
+    applicants: "応募者",
+    jobName: "職種名",
+    dateSent: "送信日",
+    dueDate: "期限日",
+    actions: "操作",
+    viewReports: "レポートを表示",
+    hideReports: "レポートを非表示",
+    viewReferee: "リファレンスを見る",
+    Delete: "削除",
+    manageTrackTooltip:
+      "候補者のリファレンス依頼を確認し、ステータスを追跡して、アクションを実行します。",
+  },
+};
+
 const ReferenceRequest = () => {
   const queryClient = useQueryClient();
   const API = process.env.REACT_APP_API_URL;
@@ -22,8 +84,8 @@ const ReferenceRequest = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [visibleOptions, setVisibleOptions] = useState({});
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); 
-  const [referenceToDelete, setReferenceToDelete] = useState(null); 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [referenceToDelete, setReferenceToDelete] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
 
   // For fade in smooth animation
@@ -281,9 +343,8 @@ const ReferenceRequest = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3 className="mb-0">Reference Request</h3>
-          <p className="mb-2">
-          Manage and track reference checks for your applicants.          </p>
+          <h3 className="mb-0">{TRANSLATIONS[language].referenceRequest}</h3>
+          <p className="mb-2">{TRANSLATIONS[language].referenceRequestDesc} </p>
         </div>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -295,7 +356,7 @@ const ReferenceRequest = () => {
           >
             <input
               type="text"
-              placeholder="Search by reference request..."
+              placeholder={TRANSLATIONS[language].search}
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -312,7 +373,7 @@ const ReferenceRequest = () => {
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex gap-2 align-items-center">
-            Reference Request List
+            {TRANSLATIONS[language].referenceRequestList}
             <div className="position-relative d-flex">
               <svg
                 width="16"
@@ -334,26 +395,33 @@ const ReferenceRequest = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  Review and manage reference requests for candidates, track
-                  their status, and take action.{" "}
+                  {TRANSLATIONS[language].manageTrackTooltip}
                 </span>
               )}
             </div>
           </h4>
-          <p>Overview of all reference requests.</p>
+          <p>{TRANSLATIONS[language].referenceRequestListDesc}</p>
         </div>
         {reference && reference.length > 0 ? (
           <>
             <table className="reference-table">
               <thead>
                 <tr>
-                  <th>Applicant</th>
-                  <th>Position</th>
-                  <th className="text-center">Referees</th>
-                  <th>Status</th>
-                  <th className="text-center">Date Sent</th>
-                  <th className="text-center">Date Due</th>
-                  <th className="text-center">Actions</th>
+                  <th>{TRANSLATIONS[language].applicants}</th>
+                  <th>{TRANSLATIONS[language].jobName}</th>
+                  <th className="text-center">
+                    {TRANSLATIONS[language].referees}
+                  </th>
+                  <th>{TRANSLATIONS[language].status}</th>
+                  <th className="text-center">
+                    {TRANSLATIONS[language].dateSent}
+                  </th>
+                  <th className="text-center">
+                    {TRANSLATIONS[language].dueDate}
+                  </th>
+                  <th className="text-center">
+                    {TRANSLATIONS[language].actions}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -369,8 +437,8 @@ const ReferenceRequest = () => {
                           {reference.referees &&
                           Array.isArray(reference.referees) &&
                           reference.referees.length > 1
-                            ? `${reference.referees.length} Referees`
-                            : "1 Referee"}
+                            ? `${reference.referees.length} ${TRANSLATIONS[language].referees}`
+                            : `1 ${TRANSLATIONS[language].referee}`}
                         </td>
                         <td data-label="Status">
                           {(() => {
@@ -381,7 +449,7 @@ const ReferenceRequest = () => {
                                 status.completedCount === 0 &&
                                 status.expiredCount === 0 ? (
                                   <span style={{ color: "black" }}>
-                                    No Status
+                                    {TRANSLATIONS[language].noStatus}
                                   </span>
                                 ) : (
                                   <>
@@ -391,7 +459,8 @@ const ReferenceRequest = () => {
                                           color: getStatusColor("In Progress"),
                                         }}
                                       >
-                                        {status.inProgressCount} In Progress
+                                        {status.inProgressCount}{" "}
+                                        {TRANSLATIONS[language].inProgress}
                                       </span>
                                     )}
                                     {status.completedCount > 0 && (
@@ -404,7 +473,8 @@ const ReferenceRequest = () => {
                                             color: getStatusColor("Completed"),
                                           }}
                                         >
-                                          {status.completedCount} Completed
+                                          {status.completedCount}{" "}
+                                          {TRANSLATIONS[language].completed}
                                         </span>
                                       </>
                                     )}
@@ -419,7 +489,8 @@ const ReferenceRequest = () => {
                                             color: getStatusColor("Expired"),
                                           }}
                                         >
-                                          {status.expiredCount} Expired
+                                          {status.expiredCount}{" "}
+                                          {TRANSLATIONS[language].expired}
                                         </span>
                                       </>
                                     )}
@@ -435,7 +506,10 @@ const ReferenceRequest = () => {
                         <td data-label="Date Due" className="text-center">
                           {formatDate(reference.dueDate)}
                         </td>
-                        <td data-label="Actions" className="d-flex gap-2 align-items-center justify-content-center w-100">
+                        <td
+                          data-label="Actions"
+                          className="d-flex gap-2 align-items-center justify-content-center w-100"
+                        >
                           <div className="position-relative d-flex justify-content-center">
                             <button
                               className={`btn-view-details ${
@@ -451,9 +525,10 @@ const ReferenceRequest = () => {
                             >
                               {showDropDown &&
                               selectedCandidate._id === reference._id
-                                ? "Hide Reports"
-                                : "View Reports"}
+                                ? TRANSLATIONS[language].hideReports
+                                : TRANSLATIONS[language].viewReports}
                             </button>
+
                             <div className="action-menu">
                               <p
                                 className="m-0 "
@@ -488,7 +563,7 @@ const ReferenceRequest = () => {
                                       }}
                                     >
                                       <FaTrash />
-                                      Delete
+                                      {TRANSLATIONS[language].Delete}
                                     </p>
                                   </div>
                                 )}
@@ -510,9 +585,9 @@ const ReferenceRequest = () => {
                                 Array.isArray(reference.referees) &&
                                 reference.referees.length > 0
                                   ? reference.referees.length === 1
-                                    ? "Referee"
-                                    : "Referees"
-                                  : "No Referees"}
+                                    ? TRANSLATIONS[language].referee
+                                    : TRANSLATIONS[language].referees
+                                  : ""}
                               </b>
                               <div className="referee-list w-100 d-flex gap-2 mt-2">
                                 {showDropDown &&
@@ -560,7 +635,10 @@ const ReferenceRequest = () => {
                                                 handleViewDetails(referee)
                                               }
                                             >
-                                              View Referee
+                                              {
+                                                TRANSLATIONS[language]
+                                                  .viewReferee
+                                              }
                                             </button>
                                           </div>
                                         </div>
@@ -576,7 +654,7 @@ const ReferenceRequest = () => {
                 ) : (
                   <tr>
                     <td colSpan="7" className="text-center">
-                      Reference requests not found
+                      {TRANSLATIONS[language].notFound}
                     </td>
                   </tr>
                 )}
@@ -584,7 +662,7 @@ const ReferenceRequest = () => {
             </table>
           </>
         ) : (
-          <div>No reference requests record</div>
+          <div>{TRANSLATIONS[language].noRecord}</div>
         )}
       </div>
       {showDeleteConfirmation && (

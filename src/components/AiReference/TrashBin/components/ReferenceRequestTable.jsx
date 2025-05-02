@@ -2,7 +2,18 @@ import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceRequestPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
 import RestoreConfirmationReferenceRequestPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
+const TRANSLATIONS = {
+  English: {
+    restore: "Restore",
+    delete: "Delete",
 
+  },
+  Japanese: {
+    restore: "復元",
+    delete: "削除",
+ 
+  },
+};
 const ReferenceRequestTable = ({
   data,
   selectedItems,
@@ -13,6 +24,7 @@ const ReferenceRequestTable = ({
   isDeletingReferenceRequest,
   isRestoringReferenceRequest,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
@@ -176,7 +188,7 @@ const ReferenceRequestTable = ({
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Restore
+                    {TRANSLATIONS[language].restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -184,7 +196,7 @@ const ReferenceRequestTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    Delete
+                    {TRANSLATIONS[language].delete}
                   </p>
                 </div>
               )}

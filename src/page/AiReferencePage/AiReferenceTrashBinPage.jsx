@@ -4,6 +4,8 @@ import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import Trashbin from "../../components/AiReference/TrashBin/Trashbin";
 // import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
+import TranslationDropdown from "../../components/AiReference/TranslationDropdown";
+
 import "../../styles/AiReferenceStyles/AiReferenceTrashbin.css";
 
 function AiReferenceTrashBinPage() {
@@ -19,6 +21,7 @@ function AiReferenceTrashBinPage() {
           </Col>
           <Col md={10} className="p-3">
             <Trashbin />
+            <TranslationDropdown />
           </Col>
         </Row>
       </div>

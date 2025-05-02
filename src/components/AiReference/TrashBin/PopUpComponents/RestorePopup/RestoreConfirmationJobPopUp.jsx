@@ -1,6 +1,35 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
+const TRANSLATIONS = {
+  English: {
+    confirmMessage: 'Would you like to restore',
+    singleItem: 'this job',
+    allItems: 'all these jobs',
+    selectedItems: 'these jobs',
+    actionMessage: 'This action will move',
+    theSingleItem: 'the job',
+    theAllItems: 'all these jobs',
+    theSelectedItems: 'these jobs',
+    destination: 'back to the Jobs list',
+    yes: 'Yes',
+    no: 'No'
+  },
+  Japanese: {
+    confirmMessage: '復元してもよろしいですか',
+    singleItem: 'この求人',
+    allItems: 'これらすべての求人',
+    selectedItems: 'これらの求人',
+    actionMessage: 'この操作により',
+    theSingleItem: '求人',
+    theAllItems: 'すべての求人',
+    theSelectedItems: 'これらの求人',
+    destination: 'が求人リストに戻ります',
+    yes: 'はい',
+    no: 'いいえ'
+  }
+};
+
 const RestoreConfirmationJobPopUp = ({
   onClose,
   onConfirmRestore,
@@ -9,6 +38,8 @@ const RestoreConfirmationJobPopUp = ({
   isSingleItem,
   isRestoringJobs,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
   return (
     <Modal
       show={true}
@@ -20,19 +51,19 @@ const RestoreConfirmationJobPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            Would you like to restore{" "}
+            {TRANSLATIONS[language].confirmMessage} {" "}
             {isSingleItem || selectedCount === 1
-              ? "this job"
+              ? TRANSLATIONS[language].singleItem
               : isAll
-              ? "all these jobs"
-              : `these jobs`}
-            ? This action will move{" "}
+              ? TRANSLATIONS[language].allItems
+              : TRANSLATIONS[language].selectedItems}
+            ? {TRANSLATIONS[language].actionMessage} {" "}
             {isSingleItem || selectedCount === 1
-              ? "the job"
+              ? TRANSLATIONS[language].theSingleItem
               : isAll
-              ? "all these jobs"
-              : `these jobs`}
-           {" "} back to the Jobs list.
+              ? TRANSLATIONS[language].theAllItems
+              : TRANSLATIONS[language].theSelectedItems}
+            {" "} {TRANSLATIONS[language].destination}.
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
@@ -47,11 +78,11 @@ const RestoreConfirmationJobPopUp = ({
                   role="status"
                 ></div>
               ) : (
-                "Yes"
+                TRANSLATIONS[language].yes
               )}
             </button>
             <button className="btn-no-recover" onClick={onClose}>
-              No
+              {TRANSLATIONS[language].no}
             </button>
           </div>
         </div>

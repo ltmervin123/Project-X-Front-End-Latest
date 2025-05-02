@@ -3,6 +3,59 @@ import { Row, Col, Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    professionalReferenceFor: "Professional Reference for",
+    referenceStatus: "Reference Status",
+    status: "Status",
+    requestInformation: "Request Information",
+    questionFormat: "Question Format",
+    dateSent: "Date Sent",
+    dateDue: "Date Due",
+    referenceDetails: "Reference Details",
+    applicantInformation: "Applicant Information",
+    name: "Name",
+    email: "Email",
+    position: "Position",
+    refereeInformation: "Referee Information",
+    viewReference: "View Reference",
+    sendReminder: "Send Reminder",
+    sending: "Sending...",
+    formats: {
+      hrHatch: "HR-HATCH Format",
+      custom: "Custom Format",
+      na: "Not Available"
+    }
+  },
+  Japanese: {
+    professionalReferenceFor: "業務リファレンス",
+    referenceStatus: "リファレンスステータス",
+    status: "ステータス",
+    requestInformation: "依頼情報",
+    questionFormat: "質問フォーマット",
+    dateSent: "送信日",
+    dateDue: "期限日",
+    referenceDetails: "リファレンス詳細",
+    applicantInformation: "応募者情報",
+    name: "氏名",
+    email: "メールアドレス",
+    position: "職位",
+    refereeInformation: "リファレンス提供者情報",
+    viewReference: "リファレンスを見る",
+    sendReminder: "リマインダーを送信",
+    sending: "送信中...",
+    formats: {
+      hrHatch: "HR-HATCHフォーマット",
+      custom: "カスタムフォーマット",
+      na: "利用不可"
+    }
+  }
+};
+
 const ReferenceRequestDetailsPopUp = ({
   candidate,
   referee,
@@ -38,11 +91,11 @@ const ReferenceRequestDetailsPopUp = ({
   const formatQuestion = (question) => {
     switch (question) {
       case "HR-HATCH-FORMAT":
-        return "HR-Hatch Format";
+        return TRANSLATIONS[language].formats.hrHatch;
       case "CUSTOM-FORMAT":
-        return "Custom Format";
+        return TRANSLATIONS[language].formats.custom;
       default:
-        return "N/A";
+        return TRANSLATIONS[language].formats.na;
     }
   };
 
@@ -87,7 +140,7 @@ const ReferenceRequestDetailsPopUp = ({
         <div className="d-flex justify-content-between align-items-center mb-0">
           <div>
             <h5 className="m-0">
-              Professional Reference for{" "}
+              {TRANSLATIONS[language].professionalReferenceFor}{" "}
               <span
                 className="color-orange reference-candidate-name"
                 style={{ textTransform: "capitalize" }}
@@ -115,7 +168,7 @@ const ReferenceRequestDetailsPopUp = ({
         <div className="Reference-details">
           <Row>
             <Col md={6}>
-              <b className="mb-3">Reference Status</b>
+              <b className="mb-3">{TRANSLATIONS[language].referenceStatus}</b>
               <div className="Request-container-status d-flex justify-content-between align-items-center mt-3 mb-3">
                 <p className="d-flex align-items-center">
                   {/* Check icon */}
@@ -140,7 +193,7 @@ const ReferenceRequestDetailsPopUp = ({
                       </clipPath>
                     </defs>
                   </svg>
-                  &nbsp; Status: &nbsp;
+                  &nbsp; {TRANSLATIONS[language].status}: &nbsp;
                   <span
                     style={{
                       backgroundColor: getStatusColor(referee.status),
@@ -152,49 +205,45 @@ const ReferenceRequestDetailsPopUp = ({
                 </p>
               </div>
               <div className="Request-information-container w-100">
-                <b>Request Information</b>
+                <b>{TRANSLATIONS[language].requestInformation}</b>
                 <div className="request-information-container d-flex flex-column">
                   <div className="d-flex">
-                    <div className="request-label">Question Format:</div>
+                    <div className="request-label">
+                      {TRANSLATIONS[language].questionFormat}:
+                    </div>
                     <div className="request-details">
                       {formatQuestion(referee.questionFormat)}
                     </div>
                   </div>
                   <div className="d-flex">
-                    <div className="request-label">Date Sent:</div>
+                    <div className="request-label">
+                      {TRANSLATIONS[language].dateSent}:
+                    </div>
                     <div className="request-details">
                       {formatDate(candidate.dateSent) || "N/A"}
                     </div>
                   </div>
                   <div className="d-flex">
-                    <div className="request-label">Date Due:</div>
+                    <div className="request-label">
+                      {TRANSLATIONS[language].dateDue}:
+                    </div>
                     <div className="request-details">
                       {formatDate(candidate.dueDate) || "N/A"}
                     </div>
                   </div>
-                  {/* <p>
-                    Question Format:{" "}
-                    <span>{referee.questionFormat || "N/A"}</span>
-                  </p>
-                  <p>
-                    Date Sent:{" "}
-                    <span>{formatDate(candidate.dateSent) || "N/A"}</span>
-                  </p>
-                  <p>
-                    Date Due:{" "}
-                    <span>{formatDate(candidate.dueDate) || "N/A"}</span>
-                  </p> */}
                 </div>
               </div>
             </Col>
             <Col md={6}>
-              <b className="mb-3">Reference Details</b>
+              <b className="mb-3">{TRANSLATIONS[language].referenceDetails}</b>
 
               <div className="candidate-info-container  mt-3">
-                <b>Applicant Information</b>
+                <b>{TRANSLATIONS[language].applicantInformation}</b>
                 <div className="candidate-labels-and-details w-100">
                   <div className="d-flex">
-                    <div className="candidate-labels">Name:</div>
+                    <div className="candidate-labels">
+                      {TRANSLATIONS[language].name}:
+                    </div>
                     <div className="candidate-details">
                       {typeof candidate.candidate === "string"
                         ? candidate.candidate
@@ -203,13 +252,17 @@ const ReferenceRequestDetailsPopUp = ({
                     </div>
                   </div>
                   <div className="d-flex ">
-                    <div className="candidate-labels">Email:</div>
+                    <div className="candidate-labels">
+                      {TRANSLATIONS[language].email}:
+                    </div>
                     <div className="candidate-details">
                       {candidate.candidateEmail || "N/A"}
                     </div>
                   </div>
                   <div className="d-flex">
-                    <div className="candidate-labels">Position:</div>
+                    <div className="candidate-labels">
+                      {TRANSLATIONS[language].position}:
+                    </div>
                     <div className="candidate-details">
                       {candidate.position || "N/A"}
                     </div>
@@ -218,9 +271,11 @@ const ReferenceRequestDetailsPopUp = ({
               </div>
 
               <div className="reference-information-container mt-3">
-                <b>Referee Information</b>
+                <b>{TRANSLATIONS[language].refereeInformation}</b>
                 <div className="d-flex">
-                  <div className="reference-labels">Name: </div>
+                  <div className="reference-labels">
+                    {TRANSLATIONS[language].name}:{" "}
+                  </div>
                   <div className="reference-details">
                     {typeof referee.name === "string"
                       ? referee.name
@@ -229,7 +284,9 @@ const ReferenceRequestDetailsPopUp = ({
                   </div>
                 </div>
                 <div className="d-flex ">
-                  <div className="reference-labels">Email:</div>
+                  <div className="reference-labels">
+                    {TRANSLATIONS[language].email}:
+                  </div>
                   <div className="reference-details">
                     {referee.email || "N/A"}
                   </div>
@@ -244,7 +301,7 @@ const ReferenceRequestDetailsPopUp = ({
                 className="btn-viewreference d-flex gap-2 align-items-center justify-content-center"
                 onClick={onViewReference}
               >
-                View Reference
+                {TRANSLATIONS[language].viewReference}
               </button>
             ) : null}
             {referee.status === "In Progress" ? (
@@ -254,7 +311,9 @@ const ReferenceRequestDetailsPopUp = ({
                   onClick={handleSendReminder}
                   disabled={isSending || isSent}
                 >
-                  {isSending ? "Sending..." : "Send Reminder"}
+                  {isSending
+                    ? TRANSLATIONS[language].sending
+                    : TRANSLATIONS[language].sendReminder}
                 </button>
               </>
             ) : null}

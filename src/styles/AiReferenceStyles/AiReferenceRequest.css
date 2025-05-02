@@ -26,7 +26,7 @@
   height: 190px; /* Set this to the desired height when expanded */
   opacity: 1; /* Set opacity to 1 when expanded */
   transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for height and opacity */
-
+ width: 100%;
 }
 .reference-dropdown-container > b {
   color: var(--card-color);
@@ -36,7 +36,7 @@
   display: flex;
 }
 .referee-item {
-  width: 33%;
+  width: 33.3%;
   display: flex;
   height: 120px;
   justify-content: space-between;
@@ -84,7 +84,7 @@
 
 }
 .referee-left-container{
-  width: 60%;
+  width: 50%;
   padding-right: 15px !important;
 }
 
@@ -196,7 +196,7 @@
   background: var(--btn-view-color);
   text-decoration: none;
   color: var(--font-white);
-  width: 120px;
+  width: 140px;
   padding: 8px; /* Adjusted padding */
   border-radius: 50px;
   height: auto;
@@ -323,11 +323,11 @@
   padding: 8px 15px; /* Adjusted padding */
   border-radius: 50px;
   height: auto;
-
+ 
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .AiReference-reference-request-container  .btn-view-referee:hover {
@@ -356,7 +356,7 @@
 }
 .btn-no-delete{
   background: var(--secondary-color);
-  width: 100px;
+  width: 120px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
@@ -365,7 +365,7 @@
 }
 .btn-yes-delete{
   background: var(--primary-color);
-  width: 100px;
+  width: 120px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;
@@ -624,7 +624,6 @@ background-color: none !important;
   .AiReference-reference-request-container  .btn-view-referee {
     width: 120px;
     padding: 8px; /* Adjusted padding */
-    font-size: 14px;
   }
 }
 
