@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import AddJobComponent from "./Components/AddJobComponent";
+import SelectionLanguagePopUp from "./PopUpComponents/SelectionLanguagePopUp";
 import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +18,8 @@ const TRANSLATIONS = {
     ActiveJobs: "Active Jobs",
     PendingReferences: "Pending References",
     CompletedReferences: "Completed References",
-    TotalCandidates: "Total Candidates",
+    
+    TotalApplicants: "Total Applicants",
     ReferenceOverview: "Reference Overview",
     ByDepartment: "By Department",
     RecentActivities: "Recent Activities",
@@ -27,6 +29,28 @@ const TRANSLATIONS = {
     NoRecentActivities: "No recent activities",
     ViewAll: "View All",      
     ShowLess: "Show Less",  
+    departments: {
+      sales: "Sales",
+      marketing: "Marketing",
+      customerService: "Customer Service",
+      hr: "Human Resources (HR)",
+      finance: "Finance",
+      accounting: "Accounting",
+      operations: "Operations",
+      it: "IT (Information Technology)",
+      legal: "Legal",
+      administration: "Administration",
+      productDevelopment: "Product Development",
+      rAndD: "Research and Development (R&D)",
+      logistics: "Logistics, Supply Chain & Procurement",
+      businessDev: "Business Development",
+      pr: "Public Relations (PR)",
+      design: "Design",
+      compliance: "Compliance",
+      riskManagement: "Risk Management"
+    },
+    Total: "Total",
+    Complete: "Complete"
   },
   Japanese: {
     Dashboard: "ダッシュボード",
@@ -36,7 +60,7 @@ const TRANSLATIONS = {
     ActiveJobs: "求人",
     PendingReferences: "保留中のリファレンス",
     CompletedReferences: "完了リファレンス",
-    TotalCandidates: "候補者数",
+    TotalApplicants: "応募者数", 
     ReferenceOverview: "リファレンスチェック概要",
     ByDepartment: "部門別",
     RecentActivities: "最近の活動",
@@ -47,6 +71,28 @@ const TRANSLATIONS = {
     NoRecentActivities: "最近の活動はありません",
     ViewAll: "すべて表示",         
     ShowLess: "表示を減らす",  
+    departments: {
+      sales: "営業",
+      marketing: "マーケティング",
+      customerService: "カスタマーサービス",
+      hr: "人事",
+      finance: "財務",
+      accounting: "経理",
+      operations: "運営",
+      it: "IT",
+      legal: "法務",
+      administration: "総務",
+      productDevelopment: "製品開発",
+      rAndD: "研究開発",
+      logistics: "物流・調達",
+      businessDev: "事業開発",
+      pr: "広報",
+      design: "デザイン",
+      compliance: "コンプライアンス",
+      riskManagement: "リスク管理"
+    },
+    Total: "合計",
+    Complete: "完了"
   },
 };
 
@@ -137,6 +183,8 @@ const MainDashboard = () => {
   const id = USER?.id;
   const token = USER?.token;
   const [showJobForm, setShowJobForm] = useState(false);
+  // Add new state for language popup
+  const [showLanguagePopup, setShowLanguagePopup] = useState(false);
   // Define language here
   const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
@@ -161,6 +209,12 @@ const MainDashboard = () => {
   }, []);
 
   const handleOpenJobForm = () => {
+    setShowLanguagePopup(true);
+  };
+
+  const handleLanguageContinue = (selectedLanguage) => {
+    sessionStorage.setItem('preferred-language', selectedLanguage);
+    setShowLanguagePopup(false);
     setShowJobForm(true);
   };
 
@@ -455,7 +509,7 @@ const MainDashboard = () => {
       path: "/AiReferenceRequest",
     },
     {
-      title: TRANSLATIONS[language].TotalCandidates,
+      title: TRANSLATIONS[language].TotalApplicants,
       count: totalCandidateCount,
       color: "#686868",
       path: "/AiReferenceApplicant",
@@ -563,14 +617,10 @@ const MainDashboard = () => {
             <td style="font-weight: 500;">${month}</td>
           </tr>
           <tr>
-            <td style="color: #1877F2; font-weight: 400;">Total: ${
-              lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
-            }</td>
+            <td style="color: #1877F2; font-weight: 400;">${TRANSLATIONS[language].Total}: ${lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]}</td>
           </tr>
           <tr>
-            <td style="color: #319F43;font-weight: 400;">Complete: ${
-              lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
-            }</td>
+            <td style="color: #319F43;font-weight: 400;">${TRANSLATIONS[language].Complete}: ${lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]}</td>
           </tr>
         </table>
       `;
@@ -792,35 +842,6 @@ const MainDashboard = () => {
     };
   }, []);
 
-  // Prevent accidental page exit
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      event.returnValue = "Are you sure you want to leave this page?";
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, []);
-
-  //Add a warning when user is navigating back to previous page
-  useEffect(() => {
-    const handleBackButton = (event) => {
-      event.preventDefault();
-      const userConfirmed = window.confirm(
-        "Are you sure you want to go back? Your progress will be lost."
-      );
-      if (!userConfirmed) {
-        window.history.pushState(null, "", window.location.pathname);
-      }
-    };
-
-    window.history.pushState(null, "", window.location.pathname);
-    window.addEventListener("popstate", handleBackButton);
-
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, []);
 
   const handleRefetchCandidates = async () => {
     await fetchCandidates(abortControllerRef.current);
@@ -837,7 +858,9 @@ const MainDashboard = () => {
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      {showJobForm ? (
+      {showLanguagePopup ? (
+        <SelectionLanguagePopUp onContinue={handleLanguageContinue} />
+      ) : showJobForm ? (
         <AddJobComponent
           onCancel={() => {
             setShowJobForm(false);

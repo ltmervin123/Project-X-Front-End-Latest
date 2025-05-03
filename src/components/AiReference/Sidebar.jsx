@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -27,8 +27,25 @@ const TRANSLATIONS = {
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  // Define language here
-  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+  const [currentLanguage, setCurrentLanguage] = useState("English");
+
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setCurrentLanguage(
+        sessionStorage.getItem("preferred-language") || "English"
+      );
+    };
+
+    // Initial language setup
+    handleLanguageChange();
+
+    // Listen for storage changes
+    window.addEventListener("storage", handleLanguageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleLanguageChange);
+    };
+  }, []);
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -71,7 +88,7 @@ const Sidebar = () => {
           >
             <path d="M0.281738 18.9484V6.94836L8.28174 0.948364L16.2817 6.94836V18.9484H10.2817V11.9484H6.28174V18.9484H0.281738Z" />
           </svg>
-          {TRANSLATIONS[language].Dashboard}{" "}
+          {TRANSLATIONS[currentLanguage].Dashboard}{" "}
         </NavLink>
 
         <NavLink
@@ -94,7 +111,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          {TRANSLATIONS[language].Jobs}{" "}
+          {TRANSLATIONS[currentLanguage].Jobs}{" "}
         </NavLink>
 
         <NavLink
@@ -115,7 +132,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          {TRANSLATIONS[language].Applicants}{" "}
+          {TRANSLATIONS[currentLanguage].Applicants}{" "}
         </NavLink>
 
         <NavLink
@@ -136,7 +153,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          {TRANSLATIONS[language].ReferenceRequest}{" "}
+          {TRANSLATIONS[currentLanguage].ReferenceRequest}{" "}
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -156,7 +173,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          {TRANSLATIONS[language].ReferenceQuestion}{" "}
+          {TRANSLATIONS[currentLanguage].ReferenceQuestion}{" "}
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -184,7 +201,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          {TRANSLATIONS[language].Reports}{" "}
+          {TRANSLATIONS[currentLanguage].Reports}{" "}
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -204,12 +221,12 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          {TRANSLATIONS[language].TrashBin}{" "}
+          {TRANSLATIONS[currentLanguage].TrashBin}{" "}
         </NavLink>
 
         {/* Follow Us Section */}
         <div className="follow-us p-3">
-          <p className="mb-3"> {TRANSLATIONS[language].FollowUsOn} </p>
+          <p className="mb-3"> {TRANSLATIONS[currentLanguage].FollowUsOn} </p>
           <div className="social-icons d-flex align-item-center justify-content-around gap-1">
             <a
               href="https://www.linkedin.com/company/hr-hatch/?viewAsMember=true&fbclid=IwZXh0bgNhZW0CMTEAAR04-4YiMGiy8P8WBncX6i1SV_ojpFaXku3y8a6sW17Cnxag9zYkgTPrmPU_aem_17xurdIqUzSoNuVh-ZcU4w"

@@ -15,7 +15,7 @@ const GUIDE_STEPS = {
       title: "<span>2</span> Start Reference Check",
       element: ".btn-start-reference-check",
       intro:
-        "This is the main button to begin a new reference check. Click here when you’re ready to verify a applicant’s background!",
+        "This is the main button to begin a new reference check. Click here when you’re ready to verify a applicants background!",
     },
     {
       title: "<span>3</span> Navigation Menu",
@@ -27,13 +27,13 @@ const GUIDE_STEPS = {
       title: "<span>4</span> Dashboard Metrics",
       element: ".AiReferenceCard-container",
       intro:
-        "These cards give you real-time insights into your hiring process, including active jobs, pending references, completed references, and the total number of applicant’s..",
+        "These cards give you real-time insights into your hiring process, including active jobs, pending references, completed references, and the total number of applicants.",
     },
     {
       title: "<span>5</span> Reference Check Overview",
       element: ".line-chart",
       intro:
-        "This chart displays your reference check activity over time. The blue line shows the total number of reference checks started, while the green line represents the checks that have been completed..",
+        "This chart displays your reference check activity over time. The blue line shows the total number of reference checks started, while the green line represents the checks that have been completed.",
       position: "right",
     },
     {
@@ -41,7 +41,7 @@ const GUIDE_STEPS = {
       element: ".bar-chart",
       position: "left",
       intro:
-        "This bar chart shows reference checks by department, helping you see which teams are most active in the hiring process.",
+        "This bar chart shows reference checks by department, helping you see which departments are most active in the hiring process.",
     },
     {
       title: "<span>7</span> Recent Activity",
@@ -60,7 +60,7 @@ const GUIDE_STEPS = {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily locate specific jobs using the search bar. Enter job titles, departments, or any relevant keywords to filter the list of open positions.",
+        "Easily locate specific jobs using the search bar. Enter job name, departments, or any relevant keywords to filter the list of open positions.",
     },
     {
       title: "<span>3</span> Jobs Page Overview",
@@ -72,27 +72,27 @@ const GUIDE_STEPS = {
   ],
   applicant: [
     {
-      title: "<span>1</span>Let’s Explore Applicant’s",
+      title: "<span>1</span>Let’s Explore Applicants",
       intro:
-        "Now, let's take a look at how you can manage applicant’s throughout the hiring process. Click 'Next' to continue to the Applicant’s page.",
+        "Now, let’s take a look at how you can manage applicants throughout the hiring process. Click ‘Next’ to continue to the Applicants page",
     },
     {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily find specific applicant’s using the search bar. Enter names, positions, or email addresses to filter the applicant list and pinpoint exactly who you're looking for.",
+        "Easily find specific applicants using the search bar. Enter names, job name, or email addresses to filter the applicant list and pinpoint exactly who you're looking for.",
     },
     {
-      title: "<span>3</span> Applicant’s Page Overview",
+      title: "<span>3</span> Applicants Page Overview",
       element: ".AiReference-candidates-container",
       position: "top left",
       intro:
-        "The Applicant’s page allows you to monitor all potential hires throughout the reference checking process. Here, you can view and manage applicant information and check their current status.",
+        "The Applicants page allows you to monitor all potential hires throughout the reference checking process. Here, you can view and manage applicant information and check their current status.",
     },
   ],
   referenceRequests: [
     {
-      title: "<span>1</span> Let’s Check Reference Requests",
+      title: "<span>1</span> Let’s Explore Reference Requests",
       intro:
         "Now, let's explore how to manage reference checks. Click 'Next' to proceed to the Reference Requests page.",
     },
@@ -100,28 +100,28 @@ const GUIDE_STEPS = {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily find specific reference requests using the search bar. Search by applicant name, referee, position, or status to locate exactly what you need.",
+        "Easily find specific reference requests using the search bar. Search by applicant name, referee, job name, or status to locate exactly what you need.",
     },
     {
-      title: "<span>3</span> Reference Check Overview",
+      title: "<span>3</span> Reference Requests Overview",
       element: ".AiReference-reference-request-container",
       position: "top left",
       intro:
-        "The Reference Requests page enables you to manage and track all reference checks for your applicant’s. Here, you can monitor the status of completed references.",
+        "The Reference Requests page enables you to manage and track all reference checks for your applicants. Here, you can monitor the status of completed references.",
     },
   ],
   referenceQuestions: [
     {
       title: "<span>1</span> Let’s Explore Reference Questions",
       intro:
-        "Now, let's delve into how to manage reference checks. Click 'Next' to proceed to the Reference Requests page.",
+        "Now, let's delve into how to manage reference questionnaires. Click 'Next' to proceed to the Reference Questions page.",
     },
     {
-      title: "<span>2</span> Custom Sets Format",
+      title: "<span>2</span> Custom Questionnaires",
       element: ".AiReference-question-container",
       position: "top left",
       intro:
-        "Here, you can view the questions you have added or created using the new question set button. You can also search for questions and edit HR-Hatch formats.",
+        "Here, you can view the questionnaire you have added or customized using the custom questionnaires button. You can also search for questionnaires and customized HR-HATCH format.",
     },
     {
       title: "<span>3</span> Navigate to HR-HATCH Formats",
@@ -189,7 +189,7 @@ const GUIDE_STEPS = {
     {
       title: "<span>5</span> Deleted Applicant’s Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted applicant’s",
+      intro: "This section provides an overview of all previously deleted applicants",
     },
     {
       title: "<span>6</span> Navigate to Reference Requests",
@@ -214,7 +214,7 @@ const GUIDE_STEPS = {
     {
       title: "<span>10</span> Walkthrough Complete!",
       intro:
-        "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track applicant’s, and process reference requests. Click 'Finish' to begin using the platform.",
+        "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track applicants, and process reference requests. Click 'Finish' to begin using the platform.",
     },
   ],
 };
