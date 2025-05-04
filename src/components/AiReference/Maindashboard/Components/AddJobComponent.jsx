@@ -317,8 +317,7 @@ const AddJobComponent = ({ onCancel }) => {
         questionName: selectedQuestion.name,
       };
     });
-
-    return await addCandidate(payload);
+    await addCandidate(payload);
   };
 
   // Add warning when user is navigating back to previous page

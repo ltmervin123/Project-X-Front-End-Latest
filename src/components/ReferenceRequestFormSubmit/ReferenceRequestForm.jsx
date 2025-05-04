@@ -18,7 +18,7 @@ const TRANSLATIONS = {
     enterFirstName: "Enter first name",
     enterLastName: "Enter last name",
     enterEmail: "Enter email address",
-    sendRequest: "Send Reference Request"
+    sendRequest: "Send Reference Request",
   },
   Japanese: {
     title: "推薦状リクエストフォーム",
@@ -33,8 +33,8 @@ const TRANSLATIONS = {
     enterFirstName: "名を入力",
     enterLastName: "姓を入力",
     enterEmail: "メールアドレスを入力",
-    sendRequest: "推薦状リクエストを送信"
-  }
+    sendRequest: "推薦状リクエストを送信",
+  },
 };
 
 function ReferenceRequestForm() {
@@ -171,7 +171,9 @@ function ReferenceRequestForm() {
             </div>
             <div className="mb-0 d-flex justify-content-center flex-column ">
               <div className="referees-section">
-                <h5 className="m-0">{TRANSLATIONS[currentLanguage].yourReferees}</h5>
+                <h5 className="m-0">
+                  {TRANSLATIONS[currentLanguage].yourReferees}
+                </h5>
               </div>
               {Array.from({ length: numReferees }).map((_, index) => (
                 <Row
@@ -180,7 +182,9 @@ function ReferenceRequestForm() {
                 >
                   <div className="mb-0 py-0 px-0 form-field-title">
                     <div className="numbering-list">{index + 1}</div>
-                    <span className="form-field-title-text">{TRANSLATIONS[currentLanguage].referee}</span>
+                    <span className="form-field-title-text">
+                      {TRANSLATIONS[currentLanguage].referee}
+                    </span>
                   </div>
                   <div className="mb-0 py-0 px-0 d-flex justify-content-between gap-4">
                     <div className="mb-0 your-reference-request-form-group w-100">
@@ -196,7 +200,9 @@ function ReferenceRequestForm() {
                         name="first-name"
                         value={refereesData[index]?.["first-name"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
-                        placeholder={TRANSLATIONS[currentLanguage].enterFirstName}
+                        placeholder={
+                          TRANSLATIONS[currentLanguage].enterFirstName
+                        }
                         className="your-reference-request-form-input"
                         id={`first-name-${index}`}
                       />
@@ -214,7 +220,9 @@ function ReferenceRequestForm() {
                         name="last-name"
                         value={refereesData[index]?.["last-name"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
-                        placeholder={TRANSLATIONS[currentLanguage].enterLastName}
+                        placeholder={
+                          TRANSLATIONS[currentLanguage].enterLastName
+                        }
                         className="your-reference-request-form-input"
                         id={`last-name-${index}`}
                       />
