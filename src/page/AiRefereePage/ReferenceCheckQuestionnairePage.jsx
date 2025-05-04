@@ -307,15 +307,25 @@ const ReferenceCheckQuestionnairePage = () => {
   }, []);
 
   const handleProceed = () => {
+    // Save reference questions data
     sessionStorage.setItem(
       "referenceQuestionsData",
       JSON.stringify(referenceQuestionsData)
     );
-    //old
-    // navigate("/reference-thankyou-msg");
-    // new
-    navigate("/reference-review");
 
+    // Create assessment data object with category ratings
+    const assessmentData = referenceQuestionsData.reduce((acc, category) => {
+      if (CATEGORY_TO_RATE.includes(category.category)) {
+        acc[category.category] = category.assessmentRating;
+      }
+      return acc;
+    }, {});
+
+    // Save assessment data to session storage
+    sessionStorage.setItem("assessmentData", JSON.stringify(assessmentData));
+
+    // Navigate to review page
+    navigate("/reference-review");
   };
 
   // Prevent accidental page exit

@@ -70,22 +70,19 @@
 .referee-name{
   font-weight: bold !important;
   text-transform:capitalize;
+  width: 65%;
+  padding-right: 2%;
 
 }
 
 .referee-status{
-  width: 40%;
-  width: 120px;
+  width: 35%;
   font-weight: bold !important;
 }
 .referee-email {
-  width: 100%;
+  width: 65%;
   word-wrap: break-word;
-
-}
-.referee-left-container{
-  width: 50%;
-  padding-right: 15px !important;
+padding-right: 2%;
 }
 
 .btn-view-details {
@@ -323,7 +320,7 @@
   padding: 8px 15px; /* Adjusted padding */
   border-radius: 50px;
   height: auto;
- 
+ width: 98px;
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
@@ -623,7 +620,7 @@ background-color: none !important;
 @media (min-width: 1500px) {
   .AiReference-reference-request-container  .btn-view-referee {
     width: 120px;
-    padding: 8px; /* Adjusted padding */
+    font-size: 13px;
   }
 }
 

@@ -598,17 +598,16 @@ const ReferenceRequest = () => {
                                       key={referee?._id}
                                     >
                                       <div className="referee-details">
-                                        <div className="d-flex justify-content-between mb-1">
-                                          <div className="referee-left-container d-flex align-items-center">
+                                        <div className="d-flex align-items-center  w-100 mb-1">
                                             <span className="referee-name mb-1">
                                               {typeof referee?.name === "string"
                                                 ? referee?.name
                                                 : `${referee?.name.firstName} ${referee?.name.lastName}`}
                                             </span>
-                                          </div>
-                                          <div className="d-flex align-items-end">
+                                        
+                                          <div className="d-flex referee-status  justify-content-center ">
                                             <span
-                                              className="referee-status mb-1 text-center"
+                                              className="mb-1 text-center"
                                               style={{
                                                 color: getStatusColor(
                                                   referee?.status
@@ -619,16 +618,13 @@ const ReferenceRequest = () => {
                                             </span>
                                           </div>
                                         </div>
-                                        <div className="d-flex justify-content-between">
-                                          <div className="referee-left-container d-flex align-items-center">
-                                            <p className="referee-position">
-                                              {referee?.position}
-                                            </p>
+                                        <div className="d-flex align-items-center  w-100">
+                                
                                             <p className="referee-email m-0">
                                               {referee?.email}
                                             </p>
-                                          </div>
-                                          <div className="d-flex align-items-end">
+                                          
+                                          <div className="d-flex referee-status  justify-content-end">
                                             <button
                                               className="btn-view-referee"
                                               onClick={() =>

@@ -29,7 +29,7 @@ function AiReferenceCheckVerificationPage() {
   const [isVerify, setIsVerify] = useState(false);
 
   // translation ni para sa diri na page only not the form
-  const language = sessionStorage.getItem("preferred-language") || "Japanese";
+  const language = sessionStorage.getItem("preferred-language") || "English";
 
   // seasion save the language
   useEffect(() => {
@@ -59,7 +59,7 @@ function AiReferenceCheckVerificationPage() {
         setReferenceId(response.data.referenceId);
         setRefereeId(response.data.refereeId);
         setCompanyId(response.data.companyId);
-        setSelectedLanguage(response.data?.selectedLanguage || "Japanese");
+        setSelectedLanguage(response.data?.selectedLanguage || "English");
         setIsVerify(true);
       }
     } catch (error) {

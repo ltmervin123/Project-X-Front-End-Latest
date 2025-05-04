@@ -96,8 +96,6 @@ const QuestionDisplay = ({
           <div className="question-text-container">
             <p className="m-0">
             {questions[currentQuestionIndex]}
-            You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining question
-            You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining question
 
             </p>
 
@@ -106,7 +104,7 @@ const QuestionDisplay = ({
       </div>
 
       <p className="orig-label d-flex justify-content-between align-items-center">
-        <strong>{TRANSLATIONS[language].originalAnswer}</strong>sda
+        <strong>{TRANSLATIONS[language].originalAnswer}</strong>
         {isEditing && editingType === "original" ? null : (
           <button
             className="btn-edit"
