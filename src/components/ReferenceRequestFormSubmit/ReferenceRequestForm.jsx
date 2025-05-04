@@ -43,7 +43,7 @@ function ReferenceRequestForm() {
   const [isLoading, setIsLoading] = useState(false);
   const token = sessionStorage.getItem("candidateToken");
   const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
-  const currentLanguage = candidateData?.selectedLanguage || "English";
+  const selectedLanguage = candidateData?.selectedLanguage || "English";
   const numReferees = candidateData?.numberOfReferees || 1;
 
   const navigate = useNavigate();
@@ -86,7 +86,7 @@ function ReferenceRequestForm() {
     if (isRefereeFieldMissing) {
       return;
     }
-    
+
     try {
       setIsLoading(true);
       const URL = `${API}/api/candidate-referee/create-reference-request`;
@@ -95,6 +95,7 @@ function ReferenceRequestForm() {
         positionId: candidateData?.positionId,
         candidateId: candidateData?.candidate,
         candidateName: `${candidateData.name.firstName} ${candidateData.name.lastName}`,
+        selectedLanguage,
         referees,
       };
 
@@ -124,8 +125,8 @@ function ReferenceRequestForm() {
     <>
       <div className="my-2 reference-request-form-content">
         <div className="reference-request-form-header">
-          <h5 className="m-0">{TRANSLATIONS[currentLanguage].title}</h5>
-          <p className="m-0">{TRANSLATIONS[currentLanguage].subtitle}</p>
+          <h5 className="m-0">{TRANSLATIONS[selectedLanguage].title}</h5>
+          <p className="m-0">{TRANSLATIONS[selectedLanguage].subtitle}</p>
         </div>
 
         <Form className="reference-request-form  w-100" onSubmit={handleSubmit}>
@@ -136,7 +137,7 @@ function ReferenceRequestForm() {
                   htmlFor="position"
                   className="reference-request-form-label mb-1 "
                 >
-                  {TRANSLATIONS[currentLanguage].position}
+                  {TRANSLATIONS[selectedLanguage].position}
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -153,7 +154,7 @@ function ReferenceRequestForm() {
                   htmlFor="candidate"
                   className="reference-request-form-label mb-1 "
                 >
-                  {TRANSLATIONS[currentLanguage].applicant}
+                  {TRANSLATIONS[selectedLanguage].applicant}
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -172,7 +173,7 @@ function ReferenceRequestForm() {
             <div className="mb-0 d-flex justify-content-center flex-column ">
               <div className="referees-section">
                 <h5 className="m-0">
-                  {TRANSLATIONS[currentLanguage].yourReferees}
+                  {TRANSLATIONS[selectedLanguage].yourReferees}
                 </h5>
               </div>
               {Array.from({ length: numReferees }).map((_, index) => (
@@ -183,7 +184,7 @@ function ReferenceRequestForm() {
                   <div className="mb-0 py-0 px-0 form-field-title">
                     <div className="numbering-list">{index + 1}</div>
                     <span className="form-field-title-text">
-                      {TRANSLATIONS[currentLanguage].referee}
+                      {TRANSLATIONS[selectedLanguage].referee}
                     </span>
                   </div>
                   <div className="mb-0 py-0 px-0 d-flex justify-content-between gap-4">
@@ -192,7 +193,7 @@ function ReferenceRequestForm() {
                         htmlFor={`first-name-${index}`}
                         className="your-reference-request-form-label mb-1 "
                       >
-                        {TRANSLATIONS[currentLanguage].firstName}
+                        {TRANSLATIONS[selectedLanguage].firstName}
                         <span className="orange-text"> *</span>
                       </Form.Label>
                       <Form.Control
@@ -201,7 +202,7 @@ function ReferenceRequestForm() {
                         value={refereesData[index]?.["first-name"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
                         placeholder={
-                          TRANSLATIONS[currentLanguage].enterFirstName
+                          TRANSLATIONS[selectedLanguage].enterFirstName
                         }
                         className="your-reference-request-form-input"
                         id={`first-name-${index}`}
@@ -212,7 +213,7 @@ function ReferenceRequestForm() {
                         htmlFor={`last-name-${index}`}
                         className="your-reference-request-form-label mb-1 "
                       >
-                        {TRANSLATIONS[currentLanguage].lastName}
+                        {TRANSLATIONS[selectedLanguage].lastName}
                         <span className="orange-text"> *</span>
                       </Form.Label>
                       <Form.Control
@@ -221,7 +222,7 @@ function ReferenceRequestForm() {
                         value={refereesData[index]?.["last-name"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
                         placeholder={
-                          TRANSLATIONS[currentLanguage].enterLastName
+                          TRANSLATIONS[selectedLanguage].enterLastName
                         }
                         className="your-reference-request-form-input"
                         id={`last-name-${index}`}
@@ -234,15 +235,15 @@ function ReferenceRequestForm() {
                         htmlFor={`email-address-${index}`}
                         className="your-reference-request-form-label mb-1 "
                       >
-                        {TRANSLATIONS[currentLanguage].email}
+                        {TRANSLATIONS[selectedLanguage].email}
                         <span className="orange-text"> *</span>
                       </Form.Label>
                       <Form.Control
-                        type="text"
+                        type="email"
                         name="email-address"
                         value={refereesData[index]?.["email-address"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
-                        placeholder={TRANSLATIONS[currentLanguage].enterEmail}
+                        placeholder={TRANSLATIONS[selectedLanguage].enterEmail}
                         className="your-reference-request-form-input"
                         id={`email-address-${index}`}
                       />
@@ -262,7 +263,7 @@ function ReferenceRequestForm() {
                     role="status"
                   ></div>
                 ) : (
-                  TRANSLATIONS[currentLanguage].sendRequest
+                  TRANSLATIONS[selectedLanguage].sendRequest
                 )}
               </button>
             </div>
