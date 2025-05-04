@@ -18,7 +18,7 @@ const TRANSLATIONS = {
     ActiveJobs: "Active Jobs",
     PendingReferences: "Pending References",
     CompletedReferences: "Completed References",
-    
+
     TotalApplicants: "Total Applicants",
     ReferenceOverview: "Reference Overview",
     ByDepartment: "By Department",
@@ -27,8 +27,8 @@ const TRANSLATIONS = {
     ManageTrackProcesses: "Manage and track your reference check processes.",
     completed: "completed",
     NoRecentActivities: "No recent activities",
-    ViewAll: "View All",      
-    ShowLess: "Show Less",  
+    ViewAll: "View All",
+    ShowLess: "Show Less",
     departments: {
       sales: "Sales",
       marketing: "Marketing",
@@ -47,10 +47,10 @@ const TRANSLATIONS = {
       pr: "Public Relations (PR)",
       design: "Design",
       compliance: "Compliance",
-      riskManagement: "Risk Management"
+      riskManagement: "Risk Management",
     },
     Total: "Total",
-    Complete: "Complete"
+    Complete: "Complete",
   },
   Japanese: {
     Dashboard: "ダッシュボード",
@@ -60,7 +60,7 @@ const TRANSLATIONS = {
     ActiveJobs: "求人",
     PendingReferences: "保留中のリファレンス",
     CompletedReferences: "完了リファレンス",
-    TotalApplicants: "応募者数", 
+    TotalApplicants: "応募者数",
     ReferenceOverview: "リファレンスチェック概要",
     ByDepartment: "部門別",
     RecentActivities: "最近の活動",
@@ -69,8 +69,8 @@ const TRANSLATIONS = {
     ManageTrackProcesses: "リファレンスチェックプロセスを管理し、追跡します。",
     completed: "完了",
     NoRecentActivities: "最近の活動はありません",
-    ViewAll: "すべて表示",         
-    ShowLess: "表示を減らす",  
+    ViewAll: "すべて表示",
+    ShowLess: "表示を減らす",
     departments: {
       sales: "営業",
       marketing: "マーケティング",
@@ -89,10 +89,10 @@ const TRANSLATIONS = {
       pr: "広報",
       design: "デザイン",
       compliance: "コンプライアンス",
-      riskManagement: "リスク管理"
+      riskManagement: "リスク管理",
     },
     Total: "合計",
-    Complete: "完了"
+    Complete: "完了",
   },
 };
 
@@ -139,7 +139,9 @@ const LogContainer = ({ completedRecords, language }) => {
       <div className="d-flex justify-content-between align-items-center">
         <p className="mb-3">{TRANSLATIONS[language].RecentActivities}</p>
         <a href="#" onClick={handleToggleShowAll}>
-          {showAll ? TRANSLATIONS[language].ShowLess: TRANSLATIONS[language].ViewAll}
+          {showAll
+            ? TRANSLATIONS[language].ShowLess
+            : TRANSLATIONS[language].ViewAll}
         </a>
       </div>
       <div className="list-log-containerlist-log-container">
@@ -183,17 +185,13 @@ const MainDashboard = () => {
   const id = USER?.id;
   const token = USER?.token;
   const [showJobForm, setShowJobForm] = useState(false);
-  // Add new state for language popup
-  const [showLanguagePopup, setShowLanguagePopup] = useState(false);
-  // Define language here
-  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
     useState(false);
   const [isLineChartVisible, setIsLineChartVisible] = useState(false);
   const [isBarChartVisible, setIsBarChartVisible] = useState(false);
-
   const [isLogContainerVisible, setIsLogContainerVisible] = useState(false);
 
   useEffect(() => {
@@ -209,12 +207,6 @@ const MainDashboard = () => {
   }, []);
 
   const handleOpenJobForm = () => {
-    setShowLanguagePopup(true);
-  };
-
-  const handleLanguageContinue = (selectedLanguage) => {
-    sessionStorage.setItem('preferred-language', selectedLanguage);
-    setShowLanguagePopup(false);
     setShowJobForm(true);
   };
 
@@ -617,10 +609,18 @@ const MainDashboard = () => {
             <td style="font-weight: 500;">${month}</td>
           </tr>
           <tr>
-            <td style="color: #1877F2; font-weight: 400;">${TRANSLATIONS[language].Total}: ${lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]}</td>
+            <td style="color: #1877F2; font-weight: 400;">${
+              TRANSLATIONS[language].Total
+            }: ${
+            lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
+          }</td>
           </tr>
           <tr>
-            <td style="color: #319F43;font-weight: 400;">${TRANSLATIONS[language].Complete}: ${lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]}</td>
+            <td style="color: #319F43;font-weight: 400;">${
+              TRANSLATIONS[language].Complete
+            }: ${
+            lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
+          }</td>
           </tr>
         </table>
       `;
@@ -842,7 +842,6 @@ const MainDashboard = () => {
     };
   }, []);
 
-
   const handleRefetchCandidates = async () => {
     await fetchCandidates(abortControllerRef.current);
   };
@@ -858,9 +857,7 @@ const MainDashboard = () => {
   };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      {showLanguagePopup ? (
-        <SelectionLanguagePopUp onContinue={handleLanguageContinue} />
-      ) : showJobForm ? (
+      {showJobForm ? (
         <AddJobComponent
           onCancel={() => {
             setShowJobForm(false);

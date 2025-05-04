@@ -6,6 +6,7 @@ import { addJob } from "../../../../api/ai-reference/job/jobs-api";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
 import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
+import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
 
 // Translation dictionary
 const TRANSLATIONS = {
@@ -128,9 +129,10 @@ const AddJobComponent = ({ onCancel }) => {
   const [candidates, setCandidates] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-  const [numReferees, setNumReferees] = useState(1); // Add this new state
-
+  const [numReferees, setNumReferees] = useState(1);
+  const [showLanguagePopup, setShowLanguagePopup] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
 
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
@@ -299,6 +301,7 @@ const AddJobComponent = ({ onCancel }) => {
         position: createdJob.positionName,
         positionId: createdJob.positionId,
         status,
+        selectedLanguage,
         questionFormat: selectedFormat,
         questionId: selectedQuestion._id,
         questionName: selectedQuestion.name,
@@ -377,8 +380,20 @@ const AddJobComponent = ({ onCancel }) => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, []);
+
+  const handleLanguageContinue = (selectedLanguage) => {
+    setSelectedLanguage(selectedLanguage);
+    setShowLanguagePopup(false);
+  };
+
   return (
     <>
+      {showLanguagePopup && (
+        <SelectionLanguagePopUp
+          onContinue={handleLanguageContinue}
+          onClose={() => onCancel()}
+        />
+      )}
       <div>
         <h3 className="mb-0">
           {TRANSLATIONS[currentLanguage].createNewJob}{" "}
@@ -497,7 +512,10 @@ const AddJobComponent = ({ onCancel }) => {
                       {TRANSLATIONS[currentLanguage].departments.marketing}
                     </option>
                     <option value="Customer Service">
-                      {TRANSLATIONS[currentLanguage].departments.customerService}
+                      {
+                        TRANSLATIONS[currentLanguage].departments
+                          .customerService
+                      }
                     </option>
                     <option value="Human Resources (HR)">
                       {TRANSLATIONS[currentLanguage].departments.hr}
@@ -521,7 +539,10 @@ const AddJobComponent = ({ onCancel }) => {
                       {TRANSLATIONS[currentLanguage].departments.administration}
                     </option>
                     <option value="Product Development">
-                      {TRANSLATIONS[currentLanguage].departments.productDevelopment}
+                      {
+                        TRANSLATIONS[currentLanguage].departments
+                          .productDevelopment
+                      }
                     </option>
                     <option value="Research and Development (R&D)">
                       {TRANSLATIONS[currentLanguage].departments.rAndD}
