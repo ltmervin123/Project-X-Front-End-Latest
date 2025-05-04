@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees"; // Import the Privacy Agreement component
 
 const TRANSLATIONS = {
@@ -74,8 +75,6 @@ const TRANSLATIONS = {
   }
 };
 
-const language = sessionStorage.getItem("preferred-language") || "English";
-const STEPS = TRANSLATIONS[language].steps;
 
 const AiReferenceCheckVerificationForm = ({
   refereeName,
@@ -88,6 +87,10 @@ const AiReferenceCheckVerificationForm = ({
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const CURRENT_STEP = 1; // Added here since it's used in the component
+  const [fetching, setFetching] = useState(false);
+  const language = selectedLanguage;
+
+  const STEPS = TRANSLATIONS[language].steps;
 
   const [formData, setFormData] = useState({
     referenceId: referenceId,
@@ -157,9 +160,42 @@ const AiReferenceCheckVerificationForm = ({
     saveRefereeDataTemporary();
 
     navigate("/reference-interview-method", {
-      state: { referenceId, refereeId },
     });
   };
+
+  const getReferenceQuestions = async () => {
+    const token = sessionStorage.getItem('token'); // Get token from session storage
+    const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
+    const requestHeader = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return await axios.get(URL, requestHeader);
+  };
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        setFetching(true);
+        const response = await getReferenceQuestions();
+        if (response.status === 200) {
+          sessionStorage.setItem(
+            "referenceQuestions",
+            JSON.stringify(response.data)
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setFetching(false);
+      }
+    };
+
+    if (referenceId && refereeId) {
+      fetchQuestions();
+    }
+  }, [referenceId, refereeId, API]);
 
   const isFormValid = () => {
     return (
