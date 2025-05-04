@@ -16,6 +16,7 @@ function AiReferenceCheckVerificationPage() {
   const [refereeId, setRefereeId] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [candidateName, setCandidateName] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("");
   const [isVerify, setIsVerify] = useState(false);
 
   const validateSession = async () => {
@@ -39,6 +40,7 @@ function AiReferenceCheckVerificationPage() {
         setReferenceId(response.data.referenceId);
         setRefereeId(response.data.refereeId);
         setCompanyId(response.data.companyId);
+        setSelectedLanguage(response.data?.selectedLanguage || "English");
         setIsVerify(true);
       }
     } catch (error) {
@@ -65,6 +67,7 @@ function AiReferenceCheckVerificationPage() {
             candidateName={candidateName}
             refereeId={refereeId}
             companyId={companyId}
+            selectedLanguage={selectedLanguage}
           />
         </div>
       </>
