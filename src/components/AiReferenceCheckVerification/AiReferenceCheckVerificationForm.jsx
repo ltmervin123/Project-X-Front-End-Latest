@@ -83,6 +83,7 @@ const AiReferenceCheckVerificationForm = ({
   candidateName,
   refereeId,
   companyId,
+  selectedLanguage,
 }) => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
@@ -126,6 +127,13 @@ const AiReferenceCheckVerificationForm = ({
       setIsOtherSelected(true);
     }
   };
+
+  //Save the selected language to session storage
+  useEffect(() => {
+    if (selectedLanguage) {
+      sessionStorage.setItem("selectedLanguage", selectedLanguage);
+    }
+  }, [selectedLanguage]);
 
   // Save referee data to local storage
   const saveRefereeDataTemporary = () => {
@@ -352,6 +360,8 @@ const AiReferenceCheckVerificationForm = ({
               <input
                 type="checkbox"
                 id="privacyAgreementCheckbox"
+                className="form-check-input custom-checkbox"
+
                 checked={isAgreed}
                 onChange={(e) => {
                   setIsAgreed(e.target.checked);

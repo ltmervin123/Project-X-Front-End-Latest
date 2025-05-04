@@ -106,7 +106,7 @@ const QuestionDisplay = ({
       </div>
 
       <p className="orig-label d-flex justify-content-between align-items-center">
-        <strong>{TRANSLATIONS[language].originalAnswer}</strong>
+        <strong>{TRANSLATIONS[language].originalAnswer}</strong>sda
         {isEditing && editingType === "original" ? null : (
           <button
             className="btn-edit"

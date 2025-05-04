@@ -113,7 +113,8 @@
   font-weight: 200 !important;
 }
 
-.AiReferenceCheckVerification-container-form input,
+.AiReferenceCheckVerification-container-form input[type="text"],
+.AiReferenceCheckVerification-container-form input[type="date"],
 .AiReferenceCheckVerification-container-form select {
   border-radius: 20px;
   border: 1px solid var(--primary-color);

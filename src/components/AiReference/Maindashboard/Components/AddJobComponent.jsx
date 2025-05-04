@@ -6,6 +6,7 @@ import { addJob } from "../../../../api/ai-reference/job/jobs-api";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
 import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
+import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
 
 // Translation dictionary
 const TRANSLATIONS = {
@@ -128,9 +129,10 @@ const AddJobComponent = ({ onCancel }) => {
   const [candidates, setCandidates] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-  const [numReferees, setNumReferees] = useState(1); // Add this new state
-
+  const [numberOfReferees, setNumberOfReferees] = useState(1);
+  const [showLanguagePopup, setShowLanguagePopup] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
 
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
@@ -184,6 +186,10 @@ const AddJobComponent = ({ onCancel }) => {
     }));
   }, []);
 
+  const validReferees = useMemo(() => {
+    return numberOfReferees > 0;
+  }, [numberOfReferees]);
+
   const handleQuestionSelect = (question, format) => {
     setSelectedQuestion(question);
     setSelectedFormat(format);
@@ -231,6 +237,11 @@ const AddJobComponent = ({ onCancel }) => {
 
     if (vacancies < 1) {
       newErrorMessages.vacancies = "Vacancies must be at least 1.";
+    }
+
+    if (numberOfReferees < 1) {
+      newErrorMessages.numberOfReferees =
+        "Number of referees must be at least 1.";
     }
 
     if (Object.keys(newErrorMessages).length > 0) {
@@ -299,13 +310,14 @@ const AddJobComponent = ({ onCancel }) => {
         position: createdJob.positionName,
         positionId: createdJob.positionId,
         status,
+        selectedLanguage,
+        numberOfReferees,
         questionFormat: selectedFormat,
         questionId: selectedQuestion._id,
         questionName: selectedQuestion.name,
       };
     });
-
-    return await addCandidate(payload);
+    await addCandidate(payload);
   };
 
   // Add warning when user is navigating back to previous page
@@ -377,8 +389,20 @@ const AddJobComponent = ({ onCancel }) => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, []);
+
+  const handleLanguageContinue = (selectedLanguage) => {
+    setSelectedLanguage(selectedLanguage);
+    setShowLanguagePopup(false);
+  };
+
   return (
     <>
+      {showLanguagePopup && (
+        <SelectionLanguagePopUp
+          onContinue={handleLanguageContinue}
+          onClose={() => onCancel()}
+        />
+      )}
       <div>
         <h3 className="mb-0">
           {TRANSLATIONS[currentLanguage].createNewJob}{" "}
@@ -497,7 +521,10 @@ const AddJobComponent = ({ onCancel }) => {
                       {TRANSLATIONS[currentLanguage].departments.marketing}
                     </option>
                     <option value="Customer Service">
-                      {TRANSLATIONS[currentLanguage].departments.customerService}
+                      {
+                        TRANSLATIONS[currentLanguage].departments
+                          .customerService
+                      }
                     </option>
                     <option value="Human Resources (HR)">
                       {TRANSLATIONS[currentLanguage].departments.hr}
@@ -521,7 +548,10 @@ const AddJobComponent = ({ onCancel }) => {
                       {TRANSLATIONS[currentLanguage].departments.administration}
                     </option>
                     <option value="Product Development">
-                      {TRANSLATIONS[currentLanguage].departments.productDevelopment}
+                      {
+                        TRANSLATIONS[currentLanguage].departments
+                          .productDevelopment
+                      }
                     </option>
                     <option value="Research and Development (R&D)">
                       {TRANSLATIONS[currentLanguage].departments.rAndD}
@@ -707,11 +737,18 @@ const AddJobComponent = ({ onCancel }) => {
                 <Form.Control
                   type="number"
                   min={1}
-                  value={numReferees}
-                  onChange={(e) => setNumReferees(parseInt(e.target.value))}
+                  value={numberOfReferees}
+                  onChange={(e) =>
+                    setNumberOfReferees(parseInt(e.target.value))
+                  }
                   required
                 />
               </div>
+              {errorMessages.numberOfReferees && (
+                <div className="px-3 py-1 text-danger">
+                  {errorMessages.numberOfReferees}
+                </div>
+              )}
             </Form.Group>
 
             {candidates.map((candidate, index) => (
@@ -823,7 +860,8 @@ const AddJobComponent = ({ onCancel }) => {
               loading ||
               !isJobFieldsFilled ||
               !areCandidateFieldsFilled ||
-              !selectedQuestion
+              !selectedQuestion ||
+              !validReferees
             }
           >
             {loading ? (

@@ -108,6 +108,7 @@ const PrivacyAgreementForReferees = ({
               <div className="d-flex gap-2 align-items-center justify-content-start p-1">
                 <input
                   type="checkbox"
+                  className="form-check-input custom-checkbox"
                   id="agreeCheckbox"
                   checked={isChecked}
                   onChange={(e) => setIsChecked(e.target.checked)}
