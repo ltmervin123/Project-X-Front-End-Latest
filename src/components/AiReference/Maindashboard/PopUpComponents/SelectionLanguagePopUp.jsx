@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 const TRANSLATIONS = {
   English: {
@@ -22,7 +22,7 @@ const TRANSLATIONS = {
   },
 };
 
-const SelectionLanguagePopUp = ({ onContinue }) => {
+const SelectionLanguagePopUp = ({ onContinue, onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
   const language = sessionStorage.getItem("preferred-language") || "English";
   const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -45,12 +45,32 @@ const SelectionLanguagePopUp = ({ onContinue }) => {
     >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center gap-4 flex-column">
-          <h4>
-            {TRANSLATIONS[language].selectLanguage}{" "}
-            <span className="color-orange">
-              {TRANSLATIONS[language].language}
-            </span>
-          </h4>
+          <div
+            className="d-flex justify-content-between align-items-center w-100 pt-0"
+            style={{ marginBottom: "2rem" }}
+          >
+            <div>
+              <h4 className="mb-0">
+                {TRANSLATIONS[language].selectLanguage}{" "}
+                <span className="color-orange">
+                  {TRANSLATIONS[language].language}
+                </span>
+              </h4>
+            </div>
+            <Button
+              className="closebtn d-flex align-items-center justify-content-center"
+              variant="link"
+              onClick={onClose}
+              style={{
+                fontSize: "1.5rem",
+                textDecoration: "none",
+                height: "fit-content",
+                padding: "0 10px",
+              }}
+            >
+              &times;
+            </Button>
+          </div>
           <div className="row d-flex justify-content-center align-items-center">
             <div className="custom-dropdown-container-language">
               <div
