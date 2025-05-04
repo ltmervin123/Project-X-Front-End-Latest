@@ -71,7 +71,6 @@ const TRANSLATIONS = {
     reattemptingCamera: "Reattempting access to camera...",
     steps: [
       "Basic Information",
-      "Select Language",
       "Choose Method",
       "Questionnaire",
       "Reference Completed",
@@ -97,7 +96,7 @@ const TRANSLATIONS = {
     leavePageConfirmation: "このページから移動してもよろしいですか？",
     goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
     reattemptingCamera: "カメラへのアクセスを再試行しています...",
-    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    steps: ["基本情報", "方法選択", "アンケート", "参照完了"],
     question: "質問",
   },
 };

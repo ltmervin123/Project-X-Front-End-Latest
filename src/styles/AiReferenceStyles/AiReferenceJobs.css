@@ -494,7 +494,7 @@
 .AiReference-active-jobs-container tbody::-webkit-scrollbar,
 .referees-list-container::-webkit-scrollbar,
 select::-webkit-scrollbar {
-  width: 5px; /* Scrollbar width */
+  width: 4px; /* Scrollbar width */
 }
 
 .AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb,

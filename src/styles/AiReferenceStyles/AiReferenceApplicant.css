@@ -107,6 +107,9 @@
   font-weight: bold;
 
 }
+.AiReference-candidates-container td{
+    padding-left: 17px;
+  }
 .AiReference-candidates-container td:nth-child(1),
 .AiReference-candidates-container td:nth-child(3){
 
@@ -126,9 +129,8 @@
 .AiReference-candidates-container td:nth-child(4){
   width: 8%;
 }
-.AiReference-candidates-container td:nth-child(5){
-  width: 31%;
-}
+
+.AiReference-candidates-container td:nth-child(5),
 .AiReference-candidates-container th:nth-child(5){
 width: 31.7%;
 }
@@ -255,7 +257,7 @@ border: none;
 
 /* Customizing the scrollbar */
 .AiReference-candidates-container tbody::-webkit-scrollbar {
-  width: 5px; /* Scrollbar width */
+  width: 4px; /* Scrollbar width */
 }
 
 .AiReference-candidates-container tbody::-webkit-scrollbar-thumb {

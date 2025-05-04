@@ -58,14 +58,15 @@ function ReviewYourReferenceCheckPage() {
       answerIndicator: "Answer {current} to {total}",
       chooseAnswer: "Please choose how you'd like the answer to be presented",
       skipWarning:
-      "You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.",      skip: "Skip",
+        "You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.",
+      skip: "Skip",
       proceed: "Proceed",
       submit: "Submit",
       allQuestionsAnswered: "All questions have been answered.",
       confirmSkip: "Are you sure you want to skip?",
       originalAnswer: "Original Answer",
       aiEnhancedAnswer: "AI Enhanced Answer",
-      documentVerification: "Document Verification",
+      documentVerification: "Referee Identity Verification",
     },
     Japanese: {
       reviewResponses: "回答を確認する",
@@ -73,14 +74,15 @@ function ReviewYourReferenceCheckPage() {
       answerIndicator: "回答 {current} / {total}",
       chooseAnswer: "回答の提示方法を選択してください",
       skipWarning:
-      "「スキップ」をクリックすると、すでに提出されたものを除き、残りの質問に対して元の回答またはAI強化回答のいずれかを使用できます。",      skip: "スキップ",
+        "「スキップ」をクリックすると、すでに提出されたものを除き、残りの質問に対して元の回答またはAI強化回答のいずれかを使用できます。",
+      skip: "スキップ",
       proceed: "進む",
       submit: "送信",
       allQuestionsAnswered: "すべての質問に回答されました。",
       confirmSkip: "本当にスキップしますか？",
       originalAnswer: "元の回答",
       aiEnhancedAnswer: "AI強化回答",
-      documentVerification: "本人確認書類",
+      documentVerification: "推薦者の本人確認",
     },
   };
   const handleConfirmSkip = () => {
@@ -163,14 +165,13 @@ function ReviewYourReferenceCheckPage() {
 
   const handleProceed = () => {
     setShowSignatureSection(true);
-  
+
     setTimeout(() => {
       console.log("Resizing canvas");
 
       resizeCanvas();
     }, 200); // 300 milliseconds = 0.3 seconds
   };
-  
 
   const handleSelectChange = (e) => {
     setSignatureMethod(e.target.value);
@@ -245,7 +246,7 @@ function ReviewYourReferenceCheckPage() {
     ctx.moveTo(x, y);
     setIsDrawing(true);
   };
-  
+
   const draw = (e) => {
     if (!isDrawing) return;
     const canvas = canvasRef.current;
@@ -254,64 +255,61 @@ function ReviewYourReferenceCheckPage() {
     ctx.lineTo(x, y);
     ctx.stroke();
   };
-  
+
   const stopDrawing = () => {
     setIsDrawing(false);
   };
 
-useLayoutEffect(() => {
-
-  if (signatureMethod === "Draw Signature") {
-
+  useLayoutEffect(() => {
+    if (signatureMethod === "Draw Signature") {
       console.log("Resizing canvas");
 
       resizeCanvas();
-    
-  }
-}, [signatureMethod]);
+    }
+  }, [signatureMethod]);
 
-const resizeCanvas = () => {
-  const canvas = canvasRef.current;
-  if (!canvas) return;
+  const resizeCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-  const container = canvas.parentElement;
-  const scale = window.devicePixelRatio || 1;
+    const container = canvas.parentElement;
+    const scale = window.devicePixelRatio || 1;
 
-  // Get the logical CSS dimensions
-  const width = container.clientWidth;
-  const height = container.clientHeight;
+    // Get the logical CSS dimensions
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
-  // Set canvas pixel size and style size
-  canvas.width = width * scale;
-  canvas.height = height * scale;
-  canvas.style.width = `${width}px`;
-  canvas.style.height = `${height}px`;
+    // Set canvas pixel size and style size
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
 
-  const context = canvas.getContext("2d");
+    const context = canvas.getContext("2d");
 
-  // Reset transform then scale
-  context.setTransform(1, 0, 0, 1, 0, 0);
-  context.scale(scale, scale);
+    // Reset transform then scale
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.scale(scale, scale);
 
-  // Set drawing styles
-  context.lineWidth = 2;
-  context.lineCap = "round";
-  context.lineJoin = "round";
-  context.strokeStyle = "black";
-};
-
-// Converts mouse/touch position to canvas position
-const getMousePos = (e) => {
-  const canvas = canvasRef.current;
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-
-  return {
-    x: (e.clientX - rect.left) * scaleX,
-    y: (e.clientY - rect.top) * scaleY,
+    // Set drawing styles
+    context.lineWidth = 2;
+    context.lineCap = "round";
+    context.lineJoin = "round";
+    context.strokeStyle = "black";
   };
-};
+
+  // Converts mouse/touch position to canvas position
+  const getMousePos = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    return {
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY,
+    };
+  };
   const getReferenceQuestionData = () => {
     // Attach the submitted answers and their preferred answer types to their respective questions
     const organizedReferenceQuestionData = referenceQuestionsData.map(
@@ -361,7 +359,6 @@ const getMousePos = (e) => {
 
   const handleProceedIDUpload = () => {
     if (isCanvaEmpty && signatureMethod === "Draw Signature") {
-
       return;
     }
     if (canvasRef.current) {

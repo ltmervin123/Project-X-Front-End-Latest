@@ -80,7 +80,6 @@ const translations = {
     },
     steps: [
       "Basic Information",
-      "Select Language",
       "Choose Method",
       "Questionnaire",
       "Reference Completed",
@@ -155,7 +154,7 @@ const translations = {
       "Management Format": "管理用フォーマット",
       "Executive Format": "経営層向けフォーマット",
     },
-    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    steps: ["基本情報", "方法選択", "アンケート", "参照完了"],
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
@@ -530,7 +529,7 @@ const ReferenceVerificationSection = () => {
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
-                            <p>
+                            <p className="m-0">
                               {item?.answers[index] || "No Answer Provided"}
                             </p>
                           </div>
@@ -613,11 +612,11 @@ const ReferenceVerificationSection = () => {
               )}{" "}
             </div>
           </div>
-          <img
+          {/* <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}
             alt="Signature here..."
-          />
+          /> */}
           <p className="mb-2">
             <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">

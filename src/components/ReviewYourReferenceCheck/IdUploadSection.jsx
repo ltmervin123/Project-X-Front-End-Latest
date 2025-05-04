@@ -125,7 +125,15 @@ const IdUploadSection = ({
     setSelectedIdType(event.target.value);
   };
 
+  // Add this helper function
+  const isPassportSelected = () => {
+    return selectedIdType === "Passport";
+  };
+
   const hasNoId = () => {
+    if (isPassportSelected()) {
+      return !frontIdFile;
+    }
     return !frontIdFile || !backIdFile;
   };
 
@@ -268,7 +276,7 @@ const IdUploadSection = ({
                       </div>
                       <button
                         onClick={triggerBackFileInput}
-                        disabled={!selectedIdType}
+                        disabled={!selectedIdType || isPassportSelected()}
                       >
                         {translations[language].selectFile}
                       </button>
@@ -285,7 +293,7 @@ const IdUploadSection = ({
                       <div className="back-id-img-container d-flex"></div>
                       <button
                         onClick={triggerBackFileInput}
-                        disabled={!selectedIdType}
+                        disabled={!selectedIdType || isPassportSelected()}
                       >
                         {translations[language].selectFile}
                       </button>

@@ -99,7 +99,7 @@ const ApplicantTable = ({
         </td>
 
         <td>{data.name}</td>
-        <td style={{ width: "25%" }}>{data.email}</td>
+        <td>{data.email}</td>
         <td>{data.position}</td>
         <td className="text-center">{data.deletedAt.split("T")[0]}</td>
         <td className="position-relative text-center">

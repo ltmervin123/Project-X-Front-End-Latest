@@ -417,7 +417,7 @@ function ViewRequest({
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
-                            <p>{item.answers[index]}</p>
+                            <p className="m-0">{item.answers[index]}</p>
                           </div>
                         </div>
                       ))}
@@ -498,11 +498,11 @@ function ViewRequest({
               )}
             </div>
           </div>
-          <img
+          {/* <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}
             alt={TRANSLATIONS[language].signatureDisplay}
-          />
+          /> */}
 
           <p className="mb-2">
             <b>Referee Name: </b>

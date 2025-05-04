@@ -69,6 +69,7 @@
 }
 .AiReference-trashbin-container tbody p{
   font-weight: 400;
+  font-size: 12px;
 }
 .AiReference-trashbin-container tr {
   display: table; /* Ensure rows are displayed as table rows */
