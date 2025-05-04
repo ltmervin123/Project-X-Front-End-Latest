@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row, Form, Button } from "react-bootstrap";
+import { Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../utils/helpers/capitalizeFirstLetterOfAWord";
 import axios from "axios";
@@ -39,14 +39,13 @@ const TRANSLATIONS = {
 
 function ReferenceRequestForm() {
   const API = process.env.REACT_APP_API_URL;
-  const [numReferees, setNumReferees] = useState(3);
   const [refereesData, setRefereesData] = useState([{}]);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState(
-    sessionStorage.getItem("preferred-language") || "English"
-  );
-  const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
   const token = sessionStorage.getItem("candidateToken");
+  const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
+  const currentLanguage = candidateData?.selectedLanguage || "English";
+  const numReferees = candidateData?.numberOfReferees || 1;
+
   const navigate = useNavigate();
 
   const isRefereeFieldMissing = refereesData.some(
@@ -87,6 +86,7 @@ function ReferenceRequestForm() {
     if (isRefereeFieldMissing) {
       return;
     }
+    
     try {
       setIsLoading(true);
       const URL = `${API}/api/candidate-referee/create-reference-request`;
