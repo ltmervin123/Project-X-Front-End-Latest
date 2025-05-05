@@ -64,7 +64,7 @@ const translations = {
     downloading: "Downloading...",
     download: "Download",
     date: "Date",
-    signature: "Signature",
+    signature: "VERIFICATION",
     invalidDate: "Invalid Date",
     refereeCompanyWorkedWith: "Company Worked With",
 
@@ -140,7 +140,7 @@ const translations = {
     downloading: "ダウンロード中...",
     download: "ダウンロード",
     date: "日付",
-    signature: "署名",
+    signature: "検証",
     invalidDate: "無効な日付",
     refereeCompanyWorkedWith: "一緒に働いた会社",
 
@@ -180,7 +180,7 @@ const ReferenceVerificationSection = () => {
   const API = process.env.REACT_APP_API_URL;
   const TOKEN = sessionStorage.getItem("token");
   const location = useLocation();
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const referenceQuestions =
     JSON.parse(sessionStorage.getItem("referenceQuestions")) || null;
   const [refereeQuestionFormat, setRefereeQuestionFormat] = useState(
