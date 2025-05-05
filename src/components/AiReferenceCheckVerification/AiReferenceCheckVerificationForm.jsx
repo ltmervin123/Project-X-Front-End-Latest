@@ -161,7 +161,7 @@ const AiReferenceCheckVerificationForm = ({
         if (result.status === 200) {
           sessionStorage.setItem(
             "referenceQuestions",
-            JSON.stringify(result?.translatedQuestions)
+            JSON.stringify(result?.data?.translatedQuestions)
           );
         }
       }
@@ -214,7 +214,7 @@ const AiReferenceCheckVerificationForm = ({
     };
 
     const response = await axios.get(URL, requestHeader);
-    return response.data;
+    return response;
   };
 
   const isFormValid = () => {
