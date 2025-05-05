@@ -161,7 +161,7 @@ const AiReferenceCheckVerificationForm = ({
         if (result.status === 200) {
           sessionStorage.setItem(
             "referenceQuestions",
-            JSON.stringify(result.data)
+            JSON.stringify(result.data?.translatedQuestions)
           );
         }
       }
@@ -190,8 +190,12 @@ const AiReferenceCheckVerificationForm = ({
     queryKey: ["referenceQuestions"],
     queryFn: getQuestionEnglishVersion,
     staleTime: 1000 * 60 * 5,
-    onSuccess: (data) => {
-      sessionStorage.setItem("referenceQuestions", JSON.stringify(data));
+    select: (data) => {
+      sessionStorage.setItem(
+        "referenceQuestions",
+        JSON.stringify(data?.data?.questions)
+      );
+      return data;
     },
   });
 
