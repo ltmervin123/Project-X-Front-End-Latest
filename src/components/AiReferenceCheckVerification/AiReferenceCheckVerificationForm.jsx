@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees"; // Import the Privacy Agreement component
+import axios from "axios";
+import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees";
+import { useQuery } from "@tanstack/react-query";
 
 const TRANSLATIONS = {
   English: {
@@ -13,9 +14,11 @@ const TRANSLATIONS = {
       "Reference Completed",
     ],
     referenceCheckVerification: "Reference Check Verification",
-    insights: "Your insights are valuable in helping us make informed decisions.",
+    insights:
+      "Your insights are valuable in helping us make informed decisions.",
     verifyInformation: "Verify Your Information",
-    verifyInformationDesc: "Please verify your information below before proceeding to the questionnaire.",
+    verifyInformationDesc:
+      "Please verify your information below before proceeding to the questionnaire.",
     refereeName: "Referee Name",
     firstName: "First Name",
     lastName: "Last Name",
@@ -35,19 +38,16 @@ const TRANSLATIONS = {
     dateWorkedTogether: "Date Worked Together",
     startDate: "Start Date",
     endDate: "End Date",
-    privacyAgreement: "By continuing, you've read, understood and agreed to the Privacy Agreement for Referees",
+    privacyAgreement:
+      "By continuing, you've read, understood and agreed to the Privacy Agreement for Referees",
     processing: "Processing...",
-    proceed: "Proceed"
+    proceed: "Proceed",
   },
   Japanese: {
-    steps: [
-      "基本情報",
-      "方法選択",
-      "アンケート",
-      "照会完了",
-    ],
+    steps: ["基本情報", "方法選択", "アンケート", "照会完了"],
     referenceCheckVerification: "照会確認",
-    insights: "あなたの洞察は、私たちが十分な情報に基づいた決定を下すのに役立ちます。",
+    insights:
+      "あなたの洞察は、私たちが十分な情報に基づいた決定を下すのに役立ちます。",
     verifyInformation: "情報を確認",
     verifyInformationDesc: "アンケートに進む前に、以下の情報をご確認ください。",
     refereeName: "照会者名",
@@ -69,12 +69,12 @@ const TRANSLATIONS = {
     dateWorkedTogether: "一緒に働いた期間",
     startDate: "開始日",
     endDate: "終了日",
-    privacyAgreement: "続行することで、照会者のプライバシー契約を読み、理解し、同意したことになります",
+    privacyAgreement:
+      "続行することで、照会者のプライバシー契約を読み、理解し、同意したことになります",
     processing: "処理中...",
-    proceed: "続行"
-  }
+    proceed: "続行",
+  },
 };
-
 
 const AiReferenceCheckVerificationForm = ({
   refereeName,
@@ -86,12 +86,15 @@ const AiReferenceCheckVerificationForm = ({
 }) => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
-  const CURRENT_STEP = 1; // Added here since it's used in the component
-  const [fetching, setFetching] = useState(false);
-  const language = selectedLanguage;
-
-  const STEPS = TRANSLATIONS[language].steps;
-
+  const CURRENT_STEP = 1;
+  const STEPS = TRANSLATIONS[selectedLanguage].steps;
+  const [processing, setProcessing] = useState(false);
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString("en-CA")
+  );
+  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
   const [formData, setFormData] = useState({
     referenceId: referenceId,
     refereeName: {
@@ -109,14 +112,6 @@ const AiReferenceCheckVerificationForm = ({
     endDate: "",
     otherRelationship: "",
   });
-  const [processing, setProcessing] = useState(false);
-  const [isOtherSelected, setIsOtherSelected] = useState(false);
-  const [currentDate, setCurrentDate] = useState(
-    new Date().toLocaleDateString("en-CA")
-  );
-
-  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
-  const [isAgreed, setIsAgreed] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -153,49 +148,76 @@ const AiReferenceCheckVerificationForm = ({
 
     // Save the updated formData to session storage
     sessionStorage.setItem("refereeData", JSON.stringify(updatedFormData));
+    
+  };
+
+    //English Version
+    const getQuestionEnglishVersion = async () => {
+      const token = sessionStorage.getItem("token");
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
+      const requestHeader = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(URL, requestHeader);
+      return response.data;
+    };
+    
+  //Fetch initial question in English
+  const { data: referenceQuestionData } = useQuery({
+    queryKey: ["referenceQuestions"],
+    queryFn: getQuestionEnglishVersion,
+    staleTime: 1000 * 60 * 5,
+    select: (data) => {
+      sessionStorage.setItem("referenceQuestions", JSON.stringify(data));
+      return data;
+    },
+  });
+
+  //Japanese Version
+  const getQuestionsJapaneseVersion = async () => {
+    const format = referenceQuestionData?.format || null;
+    const token = sessionStorage.getItem("token");
+    const URL = `${API}/api/ai-referee/reference/get-translated-questions/${format}/${candidateName}`;
+
+    const requestHeader = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.get(URL, requestHeader);
+    return response;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    saveRefereeDataTemporary();
+    try {
+      setProcessing(true);
+      saveRefereeDataTemporary();
 
-    navigate("/reference-interview-method", {
-    });
-  };
-
-  const getReferenceQuestions = async () => {
-    const token = sessionStorage.getItem('token'); // Get token from session storage
-    const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
-    const requestHeader = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    return await axios.get(URL, requestHeader);
-  };
-
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        setFetching(true);
-        const response = await getReferenceQuestions();
-        if (response.status === 200) {
+      if (selectedLanguage === "Japanese") {
+        const result = await getQuestionsJapaneseVersion();
+        if (result.status === 200) {
+          const questions = result?.data?.translatedQuestions;
+          const format = referenceQuestionData?.format;
+          const formatType = referenceQuestionData?.formatType;
+          const questionData = { questions, format, formatType };
           sessionStorage.setItem(
             "referenceQuestions",
-            JSON.stringify(response.data)
+            JSON.stringify(questionData)
           );
         }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setFetching(false);
       }
-    };
-
-    if (referenceId && refereeId) {
-      fetchQuestions();
+      navigate("/reference-interview-method", {});
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    } finally {
+      setProcessing(false);
     }
-  }, [referenceId, refereeId, API]);
+  };
 
   const isFormValid = () => {
     return (
@@ -238,10 +260,10 @@ const AiReferenceCheckVerificationForm = ({
 
   return (
     <div className="AiReferenceCheckVerification-container d-flex align-items-center flex-column justify-content-center">
-      <h4 className="text-center">{TRANSLATIONS[language].referenceCheckVerification}</h4>
-      <i className="text-center">
-        {TRANSLATIONS[language].insights}
-      </i>
+      <h4 className="text-center">
+        {TRANSLATIONS[selectedLanguage].referenceCheckVerification}
+      </h4>
+      <i className="text-center">{TRANSLATIONS[selectedLanguage].insights}</i>
       <div className="d-flex align-items-center justify-content-center flex-column h-100 w-100 my-2 mt-4">
         <div className="reference-progress-indicator">
           {STEPS.map((step, index) => (
@@ -259,8 +281,12 @@ const AiReferenceCheckVerificationForm = ({
         </div>
         <div className=" AiReferenceCheckVerification-container-form">
           <div className="AiReferenceCheckVerification-title">
-            <h5 className="m-0">{TRANSLATIONS[language].verifyInformation}</h5>
-            <p className="m-0">{TRANSLATIONS[language].verifyInformationDesc}</p>
+            <h5 className="m-0">
+              {TRANSLATIONS[selectedLanguage].verifyInformation}
+            </h5>
+            <p className="m-0">
+              {TRANSLATIONS[selectedLanguage].verifyInformationDesc}
+            </p>
           </div>
 
           <Form
@@ -270,13 +296,15 @@ const AiReferenceCheckVerificationForm = ({
             <Row>
               <Col md={12} className="d-flex flex-column gap-3">
                 <Form.Group controlId="referee-name">
-                  <Form.Label className="mb-1">{TRANSLATIONS[language].refereeName}</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].refereeName}
+                  </Form.Label>
                   <div className="d-flex gap-2 w-100">
                     <Form.Control
                       type="text"
                       name="firstName"
                       value={formData.refereeName.firstName}
-                      placeholder={TRANSLATIONS[language].firstName}
+                      placeholder={TRANSLATIONS[selectedLanguage].firstName}
                       onChange={handleChange}
                       disabled={true}
                     />
@@ -285,7 +313,7 @@ const AiReferenceCheckVerificationForm = ({
                       type="text"
                       name="lastName"
                       value={formData.refereeName.lastName}
-                      placeholder={TRANSLATIONS[language].lastName}
+                      placeholder={TRANSLATIONS[selectedLanguage].lastName}
                       onChange={handleChange}
                       disabled={true}
                     />
@@ -293,29 +321,38 @@ const AiReferenceCheckVerificationForm = ({
                 </Form.Group>
 
                 <Form.Group controlId="current-company">
-                  <Form.Label className="mb-1">{TRANSLATIONS[language].currentCompany}</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].currentCompany}
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="currentCompany"
                     value={formData.currentCompany}
                     onChange={handleChange}
-                    placeholder={TRANSLATIONS[language].enterCurrentCompany}
+                    placeholder={
+                      TRANSLATIONS[selectedLanguage].enterCurrentCompany
+                    }
                   />
                 </Form.Group>
                 <Form.Group controlId="position-title">
-                  <Form.Label className="mb-1">{TRANSLATIONS[language].currentPosition}</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].currentPosition}
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="positionTitle"
                     value={formData.positionTitle}
                     onChange={handleChange}
-                    placeholder={TRANSLATIONS[language].enterPositionTitle}
+                    placeholder={
+                      TRANSLATIONS[selectedLanguage].enterPositionTitle
+                    }
                   />
                 </Form.Group>
 
                 <Form.Group controlId="company-worked-with">
                   <Form.Label>
-                    {TRANSLATIONS[language].companyWorkedWith} <b>{candidateName}</b>{" "}
+                    {TRANSLATIONS[selectedLanguage].companyWorkedWith}{" "}
+                    <b>{candidateName}</b>{" "}
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -328,7 +365,7 @@ const AiReferenceCheckVerificationForm = ({
 
                 <Form.Group controlId="relationship">
                   <Form.Label className="mb-1">
-                    {TRANSLATIONS[language].relationshipLabel}
+                    {TRANSLATIONS[selectedLanguage].relationshipLabel}
                   </Form.Label>
                   {!isOtherSelected ? (
                     <Form.Control
@@ -337,12 +374,24 @@ const AiReferenceCheckVerificationForm = ({
                       value={formData.relationship}
                       onChange={handleChange}
                     >
-                      <option value="">{TRANSLATIONS[language].selectRelationship}</option>
-                      <option value="Manager and or Report Line">{TRANSLATIONS[language].manager}</option>
-                      <option value="Colleague">{TRANSLATIONS[language].colleague}</option>
-                      <option value="Subordinate">{TRANSLATIONS[language].subordinate}</option>
-                      <option value="Mentor">{TRANSLATIONS[language].mentor}</option>
-                      <option value="Other">{TRANSLATIONS[language].other}</option>
+                      <option value="">
+                        {TRANSLATIONS[selectedLanguage].selectRelationship}
+                      </option>
+                      <option value="Manager and or Report Line">
+                        {TRANSLATIONS[selectedLanguage].manager}
+                      </option>
+                      <option value="Colleague">
+                        {TRANSLATIONS[selectedLanguage].colleague}
+                      </option>
+                      <option value="Subordinate">
+                        {TRANSLATIONS[selectedLanguage].subordinate}
+                      </option>
+                      <option value="Mentor">
+                        {TRANSLATIONS[selectedLanguage].mentor}
+                      </option>
+                      <option value="Other">
+                        {TRANSLATIONS[selectedLanguage].other}
+                      </option>
                     </Form.Control>
                   ) : (
                     <Form.Control
@@ -350,17 +399,21 @@ const AiReferenceCheckVerificationForm = ({
                       name="otherRelationship"
                       value={formData.otherRelationship}
                       onChange={handleChange}
-                      placeholder={TRANSLATIONS[language].specifyRelationship}
+                      placeholder={
+                        TRANSLATIONS[selectedLanguage].specifyRelationship
+                      }
                     />
                   )}
                 </Form.Group>
 
                 <Form.Group controlId="date-worked-together">
-                  <Form.Label className="mb-1">{TRANSLATIONS[language].dateWorkedTogether}</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].dateWorkedTogether}
+                  </Form.Label>
                   <Row>
                     <Col md={6}>
                       <Form.Label className="mb-1" htmlFor="startdate">
-                        {TRANSLATIONS[language].startDate}
+                        {TRANSLATIONS[selectedLanguage].startDate}
                       </Form.Label>
                       <Form.Control
                         type="date"
@@ -373,7 +426,7 @@ const AiReferenceCheckVerificationForm = ({
                     </Col>
                     <Col md={6}>
                       <Form.Label className="mb-1" htmlFor="enddate">
-                        {TRANSLATIONS[language].endDate}
+                        {TRANSLATIONS[selectedLanguage].endDate}
                       </Form.Label>
                       <Form.Control
                         type="date"
@@ -397,7 +450,6 @@ const AiReferenceCheckVerificationForm = ({
                 type="checkbox"
                 id="privacyAgreementCheckbox"
                 className="form-check-input custom-checkbox"
-
                 checked={isAgreed}
                 onChange={(e) => {
                   setIsAgreed(e.target.checked);
@@ -410,7 +462,7 @@ const AiReferenceCheckVerificationForm = ({
                 htmlFor="privacyAgreementCheckbox"
                 className="ms-2 privacyAgreementCheckbox color-grey"
               >
-                {TRANSLATIONS[language].privacyAgreement}
+                {TRANSLATIONS[selectedLanguage].privacyAgreement}
               </label>
             </div>
             <div className="d-flex justify-content-center m-4 ">
@@ -419,7 +471,9 @@ const AiReferenceCheckVerificationForm = ({
                 type="submit"
                 disabled={!isFormValid() || processing}
               >
-                {processing ? TRANSLATIONS[language].processing : TRANSLATIONS[language].proceed}
+                {processing
+                  ? TRANSLATIONS[selectedLanguage].processing
+                  : TRANSLATIONS[selectedLanguage].proceed}
               </Button>
             </div>
           </Form>

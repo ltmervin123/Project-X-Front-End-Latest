@@ -36,7 +36,7 @@ const VerificationPreviewPopUp = ({
   onSubmit,
   submitting,
 }) => {
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
 
   return (
     <Modal

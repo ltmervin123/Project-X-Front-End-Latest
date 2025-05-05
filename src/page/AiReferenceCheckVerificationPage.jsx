@@ -7,15 +7,6 @@ import AiReferenceCheckVerificationForm from "../components/AiReferenceCheckVeri
 import axios from "axios";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 
-const TRANSLATIONS = {
-  English: {
-    verifyingLink: "Verifying link, please wait...",
-  },
-  Japanese: {
-    verifyingLink: "リンクを確認中です。お待ちください...",
-  }
-};
-
 function AiReferenceCheckVerificationPage() {
   const { token } = useParams();
   const API = process.env.REACT_APP_API_URL;
@@ -27,16 +18,6 @@ function AiReferenceCheckVerificationPage() {
   const [candidateName, setCandidateName] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [isVerify, setIsVerify] = useState(false);
-
-  // translation ni para sa diri na page only not the form
-  const language = sessionStorage.getItem("preferred-language") || "English";
-
-  // seasion save the language
-  useEffect(() => {
-    if (language) {
-      sessionStorage.setItem("preferred-language", language);
-    }
-  }, [language]);
 
   const validateSession = async () => {
     try {
@@ -61,6 +42,7 @@ function AiReferenceCheckVerificationPage() {
         setCompanyId(response.data.companyId);
         setSelectedLanguage(response.data?.selectedLanguage || "English");
         setIsVerify(true);
+
       }
     } catch (error) {
       setIsExpired(true);
@@ -108,7 +90,7 @@ function AiReferenceCheckVerificationPage() {
             role="status"
             style={{ width: "5rem", height: "5rem" }}
           />
-          <p className="mt-3">{TRANSLATIONS[language].verifyingLink}</p>
+          <p className="mt-3">Verifying link, please wait...</p>
         </Col>
       </Row>
     </Container>

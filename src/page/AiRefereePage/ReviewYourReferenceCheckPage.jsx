@@ -10,6 +10,41 @@ import PreviewConfirmationPopUp from "../../components/ReviewYourReferenceCheck/
 import PreviewSection from "../../components/ReviewYourReferenceCheck/PreviewSection";
 import { socket } from "../../utils/socket/socketSetup";
 
+const TRANSLATIONS = {
+  English: {
+    reviewResponses: "Review Your Responses",
+    questionIndicator: "Question {current} of {total}",
+    answerIndicator: "Answer {current} to {total}",
+    chooseAnswer: "Please choose how you'd like the answer to be presented",
+    skipWarning:
+      "You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.",
+    skip: "Skip",
+    proceed: "Proceed",
+    submit: "Submit",
+    allQuestionsAnswered: "All questions have been answered.",
+    confirmSkip: "Are you sure you want to skip?",
+    originalAnswer: "Original Answer",
+    aiEnhancedAnswer: "AI Enhanced Answer",
+    documentVerification: "Referee Identity Verification",
+  },
+  Japanese: {
+    reviewResponses: "回答を確認する",
+    questionIndicator: "質問 {current} / {total}",
+    answerIndicator: "回答 {current} / {total}",
+    chooseAnswer: "回答の提示方法を選択してください",
+    skipWarning:
+      "「スキップ」をクリックすると、すでに提出されたものを除き、残りの質問に対して元の回答またはAI強化回答のいずれかを使用できます。",
+    skip: "スキップ",
+    proceed: "進む",
+    submit: "送信",
+    allQuestionsAnswered: "すべての質問に回答されました。",
+    confirmSkip: "本当にスキップしますか？",
+    originalAnswer: "元の回答",
+    aiEnhancedAnswer: "AI強化回答",
+    documentVerification: "推薦者の本人確認",
+  },
+};
+
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
@@ -44,42 +79,8 @@ function ReviewYourReferenceCheckPage() {
     setShowSkipConfirmation(true);
   };
 
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
 
-  const translations = {
-    English: {
-      reviewResponses: "Review Your Responses",
-      questionIndicator: "Question {current} of {total}",
-      answerIndicator: "Answer {current} to {total}",
-      chooseAnswer: "Please choose how you'd like the answer to be presented",
-      skipWarning:
-        "You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.",
-      skip: "Skip",
-      proceed: "Proceed",
-      submit: "Submit",
-      allQuestionsAnswered: "All questions have been answered.",
-      confirmSkip: "Are you sure you want to skip?",
-      originalAnswer: "Original Answer",
-      aiEnhancedAnswer: "AI Enhanced Answer",
-      documentVerification: "Referee Identity Verification",
-    },
-    Japanese: {
-      reviewResponses: "回答を確認する",
-      questionIndicator: "質問 {current} / {total}",
-      answerIndicator: "回答 {current} / {total}",
-      chooseAnswer: "回答の提示方法を選択してください",
-      skipWarning:
-        "「スキップ」をクリックすると、すでに提出されたものを除き、残りの質問に対して元の回答またはAI強化回答のいずれかを使用できます。",
-      skip: "スキップ",
-      proceed: "進む",
-      submit: "送信",
-      allQuestionsAnswered: "すべての質問に回答されました。",
-      confirmSkip: "本当にスキップしますか？",
-      originalAnswer: "元の回答",
-      aiEnhancedAnswer: "AI強化回答",
-      documentVerification: "推薦者の本人確認",
-    },
-  };
   const handleConfirmSkip = () => {
     const remainingOriginalAnswer = questions
       .slice(currentQuestionIndex)
@@ -103,7 +104,7 @@ function ReviewYourReferenceCheckPage() {
     }
 
     // Find the category that contains the current question
-    const currentCategory = referenceQuestionsData.find(category =>
+    const currentCategory = referenceQuestionsData.find((category) =>
       category.questions.includes(currentQuestion)
     );
 
@@ -120,9 +121,10 @@ function ReviewYourReferenceCheckPage() {
       question: currentQuestion,
       answer: selectedAnswer,
       preferredAnswerType: selectedAnswers[currentQuestionIndex],
-      assessment: currentCategory?.assessments?.[
-        currentCategory.questions.indexOf(currentQuestion)
-      ] || ""
+      assessment:
+        currentCategory?.assessments?.[
+          currentCategory.questions.indexOf(currentQuestion)
+        ] || "",
     };
 
     setSubmittedAnswers((prev) => [...prev, newAnswer]);
@@ -223,7 +225,7 @@ function ReviewYourReferenceCheckPage() {
           preferredAnswerType: updatedPreferredAnswerTypes,
           assessments: updatedAssessments,
           // Keep the original assessmentRating
-          assessmentRating: categoryItem.assessmentRating
+          assessmentRating: categoryItem.assessmentRating,
         };
       }
     );
@@ -342,7 +344,7 @@ function ReviewYourReferenceCheckPage() {
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
-      const userConfirmed = window.confirm(translations[language].confirmSkip);
+      const userConfirmed = window.confirm(TRANSLATIONS[language].confirmSkip);
       if (!userConfirmed) {
         window.history.pushState(null, "", window.location.pathname);
       }
@@ -367,10 +369,10 @@ function ReviewYourReferenceCheckPage() {
   return (
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
-        { showIdUploadSection ? (
+        {showIdUploadSection ? (
           <>
             <h5 className="referencecheckquestiontitle text-left mb-2">
-              {translations[language].documentVerification}
+              {TRANSLATIONS[language].documentVerification}
             </h5>
             <IdUploadSection
               frontIdFile={frontIdFile}
@@ -387,9 +389,9 @@ function ReviewYourReferenceCheckPage() {
         ) : showPreviewSection ? (
           <>
             <h5 className="referencecheckquestiontitle text-left mb-2">
-              {translations[language].reviewResponses}
+              {TRANSLATIONS[language].reviewResponses}
             </h5>
-            <PreviewSection 
+            <PreviewSection
               referenceQuestionsData={referenceQuestionsData}
               submittedAnswers={submittedAnswers}
               onContinue={handleContinueFromPreview}
@@ -399,13 +401,13 @@ function ReviewYourReferenceCheckPage() {
         ) : (
           <>
             <h5 className="referencecheckquestiontitle text-left mb-2">
-              {translations[language].reviewResponses}
+              {TRANSLATIONS[language].reviewResponses}
             </h5>
             <Col md={!showBothAnswers ? 9 : 12}>
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
                   <p className="m-0">
-                    {translations[language].questionIndicator
+                    {TRANSLATIONS[language].questionIndicator
                       .replace("{current}", currentQuestionIndex + 1)
                       .replace("{total}", questions.length)}
                   </p>
@@ -435,13 +437,13 @@ function ReviewYourReferenceCheckPage() {
                   <div className="answer-indicator-container">
                     <div className="question-indicator mb-0">
                       <p className="my-2">
-                        {translations[language].answerIndicator
+                        {TRANSLATIONS[language].answerIndicator
                           .replace("{current}", currentQuestionIndex + 1)
                           .replace("{total}", questions.length)}
                       </p>{" "}
                     </div>
                     <p className="my-2">
-                      {translations[language].chooseAnswer}
+                      {TRANSLATIONS[language].chooseAnswer}
                     </p>
                   </div>
                   <div className="buttons-container d-flex align-items-start justify-content-start flex-column gap-2">
@@ -476,7 +478,7 @@ function ReviewYourReferenceCheckPage() {
                             className="form-check-label"
                             htmlFor="originalAnswer"
                           >
-                            {translations[language].originalAnswer}
+                            {TRANSLATIONS[language].originalAnswer}
                           </label>
                         </div>
                         <div className="form-check">
@@ -493,7 +495,7 @@ function ReviewYourReferenceCheckPage() {
                             className="form-check-label"
                             htmlFor="aiEnhancedAnswer"
                           >
-                            {translations[language].aiEnhancedAnswer}
+                            {TRANSLATIONS[language].aiEnhancedAnswer}
                           </label>
                         </div>
                       </>
@@ -501,13 +503,13 @@ function ReviewYourReferenceCheckPage() {
                   </div>
                   <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
                     <small className="mb-2 w-100">
-                      {translations[language].skipWarning}
+                      {TRANSLATIONS[language].skipWarning}
                     </small>
                     <button
                       onClick={handleSkip}
                       disabled={allQuestionsAnswered}
                     >
-                      {translations[language].skip}
+                      {TRANSLATIONS[language].skip}
                     </button>
 
                     {allQuestionsAnswered ? (
@@ -515,7 +517,7 @@ function ReviewYourReferenceCheckPage() {
                         className="btn-proceed-submit"
                         onClick={handleProceed}
                       >
-                        {translations[language].proceed}
+                        {TRANSLATIONS[language].proceed}
                       </button>
                     ) : (
                       <button
@@ -523,7 +525,7 @@ function ReviewYourReferenceCheckPage() {
                         onClick={saveAnswer}
                         disabled={!isSubmitEnabled}
                       >
-                        {translations[language].submit}
+                        {TRANSLATIONS[language].submit}
                       </button>
                     )}
                   </div>
