@@ -97,7 +97,7 @@ function ReferenceCheckInstructionsPage() {
   };
 
   const handleStartNow = () => {
-    navigate("/reference-notification");
+    navigate("/reference-questionnaire");
   };
 
   return (

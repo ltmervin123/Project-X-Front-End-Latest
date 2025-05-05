@@ -14,7 +14,6 @@
 
 .reference-dropdown-container {
   border-bottom: 2px solid var(--text-color);
-  width: 98%;
   padding: 15px;
   opacity: 0; /* Start with opacity 0 */
   height: 0; /* Default height */
@@ -25,8 +24,8 @@
 .reference-dropdown-container.expanded {
   height: 190px; /* Set this to the desired height when expanded */
   opacity: 1; /* Set opacity to 1 when expanded */
+  width: 100%;
   transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for height and opacity */
- width: 100%;
 }
 .reference-dropdown-container > b {
   color: var(--card-color);
@@ -34,20 +33,52 @@
 
 .referee-list {
   display: flex;
+  overflow-x: auto;
+  padding-bottom: 15px; /* Add padding to show scrollbar */
+  gap: 15px;
+  width: 100%;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
+
+/* Style the scrollbar for the referee list */
+.referee-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.referee-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.referee-list::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+.referee-list::-webkit-scrollbar-thumb:hover {
+  background: #e45f04;
+}
+
 .referee-item {
-  width: 33.3%;
-  display: flex;
+  width: 30%; /* Fixed width for each referee card */
+  flex: 0 0 auto; /* Prevent items from growing/shrinking */
   height: 120px;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
   border: 1px solid #ccc;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
-
+  border-radius: 8px;
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.1);
+  background: white;
+  transition: transform 0.2s;
 }
+
+.referee-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 6px 2px rgba(0, 0, 0, 0.15);
+}
+
 .referee-label{
   color: var(--card-color);
 }
@@ -124,7 +155,7 @@ padding-right: 2%;
   padding: 10px !important;
   background: var(--font-white);
   width: auto;
-  font-size: 15px;
+  font-size: 13px;
   left: -285%;
   top: 140%;
   z-index: 1; /* Ensure it appears above other elements */
@@ -171,6 +202,8 @@ padding-right: 2%;
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: hidden;
   height: 100%;
+    width: 100%;
+
 }
 .AiReference-reference-request-container  tr {
   display: table; /* Ensure rows are displayed as table rows */
@@ -645,12 +678,15 @@ background-color: none !important;
   }
 
   .referee-list {
-    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
   }
 
   .referee-item {
-    width: 100%;
-    margin-bottom: 10px;
+    min-width: 260px;
+    height: auto;
+    min-height: 100px;
+    padding: 15px;
   }
 
   .referee-left-container {

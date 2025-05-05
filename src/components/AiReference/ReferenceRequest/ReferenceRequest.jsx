@@ -593,6 +593,7 @@ const ReferenceRequest = () => {
                                 {showDropDown &&
                                   selectedCandidate?.referees &&
                                   selectedCandidate.referees.map((referee) => (
+                                    <>
                                     <div
                                       className="referee-item mb-4"
                                       key={referee?._id}
@@ -640,6 +641,10 @@ const ReferenceRequest = () => {
                                         </div>
                                       </div>
                                     </div>
+                                    
+                                    </>
+                                    
+                                    
                                   ))}
                               </div>
                             </div>
