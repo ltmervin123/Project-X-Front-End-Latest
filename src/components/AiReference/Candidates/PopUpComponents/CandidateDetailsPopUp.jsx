@@ -6,7 +6,7 @@ const TRANSLATIONS = {
   English: {
     ApplicantId: "Applicant ID:",
     Status: "Status:",
-    Position: "Position:",
+    jobName: "Job Name",
     Email: "Email:",
     AppliedDate: "Applied Date:",
     ReferenceFormat: "Reference Format:",
@@ -17,7 +17,7 @@ const TRANSLATIONS = {
   Japanese: {
     ApplicantId: "応募者ID:",
     Status: "ステータス:",
-    Position: "職位:",
+    jobName: "職位",
     Email: "メール:",
     AppliedDate: "応募日:",
     ReferenceFormat: "リファレンス形式:",
@@ -96,7 +96,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
             </p>
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-2 align-items-center">
-                {TRANSLATIONS[language].Position}
+                {TRANSLATIONS[language].jobName}
               </strong>{" "}
               <span>{candidates.position || TRANSLATIONS[language].NA}</span>
             </p>

@@ -6,15 +6,14 @@ import { addJob } from "../../../../api/ai-reference/job/jobs-api";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
 import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
-import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
+// import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
 
 // Translation dictionary
 const TRANSLATIONS = {
   English: {
     createNewJob: "Create New",
-    job: "Job",
-    addNewJob:
-      "Add a new job opening to the system. Fill out the details below.",
+    job: "Vacancy",
+    addNewJob: "Add a new vacancy. Please fill out the details below.",
     jobDetails: "Job Details",
     fillRequired: "* Fill in the required information",
     jobName: "Job Name",
@@ -61,10 +60,9 @@ const TRANSLATIONS = {
     executiveFormat: "Executive Format",
   },
   Japanese: {
-    createNewJob: "新規作成",
-    job: "ジョブ",
-    addNewJob:
-      "システムに新しい求人を追加します。以下の詳細を入力してください。",
+    createNewJob: "新しい求人を作成",
+    job: "求人",
+    addNewJob: "新しい求人を追加します。以下の詳細を入力してください。",
     jobDetails: "職務内容",
     fillRequired: "* 必須情報を入力してください",
     jobName: "職種名",
@@ -111,17 +109,21 @@ const TRANSLATIONS = {
   },
 };
 
-const AddJobComponent = ({ onCancel }) => {
+const AddVacancyComponent = ({ onCancel, jobData }) => {
   const navigate = useNavigate();
 
   const [currentLanguage, setCurrentLanguage] = useState("English");
-  const [jobName, setJobName] = useState("");
-  const [department, setDepartment] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [jobName, setJobName] = useState(jobData?.jobName || "");
+  const [department, setDepartment] = useState(jobData?.department || "");
+  const [firstName, setFirstName] = useState(
+    jobData?.hiringManager?.firstName || ""
+  );
+  const [lastName, setLastName] = useState(
+    jobData?.hiringManager?.lastName || ""
+  );
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
-  const [vacancies, setVacancies] = useState(1);
+  const [vacancies, setVacancies] = useState(jobData?.vacancies || 1);
   const [selectedFormat, setSelectedFormat] = useState("");
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
@@ -208,13 +210,23 @@ const AddJobComponent = ({ onCancel }) => {
 
   // Initialize candidates based on vacancies
   useEffect(() => {
-    const newCandidates = Array.from({ length: vacancies }, () => ({
-      firstName: "",
-      lastName: "",
-      email: "",
-    }));
+    if (jobData) {
+      setJobName(jobData.jobName);
+      setDepartment(jobData.department);
+      setFirstName(jobData.hiringManager.firstName);
+      setLastName(jobData.hiringManager.lastName);
+      setVacancies(jobData.vacancies);
+    }
+    const newCandidates = Array.from(
+      { length: jobData?.vacancies || 1 },
+      () => ({
+        firstName: "",
+        lastName: "",
+        email: "",
+      })
+    );
     setCandidates(newCandidates);
-  }, [vacancies]);
+  }, [jobData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -397,12 +409,12 @@ const AddJobComponent = ({ onCancel }) => {
 
   return (
     <>
-      {showLanguagePopup && (
+      {/* {showLanguagePopup && (
         <SelectionLanguagePopUp
           onContinue={handleLanguageContinue}
           onClose={() => onCancel()}
         />
-      )}
+      )} */}
       <div>
         <h3 className="mb-0">
           {TRANSLATIONS[currentLanguage].createNewJob}{" "}
@@ -461,6 +473,7 @@ const AddJobComponent = ({ onCancel }) => {
                   value={jobName}
                   onChange={(e) => setJobName(e.target.value)}
                   placeholder=""
+                  disabled
                   required
                 />
                 {errorMessages.jobName && (
@@ -509,6 +522,7 @@ const AddJobComponent = ({ onCancel }) => {
                   <Form.Select
                     value={department}
                     onChange={(e) => setDepartment(e.target.value)}
+                    disabled
                     required
                   >
                     <option value="">
@@ -594,6 +608,7 @@ const AddJobComponent = ({ onCancel }) => {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder={TRANSLATIONS[currentLanguage].firstName}
+                    disabled
                     required
                   />
                   {errorMessages.firstName && (
@@ -608,6 +623,7 @@ const AddJobComponent = ({ onCancel }) => {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     placeholder={TRANSLATIONS[currentLanguage].lastName}
+                    disabled
                     required
                   />
 
@@ -891,4 +907,4 @@ const AddJobComponent = ({ onCancel }) => {
   );
 };
 
-export default AddJobComponent;
+export default AddVacancyComponent;

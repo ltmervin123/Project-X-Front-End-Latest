@@ -1,56 +1,38 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 const TRANSLATIONS = {
-    English: {
-      selectLanguage: "Select your desired",
-      language: "language",
-      continue: "Continue",
-      languages: {
-        English: "English",
-        Japanese: "Japanese"
-      }
+  English: {
+    selectLanguage: "Select your desired",
+    language: "language",
+    continue: "Continue",
+    languages: {
+      English: "English",
+      Japanese: "Japanese",
     },
-    Japanese: {
-      selectLanguage: "希望する",
-      language: "言語を選択",
-      continue: "続行",
-      languages: {
-        English: "英語",
-        Japanese: "日本語"
-      }
-    }
-  };
-  
+  },
+  Japanese: {
+    selectLanguage: "希望する",
+    language: "言語を選択",
+    continue: "続行",
+    languages: {
+      English: "英語",
+      Japanese: "日本語",
+    },
+  },
+};
 
-const SelectionLanguagePopUp = ({ onContinue }) => {
+const SelectionLanguagePopUp = ({ onContinue, onClose }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [language, setLanguage] = useState(
-    sessionStorage.getItem("preferred-language") || "English"
-  );
-  const [isLoading, setIsLoading] = useState(false);
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const selectLanguage = (selectedLanguage) => {
-    setLanguage(selectedLanguage);
-    setIsOpen(false);
-  };
-
-  const handleContinue = async () => {
-    setIsLoading(true);
-    try {
-      sessionStorage.setItem("preferred-language", language);
-      // Dispatch storage event to notify other components
-      window.dispatchEvent(new Event("storage"));
-      if (onContinue) {
-        await onContinue(language);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+  const handleContinue = () => {
+    onContinue(selectedLanguage);
   };
 
   return (
@@ -63,28 +45,51 @@ const SelectionLanguagePopUp = ({ onContinue }) => {
     >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center gap-4 flex-column">
-          <h4>
-            {TRANSLATIONS[language].selectLanguage}{" "}
-            <span className="color-orange">
-              {TRANSLATIONS[language].language}
-            </span>
-          </h4>
+          <div
+            className="d-flex justify-content-between align-items-center w-100 pt-0"
+            style={{ marginBottom: "2rem" }}
+          >
+            <div>
+              <h4 className="mb-0">
+                {TRANSLATIONS[language].selectLanguage}{" "}
+                <span className="color-orange">
+                  {TRANSLATIONS[language].language}
+                </span>
+              </h4>
+            </div>
+            <Button
+              className="closebtn d-flex align-items-center justify-content-center"
+              variant="link"
+              onClick={onClose}
+              style={{
+                fontSize: "1.5rem",
+                textDecoration: "none",
+                height: "fit-content",
+                padding: "0 10px",
+              }}
+            >
+              &times;
+            </Button>
+          </div>
           <div className="row d-flex justify-content-center align-items-center">
             <div className="custom-dropdown-container-language">
               <div
                 className={`custom-dropdown-language ${isOpen ? "open" : ""}`}
                 onClick={toggleDropdown}
               >
-                  {TRANSLATIONS[language].languages[language]}
+                {TRANSLATIONS[language].languages[selectedLanguage]}
               </div>
               {isOpen && (
                 <div className="dropdown-options-language">
                   <div
-                    className={language === "English" ? "selected" : ""}
-                    onClick={() => selectLanguage("English")}
+                    className={selectedLanguage === "English" ? "selected" : ""}
+                    onClick={() => {
+                      setSelectedLanguage("English");
+                      setIsOpen(false);
+                    }}
                   >
                     {TRANSLATIONS[language].languages.English}
-                    {language === "English" && (
+                    {selectedLanguage === "English" && (
                       <svg
                         width="18"
                         height="14"
@@ -100,11 +105,16 @@ const SelectionLanguagePopUp = ({ onContinue }) => {
                     )}
                   </div>
                   <div
-                    className={language === "Japanese" ? "selected" : ""}
-                    onClick={() => selectLanguage("Japanese")}
+                    className={
+                      selectedLanguage === "Japanese" ? "selected" : ""
+                    }
+                    onClick={() => {
+                      setSelectedLanguage("Japanese");
+                      setIsOpen(false);
+                    }}
                   >
                     {TRANSLATIONS[language].languages.Japanese}
-                    {language === "Japanese" && (
+                    {selectedLanguage === "Japanese" && (
                       <svg
                         width="18"
                         height="14"
@@ -127,16 +137,8 @@ const SelectionLanguagePopUp = ({ onContinue }) => {
           <button
             onClick={handleContinue}
             className="btn-continue-language mt-2"
-            disabled={isLoading}
           >
-            {isLoading ? (
-              <div
-                className="spinner-border spinner-border-sm text-light"
-                role="status"
-              ></div>
-            ) : (
-              TRANSLATIONS[language].continue
-            )}
+            {TRANSLATIONS[language].continue}
           </button>
         </div>
       </Modal.Body>

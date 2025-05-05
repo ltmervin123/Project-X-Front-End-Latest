@@ -138,7 +138,7 @@ const ReferenceRequestTable = ({
 
         {/* <td style={{ width: "12%" }}>{data.applicant}</td> */}
         <td>{data.applicant}</td>
-        <td className="text-center">{data.referees}</td>
+        <td >{data.referees}</td>
         <td>
           {(() => {
             const concatenatedStatus = concatenateStatus();

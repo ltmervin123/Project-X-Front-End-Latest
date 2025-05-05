@@ -22,7 +22,7 @@ const TextBase = ({
     onReTrySubmit(false);
     setTextBaseAnswer("");
   };
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
 
   const translations = {
     English: {

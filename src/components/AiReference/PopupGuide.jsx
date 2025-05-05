@@ -94,7 +94,7 @@ const GUIDE_STEPS = {
     {
       title: "<span>1</span> Let’s Explore Reference Requests",
       intro:
-        "Now, let's explore how to manage reference checks. Click 'Next' to proceed to the Reference Requests page.",
+        "Now, let's explore how to manage reference requests. Click 'Next' to proceed to the Reference Requests page.",
     },
     {
       title: "<span>2</span> Search Functionality",
@@ -107,7 +107,7 @@ const GUIDE_STEPS = {
       element: ".AiReference-reference-request-container",
       position: "top left",
       intro:
-        "The Reference Requests page enables you to manage and track all reference checks for your applicants. Here, you can monitor the status of completed references.",
+        "The Reference Requests page enables you to manage and track all reference request for your applicants. Here, you can monitor the status of completed references.",
     },
   ],
   referenceQuestions: [

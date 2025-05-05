@@ -85,16 +85,22 @@ const QuestionDisplay = ({
 
   return (
     <div className="ReviewYourReferenceCheck-box-item h-100">
-      <div className="question-container m-0">
-        <p className="question-text ">
+      <div className="question-container mb-4">
+        <div className="question-text ">
           <strong>
             {TRANSLATIONS[language].question.replace(
               "{current}",
               currentQuestionIndex + 1
             )}
           </strong>
-          {questions[currentQuestionIndex]}
-        </p>
+          <div className="question-text-container">
+            <p className="m-0">
+            {questions[currentQuestionIndex]}
+
+            </p>
+
+          </div>
+        </div>
       </div>
 
       <p className="orig-label d-flex justify-content-between align-items-center">
@@ -144,7 +150,11 @@ const QuestionDisplay = ({
             className="answer-textarea"
           />
         ) : (
-          <p>{answers[currentQuestionIndex]}</p>
+          <div className="answer-text-container">
+                      <p>{answers[currentQuestionIndex]}</p>
+
+            </div>
+
         )}
       </div>
 
@@ -171,7 +181,7 @@ const QuestionDisplay = ({
 
       <p className="ai-enhanced-label mt-3 d-flex justify-content-between align-items-center">
         <strong>{TRANSLATIONS[language].aiEnhancedAnswer}</strong>
-        {isEditing && editingType === "aiEnhanced" ? null : (
+        {/* {isEditing && editingType === "aiEnhanced" ? null : (
           <button
             className="btn-edit"
             onClick={() => {
@@ -206,7 +216,7 @@ const QuestionDisplay = ({
             </svg>
             {TRANSLATIONS[language].editAnswers}
           </button>
-        )}
+        )} */}
       </p>
       <div
         className={`ai-enhanced-answer-container  ${isEditing ? "edit" : ""}`}
@@ -220,7 +230,10 @@ const QuestionDisplay = ({
             className="answer-textarea"
           />
         ) : (
+          <div className="answer-text-container">
+
           <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>
+          </div>
         )}
       </div>
 

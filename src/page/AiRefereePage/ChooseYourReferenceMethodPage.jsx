@@ -14,7 +14,6 @@ const TRANSLATIONS = {
     textDescription: "Answer question through text",
     steps: [
       "Basic Information",
-      "Select Language",
       "Choose Method",
       "Questionnaire",
       "Reference Completed",
@@ -28,7 +27,7 @@ const TRANSLATIONS = {
     voiceDescription: "音声で質問に答える",
     textResponse: "テキストベースの応答",
     textDescription: "テキストで質問に答える",
-    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    steps: ["基本情報", "方法選択", "アンケート", "参照完了"],
   },
 };
 
@@ -36,7 +35,7 @@ const CURRENT_STEP = 3;
 
 function ChooseYourReferenceMethodPage() {
   const navigate = useNavigate();
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const steps = TRANSLATIONS[language].steps;
 
   const handleSelection = (method) => {

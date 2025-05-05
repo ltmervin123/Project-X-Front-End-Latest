@@ -20,7 +20,7 @@ const TRANSLATIONS = {
     applicantInformation: "Applicant Information",
     name: "Name",
     email: "Email",
-    position: "Position",
+    jobName: "Job Name",
     refereeInformation: "Referee Information",
     viewReference: "View Reference",
     sendReminder: "Send Reminder",
@@ -43,7 +43,7 @@ const TRANSLATIONS = {
     applicantInformation: "応募者情報",
     name: "氏名",
     email: "メールアドレス",
-    position: "職位",
+    jobName: "職位",
     refereeInformation: "リファレンス提供者情報",
     viewReference: "リファレンスを見る",
     sendReminder: "リマインダーを送信",
@@ -261,7 +261,7 @@ const ReferenceRequestDetailsPopUp = ({
                   </div>
                   <div className="d-flex">
                     <div className="candidate-labels">
-                      {TRANSLATIONS[language].position}:
+                      {TRANSLATIONS[language].jobName}:
                     </div>
                     <div className="candidate-details">
                       {candidate.position || "N/A"}

@@ -64,7 +64,7 @@ const translations = {
     downloading: "Downloading...",
     download: "Download",
     date: "Date",
-    signature: "Signature",
+    signature: "VERIFICATION",
     invalidDate: "Invalid Date",
     refereeCompanyWorkedWith: "Company Worked With",
 
@@ -80,7 +80,6 @@ const translations = {
     },
     steps: [
       "Basic Information",
-      "Select Language",
       "Choose Method",
       "Questionnaire",
       "Reference Completed",
@@ -141,7 +140,7 @@ const translations = {
     downloading: "ダウンロード中...",
     download: "ダウンロード",
     date: "日付",
-    signature: "署名",
+    signature: "検証",
     invalidDate: "無効な日付",
     refereeCompanyWorkedWith: "一緒に働いた会社",
 
@@ -155,7 +154,7 @@ const translations = {
       "Management Format": "管理用フォーマット",
       "Executive Format": "経営層向けフォーマット",
     },
-    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    steps: ["基本情報", "方法選択", "アンケート", "参照完了"],
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
@@ -181,7 +180,7 @@ const ReferenceVerificationSection = () => {
   const API = process.env.REACT_APP_API_URL;
   const TOKEN = sessionStorage.getItem("token");
   const location = useLocation();
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const referenceQuestions =
     JSON.parse(sessionStorage.getItem("referenceQuestions")) || null;
   const [refereeQuestionFormat, setRefereeQuestionFormat] = useState(
@@ -530,7 +529,7 @@ const ReferenceVerificationSection = () => {
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
-                            <p>
+                            <p className="m-0">
                               {item?.answers[index] || "No Answer Provided"}
                             </p>
                           </div>
@@ -613,11 +612,11 @@ const ReferenceVerificationSection = () => {
               )}{" "}
             </div>
           </div>
-          <img
+          {/* <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}
             alt="Signature here..."
-          />
+          /> */}
           <p className="mb-2">
             <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">

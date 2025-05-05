@@ -3,19 +3,18 @@ import { Modal } from "react-bootstrap";
 
 const TRANSLATIONS = {
   English: {
-    confirmationMessage:
-      "Would you like to proceed with all of your original answers for the remaining questions?",
+    confirmationMessage: "Would you like to review your selected answers?",
     yes: "Yes",
     no: "No",
   },
   Japanese: {
-    confirmationMessage: "残りの質問に対してすべての元の回答を進めますか？",
+    confirmationMessage: "選択した回答を確認しますか？",
     yes: "はい",
     no: "いいえ",
   },
 };
 
-const SkipConfirmationPopUp = ({ onClose, onConfirmSkip }) => {
+const PreviewConfirmationPopUp = ({ onClose, onConfirmPreview }) => {
   const language = sessionStorage.getItem("selectedLanguage") || "English";
 
   return (
@@ -26,10 +25,10 @@ const SkipConfirmationPopUp = ({ onClose, onConfirmSkip }) => {
             {TRANSLATIONS[language].confirmationMessage}
           </p>
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
-            <button className="btn-yes-skip" onClick={onConfirmSkip}>
+            <button className="btn-yes-preview" onClick={onConfirmPreview}>
               {TRANSLATIONS[language].yes}
             </button>
-            <button className="btn-no-skip" onClick={onClose}>
+            <button className="btn-no-preview" onClick={onClose}>
               {TRANSLATIONS[language].no}
             </button>
           </div>
@@ -39,4 +38,4 @@ const SkipConfirmationPopUp = ({ onClose, onConfirmSkip }) => {
   );
 };
 
-export default SkipConfirmationPopUp;
+export default PreviewConfirmationPopUp;

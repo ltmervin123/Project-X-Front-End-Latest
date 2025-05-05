@@ -6,7 +6,7 @@ const TRANSLATIONS = {
   English: {
     EditApplicant: "Edit Applicant",
     UpdateDetails: "Update the details of the applicant below.",
-    Position: "Position",
+    jobName: "Job Name",
     SelectPosition: "Select a position",
     ReferenceFormat: "Reference Format",
     NoCustomQuestions: "No custom questions available",
@@ -27,7 +27,7 @@ const TRANSLATIONS = {
   Japanese: {
     EditApplicant: "応募者を編集",
     UpdateDetails: "以下の応募者の詳細を更新してください。",
-    Position: "職位",
+    jobName: "職位",
     SelectPosition: "職位を選択",
     ReferenceFormat: "リファレンス形式",
     NoCustomQuestions: "カスタム質問はありません",
@@ -216,23 +216,16 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              {TRANSLATIONS[language].Position}
+              {TRANSLATIONS[language].jobName}
             </Form.Label>
-            <Form.Select
+            <Form.Control
+                type="text"
               value={position}
               onChange={handlePositionChange}
               required
               disabled={true}
-            >
-              <option value="" disabled>
-                {TRANSLATIONS[language].SelectPosition}
-              </option>
-              {positions.map((pos, index) => (
-                <option key={index} value={pos}>
-                  {pos}
-                </option>
-              ))}
-            </Form.Select>
+            />
+            
           </Form.Group>
           <Form.Group controlId="formReferenceFormat" className="mb-4">
             <Form.Label

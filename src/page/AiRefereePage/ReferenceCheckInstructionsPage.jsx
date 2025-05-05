@@ -88,7 +88,7 @@ const BUTTON_TRANSLATIONS = {
 function ReferenceCheckInstructionsPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
 
   const handleNextStep = () => {
     if (currentStep < INSTRUCTION_DATA.length) {
@@ -97,7 +97,7 @@ function ReferenceCheckInstructionsPage() {
   };
 
   const handleStartNow = () => {
-    navigate("/reference-notification");
+    navigate("/reference-questionnaire");
   };
 
   return (
@@ -105,15 +105,16 @@ function ReferenceCheckInstructionsPage() {
       <div className="ReferenceCheckInstructions-container">
         <h2 className="mb-3">
           {language === "Japanese"
-            ? "参照チェックの指示"
-            : "Reference Check Instructions"}
+            ? "参照チェックの指針"
+            : "Reference Check Guidelines"}
         </h2>
+
         <div className="d-flex justify-content-center align-items-start w-100 gap-4 h-100 flex-wrap">
           {INSTRUCTION_DATA.map((step, index) => (
             <div
               key={index}
               className={`instruction-card ${
-                index + 1 <= currentStep ? "active" : "active"
+                index + 1 <= currentStep ? "active" : ""
               }`}
             >
               <h3 className="text-center">{step.title[language]}</h3>
