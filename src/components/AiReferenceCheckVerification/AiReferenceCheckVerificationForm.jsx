@@ -148,54 +148,29 @@ const AiReferenceCheckVerificationForm = ({
 
     // Save the updated formData to session storage
     sessionStorage.setItem("refereeData", JSON.stringify(updatedFormData));
+    
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setProcessing(true);
-      saveRefereeDataTemporary();
-
-      if (selectedLanguage === "Japanese") {
-        const result = await getQuestionsJapaneseVersion();
-        if (result.status === 200) {
-          sessionStorage.setItem(
-            "referenceQuestions",
-            JSON.stringify(result?.data?.translatedQuestions)
-          );
-        }
-      }
-      navigate("/reference-interview-method", {});
-    } catch (error) {
-      console.error("Error during form submission:", error);
-    } finally {
-      setProcessing(false);
-    }
-  };
-
-  //English Version
-  const getQuestionEnglishVersion = async () => {
-    const token = sessionStorage.getItem("token");
-    const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
-    const requestHeader = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    //English Version
+    const getQuestionEnglishVersion = async () => {
+      const token = sessionStorage.getItem("token");
+      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
+      const requestHeader = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.get(URL, requestHeader);
+      return response.data;
     };
-    const response = await axios.get(URL, requestHeader);
-    return response.data;
-  };
-
+    
   //Fetch initial question in English
   const { data: referenceQuestionData } = useQuery({
     queryKey: ["referenceQuestions"],
     queryFn: getQuestionEnglishVersion,
     staleTime: 1000 * 60 * 5,
     select: (data) => {
-      sessionStorage.setItem(
-        "referenceQuestions",
-        JSON.stringify(data?.questions)
-      );
+      sessionStorage.setItem("referenceQuestions", JSON.stringify(data));
       return data;
     },
   });
@@ -215,6 +190,33 @@ const AiReferenceCheckVerificationForm = ({
 
     const response = await axios.get(URL, requestHeader);
     return response;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setProcessing(true);
+      saveRefereeDataTemporary();
+
+      if (selectedLanguage === "Japanese") {
+        const result = await getQuestionsJapaneseVersion();
+        if (result.status === 200) {
+          const questions = result?.data?.translatedQuestions;
+          const format = referenceQuestionData?.format;
+          const formatType = referenceQuestionData?.formatType;
+          const questionData = { questions, format, formatType };
+          sessionStorage.setItem(
+            "referenceQuestions",
+            JSON.stringify(questionData)
+          );
+        }
+      }
+      navigate("/reference-interview-method", {});
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    } finally {
+      setProcessing(false);
+    }
   };
 
   const isFormValid = () => {
