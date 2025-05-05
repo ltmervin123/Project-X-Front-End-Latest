@@ -161,7 +161,7 @@ const AiReferenceCheckVerificationForm = ({
         if (result.status === 200) {
           sessionStorage.setItem(
             "referenceQuestions",
-            JSON.stringify(result.data?.translatedQuestions)
+            JSON.stringify(result?.translatedQuestions)
           );
         }
       }
@@ -182,7 +182,8 @@ const AiReferenceCheckVerificationForm = ({
         Authorization: `Bearer ${token}`,
       },
     };
-    return await axios.get(URL, requestHeader);
+    const response = await axios.get(URL, requestHeader);
+    return response.data;
   };
 
   //Fetch initial question in English
@@ -193,7 +194,7 @@ const AiReferenceCheckVerificationForm = ({
     select: (data) => {
       sessionStorage.setItem(
         "referenceQuestions",
-        JSON.stringify(data?.data?.questions)
+        JSON.stringify(data?.questions)
       );
       return data;
     },
@@ -212,7 +213,8 @@ const AiReferenceCheckVerificationForm = ({
       },
     };
 
-    return await axios.get(URL, requestHeader);
+    const response = await axios.get(URL, requestHeader);
+    return response.data;
   };
 
   const isFormValid = () => {
