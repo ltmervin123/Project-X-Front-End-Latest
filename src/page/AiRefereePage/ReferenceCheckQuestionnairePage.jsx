@@ -108,7 +108,7 @@ const ReferenceCheckQuestionnairePage = () => {
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const selectedMethod = sessionStorage.getItem("interview-method");
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const STEPS = TRANSLATIONS[language].steps;
   const REFEREE = JSON.parse(sessionStorage.getItem("refereeData")) || {};
   const candidateName = REFEREE?.candidateName || "N/A";
@@ -377,7 +377,7 @@ const ReferenceCheckQuestionnairePage = () => {
   useEffect(() => {
     //Only speak when their is question
     const speakQuestion = async () => {
-      if (questions.length > 0) {
+      if (questions.length > 0 && selectedMethod === "VOICE_BASE") {
         setIsSpeaking(true);
         try {
           await speak(questions[currentQuestionIndex]);
