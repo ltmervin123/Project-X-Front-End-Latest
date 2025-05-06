@@ -434,9 +434,8 @@ const ReferenceRequest = () => {
                         </td>
                         <td data-label="Position">{reference.position}</td>
                         <td data-label="Referees" className="text-center">
-                          {reference.referees &&
-                          Array.isArray(reference.referees) &&
-                          reference.referees.length > 1
+                          {Array.isArray(reference.referees) && reference.referees.length > 1
+
                             ? `${reference.referees.length} ${TRANSLATIONS[language].referees}`
                             : `1 ${TRANSLATIONS[language].referee}`}
                         </td>
@@ -574,7 +573,7 @@ const ReferenceRequest = () => {
                       </tr>
                       {showDropDown &&
                         selectedCandidate._id === reference._id && (
-                          <div className="d-flex align-items-center justify-content-start w-100">
+                          <tr className="d-flex align-items-center w-100 justify-content-start w-100">
                             <div
                               className={`reference-dropdown-container mb-2 ${
                                 isExpanded ? "expanded" : ""
@@ -594,18 +593,17 @@ const ReferenceRequest = () => {
                                   selectedCandidate?.referees &&
                                   selectedCandidate.referees.map((referee) => (
                                     <>
-                                    <div
-                                      className="referee-item mb-4"
-                                      key={referee?._id}
-                                    >
-                                      <div className="referee-details">
+                                      <div
+                                        className="referee-item justify-content-center flex-column "
+                                        key={referee?._id}
+                                      >
                                         <div className="d-flex align-items-center  w-100 mb-1">
-                                            <span className="referee-name mb-1">
-                                              {typeof referee?.name === "string"
-                                                ? referee?.name
-                                                : `${referee?.name.firstName} ${referee?.name.lastName}`}
-                                            </span>
-                                        
+                                          <span className="referee-name mb-1">
+                                            {typeof referee?.name === "string"
+                                              ? referee?.name
+                                              : `${referee?.name.firstName} ${referee?.name.lastName}`}
+                                          </span>
+
                                           <div className="d-flex referee-status  justify-content-center ">
                                             <span
                                               className="mb-1 text-center"
@@ -620,11 +618,10 @@ const ReferenceRequest = () => {
                                           </div>
                                         </div>
                                         <div className="d-flex align-items-center  w-100">
-                                
-                                            <p className="referee-email m-0">
-                                              {referee?.email}
-                                            </p>
-                                          
+                                          <p className="referee-email m-0">
+                                            {referee?.email}
+                                          </p>
+
                                           <div className="d-flex referee-status  justify-content-end">
                                             <button
                                               className="btn-view-referee"
@@ -640,15 +637,11 @@ const ReferenceRequest = () => {
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
-                                    
                                     </>
-                                    
-                                    
                                   ))}
                               </div>
                             </div>
-                          </div>
+                          </tr>
                         )}
                     </React.Fragment>
                   ))
