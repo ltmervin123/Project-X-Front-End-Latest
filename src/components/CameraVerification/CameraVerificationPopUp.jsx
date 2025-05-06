@@ -39,7 +39,7 @@ const CameraVerificationPopUp = ({
   submitting,
   handleImageCapture,
 }) => {
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const [selfieImage, setSelfieImage] = useState(null);
   const [isInitializing, setIsInitializing] = useState(true);
   const [cameraError, setCameraError] = useState(null);

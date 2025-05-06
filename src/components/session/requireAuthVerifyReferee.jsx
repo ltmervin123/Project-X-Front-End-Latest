@@ -11,7 +11,6 @@ import { Spinner, Container, Row, Col } from "react-bootstrap";
 const RequireAuthVerifyReferee = () => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
-  const referenceData = sessionStorage.getItem("referenceData");
   const [isSessionValid, setIsSessionValid] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
 
