@@ -304,7 +304,7 @@ const Applicant = () => {
                   <th>{TRANSLATIONS[language].Name}</th>
                   <th>{TRANSLATIONS[language].Email}</th>
                   <th>{TRANSLATIONS[language].JobName}</th>
-                  <th className="text-center">{TRANSLATIONS[language].Status}</th>
+                  <th >{TRANSLATIONS[language].Status}</th>
                   <th className="text-center">{TRANSLATIONS[language].Actions}</th>
                 </tr>
               </thead>
@@ -342,7 +342,6 @@ const Applicant = () => {
                       <td>{candidate.email}</td>
                       <td>{candidate.position}</td>
                       <td
-                        className="text-center"
                         style={{ color: getStatusColor(candidate.status) }}
                       >
                         {candidate.status}

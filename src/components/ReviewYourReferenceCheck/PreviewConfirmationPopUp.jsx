@@ -3,13 +3,13 @@ import { Modal } from "react-bootstrap";
 
 const TRANSLATIONS = {
   English: {
-    confirmationMessage: "Would you like to review your selected answers?",
-    yes: "Yes",
+    confirmationMessage: "Would you like to preview your selected answers?",
+        yes: "Yes",
     no: "No",
   },
   Japanese: {
-    confirmationMessage: "選択した回答を確認しますか？",
-    yes: "はい",
+    confirmationMessage: "選択した回答をプレビューしますか？",
+        yes: "はい",
     no: "いいえ",
   },
 };

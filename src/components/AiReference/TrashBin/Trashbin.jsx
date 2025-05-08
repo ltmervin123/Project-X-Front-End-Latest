@@ -26,7 +26,7 @@ const language = sessionStorage.getItem("preferred-language") || "English";
 const TRANSLATIONS = {
   English: {
     trashBin: "Trash Bin",
-    viewAndRestoreDeletedItems: "View and Restore Deleted Items from your System",
+    viewAndRestoreDeletedItems: "View and restore deleted items from your system.",
     jobs: "Jobs",
     applicants: "Applicants",
     referenceRequest: "Reference Request",
@@ -65,7 +65,7 @@ const TRANSLATIONS = {
   },
   Japanese: {
     trashBin: "ゴミ箱",
-    viewAndRestoreDeletedItems: "削除済みアイテムの表示と復元",
+    viewAndRestoreDeletedItems: "削除済みアイテムの表示と復元。",
     jobs: "求人",
     applicants: "応募者",
     referenceRequest: "リファレンスリクエスト",
@@ -757,6 +757,7 @@ const Trashbin = () => {
 
         <div className="button-controls mb-3 d-flex gap-2 align-items-center justify-content-end">
           <button
+            disabled={selectedItems.length === 0 && mockData[selectedCategory]?.length === 0}
             onClick={
               selectedItems.length > 0 ? handleClearSelection : handleSelectAll
             }

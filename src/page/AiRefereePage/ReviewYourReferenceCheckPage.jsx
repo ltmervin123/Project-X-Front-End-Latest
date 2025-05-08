@@ -81,17 +81,20 @@ function ReviewYourReferenceCheckPage() {
 
   const language = sessionStorage.getItem("selectedLanguage") || "English";
 
-  const handleConfirmSkip = () => {
-    const remainingOriginalAnswer = questions
+  const handleConfirmSkip = (selectedType) => {
+    const remainingAnswer = questions
       .slice(currentQuestionIndex)
       .map((_, index) => ({
         question: questions[currentQuestionIndex + index],
-        answer: answers[currentQuestionIndex + index],
-        preferredAnswerType: "Original Answer",
+        answer:
+          selectedType === "Original Answer"
+            ? answers[currentQuestionIndex + index]
+            : aiEnhancedAnswers[currentQuestionIndex + index],
+        preferredAnswerType: selectedType,
       }));
 
-    setSubmittedAnswers((prev) => [...prev, ...remainingOriginalAnswer]);
-    setCurrentQuestionIndex(questions.length - 1); // Set to last question index
+    setSubmittedAnswers((prev) => [...prev, ...remainingAnswer]);
+    setCurrentQuestionIndex(questions.length - 1);
     setShowSkipConfirmation(false);
   };
 
@@ -403,7 +406,7 @@ function ReviewYourReferenceCheckPage() {
             <h5 className="referencecheckquestiontitle text-left mb-2">
               {TRANSLATIONS[language].reviewResponses}
             </h5>
-            <Col md={!showBothAnswers ? 9 : 12}>
+            <Col md={!showBothAnswers ? 9 : 12} >
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
                   <p className="m-0">

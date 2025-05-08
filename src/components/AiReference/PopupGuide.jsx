@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import introJs from "intro.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "intro.js/introjs.css";
 
 // Shared guide steps configuration
@@ -168,8 +168,8 @@ const GUIDE_STEPS = {
   ],
   trashbin: [
     {
-      title: "<span>1</span> Let’s Explore Reports",
-      intro: "Now, let’s take a look at how reports work. Click ‘Next’ to proceed to the Reports page.",
+      title: "<span>1</span> Let’s Explore Trashbin",
+      intro: "Now, let’s take a look at how trashbin work. Click ‘Next’ to proceed to the Trashbin page.",
     },
     {
       title: "<span>2</span> Search Functionality",
@@ -182,12 +182,12 @@ const GUIDE_STEPS = {
       intro: "This section provides an overview of all previously deleted jobs.",
     },
     {
-      title: "<span>4</span> Navigate to Applicant’s",
+      title: "<span>4</span> Navigate to Applicants",
       intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(2)",
     },
     {
-      title: "<span>5</span> Deleted Applicant’s Overview",
+      title: "<span>5</span> Deleted Applicants Overview",
       element: ".AiReference-trashbin-container",
       intro: "This section provides an overview of all previously deleted applicants",
     },
@@ -195,6 +195,7 @@ const GUIDE_STEPS = {
       title: "<span>6</span> Navigate to Reference Requests",
       intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(3)",
+      position: "left",
     },
     {
       title: "<span>7</span> Deleted Reference Requests Overview",
@@ -205,6 +206,7 @@ const GUIDE_STEPS = {
       title: "<span>8</span> Navigate to Reference Requests",
       intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(4)",
+      position: "left",
     },
     {
       title: "<span>9</span> Deleted Reference Questions Overview",
@@ -221,6 +223,7 @@ const GUIDE_STEPS = {
 
 const PopupGuide = ({ introKey }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const skipClickedRef = useRef(false); // Flag to track if skip was clicked
 
   // Calculate step statistics
@@ -232,18 +235,23 @@ const PopupGuide = ({ introKey }) => {
   );
 
   useEffect(() => {
-    const isIntroShown =
-      JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
-
-    // Check if all intros have been shown at least once
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
     const allIntroKeys = Object.keys(GUIDE_STEPS);
     const allIntrosShown = allIntroKeys.every((key) => isIntroShown[key]);
+
     if (allIntrosShown) {
-      return; // Exit if all intros have been shown, regardless of completion
+      return;
+    }
+
+    // Only redirect to dashboard if this is the first guide being shown
+    const isFirstGuide = !Object.keys(isIntroShown).length;
+    if (isFirstGuide && location.pathname !== '/AiReferenceMaindashboard') {
+      navigate('/AiReferenceMaindashboard');
+      return;
     }
 
     if (!isIntroShown[introKey]) {
-      // Initialize or get persistent counter
+      // Initialize counter
       let totalStepsCounter = parseInt(
         sessionStorage.getItem("totalStepsCounter") || "0",
         10
@@ -259,14 +267,15 @@ const PopupGuide = ({ introKey }) => {
               : "Next",
         })
         .onexit(() => {
-          // Only navigate if skip was not clicked
-          if (!skipClickedRef.current) {
+          // Only navigate if skip was not clicked and we're not already on dashboard
+          if (!skipClickedRef.current && introKey !== 'dashboard') {
             const routes = {
               jobs: "/AiReferenceApplicant",
               applicant: "/AiReferenceRequest",
               referenceRequests: "/AiReferenceQuestion",
               referenceQuestions: "/AiReferenceReports",
-              reports: "/AiReferenceMaindashboard",
+              reports: "/AiReferenceTrashbin",
+              trashbin: "/AiReferenceMaindashboard",
             };
             navigate(routes[introKey] || "/AiReferenceJobs");
           }
@@ -321,39 +330,36 @@ const PopupGuide = ({ introKey }) => {
         })
         .start();
 
+      // Update isIntroShown after starting the guide
       sessionStorage.setItem(
         "isIntroShown",
         JSON.stringify({ ...isIntroShown, [introKey]: true })
       );
+
+      // Handle clicks outside
+      const handleClickOutside = (event) => {
+        if (event.target.closest(".introjs-tooltip") === null) {
+          skipClickedRef.current = true;
+          sessionStorage.setItem(
+            "isIntroShown",
+            JSON.stringify({
+              ...isIntroShown,
+              [introKey]: true,
+              ...Object.fromEntries(allIntroKeys.map((key) => [key, true])),
+            })
+          );
+          navigate("/AiReferenceMaindashboard");
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
     }
+  }, [introKey, navigate, currentSteps, categorySteps, location.pathname]);
 
-    // Function to handle clicks outside the guide
-    const handleClickOutside = (event) => {
-      if (event.target.closest(".introjs-tooltip") === null) {
-        // Trigger the same logic as on exit
-        skipClickedRef.current = true; // Set the flag to true
-        sessionStorage.setItem(
-          "isIntroShown",
-          JSON.stringify({
-            ...isIntroShown,
-            [introKey]: true,
-            ...Object.fromEntries(allIntroKeys.map((key) => [key, true])),
-          })
-        );
-        navigate("/AiReferenceMaindashboard"); // Navigate to the default route
-      }
-    };
-
-    // Add event listener for clicks outside the guide
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [introKey, navigate, currentSteps, categorySteps]);
-
-  return null; // No additional div is added
+  return null; // Remove the path check here
 };
 
 export default PopupGuide;

@@ -65,7 +65,7 @@
   border: 0.5px solid rgba(0, 0, 0, 0.25);
     border-radius: 20px;
   padding: 20px;
-  height: 60vh;
+  height: 62vh;
 }
 .AiReference-candidates-container > div {
   height: 15%;
@@ -94,7 +94,7 @@
 }
 .AiReference-candidates-container th,
 .AiReference-candidates-container td {
-  padding: 15px; /* Padding for table cells */
+  padding: 10px 10px 10px 0px;  /* Padding for table cells */
   word-wrap: break-word;
   text-align: left; /* Align text to the left */
 }
@@ -106,33 +106,12 @@
   width: 20%;
   font-weight: bold;
 
-}
-.AiReference-candidates-container td{
-    padding-left: 17px;
-  }
-.AiReference-candidates-container td:nth-child(1),
-.AiReference-candidates-container td:nth-child(3){
-
-  text-transform:capitalize;
 
 }
-.AiReference-candidates-container th:nth-child(1),
-.AiReference-candidates-container td:nth-child(1){
-  width: 15%;
-}
-.AiReference-candidates-container th:nth-child(2),
-.AiReference-candidates-container td:nth-child(2){
-  width: 25%;
-}
 
-.AiReference-candidates-container th:nth-child(4),
-.AiReference-candidates-container td:nth-child(4){
-  width: 8%;
-}
-
-.AiReference-candidates-container td:nth-child(5),
-.AiReference-candidates-container th:nth-child(5){
-width: 31.7%;
+.AiReference-candidates-container td:nth-child(4),
+.AiReference-candidates-container th:nth-child(4){
+width: 10%;
 }
 
 .AiReference-candidates-container .btn-view-details {
@@ -254,7 +233,13 @@ border: none;
 
   color: var(--primary-color);
 }
-
+.action-menu{
+  position: absolute;
+  top: 22%;
+  right: -25px;
+  display: flex;
+  align-items: center;
+}
 /* Customizing the scrollbar */
 .AiReference-candidates-container tbody::-webkit-scrollbar {
   width: 4px; /* Scrollbar width */

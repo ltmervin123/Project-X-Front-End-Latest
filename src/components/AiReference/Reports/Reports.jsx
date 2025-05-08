@@ -247,7 +247,7 @@ const Reports = () => {
       title: TRANSLATIONS[language].totalReferences,
       value: countTotalReference,
       color: "#1877F2",
-      route: "/AiReferenceApplicant", // Add route for Total References
+      route: "/AiReferenceRequest", // Add route for Total References
     },
     {
       title: TRANSLATIONS[language].completionRate,
@@ -587,7 +587,7 @@ const Reports = () => {
                     <tr>
                       <th>{TRANSLATIONS[language].applicant}</th>
                       <th>{TRANSLATIONS[language].referee}</th>
-                      <th className="text-center">
+                      <th >
                         {TRANSLATIONS[language].status}
                       </th>
                       <th className="text-center">
@@ -601,7 +601,7 @@ const Reports = () => {
                         <td>{`${entry.candidate.firstName} ${entry.candidate.lastName}`}</td>
                         <td>{`${entry.refereeName.firstName} ${entry.refereeName.lastName}`}</td>
                         <td
-                          className="text-center"
+                          
                           style={{
                             color: getStatusColor(entry.status),
                             fontWeight: "bold",

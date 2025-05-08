@@ -101,7 +101,7 @@ const TRANSLATIONS = {
   },
 };
 
-const CURRENT_STEP = 4;
+const CURRENT_STEP = 3;
 
 const ReferenceCheckQuestionnairePage = () => {
   // Constants

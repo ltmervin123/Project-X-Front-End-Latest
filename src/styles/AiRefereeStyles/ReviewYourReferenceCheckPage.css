@@ -55,8 +55,9 @@
   display: flex;
   flex-direction: column; /* Arrange items vertically */
   width: 85%;
-  max-width: 1400px;
+  max-width: 1200px;
   /* height: 540px; */
+  margin: 0px 12px 0px 14px;
   background: var(--container-bg);
   padding: 20px 40px;
   border-radius: 20px;
@@ -768,6 +769,10 @@
   border: 1px solid var(--font-black);
 }
 
+.custom-modal-skip-confirmation .modal-dialog {
+  max-width: 550px !important;
+  height: 380px;
+}
 .custom-modal-take-picture .modal-dialog {
   width: 70% !important;
   max-width: 700px !important;
@@ -834,8 +839,9 @@
   display: flex;
   flex-direction: column; /* Arrange items vertically */
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   height: 560px;
+  margin: 0px 12px 0px 14px;
   /* height: 540px; */
   background: var(--container-bg);
   padding: 20px 20px 20px 40px;
@@ -873,6 +879,25 @@ padding: 0;
 .answer-type {
   color: #6c757d;
   font-weight: 500;
+}
+
+.answer-type-btn {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.answer-type-btn:hover {
+  border-color: var(--primary-color);
+}
+
+.answer-type-btn.selected {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
 }
 
 /* Customizing the scrollbar */

@@ -261,12 +261,12 @@ const Jobs = () => {
                 <thead>
                   <tr>
                     <th>{TRANSLATIONS[language].JobName}</th>
-                    <th className="text-center">
+                    <th >
                       {TRANSLATIONS[language].Vacancies}
                     </th>
                     <th>{TRANSLATIONS[language].Department}</th>
                     <th>{TRANSLATIONS[language].HiringManager}</th>
-                    <th className="text-center">
+                    <th >
                       {TRANSLATIONS[language].PostedDate}
                     </th>
                     <th className="text-center">
@@ -287,7 +287,7 @@ const Jobs = () => {
                       return (
                         <tr key={job._id}>
                           <td>{job.jobName}</td>
-                          <td className="text-center">{job.vacancies}</td>
+                          <td>{job.vacancies}</td>
                           <td>
                             {job.department || "Department not specified"}
                           </td>
@@ -297,7 +297,7 @@ const Jobs = () => {
                               ? `${job.hiringManager.firstName} ${job.hiringManager.lastName}`
                               : job?.hiringManager}
                           </td>
-                          <td className="text-center">
+                          <td>
                             {formatDate(job.createdAt)}
                           </td>
                           <td>
