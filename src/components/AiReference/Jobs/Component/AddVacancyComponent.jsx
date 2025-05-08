@@ -461,6 +461,17 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     };
   }, []);
 
+  const formatQuestion = useMemo(() => {
+    switch (jobData?.questionFormat) {
+      case "HR-HATCH-FORMAT":
+        return "HR-HATCH format";
+      case "CUSTOM-FORMAT":
+        return "Custom format";
+      default:
+        return "No format available";
+    }
+  }, [jobData?.questionFormat]);
+
   return (
     <>
       <div>
@@ -537,7 +548,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
               <div className="w-100">
                 <Form.Control
                   type="text"
-                  value={jobData?.questionFormat || "No format available"}
+                  value={formatQuestion}
                   required
                   disabled
                 />
