@@ -31,7 +31,7 @@ const TRANSLATIONS = {
   },
 };
 
-const CURRENT_STEP = 3;
+const CURRENT_STEP = 2;
 
 function ChooseYourReferenceMethodPage() {
   const navigate = useNavigate();

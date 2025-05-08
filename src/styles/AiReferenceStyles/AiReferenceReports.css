@@ -60,7 +60,7 @@
 }
 .AiReference-report-container th,
 .AiReference-report-container td {
-  padding: 10px; /* Padding for table cells */
+  padding: 10px 10px 10px 0px;  /* Padding for table cells */
 word-wrap: break-word;
   text-align: left; /* Align text to the left */
   text-transform: capitalize;

@@ -617,30 +617,13 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                         ? "active"
                         : ""
                     } ${isHrHatchOpen ? "dropdown-open" : ""}`}
-                    onClick={() => {
-                      setIsHrHatchOpen(!isHrHatchOpen);
-                      setIsCustomOpen(false);
-                    }}
+                    style={{ opacity: 0.6, cursor: 'not-allowed' }}
+                    onClick={(e) => e.preventDefault()}
                   >
                     {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
                       ? selectedQuestion.name
                       : TRANSLATIONS[currentLanguage].hrHatch}
                   </div>
-                  {isHrHatchOpen && (
-                    <div className="dropdown-list-ref-req">
-                      {hrHatchQuestion.map((question) => (
-                        <div
-                          key={question._id}
-                          className="dropdown-item-ref-req"
-                          onClick={() =>
-                            handleQuestionSelect(question, "HR-HATCH-FORMAT")
-                          }
-                        >
-                          {question.name}
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
 
                 <div className="custom-dropdown-ref-req">
@@ -650,36 +633,13 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                         ? "active"
                         : ""
                     } ${isCustomOpen ? "dropdown-open" : ""}`}
-                    onClick={() => {
-                      setIsCustomOpen(!isCustomOpen);
-                      setIsHrHatchOpen(false);
-                    }}
+                    style={{ opacity: 0.2, cursor: 'not-allowed' }}
+                    onClick={(e) => e.preventDefault()}
                   >
                     {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
                       ? selectedQuestion.name
                       : TRANSLATIONS[currentLanguage].custom}
                   </div>
-                  {isCustomOpen && (
-                    <div className="dropdown-list-ref-req">
-                      {customQuestion.length > 0 ? (
-                        customQuestion.map((question) => (
-                          <div
-                            key={question._id}
-                            className="dropdown-item-ref-req"
-                            onClick={() =>
-                              handleQuestionSelect(question, "CUSTOM-FORMAT")
-                            }
-                          >
-                            {question.name}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="dropdown-item-ref-req" disabled>
-                          {TRANSLATIONS[currentLanguage].noCustomQuestions}
-                        </div>
-                      )}
-                    </div>
-                  )}
                 </div>
               </div>
               {errorMessages.question && (
@@ -706,6 +666,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                     setNumberOfReferees(parseInt(e.target.value))
                   }
                   required
+                  disabled
                 />
               </div>
               {errorMessages.numberOfReferees && (

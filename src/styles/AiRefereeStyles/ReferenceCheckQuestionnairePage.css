@@ -12,6 +12,9 @@
 .referencecheckquestiontitle {
   width: 80%;
   max-width: 1200px;
+    margin: 0px 12px 0px 14px;
+    padding: 0;
+
 }
 .referencecheckquestion-container {
   position: relative;
