@@ -168,16 +168,7 @@ const Jobs = () => {
   };
 
   const handleAddVacancy = (jobDetails) => {
-    const job = {
-      jobName: jobDetails.jobName,
-      vacancies: jobDetails.vacancies,
-      department: jobDetails.department,
-      hiringManager: {
-        firstName: jobDetails.hiringManager.firstName,
-        lastName: jobDetails.hiringManager.lastName,
-      },
-    };
-    setJob(job);
+    setJob(jobDetails);
     setShowAddVacancy(true);
   };
 

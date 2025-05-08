@@ -266,6 +266,11 @@ const AddJobComponent = ({ onCancel }) => {
         jobName: capitalizeWords(jobName),
         vacancies,
         department,
+        numberOfReferees, 
+        selectedLanguage,
+        questionFormat: selectedFormat,
+        questionId: selectedQuestion._id,
+        questionName: selectedQuestion.name,
         hiringManager: {
           firstName: capitalizeWords(firstName),
           lastName: capitalizeWords(lastName),

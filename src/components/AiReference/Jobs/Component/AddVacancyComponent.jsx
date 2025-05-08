@@ -24,6 +24,7 @@ const TRANSLATIONS = {
     lastName: "Last Name",
     applicantDetails: "Applicant Details",
     referenceFormat: "Reference Format",
+    questionName: "Question Name",
     applicant: "Applicant",
     email: "Email",
     cancel: "Cancel",
@@ -87,6 +88,7 @@ const TRANSLATIONS = {
     lastName: "姓",
     applicantDetails: "応募者詳細",
     referenceFormat: "リファレンス形式",
+    questionName: "質問名",
     applicant: "応募者",
     email: "メールアドレス",
     cancel: "キャンセル",
@@ -149,28 +151,16 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
   const [lastName, setLastName] = useState(
     jobData?.hiringManager?.lastName || ""
   );
+  const [numberOfReferees, setNumberOfReferees] = useState(
+    jobData?.numberOfReferees || 1
+  );
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
   const [vacancies, setVacancies] = useState(jobData?.vacancies || 1);
   const [vacancyError, setVacancyError] = useState("");
-  const [selectedFormat, setSelectedFormat] = useState("");
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
-  const [isCustomOpen, setIsCustomOpen] = useState(false);
   const [candidates, setCandidates] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-  const [numberOfReferees, setNumberOfReferees] = useState(1);
-  const [showLanguagePopup, setShowLanguagePopup] = useState(true);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
-
-  const today = new Date();
-  const todayStr = today.toISOString().split("T")[0];
-
-  const tomorrow = new Date();
-  tomorrow.setDate(today.getDate() + 1);
-  const minDateStr = tomorrow.toISOString().split("T")[0];
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -189,48 +179,9 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     );
   }, [candidates]);
 
-  const hrHatchQuestion = useMemo(() => {
-    return [
-      {
-        name: TRANSLATIONS[currentLanguage].standardFormat,
-        value: "STANDARD",
-        _id: "67b404a91eb4c9da22cff68e",
-      },
-      {
-        name: TRANSLATIONS[currentLanguage].managementFormat,
-        value: "MANAGEMENT",
-        _id: "67b405191eb4c9da22cff690",
-      },
-      {
-        name: TRANSLATIONS[currentLanguage].executiveFormat,
-        value: "EXECUTIVE",
-        _id: "67b405a41eb4c9da22cff691",
-      },
-    ];
-  }, [currentLanguage]);
-
-  const customQuestion = useMemo(() => {
-    const questions = JSON.parse(localStorage.getItem("questions")) || [];
-    return questions.map((question) => ({
-      name: question.name,
-      _id: question._id,
-    }));
-  }, []);
-
   const validReferees = useMemo(() => {
     return numberOfReferees > 0;
   }, [numberOfReferees]);
-
-  const handleQuestionSelect = (question, format) => {
-    // Don't allow changing format for existing positions
-    if (jobData?.jobName === jobName) {
-      return;
-    }
-    setSelectedQuestion(question);
-    setSelectedFormat(format);
-    setIsHrHatchOpen(false);
-    setIsCustomOpen(false);
-  };
 
   // Utility function to handle candidate input changes
   const handleInputChange = (index, field, value) => {
@@ -324,35 +275,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     } catch (error) {
       console.error("Error loading candidates from localStorage:", error);
     }
-  }, [jobName]); // Only run when jobName changes
-
-  // Add new useEffect to check localStorage for existing format
-  useEffect(() => {
-    try {
-      const storedCandidates =
-        JSON.parse(localStorage.getItem("candidates")) || [];
-      const matchingCandidate = storedCandidates.find(
-        (candidate) => candidate.position === jobName
-      );
-
-      if (
-        matchingCandidate?.questionFormat &&
-        matchingCandidate?.questionName
-      ) {
-        // Find and set the matching question from hrHatchQuestion
-        const matchingQuestion = hrHatchQuestion.find(
-          (q) => q.name === matchingCandidate.questionName
-        );
-
-        if (matchingQuestion) {
-          setSelectedFormat(matchingCandidate.questionFormat);
-          setSelectedQuestion(matchingQuestion);
-        }
-      }
-    } catch (error) {
-      console.error("Error loading reference format from localStorage:", error);
-    }
-  }, [jobName, hrHatchQuestion]);
+  }, [jobName]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -455,11 +378,11 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
         position: createdJob.positionName,
         positionId: createdJob.positionId,
         status,
-        selectedLanguage,
+        selectedLanguage: jobData?.selectedLanguage,
         numberOfReferees,
-        questionFormat: selectedFormat,
-        questionId: selectedQuestion._id,
-        questionName: selectedQuestion.name,
+        questionFormat: jobData?.questionFormat,
+        questionId: jobData?.questionId,
+        questionName: jobData?.questionName,
       };
     });
 
@@ -538,19 +461,8 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     };
   }, []);
 
-  const handleLanguageContinue = (selectedLanguage) => {
-    setSelectedLanguage(selectedLanguage);
-    setShowLanguagePopup(false);
-  };
-
   return (
     <>
-      {/* {showLanguagePopup && (
-        <SelectionLanguagePopUp
-          onContinue={handleLanguageContinue}
-          onClose={() => onCancel()}
-        />
-      )} */}
       <div>
         <h3 className="mb-0">
           {TRANSLATIONS[currentLanguage].createNewJob}{" "}
@@ -598,7 +510,6 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                 <span className="color-orange"> &nbsp;*</span>
               </Form.Label>
 
-              {/* display hide the vacancy input */}
               <Form.Control
                 type="number"
                 min={1}
@@ -622,44 +533,40 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                 {TRANSLATIONS[currentLanguage].referenceFormat}
                 <span className="color-orange"> &nbsp;*</span>
               </Form.Label>
-              <div className="w-100 reference-question-format-container d-flex gap-3">
-                <div className="custom-dropdown-ref-req">
-                  <div
-                    className={`dropdown-header-ref-req ${
-                      !isHrHatchOpen && selectedFormat === "HR-HATCH-FORMAT"
-                        ? "active"
-                        : ""
-                    } ${isHrHatchOpen ? "dropdown-open" : ""}`}
-                    style={{ opacity: 0.6, cursor: "not-allowed" }}
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
-                      ? selectedQuestion.name
-                      : TRANSLATIONS[currentLanguage].hrHatch}
-                  </div>
-                </div>
 
-                <div className="custom-dropdown-ref-req">
-                  <div
-                    className={`dropdown-header-ref-req ${
-                      !isCustomOpen && selectedFormat === "CUSTOM-FORMAT"
-                        ? "active"
-                        : ""
-                    } ${isCustomOpen ? "dropdown-open" : ""}`}
-                    style={{ opacity: 0.2, cursor: "not-allowed" }}
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
-                      ? selectedQuestion.name
-                      : TRANSLATIONS[currentLanguage].custom}
-                  </div>
-                </div>
+              <div className="w-100">
+                <Form.Control
+                  type="text"
+                  value={jobData?.questionFormat || "No format available"}
+                  required
+                  disabled
+                />
               </div>
               {errorMessages.question && (
                 <div className="px-3 py-1 text-danger">
                   {errorMessages.question}
                 </div>
               )}
+            </Form.Group>
+
+            <Form.Group controlId="formReferenceFormat" className="mb-4">
+              <div className="custom-dropdown-ref-req">
+                <Form.Label
+                  className="m-0"
+                  style={{ width: "220px", height: "38px" }}
+                >
+                  {TRANSLATIONS[currentLanguage].questionName}
+                  <span className="color-orange"> &nbsp;*</span>
+                </Form.Label>
+                <div className="w-100">
+                  <Form.Control
+                    type="text"
+                    value={jobData?.questionName || "No question available"}
+                    required
+                    disabled
+                  />
+                </div>
+              </div>
             </Form.Group>
 
             <Form.Group controlId="formNumReferees" className="mb-4">
@@ -675,9 +582,6 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                   type="number"
                   min={1}
                   value={numberOfReferees}
-                  onChange={(e) =>
-                    setNumberOfReferees(parseInt(e.target.value))
-                  }
                   required
                   disabled
                 />
@@ -815,7 +719,6 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
               loading ||
               !isJobFieldsFilled ||
               !areCandidateFieldsFilled ||
-              !selectedQuestion ||
               !validReferees
             }
           >
