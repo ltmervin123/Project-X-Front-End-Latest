@@ -63,14 +63,15 @@ const TRANSLATIONS = {
       firstNameLength: "First name must be at least 2 characters.",
       lastNameLength: "Last name must be at least 2 characters.",
       vacancyMin: "Vacancies must be at least 1.",
-      vacancyGreater: "New vacancy number must be greater than the current vacancy.",
-      refereesMin: "Number of referees must be at least 1."
+      vacancyGreater:
+        "New vacancy number must be greater than the current vacancy.",
+      refereesMin: "Number of referees must be at least 1.",
     },
     staticContent: {
       existing: "(Existing)",
       emailPlaceholder: "applicant@example.com",
       loading: "Loading...",
-    }
+    },
   },
   Japanese: {
     createNewJob: "新しい求人を作成",
@@ -124,14 +125,15 @@ const TRANSLATIONS = {
       firstNameLength: "名前は2文字以上である必要があります。",
       lastNameLength: "姓は2文字以上である必要があります。",
       vacancyMin: "募集人数は1人以上である必要があります。",
-      vacancyGreater: "新しい募集人数は現在の募集人数より多く設定してください。",
-      refereesMin: "推薦者数は1人以上である必要があります。"
+      vacancyGreater:
+        "新しい募集人数は現在の募集人数より多く設定してください。",
+      refereesMin: "推薦者数は1人以上である必要があります。",
     },
     staticContent: {
       existing: "(既存)",
       emailPlaceholder: "応募者@example.com",
       loading: "読み込み中...",
-    }
+    },
   },
 };
 
@@ -254,20 +256,17 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
   useEffect(() => {
     // Only update candidates if new vacancy number is greater than fetched vacancy
     if (!jobData?.vacancies || vacancies > jobData.vacancies) {
-      const newCandidates = Array.from(
-        { length: vacancies },
-        (_, index) => {
-          // Preserve existing candidate data if available
-          if (candidates[index]) {
-            return candidates[index];
-          }
-          return {
-            firstName: "",
-            lastName: "",
-            email: "",
-          };
+      const newCandidates = Array.from({ length: vacancies }, (_, index) => {
+        // Preserve existing candidate data if available
+        if (candidates[index]) {
+          return candidates[index];
         }
-      );
+        return {
+          firstName: "",
+          lastName: "",
+          email: "",
+        };
+      });
       setCandidates(newCandidates);
     }
   }, [vacancies, jobData?.vacancies]);
@@ -279,7 +278,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     } else if (jobData?.vacancies && vacancies <= jobData.vacancies) {
       setVacancyError(TRANSLATIONS[currentLanguage].errors.vacancyGreater);
       // Keep the existing candidates instead of resetting them
-      setCandidates(prev => prev.slice(0, jobData.vacancies));
+      setCandidates((prev) => prev.slice(0, jobData.vacancies));
     } else {
       setVacancyError("");
     }
@@ -288,60 +287,70 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
   // Add new useEffect to check localStorage for existing candidates
   useEffect(() => {
     try {
-      const storedCandidates = JSON.parse(localStorage.getItem('candidates')) || [];
+      const storedCandidates =
+        JSON.parse(localStorage.getItem("candidates")) || [];
       const matchingCandidates = storedCandidates.filter(
-        candidate => candidate.position === jobName
+        (candidate) => candidate.position === jobName
       );
 
       if (matchingCandidates.length > 0) {
         // Update vacancies count if we found matching candidates
         setVacancies(Math.max(vacancies, matchingCandidates.length));
-        
+
         // Map the matching candidates to our required format
-        const formattedCandidates = matchingCandidates.map(candidate => ({
-          firstName: candidate.name?.firstName || '',
-          lastName: candidate.name?.lastName || '',
-          email: candidate.email || ''
+        const formattedCandidates = matchingCandidates.map((candidate) => ({
+          firstName: candidate.name?.firstName || "",
+          lastName: candidate.name?.lastName || "",
+          email: candidate.email || "",
         }));
 
         // Merge with existing candidates array
-        setCandidates(prev => {
-          const newCandidates = Array.from({ length: vacancies }, (_, index) => {
-            return formattedCandidates[index] || {
-              firstName: '',
-              lastName: '',
-              email: ''
-            };
-          });
+        setCandidates((prev) => {
+          const newCandidates = Array.from(
+            { length: vacancies },
+            (_, index) => {
+              return (
+                formattedCandidates[index] || {
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                }
+              );
+            }
+          );
           return newCandidates;
         });
       }
     } catch (error) {
-      console.error('Error loading candidates from localStorage:', error);
+      console.error("Error loading candidates from localStorage:", error);
     }
   }, [jobName]); // Only run when jobName changes
 
   // Add new useEffect to check localStorage for existing format
   useEffect(() => {
     try {
-      const storedCandidates = JSON.parse(localStorage.getItem('candidates')) || [];
+      const storedCandidates =
+        JSON.parse(localStorage.getItem("candidates")) || [];
       const matchingCandidate = storedCandidates.find(
-        candidate => candidate.position === jobName
+        (candidate) => candidate.position === jobName
       );
 
-      if (matchingCandidate?.questionFormat && matchingCandidate?.questionName) {
+      if (
+        matchingCandidate?.questionFormat &&
+        matchingCandidate?.questionName
+      ) {
         // Find and set the matching question from hrHatchQuestion
         const matchingQuestion = hrHatchQuestion.find(
-          q => q.name === matchingCandidate.questionName
+          (q) => q.name === matchingCandidate.questionName
         );
-        
+
         if (matchingQuestion) {
           setSelectedFormat(matchingCandidate.questionFormat);
           setSelectedQuestion(matchingQuestion);
         }
       }
     } catch (error) {
-      console.error('Error loading reference format from localStorage:', error);
+      console.error("Error loading reference format from localStorage:", error);
     }
   }, [jobName, hrHatchQuestion]);
 
@@ -355,13 +364,16 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     const newErrorMessages = {};
 
     if (jobName.length < 2) {
-      newErrorMessages.jobName = TRANSLATIONS[currentLanguage].errors.jobNameLength;
+      newErrorMessages.jobName =
+        TRANSLATIONS[currentLanguage].errors.jobNameLength;
     }
     if (firstName.length < 2) {
-      newErrorMessages.firstName = TRANSLATIONS[currentLanguage].errors.firstNameLength;
+      newErrorMessages.firstName =
+        TRANSLATIONS[currentLanguage].errors.firstNameLength;
     }
     if (lastName.length < 2) {
-      newErrorMessages.lastName = TRANSLATIONS[currentLanguage].errors.lastNameLength;
+      newErrorMessages.lastName =
+        TRANSLATIONS[currentLanguage].errors.lastNameLength;
     }
 
     // Add vacancyError to the validation if it exists
@@ -370,7 +382,8 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     }
 
     if (numberOfReferees < 1) {
-      newErrorMessages.numberOfReferees = TRANSLATIONS[currentLanguage].errors.refereesMin;
+      newErrorMessages.numberOfReferees =
+        TRANSLATIONS[currentLanguage].errors.refereesMin;
     }
 
     if (Object.keys(newErrorMessages).length > 0) {
@@ -431,7 +444,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     const status = "New";
     // Only map and save candidates that weren't fetched from localStorage
     const newCandidates = candidates.slice(jobData?.vacancies || 0);
-    
+
     const payload = newCandidates.map((candidate) => {
       return {
         name: {
@@ -617,7 +630,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                         ? "active"
                         : ""
                     } ${isHrHatchOpen ? "dropdown-open" : ""}`}
-                    style={{ opacity: 0.6, cursor: 'not-allowed' }}
+                    style={{ opacity: 0.6, cursor: "not-allowed" }}
                     onClick={(e) => e.preventDefault()}
                   >
                     {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
@@ -633,7 +646,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                         ? "active"
                         : ""
                     } ${isCustomOpen ? "dropdown-open" : ""}`}
-                    style={{ opacity: 0.2, cursor: 'not-allowed' }}
+                    style={{ opacity: 0.2, cursor: "not-allowed" }}
                     onClick={(e) => e.preventDefault()}
                   >
                     {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
@@ -677,7 +690,8 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
             </Form.Group>
 
             {candidates.map((candidate, index) => {
-              const isDisabled = jobData?.vacancies && index < jobData.vacancies;
+              const isDisabled =
+                jobData?.vacancies && index < jobData.vacancies;
 
               return (
                 <div key={index} className="applicant-container mb-4">
@@ -716,9 +730,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                               e.target.value
                             )
                           }
-                          placeholder={
-                            TRANSLATIONS[currentLanguage].firstName
-                          }
+                          placeholder={TRANSLATIONS[currentLanguage].firstName}
                           required
                           disabled={isDisabled}
                         />
