@@ -1,12 +1,10 @@
 import React, { useState, useRef, useMemo, useEffect } from "react"; // Add useEffect
 import { Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
-import { addJob } from "../../../../api/ai-reference/job/jobs-api";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
+import { updateVacancies } from "../../../../api/ai-reference/job/jobs-api";
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
 import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
-// import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
 
 // Translation dictionary
 const TRANSLATIONS = {
@@ -54,8 +52,8 @@ const TRANSLATIONS = {
     backWarning:
       "Are you sure you want to go back? Your progress will be lost.",
     noCustomQuestions: "No custom questions available",
-    hrHatch: "HR-HATCH",
-    custom: "Custom",
+    hrHatch: "HR-HATCH FORMATS",
+    custom: "CUSTOM SETS FORMAT",
     standardFormat: "Standard Format",
     managementFormat: "Management Format",
     executiveFormat: "Executive Format",
@@ -139,21 +137,23 @@ const TRANSLATIONS = {
   },
 };
 
-const AddVacancyComponent = ({ onCancel, jobData }) => {
-  const navigate = useNavigate();
-
-  const [currentLanguage, setCurrentLanguage] = useState("English");
+const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
+  const [currentLanguage, setCurrentLanguage] = useState(
+    sessionStorage.getItem("preferred-language") || "English"
+  );
   const [jobName, setJobName] = useState(jobData?.jobName || "");
-  const [department, setDepartment] = useState(jobData?.department || "");
-  const [firstName, setFirstName] = useState(
-    jobData?.hiringManager?.firstName || ""
-  );
-  const [lastName, setLastName] = useState(
-    jobData?.hiringManager?.lastName || ""
-  );
+  const [jobId, setJobId] = useState(jobData?._id || null);
+
   const [numberOfReferees, setNumberOfReferees] = useState(
     jobData?.numberOfReferees || 1
   );
+  const [questionFormat, setQuestionFormat] = useState(
+    jobData?.questionFormat || null
+  );
+  const [questionName, setQuestionName] = useState(
+    jobData?.questionName || null
+  );
+  const [questionId, setQuestionId] = useState(jobData?.questionId || null);
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
   const [vacancies, setVacancies] = useState(jobData?.vacancies || 1);
@@ -165,12 +165,6 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
   // Create a ref for the form
   const formRef = useRef(null);
 
-  const isJobFieldsFilled = useMemo(() => {
-    return [jobName, firstName, lastName, department, vacancies].every(
-      (field) => String(field).trim() !== ""
-    );
-  }, [jobName, firstName, lastName, department, vacancies]);
-
   const areCandidateFieldsFilled = useMemo(() => {
     return candidates.every((obj) =>
       Object.values(obj).every(
@@ -178,10 +172,6 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
       )
     );
   }, [candidates]);
-
-  const validReferees = useMemo(() => {
-    return numberOfReferees > 0;
-  }, [numberOfReferees]);
 
   // Utility function to handle candidate input changes
   const handleInputChange = (index, field, value) => {
@@ -192,16 +182,21 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     });
   };
 
-  // Update this useEffect to handle vacancy changes
   useEffect(() => {
-    if (jobData) {
-      setJobName(jobData.jobName);
-      setDepartment(jobData.department);
-      setFirstName(jobData.hiringManager.firstName);
-      setLastName(jobData.hiringManager.lastName);
-      setVacancies(jobData.vacancies);
+    if (!questionFormat && !questionId && !questionName) {
+      //Find candidate associated with the jobData
+      const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
+      const jobName = jobData?.jobName || null;
+      //Filter the first candidate that matches the jobName
+      const matchingCandidates = candidates.find(
+        (candidate) => candidate.position === jobName
+      );
+
+      setQuestionFormat(matchingCandidates?.questionFormat);
+      setQuestionId(matchingCandidates?.questionId);
+      setQuestionName(matchingCandidates?.questionName);
     }
-  }, [jobData]);
+  }, []);
 
   // Add new useEffect to handle candidates array updates based on vacancy changes
   useEffect(() => {
@@ -233,7 +228,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     } else {
       setVacancyError("");
     }
-  }, [vacancies, jobData?.vacancies, currentLanguage]);
+  }, [vacancies]);
 
   // Add new useEffect to check localStorage for existing candidates
   useEffect(() => {
@@ -286,27 +281,9 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     // Validation
     const newErrorMessages = {};
 
-    if (jobName.length < 2) {
-      newErrorMessages.jobName =
-        TRANSLATIONS[currentLanguage].errors.jobNameLength;
-    }
-    if (firstName.length < 2) {
-      newErrorMessages.firstName =
-        TRANSLATIONS[currentLanguage].errors.firstNameLength;
-    }
-    if (lastName.length < 2) {
-      newErrorMessages.lastName =
-        TRANSLATIONS[currentLanguage].errors.lastNameLength;
-    }
-
     // Add vacancyError to the validation if it exists
     if (vacancyError) {
       newErrorMessages.vacancies = vacancyError;
-    }
-
-    if (numberOfReferees < 1) {
-      newErrorMessages.numberOfReferees =
-        TRANSLATIONS[currentLanguage].errors.refereesMin;
     }
 
     if (Object.keys(newErrorMessages).length > 0) {
@@ -323,50 +300,41 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
       setLoading(true);
       setShowConfirmation(false);
 
-      if (!isJobFieldsFilled && !areCandidateFieldsFilled) {
+      if (!areCandidateFieldsFilled || !isValidVacancy) {
         return;
       }
 
-      const payload = {
-        jobName: capitalizeWords(jobName),
-        vacancies,
-        department,
-        hiringManager: {
-          firstName: capitalizeWords(firstName),
-          lastName: capitalizeWords(lastName),
-        },
-      };
+      // Run both API calls in parallel instead of sequentially
+      await Promise.all([handleUpdateVacancies(), handleAddCandidate()]);
 
-      // Create a job
-      const createdJob = await addJob(payload);
+      //Refetch jobs after adding candidates
+      await onRefetchJobs();
 
-      // Create candidate
-      await handleAddCandidate(createdJob?.createdJob);
-
-      // Store candidate emails before navigation
-      const candidateEmails = candidates.map((c) => c.email);
-      sessionStorage.setItem(
-        "candidateEmails",
-        JSON.stringify(candidateEmails)
-      );
-
-      navigate("/candidate-request-sent");
+      onCancel();
     } catch (error) {
       console.error(error);
-      if (error.response) {
-        setErrorMessages({ jobName: error?.response?.data?.message });
-      } else {
-        setErrorMessages(error);
-      }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleAddCandidate = async (createdJob) => {
+  const handleUpdateVacancies = async () => {
+    try {
+      const payload = {
+        jobId,
+        vacancies,
+      };
+
+      await updateVacancies(payload);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddCandidate = async () => {
     const status = "New";
     // Only map and save candidates that weren't fetched from localStorage
-    const newCandidates = candidates.slice(jobData?.vacancies || 0);
+    const newCandidates = candidates.slice(jobData?.vacancies);
 
     const payload = newCandidates.map((candidate) => {
       return {
@@ -375,14 +343,14 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
           lastName: capitalizeWords(candidate.lastName),
         },
         email: candidate.email,
-        position: createdJob.positionName,
-        positionId: createdJob.positionId,
+        position: jobData?.jobName,
+        positionId: jobId,
         status,
-        selectedLanguage: jobData?.selectedLanguage,
+        selectedLanguage: jobData?.selectedLanguage || "English",
         numberOfReferees,
-        questionFormat: jobData?.questionFormat,
-        questionId: jobData?.questionId,
-        questionName: jobData?.questionName,
+        questionFormat,
+        questionId,
+        questionName,
       };
     });
 
@@ -412,24 +380,6 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [onCancel, currentLanguage]);
-
-  useEffect(() => {
-    const handleLanguageChange = () => {
-      setCurrentLanguage(
-        sessionStorage.getItem("preferred-language") || "English"
-      );
-    };
-
-    // Initial language setup
-    handleLanguageChange();
-
-    // Listen for storage changes
-    window.addEventListener("storage", handleLanguageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleLanguageChange);
-    };
-  }, []);
 
   // Prevent accidental page exit
   useEffect(() => {
@@ -461,16 +411,9 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
     };
   }, []);
 
-  const formatQuestion = useMemo(() => {
-    switch (jobData?.questionFormat) {
-      case "HR-HATCH-FORMAT":
-        return "HR-HATCH format";
-      case "CUSTOM-FORMAT":
-        return "Custom format";
-      default:
-        return "No format available";
-    }
-  }, [jobData?.questionFormat]);
+  const isValidVacancy = useMemo(() => {
+    return vacancies > jobData.vacancies;
+  }, [vacancies, jobData?.vacancies]);
 
   return (
     <>
@@ -545,38 +488,33 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                 <span className="color-orange"> &nbsp;*</span>
               </Form.Label>
 
-              <div className="w-100">
-                <Form.Control
-                  type="text"
-                  value={formatQuestion}
-                  required
-                  disabled
-                />
-              </div>
-              {errorMessages.question && (
-                <div className="px-3 py-1 text-danger">
-                  {errorMessages.question}
+              <div className="w-100 reference-question-format-container d-flex gap-3">
+                <div className="custom-dropdown-ref-req">
+                  <div
+                    className={`dropdown-header-ref-req ${
+                      questionFormat === "HR-HATCH-FORMAT" ? "active" : ""
+                    }`}
+                    style={{ opacity: 0.6, cursor: "not-allowed" }}
+                  >
+                    {TRANSLATIONS[currentLanguage].hrHatch}
+                  </div>
                 </div>
-              )}
-            </Form.Group>
 
-            <Form.Group controlId="formReferenceFormat" className="mb-4">
-              <div className="custom-dropdown-ref-req">
-                <Form.Label
-                  className="m-0"
-                  style={{ width: "220px", height: "38px" }}
-                >
-                  {TRANSLATIONS[currentLanguage].questionName}
-                  <span className="color-orange"> &nbsp;*</span>
-                </Form.Label>
-                <div className="w-100">
-                  <Form.Control
-                    type="text"
-                    value={jobData?.questionName || "No question available"}
-                    required
-                    disabled
-                  />
+                <div className="custom-dropdown-ref-req">
+                  <div
+                    className={`dropdown-header-ref-req ${
+                      questionFormat === "CUSTOM-FORMAT" ? "active" : ""
+                    }`}
+                    style={{ opacity: 0.6, cursor: "not-allowed" }}
+                  >
+                    {TRANSLATIONS[currentLanguage].custom}
+                  </div>
                 </div>
+                {errorMessages.question && (
+                  <div className="px-3 py-1 text-danger">
+                    {errorMessages.question}
+                  </div>
+                )}
               </div>
             </Form.Group>
 
@@ -726,12 +664,7 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
             className="btn-proceed"
             type="button"
             onClick={handleSubmit}
-            disabled={
-              loading ||
-              !isJobFieldsFilled ||
-              !areCandidateFieldsFilled ||
-              !validReferees
-            }
+            disabled={loading || !areCandidateFieldsFilled || !isValidVacancy}
           >
             {loading ? (
               <div
