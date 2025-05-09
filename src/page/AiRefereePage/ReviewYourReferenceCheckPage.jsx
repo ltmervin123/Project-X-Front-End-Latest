@@ -433,6 +433,7 @@ function ReviewYourReferenceCheckPage() {
                   handleUpdateEnhanceAnswer={handleUpdateEnhanceAnswer}
                   handlePreviousQuestion={handlePreviousQuestion}
                   handleNextQuestion={handleNextQuestion}
+                  language={language}
                 />
               </div>
             </Col>

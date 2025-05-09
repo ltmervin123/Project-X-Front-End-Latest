@@ -31,6 +31,7 @@ const QuestionDisplay = ({
   setIsEditing,
   handleUpdateEnhanceAnswer,
   isEditing,
+  language,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
@@ -38,22 +39,8 @@ const QuestionDisplay = ({
   const [editedOriginalAnswer, setEditedOriginalAnswer] = useState("");
   const [editedAIEnhancedAnswer, setEditedAIEnhancedAnswer] = useState("");
   const [editingType, setEditingType] = useState(null);
-  const [language, setLanguage] = useState("English");
 
-  useEffect(() => {
-    const handleLanguageChange = () => {
-      const currentLanguage =
-        sessionStorage.getItem("selectedLanguage") || "English";
-      setLanguage(currentLanguage);
-    };
-
-    handleLanguageChange();
-    window.addEventListener("storage", handleLanguageChange);
-  
-    return () => {
-      window.removeEventListener("storage", handleLanguageChange);
-    };
-  }, []);
+  // const language = sessionStorage.getItem("preferred-language") || "English";
 
   const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
