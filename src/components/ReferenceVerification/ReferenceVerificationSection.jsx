@@ -158,9 +158,9 @@ const translations = {
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
-      "Meets Expectations": "期待に応える",
-      "Exceeds Expectations": "期待を上回る",
-      Exceptional: "優れている",
+      "Meets Expectations": "期待通り",
+      "Exceeds Expectations": "期待以上",
+      Exceptional: "優秀",
     },
     overallAssessments: {
       jobPerformance: "総合的な職務遂行評価：",
@@ -330,9 +330,17 @@ const ReferenceVerificationSection = () => {
   }
 
   const getAssessmentStyle = (assessment) => {
-    const translatedAssessment = translations[language].assessments[assessment];
-    const styles = {
-      Unsatisfactory: {
+        // Create a mapping of Japanese to English assessments
+        const japaneseToEnglish = {
+          "不満足": "Unsatisfactory",
+          "改善が必要": "Needs Improvement",
+          "期待通り": "Meets Expectations",
+          "期待以上": "Exceeds Expectations",
+          "優秀": "Exceptional",
+        };
+    
+        const assessmentStyles = {
+          "Unsatisfactory": {
         color: "#FF1D48",
         borderColor: "#FF1D48",
         backgroundColor: "rgba(255, 29, 72, 0.15)",
@@ -352,20 +360,22 @@ const ReferenceVerificationSection = () => {
         borderColor: "#70AD47",
         backgroundColor: "rgba(112, 173, 71, 0.15)",
       },
-      Exceptional: {
-        color: "#5D643F",
-        borderColor: "#5D643F",
+      "Exceptional": {
         backgroundColor: "rgba(93, 100, 63, 0.15)",
+        color: "#5D643F",
       },
     };
 
-    return (
-      styles[assessment] || {
-        color: "grey",
-        borderColor: "grey",
-        backgroundColor: "rgba(128, 128, 128, 0.15)",
-      }
-    );
+    // Convert Japanese assessment to English if necessary
+    const englishAssessment = japaneseToEnglish[assessment] || assessment;
+
+    console.log("Assessment:", assessment);
+    console.log("English Assessment:", englishAssessment);
+    console.log("Style:", assessmentStyles[englishAssessment]);
+
+    return assessmentStyles[englishAssessment] || {};
+    
+
   };
 
   const downloadPDF = () => {

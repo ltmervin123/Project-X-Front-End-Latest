@@ -175,45 +175,53 @@ function ViewRequest({
   }
 
   const getAssessmentStyle = (assessment) => {
-    switch (assessment) {
-      case "Unsatisfactory":
-        return {
-          color: "#FF1D48",
-          borderColor: "#FF1D48",
-          backgroundColor: "rgba(255, 29, 72, 0.15)",
-        };
-      case "Needs Improvement":
-        return {
-          color: "#ED7D31",
-          borderColor: "#ED7D31",
-          backgroundColor: "rgba(237, 125, 49, 0.15)",
-        };
-      case "Meets Expectations":
-        return {
-          color: "#FFEA66",
-          borderColor: "#FFEA66",
-          backgroundColor: "rgba(255, 234, 102, 0.15)",
-        };
-      case "Exceeds Expectations":
-        return {
-          color: "#70AD47",
-          borderColor: "#70AD47",
-          backgroundColor: "rgba(112, 173, 71, 0.15)",
-        };
-      case "Exceptional":
-        return {
-          color: "#5D643F",
-          borderColor: "#5D643F",
-          backgroundColor: "rgba(93, 100, 63, 0.15)",
-        };
-      default:
-        return {
-          color: "grey",
-          borderColor: "grey",
-          backgroundColor: "rgba(128, 128, 128, 0.15)",
-        };
-    }
-  };
+    // Create a mapping of Japanese to English assessments
+    const japaneseToEnglish = {
+      "不満足": "Unsatisfactory",
+      "改善が必要": "Needs Improvement",
+      "期待通り": "Meets Expectations",
+      "期待以上": "Exceeds Expectations",
+      "優秀": "Exceptional",
+    };
+
+    const assessmentStyles = {
+      "Unsatisfactory": {
+    color: "#FF1D48",
+    borderColor: "#FF1D48",
+    backgroundColor: "rgba(255, 29, 72, 0.15)",
+  },
+  "Needs Improvement": {
+    color: "#ED7D31",
+    borderColor: "#ED7D31",
+    backgroundColor: "rgba(237, 125, 49, 0.15)",
+  },
+  "Meets Expectations": {
+    color: "#FFEA66",
+    borderColor: "#FFEA66",
+    backgroundColor: "rgba(255, 234, 102, 0.15)",
+  },
+  "Exceeds Expectations": {
+    color: "#70AD47",
+    borderColor: "#70AD47",
+    backgroundColor: "rgba(112, 173, 71, 0.15)",
+  },
+  "Exceptional": {
+    backgroundColor: "rgba(93, 100, 63, 0.15)",
+    color: "#5D643F",
+  },
+};
+
+// Convert Japanese assessment to English if necessary
+const englishAssessment = japaneseToEnglish[assessment] || assessment;
+
+console.log("Assessment:", assessment);
+console.log("English Assessment:", englishAssessment);
+console.log("Style:", assessmentStyles[englishAssessment]);
+
+return assessmentStyles[englishAssessment] || {};
+
+
+};
 
   const downloadPDF = () => {
     if (!reportRef.current) return;

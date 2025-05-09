@@ -62,9 +62,9 @@ const translations = {
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
-      "Meets Expectations": "期待に応える",
-      "Exceeds Expectations": "期待を上回る",
-      Exceptional: "優れている",
+      "Meets Expectations": "期待通り",
+      "Exceeds Expectations": "期待以上",
+      Exceptional: "優秀",
     },
     question: function (index) {
       return `第${index + 1}問`;
@@ -122,8 +122,17 @@ const PreviewSection = ({
   }
 
   const getAssessmentStyle = (assessment) => {
-    const styles = {
-      Unsatisfactory: {
+    // Create a mapping of Japanese to English assessments
+    const japaneseToEnglish = {
+      "不満足": "Unsatisfactory",
+      "改善が必要": "Needs Improvement",
+      "期待通り": "Meets Expectations",
+      "期待以上": "Exceeds Expectations",
+      "優秀": "Exceptional",
+    };
+
+    const assessmentStyles = {
+      "Unsatisfactory": {
         backgroundColor: "rgba(255, 29, 72, 0.15)",
         color: "#FF1D48",
       },
@@ -139,12 +148,20 @@ const PreviewSection = ({
         backgroundColor: "rgba(112, 173, 71, 0.15)",
         color: "#70AD47",
       },
-      Exceptional: {
+      "Exceptional": {
         backgroundColor: "rgba(93, 100, 63, 0.15)",
         color: "#5D643F",
       },
     };
-    return styles[assessment] || {};
+
+    // Convert Japanese assessment to English if necessary
+    const englishAssessment = japaneseToEnglish[assessment] || assessment;
+
+    console.log("Assessment:", assessment);
+    console.log("English Assessment:", englishAssessment);
+    console.log("Style:", assessmentStyles[englishAssessment]);
+
+    return assessmentStyles[englishAssessment] || {};
   };
 
   function formatCategories(letter) {
@@ -247,8 +264,8 @@ const PreviewSection = ({
         ))}
       </div>
       <div className="d-flex align-items-center justify-content-center mt-3">
-        <button 
-          className="btn-continue" 
+        <button
+          className="btn-continue"
           onClick={() => {
             onContinue();
           }}

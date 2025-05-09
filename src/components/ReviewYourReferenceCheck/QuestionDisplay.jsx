@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const TRANSLATIONS = {
@@ -6,19 +6,19 @@ const TRANSLATIONS = {
     question: "Question {current}: ",
     originalAnswer: "Original Answer: ",
     aiEnhancedAnswer: "AI Enhanced Answer: ",
-    editAnswers: "Edit Answers",
     save: "Save",
     saving: "Saving...",
     discard: "Discard",
+    editAnswers: "Edit Answer",
   },
   Japanese: {
     question: "質問 {current}: ",
     originalAnswer: "元の回答: ",
     aiEnhancedAnswer: "AI強化回答: ",
-    editAnswers: "回答を編集",
     save: "保存",
     saving: "保存中...",
     discard: "破棄",
+    editAnswers: "回答を編集",
   },
 };
 
@@ -38,8 +38,22 @@ const QuestionDisplay = ({
   const [editedOriginalAnswer, setEditedOriginalAnswer] = useState("");
   const [editedAIEnhancedAnswer, setEditedAIEnhancedAnswer] = useState("");
   const [editingType, setEditingType] = useState(null);
+  const [language, setLanguage] = useState("English");
 
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      const currentLanguage =
+        sessionStorage.getItem("selectedLanguage") || "English";
+      setLanguage(currentLanguage);
+    };
+
+    handleLanguageChange();
+    window.addEventListener("storage", handleLanguageChange);
+  
+    return () => {
+      window.removeEventListener("storage", handleLanguageChange);
+    };
+  }, []);
 
   const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
@@ -94,11 +108,7 @@ const QuestionDisplay = ({
             )}
           </strong>
           <div className="question-text-container">
-            <p className="m-0">
-            {questions[currentQuestionIndex]}
-
-            </p>
-
+            <p className="m-0">{questions[currentQuestionIndex]}</p>
           </div>
         </div>
       </div>
@@ -151,10 +161,8 @@ const QuestionDisplay = ({
           />
         ) : (
           <div className="answer-text-container">
-                      <p>{answers[currentQuestionIndex]}</p>
-
-            </div>
-
+            <p>{answers[currentQuestionIndex]}</p>
+          </div>
         )}
       </div>
 
@@ -231,8 +239,7 @@ const QuestionDisplay = ({
           />
         ) : (
           <div className="answer-text-container">
-
-          <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>
+            <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>
           </div>
         )}
       </div>
