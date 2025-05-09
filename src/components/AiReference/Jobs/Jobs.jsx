@@ -179,6 +179,7 @@ const Jobs = () => {
           onBack={() => setShowAddVacancy(false)}
           jobData={job}
           onCancel={() => setShowAddVacancy(false)}
+          onRefetchJobs={refetchJobs}
         />
       ) : (
         <>
