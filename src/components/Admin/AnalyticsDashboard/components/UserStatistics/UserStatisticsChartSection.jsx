@@ -1,13 +1,42 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Bar, Pie } from "react-chartjs-2";
-import { getUserStatistic } from "../../../../api/ai-reference/admin/admin-api";
+import { getUserStatistic } from "../../../../../api/ai-reference/admin/admin-api";
 import { useQuery } from "@tanstack/react-query";
 
 const UserStatisticsChartSection = ({
   isLineChartVisible,
   isBarChartVisible,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      activeInactiveUsers: "Active & Inactive Users",
+      activeInactiveDesc: "Active and inactive users over time for all companies",
+      monthlyNewUsers: "Monthly New Users",
+      monthlyNewUsersDesc: "New user registrations for all companies",
+      usersByRole: "Users by Role",
+      usersByRoleDesc: "Distribution of users by role type for all companies",
+      activeUsers: "Active Users",
+      inactiveUsers: "Inactive Users",
+      newUsers: "New Users",
+    },
+    Japanese: {
+      activeInactiveUsers: "アクティブ・非アクティブユーザー",
+      activeInactiveDesc: "全企業のアクティブ・非アクティブユーザーの推移",
+      monthlyNewUsers: "月間新規ユーザー",
+      monthlyNewUsersDesc: "全企業の新規ユーザー登録状況",
+      usersByRole: "役割別ユーザー",
+      usersByRoleDesc: "全企業の役割タイプ別ユーザー分布",
+      activeUsers: "アクティブユーザー",
+      inactiveUsers: "非アクティブユーザー",
+      newUsers: "新規ユーザー",
+    },
+  };
+
+  const t = translations[language];
+
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
   const chartRef = useRef(null);
 
@@ -151,13 +180,13 @@ const UserStatisticsChartSection = ({
     labels: userStatistics?.dailyActiveAndInactiveCompanies?.days || [""],
     datasets: [
       {
-        label: "Active Users",
+        label: t.activeUsers,
         data: userStatistics?.dailyActiveAndInactiveCompanies?.active || [0],
         backgroundColor: "#f46a05",
         borderRadius: 4,
       },
       {
-        label: "Inactive Users",
+        label: t.inactiveUsers,
         data: userStatistics?.dailyActiveAndInactiveCompanies?.inactive || [0],
         backgroundColor: "#1706ac",
         borderRadius: 4,
@@ -169,7 +198,7 @@ const UserStatisticsChartSection = ({
     labels: userStatistics?.monthlyCreatedCompanies?.month || [""],
     datasets: [
       {
-        label: "New Users",
+        label: t.newUsers,
         backgroundColor: "#1706ac",
         borderColor: "transparent",
         borderWidth: 2,
@@ -261,10 +290,8 @@ const UserStatisticsChartSection = ({
           }`}
         >
           <div className="chart-content">
-            <b className="chart-title mb-0">Active & Inactive Users</b>
-            <p className="chart-subtitle mb-0">
-              Active and inactive users over time for all companies
-            </p>
+            <b className="chart-title mb-0">{t.activeInactiveUsers}</b>
+            <p className="chart-subtitle mb-0">{t.activeInactiveDesc}</p>
           </div>
           <div className="active-inactive-user-chart">
             <Bar data={userWeeklyStatData} options={doubleBarOptions} />
@@ -276,10 +303,8 @@ const UserStatisticsChartSection = ({
           }`}
         >
           <div className="chart-content">
-            <b className="chart-title mb-0">Monthly New Users</b>
-            <p className="chart-subtitle mb-0">
-              New user registrations for all companies
-            </p>
+            <b className="chart-title mb-0">{t.monthlyNewUsers}</b>
+            <p className="chart-subtitle mb-0">{t.monthlyNewUsersDesc}</p>
           </div>
           <div className="monthly-users-chart">
             <Bar data={monthlyNewUserData} options={barOptions} />
@@ -293,10 +318,8 @@ const UserStatisticsChartSection = ({
           }`}
         >
           <div className="chart-content">
-            <b className="chart-title mb-0">Users by Role</b>
-            <p className="chart-subtitle mb-0">
-              Distribution of users by role type for all companies
-            </p>
+            <b className="chart-title mb-0">{t.usersByRole}</b>
+            <p className="chart-subtitle mb-0">{t.usersByRoleDesc}</p>
           </div>
           <div
             className="pie-chart-wrapper position-relative"

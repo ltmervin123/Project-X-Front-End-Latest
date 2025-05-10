@@ -1,6 +1,31 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
 const ActiveLogTables = ({ searchQuery }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      columns: {
+        company: "Company",
+        action: "Action",
+        timestamp: "Timestamp",
+        details: "Details"
+      },
+      noData: "No data available"
+    },
+    Japanese: {
+      columns: {
+        company: "会社",
+        action: "アクション",
+        timestamp: "タイムスタンプ",
+        details: "詳細"
+      },
+      noData: "データがありません"
+    }
+  };
+
+  const t = translations[language];
+
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -50,14 +75,12 @@ const ActiveLogTables = ({ searchQuery }) => {
 
   return (
     <div className="user-table-container bg-white shadow d-flex flex-column justify-content-between p-3 mb-2">
-      
       <table className="mb-0">
         <thead>
           <tr>
-            <th>Company</th>
-            <th>Action</th>
-            <th>Timestamp</th>
-            <th>Details</th>
+            {Object.keys(t.columns).map(key => (
+              <th key={key}>{t.columns[key]}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -72,7 +95,7 @@ const ActiveLogTables = ({ searchQuery }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={4} className="text-center">No data available</td>
+              <td colSpan={4} className="text-center">{t.noData}</td>
             </tr>
           )}
         </tbody>

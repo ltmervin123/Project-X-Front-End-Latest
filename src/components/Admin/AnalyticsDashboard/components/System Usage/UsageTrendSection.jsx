@@ -2,17 +2,43 @@ import React, { useState, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 
 const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      title: "Usage Trends",
+      subtitle: "Reference checks processed over time for all companies",
+      usage: "Usage",
+      periods: {
+        daily: "Daily",
+        weekly: "Weekly",
+        monthly: "Monthly",
+      },
+    },
+    Japanese: {
+      title: "利用傾向",
+      subtitle: "全企業の経時的な照会処理数",
+      usage: "利用数",
+      periods: {
+        daily: "日次",
+        weekly: "週次",
+        monthly: "月次",
+      },
+    },
+  };
+
+  const t = translations[language];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState("Daily");
+  const [selectedPeriod, setSelectedPeriod] = useState(t.periods.daily);
 
   const getLabels = useMemo(() => {
     switch (selectedPeriod) {
-      case "Daily":
+      case t.periods.daily:
         return usageTrendsData?.daily?.data.map((item) => item.label) || [];
-      case "Weekly":
-        return usageTrendsData?.weekly?.data.map((item) => item.label) || [];
-      case "Monthly":
-        return usageTrendsData?.monthly?.data.map((item) => item.label) || [];
+        case t.periods.weekly:
+          return usageTrendsData?.weekly?.data.map((item) => item.label) || [];
+          case t.periods.monthly:
+            return usageTrendsData?.monthly?.data.map((item) => item.label) || [];
       default:
         return [];
     }
@@ -20,11 +46,11 @@ const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
 
   const getCompanyData = useMemo(() => {
     switch (selectedPeriod) {
-      case "Daily":
+      case t.periods.daily:
         return usageTrendsData?.daily?.data.map((item) => item.value) || [];
-      case "Weekly":
+      case t.periods.weekly:
         return usageTrendsData?.weekly?.data.map((item) => item.value) || [];
-      case "Monthly":
+      case t.periods.monthly:
         return usageTrendsData?.monthly?.data.map((item) => item.value) || [];
       default:
         return [];
@@ -94,7 +120,7 @@ const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
           <td style="font-weight: 500;font-size: 13px;">${time}</td>
         </tr>
         <tr>
-          <td style="color: #f46a05; font-weight: 400; font-size: 13px;">Usage: ${usage}</td>
+          <td style="color: #f46a05; font-weight: 400; font-size: 13px;">${t.usage}: ${usage}</td>
         </tr>
       `;
 
@@ -134,10 +160,8 @@ const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
       <div className="chart-content">
         <div className="d-flex align-items-center justify-content-between">
           <div>
-            <b className="chart-title mb-0">Usage Trends</b>
-            <p className="chart-subtitle mb-0">
-              Reference checks processed over time for all companies
-            </p>
+            <b className="chart-title mb-0">{t.title}</b>
+            <p className="chart-subtitle mb-0">{t.subtitle}</p>
           </div>
           <div className="custom-dropdown">
             <div
@@ -150,7 +174,11 @@ const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
             </div>
             {isDropdownOpen && (
               <div className="dropdown-options">
-                {["Daily", "Weekly", "Monthly"].map((period) => (
+                {[
+                  t.periods.daily,
+                  t.periods.weekly,
+                  t.periods.monthly,
+                ].map((period) => (
                   <div
                     key={period}
                     className={`dropdown-item ${

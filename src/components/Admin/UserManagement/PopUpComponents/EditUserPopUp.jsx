@@ -1,7 +1,56 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
+const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing, language = "English" }) => {
+  const translations = {
+    English: {
+      title: "Edit User",
+      subtitle: "Make changes to the user's profile here.",
+      labels: {
+        name: "Name",
+        email: "Email",
+        role: "Role",
+        subscription: "Subscription",
+        lastLogin: "Last Login"
+      },
+      roles: {
+        admin: "Admin",
+        user: "User"
+      },
+      subscriptions: {
+        free: "Free",
+        basic: "Basic",
+        premium: "Premium",
+        enterprise: "Enterprise"
+      },
+      saveChanges: "Save Changes"
+    },
+    Japanese: {
+      title: "ユーザーの編集",
+      subtitle: "ユーザープロフィールの変更を行います。",
+      labels: {
+        name: "名前",
+        email: "メール",
+        role: "役割",
+        subscription: "サブスクリプション",
+        lastLogin: "最終ログイン"
+      },
+      roles: {
+        admin: "管理者",
+        user: "ユーザー"
+      },
+      subscriptions: {
+        free: "無料",
+        basic: "ベーシック",
+        premium: "プレミアム",
+        enterprise: "エンタープライズ"
+      },
+      saveChanges: "変更を保存"
+    }
+  };
+
+  const t = translations[language];
+
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
@@ -35,8 +84,8 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h3 className="mb-0">Edit User</h3>
-            <small>Make changes to the user's profile here.</small>
+            <h3 className="mb-0">{t.title}</h3>
+            <small>{t.subtitle}</small>
           </div>
           <div className="d-flex justify-content-end">
             <Button
@@ -56,7 +105,7 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                 className="m-0"
                 style={{ width: "220px", height: "38px" }}
               >
-                Name
+                {t.labels.name}
               </Form.Label>
               <Form.Control
                 type="text"
@@ -72,7 +121,7 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                 className="m-0"
                 style={{ width: "220px", height: "38px" }}
               >
-                Email
+                {t.labels.email}
               </Form.Label>
               <Form.Control
                 type="email"
@@ -89,7 +138,7 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                 className="m-0"
                 style={{ width: "220px", height: "38px" }}
               >
-                Role
+                {t.labels.role}
               </Form.Label>
               <Form.Select
                 name="role"
@@ -97,8 +146,8 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                 onChange={handleChange}
                 required
               >
-                <option value="Admin">Admin</option>
-                <option value="User">User</option>
+                <option value="Admin">{t.roles.admin}</option>
+                <option value="User">{t.roles.user}</option>
               </Form.Select>
             </Form.Group>
 
@@ -107,7 +156,7 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                 className="m-0"
                 style={{ width: "220px", height: "38px" }}
               >
-                Subscription
+                {t.labels.subscription}
               </Form.Label>
               <Form.Select
                 name="subscription"
@@ -116,10 +165,10 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                 onChange={handleChange}
                 required
               >
-                <option value="Free">Free</option>
-                <option value="Basic">Basic</option>
-                <option value="Premium">Premium</option>
-                <option value="Enterprise">Enterprise</option>
+                <option value="Free">{t.subscriptions.free}</option>
+                <option value="Basic">{t.subscriptions.basic}</option>
+                <option value="Premium">{t.subscriptions.premium}</option>
+                <option value="Enterprise">{t.subscriptions.enterprise}</option>
               </Form.Select>
             </Form.Group>
           </div>
@@ -129,7 +178,7 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                 className="m-0"
                 style={{ width: "220px", height: "38px" }}
               >
-                Last Login
+                {t.labels.lastLogin}
               </Form.Label>
               <div className="d-flex gap-3 w-100">
                 <Form.Control
@@ -164,7 +213,7 @@ const EditUserPopUp = ({ onClose, onConfirm, user, isProcessing }) => {
                   role="status"
                 />
               ) : (
-                "Save Changes"
+                t.saveChanges
               )}
             </button>
           </div>

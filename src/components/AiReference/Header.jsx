@@ -11,6 +11,24 @@ import * as AuthAPI from "../../api/ai-reference/auth/auth-api";
 function Header() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      guest: "Guest",
+      profile: "Profile",
+      settings: "Settings",
+      logout: "Logout"
+    },
+    Japanese: {
+      guest: "ゲスト",
+      profile: "プロフィール",
+      settings: "設定",
+      logout: "ログアウト"
+    }
+  };
+
+  const t = translations[language];
   const handleLogout = async () => {
     try {
       if (user.accountType === "company" && user.service === "AI_REFERENCE") {
@@ -51,26 +69,24 @@ function Header() {
                   <p className="user-name">{username}</p>
                 </>
               ) : (
-                <div>Guest</div>
+                <div>{t.guest}</div>
               )}
             </Dropdown.Toggle>
 
-            {/* Align the dropdown menu to the right */}
             <Dropdown.Menu className="dropdown-menu-end">
-              {/* Conditionally applying the active class to Dropdown.Item based on current location */}
               <Dropdown.Item
                 as={NavLink}
                 to="/CompanyProfile#personal-info"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Profile
+                {t.profile}
               </Dropdown.Item>
               <Dropdown.Item
                 as={NavLink}
                 to="/comingsoon"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Settings
+                {t.settings}
               </Dropdown.Item>
               <Dropdown.Item
                 as={NavLink}
@@ -78,7 +94,7 @@ function Header() {
                 onClick={handleLogout}
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Logout
+                {t.logout}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

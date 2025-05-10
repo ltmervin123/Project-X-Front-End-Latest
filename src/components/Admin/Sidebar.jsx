@@ -4,6 +4,24 @@ import { FaBars, FaTimes } from "react-icons/fa";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      analyticsDashboard: "Analytics Dashboard",
+      userManagement: "User Management",
+      adminOperations: "Admin Operations & Logs",
+      followUs: "FOLLOW US ON",
+    },
+    Japanese: {
+      analyticsDashboard: "分析ダッシュボード",
+      userManagement: "ユーザー管理",
+      adminOperations: "管理操作とログ",
+      followUs: "フォローする",
+    },
+  };
+
+  const t = translations[language];
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -48,7 +66,7 @@ const Sidebar = () => {
           >
             <path d="M0.281738 18.9484V6.94836L8.28174 0.948364L16.2817 6.94836V18.9484H10.2817V11.9484H6.28174V18.9484H0.281738Z" />
           </svg>
-          Analytics Dashboard
+          {t.analyticsDashboard}
         </NavLink>
 
         <NavLink
@@ -71,7 +89,7 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          User Management
+          {t.userManagement}
         </NavLink>
         <NavLink
           className={({ isActive }) =>
@@ -91,12 +109,12 @@ const Sidebar = () => {
               fill="#686868"
             />
           </svg>
-          Admin Operations & Logs
+          {t.adminOperations}
         </NavLink>
 
         {/* Follow Us Section */}
         <div className="follow-us p-3">
-          <p className="mb-3">FOLLOW US ON</p>
+          <p className="mb-3">{t.followUs}</p>
           <div className="social-icons d-flex align-item-center justify-content-around gap-1">
             <a
               href="https://www.linkedin.com/company/hr-hatch/?viewAsMember=true&fbclid=IwZXh0bgNhZW0CMTEAAR04-4YiMGiy8P8WBncX6i1SV_ojpFaXku3y8a6sW17Cnxag9zYkgTPrmPU_aem_17xurdIqUzSoNuVh-ZcU4w"
