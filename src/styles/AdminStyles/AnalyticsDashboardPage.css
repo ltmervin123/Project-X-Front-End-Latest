@@ -149,7 +149,8 @@
 .monthly-user-chart-container,
 .usage-chart-container,
 .subscription-chart-container,
-.peak-hours-chart-container {
+.peak-hours-chart-container,
+.revenue-chart-container {
   width: 100%;
   height: 45vh;
   border-radius: 15px;
@@ -164,7 +165,9 @@
 .subscription-chart-container .chart-content,
 .subscription-analytics-chart-container .chart-content,
 .usage-chart-container .chart-content,
-.peak-hours-chart-container .chart-content {
+.peak-hours-chart-container .chart-content,
+.revenue-chart-container .chart-content,
+.revenue-subcription-content-container .chart-content {
   height: 20%;
 }
 
@@ -174,7 +177,9 @@
 .usage-chart-container .chart-subtitle,
 .subscription-chart-container .chart-subtitle,
 .subscription-analytics-chart-container .chart-subtitle,
-.peak-hours-chart-container .chart-subtitle {
+.peak-hours-chart-container .chart-subtitle,
+.revenue-chart-container .chart-subtitle,
+.revenue-subcription-content-container .chart-subtitle {
   color: var(--card-color);
   font-size: 13px;
 }
@@ -191,11 +196,13 @@
   position: relative;
 }
 
+
 .active-inactive-user-chart canvas,
 .monthly-users-chart canvas,
 .usage-user-chart canvas,
 .subscription-user-chart canvas,
-.peak-hours-user-chart canvas {
+.peak-hours-user-chart canvas,
+.revenue-chart-container canvas {
   width: 100% !important;
   height: auto;
 }
@@ -243,8 +250,9 @@
 
 /* Usage Chart Specific Styles */
 .usage-chart-container,
-.peak-hours-chart-container {
-  height:  calc(60vh + 1.5rem);
+.peak-hours-chart-container,
+.revenue-chart-container {
+  height:  calc(70vh + 1.5rem);
 }
 
 /* Dropdown Styles */
@@ -312,9 +320,10 @@
 }
 
 /* Reference Check Styles */
-.total-reference-check-chart-container {
+.total-reference-check-chart-container,
+.revenue-subcription-content-container {
   width: 100%;
-  height: 30vh;
+  height: 35vh;
   border-radius: 15px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border: 0.5px solid rgba(0, 0, 0, 0.104);
@@ -403,7 +412,8 @@
   font-size: 25px;
 }
 /* Peak Hours Styles */
-.peak-hours-user-chart {
+.peak-hours-user-chart,
+.revenue-bar-chart {
   height: 70%;
   width: 100%;
   background: var(--font-white) !important;
@@ -514,6 +524,19 @@
   fill: var(--card-color) !important;
 }
 
+/*Revenue styles*/
+.subsrcription-circle-chart {
+  
+  height:70%;
+  width: 100%;
+  background: var(--font-white) !important;
+  border-radius: 15px;
+  position: relative;
+  font-size: 14px;
+}
+.subsrcription-circle-chart canvas{
+  height: 80%;
+}
 /* Customizing the scrollbar */
 .peak-hours-chart-container .total-reference-check-data::-webkit-scrollbar {
   width: 6px; /* Scrollbar width */

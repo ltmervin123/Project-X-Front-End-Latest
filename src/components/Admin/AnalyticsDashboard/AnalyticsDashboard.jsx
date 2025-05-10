@@ -8,6 +8,7 @@ import PeakHoursChartSection from "./components/PeakHoursChartSection";
 import CompanyListSection from "./components/CompanyListSection";
 import DashboardController from "./components/DashboardController";
 import CardMetrics from "./components/CardMetrics";
+import RevenueChartSection from "./components/RevenueChartSection";
 
 const AnalyticsDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,6 +51,8 @@ const AnalyticsDashboard = () => {
         return <SubscriptionChartSection isVisible={isLineChartVisible} />;
       case "peakHours":
         return <PeakHoursChartSection isVisible={isLineChartVisible} />;
+      case "revenue":
+        return <RevenueChartSection isVisible={isLineChartVisible} />;
       default:
         return null;
     }
