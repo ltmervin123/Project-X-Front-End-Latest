@@ -62,14 +62,8 @@ const TRANSLATIONS = {
       firstNameLength: "First name must be at least 2 characters.",
       lastNameLength: "Last name must be at least 2 characters.",
       vacancyMin: "Vacancies must be at least 1.",
-<<<<<<< HEAD
       vacancyGreater: "The new vacancy number must be greater than the current vacancy count (1).",
       refereesMin: "Number of referees must be at least 1."
-=======
-      vacancyGreater:
-        "New vacancy number must be greater than the current vacancy.",
-      refereesMin: "Number of referees must be at least 1.",
->>>>>>> 8555157ac25a4ca2ffd2aa24b8f72482f4b665da
     },
     staticContent: {
       existing: "(Existing)",
@@ -130,14 +124,8 @@ const TRANSLATIONS = {
       firstNameLength: "名前は2文字以上である必要があります。",
       lastNameLength: "姓は2文字以上である必要があります。",
       vacancyMin: "募集人数は1人以上である必要があります。",
-<<<<<<< HEAD
       vacancyGreater: "新しい募集人数は現在の募集人数（1）より多く設定してください。",
       refereesMin: "推薦者数は1人以上である必要があります。"
-=======
-      vacancyGreater:
-        "新しい募集人数は現在の募集人数より多く設定してください。",
-      refereesMin: "推薦者数は1人以上である必要があります。",
->>>>>>> 8555157ac25a4ca2ffd2aa24b8f72482f4b665da
     },
     staticContent: {
       existing: "(既存)",
@@ -506,19 +494,15 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     }`}
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
-<<<<<<< HEAD
-                    {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
-                      ? selectedQuestion.name === "Standard Format"
+                    {questionFormat === "HR-HATCH-FORMAT" && questionName
+                      ? questionName === "Standard Format"
                         ? TRANSLATIONS[currentLanguage].standardFormat
-                        : selectedQuestion.name === "Management Format"
+                        : questionName === "Management Format"
                         ? TRANSLATIONS[currentLanguage].managementFormat
-                        : selectedQuestion.name === "Executive Format"
+                        : questionName === "Executive Format"
                         ? TRANSLATIONS[currentLanguage].executiveFormat
-                        : selectedQuestion.name
+                        : questionName
                       : TRANSLATIONS[currentLanguage].hrHatch}
-=======
-                    {TRANSLATIONS[currentLanguage].hrHatch}
->>>>>>> 8555157ac25a4ca2ffd2aa24b8f72482f4b665da
                   </div>
                 </div>
 
