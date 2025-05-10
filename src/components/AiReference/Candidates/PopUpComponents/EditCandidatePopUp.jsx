@@ -248,8 +248,14 @@ const EditCandidatePopUp = ({
                   }}
                 >
                   {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
-                    ? selectedQuestion.name
-                    : TRANSLATIONS[language].HrHatch}
+                      ? selectedQuestion.name === "Standard Format"
+                        ? TRANSLATIONS[language].StandardFormat
+                        : selectedQuestion.name === "Management Format"
+                        ? TRANSLATIONS[language].ManagementFormat
+                        : selectedQuestion.name === "Executive Format"
+                        ? TRANSLATIONS[language].ExecutiveFormat
+                        : selectedQuestion.name
+                      : TRANSLATIONS[language].hrHatch}
                 </div>
                 {isHrHatchOpen && (
                   <div className="dropdown-list-ref-req">

@@ -546,7 +546,7 @@ const Trashbin = () => {
           TRANSLATIONS[language].jobName,
           TRANSLATIONS[language].department,
           TRANSLATIONS[language].hiringManager,
-          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].deletedDate,
           TRANSLATIONS[language].actions,
         ];
       case TRANSLATIONS[language].applicants:
@@ -555,7 +555,7 @@ const Trashbin = () => {
           TRANSLATIONS[language].name,
           { label: TRANSLATIONS[language].email},
           TRANSLATIONS[language].position,
-          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].deletedDate,
           TRANSLATIONS[language].actions,
         ];
       case TRANSLATIONS[language].referenceRequest:
@@ -564,15 +564,15 @@ const Trashbin = () => {
           TRANSLATIONS[language].applicant,
           { label: TRANSLATIONS[language].referees},
           TRANSLATIONS[language].status,
-          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].deletedDate,
           TRANSLATIONS[language].actions,
         ];
       case TRANSLATIONS[language].referenceQuestions:
         return [
           ...baseHeaders,
           TRANSLATIONS[language].question,
-          { label: TRANSLATIONS[language].numberOfQuestions, className: "text-center" },
-          { label: TRANSLATIONS[language].deletedDate, className: "text-center" },
+          TRANSLATIONS[language].numberOfQuestions,
+          TRANSLATIONS[language].deletedDate,
           TRANSLATIONS[language].actions,
         ];
       default:

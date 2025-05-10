@@ -51,6 +51,20 @@ const TRANSLATIONS = {
     },
     Total: "Total",
     Complete: "Complete",
+    months: {
+      January: "January",
+      February: "February",
+      March: "March",
+      April: "April",
+      May: "May",
+      June: "June",
+      July: "July",
+      August: "August",
+      September: "September",
+      October: "October",
+      November: "November",
+      December: "December",
+    },
   },
   Japanese: {
     Dashboard: "ダッシュボード",
@@ -93,6 +107,20 @@ const TRANSLATIONS = {
     },
     Total: "合計",
     Complete: "完了",
+    months: {
+      January: "1月",
+      February: "2月",
+      March: "3月",
+      April: "4月",
+      May: "5月",
+      June: "6月",
+      July: "7月",
+      August: "8月",
+      September: "9月",
+      October: "10月",
+      November: "11月",
+      December: "12月",
+    },
   },
 };
 
@@ -400,9 +428,13 @@ const MainDashboard = () => {
       "December",
     ];
 
+    const translatedMonthNames = monthNames.map(
+      (month) => TRANSLATIONS[language].months[month]
+    );
+
     const monthMap = new Map();
 
-    // Initialize month map
+    // Initialize month map using English month names for internal mapping
     reference.forEach((record) => {
       const date = new Date(record.dateSent);
       const month = monthNames[date.getMonth()];
@@ -430,14 +462,18 @@ const MainDashboard = () => {
     const months = Array.from(monthMap.keys()).sort(
       (a, b) => monthNames.indexOf(a) - monthNames.indexOf(b)
     );
-    const totalReferenceCount = months.map(
-      (month) => monthMap.get(month).total
+
+    // Map the sorted English month names to translated ones
+    const translatedMonths = months.map(
+      (month) => TRANSLATIONS[language].months[month]
     );
+
+    const totalReferenceCount = months.map((month) => monthMap.get(month).total);
     const completedReferenceCounts = months.map(
       (month) => monthMap.get(month).completed
     );
 
-    return { months, totalReferenceCount, completedReferenceCounts };
+    return { months: translatedMonths, totalReferenceCount, completedReferenceCounts };
   };
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);

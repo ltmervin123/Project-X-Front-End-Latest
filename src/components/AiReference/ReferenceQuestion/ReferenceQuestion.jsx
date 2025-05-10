@@ -18,53 +18,55 @@ import axios from "axios";
   const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
 
 
-const TRANSLATIONS = {
-  English: {
-    referenceQuestionnaire: "Reference Questionnaire",
-    customQuestionnaire: "Custom Questionnaire",
-    hrhatchFormats: "HR-HATCH Formats",
-    createYourOwnQuestionnaire: "Create your own questionnaire",
-    customizeHRHatchFormat: "Customize HR-HATCH Format",
-    buildCustomOrTailor: "Build a fully custom reference questionnaire or tailor the HR-Hatch standard format to suit your requirements.",
-    manageTrackQuestions: "Manage, add, and track your customized company questions.",
-    hrhatchQuestionFormats: "HR-HΛTCH Question Formats",
-    standardizedQuestionSets: "Standardized question sets provided by HR-HΛTCH",
-    formatDescription: "HR-Hatch offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
-    standardFormat: "Standard Format",
-    standardFormatDesc: "Standard questions suitable for most positions.",
-    managementFormat: "Management Format",
-    managementFormatDesc: "Questions tailored for managerial and leadership roles.",
-    executiveFormat: "Executive Format",
-    executiveFormatDesc: "In-depth questions for senior executive positions.",
-    questions: "questions",
-    viewQuestions: "View Questions",
-     yourTailoredQuestions: "Your tailored reference check questions.",
-    searchQuestionSets: "Search question sets..."
-  },
-  Japanese: {
-    referenceQuestionnaire: "リファレンス質問票",
-    customQuestionnaire: "カスタム質問票",
-    hrhatchFormats: "HR-HATCH フォーマット",
-    createYourOwnQuestionnaire: "独自の質問票を作成",
-    customizeHRHatchFormat: "HR-HATCHフォーマットをカスタマイズ",
-    buildCustomOrTailor: "完全にカスタマイズされたリファレンス質問票を作成するか、HR-Hatchの標準フォーマットをニーズに合わせて調整できます。",
-    manageTrackQuestions: "カスタマイズされた自社の質問を管理・追加・追跡できます。",
-    hrhatchQuestionFormats: "HR-HΛTCH 質問フォーマット",
-    standardizedQuestionSets: "HR-HΛTCH によって提供される標準化された質問セット",
-    formatDescription: "HR-Hatch は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
-    standardFormat: "標準フォーマット",
-    standardFormatDesc: "ほとんどの職種に適した標準的な質問。",
-    managementFormat: "マネジメントフォーマット",
-    managementFormatDesc: "マネジメントやリーダーシップ職向けに調整された質問。",
-    executiveFormat: "エグゼクティブフォーマット",
-    executiveFormatDesc: "上級管理職向けの詳細な質問。",
-    questions: "質問",
-    viewQuestions: "質問を見る",
-    yourTailoredQuestions: "あなたに合わせたリファレンスチェックの質問。",
-    searchQuestionSets: "質問セットを検索..."
-  },
-};
-
+  const TRANSLATIONS = {
+    English: {
+      referenceQuestionnaire: "Reference Questionnaire",
+      customQuestionnaire: "Custom Questionnaire",
+      hrhatchFormats: "HR-HATCH Formats",
+      createYourOwnQuestionnaire: "Create your own questionnaire",
+      customizeHRHatchFormat: "Customize HR-HATCH Format",
+      buildCustomOrTailor: "Build a fully custom reference questionnaire or tailor the HR-Hatch standard format to suit your requirements.",
+      manageTrackQuestions: "Manage, add, and track your customized company questions.",
+      hrhatchQuestionFormats: "HR-HΛTCH Question Formats",
+      standardizedQuestionSets: "Standardized question sets provided by HR-HΛTCH",
+      formatDescription: "HR-Hatch offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
+      standardFormat: "Standard Format",
+      standardFormatDesc: "Standard questions suitable for most positions.",
+      managementFormat: "Management Format",
+      managementFormatDesc: "Questions tailored for managerial and leadership roles.",
+      executiveFormat: "Executive Format",
+      executiveFormatDesc: "In-depth questions for senior executive positions.",
+      questions: "questions",
+      viewQuestions: "View Questions",
+       yourTailoredQuestions: "Your tailored reference check questions.",
+      searchQuestionSets: "Search question sets...",
+      lastUpdated: "Last updated",
+    },
+    Japanese: {
+      referenceQuestionnaire: "リファレンス質問票",
+      customQuestionnaire: "カスタム質問票",
+      hrhatchFormats: "HR-HATCH フォーマット",
+      createYourOwnQuestionnaire: "独自の質問票を作成",
+      customizeHRHatchFormat: "HR-HATCHフォーマットをカスタマイズ",
+      buildCustomOrTailor: "完全にカスタマイズされたリファレンス質問票を作成するか、HR-Hatchの標準フォーマットをニーズに合わせて調整できます。",
+      manageTrackQuestions: "カスタマイズされた自社の質問を管理・追加・追跡できます。",
+      hrhatchQuestionFormats: "HR-HΛTCH 質問フォーマット",
+      standardizedQuestionSets: "HR-HΛTCH によって提供される標準化された質問セット",
+      formatDescription: "HR-Hatch は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
+      standardFormat: "標準フォーマット",
+      standardFormatDesc: "ほとんどの職種に適した標準的な質問。",
+      managementFormat: "マネジメントフォーマット",
+      managementFormatDesc: "マネジメントやリーダーシップ職向けに調整された質問。",
+      executiveFormat: "エグゼクティブフォーマット",
+      executiveFormatDesc: "上級管理職向けの詳細な質問。",
+      questions: "質問",
+      viewQuestions: "質問を見る",
+      yourTailoredQuestions: "あなたに合わせたリファレンスチェックの質問。",
+      searchQuestionSets: "質問セットを検索...",
+      lastUpdated: "最終更新",
+    },
+  };
+  
 // Standard format questions
 const STANDARD_QUESTIONS_SETS = [
   {
@@ -783,9 +785,10 @@ const ReferenceQuestion = () => {
                                   (acc, group) => acc + group.questions.length,
                                   0
                                 )}{" "}
-                                questions
+                                                                {TRANSLATIONS[language].questions}
                               </span>
-                              &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                              &nbsp;• {TRANSLATIONS[language].lastUpdated}: {formatDate(item.updatedAt)}
+
                             </p>
                           </div>
                           <div className="d-flex justify-content-end gap-5 question-controls">
@@ -889,9 +892,10 @@ const ReferenceQuestion = () => {
                             <h5>{item.name}</h5>
                             <p className="d-flex">
                               <span className="color-orange">
-                                {item.questions.length} questions
+                                {item.questions.length}                                 {TRANSLATIONS[language].questions}
                               </span>
-                              &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                              &nbsp;• {TRANSLATIONS[language].lastUpdated}: {formatDate(item.updatedAt)}
+
                             </p>
                           </div>
                           <div className="d-flex justify-content-end gap-5 question-controls">

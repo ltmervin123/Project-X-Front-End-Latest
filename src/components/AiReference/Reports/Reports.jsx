@@ -467,6 +467,22 @@ const Reports = () => {
       reportButtonRef.current.click();
     }
   };
+
+  const getTranslatedStatus = (status) => {
+    switch (status) {
+      case "In Progress":
+        return TRANSLATIONS[language].inProgress;
+      case "Completed":
+        return TRANSLATIONS[language].completed;
+      case "Expired":
+        return TRANSLATIONS[language].expired;
+      case "New":
+        return TRANSLATIONS[language].new;
+      default:
+        return status;
+    }
+  };
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-4">
       <div className="reports-header">
@@ -607,7 +623,7 @@ const Reports = () => {
                             fontWeight: "bold",
                           }}
                         >
-                          {entry.status}
+                          {getTranslatedStatus(entry.status)}
                         </td>
                         <td>
                           <div className="d-flex justify-content-center">

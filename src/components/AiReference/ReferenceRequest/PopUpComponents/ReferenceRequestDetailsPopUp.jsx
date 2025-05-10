@@ -29,7 +29,11 @@ const TRANSLATIONS = {
       hrHatch: "HR-HATCH Format",
       custom: "Custom Format",
       na: "Not Available"
-    }
+    },
+    Status_InProgress: "In Progress",
+    Status_Completed: "Completed",
+    Status_Expired: "Expired",
+    Status_New: "New",
   },
   Japanese: {
     professionalReferenceFor: "業務リファレンス",
@@ -52,7 +56,11 @@ const TRANSLATIONS = {
       hrHatch: "HR-HATCHフォーマット",
       custom: "カスタムフォーマット",
       na: "利用不可"
-    }
+    },
+    Status_InProgress: "進行中",
+    Status_Completed: "完了",
+    Status_Expired: "期限切れ",
+    Status_New: "新規",
   }
 };
 
@@ -128,6 +136,11 @@ const ReferenceRequestDetailsPopUp = ({
     await sendReminder();
   };
 
+  const getTranslatedStatus = (status) => {
+    const statusKey = `Status_${status.replace(/\s+/g, '')}`;
+    return TRANSLATIONS[language][statusKey] || status;
+  };
+
   return (
     <Modal
       show={true}
@@ -200,7 +213,7 @@ const ReferenceRequestDetailsPopUp = ({
                     }}
                   >
                     {" "}
-                    {referee.status || "N/A"}
+                    {getTranslatedStatus(referee.status) || "N/A"}
                   </span>{" "}
                 </p>
               </div>

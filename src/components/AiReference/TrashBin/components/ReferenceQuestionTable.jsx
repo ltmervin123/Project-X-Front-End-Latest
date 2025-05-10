@@ -96,8 +96,8 @@ const ReferenceQuestionTable = ({
         </td>
 
         <td>{data.name}</td>
-        <td className="text-center">{data.questionCount}</td>
-        <td className="text-center">
+        <td>{data.questionCount}</td>
+        <td>
           {data.deletedAt.toString().split("T")[0]}
         </td>
         <td className="position-relative text-center">

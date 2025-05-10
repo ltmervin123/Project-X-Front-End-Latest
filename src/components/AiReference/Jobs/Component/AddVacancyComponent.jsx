@@ -63,7 +63,7 @@ const TRANSLATIONS = {
       firstNameLength: "First name must be at least 2 characters.",
       lastNameLength: "Last name must be at least 2 characters.",
       vacancyMin: "Vacancies must be at least 1.",
-      vacancyGreater: "New vacancy number must be greater than the current vacancy.",
+      vacancyGreater: "The new vacancy number must be greater than the current vacancy count (1).",
       refereesMin: "Number of referees must be at least 1."
     },
     staticContent: {
@@ -124,7 +124,7 @@ const TRANSLATIONS = {
       firstNameLength: "名前は2文字以上である必要があります。",
       lastNameLength: "姓は2文字以上である必要があります。",
       vacancyMin: "募集人数は1人以上である必要があります。",
-      vacancyGreater: "新しい募集人数は現在の募集人数より多く設定してください。",
+      vacancyGreater: "新しい募集人数は現在の募集人数（1）より多く設定してください。",
       refereesMin: "推薦者数は1人以上である必要があります。"
     },
     staticContent: {
@@ -621,7 +621,13 @@ const AddVacancyComponent = ({ onCancel, jobData }) => {
                     onClick={(e) => e.preventDefault()}
                   >
                     {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
-                      ? selectedQuestion.name
+                      ? selectedQuestion.name === "Standard Format"
+                        ? TRANSLATIONS[currentLanguage].standardFormat
+                        : selectedQuestion.name === "Management Format"
+                        ? TRANSLATIONS[currentLanguage].managementFormat
+                        : selectedQuestion.name === "Executive Format"
+                        ? TRANSLATIONS[currentLanguage].executiveFormat
+                        : selectedQuestion.name
                       : TRANSLATIONS[currentLanguage].hrHatch}
                   </div>
                 </div>

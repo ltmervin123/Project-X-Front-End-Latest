@@ -40,6 +40,10 @@ const TRANSLATIONS = {
     Delete: "Delete",
     manageTrackTooltip:
       "Review and manage reference requests for candidates, track their status, and take action.",
+    Status_InProgress: "In Progress",
+    Status_Completed: "Completed",
+    Status_Expired: "Expired",
+    Status_New: "New",
   },
   Japanese: {
     noRecord: "リファレンス依頼の記録がありません",
@@ -62,11 +66,15 @@ const TRANSLATIONS = {
     dueDate: "期限日",
     actions: "操作",
     viewReports: "レポートを表示",
-    hideReports: "レポートを非表示",
-    viewReferee: "リファレンスを見る",
+    hideReports: "レポート非表示",
+    viewReferee: "推薦者を見る",
     Delete: "削除",
     manageTrackTooltip:
       "候補者のリファレンス依頼を確認し、ステータスを追跡して、アクションを実行します。",
+    Status_InProgress: "進行中",
+    Status_Completed: "完了",
+    Status_Expired: "期限切れ",
+    Status_New: "新規",
   },
 };
 
@@ -339,6 +347,12 @@ const ReferenceRequest = () => {
       />
     );
   }
+
+  const getTranslatedStatus = (status) => {
+    const statusKey = `Status_${status.replace(/\s+/g, "")}`;
+    return TRANSLATIONS[language][statusKey] || status;
+  };
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
@@ -606,7 +620,7 @@ const ReferenceRequest = () => {
                                                 ),
                                               }}
                                             >
-                                              {referee?.status}
+                                              {getTranslatedStatus(referee?.status)}
                                             </span>
                                           </div>
                                         </div>

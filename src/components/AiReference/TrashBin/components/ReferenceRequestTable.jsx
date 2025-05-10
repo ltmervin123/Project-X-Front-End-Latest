@@ -157,7 +157,7 @@ const ReferenceRequestTable = ({
             });
           })()}
         </td>
-        <td className="text-center">
+        <td>
           {data.deletedAt.toString().split("T")[0]}
         </td>
         <td className="position-relative text-center">

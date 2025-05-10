@@ -12,7 +12,13 @@ const TRANSLATIONS = {
     ReferenceFormat: "Reference Format:",
     Edit: "Edit",
     SendEmail: "Send Email",
-    NA: "N/A"
+    NA: "N/A",
+    Status_New: "New",
+    Status_Completed: "Completed",
+    Status_Failed: "Failed",
+    standardFormat: "Standard Format",
+    managementFormat: "Management Format",
+    executiveFormat: "Executive Format",
   },
   Japanese: {
     ApplicantId: "応募者ID:",
@@ -23,7 +29,13 @@ const TRANSLATIONS = {
     ReferenceFormat: "リファレンス形式:",
     Edit: "編集",
     SendEmail: "メール送信",
-    NA: "該当なし"
+    NA: "該当なし",
+    Status_New: "新規",
+    Status_Completed: "完了",
+    Status_Failed: "失敗",
+    standardFormat: "標準フォーマット",
+    managementFormat: "マネジメントフォーマット",
+    executiveFormat: "エグゼクティブフォーマット",
   }
 };
 
@@ -45,6 +57,18 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
 
   const formatDate = (date) => {
     return date.split("T")[0];
+  };
+
+  const getTranslatedStatus = (status) => {
+    const statusKey = `Status_${status}`;
+    return TRANSLATIONS[language][statusKey] || status;
+  };
+
+  const getTranslatedFormat = (format) => {
+    if (format === "Standard Format") return TRANSLATIONS[language].standardFormat;
+    if (format === "Management Format") return TRANSLATIONS[language].managementFormat;
+    if (format === "Executive Format") return TRANSLATIONS[language].executiveFormat;
+    return format || TRANSLATIONS[language].NA;
   };
 
   return (
@@ -91,7 +115,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               </strong>{" "}
               <span style={{ color: getStatusColor(candidates.status) }}>
                 {" "}
-                {candidates.status}
+                {getTranslatedStatus(candidates.status)}
               </span>
             </p>
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
@@ -120,7 +144,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               <strong className="d-flex gap-2 align-items-center">
                 {TRANSLATIONS[language].ReferenceFormat}
               </strong>{" "}
-              <span>{candidates.questionName || TRANSLATIONS[language].NA}</span>
+              <span>{getTranslatedFormat(candidates.questionName) || TRANSLATIONS[language].NA}</span>
             </p>
           </div>
         </div>

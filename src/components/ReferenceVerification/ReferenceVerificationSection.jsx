@@ -58,7 +58,7 @@ const translations = {
     decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
     innovationAndGrowth: "Innovation and Growth",
     leadershipAndManagementSkills: "Leadership and Management Skills",
-    signatureAndVerification: "SIGNATURE AND VERIFICATION",
+    verification: "VERIFICATION",
     noImageAvailable: "No image available",
     noAnswerProvided: "No Answer Provided",
     downloading: "Downloading...",
@@ -134,7 +134,7 @@ const translations = {
     decisionMakingAndProblemSolving: "意思決定と問題解決",
     innovationAndGrowth: "革新と成長",
     leadershipAndManagementSkills: "リーダーシップと管理スキル",
-    signatureAndVerification: "署名と確認",
+    verification: "検証",
     noImageAvailable: "画像は利用できません",
     noAnswerProvided: "回答は提供されていません",
     downloading: "ダウンロード中...",
@@ -385,14 +385,7 @@ const ReferenceVerificationSection = () => {
     // Clone the report content to modify it without affecting the original
     const clonedReport = reportRef.current.cloneNode(true);
 
-    // Remove the Id image container
-    clonedReport.querySelector(".uploaded-id-container").remove();
 
-    // Modify the "SIGNATURE AND VERIFICATION" text
-    const signatureTitle = clonedReport.querySelector(".signature-verif-title");
-    if (signatureTitle) {
-      signatureTitle.textContent = translations[language].signature; // Use the translation for "Signature"
-    }
     const options = {
       margin: 10,
       filename: `Referee ${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName} Response Copy.pdf`,
@@ -608,7 +601,7 @@ const ReferenceVerificationSection = () => {
                 ))}
           </div>
           <p className="signature-verif-title color-orange mt-5 mb-3">
-            {translations[language].signatureAndVerification}
+            {translations[language].verification}
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
             <div>
