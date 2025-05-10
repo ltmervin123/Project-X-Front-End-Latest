@@ -21,8 +21,7 @@ function AiReferenceCheckerPage() {
           </Col>
           <Col md={10} className="p-3">
             <Jobs />
-                        <TranslationDropdown />
-            
+            <TranslationDropdown />
           </Col>
         </Row>
       </div>

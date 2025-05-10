@@ -64,8 +64,7 @@ const Jobs = () => {
   );
   const [showAddVacancy, setShowAddVacancy] = useState(false);
   const [job, setJob] = useState(null);
-  // Define language here
-  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+  const language = sessionStorage.getItem("preferred-language") || "English";
 
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   useEffect(() => {
@@ -169,16 +168,7 @@ const Jobs = () => {
   };
 
   const handleAddVacancy = (jobDetails) => {
-    const job = {
-      jobName: jobDetails.jobName,
-      vacancies: jobDetails.vacancies,
-      department: jobDetails.department,
-      hiringManager: {
-        firstName: jobDetails.hiringManager.firstName,
-        lastName: jobDetails.hiringManager.lastName,
-      },
-    };
-    setJob(job);
+    setJob(jobDetails);
     setShowAddVacancy(true);
   };
 
@@ -188,6 +178,8 @@ const Jobs = () => {
         <AddVacancyComponent
           onBack={() => setShowAddVacancy(false)}
           jobData={job}
+          onCancel={() => setShowAddVacancy(false)}
+          onRefetchJobs={refetchJobs}
         />
       ) : (
         <>
@@ -208,7 +200,7 @@ const Jobs = () => {
               >
                 <input
                   type="text"
-                  placeholder={TRANSLATIONS[language].SearchJobName} // Remove unnecessary string interpolation
+                  placeholder={TRANSLATIONS[language].SearchJobName}
                   className="form-control ps-4 pe-5"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -261,14 +253,10 @@ const Jobs = () => {
                 <thead>
                   <tr>
                     <th>{TRANSLATIONS[language].JobName}</th>
-                    <th >
-                      {TRANSLATIONS[language].Vacancies}
-                    </th>
+                    <th>{TRANSLATIONS[language].Vacancies}</th>
                     <th>{TRANSLATIONS[language].Department}</th>
                     <th>{TRANSLATIONS[language].HiringManager}</th>
-                    <th >
-                      {TRANSLATIONS[language].PostedDate}
-                    </th>
+                    <th>{TRANSLATIONS[language].PostedDate}</th>
                     <th className="text-center">
                       {TRANSLATIONS[language].Actions}
                     </th>
@@ -297,9 +285,7 @@ const Jobs = () => {
                               ? `${job.hiringManager.firstName} ${job.hiringManager.lastName}`
                               : job?.hiringManager}
                           </td>
-                          <td>
-                            {formatDate(job.createdAt)}
-                          </td>
+                          <td>{formatDate(job.createdAt)}</td>
                           <td>
                             <div className="position-relative d-flex align-items-center w-100 justify-content-center">
                               <div className="position-relative d-flex justify-content-center">
