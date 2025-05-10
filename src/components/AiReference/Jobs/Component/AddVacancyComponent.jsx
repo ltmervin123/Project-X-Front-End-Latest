@@ -62,8 +62,10 @@ const TRANSLATIONS = {
       firstNameLength: "First name must be at least 2 characters.",
       lastNameLength: "Last name must be at least 2 characters.",
       vacancyMin: "Vacancies must be at least 1.",
-      vacancyGreater: "The new vacancy number must be greater than the current vacancy count (1).",
-      refereesMin: "Number of referees must be at least 1."
+      vacancyGreater: function (vacancies) {
+        return `The new vacancy number must be greater than the current vacancy count (${vacancies}).`;
+      },
+      refereesMin: "Number of referees must be at least 1.",
     },
     staticContent: {
       existing: "(Existing)",
@@ -124,8 +126,10 @@ const TRANSLATIONS = {
       firstNameLength: "名前は2文字以上である必要があります。",
       lastNameLength: "姓は2文字以上である必要があります。",
       vacancyMin: "募集人数は1人以上である必要があります。",
-      vacancyGreater: "新しい募集人数は現在の募集人数（1）より多く設定してください。",
-      refereesMin: "推薦者数は1人以上である必要があります。"
+      vacancyGreater: function (vacancies) {
+        return `新しい募集人数は現在の募集人数（${vacancies}）より多く設定してください。`;
+      },
+      refereesMin: "推薦者数は1人以上である必要があります。",
     },
     staticContent: {
       existing: "(既存)",
@@ -220,7 +224,9 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
     if (vacancies < 1) {
       setVacancyError(TRANSLATIONS[currentLanguage].errors.vacancyMin);
     } else if (jobData?.vacancies && vacancies <= jobData.vacancies) {
-      setVacancyError(TRANSLATIONS[currentLanguage].errors.vacancyGreater);
+      setVacancyError(
+        TRANSLATIONS[currentLanguage].errors.vacancyGreater(jobData.vacancies)
+      );
       // Keep the existing candidates instead of resetting them
       setCandidates((prev) => prev.slice(0, jobData.vacancies));
     } else {
@@ -513,7 +519,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     }`}
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
-                    {TRANSLATIONS[currentLanguage].custom}
+                    {questionName}
                   </div>
                 </div>
                 {errorMessages.question && (
