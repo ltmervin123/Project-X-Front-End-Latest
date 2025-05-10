@@ -37,9 +37,9 @@ export const useLogin = () => {
       }
     } catch (err) {
       // Handle any error from the request
-      const responseError = err.response
+      const responseError = err.response.data.message
         ? err.response.data.message
-        : "Login failed";
+        : err.response.data;
 
       console.error("error :", err.response);
       setError(responseError);
