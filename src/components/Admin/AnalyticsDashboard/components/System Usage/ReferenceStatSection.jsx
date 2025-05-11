@@ -1,30 +1,29 @@
+const TRANSLATION = {
+  English: {
+    title: "Total Reference Checks",
+    subtitle: "Processed in current period for all companies",
+    periods: {
+      today: "Today",
+      yesterday: "Yesterday",
+      last7Days: "Last 7 Days",
+      last30Days: "Last 30 Days",
+    },
+  },
+  Japanese: {
+    title: "総照会確認数",
+    subtitle: "全企業の現在期間の処理数",
+    periods: {
+      today: "今日",
+      yesterday: "昨日",
+      last7Days: "過去7日間",
+      last30Days: "過去30日間",
+    },
+  },
+};
+
 const ReferenceStatSection = ({ isVisible, referenceCheckStatData }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Total Reference Checks",
-      subtitle: "Processed in current period for all companies",
-      periods: {
-        today: "Today",
-        yesterday: "Yesterday",
-        last7Days: "Last 7 Days",
-        last30Days: "Last 30 Days",
-      },
-    },
-    Japanese: {
-      title: "総照会確認数",
-      subtitle: "全企業の現在期間の処理数",
-      periods: {
-        today: "今日",
-        yesterday: "昨日",
-        last7Days: "過去7日間",
-        last30Days: "過去30日間",
-      },
-    },
-  };
-
-  const t = translations[language];
+  const t = TRANSLATION[language];
 
   return (
     <div
@@ -43,9 +42,7 @@ const ReferenceStatSection = ({ isVisible, referenceCheckStatData }) => {
       </div>
       <div className="total-reference-check-data mt-3">
         <div className="d-flex justify-content-between">
-          <p className="total-reference-check-value mb-1">
-            {t.periods.today}
-          </p>
+          <p className="total-reference-check-value mb-1">{t.periods.today}</p>
           <p className="total-reference-check-value mb-1">
             {referenceCheckStatData?.today}
           </p>

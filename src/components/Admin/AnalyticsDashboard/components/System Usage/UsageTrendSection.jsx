@@ -1,33 +1,33 @@
 import React, { useState, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 
+const TRANSLATIONS = {
+  English: {
+    title: "Usage Trends",
+    subtitle: "Reference checks processed over time for all companies",
+    usage: "Usage",
+    periods: {
+      daily: "Daily",
+      weekly: "Weekly",
+      monthly: "Monthly",
+    },
+  },
+  Japanese: {
+    title: "利用傾向",
+    subtitle: "全企業の経時的な照会処理数",
+    usage: "利用数",
+    periods: {
+      daily: "日次",
+      weekly: "週次",
+      monthly: "月次",
+    },
+  },
+};
+
 const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
 
-  const translations = {
-    English: {
-      title: "Usage Trends",
-      subtitle: "Reference checks processed over time for all companies",
-      usage: "Usage",
-      periods: {
-        daily: "Daily",
-        weekly: "Weekly",
-        monthly: "Monthly",
-      },
-    },
-    Japanese: {
-      title: "利用傾向",
-      subtitle: "全企業の経時的な照会処理数",
-      usage: "利用数",
-      periods: {
-        daily: "日次",
-        weekly: "週次",
-        monthly: "月次",
-      },
-    },
-  };
-
-  const t = translations[language];
+  const t = TRANSLATIONS[language];
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState(t.periods.daily);
 
@@ -35,10 +35,10 @@ const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
     switch (selectedPeriod) {
       case t.periods.daily:
         return usageTrendsData?.daily?.data.map((item) => item.label) || [];
-        case t.periods.weekly:
-          return usageTrendsData?.weekly?.data.map((item) => item.label) || [];
-          case t.periods.monthly:
-            return usageTrendsData?.monthly?.data.map((item) => item.label) || [];
+      case t.periods.weekly:
+        return usageTrendsData?.weekly?.data.map((item) => item.label) || [];
+      case t.periods.monthly:
+        return usageTrendsData?.monthly?.data.map((item) => item.label) || [];
       default:
         return [];
     }
@@ -174,24 +174,22 @@ const UsageTrendSection = ({ isVisible, usageTrendsData }) => {
             </div>
             {isDropdownOpen && (
               <div className="dropdown-options">
-                {[
-                  t.periods.daily,
-                  t.periods.weekly,
-                  t.periods.monthly,
-                ].map((period) => (
-                  <div
-                    key={period}
-                    className={`dropdown-item ${
-                      selectedPeriod === period ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      setSelectedPeriod(period);
-                      setIsDropdownOpen(false);
-                    }}
-                  >
-                    {period}
-                  </div>
-                ))}
+                {[t.periods.daily, t.periods.weekly, t.periods.monthly].map(
+                  (period) => (
+                    <div
+                      key={period}
+                      className={`dropdown-item ${
+                        selectedPeriod === period ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        setSelectedPeriod(period);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      {period}
+                    </div>
+                  )
+                )}
               </div>
             )}
           </div>

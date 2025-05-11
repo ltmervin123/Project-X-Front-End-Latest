@@ -10,22 +10,20 @@ import DashboardController from "./components/DashboardController";
 import CardMetrics from "./components/CardMetrics";
 import RevenueChartSection from "./components/Revenue/RevenueChartSection";
 
+const TRANSLATIONS = {
+  English: {
+    adminDashboard: "Admin Dashboard",
+    adminDashboardDesc: "View analytics and metrics for your application.",
+  },
+  Japanese: {
+    adminDashboard: "管理者ダッシュボード",
+    adminDashboardDesc: "アプリケーションの分析とメトリクスを表示します。",
+  },
+};
+
 const AnalyticsDashboard = () => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      adminDashboard: "Admin Dashboard",
-      adminDashboardDesc: "View analytics and metrics for your application.",
-    },
-    Japanese: {
-      adminDashboard: "管理者ダッシュボード",
-      adminDashboardDesc: "アプリケーションの分析とメトリクスを表示します。",
-    },
-  };
-
-  const t = translations[language];
-
+  const t = TRANSLATIONS[language];
   const [searchQuery, setSearchQuery] = useState("");
   const [showTable, setShowTable] = useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
