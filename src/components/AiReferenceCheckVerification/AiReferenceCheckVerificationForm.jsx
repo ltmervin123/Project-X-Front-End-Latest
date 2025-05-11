@@ -1,17 +1,80 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees"; // Import the Privacy Agreement component
+import axios from "axios";
+import PrivacyAgreementForReferees from "./PrivacyAgreementForReferees";
+import { useQuery } from "@tanstack/react-query";
 
-const STEPS = [
-  "Basic Information",
-  "Select Language",
-  "Choose Method",
-  "Questionnaire",
-  "Reference Completed",
-];
-
-const CURRENT_STEP = 1;
+const TRANSLATIONS = {
+  English: {
+    steps: [
+      "Basic Information",
+      "Choose Method",
+      "Questionnaire",
+      "Reference Completed",
+    ],
+    referenceCheckVerification: "Reference Check Verification",
+    insights:
+      "Your insights are valuable in helping us make informed decisions.",
+    verifyInformation: "Verify Your Information",
+    verifyInformationDesc:
+      "Please verify your information below before proceeding to the questionnaire.",
+    refereeName: "Referee Name",
+    firstName: "First Name",
+    lastName: "Last Name",
+    currentCompany: "Current Company",
+    enterCurrentCompany: "Enter Current Company",
+    currentPosition: "Current Position",
+    enterPositionTitle: "Enter Position Title",
+    companyWorkedWith: "Company you worked with",
+    relationshipLabel: "Relationship to the Applicant",
+    selectRelationship: "Select Relationship",
+    manager: "Manager and or Report Line",
+    colleague: "Colleague",
+    subordinate: "Subordinate",
+    mentor: "Mentor",
+    other: "Other",
+    specifyRelationship: "Please specify your relationship",
+    dateWorkedTogether: "Date Worked Together",
+    startDate: "Start Date",
+    endDate: "End Date",
+    privacyAgreement:
+      "By continuing, you've read, understood and agreed to the Privacy Agreement for Referees",
+    processing: "Processing...",
+    proceed: "Proceed",
+  },
+  Japanese: {
+    steps: ["基本情報", "方法選択", "アンケート", "照会完了"],
+    referenceCheckVerification: "照会確認",
+    insights:
+      "あなたの洞察は、私たちが十分な情報に基づいた決定を下すのに役立ちます。",
+    verifyInformation: "情報を確認",
+    verifyInformationDesc: "アンケートに進む前に、以下の情報をご確認ください。",
+    refereeName: "照会者名",
+    firstName: "名",
+    lastName: "姓",
+    currentCompany: "現在の会社",
+    enterCurrentCompany: "現在の会社を入力",
+    currentPosition: "現在の役職",
+    enterPositionTitle: "役職名を入力",
+    companyWorkedWith: "一緒に働いた会社",
+    relationshipLabel: "応募者との関係",
+    selectRelationship: "関係を選択",
+    manager: "マネージャーまたは報告ライン",
+    colleague: "同僚",
+    subordinate: "部下",
+    mentor: "メンター",
+    other: "その他",
+    specifyRelationship: "関係を具体的に記入してください",
+    dateWorkedTogether: "一緒に働いた期間",
+    startDate: "開始日",
+    endDate: "終了日",
+    privacyAgreement:
+      "続行することで、照会者のプライバシー契約を読み、理解し、同意したことになります",
+    processing: "処理中...",
+    proceed: "続行",
+  },
+};
 
 const AiReferenceCheckVerificationForm = ({
   refereeName,
@@ -19,9 +82,19 @@ const AiReferenceCheckVerificationForm = ({
   candidateName,
   refereeId,
   companyId,
+  selectedLanguage,
 }) => {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
+  const CURRENT_STEP = 1;
+  const STEPS = TRANSLATIONS[selectedLanguage].steps;
+  const [processing, setProcessing] = useState(false);
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString("en-CA")
+  );
+  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
   const [formData, setFormData] = useState({
     referenceId: referenceId,
     refereeName: {
@@ -39,14 +112,6 @@ const AiReferenceCheckVerificationForm = ({
     endDate: "",
     otherRelationship: "",
   });
-  const [processing, setProcessing] = useState(false);
-  const [isOtherSelected, setIsOtherSelected] = useState(false);
-  const [currentDate, setCurrentDate] = useState(
-    new Date().toLocaleDateString("en-CA")
-  );
-
-  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
-  const [isAgreed, setIsAgreed] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,6 +125,13 @@ const AiReferenceCheckVerificationForm = ({
       setIsOtherSelected(true);
     }
   };
+
+  //Save the selected language to session storage
+  useEffect(() => {
+    if (selectedLanguage) {
+      sessionStorage.setItem("selectedLanguage", selectedLanguage);
+    }
+  }, [selectedLanguage]);
 
   // Save referee data to local storage
   const saveRefereeDataTemporary = () => {
@@ -78,14 +150,72 @@ const AiReferenceCheckVerificationForm = ({
     sessionStorage.setItem("refereeData", JSON.stringify(updatedFormData));
   };
 
+  //English Version
+  const getQuestionEnglishVersion = async () => {
+    const token = sessionStorage.getItem("token");
+    const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
+    const requestHeader = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get(URL, requestHeader);
+    return response.data;
+  };
+
+  //Fetch initial question in English
+  const { data: referenceQuestionData } = useQuery({
+    queryKey: ["referenceQuestions"],
+    queryFn: getQuestionEnglishVersion,
+    staleTime: 1000 * 60 * 5,
+    select: (data) => {
+      sessionStorage.setItem("referenceQuestions", JSON.stringify(data));
+      return data;
+    },
+  });
+
+  //Japanese Version
+  const getQuestionsJapaneseVersion = async () => {
+    const format = referenceQuestionData?.format || null;
+    const token = sessionStorage.getItem("token");
+    const URL = `${API}/api/ai-referee/reference/get-translated-questions/${format}/${candidateName}`;
+
+    const requestHeader = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.get(URL, requestHeader);
+    return response;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // await getReferenceQuestions();
-    saveRefereeDataTemporary();
+    try {
+      setProcessing(true);
+      saveRefereeDataTemporary();
 
-    navigate("/reference-choose-language", {
-      state: { referenceId, refereeId },
-    });
+      if (selectedLanguage === "Japanese") {
+        const result = await getQuestionsJapaneseVersion();
+        if (result.status === 200) {
+          const questions = result?.data?.translatedQuestions;
+          const format = referenceQuestionData?.format;
+          const formatType = referenceQuestionData?.formatType;
+          const questionData = { questions, format, formatType };
+          sessionStorage.setItem(
+            "referenceQuestions",
+            JSON.stringify(questionData)
+          );
+        }
+      }
+      navigate("/reference-interview-method", {});
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    } finally {
+      setProcessing(false);
+    }
   };
 
   const isFormValid = () => {
@@ -101,31 +231,6 @@ const AiReferenceCheckVerificationForm = ({
       isAgreed
     );
   };
-
-  // const getReferenceQuestions = async () => {
-  //   try {
-  //     const token = sessionStorage.getItem("token");
-
-  //     setProcessing(true);
-  //     const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${formData.referenceId}/${refereeId}`;
-  //     const response = await axios.get(URL, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (response.status === 200) {
-  //       sessionStorage.setItem(
-  //         "referenceQuestions",
-  //         JSON.stringify(response.data)
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching reference questions:", error);
-  //   } finally {
-  //     setProcessing(false);
-  //   }
-  // };
 
   useEffect(() => {
     if (refereeName) {
@@ -154,10 +259,10 @@ const AiReferenceCheckVerificationForm = ({
 
   return (
     <div className="AiReferenceCheckVerification-container d-flex align-items-center flex-column justify-content-center">
-      <h4 className="text-center">Reference Check Verification</h4>
-      <i className="text-center">
-        Your insights are valuable in helping us make informed decisions.
-      </i>
+      <h4 className="text-center">
+        {TRANSLATIONS[selectedLanguage].referenceCheckVerification}
+      </h4>
+      <i className="text-center">{TRANSLATIONS[selectedLanguage].insights}</i>
       <div className="d-flex align-items-center justify-content-center flex-column h-100 w-100 my-2 mt-4">
         <div className="reference-progress-indicator">
           {STEPS.map((step, index) => (
@@ -175,10 +280,11 @@ const AiReferenceCheckVerificationForm = ({
         </div>
         <div className=" AiReferenceCheckVerification-container-form">
           <div className="AiReferenceCheckVerification-title">
-            <h5 className="m-0">Verify Your Information</h5>
+            <h5 className="m-0">
+              {TRANSLATIONS[selectedLanguage].verifyInformation}
+            </h5>
             <p className="m-0">
-              Please verify your information below before proceeding to the
-              questionnaire.
+              {TRANSLATIONS[selectedLanguage].verifyInformationDesc}
             </p>
           </div>
 
@@ -189,13 +295,15 @@ const AiReferenceCheckVerificationForm = ({
             <Row>
               <Col md={12} className="d-flex flex-column gap-3">
                 <Form.Group controlId="referee-name">
-                  <Form.Label className="mb-1">Referee Name</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].refereeName}
+                  </Form.Label>
                   <div className="d-flex gap-2 w-100">
                     <Form.Control
                       type="text"
                       name="firstName"
                       value={formData.refereeName.firstName}
-                      placeholder="First Name"
+                      placeholder={TRANSLATIONS[selectedLanguage].firstName}
                       onChange={handleChange}
                       disabled={true}
                     />
@@ -204,7 +312,7 @@ const AiReferenceCheckVerificationForm = ({
                       type="text"
                       name="lastName"
                       value={formData.refereeName.lastName}
-                      placeholder="Last Name"
+                      placeholder={TRANSLATIONS[selectedLanguage].lastName}
                       onChange={handleChange}
                       disabled={true}
                     />
@@ -212,29 +320,38 @@ const AiReferenceCheckVerificationForm = ({
                 </Form.Group>
 
                 <Form.Group controlId="current-company">
-                  <Form.Label className="mb-1">Current Company</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].currentCompany}
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="currentCompany"
                     value={formData.currentCompany}
                     onChange={handleChange}
-                    placeholder="Enter Current Company"
+                    placeholder={
+                      TRANSLATIONS[selectedLanguage].enterCurrentCompany
+                    }
                   />
                 </Form.Group>
                 <Form.Group controlId="position-title">
-                  <Form.Label className="mb-1">Current Position</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].currentPosition}
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="positionTitle"
                     value={formData.positionTitle}
                     onChange={handleChange}
-                    placeholder="Enter Position Title"
+                    placeholder={
+                      TRANSLATIONS[selectedLanguage].enterPositionTitle
+                    }
                   />
                 </Form.Group>
 
                 <Form.Group controlId="company-worked-with">
                   <Form.Label>
-                    Company you worked with <b>{candidateName}</b>{" "}
+                    {TRANSLATIONS[selectedLanguage].companyWorkedWith}{" "}
+                    <b>{candidateName}</b>{" "}
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -247,7 +364,7 @@ const AiReferenceCheckVerificationForm = ({
 
                 <Form.Group controlId="relationship">
                   <Form.Label className="mb-1">
-                    Relationship to the Applicant
+                    {TRANSLATIONS[selectedLanguage].relationshipLabel}
                   </Form.Label>
                   {!isOtherSelected ? (
                     <Form.Control
@@ -256,32 +373,46 @@ const AiReferenceCheckVerificationForm = ({
                       value={formData.relationship}
                       onChange={handleChange}
                     >
-                      <option value="">Select Relationship</option>
-                      <option value="Manager and or Report Line">
-                        Manager and or Report Line
+                      <option value="">
+                        {TRANSLATIONS[selectedLanguage].selectRelationship}
                       </option>
-                      <option value="Colleague">Colleague</option>
-                      <option value="Subordinate">Subordinate</option>
-                      <option value="Mentor">Mentor</option>
-                      <option value="Other">Other</option>
+                      <option value="Manager and or Report Line">
+                        {TRANSLATIONS[selectedLanguage].manager}
+                      </option>
+                      <option value="Colleague">
+                        {TRANSLATIONS[selectedLanguage].colleague}
+                      </option>
+                      <option value="Subordinate">
+                        {TRANSLATIONS[selectedLanguage].subordinate}
+                      </option>
+                      <option value="Mentor">
+                        {TRANSLATIONS[selectedLanguage].mentor}
+                      </option>
+                      <option value="Other">
+                        {TRANSLATIONS[selectedLanguage].other}
+                      </option>
                     </Form.Control>
                   ) : (
                     <Form.Control
                       type="text"
                       name="otherRelationship"
-                      value={formData.otherRelationship} // Ensure this is correctly set
-                      onChange={handleChange} // Update state on change
-                      placeholder="Please specify your relationship"
+                      value={formData.otherRelationship}
+                      onChange={handleChange}
+                      placeholder={
+                        TRANSLATIONS[selectedLanguage].specifyRelationship
+                      }
                     />
                   )}
                 </Form.Group>
 
                 <Form.Group controlId="date-worked-together">
-                  <Form.Label className="mb-1">Date Worked Together</Form.Label>
+                  <Form.Label className="mb-1">
+                    {TRANSLATIONS[selectedLanguage].dateWorkedTogether}
+                  </Form.Label>
                   <Row>
                     <Col md={6}>
                       <Form.Label className="mb-1" htmlFor="startdate">
-                        Start Date
+                        {TRANSLATIONS[selectedLanguage].startDate}
                       </Form.Label>
                       <Form.Control
                         type="date"
@@ -294,7 +425,7 @@ const AiReferenceCheckVerificationForm = ({
                     </Col>
                     <Col md={6}>
                       <Form.Label className="mb-1" htmlFor="enddate">
-                        End Date
+                        {TRANSLATIONS[selectedLanguage].endDate}
                       </Form.Label>
                       <Form.Control
                         type="date"
@@ -317,6 +448,7 @@ const AiReferenceCheckVerificationForm = ({
               <input
                 type="checkbox"
                 id="privacyAgreementCheckbox"
+                className="form-check-input custom-checkbox"
                 checked={isAgreed}
                 onChange={(e) => {
                   setIsAgreed(e.target.checked);
@@ -329,8 +461,7 @@ const AiReferenceCheckVerificationForm = ({
                 htmlFor="privacyAgreementCheckbox"
                 className="ms-2 privacyAgreementCheckbox color-grey"
               >
-                By continuing, you’ve read, understood and agreed to the Privacy
-                Agreement for Referees
+                {TRANSLATIONS[selectedLanguage].privacyAgreement}
               </label>
             </div>
             <div className="d-flex justify-content-center m-4 ">
@@ -339,7 +470,9 @@ const AiReferenceCheckVerificationForm = ({
                 type="submit"
                 disabled={!isFormValid() || processing}
               >
-                {processing ? "Processing..." : "Proceed"}
+                {processing
+                  ? TRANSLATIONS[selectedLanguage].processing
+                  : TRANSLATIONS[selectedLanguage].proceed}
               </Button>
             </div>
           </Form>
@@ -353,6 +486,7 @@ const AiReferenceCheckVerificationForm = ({
           setIsAgreed(true);
           setShowPrivacyAgreement(false);
         }}
+        language={selectedLanguage}
       />
     </div>
   );

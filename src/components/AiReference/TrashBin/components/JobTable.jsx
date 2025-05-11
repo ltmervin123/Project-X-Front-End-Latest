@@ -1,7 +1,20 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationJobPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationJobPopUp";
-import RecoverConfirmationJobPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationJobPopUp";
+import RestoreConfirmationJobPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationJobPopUp";
+
+const TRANSLATIONS = {
+  English: {
+    restore: "Restore",
+    delete: "Delete",
+
+  },
+  Japanese: {
+    restore: "復元",
+    delete: "削除",
+ 
+  },
+};
 
 const JobTable = ({
   data,
@@ -11,11 +24,13 @@ const JobTable = ({
   onDelete,
   showCheckboxes,
   isDeletingJobs,
-  isRecoveringJobs,
+  isRestoringJobs,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
+  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
     event.stopPropagation(); // Stop event propagation here
@@ -43,18 +58,30 @@ const JobTable = ({
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting job:", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
-  const handleRecoverClick = (e) => {
+  const handleRestoreClick = (e) => {
     e.stopPropagation();
-    setShowRecoverConfirmation(true);
+    setShowRestoreConfirmation(true);
     setVisibleOptions({});
   };
 
-  const handleConfirmRecover = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring job:", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
 
   return (
@@ -72,16 +99,15 @@ const JobTable = ({
           {" "}
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />
         </td>
         <td>{data.jobName}</td>
-        <td className="text-center">{data.vacancies}</td>
         <td>{data.department}</td>
         <td>{data.hiringManager}</td>
-        <td className="text-center">
+        <td>
           {data.deletedAt.toString().split("T")[0]}
         </td>
         <td className="position-relative text-center">
@@ -108,11 +134,11 @@ const JobTable = ({
                 <div className="action-options">
                   <p
                     className="d-flex align-items-center gap-2"
-                    onClick={handleRecoverClick}
+                    onClick={handleRestoreClick}
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Recover
+                    {TRANSLATIONS[language].restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -123,7 +149,7 @@ const JobTable = ({
                     }}
                   >
                     <FaTrash />
-                    Delete
+                    {TRANSLATIONS[language].delete}
                   </p>
                 </div>
               )}
@@ -135,18 +161,20 @@ const JobTable = ({
         <DeleteConfirmationJobPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isDeletingJobs={isDeletingJobs}
         />
       )}
-      {showRecoverConfirmation && (
-        <RecoverConfirmationJobPopUp
-          onClose={() => setShowRecoverConfirmation(false)}
-          onConfirmRecover={handleConfirmRecover}
-          selectedCount={1}
-          isSingleItem={true}
-          isRecoveringJobs={isRecoveringJobs}
+      {showRestoreConfirmation && (
+        <RestoreConfirmationJobPopUp
+          onClose={() => setShowRestoreConfirmation(false)}
+          onConfirmRestore={handleConfirmRestore}
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
+          isRestoringJobs={isRestoringJobs}
         />
       )}
     </>

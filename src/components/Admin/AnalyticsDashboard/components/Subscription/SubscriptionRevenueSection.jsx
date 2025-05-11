@@ -1,7 +1,33 @@
 import { Bar } from "react-chartjs-2";
-import React, { useMemo } from "react";
+import React from "react";
+
+const TRANSLATIONS = {
+  English: {
+    title: "Revenue by Subscription Tier",
+    subtitle: "Monthly revenue by subscription tier for all companies",
+    tiers: {
+      free: "Free",
+      basic: "Basic",
+      premium: "Premium",
+      enterprise: "Enterprise",
+    },
+  },
+  Japanese: {
+    title: "サブスクリプション層別収益",
+    subtitle: "全企業の月間サブスクリプション層別収益",
+    tiers: {
+      free: "無料",
+      basic: "ベーシック",
+      premium: "プレミアム",
+      enterprise: "エンタープライズ",
+    },
+  },
+};
 
 const SubscriptionRevenueSection = ({ isVisible }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const t = TRANSLATIONS[language];
+
   const createCustomTooltip = (isRevenue = false) => ({
     enabled: false,
     external: function (context) {
@@ -96,7 +122,7 @@ const SubscriptionRevenueSection = ({ isVisible }) => {
   };
 
   const revenueData = {
-    labels: ["Free", "Basic", "Premium", "Enterprise"],
+    labels: [t.tiers.free, t.tiers.basic, t.tiers.premium, t.tiers.enterprise],
     datasets: [
       {
         data: [0, 0, 0, 0],
@@ -121,10 +147,8 @@ const SubscriptionRevenueSection = ({ isVisible }) => {
       }`}
     >
       <div className="chart-content">
-        <b className="chart-title mb-0">Revenue by Subscription Tier</b>
-        <p className="chart-subtitle mb-0">
-          Monthly revenue by subscription tier for all companies
-        </p>
+        <b className="chart-title mb-0">{t.title}</b>
+        <p className="chart-subtitle mb-0">{t.subtitle}</p>
       </div>
       <div className="subscription-user-chart">
         <Bar data={revenueData} options={revenueChartOptions} id="revenue" />

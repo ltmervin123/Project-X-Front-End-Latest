@@ -52,7 +52,7 @@
     background: var(--secondary-color);
     color: var(--font-white) !important;
     border: none;
-    width: 150px;
+    width: 155px;
 
 }
 .btn-download {
@@ -61,5 +61,5 @@
     background: var(--primary-color);
     color: var(--font-white) !important;
     border: none;
-    width: 150px;
+    width: 155px;
 }

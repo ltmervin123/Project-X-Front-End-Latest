@@ -1,7 +1,21 @@
 import { Bar } from "react-chartjs-2";
 import React, { useMemo } from "react";
 
+const TRANSLATIONS = {
+  English: {
+    title: "Users per Subscription Tier",
+    subtitle: "Distribution across subscription plans for all companies",
+  },
+  Japanese: {
+    title: "サブスクリプション層別ユーザー数",
+    subtitle: "全企業のサブスクリプションプラン分布",
+  },
+};
+
 const SubscriptionTier = ({ isVisible, subscriptionData }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const t = TRANSLATIONS[language];
+
   const createCustomTooltip = useMemo(() => {
     return (isRevenue = false) => ({
       enabled: false,
@@ -132,10 +146,8 @@ const SubscriptionTier = ({ isVisible, subscriptionData }) => {
       }`}
     >
       <div className="chart-content">
-        <b className="chart-title mb-0">Users per Subscription Tier</b>
-        <p className="chart-subtitle mb-0">
-          Distribution across subscription plans for all companies
-        </p>
+        <b className="chart-title mb-0">{t.title}</b>
+        <p className="chart-subtitle mb-0">{t.subtitle}</p>
       </div>
       <div className="subscription-user-chart">
         <Bar

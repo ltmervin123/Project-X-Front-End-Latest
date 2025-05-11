@@ -3,10 +3,10 @@ import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import ReferenceReports from "../../components/AiReference/Reports/Reports";
+import TranslationDropdown from "../../components/AiReference/TranslationDropdown";
 import "../../styles/AiReferenceStyles/AiReferenceReports.css";
 
 function AiReferenceReportsPage() {
-
   return (
     <>
       <div className="mock-background">
@@ -20,11 +20,11 @@ function AiReferenceReportsPage() {
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
               <ReferenceReports />
+              <TranslationDropdown />
             </Col>
           </Row>
         </div>
       </div>
- 
     </>
   );
 }

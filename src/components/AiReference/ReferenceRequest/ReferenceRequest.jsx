@@ -8,6 +8,76 @@ import ViewRequest from "./Components/ViewRequest";
 import axios from "axios";
 import { socket } from "../../../utils/socket/socketSetup";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    noRecord: "No reference requests record",
+    notFound: "Reference requests not found",
+    referee: "Referee",
+    referees: "Referees",
+    status: "Status",
+    noStatus: "No Status",
+    inProgress: "In Progress",
+    completed: "Completed",
+    expired: "Expired",
+    search: "Search by reference request...",
+    referenceRequest: "Reference Request",
+    referenceRequestDesc:
+      "Manage and track reference checks for your applicants.",
+    referenceRequestList: "Reference Request List",
+    referenceRequestListDesc: "Overview of all reference requests.",
+    applicants: "Applicants",
+    jobName: "Job Name",
+    dateSent: "Date Sent",
+    dueDate: "Due Date",
+    actions: "Actions",
+    viewReports: "View Reports",
+    hideReports: "Hide Reports",
+    viewReferee: "View Referee",
+    Delete: "Delete",
+    manageTrackTooltip:
+      "Review and manage reference requests for candidates, track their status, and take action.",
+    Status_InProgress: "In Progress",
+    Status_Completed: "Completed",
+    Status_Expired: "Expired",
+    Status_New: "New",
+  },
+  Japanese: {
+    noRecord: "リファレンス依頼の記録がありません",
+    notFound: "リファレンス依頼が見つかりません",
+    referee: "リファレンス提供者",
+    referees: "リファレンス提供者",
+    status: "ステータス",
+    noStatus: "ステータスなし",
+    inProgress: "進行中",
+    completed: "完了",
+    expired: "期限切れ",
+    search: "リファレンス依頼で検索...",
+    referenceRequest: "リファレンス依頼",
+    referenceRequestDesc: "応募者のリファレンスチェックを管理し、追跡します。",
+    referenceRequestList: "リファレンス依頼 リスト",
+    referenceRequestListDesc: "すべてのリファレンス依頼の概要。",
+    applicants: "応募者",
+    jobName: "職種名",
+    dateSent: "送信日",
+    dueDate: "期限日",
+    actions: "操作",
+    viewReports: "レポートを表示",
+    hideReports: "レポート非表示",
+    viewReferee: "推薦者を見る",
+    Delete: "削除",
+    manageTrackTooltip:
+      "候補者のリファレンス依頼を確認し、ステータスを追跡して、アクションを実行します。",
+    Status_InProgress: "進行中",
+    Status_Completed: "完了",
+    Status_Expired: "期限切れ",
+    Status_New: "新規",
+  },
+};
+
 const ReferenceRequest = () => {
   const queryClient = useQueryClient();
   const API = process.env.REACT_APP_API_URL;
@@ -22,8 +92,8 @@ const ReferenceRequest = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [visibleOptions, setVisibleOptions] = useState({});
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); 
-  const [referenceToDelete, setReferenceToDelete] = useState(null); 
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [referenceToDelete, setReferenceToDelete] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
 
   // For fade in smooth animation
@@ -277,13 +347,18 @@ const ReferenceRequest = () => {
       />
     );
   }
+
+  const getTranslatedStatus = (status) => {
+    const statusKey = `Status_${status.replace(/\s+/g, "")}`;
+    return TRANSLATIONS[language][statusKey] || status;
+  };
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3 className="mb-0">Reference Request</h3>
-          <p className="mb-2">
-          Manage and track reference checks for your applicants.          </p>
+          <h3 className="mb-0">{TRANSLATIONS[language].referenceRequest}</h3>
+          <p className="mb-2">{TRANSLATIONS[language].referenceRequestDesc} </p>
         </div>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -295,7 +370,7 @@ const ReferenceRequest = () => {
           >
             <input
               type="text"
-              placeholder="Search by reference request..."
+              placeholder={TRANSLATIONS[language].search}
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -312,7 +387,7 @@ const ReferenceRequest = () => {
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex gap-2 align-items-center">
-            Reference Request List
+            {TRANSLATIONS[language].referenceRequestList}
             <div className="position-relative d-flex">
               <svg
                 width="16"
@@ -334,26 +409,27 @@ const ReferenceRequest = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  Review and manage reference requests for candidates, track
-                  their status, and take action.{" "}
+                  {TRANSLATIONS[language].manageTrackTooltip}
                 </span>
               )}
             </div>
           </h4>
-          <p>Overview of all reference requests.</p>
+          <p>{TRANSLATIONS[language].referenceRequestListDesc}</p>
         </div>
         {reference && reference.length > 0 ? (
           <>
-            <table className="reference-table">
+            <table>
               <thead>
                 <tr>
-                  <th>Applicant</th>
-                  <th>Position</th>
-                  <th className="text-center">Referees</th>
-                  <th>Status</th>
-                  <th className="text-center">Date Sent</th>
-                  <th className="text-center">Date Due</th>
-                  <th className="text-center">Actions</th>
+                  <th>{TRANSLATIONS[language].applicants}</th>
+                  <th>{TRANSLATIONS[language].jobName}</th>
+                  <th>{TRANSLATIONS[language].referees}</th>
+                  <th>{TRANSLATIONS[language].status}</th>
+                  <th>{TRANSLATIONS[language].dateSent}</th>
+                  <th>{TRANSLATIONS[language].dueDate}</th>
+                  <th className="text-center">
+                    {TRANSLATIONS[language].actions}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -365,12 +441,11 @@ const ReferenceRequest = () => {
                           {`${reference.candidate.firstName} ${reference.candidate.lastName}`}
                         </td>
                         <td data-label="Position">{reference.position}</td>
-                        <td data-label="Referees" className="text-center">
-                          {reference.referees &&
-                          Array.isArray(reference.referees) &&
+                        <td data-label="Referees">
+                          {Array.isArray(reference.referees) &&
                           reference.referees.length > 1
-                            ? `${reference.referees.length} Referees`
-                            : "1 Referee"}
+                            ? `${reference.referees.length} ${TRANSLATIONS[language].referees}`
+                            : `1 ${TRANSLATIONS[language].referee}`}
                         </td>
                         <td data-label="Status">
                           {(() => {
@@ -381,7 +456,7 @@ const ReferenceRequest = () => {
                                 status.completedCount === 0 &&
                                 status.expiredCount === 0 ? (
                                   <span style={{ color: "black" }}>
-                                    No Status
+                                    {TRANSLATIONS[language].noStatus}
                                   </span>
                                 ) : (
                                   <>
@@ -391,7 +466,8 @@ const ReferenceRequest = () => {
                                           color: getStatusColor("In Progress"),
                                         }}
                                       >
-                                        {status.inProgressCount} In Progress
+                                        {status.inProgressCount}{" "}
+                                        {TRANSLATIONS[language].inProgress}
                                       </span>
                                     )}
                                     {status.completedCount > 0 && (
@@ -404,7 +480,8 @@ const ReferenceRequest = () => {
                                             color: getStatusColor("Completed"),
                                           }}
                                         >
-                                          {status.completedCount} Completed
+                                          {status.completedCount}{" "}
+                                          {TRANSLATIONS[language].completed}
                                         </span>
                                       </>
                                     )}
@@ -419,7 +496,8 @@ const ReferenceRequest = () => {
                                             color: getStatusColor("Expired"),
                                           }}
                                         >
-                                          {status.expiredCount} Expired
+                                          {status.expiredCount}{" "}
+                                          {TRANSLATIONS[language].expired}
                                         </span>
                                       </>
                                     )}
@@ -429,13 +507,13 @@ const ReferenceRequest = () => {
                             );
                           })()}
                         </td>
-                        <td data-label="Date Sent" className="text-center">
+                        <td data-label="Date Sent">
                           {formatDate(reference.dateSent)}
                         </td>
-                        <td data-label="Date Due" className="text-center">
+                        <td data-label="Date Due">
                           {formatDate(reference.dueDate)}
                         </td>
-                        <td data-label="Actions" className="d-flex gap-2 align-items-center justify-content-center w-100">
+                        <td data-label="Actions">
                           <div className="position-relative d-flex justify-content-center">
                             <button
                               className={`btn-view-details ${
@@ -451,55 +529,58 @@ const ReferenceRequest = () => {
                             >
                               {showDropDown &&
                               selectedCandidate._id === reference._id
-                                ? "Hide Reports"
-                                : "View Reports"}
+                                ? TRANSLATIONS[language].hideReports
+                                : TRANSLATIONS[language].viewReports}
                             </button>
-                            <div className="action-menu">
-                              <p
-                                className="m-0 "
-                                style={{ cursor: "pointer" }}
-                                onClick={(e) =>
-                                  handleToggleOptions(reference._id, e)
-                                }
-                              >
-                                <svg
-                                  className="menu-icon-request"
-                                  width="23"
-                                  height="23"
-                                  viewBox="0 0 23 23"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
+
+                            <div className="position-relative">
+                              <div className="action-menu-reference">
+                                <p
+                                  className="m-0 "
+                                  style={{ cursor: "pointer" }}
+                                  onClick={(e) =>
+                                    handleToggleOptions(reference._id, e)
+                                  }
                                 >
-                                  <path
-                                    d="M13.6562 18.6875C13.6562 19.2594 13.4291 19.8078 13.0247 20.2122C12.6203 20.6166 12.0719 20.8437 11.5 20.8438C10.9281 20.8437 10.3797 20.6166 9.9753 20.2122C9.57093 19.8078 9.34375 19.2594 9.34375 18.6875C9.34375 18.1156 9.57093 17.5672 9.9753 17.1628C10.3797 16.7584 10.9281 16.5312 11.5 16.5312C12.0719 16.5312 12.6203 16.7584 13.0247 17.1628C13.4291 17.5672 13.6562 18.1156 13.6562 18.6875ZM13.6562 11.5C13.6562 12.0719 13.4291 12.6203 13.0247 13.0247C12.6203 13.4291 12.0719 13.6562 11.5 13.6562C10.9281 13.6562 10.3797 13.4291 9.9753 13.0247C9.57093 12.6203 9.34375 12.0719 9.34375 11.5C9.34375 10.9281 9.57093 10.3797 9.9753 9.9753C10.3797 9.57093 10.9281 9.34375 11.5 9.34375C12.0719 9.34375 12.6203 9.57093 13.0247 9.9753C13.4291 10.3797 13.6562 10.9281 13.6562 11.5ZM13.6562 4.3125C13.6562 4.88437 13.4291 5.43282 13.0247 5.8372C12.6203 6.24157 12.0719 6.46875 11.5 6.46875C10.9281 6.46875 10.3797 6.24157 9.9753 5.8372C9.57093 5.43282 9.34375 4.88437 9.34375 4.3125C9.34375 3.74063 9.57093 3.19218 9.9753 2.7878C10.3797 2.38343 10.9281 2.15625 11.5 2.15625C12.0719 2.15625 12.6203 2.38343 13.0247 2.7878C13.4291 3.19218 13.6562 3.74063 13.6562 4.3125Z"
-                                    fill="black"
-                                  />
-                                </svg>
-                                {visibleOptions[reference._id] && (
-                                  <div className="action-options-reference">
-                                    <p
-                                      className="d-flex align-items-center gap-2"
-                                      onClick={() =>
-                                        handleDeleteReference(reference._id)
-                                      }
-                                      style={{
-                                        cursor: "pointer",
-                                        color: "red",
-                                      }}
-                                    >
-                                      <FaTrash />
-                                      Delete
-                                    </p>
-                                  </div>
-                                )}
-                              </p>
+                                  <svg
+                                    className="menu-icon-request"
+                                    width="23"
+                                    height="23"
+                                    viewBox="0 0 23 23"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M13.6562 18.6875C13.6562 19.2594 13.4291 19.8078 13.0247 20.2122C12.6203 20.6166 12.0719 20.8437 11.5 20.8438C10.9281 20.8437 10.3797 20.6166 9.9753 20.2122C9.57093 19.8078 9.34375 19.2594 9.34375 18.6875C9.34375 18.1156 9.57093 17.5672 9.9753 17.1628C10.3797 16.7584 10.9281 16.5312 11.5 16.5312C12.0719 16.5312 12.6203 16.7584 13.0247 17.1628C13.4291 17.5672 13.6562 18.1156 13.6562 18.6875ZM13.6562 11.5C13.6562 12.0719 13.4291 12.6203 13.0247 13.0247C12.6203 13.4291 12.0719 13.6562 11.5 13.6562C10.9281 13.6562 10.3797 13.4291 9.9753 13.0247C9.57093 12.6203 9.34375 12.0719 9.34375 11.5C9.34375 10.9281 9.57093 10.3797 9.9753 9.9753C10.3797 9.57093 10.9281 9.34375 11.5 9.34375C12.0719 9.34375 12.6203 9.57093 13.0247 9.9753C13.4291 10.3797 13.6562 10.9281 13.6562 11.5ZM13.6562 4.3125C13.6562 4.88437 13.4291 5.43282 13.0247 5.8372C12.6203 6.24157 12.0719 6.46875 11.5 6.46875C10.9281 6.46875 10.3797 6.24157 9.9753 5.8372C9.57093 5.43282 9.34375 4.88437 9.34375 4.3125C9.34375 3.74063 9.57093 3.19218 9.9753 2.7878C10.3797 2.38343 10.9281 2.15625 11.5 2.15625C12.0719 2.15625 12.6203 2.38343 13.0247 2.7878C13.4291 3.19218 13.6562 3.74063 13.6562 4.3125Z"
+                                      fill="black"
+                                    />
+                                  </svg>
+                                  {visibleOptions[reference._id] && (
+                                    <div className="action-options-reference">
+                                      <p
+                                        className="d-flex align-items-center gap-2"
+                                        onClick={() =>
+                                          handleDeleteReference(reference._id)
+                                        }
+                                        style={{
+                                          cursor: "pointer",
+                                          color: "red",
+                                        }}
+                                      >
+                                        <FaTrash />
+                                        {TRANSLATIONS[language].Delete}
+                                      </p>
+                                    </div>
+                                  )}
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </td>
                       </tr>
                       {showDropDown &&
                         selectedCandidate._id === reference._id && (
-                          <div className="d-flex align-items-center justify-content-start w-100">
+                          <tr className="d-flex align-items-center w-100 justify-content-start w-100">
                             <div
                               className={`reference-dropdown-container mb-2 ${
                                 isExpanded ? "expanded" : ""
@@ -510,73 +591,71 @@ const ReferenceRequest = () => {
                                 Array.isArray(reference.referees) &&
                                 reference.referees.length > 0
                                   ? reference.referees.length === 1
-                                    ? "Referee"
-                                    : "Referees"
-                                  : "No Referees"}
+                                    ? TRANSLATIONS[language].referee
+                                    : TRANSLATIONS[language].referees
+                                  : ""}
                               </b>
-                              <div className="referee-list w-100 d-flex gap-2 mt-2">
+                              <div className="referee-list d-flex gap-2 mt-2">
                                 {showDropDown &&
                                   selectedCandidate?.referees &&
                                   selectedCandidate.referees.map((referee) => (
-                                    <div
-                                      className="referee-item mb-4"
-                                      key={referee?._id}
-                                    >
-                                      <div className="referee-details">
-                                        <div className="d-flex justify-content-between mb-1">
-                                          <div className="referee-left-container d-flex align-items-center">
-                                            <span className="referee-name mb-1">
-                                              {typeof referee?.name === "string"
-                                                ? referee?.name
-                                                : `${referee?.name.firstName} ${referee?.name.lastName}`}
-                                            </span>
-                                          </div>
-                                          <div className="d-flex align-items-end">
+                                    <>
+                                      <div
+                                        className="referee-item justify-content-center flex-column "
+                                        key={referee?._id}
+                                      >
+                                        <div className="d-flex align-items-center  w-100 mb-1">
+                                          <span className="referee-name mb-1">
+                                            {typeof referee?.name === "string"
+                                              ? referee?.name
+                                              : `${referee?.name.firstName} ${referee?.name.lastName}`}
+                                          </span>
+
+                                          <div className="d-flex referee-status  justify-content-center ">
                                             <span
-                                              className="referee-status mb-1 text-center"
+                                              className="mb-1 text-center"
                                               style={{
                                                 color: getStatusColor(
                                                   referee?.status
                                                 ),
                                               }}
                                             >
-                                              {referee?.status}
+                                              {getTranslatedStatus(referee?.status)}
                                             </span>
                                           </div>
                                         </div>
-                                        <div className="d-flex justify-content-between">
-                                          <div className="referee-left-container d-flex align-items-center">
-                                            <p className="referee-position">
-                                              {referee?.position}
-                                            </p>
-                                            <p className="referee-email m-0">
-                                              {referee?.email}
-                                            </p>
-                                          </div>
-                                          <div className="d-flex align-items-end">
+                                        <div className="d-flex align-items-center  w-100">
+                                          <p className="referee-email m-0">
+                                            {referee?.email}
+                                          </p>
+
+                                          <div className="d-flex referee-status  justify-content-end">
                                             <button
                                               className="btn-view-referee"
                                               onClick={() =>
                                                 handleViewDetails(referee)
                                               }
                                             >
-                                              View Referee
+                                              {
+                                                TRANSLATIONS[language]
+                                                  .viewReferee
+                                              }
                                             </button>
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
+                                    </>
                                   ))}
                               </div>
                             </div>
-                          </div>
+                          </tr>
                         )}
                     </React.Fragment>
                   ))
                 ) : (
                   <tr>
                     <td colSpan="7" className="text-center">
-                      Reference requests not found
+                      {TRANSLATIONS[language].notFound}
                     </td>
                   </tr>
                 )}
@@ -584,7 +663,7 @@ const ReferenceRequest = () => {
             </table>
           </>
         ) : (
-          <div>No reference requests record</div>
+          <div>{TRANSLATIONS[language].noRecord}</div>
         )}
       </div>
       {showDeleteConfirmation && (

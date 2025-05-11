@@ -114,7 +114,7 @@ const getOverallAssessmentText = (category) => {
 
 function OverAllAssesment({ onSubmit, category }) {
   const [selectedValue, setSelectedValue] = useState("");
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const t = CHECKBOX_OPTION_LABEL[language].assessment;
 
   const handleChange = (event) => {
@@ -246,17 +246,16 @@ function OverAllAssesment({ onSubmit, category }) {
                 ))}
               </RadioGroup>
             </FormControl>
-
           </div>
           <div className="assessment-form-btn-container">
-              <button
-                className="assessment-form-btn-submit"
-                onClick={handleSubmit}
-                disabled={!selectedValue}
-              >
-                {t.submit}
-              </button>
-            </div>
+            <button
+              className="assessment-form-btn-submit"
+              onClick={handleSubmit}
+              disabled={!selectedValue}
+            >
+              {t.submit}
+            </button>
+          </div>
         </Form>
       </div>
     </div>

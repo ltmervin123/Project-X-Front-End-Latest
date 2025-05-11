@@ -1,0 +1,72 @@
+:root {
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --sidebar-bg: #f2f3f7;
+}
+.translation-icon-container {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  z-index: 1;
+}
+
+.translation-icon-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 12px;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.translation-icon-btn svg {
+  width: 30px;
+}
+.translation-dropdown {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 6px;
+    position: absolute;
+    right: 0;
+    width: 50px;
+    top: 60px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .translation-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right:38%; /* Adjust for horizontal alignment */
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: transparent transparent var(--primary-color) transparent;
+  }
+  
+  
+.dropdown-item {
+  display: flex;
+  cursor: pointer;
+}
+
+.dropdown-item svg {
+  width: 40px;
+  height: 28px;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item svg:hover {
+  transform: scale(1.05);
+}

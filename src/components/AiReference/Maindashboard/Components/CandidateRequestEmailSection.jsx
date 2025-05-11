@@ -1,8 +1,26 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const TRANSLATIONS = {
+  English: {
+    emailSent: "Email Sent",
+    singleEmailMessage: "We have just sent an email to {email} requesting the submission of referee information for the reference check process.",
+    multipleEmailMessage: "We have sent emails to all listed applicants requesting the submission of referee information for the reference check process.",
+    notWorking: "Not working? Contact",
+    backToDashboard: "Back to Dashboard"
+  },
+  Japanese: {
+    emailSent: "メール送信済み",
+    singleEmailMessage: "推薦者情報の提出を依頼するメールを{email}に送信しました。",
+    multipleEmailMessage: "リストされている全ての応募者に推薦者情報の提出を依頼するメールを送信しました。",
+    notWorking: "問題がありますか？お問い合わせ先",
+    backToDashboard: "ダッシュボードに戻る"
+  }
+};
+
 const CandidateRequestEmailSection = () => {
   const navigate = useNavigate();
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [emails, setEmails] = useState(
     JSON.parse(sessionStorage.getItem("candidateEmails")) || []
   );
@@ -25,28 +43,25 @@ const CandidateRequestEmailSection = () => {
               />
             </svg>
 
-            <h2 className="fs-4">Email Sent</h2>
+            <h2 className="fs-4">{TRANSLATIONS[language].emailSent}</h2>
           </div>
           {emails.length === 1 ? (
             <p className="w-100">
-              We've just sent an email to <strong>{emails[0]}</strong>. They
-              will now be asked to provide their referees for reference
-              checking.
+              {TRANSLATIONS[language].singleEmailMessage.replace("{email}", emails[0])}
             </p>
           ) : (
             <p className="w-100">
-              We've successfully sent emails to all listed candidates. They will
-              now be asked to provide their referees for reference checking.
+              {TRANSLATIONS[language].multipleEmailMessage}
             </p>
           )}
 
           <p className="w-100">
-            Not working? Contact{" "}
+            {TRANSLATIONS[language].notWorking}{" "}
             <strong className="color-blue">customersupport@hr-hatch.com</strong>
             .
           </p>
           <button className="btn-activate-now" onClick={() => navigate(-1)}>
-            Back to Dashboard
+            {TRANSLATIONS[language].backToDashboard}
           </button>
         </div>
       </div>

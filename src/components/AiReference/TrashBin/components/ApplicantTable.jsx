@@ -1,8 +1,20 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationApplicantPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
-import RecoverConfirmationApplicantPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationApplicantPopUp";
+import RestoreConfirmationApplicantPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationApplicantPopUp";
 
+const TRANSLATIONS = {
+  English: {
+    restore: "Restore",
+    delete: "Delete",
+
+  },
+  Japanese: {
+    restore: "復元",
+    delete: "削除",
+ 
+  },
+};
 const ApplicantTable = ({
   data,
   selectedItems,
@@ -11,11 +23,15 @@ const ApplicantTable = ({
   onDelete,
   showCheckboxes,
   isDeletingCandidates,
-  isRecoveringCandidate,
+  isRestoringCandidate,
 }) => {
+    const language = sessionStorage.getItem("preferred-language") || "English";
+
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
+  // Add this line to calculate the number of selected items
+  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
     event.stopPropagation(); // Stop event propagation here
@@ -36,18 +52,30 @@ const ApplicantTable = ({
     setVisibleOptions({});
   };
 
-  const handleRecoverClick = (e) => {
+  const handleRestoreClick = (e) => {
     e.stopPropagation();
-    setShowRecoverConfirmation(true);
+    setShowRestoreConfirmation(true);
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting applicant: ", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
-  const handleConfirmRecover = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring applicant: ", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
 
   return (
@@ -59,12 +87,12 @@ const ApplicantTable = ({
       >
         {/* Add stopPropagation to checkbox container */}
         <td
-          style={{ width: "30px",cursor: "pointer" }}
+          style={{ width: "30px", cursor: "pointer" }}
           onClick={(e) => e.stopPropagation()}
         >
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />
@@ -73,7 +101,7 @@ const ApplicantTable = ({
         <td>{data.name}</td>
         <td>{data.email}</td>
         <td>{data.position}</td>
-        <td className="text-center">{data.deletedAt.split("T")[0]}</td>
+        <td>{data.deletedAt.split("T")[0]}</td>
         <td className="position-relative text-center">
           <div className="action-menu d-flex justify-content-center align-items-center">
             <p
@@ -98,11 +126,11 @@ const ApplicantTable = ({
                 <div className="action-options">
                   <p
                     className="d-flex align-items-center gap-2"
-                    onClick={handleRecoverClick}
+                    onClick={handleRestoreClick}
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Recover
+                    {TRANSLATIONS[language].restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -110,7 +138,7 @@ const ApplicantTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    Delete
+                    {TRANSLATIONS[language].delete}
                   </p>
                 </div>
               )}
@@ -122,18 +150,20 @@ const ApplicantTable = ({
         <DeleteConfirmationApplicantPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isDeletingCandidates={isDeletingCandidates}
         />
       )}
-      {showRecoverConfirmation && (
-        <RecoverConfirmationApplicantPopUp
-          onClose={() => setShowRecoverConfirmation(false)}
-          onConfirmRecover={handleConfirmRecover}
-          selectedCount={1}
-          isSingleItem={true}
-          isRecoveringCandidate={isRecoveringCandidate}
+      {showRestoreConfirmation && (
+        <RestoreConfirmationApplicantPopUp
+          onClose={() => setShowRestoreConfirmation(false)}
+          onConfirmRestore={handleConfirmRestore}
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
+          isRestoringCandidate={isRestoringCandidate}
         />
       )}
     </>

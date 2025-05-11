@@ -1,13 +1,51 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/AiRefereeStyles/ReviewYourReferenceCheckPage.css";
 import axios from "axios";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import QuestionDisplay from "../../components/ReviewYourReferenceCheck/QuestionDisplay";
-import SignatureSection from "../../components/ReviewYourReferenceCheck/SignatureSection";
 import IdUploadSection from "../../components/ReviewYourReferenceCheck/IdUploadSection";
 import SkipConfirmationPopUp from "../../components/ReviewYourReferenceCheck/SkipConfirmationPopUp";
+import PreviewConfirmationPopUp from "../../components/ReviewYourReferenceCheck/PreviewConfirmationPopUp";
+import PreviewSection from "../../components/ReviewYourReferenceCheck/PreviewSection";
 import { socket } from "../../utils/socket/socketSetup";
+
+const TRANSLATIONS = {
+  English: {
+    reviewResponses: "Review Your Responses",
+    questionIndicator: "Question {current} of {total}",
+    answerIndicator: "Answer {current} to {total}",
+    chooseAnswer: "Please choose how you'd like the answer to be presented",
+    skipWarning:
+      "You can click 'Skip' to use either your original or the AI-enhanced answers for the remaining questions, except for those that have already been submitted.",
+    skip: "Skip",
+    proceed: "Proceed",
+    submit: "Submit",
+    editAnswer: "Edit Answer",
+    allQuestionsAnswered: "All questions have been answered.",
+    confirmSkip: "Are you sure you want to skip?",
+    originalAnswer: "Original Answer",
+    aiEnhancedAnswer: "AI Enhanced Answer",
+    documentVerification: "Referee Identity Verification",
+  },
+  Japanese: {
+    reviewResponses: "回答を確認する",
+    questionIndicator: "質問 {current} / {total}",
+    answerIndicator: "回答 {current} / {total}",
+    chooseAnswer: "回答の提示方法を選択してください",
+    skipWarning:
+      "「スキップ」をクリックすると、すでに提出されたものを除き、残りの質問に対して元の回答またはAI強化回答のいずれかを使用できます。",
+    skip: "スキップ",
+    proceed: "進む",
+    submit: "送信",
+    editAnswer: "回答を編集",
+    allQuestionsAnswered: "すべての質問に回答されました。",
+    confirmSkip: "本当にスキップしますか？",
+    originalAnswer: "元の回答",
+    aiEnhancedAnswer: "AI強化回答",
+    documentVerification: "推薦者の本人確認",
+  },
+};
 
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
@@ -16,13 +54,7 @@ function ReviewYourReferenceCheckPage() {
   const [questions, setQuestions] = useState([]);
   const [aiEnhancedAnswers, setAiEnhancedAnswers] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [signatureMethod, setSignatureMethod] = useState("Draw Signature");
-  const [imagePreview, setImagePreview] = useState(null);
-  const [showSignatureSection, setShowSignatureSection] = useState(false);
   const [showIdUploadSection, setShowIdUploadSection] = useState(false);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const canvasRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showBothAnswers, setShowBothAnswers] = useState(false);
@@ -33,15 +65,15 @@ function ReviewYourReferenceCheckPage() {
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
   const allQuestionsAnswered = submittedAnswers.length === questions.length;
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
-  const [isCanvaEmpty, setIsCanvaEmpty] = useState(true);
   const [checked, setChecked] = useState(null);
   const [editedAnswer, setEditedAnswer] = useState(
     answers[currentQuestionIndex]
   );
   const [frontIdFile, setFrontIdFile] = useState(null);
   const [backIdFile, setBackIdFile] = useState(null);
-  const [savedSignature, setSavedSignature] = useState(null);
   const [selfie, setSelfie] = useState(null);
+  const [showPreviewConfirmation, setShowPreviewConfirmation] = useState(false);
+  const [showPreviewSection, setShowPreviewSection] = useState(false);
   const referenceQuestionsData =
     JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
 
@@ -49,57 +81,25 @@ function ReviewYourReferenceCheckPage() {
     setShowSkipConfirmation(true);
   };
 
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
 
-  const translations = {
-    English: {
-      reviewResponses: "Review Your Responses",
-      questionIndicator: "Question {current} of {total}",
-      answerIndicator: "Answer {current} to {total}",
-      chooseAnswer: "Please choose how you'd like the answer to be presented",
-      skipWarning:
-        "You can click 'Skip' to use your original answers for the remaining questions, except for those that have already been submitted.",
-      skip: "Skip",
-      proceed: "Proceed",
-      submit: "Submit",
-      allQuestionsAnswered: "All questions have been answered.",
-      confirmSkip: "Are you sure you want to skip?",
-      originalAnswer: "Original Answer",
-      aiEnhancedAnswer: "AI Enhanced Answer",
-      documentVerification: "Document Verification",
-    },
-    Japanese: {
-      reviewResponses: "回答を確認する",
-      questionIndicator: "質問 {current} / {total}",
-      answerIndicator: "回答 {current} / {total}",
-      chooseAnswer: "回答の提示方法を選択してください",
-      skipWarning:
-        "残りの質問に対して元の回答を使用するには「スキップ」をクリックできます。ただし、すでに提出された質問は除きます。",
-      skip: "スキップ",
-      proceed: "進む",
-      submit: "送信",
-      allQuestionsAnswered: "すべての質問に回答されました。",
-      confirmSkip: "本当にスキップしますか？",
-      originalAnswer: "元の回答",
-      aiEnhancedAnswer: "AI強化回答",
-      documentVerification: "本人確認書類",
-    },
-  };
-  const handleConfirmSkip = () => {
-    const remainingOriginalAnswer = questions
+  const handleConfirmSkip = (selectedType) => {
+    const remainingAnswer = questions
       .slice(currentQuestionIndex)
       .map((_, index) => ({
         question: questions[currentQuestionIndex + index],
-        answer: answers[currentQuestionIndex + index],
-        preferredAnswerType: "Original Answer",
+        answer:
+          selectedType === "Original Answer"
+            ? answers[currentQuestionIndex + index]
+            : aiEnhancedAnswers[currentQuestionIndex + index],
+        preferredAnswerType: selectedType,
       }));
 
-    setSubmittedAnswers((prev) => [...prev, ...remainingOriginalAnswer]);
-    setShowSignatureSection(true);
+    setSubmittedAnswers((prev) => [...prev, ...remainingAnswer]);
+    setCurrentQuestionIndex(questions.length - 1);
     setShowSkipConfirmation(false);
   };
 
-  // Update the saveAnswer function
   const saveAnswer = () => {
     const currentQuestion = questions[currentQuestionIndex];
     const selectedType = selectedAnswers[currentQuestionIndex];
@@ -107,6 +107,11 @@ function ReviewYourReferenceCheckPage() {
     if (selectedType === null) {
       return;
     }
+
+    // Find the category that contains the current question
+    const currentCategory = referenceQuestionsData.find((category) =>
+      category.questions.includes(currentQuestion)
+    );
 
     const selectedAnswer =
       selectedType === "Original Answer"
@@ -121,11 +126,14 @@ function ReviewYourReferenceCheckPage() {
       question: currentQuestion,
       answer: selectedAnswer,
       preferredAnswerType: selectedAnswers[currentQuestionIndex],
+      assessment:
+        currentCategory?.assessments?.[
+          currentCategory.questions.indexOf(currentQuestion)
+        ] || "",
     };
 
     setSubmittedAnswers((prev) => [...prev, newAnswer]);
 
-    // Always move to next question if not last
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
@@ -164,51 +172,22 @@ function ReviewYourReferenceCheckPage() {
   }, []);
 
   const handleProceed = () => {
-    setShowSignatureSection(true);
+    setShowPreviewConfirmation(true);
   };
 
-  const handleSelectChange = (e) => {
-    setSignatureMethod(e.target.value);
+  const handleConfirmPreview = () => {
+    setShowPreviewConfirmation(false);
+    setShowPreviewSection(true);
   };
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (isValidFileType(file)) {
-        setUploadedFile(file);
-        setErrorMessage("");
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        setErrorMessage(
-          "Invalid file type. Please upload a PNG, JPG, JPEG, or JFIF file."
-        );
-      }
-    }
-  };
-  const isValidFileType = (file) => {
-    const validTypes = ["image/png", "image/jpeg", "image/jfif"];
-    return validTypes.includes(file.type);
+  const handleCancelPreview = () => {
+    setShowPreviewConfirmation(false);
+    setShowIdUploadSection(true);
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleFileDrop = (e) => {
-    e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleFileSelect({ target: { files } });
-    }
-  };
-  const clearImage = () => {
-    setUploadedFile(null);
-    setImagePreview(null);
-    setErrorMessage("");
+  const handleContinueFromPreview = () => {
+    setShowPreviewSection(false);
+    setShowIdUploadSection(true);
   };
 
   const handleNextQuestion = () => {
@@ -223,98 +202,24 @@ function ReviewYourReferenceCheckPage() {
     }
   };
 
-  const clearDrawing = () => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    setIsDrawing(false);
-    setIsCanvaEmpty(true);
-  };
-
-  const startDrawing = (e) => {
-    setIsCanvaEmpty(false);
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect(); // Get the bounding rectangle of the canvas
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Calculate x coordinate
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Calculate y coordinate
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    setIsDrawing(true);
-  };
-
-  const draw = (e) => {
-    if (!isDrawing) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect(); // Get the bounding rectangle of the canvas
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Calculate x coordinate
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Calculate y coordinate
-    ctx.lineTo(x, y);
-    ctx.stroke();
-  };
-
-  const stopDrawing = () => {
-    setIsDrawing(false);
-  };
-
-  useLayoutEffect(() => {
-    if (signatureMethod === "Draw Signature") {
-      const intervalId = setInterval(() => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-          resizeCanvas();
-          clearInterval(intervalId);
-        }
-      }, 100);
-      return () => {
-        clearInterval(intervalId);
-      };
-    }
-  }, [signatureMethod]);
-
-  const resizeCanvas = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const context = canvas.getContext("2d");
-    const scale = window.devicePixelRatio || 1; // Get the device pixel ratio
-    const container = canvas.parentElement; // Get the parent container
-    const width = container.clientWidth * scale; // Set width based on container size
-    const height = container.clientHeight * scale; // Set height based on container size
-
-    canvas.width = width; // Set the canvas width
-    canvas.height = height; // Set the canvas height
-
-    // Clear the canvas after resizing
-    context.clearRect(0, 0, canvas.width, canvas.height); // <-- Ensure the canvas is cleared
-
-    // Set drawing styles
-    context.scale(scale, scale); // Scale the context
-    context.lineWidth = 2 * scale; // Set line width
-    context.lineCap = "round"; // Set line cap
-    context.lineJoin = "round"; // Set line join
-    context.strokeStyle = "black"; // Set stroke color
-  };
-
   const getReferenceQuestionData = () => {
-    // Attach the submitted answers and their preferred answer types to their respective questions
     const organizedReferenceQuestionData = referenceQuestionsData.map(
       (categoryItem) => {
-        // Initialize arrays for answers and preferredAnswerType
         const updatedAnswers = [...categoryItem.answers];
         const updatedPreferredAnswerTypes = new Array(
           updatedAnswers.length
         ).fill("");
+        const updatedAssessments = new Array(updatedAnswers.length).fill("");
 
         submittedAnswers.forEach(
-          ({ question, answer, preferredAnswerType }) => {
+          ({ question, answer, preferredAnswerType, assessment }) => {
             const questionIndex = categoryItem.questions.findIndex(
               (q) => q.trim() === question.trim()
             );
             if (questionIndex !== -1) {
               updatedAnswers[questionIndex] = answer;
               updatedPreferredAnswerTypes[questionIndex] = preferredAnswerType;
+              updatedAssessments[questionIndex] = assessment;
             }
           }
         );
@@ -323,14 +228,14 @@ function ReviewYourReferenceCheckPage() {
           ...categoryItem,
           answers: updatedAnswers,
           preferredAnswerType: updatedPreferredAnswerTypes,
+          assessments: updatedAssessments,
+          // Keep the original assessmentRating
+          assessmentRating: categoryItem.assessmentRating,
         };
       }
     );
 
-    // Return the updated data, excluding normalizedAnswers
-    return organizedReferenceQuestionData.map(
-      ({ normalizedAnswers, ...rest }) => rest
-    );
+    return organizedReferenceQuestionData;
   };
 
   const dataURLtoBlob = (dataURL) => {
@@ -345,14 +250,6 @@ function ReviewYourReferenceCheckPage() {
   };
 
   const handleProceedIDUpload = () => {
-    if (isCanvaEmpty && signatureMethod === "Draw Signature") {
-      return;
-    }
-    if (canvasRef.current) {
-      const signatureDataURL = canvasRef.current.toDataURL("image/png");
-      setSavedSignature(signatureDataURL);
-    }
-    setShowSignatureSection(false);
     setShowIdUploadSection(true);
   };
 
@@ -404,34 +301,18 @@ function ReviewYourReferenceCheckPage() {
       setSubmitting(true);
       const formdata = new FormData();
       const selfieBlob = dataURLtoBlob(selfie);
-      if (signatureMethod === "Draw Signature") {
-        const signatureBlob = dataURLtoBlob(savedSignature);
-        formdata.append("referenceRequestId", referenceId);
-        formdata.append("currentCompany", currentCompany);
-        formdata.append("refereeTitle", positionTitle);
-        formdata.append("refereeRelationshipWithCandidate", relationship);
-        formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
-        formdata.append("questionFormat", format);
-        formdata.append("companyWorkedWith", companyWorkedWith);
-        formdata.append("workDuration", JSON.stringify(workDuration));
-        formdata.append("signatureFile", signatureBlob, "signature.png");
-        formdata.append("frontIdFile", frontIdFile);
-        formdata.append("backIdFile", backIdFile);
-        formdata.append("selfieFile", selfieBlob, "selfie.png");
-      } else {
-        formdata.append("referenceRequestId", referenceId);
-        formdata.append("currentCompany", currentCompany);
-        formdata.append("refereeTitle", positionTitle);
-        formdata.append("refereeRelationshipWithCandidate", relationship);
-        formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
-        formdata.append("questionFormat", format);
-        formdata.append("companyWorkedWith", companyWorkedWith);
-        formdata.append("workDuration", JSON.stringify(workDuration));
-        formdata.append("signatureFile", uploadedFile);
-        formdata.append("frontIdFile", frontIdFile);
-        formdata.append("backIdFile", backIdFile);
-        formdata.append("selfieFile", selfieBlob, "selfie.png");
-      }
+
+      formdata.append("referenceRequestId", referenceId);
+      formdata.append("currentCompany", currentCompany);
+      formdata.append("refereeTitle", positionTitle);
+      formdata.append("refereeRelationshipWithCandidate", relationship);
+      formdata.append("referenceQuestion", JSON.stringify(referenceQuestion));
+      formdata.append("questionFormat", format);
+      formdata.append("companyWorkedWith", companyWorkedWith);
+      formdata.append("workDuration", JSON.stringify(workDuration));
+      formdata.append("frontIdFile", frontIdFile);
+      formdata.append("backIdFile", backIdFile);
+      formdata.append("selfieFile", selfieBlob, "selfie.png");
 
       const response = await axios.post(URL, formdata, {
         headers: {
@@ -440,9 +321,7 @@ function ReviewYourReferenceCheckPage() {
         },
       });
       if (response.status === 201) {
-        // Emit event to server
         socket.emit("referenceCheckCompleted", { companyId });
-        //Navigate to reference completed page
         navigate("/reference-completed", {
           state: { referenceId, refereeId },
         });
@@ -458,7 +337,6 @@ function ReviewYourReferenceCheckPage() {
     await submitReferenceCheck();
   };
 
-  // Prevent accidental page exit
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
@@ -468,17 +346,16 @@ function ReviewYourReferenceCheckPage() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  //Add a warning when user is navigating back to previous page
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
-      const userConfirmed = window.confirm(translations[language].confirmSkip);
+      const userConfirmed = window.confirm(TRANSLATIONS[language].confirmSkip);
       if (!userConfirmed) {
-        window.history.pushState(null, "", window.location.pathname); // Prevent going back
+        window.history.pushState(null, "", window.location.pathname);
       }
     };
 
-    window.history.pushState(null, "", window.location.pathname); // Push state to prevent immediate back
+    window.history.pushState(null, "", window.location.pathname);
     window.addEventListener("popstate", handleBackButton);
 
     return () => {
@@ -490,48 +367,17 @@ function ReviewYourReferenceCheckPage() {
     const newSelectedAnswers = [...selectedAnswers];
     newSelectedAnswers[currentQuestionIndex] = type;
     setSelectedAnswers(newSelectedAnswers);
-
     setChecked(type);
-
-    const isAnyAnswerSelected =
-      newSelectedAnswers[currentQuestionIndex] !== null;
-    setIsSubmitEnabled(isAnyAnswerSelected);
+    setIsSubmitEnabled(true);
   };
 
   return (
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       <Row className="ReviewYourReferenceCheck-Row">
-        {showSignatureSection ? (
+        {showIdUploadSection ? (
           <>
             <h5 className="referencecheckquestiontitle text-left mb-2">
-              {translations[language].reviewResponses}
-            </h5>
-            <Col md={12}>
-              <SignatureSection
-                signatureMethod={signatureMethod}
-                canvasRef={canvasRef}
-                startDrawing={startDrawing}
-                draw={draw}
-                stopDrawing={stopDrawing}
-                clearDrawing={clearDrawing}
-                handleProceedIDUpload={handleProceedIDUpload}
-                submitting={submitting}
-                handleFileDrop={handleFileDrop}
-                handleDragOver={handleDragOver}
-                uploadedFile={uploadedFile}
-                imagePreview={imagePreview}
-                errorMessage={errorMessage}
-                clearImage={clearImage}
-                setSignatureMethod={setSignatureMethod}
-                handleFileSelect={handleFileSelect}
-                isCanvaEmpty={isCanvaEmpty}
-              />
-            </Col>
-          </>
-        ) : showIdUploadSection ? (
-          <>
-            <h5 className="referencecheckquestiontitle text-left mb-2">
-              {translations[language].documentVerification}
+              {TRANSLATIONS[language].documentVerification}
             </h5>
             <IdUploadSection
               frontIdFile={frontIdFile}
@@ -545,16 +391,28 @@ function ReviewYourReferenceCheckPage() {
               setSelfie={setSelfie}
             />
           </>
+        ) : showPreviewSection ? (
+          <>
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {TRANSLATIONS[language].reviewResponses}
+            </h5>
+            <PreviewSection
+              referenceQuestionsData={referenceQuestionsData}
+              submittedAnswers={submittedAnswers}
+              onContinue={handleContinueFromPreview}
+              language={language}
+            />
+          </>
         ) : (
           <>
             <h5 className="referencecheckquestiontitle text-left mb-2">
-              {translations[language].reviewResponses}
+              {TRANSLATIONS[language].reviewResponses}
             </h5>
-            <Col md={!showBothAnswers ? 9 : 12}>
+            <Col md={!showBothAnswers ? 9 : 12} >
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
                   <p className="m-0">
-                    {translations[language].questionIndicator
+                    {TRANSLATIONS[language].questionIndicator
                       .replace("{current}", currentQuestionIndex + 1)
                       .replace("{total}", questions.length)}
                   </p>
@@ -575,23 +433,23 @@ function ReviewYourReferenceCheckPage() {
                   handleUpdateEnhanceAnswer={handleUpdateEnhanceAnswer}
                   handlePreviousQuestion={handlePreviousQuestion}
                   handleNextQuestion={handleNextQuestion}
+                  language={language}
                 />
               </div>
             </Col>
-            {/* Conditionally render the right column based on isEditing */}
             {!showBothAnswers && (
               <Col md={3}>
                 <div className="ReviewYourReferenceCheckAnswer-right-container">
                   <div className="answer-indicator-container">
                     <div className="question-indicator mb-0">
                       <p className="my-2">
-                        {translations[language].answerIndicator
+                        {TRANSLATIONS[language].answerIndicator
                           .replace("{current}", currentQuestionIndex + 1)
                           .replace("{total}", questions.length)}
                       </p>{" "}
                     </div>
                     <p className="my-2">
-                      {translations[language].chooseAnswer}
+                      {TRANSLATIONS[language].chooseAnswer}
                     </p>
                   </div>
                   <div className="buttons-container d-flex align-items-start justify-content-start flex-column gap-2">
@@ -615,45 +473,35 @@ function ReviewYourReferenceCheckPage() {
                         <div className="form-check">
                           <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="form-check-input custom-checkbox"
                             id="originalAnswer"
                             checked={checked === "Original Answer"}
-                            onChange={() => {
-                              handleAnswerSelection(
-                                selectedAnswers[currentQuestionIndex] ===
-                                  "Original Answer"
-                                  ? null
-                                  : "Original Answer"
-                              );
-                            }}
+                            onChange={() =>
+                              handleAnswerSelection("Original Answer")
+                            }
                           />
                           <label
                             className="form-check-label"
                             htmlFor="originalAnswer"
                           >
-                            {translations[language].originalAnswer}
+                            {TRANSLATIONS[language].originalAnswer}
                           </label>
                         </div>
                         <div className="form-check">
                           <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="form-check-input custom-checkbox"
                             id="aiEnhancedAnswer"
                             checked={checked === "AI Enhanced Answer"}
-                            onChange={() => {
-                              handleAnswerSelection(
-                                selectedAnswers[currentQuestionIndex] ===
-                                  "AI Enhanced Answer"
-                                  ? null
-                                  : "AI Enhanced Answer"
-                              );
-                            }}
+                            onChange={() =>
+                              handleAnswerSelection("AI Enhanced Answer")
+                            }
                           />
                           <label
                             className="form-check-label"
                             htmlFor="aiEnhancedAnswer"
                           >
-                            {translations[language].aiEnhancedAnswer}
+                            {TRANSLATIONS[language].aiEnhancedAnswer}
                           </label>
                         </div>
                       </>
@@ -661,13 +509,13 @@ function ReviewYourReferenceCheckPage() {
                   </div>
                   <div className="button-controller-container d-flex align-items-center justify-content-end flex-column gap-2">
                     <small className="mb-2 w-100">
-                      {translations[language].skipWarning}
+                      {TRANSLATIONS[language].skipWarning}
                     </small>
                     <button
                       onClick={handleSkip}
                       disabled={allQuestionsAnswered}
                     >
-                      {translations[language].skip}
+                      {TRANSLATIONS[language].skip}
                     </button>
 
                     {allQuestionsAnswered ? (
@@ -675,7 +523,7 @@ function ReviewYourReferenceCheckPage() {
                         className="btn-proceed-submit"
                         onClick={handleProceed}
                       >
-                        {translations[language].proceed}
+                        {TRANSLATIONS[language].proceed}
                       </button>
                     ) : (
                       <button
@@ -683,7 +531,7 @@ function ReviewYourReferenceCheckPage() {
                         onClick={saveAnswer}
                         disabled={!isSubmitEnabled}
                       >
-                        {translations[language].submit}
+                        {TRANSLATIONS[language].submit}
                       </button>
                     )}
                   </div>
@@ -699,6 +547,12 @@ function ReviewYourReferenceCheckPage() {
           </>
         )}
       </Row>
+      {showPreviewConfirmation && (
+        <PreviewConfirmationPopUp
+          onClose={handleCancelPreview}
+          onConfirmPreview={handleConfirmPreview}
+        />
+      )}
     </div>
   );
 }

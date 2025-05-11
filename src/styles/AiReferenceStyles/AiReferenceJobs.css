@@ -6,7 +6,7 @@
   --avatar-bg: #68686882;
   --text-color: #000;
   --sidebar-bg: #f2f3f7;
-  --btn-view-color: #319f43;
+  --btn-add-vacancy-color: #342b83;
   --form-bg: #FEF8F3;
   --container-bg: #FEF8F3;
   --popup-bg-container: #FEF8F3;
@@ -79,10 +79,25 @@
   border: 0.5px solid rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   padding: 20px;
-      height: 60vh;
+      height: 62vh;
 
 }
-
+.AiReference-active-jobs-container .btn-add-vacancy {
+  background: var(--btn-add-vacancy-color);
+  text-decoration: none;
+  color: var(--font-white);
+  width: 120px;
+  padding: 8px;
+  border-radius: 50px;
+  height: auto;
+  border: none !important;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+.AiReference-active-jobs-container .btn-add-vacancy:hover{
+  background: var(--secondary-color) !important;
+}
 .AiReference-active-jobs-container table {
   width: 100%;
   height: 80%;
@@ -108,13 +123,13 @@
 
 .AiReference-active-jobs-container th,
 .AiReference-active-jobs-container td {
-  padding: 15px; /* Padding for table cells */
+  padding: 10px 10px 10px 0px;  /* Padding for table cells */
   text-align: left; /* Align text to the left */
   transition: height 3s ease; /* Add transition for height only over 3 seconds */
   text-transform: capitalize;
 }
 
-.AiReference-active-jobs-container th,
+/* .AiReference-active-jobs-container th,
 .AiReference-active-jobs-container td {
   width: 10%;
 }
@@ -122,20 +137,24 @@
 .AiReference-active-jobs-container th:nth-child(1),
 .AiReference-active-jobs-container td:nth-child(1) {
   width: 12%;
-}
+} */
 
-.AiReference-active-jobs-container th:nth-child(2),
+/* .AiReference-active-jobs-container th:nth-child(2),
 .AiReference-active-jobs-container td:nth-child(2) {
   width: 8%;
+} */
+/* .AiReference-active-jobs-container th:nth-last-child(1),
+.AiReference-active-jobs-container td:nth-last-child(1){
+width: 20%;
 }
 
 .AiReference-active-jobs-container th:nth-child(3),
 .AiReference-active-jobs-container td:nth-child(3) {
   width: 20%;
-}
-
-.AiReference-active-jobs-container td:nth-child(6) {
-  padding-left: 20px;
+} */
+.AiReference-active-jobs-container th:nth-last-child(1),
+.AiReference-active-jobs-container td:nth-last-child(1) {
+  width: 20%;
 }
 
 .AiReference-active-jobs-container .btn-view-details {
@@ -157,7 +176,43 @@
   height: auto;
   font-weight: bold;
 }
+.action-menu-job{
+  position: absolute;
+  top: 22%;
+  right: -25px;
+  display: flex;
+  align-items: center;
+}
+.action-options-job {
+  position: absolute; /* or fixed if you want it to stay in view */
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+  padding: 10px !important;
+  background: var(--font-white);
+  width: auto;
+  font-size: 13px;
+  left: -285%;
+  top: 140%;
+  z-index: 1; /* Ensure it appears above other elements */
+  animation: fadeIn 0.3s ease-in; /* Apply the fade-in animation */
 
+}
+
+.action-options-job::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* Adjust this value to position the arrow */
+  left: 75px; /* Adjust this value to position the arrow */
+  border-width: 5px; /* Size of the arrow */
+  border-style: solid;
+  border-color: transparent transparent var(--sidebar-bg) transparent; /* Arrow color */
+  /* Adjust the left value to center the arrow if needed */
+}
+.action-options-job p{
+  margin: 0 !important;
+}
+.action-options-job p:nth-child(2){
+  color: red;
+}
 /* Form Styles */
 .job-container-form {
   border-radius: 20px;
@@ -197,7 +252,10 @@
   font-size: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
-
+.job-container-form input:disabled,
+.job-container-form select:disabled{
+  cursor: not-allowed;
+}
 .job-container-form .btn-create-job {
   background: var(--primary-color);
   border-radius: 10px;
@@ -243,13 +301,13 @@
 
 .action-options {
   position: absolute; /* or fixed if you want it to stay in view */
-  top: 0;
-  left: 20px;
+  top: 40px;
+  right: -22px;
   box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
   padding: 10px !important;
   z-index: 1000;
   background: var(--font-white);
-  width: auto;
+  width: 80px;
   font-size: 13px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
   animation: fadeIn 0.5s ease-in; /* Apply the fade-in animation */
@@ -421,15 +479,10 @@
 }
 
 .fill-req-container {
-  border-radius: 50px;
-  border: 1px solid var(--primary-color);
-  background: #f4690524;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px 20px;
-  box-shadow: 0px 4px 4px #0000003d;
-  color: var(--primary-color);
 }
 
 .job-tooltip-text {
@@ -499,7 +552,7 @@
 .AiReference-active-jobs-container tbody::-webkit-scrollbar,
 .referees-list-container::-webkit-scrollbar,
 select::-webkit-scrollbar {
-  width: 5px; /* Scrollbar width */
+  width: 4px; /* Scrollbar width */
 }
 
 .AiReference-active-jobs-container tbody::-webkit-scrollbar-thumb,

@@ -2,6 +2,43 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, ProgressBar } from "react-bootstrap";
 import axios from "axios";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    editQuestionSet: "Edit Question Set",
+    editQuestionDesc: "Edit the existing set of reference check questions.",
+    questionName: "Question Name",
+    enterSetName: "Enter set name",
+    description: "Description",
+    enterDescription: "Enter description",
+    questionRequired: "Question is required",
+    question: "Question",
+    addQuestions: "Add Questions",
+    updating: "Updating...",
+    updateSet: "Update Set",
+    of: "of",
+    questions: "Questions"
+  },
+  Japanese: {
+    editQuestionSet: "質問セットの編集",
+    editQuestionDesc: "既存の参考質問セットを編集します。",
+    questionName: "質問名",
+    enterSetName: "セット名を入力",
+    description: "説明",
+    enterDescription: "説明を入力",
+    questionRequired: "質問は必須です",
+    question: "質問",
+    addQuestions: "質問を追加",
+    updating: "更新中...",
+    updateSet: "セットを更新",
+    of: "の",
+    questions: "質問"
+  }
+};
+
 const EditNewSetsQuestionPopUp = ({
   onClose,
   reFetchUpdatedQuestions,
@@ -115,10 +152,8 @@ const EditNewSetsQuestionPopUp = ({
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
               <div>
-                <h5 className="mb-0">Edit Question Set</h5>
-                <small>
-                  Edit the existing set of reference check questions.
-                </small>
+                <h5 className="mb-0">{TRANSLATIONS[language].editQuestionSet}</h5>
+                <small>{TRANSLATIONS[language].editQuestionDesc}</small>
               </div>
             </div>
             <Button
@@ -133,23 +168,23 @@ const EditNewSetsQuestionPopUp = ({
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formTitle" className="mb-3">
               <Form.Label className="me-2 px-2" style={{ width: "150px" }}>
-                Question Name
+                {TRANSLATIONS[language].questionName}
               </Form.Label>
               <Form.Control
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter set name"
+                placeholder={TRANSLATIONS[language].enterSetName}
                 required
               />
               <Form.Label className="me-2 px-2 mt-2" style={{ width: "300px" }}>
-                Question Description
+                {TRANSLATIONS[language].description}
               </Form.Label>
               <Form.Control
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter set description"
+                placeholder={TRANSLATIONS[language].enterDescription}
                 required
               />
             </Form.Group>
@@ -168,7 +203,7 @@ const EditNewSetsQuestionPopUp = ({
                           >
                             <Form.Label className="w-100 d-flex align-items-center px-2">
                               <span className="me-2">
-                                Question {questionIndex + 1}
+                                {TRANSLATIONS[language].question} {questionIndex + 1}
                               </span>
                             </Form.Label>
 
@@ -201,7 +236,7 @@ const EditNewSetsQuestionPopUp = ({
                   type="submit"
                   disabled={submitting}
                 >
-                  {submitting ? "Updating..." : "Update Set"}
+                  {submitting ? TRANSLATIONS[language].updating : TRANSLATIONS[language].updateSet}
                 </button>
               </div>
             </div>
@@ -222,8 +257,8 @@ const EditNewSetsQuestionPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="mb-0">Edit Question Set</h5>
-            <small>Edit the existing set of reference check questions.</small>
+            <h5 className="mb-0">{TRANSLATIONS[language].editQuestionSet}</h5>
+            <small>{TRANSLATIONS[language].editQuestionDesc}</small>
           </div>
           <Button
             className="closebtn"
@@ -240,13 +275,13 @@ const EditNewSetsQuestionPopUp = ({
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-              Question Name
+              {TRANSLATIONS[language].questionName}
             </Form.Label>
             <Form.Control
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter set name"
+              placeholder={TRANSLATIONS[language].enterSetName}
               required
             />
           </Form.Group>
@@ -256,24 +291,24 @@ const EditNewSetsQuestionPopUp = ({
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-              Description
+              {TRANSLATIONS[language].description}
             </Form.Label>
             <Form.Control
               as="textarea"
               rows={1}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter description"
+              placeholder={TRANSLATIONS[language].enterDescription}
               required
             />
-            {isQuestionsEmpty && <div>Question is required</div>}
+            {isQuestionsEmpty && <div>{TRANSLATIONS[language].questionRequired}</div>}
           </Form.Group>
 
           <div className="questions-list">
             {questions.map((question, index) => (
               <div key={index} className="d-flex align-items-center mb-2 ">
                 <Form.Label className="me-2" style={{ width: "150px" }}>
-                  Question {index + 1}
+                  {TRANSLATIONS[language].question} {index + 1}
                 </Form.Label>
 
                 <div className="d-flex gap-2 w-100 mb-2">
@@ -287,7 +322,7 @@ const EditNewSetsQuestionPopUp = ({
                         onChange={(e) =>
                           handleQuestionChange(index, e.target.value)
                         }
-                        placeholder={`Question ${index + 1}`}
+                        placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
                         required
                       />
                       <Button
@@ -316,7 +351,7 @@ const EditNewSetsQuestionPopUp = ({
                       onChange={(e) =>
                         handleQuestionChange(index, e.target.value)
                       }
-                      placeholder={`Question ${index + 1}`}
+                      placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
                       required
                     />
                   )}
@@ -333,7 +368,7 @@ const EditNewSetsQuestionPopUp = ({
               {/* Progress bar and count */}
               <div style={{ width: "95%" }}>
                 <p className="mb-2">
-                  {questions.length} of {maxQuestions} Questions
+                  {questions.length} {TRANSLATIONS[language].of} {maxQuestions} {TRANSLATIONS[language].questions}
                 </p>
                 <ProgressBar
                   className="progress-bar-for-question"
@@ -355,7 +390,7 @@ const EditNewSetsQuestionPopUp = ({
                     variant="link"
                     onClick={handleAddQuestion}
                   >
-                    Add Questions
+                    {TRANSLATIONS[language].addQuestions}
                   </button>
                 </div>
               </div>
@@ -371,7 +406,7 @@ const EditNewSetsQuestionPopUp = ({
                 type="submit"
                 disabled={questions.length < maxQuestions || submitting}
               >
-                {submitting ? "Updating..." : "Update Set"}
+                {submitting ? TRANSLATIONS[language].updating : TRANSLATIONS[language].updateSet}
               </button>
             </div>
           </div>

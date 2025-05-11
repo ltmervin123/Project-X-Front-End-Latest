@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const TRANSLATIONS = {
@@ -6,19 +6,19 @@ const TRANSLATIONS = {
     question: "Question {current}: ",
     originalAnswer: "Original Answer: ",
     aiEnhancedAnswer: "AI Enhanced Answer: ",
-    editAnswers: "Edit Answers",
     save: "Save",
     saving: "Saving...",
     discard: "Discard",
+    editAnswers: "Edit Answer",
   },
   Japanese: {
     question: "質問 {current}: ",
     originalAnswer: "元の回答: ",
     aiEnhancedAnswer: "AI強化回答: ",
-    editAnswers: "回答を編集",
     save: "保存",
     saving: "保存中...",
     discard: "破棄",
+    editAnswers: "回答を編集",
   },
 };
 
@@ -31,6 +31,7 @@ const QuestionDisplay = ({
   setIsEditing,
   handleUpdateEnhanceAnswer,
   isEditing,
+  language,
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
@@ -39,7 +40,7 @@ const QuestionDisplay = ({
   const [editedAIEnhancedAnswer, setEditedAIEnhancedAnswer] = useState("");
   const [editingType, setEditingType] = useState(null);
 
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  // const language = sessionStorage.getItem("preferred-language") || "English";
 
   const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
@@ -85,16 +86,18 @@ const QuestionDisplay = ({
 
   return (
     <div className="ReviewYourReferenceCheck-box-item h-100">
-      <div className="question-container m-0">
-        <p className="question-text ">
+      <div className="question-container mb-4">
+        <div className="question-text ">
           <strong>
             {TRANSLATIONS[language].question.replace(
               "{current}",
               currentQuestionIndex + 1
             )}
           </strong>
-          {questions[currentQuestionIndex]}
-        </p>
+          <div className="question-text-container">
+            <p className="m-0">{questions[currentQuestionIndex]}</p>
+          </div>
+        </div>
       </div>
 
       <p className="orig-label d-flex justify-content-between align-items-center">
@@ -144,7 +147,9 @@ const QuestionDisplay = ({
             className="answer-textarea"
           />
         ) : (
-          <p>{answers[currentQuestionIndex]}</p>
+          <div className="answer-text-container">
+            <p>{answers[currentQuestionIndex]}</p>
+          </div>
         )}
       </div>
 
@@ -171,7 +176,7 @@ const QuestionDisplay = ({
 
       <p className="ai-enhanced-label mt-3 d-flex justify-content-between align-items-center">
         <strong>{TRANSLATIONS[language].aiEnhancedAnswer}</strong>
-        {isEditing && editingType === "aiEnhanced" ? null : (
+        {/* {isEditing && editingType === "aiEnhanced" ? null : (
           <button
             className="btn-edit"
             onClick={() => {
@@ -206,7 +211,7 @@ const QuestionDisplay = ({
             </svg>
             {TRANSLATIONS[language].editAnswers}
           </button>
-        )}
+        )} */}
       </p>
       <div
         className={`ai-enhanced-answer-container  ${isEditing ? "edit" : ""}`}
@@ -220,12 +225,14 @@ const QuestionDisplay = ({
             className="answer-textarea"
           />
         ) : (
-          <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>
+          <div className="answer-text-container">
+            <p>{aiEnhancedAnswers[currentQuestionIndex]}</p>
+          </div>
         )}
       </div>
 
       {isEditing && editingType === "aiEnhanced" && (
-        <div className="action-buttons d-flex gap-3 mb-3">
+        <div className="action-buttons d-flex gap-3 mb-0">
           <button
             className={`btn-save ${updating ? "disabled" : ""}`}
             onClick={handleSaveOriginalAnswer}

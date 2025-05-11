@@ -1,6 +1,42 @@
-import React, { useState, useRef, useMemo, useCallback } from "react";
+import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Update translations dictionary
+const TRANSLATIONS = {
+  English: {
+    editHRHatch: "Edit HR-HΛTCH Format Question",
+    importantNote: "Important Note",
+    placeholderNote: "Use \"(applicant name)\" as a placeholder. It will be automatically replaced with the actual applicant's name when the form is used.",
+    editInstructions: "Edit the reference check questions below. To add the applicant's name, simply type \"(\".",
+    questionName: "Question Name",
+    enterSetName: "Enter set name",
+    questionDesc: "Question Description",
+    enterSetDesc: "Enter set description",
+    question: "Question",
+    enterQuestion: "Enter question",
+    default: "Default",
+    saving: "Saving...",
+    saveSet: "Save Set"
+  },
+  Japanese: {
+    editHRHatch: "HR-HΛTCH フォーマット質問の編集",
+    importantNote: "重要な注意事項",
+    placeholderNote: "プレースホルダーとして「(applicant name)」を使用してください。フォーム使用時に実際の応募者名に自動的に置き換えられます。",
+    editInstructions: "以下の照会質問を編集してください。応募者の名前を追加するには、「(」と入力するだけです。",
+    questionName: "質問名",
+    enterSetName: "セット名を入力",
+    questionDesc: "質問の説明",
+    enterSetDesc: "セットの説明を入力",
+    question: "質問",
+    enterQuestion: "質問を入力",
+    default: "デフォルト",
+    saving: "保存中...",
+    saveSet: "セットを保存"
+  }
+};
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -230,6 +266,17 @@ const EditHRFormatQuestionPopup = ({
     return map;
   }, [questions]);
 
+  // Add useEffect to log data when component mounts
+  useEffect(() => {
+    console.log('Selected Question Format:', selectedQuestionFormat);
+    if (selectedQuestionFormat?.questionSets) {
+      selectedQuestionFormat.questionSets.forEach((category, index) => {
+        console.log(`Category ${index + 1}:`, category.category);
+        console.log('Questions:', category.questions);
+      });
+    }
+  }, [selectedQuestionFormat]);
+
   return (
     <Modal
       show={true}
@@ -242,11 +289,8 @@ const EditHRFormatQuestionPopup = ({
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <div className="d-flex align-items-center gap-2">
-              <h5 className="mb-0">
-                Edit <span className="color-orange">HR</span>-HΛTCH Format
-                Question{" "}
-              </h5>
-              <div className="position-relative d-flex ">
+              <h5 className="mb-0">{TRANSLATIONS[language].editHRHatch}</h5>
+              <div className="position-relative d-flex">
                 <svg
                   width="16"
                   height="16"
@@ -267,21 +311,13 @@ const EditHRFormatQuestionPopup = ({
                 </svg>
                 {showTooltip && (
                   <span className="job-tooltip-text">
-                    <b className="color-orange">Important Note</b>
-                    <p className="mb-0">
-                      Use "(candidate name)" as a placeholder. It will be
-                      automatically replaced with the actual candidate's name
-                      when the form is used.
-                    </p>
+                    <b className="color-orange">{TRANSLATIONS[language].importantNote}</b>
+                    <p className="mb-0">{TRANSLATIONS[language].placeholderNote}</p>
                   </span>
                 )}
               </div>
             </div>
-
-            <small>
-              Edit the reference check questions below. To add the candidate's
-              name, simply type "(".{" "}
-            </small>
+            <small>{TRANSLATIONS[language].editInstructions}</small>
           </div>
           <Button
             className="closebtn"
@@ -295,23 +331,23 @@ const EditHRFormatQuestionPopup = ({
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formTitle" className="mb-3">
             <Form.Label className="me-2 px-2" style={{ width: "150px" }}>
-              Question Name
+              {TRANSLATIONS[language].questionName}
             </Form.Label>
             <Form.Control
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter set name"
+              placeholder={TRANSLATIONS[language].enterSetName}
               required
             />
             <Form.Label className="me-2 px-2 mt-2" style={{ width: "300px" }}>
-              Question Description
+              {TRANSLATIONS[language].questionDesc}
             </Form.Label>
             <Form.Control
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter set description"
+              placeholder={TRANSLATIONS[language].enterSetDesc}
               required
             />
           </Form.Group>
@@ -319,102 +355,110 @@ const EditHRFormatQuestionPopup = ({
           <div className="questions-list">
             {selectedQuestionFormat?.questionSets &&
               selectedQuestionFormat.questionSets.map(
-                (category, categoryIndex) => (
-                  <div key={categoryIndex} className="mb-4">
-                    <h5>{category.category}</h5>
-                    {Array.isArray(category.questions) &&
-                      category.questions.map((question, questionIndex) => {
-                        const questionText =
-                          typeof question === "string"
-                            ? question
-                            : question.text || "";
+                (category, categoryIndex) => {
+                  console.log(`Rendering category ${categoryIndex}:`, category);
+                  return (
+                    <div key={categoryIndex} className="mb-4">
+                      <h5>{category.category}</h5>
+                      {Array.isArray(category.questions) &&
+                        category.questions.map((question, questionIndex) => {
+                          const questionText =
+                            typeof question === "string"
+                              ? question
+                              : question.text || "";
 
-                        // Find the right question in our state by its ID
-                        const questionId = `${categoryIndex}-${questionIndex}`;
-                        const stateIndex = questionIndexMap.get(questionId);
+                          console.log(`Question ${questionIndex + 1}:`, {
+                            category: category.category,
+                            text: questionText
+                          });
 
-                        return (
-                          <div
-                            key={`${category.category}-${questionIndex}`}
-                            className="mb-3"
-                          >
-                            <Form.Label className="w-100 d-flex align-items-center px-2">
-                              <span className="me-2">
-                                Question {questionIndex + 1}
-                              </span>
-                            </Form.Label>
+                          // Find the right question in our state by its ID
+                          const questionId = `${categoryIndex}-${questionIndex}`;
+                          const stateIndex = questionIndexMap.get(questionId);
 
-                            <div className="position-relative w-100 px-2">
-                              <Form.Control
-                                as="textarea"
-                                className="text-area-question-hr-hatch"
-                                rows={calculateRows(
-                                  stateIndex !== undefined
-                                    ? questions[stateIndex].text
-                                    : questionText
-                                )}
-                                value={
-                                  stateIndex !== undefined
-                                    ? questions[stateIndex].text
-                                    : questionText
-                                }
-                                onChange={(e) => {
-                                  if (stateIndex !== undefined) {
-                                    handleQuestionChange(
-                                      stateIndex,
-                                      e.target.value
-                                    );
+                          return (
+                            <div
+                              key={`${category.category}-${questionIndex}`}
+                              className="mb-3"
+                            >
+                              <Form.Label className="w-100 d-flex align-items-center px-2">
+                                <span className="me-2">
+                                  {TRANSLATIONS[language].question} {questionIndex + 1}
+                                </span>
+                              </Form.Label>
+
+                              <div className="position-relative w-100 px-2">
+                                <Form.Control
+                                  as="textarea"
+                                  className="text-area-question-hr-hatch"
+                                  rows={calculateRows(
+                                    stateIndex !== undefined
+                                      ? questions[stateIndex].text
+                                      : questionText
+                                  )}
+                                  value={
+                                    stateIndex !== undefined
+                                      ? questions[stateIndex].text
+                                      : questionText
                                   }
-                                }}
-                                onSelect={(e) =>
-                                  setCursorPosition(e.target.selectionStart)
-                                }
-                                onKeyDown={(e) => {
-                                  if (
-                                    e.key.includes("(") ||
-                                    e.key.includes(")")
-                                  ) {
-                                    setActiveQuestionIndex(stateIndex);
-                                    setSuggestions([
-                                      "(candidate name)",
-                                      "(candidate name)'s",
-                                    ]);
-                                  } else {
-                                    setSuggestions([]);
-                                    setActiveQuestionIndex(null);
+                                  onChange={(e) => {
+                                    if (stateIndex !== undefined) {
+                                      handleQuestionChange(
+                                        stateIndex,
+                                        e.target.value
+                                      );
+                                    }
+                                  }}
+                                  onSelect={(e) =>
+                                    setCursorPosition(e.target.selectionStart)
                                   }
-                                }}
-                                placeholder={`Enter question ${
-                                  questionIndex + 1
-                                }`}
-                                required
-                              />
-                              {suggestions.length > 0 &&
-                                activeQuestionIndex === stateIndex && (
-                                  <div
-                                    className="suggestions-list"
-                                    style={{ width: "auto" }}
-                                  >
-                                    {suggestions.map((suggestion, idx) => (
-                                      <div
-                                        key={idx}
-                                        className="suggestion-item"
-                                        style={{ width: "auto" }}
-                                        onClick={() =>
-                                          handleSuggestionClick(suggestion)
-                                        }
-                                      >
-                                        {suggestion}
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
+                                  onKeyDown={(e) => {
+                                    if (
+                                      e.key.includes("(") ||
+                                      e.key.includes(")")
+                                    ) {
+                                      setActiveQuestionIndex(stateIndex);
+                                      setSuggestions([
+                                        "(applicant name)",
+                                        "(applicant name)'s",
+                                      ]);
+                                    } else {
+                                      setSuggestions([]);
+                                      setActiveQuestionIndex(null);
+                                    }
+                                  }}
+                                  placeholder={`${TRANSLATIONS[language].enterQuestion} ${
+                                    questionIndex + 1
+                                  }`}
+                                  required
+                                />
+                                {suggestions.length > 0 &&
+                                  activeQuestionIndex === stateIndex && (
+                                    <div
+                                      className="suggestions-list"
+                                      style={{ width: "auto" }}
+                                    >
+                                      {suggestions.map((suggestion, idx) => (
+                                        <div
+                                          key={idx}
+                                          className="suggestion-item"
+                                          style={{ width: "auto" }}
+                                          onClick={() =>
+                                            handleSuggestionClick(suggestion)
+                                          }
+                                        >
+                                          {suggestion}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                )
+                          );
+                        })}
+                    </div>
+                  );
+                }
               )}
           </div>
 
@@ -426,14 +470,14 @@ const EditHRFormatQuestionPopup = ({
                 type="button"
                 disabled={submitting}
               >
-                Default
+                {TRANSLATIONS[language].default}
               </button>
               <button
                 className="btn-add-candidate"
                 type="submit"
                 disabled={submitting}
               >
-                {submitting ? `Saving...` : `Save Set`}
+                {submitting ? TRANSLATIONS[language].saving : TRANSLATIONS[language].saveSet}
               </button>
             </div>
           </div>

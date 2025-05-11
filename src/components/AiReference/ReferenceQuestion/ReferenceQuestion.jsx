@@ -13,48 +13,153 @@ import HRHatchFormatCategoryPopup from "./PopUpComponents/HRHatchFormatCategoryP
 import DeleteConfirmationNewSetsQuestionPopup from "./PopUpComponents/DeleteConfirmationNewSetsQuestionPopup";
 import axios from "axios";
 
+
+  // Define language here
+  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+
+
+  const TRANSLATIONS = {
+    English: {
+      referenceQuestionnaire: "Reference Questionnaire",
+      customQuestionnaire: "Custom Questionnaire",
+      hrhatchFormats: "HR-HATCH Formats",
+      createYourOwnQuestionnaire: "Create your own questionnaire",
+      customizeHRHatchFormat: "Customize HR-HATCH Format",
+      buildCustomOrTailor: "Build a fully custom reference questionnaire or tailor the HR-Hatch standard format to suit your requirements.",
+      manageTrackQuestions: "Manage, add, and track your customized company questions.",
+      hrhatchQuestionFormats: "HR-HΛTCH Question Formats",
+      standardizedQuestionSets: "Standardized question sets provided by HR-HΛTCH",
+      formatDescription: "HR-Hatch offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
+      standardFormat: "Standard Format",
+      standardFormatDesc: "Standard questions suitable for most positions.",
+      managementFormat: "Management Format",
+      managementFormatDesc: "Questions tailored for managerial and leadership roles.",
+      executiveFormat: "Executive Format",
+      executiveFormatDesc: "In-depth questions for senior executive positions.",
+      questions: "questions",
+      viewQuestions: "View Questions",
+       yourTailoredQuestions: "Your tailored reference check questions.",
+      searchQuestionSets: "Search question sets...",
+      lastUpdated: "Last updated",
+    },
+    Japanese: {
+      referenceQuestionnaire: "リファレンス質問票",
+      customQuestionnaire: "カスタム質問票",
+      hrhatchFormats: "HR-HATCH フォーマット",
+      createYourOwnQuestionnaire: "独自の質問票を作成",
+      customizeHRHatchFormat: "HR-HATCHフォーマットをカスタマイズ",
+      buildCustomOrTailor: "完全にカスタマイズされたリファレンス質問票を作成するか、HR-Hatchの標準フォーマットをニーズに合わせて調整できます。",
+      manageTrackQuestions: "カスタマイズされた自社の質問を管理・追加・追跡できます。",
+      hrhatchQuestionFormats: "HR-HΛTCH 質問フォーマット",
+      standardizedQuestionSets: "HR-HΛTCH によって提供される標準化された質問セット",
+      formatDescription: "HR-Hatch は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
+      standardFormat: "標準フォーマット",
+      standardFormatDesc: "ほとんどの職種に適した標準的な質問。",
+      managementFormat: "マネジメントフォーマット",
+      managementFormatDesc: "マネジメントやリーダーシップ職向けに調整された質問。",
+      executiveFormat: "エグゼクティブフォーマット",
+      executiveFormatDesc: "上級管理職向けの詳細な質問。",
+      questions: "質問",
+      viewQuestions: "質問を見る",
+      yourTailoredQuestions: "あなたに合わせたリファレンスチェックの質問。",
+      searchQuestionSets: "質問セットを検索...",
+      lastUpdated: "最終更新",
+    },
+  };
+  
 // Standard format questions
 const STANDARD_QUESTIONS_SETS = [
   {
     id: 1,
-    category: "Relationship",
+    category: {
+      English: "Relationship",
+      Japanese: "関係性"
+    },
     questions: [
-      "How do you know (applicant name), and how long have you worked together?",
+      {
+        English: "How do you know (applicant name), and how long have you worked together?",
+        Japanese: "あなたは(応募者名)をどのように知っており、どれくらい一緒に働きましたか？"
+      }
     ],
   },
   {
     id: 2,
-    category: "Job Responsibilities and Performance",
+    category: {
+      English: "Job Responsibilities and Performance",
+      Japanese: "職務内容と業績"
+    },
     questions: [
-      "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
-      "What do you consider to be (applicant name)'s key strengths?",
-      "What areas, if any, do you think (applicant name) could further develop or improve and why?",
+      {
+        English: "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
+        Japanese: "(応募者名)の前職での主な職務内容を説明できますか？"
+      },
+      {
+        English: "What do you consider to be (applicant name)'s key strengths?",
+        Japanese: "(応募者名)の主な強みは何だと考えますか？"
+      },
+      {
+        English: "What areas, if any, do you think (applicant name) could further develop or improve and why?",
+        Japanese: "(応募者名)がさらに成長または改善できると考える分野はありますか？その理由は？"
+      }
     ],
   },
   {
     id: 3,
-    category: "Skills and Competencies",
+    category: {
+      English: "Skills and Competencies",
+      Japanese: "スキルと能力"
+    },
     questions: [
-      "How would you describe (applicant name)'s communication skills? If possible, please provide example(s) to support your answer.",
-      "How well does (applicant name) work with colleagues or in a team? If possible, please provide example(s) to support your answer.",
-      "How would you describe (applicant name)'s attention to detail in their work? If possible, please provide example(s) to support your answer.",
+      {
+        English: "How would you describe (applicant name)'s communication skills? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)のコミュニケーション能力をどのように評価しますか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "How well does (applicant name) work with colleagues or in a team? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)は同僚やチームとどの程度うまく働いていましたか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "How would you describe (applicant name)'s attention to detail in their work? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)の仕事における細部への注意についてどのように評価しますか？可能であれば、具体例も挙げてください。"
+      }
     ],
   },
   {
     id: 4,
-    category: "Work Ethic and Behavior",
+    category: {
+      English: "Work Ethic and Behavior",
+      Japanese: "仕事への姿勢と行動"
+    },
     questions: [
-      "How would you describe (applicant name)'s attitude and professionalism?",
-      "How did (applicant name) handle feedback and criticism?",
-      "Did (applicant name) show initiative and a willingness to learn?",
+      {
+        English: "How would you describe (applicant name)'s attitude and professionalism?",
+        Japanese: "(応募者名)の態度とプロ意識についてどのように評価しますか？"
+      },
+      {
+        English: "How did (applicant name) handle feedback and criticism?",
+        Japanese: "(応募者名)はフィードバックや批判をどのように受け止めていましたか？"
+      },
+      {
+        English: "Did (applicant name) show initiative and a willingness to learn?",
+        Japanese: "(応募者名)は自発性や学ぶ意欲を示していましたか？"
+      }
     ],
   },
   {
     id: 5,
-    category: "Closing Questions",
+    category: {
+      English: "Closing Questions",
+      Japanese: "締めくくりの質問"
+    },
     questions: [
-      "If given the opportunity, would you work with or rehire (applicant name)?",
-      "Is there anything else you believe we should know about (applicant name)?",
+      {
+        English: "If given the opportunity, would you work with or rehire (applicant name)?",
+        Japanese: "機会があれば、(応募者名)と再び働きたい、または再雇用したいと思いますか？"
+      },
+      {
+        English: "Is there anything else you believe we should know about (applicant name)?",
+        Japanese: "(応募者名)について、私たちが知っておくべきことが他にありますか？"
+      }
     ],
   },
 ];
@@ -63,46 +168,78 @@ const STANDARD_QUESTIONS_SETS = [
 const MANAGEMENT_QUESTIONS_SETS = [
   {
     id: 1,
-    category: "Relationship",
+    category: {
+      English: "Relationship",
+      Japanese: "関係性"
+    },
     questions: [
-      "How do you know (applicant name), and how long have you worked together?",
+      {
+        English: "How do you know (applicant name), and how long have you worked together?",
+        Japanese: "あなたは(応募者名)をどのように知っており、どれくらい一緒に働きましたか？"
+      }
     ],
   },
   {
     id: 2,
-    category: "Job Responsibilities and Performance",
+    category: {
+      English: "Job Responsibilities and Performance",
+      Japanese: "職務内容と業績"
+    },
     questions: [
-      "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
-      "What do you consider to be (applicant name)'s key strengths?",
-      "What areas, if any, do you think (applicant name) could further develop or improve?",
+      {
+        English: "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
+        Japanese: "(応募者名)の前職での主な職務内容を説明できますか？"
+      },
+      {
+        English: "What do you consider to be (applicant name)'s key strengths?",
+        Japanese: "(応募者名)の主な強みは何だと考えますか？"
+      },
+      {
+        English: "What areas, if any, do you think (applicant name) could further develop or improve?",
+        Japanese: "(応募者名)がさらに成長または改善できると考える分野はありますか？"
+      }
     ],
   },
   {
     id: 3,
-    category: "Leadership & Management Skills",
+    category: {
+      English: "Leadership & Management Skills",
+      Japanese: "リーダーシップとマネジメントスキル"
+    },
     questions: [
-      "How would you describe (applicant name)'s leadership style? If possible, please provide example(s) to support your answer.",
-      "How did (applicant name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
-      "How effective was (applicant name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
-      "What would you say are (applicant name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
+      {
+        English: "How would you describe (applicant name)'s leadership style? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)のリーダーシップスタイルをどのように表現しますか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "How did (applicant name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)は難しいチーム状況や対立をどのように処理しましたか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "How effective was (applicant name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)はタスクを委任し、他者に権限を与える能力がどの程度ありましたか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "What would you say are (applicant name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
+        Japanese: "リーダーとしての(応募者名)の最も大きな強みは何だと思いますか？可能であれば、具体例も挙げてください。"
+      }
     ],
   },
   {
     id: 4,
-    category: "Work Ethic and Behavior",
-    questions: [
-      "How would you describe (applicant name)'s attitude and professionalism?",
-      "How did (applicant name) handle feedback and criticism?",
-      "Did (applicant name) show initiative and a willingness to learn?",
-    ],
+    category: {
+      English: "Work Ethic and Behavior",
+      Japanese: "仕事への姿勢と行動"
+    },
+    questions: STANDARD_QUESTIONS_SETS[3].questions,
   },
   {
     id: 5,
-    category: "Closing Questions",
-    questions: [
-      "If given the opportunity, would you work with or rehire (applicant name)?",
-      "Is there anything else you believe we should know about (applicant name)?",
-    ],
+    category: {
+      English: "Closing Questions",
+      Japanese: "締めくくりの質問"
+    },
+    questions: STANDARD_QUESTIONS_SETS[4].questions,
   },
 ];
 
@@ -110,84 +247,142 @@ const MANAGEMENT_QUESTIONS_SETS = [
 const EXECUTIVE_QUESTIONS_SET = [
   {
     id: 1,
-    category: "Relationship",
-    questions: [
-      "How do you know (applicant name), and how long have you worked together?",
-    ],
+    category: {
+      English: "Relationship",
+      Japanese: "関係性"
+    },
+    questions: MANAGEMENT_QUESTIONS_SETS[0].questions,
   },
   {
     id: 2,
-    category: "Strategic Leadership & Vision",
+    category: {
+      English: "Strategic Leadership & Vision",
+      Japanese: "戦略的リーダーシップとビジョン"
+    },
     questions: [
-      "How would you describe (applicant name)'s ability to set and communicate a clear vision for the organization? If possible, please provide example(s) to support your answer.",
-      "Can you provide an example of a strategic initiative that (applicant name) led and its impact on the business?",
+      {
+        English: "How would you describe (applicant name)'s ability to set and communicate a clear vision for the organization? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)が組織に明確なビジョンを設定し、それを伝える能力についてどのように評価しますか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "Can you provide an example of a strategic initiative that (applicant name) led and its impact on the business?",
+        Japanese: "(応募者名)が主導した戦略的イニシアチブと、それがビジネスに与えた影響についての例を教えてください。"
+      }
     ],
   },
   {
     id: 3,
-    category: "Business Impact & Results",
+    category: {
+      English: "Business Impact & Results",
+      Japanese: "ビジネスへの影響と成果"
+    },
     questions: [
-      "Can you share examples of how (applicant name) drove growth, profitability, or operational improvements?",
-      "How did (applicant name) handle critical business decisions, especially in high-pressure situations?",
+      {
+        English: "Can you share examples of how (applicant name) drove growth, profitability, or operational improvements?",
+        Japanese: "(応募者名)が成長、収益性、または業務改善を推進した例を教えてください。"
+      },
+      {
+        English: "How did (applicant name) handle critical business decisions, especially in high-pressure situations?",
+        Japanese: "特にプレッシャーの高い状況で、(応募者名)は重要なビジネス上の意思決定をどのように行いましたか？"
+      }
     ],
   },
   {
     id: 4,
-    category: "Team Leadership & Organizational Development",
+    category: {
+      English: "Team Leadership & Organizational Development",
+      Japanese: "チームリーダーシップと組織開発"
+    },
     questions: [
-      "How did (applicant name) build and develop high-performing teams? If possible, please provide example(s) to support your answer.",
-      "How did (applicant name) handle organizational change or restructuring? If possible, please provide example(s) to support your answer.",
+      {
+        English: "How did (applicant name) build and develop high-performing teams? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)はどのようにして高業績のチームを構築・育成しましたか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "How did (applicant name) handle organizational change or restructuring? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)は組織変更や再構築をどのように処理しましたか？可能であれば、具体例も挙げてください。"
+      }
     ],
   },
   {
     id: 5,
-    category: "Decision-Making & Problem-Solving",
+    category: {
+      English: "Decision-Making & Problem-Solving",
+      Japanese: "意思決定と問題解決"
+    },
     questions: [
-      "How would you describe (applicant name)'s decision-making process for complex, high-stakes decisions? If possible, please provide example(s) to support your answer.",
-      "Can you share a time when (applicant name) had to make a difficult decision with limited information? If possible, please provide example(s) to support your answer.",
+      {
+        English: "How would you describe (applicant name)'s decision-making process for complex, high-stakes decisions? If possible, please provide example(s) to support your answer.",
+        Japanese: "複雑で重大な意思決定における(応募者名)の意思決定プロセスをどのように説明しますか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "Can you share a time when (applicant name) had to make a difficult decision with limited information? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)が限られた情報で難しい決断を下さなければならなかった時の例を教えてください。可能であれば、具体例も挙げてください。"
+      }
     ],
   },
   {
     id: 6,
-    category: "Innovation & Growth",
+    category: {
+      English: "Innovation & Growth",
+      Japanese: "イノベーションと成長"
+    },
     questions: [
-      "How proactive was (applicant name) in identifying new opportunities for growth or innovation? If possible, please provide example(s) to support your answer.",
-      "How did (applicant name) stay ahead of industry trends and market changes? If possible, please provide example(s) to support your answer.",
+      {
+        English: "How proactive was (applicant name) in identifying new opportunities for growth or innovation? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)は成長やイノベーションの新たな機会を見つけることにどれほど積極的でしたか？可能であれば、具体例も挙げてください。"
+      },
+      {
+        English: "How did (applicant name) stay ahead of industry trends and market changes? If possible, please provide example(s) to support your answer.",
+        Japanese: "(応募者名)は業界のトレンドや市場の変化にどうやって先んじて対応していましたか？可能であれば、具体例も挙げてください。"
+      }
     ],
   },
   {
     id: 7,
-    category: "Closing Questions",
-    questions: [
-      "If given the opportunity, would you work with or rehire (applicant name)?",
-      "Is there anything else you believe we should know about (applicant name)?",
-    ],
+    category: {
+      English: "Closing Questions",
+      Japanese: "締めくくりの質問"
+    },
+    questions: STANDARD_QUESTIONS_SETS[4].questions,
   },
 ];
 
+
 const HR_HATCH_QUESTIONS_FORMAT = {
   StandardFormat: {
-    description: "Standard questions suitable for most positions.",
-    name: "Standard Format",
-    questionSets: STANDARD_QUESTIONS_SETS,
+    description: TRANSLATIONS[language].standardFormatDesc,
+    name: TRANSLATIONS[language].standardFormat,
+    questionSets: STANDARD_QUESTIONS_SETS.map(set => ({
+      ...set,
+      category: set.category[language],
+      questions: set.questions.map(q => q[language])
+    })),
   },
   ManagementFormat: {
-    description: "Questions tailored for managerial and leadership roles.",
-    name: "Management Format",
-    questionSets: MANAGEMENT_QUESTIONS_SETS,
+    description: TRANSLATIONS[language].managementFormatDesc,
+    name: TRANSLATIONS[language].managementFormat,
+    questionSets: MANAGEMENT_QUESTIONS_SETS.map(set => ({
+      ...set,
+      category: set.category[language],
+      questions: set.questions.map(q => q[language])
+    })),
   },
   ExecutiveFormat: {
-    description: "In-depth questions for senior executive positions.",
-    name: "Executive Format",
-    questionSets: EXECUTIVE_QUESTIONS_SET,
+    description: TRANSLATIONS[language].executiveFormatDesc,
+    name: TRANSLATIONS[language].executiveFormat,
+    questionSets: EXECUTIVE_QUESTIONS_SET.map(set => ({
+      ...set,
+      category: set.category[language],
+      questions: set.questions.map(q => q[language])
+    })),
   },
 };
-
 // HR-HATCH Format Data
 const HR_HATCH_FORMAT = [
   {
-    title: "Standard Format",
-    description: "Standard questions suitable for most positions.",
+    title:TRANSLATIONS[language].standardFormat,
+    description: TRANSLATIONS[language].standardFormatDesc,
     questionCount: STANDARD_QUESTIONS_SETS.reduce(
       (acc, set) => acc + set.questions.length,
       0
@@ -208,8 +403,8 @@ const HR_HATCH_FORMAT = [
     ),
   },
   {
-    title: "Management Format",
-    description: "Questions tailored for managerial and leadership roles.",
+    title: TRANSLATIONS[language].managementFormat,
+    description: TRANSLATIONS[language].managementFormatDesc,
     questionCount: MANAGEMENT_QUESTIONS_SETS.reduce(
       (acc, set) => acc + set.questions.length,
       0
@@ -230,8 +425,8 @@ const HR_HATCH_FORMAT = [
     ),
   },
   {
-    title: "Executive Format",
-    description: "In-depth questions for senior executive positions.",
+    title:TRANSLATIONS[language].executiveFormat,
+    description: TRANSLATIONS[language].executiveFormatDesc,
     questionCount: EXECUTIVE_QUESTIONS_SET.reduce(
       (acc, set) => acc + set.questions.length,
       0
@@ -422,10 +617,9 @@ const ReferenceQuestion = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3 className="mb-0">Reference Questionnaires</h3>
+        <h3 className="mb-0">{TRANSLATIONS[language].referenceQuestionnaire}</h3>
         <p className="mb-2">
-          Build a fully custom reference questionnaire or tailor the HR-Hatch
-          standard format to suit your requirements.
+          {TRANSLATIONS[language].buildCustomOrTailor}
         </p>
       </div>
       <div
@@ -439,21 +633,21 @@ const ReferenceQuestion = () => {
           }`}
           onClick={() => handleButtonClick("Custom Sets")} // Show custom sets
         >
-          Custom Questionnaires
+          {TRANSLATIONS[language].customQuestionnaire}
         </button>
         <button
           ref={hrHatchButtonRef} // Assign the ref here
           className={`btn-hrhatch-formats ${
             activeButton === "HR-HATCH Formats" ||
-            activeButton === "Standard Format" ||
-            activeButton === "Management Format" ||
-            activeButton === "Executive Format"
+            activeButton === TRANSLATIONS[language].standardFormat ||
+            activeButton === TRANSLATIONS[language].managementFormat  ||
+            activeButton === TRANSLATIONS[language].executiveFormat 
               ? "active"
               : ""
           }`}
           onClick={() => handleButtonClick("HR-HATCH Formats")} // Show HR-HATCH Formats
         >
-          HR-HATCH Formats
+          {TRANSLATIONS[language].hrhatchFormats}
         </button>
       </div>
       <div
@@ -466,7 +660,7 @@ const ReferenceQuestion = () => {
             hrHatchFormats={HR_HATCH_FORMAT}
             handleButtonClick={handleButtonClick}
           />
-        ) : activeButton === "Standard Format" ? (
+        ) : activeButton === TRANSLATIONS[language].standardFormat ? (
           <StandardFormat
             StandardQuestionsSets={STANDARD_QUESTIONS_SETS}
             selectedSet={selectedSet}
@@ -474,7 +668,7 @@ const ReferenceQuestion = () => {
             flippedState={flippedState}
             handleButtonClick={handleButtonClick}
           />
-        ) : activeButton === "Management Format" ? (
+        ) : activeButton === TRANSLATIONS[language].managementFormat  ? (
           <ManagementFormat
             ManagementQuestionsSets={MANAGEMENT_QUESTIONS_SETS}
             selectedSet={selectedSet}
@@ -482,7 +676,7 @@ const ReferenceQuestion = () => {
             flippedState={flippedState}
             handleButtonClick={handleButtonClick}
           />
-        ) : activeButton === "Executive Format" ? (
+        ) : activeButton === TRANSLATIONS[language].executiveFormat ? (
           <ExecutiveFormat
             ExecutiveQuestionsSets={EXECUTIVE_QUESTIONS_SET}
             selectedSet={selectedSet}
@@ -496,7 +690,7 @@ const ReferenceQuestion = () => {
               <div>
                 <div className="AiReference-table-title">
                   <h4 className="mb-0 d-flex gap-2 align-items-center">
-                    Custom Questionnaire
+                  {TRANSLATIONS[language].customQuestionnaire}
                     <div className="position-relative d-flex">
                       <svg
                         width="16"
@@ -518,14 +712,13 @@ const ReferenceQuestion = () => {
                       </svg>
                       {showTooltip && (
                         <span className="job-tooltip-text">
-                          Manage, add, and track your customized company
-                          questions.{" "}
+                          {TRANSLATIONS[language].manageTrackQuestions}
                         </span>
                       )}
                     </div>
                   </h4>
                   <p className="mb-1">
-                    Your tailored reference check questions.
+                  {TRANSLATIONS[language].yourTailoredQuestions}
                   </p>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -533,7 +726,7 @@ const ReferenceQuestion = () => {
                     <div className="search-wrapper position-relative">
                       <input
                         type="text"
-                        placeholder="Search question sets..."
+                        placeholder={TRANSLATIONS[language].searchQuestionSets}
                         className="form-control ps-4 pe-5"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)} // Add this line
@@ -561,7 +754,7 @@ const ReferenceQuestion = () => {
                       fill="white"
                     />
                   </svg>
-                  Create Your Own Questionnaire
+                  {TRANSLATIONS[language].createYourOwnQuestionnaire}
                 </button>
                 {/* New Button for Editing HR-Hatch Formats */}
                 <button
@@ -569,7 +762,7 @@ const ReferenceQuestion = () => {
                   onClick={() => setIsHRHatchFormatPopupOpen(true)} // Open the HR-Hatch Format popup
                 >
                   <FaEdit />
-                  Customize HR-Hatch Format
+                  {TRANSLATIONS[language].customizeHRHatchFormat}
                 </button>
               </div>
             </div>
@@ -592,9 +785,10 @@ const ReferenceQuestion = () => {
                                   (acc, group) => acc + group.questions.length,
                                   0
                                 )}{" "}
-                                questions
+                                                                {TRANSLATIONS[language].questions}
                               </span>
-                              &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                              &nbsp;• {TRANSLATIONS[language].lastUpdated}: {formatDate(item.updatedAt)}
+
                             </p>
                           </div>
                           <div className="d-flex justify-content-end gap-5 question-controls">
@@ -698,9 +892,10 @@ const ReferenceQuestion = () => {
                             <h5>{item.name}</h5>
                             <p className="d-flex">
                               <span className="color-orange">
-                                {item.questions.length} questions
+                                {item.questions.length}                                 {TRANSLATIONS[language].questions}
                               </span>
-                              &nbsp;• Last updated: {formatDate(item.updatedAt)}
+                              &nbsp;• {TRANSLATIONS[language].lastUpdated}: {formatDate(item.updatedAt)}
+
                             </p>
                           </div>
                           <div className="d-flex justify-content-end gap-5 question-controls">

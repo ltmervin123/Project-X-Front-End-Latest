@@ -9,7 +9,25 @@ import { useAuthContext } from "../../hook/useAuthContext";
 
 function Header() {
   const { logout } = useLogout();
-  const { user } = useAuthContext(); // Assuming 'user' contains the user information
+  const { user } = useAuthContext();
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      guest: "Guest",
+      profile: "Profile",
+      settings: "Settings",
+      logout: "Logout"
+    },
+    Japanese: {
+      guest: "ゲスト",
+      profile: "プロフィール",
+      settings: "設定",
+      logout: "ログアウト"
+    }
+  };
+
+  const t = translations[language];
   const handleLogout = () => {
     logout();
   };
@@ -42,7 +60,7 @@ function Header() {
                   <p className="user-name">{username}</p>
                 </>
               ) : (
-                <div>Guest</div>
+                <div>{t.guest}</div>
               )}
             </Dropdown.Toggle>
 
@@ -54,14 +72,14 @@ function Header() {
                 to="/CompanyProfile#personal-info"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Profile
+                {t.profile}
               </Dropdown.Item>
               <Dropdown.Item
                 as={NavLink}
                 to="/comingsoon"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Settings
+                {t.settings}
               </Dropdown.Item>
               <Dropdown.Item
                 as={NavLink}
@@ -69,7 +87,7 @@ function Header() {
                 onClick={handleLogout}
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Logout
+                {t.logout}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

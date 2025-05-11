@@ -1,4 +1,22 @@
+const TRANSLATIONS = {
+  English: {
+    title: "Subscription Analytics",
+    subtitle: "Detailed breakdown of subscription data for all companies",
+    totalRevenue: "Total Revenue",
+    avgRevenuePerUser: "Avg. Revenue Per User",
+  },
+  Japanese: {
+    title: "サブスクリプション分析",
+    subtitle: "全企業のサブスクリプションデータの詳細内訳",
+    totalRevenue: "総収益",
+    avgRevenuePerUser: "ユーザーあたりの平均収益",
+  },
+};
+
 const SubscriptionAnalyticSection = ({ isVisible }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const t = TRANSLATIONS[language];
+
   return (
     <div
       className={`subscription-analytics-chart-container d-flex gap-3 fade-in ${
@@ -7,10 +25,8 @@ const SubscriptionAnalyticSection = ({ isVisible }) => {
     >
       <div>
         <div className="chart-content">
-          <b className="chart-title mb-0">Subscription Analytics</b>
-          <p className="chart-subtitle mb-0">
-            Detailed breakdown of subscription data for all companies
-          </p>
+          <b className="chart-title mb-0">{t.title}</b>
+          <p className="chart-subtitle mb-0">{t.subtitle}</p>
         </div>
         <div className="subscription-analytics">
           {/* {conversionData.slice(0, 3).map((item, index) => (
@@ -40,11 +56,11 @@ const SubscriptionAnalyticSection = ({ isVisible }) => {
       </div>
       <div className="d-flex flex-column">
         <div className="d-flex ">
-          <b className="mb-0">Total Revenue</b>
+          <b className="mb-0">{t.totalRevenue}</b>
           <p className=" mb-0">¥ 0</p>
         </div>
         <div className="d-flex ">
-          <b className="mb-0">Avg. Revenue Per User</b>
+          <b className="mb-0">{t.avgRevenuePerUser}</b>
           <p className=" mb-0">¥ 0</p>
         </div>
       </div>
