@@ -197,7 +197,10 @@ const AiReferenceCheckVerificationForm = ({
       setProcessing(true);
       saveRefereeDataTemporary();
 
-      if (selectedLanguage === "Japanese") {
+      if (
+        selectedLanguage === "Japanese" &&
+        referenceQuestionData?.formatType === "HR-HATCH-FORMAT"
+      ) {
         const result = await getQuestionsJapaneseVersion();
         if (result.status === 200) {
           const questions = result?.data?.translatedQuestions;
