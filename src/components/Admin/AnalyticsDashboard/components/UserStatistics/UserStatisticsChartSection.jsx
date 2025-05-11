@@ -370,6 +370,8 @@ const UserStatisticsChartSection = ({
                   0
                 );
                 const percentage = ((value / total) * 100).toFixed(1);
+                const formattedPercentage =
+                  Number(percentage) === 100 ? "100" : percentage;
                 const label = companyTierData.labels[index];
                 const color =
                   companyTierData.datasets[0].backgroundColor[index];
@@ -385,7 +387,7 @@ const UserStatisticsChartSection = ({
                     className="percentage-label"
                     style={{ color, ...position }}
                   >
-                    <h3 className="mb-0">{percentage}%</h3>
+                    <h3 className="mb-0">{formattedPercentage}%</h3>
                     <p className="mb-0">{label}</p>
                   </div>
                 );
