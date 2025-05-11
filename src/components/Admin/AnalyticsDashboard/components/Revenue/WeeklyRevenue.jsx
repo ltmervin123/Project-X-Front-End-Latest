@@ -1,7 +1,88 @@
 import { Bar } from "react-chartjs-2";
 import { useState, useMemo } from "react";
 
-const RevenueTrendSection = ({ isVisible }) => {
+const TRANSLATIONS = {
+  English: {
+    weeklyRevenue: "Weekly Revenue",
+    weeklyRevenueDesc: "Revenue breakdown by day of the week",
+    totalRevenue: {
+      weekly: "Total Weekly Revenue",
+      monthly: "Total Monthly Revenue",
+      yearly: "Total Yearly Revenue",
+    },
+    days: {
+      Mon: "Mon",
+      Tue: "Tue",
+      Wed: "Wed",
+      Thu: "Thu",
+      Fri: "Fri",
+      Sat: "Sat",
+      Sun: "Sun",
+    },
+    periods: {
+      weekly: "Weekly",
+      monthly: "Monthly",
+      yearly: "Yearly",
+    },
+    weeks: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    months: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+    years: ["2020", "2021", "2022", "2023"],
+  },
+  Japanese: {
+    weeklyRevenue: "週間収益",
+    weeklyRevenueDesc: "曜日別の収益内訳",
+    totalRevenue: {
+      weekly: "週間総収益",
+      monthly: "月間総収益",
+      yearly: "年間総収益",
+    },
+    days: {
+      Mon: "月",
+      Tue: "火",
+      Wed: "水",
+      Thu: "木",
+      Fri: "金",
+      Sat: "土",
+      Sun: "日",
+    },
+    periods: {
+      weekly: "週次",
+      monthly: "月次",
+      yearly: "年次",
+    },
+    weeks: ["月", "火", "水", "木", "金", "土", "日"],
+    months: [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月",
+    ],
+    years: ["2020年", "2021年", "2022年", "2023年"],
+  },
+};
+
+const RevenueTrendSection = () => {
   const language = sessionStorage.getItem("preferred-language") || "English";
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState(() => {
@@ -12,89 +93,7 @@ const RevenueTrendSection = ({ isVisible }) => {
     return translations[language]?.periods?.weekly || "Weekly";
   });
 
-  const translations = {
-    English: {
-      weeklyRevenue: "Weekly Revenue",
-      weeklyRevenueDesc: "Revenue breakdown by day of the week",
-      totalRevenue: {
-        weekly: "Total Weekly Revenue",
-        monthly: "Total Monthly Revenue",
-        yearly: "Total Yearly Revenue",
-      },
-      days: {
-        Mon: "Mon",
-        Tue: "Tue",
-        Wed: "Wed",
-        Thu: "Thu",
-        Fri: "Fri",
-        Sat: "Sat",
-        Sun: "Sun",
-      },
-      periods: {
-        weekly: "Weekly",
-        monthly: "Monthly",
-        yearly: "Yearly",
-      },
-      weeks: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      months: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      years: ["2020", "2021", "2022", "2023"],
-    },
-    Japanese: {
-      weeklyRevenue: "週間収益",
-      weeklyRevenueDesc: "曜日別の収益内訳",
-      totalRevenue: {
-        weekly: "週間総収益",
-        monthly: "月間総収益",
-        yearly: "年間総収益",
-      },
-      days: {
-        Mon: "月",
-        Tue: "火",
-        Wed: "水",
-        Thu: "木",
-        Fri: "金",
-        Sat: "土",
-        Sun: "日",
-      },
-      periods: {
-        weekly: "週次",
-        monthly: "月次",
-        yearly: "年次",
-      },
-      weeks: ["月", "火", "水", "木", "金", "土", "日"],
-      months: [
-        "1月",
-        "2月",
-        "3月",
-        "4月",
-        "5月",
-        "6月",
-        "7月",
-        "8月",
-        "9月",
-        "10月",
-        "11月",
-        "12月",
-      ],
-      years: ["2020年", "2021年", "2022年", "2023年"],
-    },
-  };
-
-  const t = translations[language];
-
+  const t = TRANSLATIONS[language];
   const createCustomTooltip = () => ({
     enabled: false,
     external: function (context) {
@@ -239,24 +238,22 @@ const RevenueTrendSection = ({ isVisible }) => {
             </div>
             {isDropdownOpen && (
               <div className="dropdown-options">
-                {[
-                  t.periods.weekly,
-                  t.periods.monthly,
-                  t.periods.yearly,
-                ].map((period) => (
-                  <div
-                    key={period}
-                    className={`dropdown-item ${
-                      selectedPeriod === period ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      setSelectedPeriod(period);
-                      setIsDropdownOpen(false);
-                    }}
-                  >
-                    {period}
-                  </div>
-                ))}
+                {[t.periods.weekly, t.periods.monthly, t.periods.yearly].map(
+                  (period) => (
+                    <div
+                      key={period}
+                      className={`dropdown-item ${
+                        selectedPeriod === period ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        setSelectedPeriod(period);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      {period}
+                    </div>
+                  )
+                )}
               </div>
             )}
           </div>

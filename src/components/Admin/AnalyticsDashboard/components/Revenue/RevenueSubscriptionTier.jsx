@@ -74,38 +74,36 @@ const DOUGHNUT_OPTIONS = {
   cutout: "65%",
 };
 
+const TRANSLATIONS = {
+  English: {
+    title: "Revenue by Subscription Tier",
+    subtitle: "Revenue breakdown by subscription tier",
+    totalRevenue: "Total Revenue",
+    noRevenue: "No Revenue",
+    tiers: {
+      Free: "Free",
+      Basic: "Basic",
+      Premium: "Premium",
+      Enterprise: "Enterprise",
+    },
+  },
+  Japanese: {
+    title: "サブスクリプション層別収益",
+    subtitle: "サブスクリプション層別の収益内訳",
+    totalRevenue: "総収益",
+    noRevenue: "収益なし",
+    tiers: {
+      Free: "無料",
+      Basic: "ベーシック",
+      Premium: "プレミアム",
+      Enterprise: "エンタープライズ",
+    },
+  },
+};
+
 const SubscriptionTierSection = ({ subscriptionDataProps }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Revenue by Subscription Tier",
-      subtitle: "Revenue breakdown by subscription tier",
-      totalRevenue: "Total Revenue",
-      noRevenue: "No Revenue",
-      tiers: {
-        Free: "Free",
-        Basic: "Basic",
-        Premium: "Premium",
-        Enterprise: "Enterprise",
-      },
-    },
-    Japanese: {
-      title: "サブスクリプション層別収益",
-      subtitle: "サブスクリプション層別の収益内訳",
-      totalRevenue: "総収益",
-      noRevenue: "収益なし",
-      tiers: {
-        Free: "無料",
-        Basic: "ベーシック",
-        Premium: "プレミアム",
-        Enterprise: "エンタープライズ",
-      },
-    },
-  };
-
-  const t = translations[language];
-
+  const t = TRANSLATIONS[language];
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
   const chartRef = useRef(null);
 
@@ -217,7 +215,8 @@ const SubscriptionTierSection = ({ subscriptionDataProps }) => {
   const hasPaidTierRevenue = useMemo(() => {
     return subscriptionBreakdownData.some(
       (item) =>
-        ["Basic", "Premium", "Enterprise"].includes(item.type) && item.revenue > 0
+        ["Basic", "Premium", "Enterprise"].includes(item.type) &&
+        item.revenue > 0
     );
   }, [subscriptionBreakdownData]);
 
@@ -235,13 +234,16 @@ const SubscriptionTierSection = ({ subscriptionDataProps }) => {
         >
           {hasPaidTierRevenue ? (
             <>
-              <div className="percentage-labels" style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                top: 0,
-                left: 0,
-              }}>
+              <div
+                className="percentage-labels"
+                style={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  top: 0,
+                  left: 0,
+                }}
+              >
                 {subscriptionBreakdownData.map((item, index) => {
                   const total = subscriptionBreakdownData.reduce(
                     (acc, curr) => acc + curr.revenue,
@@ -261,7 +263,8 @@ const SubscriptionTierSection = ({ subscriptionDataProps }) => {
                       key={index}
                       className="percentage-label"
                       style={{
-                        color: subscriptionData.datasets[0].backgroundColor[index],
+                        color:
+                          subscriptionData.datasets[0].backgroundColor[index],
                         ...position,
                       }}
                     >

@@ -39,7 +39,7 @@ const RevenueChartSection = ({ isVisible }) => {
   return (
     <Row className="mb-4">
       <Col md="6">
-        <WeeklyRevenueSection isVisible={isVisible} />
+        <WeeklyRevenueSection />
       </Col>
       <Col
         md="6"
