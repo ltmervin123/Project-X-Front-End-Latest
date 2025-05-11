@@ -144,19 +144,22 @@ const AddJobComponent = ({ onCancel }) => {
   const formRef = useRef(null);
 
   const isJobFieldsFilled = useMemo(() => {
-    return jobName.trim() !== "" && 
-           firstName.trim() !== "" && 
-           lastName.trim() !== "" && 
-           department !== "" && 
-           vacancies > 0;
+    return (
+      jobName.trim() !== "" &&
+      firstName.trim() !== "" &&
+      lastName.trim() !== "" &&
+      department !== "" &&
+      vacancies > 0
+    );
   }, [jobName, firstName, lastName, department, vacancies]);
 
   const areCandidateFieldsFilled = useMemo(() => {
-    return candidates.every(candidate => 
-      candidate.firstName.trim() !== "" &&
-      candidate.lastName.trim() !== "" &&
-      candidate.email.trim() !== "" &&
-      candidate.numberOfReferees > 0
+    return candidates.every(
+      (candidate) =>
+        candidate.firstName.trim() !== "" &&
+        candidate.lastName.trim() !== "" &&
+        candidate.email.trim() !== "" &&
+        candidate.numberOfReferees > 0
     );
   }, [candidates]);
 
@@ -321,7 +324,7 @@ const AddJobComponent = ({ onCancel }) => {
         positionId: createdJob.positionId,
         status,
         selectedLanguage,
-        numberOfReferees: candidate.numberOfReferees, // Use individual numberOfReferees
+        numberOfReferees: candidate.numberOfReferees,
         questionFormat: selectedFormat,
         questionId: selectedQuestion._id,
         questionName: selectedQuestion.name,
@@ -797,9 +800,15 @@ const AddJobComponent = ({ onCancel }) => {
                     </div>
                   </div>
                 </Form.Group>
-                
-                <Form.Group controlId={`formNumReferees${index}`} className="mb-4">
-                  <Form.Label className="m-0" style={{ width: "220px", height: "38px" }}>
+
+                <Form.Group
+                  controlId={`formNumReferees${index}`}
+                  className="mb-4"
+                >
+                  <Form.Label
+                    className="m-0"
+                    style={{ width: "220px", height: "38px" }}
+                  >
                     {TRANSLATIONS[currentLanguage].numReferees}
                     <span className="color-orange"> &nbsp;*</span>
                   </Form.Label>
@@ -809,7 +818,11 @@ const AddJobComponent = ({ onCancel }) => {
                       min={1}
                       value={candidate.numberOfReferees}
                       onChange={(e) =>
-                        handleInputChange(index, "numberOfReferees", parseInt(e.target.value))
+                        handleInputChange(
+                          index,
+                          "numberOfReferees",
+                          parseInt(e.target.value)
+                        )
                       }
                       required
                     />
@@ -846,7 +859,6 @@ const AddJobComponent = ({ onCancel }) => {
                     )}
                   </div>
                 </Form.Group>
-
               </div>
             ))}
           </Form>
