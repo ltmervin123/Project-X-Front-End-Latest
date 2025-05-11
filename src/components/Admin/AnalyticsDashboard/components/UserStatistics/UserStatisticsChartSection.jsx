@@ -1,99 +1,56 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { Row, Col } from "react-bootstrap";
 import { Bar, Pie } from "react-chartjs-2";
 import { getUserStatistic } from "../../../../../api/ai-reference/admin/admin-api";
 import { useQuery } from "@tanstack/react-query";
+
+const TRANSLATIONS = {
+  English: {
+    activeInactiveUsers: "Active & Inactive Users",
+    activeInactiveDesc: "Active and inactive users over time for all companies",
+    monthlyNewUsers: "Monthly New Users",
+    monthlyNewUsersDesc: "New user registrations for all companies",
+    usersByRole: "Users by Role",
+    usersByRoleDesc: "Distribution of users by role type for all companies",
+    activeUsers: "Active Users",
+    inactiveUsers: "Inactive Users",
+    newUsers: "New Users",
+  },
+  Japanese: {
+    activeInactiveUsers: "アクティブ・非アクティブユーザー",
+    activeInactiveDesc: "全企業のアクティブ・非アクティブユーザーの推移",
+    monthlyNewUsers: "月間新規ユーザー",
+    monthlyNewUsersDesc: "全企業の新規ユーザー登録状況",
+    usersByRole: "役割別ユーザー",
+    usersByRoleDesc: "全企業の役割タイプ別ユーザー分布",
+    activeUsers: "アクティブユーザー",
+    inactiveUsers: "非アクティブユーザー",
+    newUsers: "新規ユーザー",
+  },
+};
 
 const UserStatisticsChartSection = ({
   isLineChartVisible,
   isBarChartVisible,
 }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      activeInactiveUsers: "Active & Inactive Users",
-      activeInactiveDesc: "Active and inactive users over time for all companies",
-      monthlyNewUsers: "Monthly New Users",
-      monthlyNewUsersDesc: "New user registrations for all companies",
-      usersByRole: "Users by Role",
-      usersByRoleDesc: "Distribution of users by role type for all companies",
-      activeUsers: "Active Users",
-      inactiveUsers: "Inactive Users",
-      newUsers: "New Users",
-    },
-    Japanese: {
-      activeInactiveUsers: "アクティブ・非アクティブユーザー",
-      activeInactiveDesc: "全企業のアクティブ・非アクティブユーザーの推移",
-      monthlyNewUsers: "月間新規ユーザー",
-      monthlyNewUsersDesc: "全企業の新規ユーザー登録状況",
-      usersByRole: "役割別ユーザー",
-      usersByRoleDesc: "全企業の役割タイプ別ユーザー分布",
-      activeUsers: "アクティブユーザー",
-      inactiveUsers: "非アクティブユーザー",
-      newUsers: "新規ユーザー",
-    },
-  };
-
-  const t = translations[language];
-
+  const t = TRANSLATIONS[language];
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
   const chartRef = useRef(null);
 
-  const { data: userStatistics, a } = useQuery({
+  const { data: userStatistics } = useQuery({
     queryKey: ["adminDashboardUserStatistics"],
     queryFn: getUserStatistic,
     staleTime: 1000 * 60 * 1,
     refetchInterval: 1000 * 60 * 1,
     refetchIntervalInBackground: true,
   });
-
-  useEffect(() => {
-    const updateChartSize = () => {
-      if (chartRef.current) {
-        const { width, height } = chartRef.current.getBoundingClientRect();
-        setChartSize({ width, height });
-      }
-    };
-
-    updateChartSize();
-    window.addEventListener("resize", updateChartSize);
-    return () => window.removeEventListener("resize", updateChartSize);
-  }, []);
-
-  const calculateAutoLabelPosition = (percentage, index, total) => {
-    const startAngle = -Math.PI / 1;
-    let cumulativePercentage = 0;
-    for (let i = 0; i < index; i++) {
-      cumulativePercentage += companyTierData().datasets[0].data[i];
-    }
-
-    const currentAngle =
-      startAngle + (cumulativePercentage / total) * (2 * Math.PI);
-    const segmentAngle = (percentage / total) * (2 * Math.PI);
-    const midAngle = currentAngle + segmentAngle / 2;
-
-    // Dynamic label distance calculation
-    const radius = Math.min(chartSize.width, chartSize.height) / 2;
-    const labelDistanceRatio = 1.2;
-    const labelDistance = radius * labelDistanceRatio;
-
-    const x = Math.cos(midAngle) * labelDistance;
-    const y = Math.sin(midAngle) * labelDistance;
-
-    return {
-      left: `calc(50% + ${x}px)`,
-      top: `calc(50% + ${y}px)`,
-      transform: "translate(-50%, -50%)",
-      position: "absolute",
-      textAlign: "center",
-      width: "120px",
-      fontSize: `${Math.max(radius * 0.04, 12)}px`,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    };
-  };
 
   const createCustomTooltip = () => ({
     enabled: false,
@@ -176,73 +133,91 @@ const UserStatisticsChartSection = ({
     },
   });
 
-  const userWeeklyStatData = {
-    labels: userStatistics?.dailyActiveAndInactiveCompanies?.days || [""],
-    datasets: [
-      {
-        label: t.activeUsers,
-        data: userStatistics?.dailyActiveAndInactiveCompanies?.active || [0],
-        backgroundColor: "#f46a05",
-        borderRadius: 4,
-      },
-      {
-        label: t.inactiveUsers,
-        data: userStatistics?.dailyActiveAndInactiveCompanies?.inactive || [0],
-        backgroundColor: "#1706ac",
-        borderRadius: 4,
-      },
-    ],
-  };
+  const userWeeklyStatData = useMemo(
+    () => ({
+      labels: userStatistics?.dailyActiveAndInactiveCompanies?.days || [""],
+      datasets: [
+        {
+          label: t.activeUsers,
+          data: userStatistics?.dailyActiveAndInactiveCompanies?.active || [0],
+          backgroundColor: "#f46a05",
+          borderRadius: 4,
+        },
+        {
+          label: t.inactiveUsers,
+          data: userStatistics?.dailyActiveAndInactiveCompanies?.inactive || [
+            0,
+          ],
+          backgroundColor: "#1706ac",
+          borderRadius: 4,
+        },
+      ],
+    }),
+    [
+      userStatistics?.dailyActiveAndInactiveCompanies,
+      t.activeUsers,
+      t.inactiveUsers,
+    ]
+  );
 
-  const monthlyNewUserData = {
-    labels: userStatistics?.monthlyCreatedCompanies?.month || [""],
-    datasets: [
-      {
-        label: t.newUsers,
-        backgroundColor: "#1706ac",
-        borderColor: "transparent",
-        borderWidth: 2,
-        data: userStatistics?.monthlyCreatedCompanies?.count || [0],
-        borderRadius: 10,
-      },
-    ],
-  };
+  const monthlyNewUserData = useMemo(
+    () => ({
+      labels: userStatistics?.monthlyCreatedCompanies?.month || [""],
+      datasets: [
+        {
+          label: t.newUsers,
+          backgroundColor: "#1706ac",
+          borderColor: "transparent",
+          borderWidth: 2,
+          data: userStatistics?.monthlyCreatedCompanies?.count || [0],
+          borderRadius: 10,
+        },
+      ],
+    }),
+    [userStatistics?.monthlyCreatedCompanies, t.newUsers]
+  );
 
-  const doubleBarOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: createCustomTooltip(),
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { grid: { display: false }, beginAtZero: true },
-    },
-    barPercentage: 0.7,
-    categoryPercentage: 0.8,
-  };
-
-  const barOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: createCustomTooltip(),
-    },
-    scales: {
-      x: {
-        grid: { display: false },
-        ticks: { font: { size: 12 }, color: "#000" },
+  const doubleBarOptions = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: createCustomTooltip(),
       },
-      y: {
-        grid: { display: false },
-        ticks: { font: { size: 12 }, color: "#000" },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { display: false }, beginAtZero: true },
       },
-    },
-  };
+      barPercentage: 0.7,
+      categoryPercentage: 0.8,
+    }),
+    []
+  );
 
-  const companyTierData = () => {
+  const barOptions = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: createCustomTooltip(),
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 12 }, color: "#000" },
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { size: 12 }, color: "#000" },
+        },
+      },
+    }),
+    []
+  );
+
+  const companyTierData = useMemo(() => {
     const companyTier = {
       labels: userStatistics?.companyTierDistribution?.companyTier || [],
       data: userStatistics?.companyTierDistribution?.percentage || [],
@@ -258,28 +233,81 @@ const UserStatisticsChartSection = ({
         },
       ],
     };
-  };
+  }, [userStatistics?.companyTierDistribution]);
 
-  const circleChartOptions = {
-    rotation: -90,
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        ...createCustomTooltip(),
-        callbacks: {
-          label: function (context) {
-            const value = context.raw || 0;
-            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-            const percentage = ((value / total) * 100).toFixed(0);
-            return `${context.label}: ${percentage}%`;
+  const circleChartOptions = useMemo(
+    () => ({
+      rotation: -90,
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          ...createCustomTooltip(),
+          callbacks: {
+            label: function (context) {
+              const value = context.raw || 0;
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = ((value / total) * 100).toFixed(0);
+              return `${context.label}: ${percentage}%`;
+            },
           },
         },
       },
+      cutout: "65%",
+    }),
+    []
+  );
+
+  useEffect(() => {
+    const updateChartSize = () => {
+      if (chartRef.current) {
+        const { width, height } = chartRef.current.getBoundingClientRect();
+        setChartSize({ width, height });
+      }
+    };
+
+    updateChartSize();
+    window.addEventListener("resize", updateChartSize);
+    return () => window.removeEventListener("resize", updateChartSize);
+  }, []);
+
+  const calculateAutoLabelPosition = useCallback(
+    (percentage, index, total) => {
+      const startAngle = -Math.PI / 1;
+      let cumulativePercentage = 0;
+      for (let i = 0; i < index; i++) {
+        cumulativePercentage += companyTierData.datasets[0].data[i];
+      }
+
+      const currentAngle =
+        startAngle + (cumulativePercentage / total) * (2 * Math.PI);
+      const segmentAngle = (percentage / total) * (2 * Math.PI);
+      const midAngle = currentAngle + segmentAngle / 2;
+
+      // Dynamic label distance calculation
+      const radius = Math.min(chartSize.width, chartSize.height) / 2;
+      const labelDistanceRatio = 1.2;
+      const labelDistance = radius * labelDistanceRatio;
+
+      const x = Math.cos(midAngle) * labelDistance;
+      const y = Math.sin(midAngle) * labelDistance;
+
+      return {
+        left: `calc(50% + ${x}px)`,
+        top: `calc(50% + ${y}px)`,
+        transform: "translate(-50%, -50%)",
+        position: "absolute",
+        textAlign: "center",
+        width: "120px",
+        fontSize: `${Math.max(radius * 0.04, 12)}px`,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      };
     },
-    cutout: "65%",
-  };
+    [chartSize, companyTierData]
+  );
 
   return (
     <Row className="mb-3 user-stats-container">
@@ -336,15 +364,15 @@ const UserStatisticsChartSection = ({
                 left: 0,
               }}
             >
-              {companyTierData().datasets[0].data.map((value, index) => {
-                const total = companyTierData().datasets[0].data.reduce(
+              {companyTierData.datasets[0].data.map((value, index) => {
+                const total = companyTierData.datasets[0].data.reduce(
                   (a, b) => a + b,
                   0
                 );
-                const percentage = ((value / total) * 100).toFixed(0);
-                const label = companyTierData().labels[index];
+                const percentage = ((value / total) * 100).toFixed(1);
+                const label = companyTierData.labels[index];
                 const color =
-                  companyTierData().datasets[0].backgroundColor[index];
+                  companyTierData.datasets[0].backgroundColor[index];
                 const position = calculateAutoLabelPosition(
                   Number(percentage),
                   index,
@@ -362,7 +390,7 @@ const UserStatisticsChartSection = ({
                   </div>
                 );
               })}
-              <Pie data={companyTierData()} options={circleChartOptions} />
+              <Pie data={companyTierData} options={circleChartOptions} />
             </div>
           </div>
         </div>
