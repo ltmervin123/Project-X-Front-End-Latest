@@ -6,9 +6,6 @@ import { useNavigate } from "react-router-dom";
 import ViewRequest from "../ReferenceRequest/Components/ViewRequest";
 import PopupGuide from "../../AiReference/PopupGuide";
 
-// Define language
-const language = sessionStorage.getItem("preferred-language") || "English";
-
 // Translation dictionary - Enhanced with all static content
 const TRANSLATIONS = {
   English: {
@@ -43,8 +40,18 @@ const TRANSLATIONS = {
     expired: "Expired",
     new: "New",
     months: [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ],
   },
   Japanese: {
@@ -78,8 +85,18 @@ const TRANSLATIONS = {
     expired: "期限切れ",
     new: "新規",
     months: [
-      "1月", "2月", "3月", "4月", "5月", "6月", 
-      "7月", "8月", "9月", "10月", "11月", "12月"
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月",
     ],
   },
 };
@@ -101,6 +118,7 @@ const TRANSLATIONS = {
 
 const Reports = () => {
   const navigate = useNavigate(); // Move useNavigate here
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
   const [activeButton, setActiveButton] = useState("Overview");
@@ -147,7 +165,7 @@ const Reports = () => {
     reference.forEach((record) => {
       const date = new Date(record.dateSent);
       const month = TRANSLATIONS[language].months[date.getMonth()];
-    
+
       if (!monthMap.has(month)) {
         monthMap.set(month, { total: 0, pending: 0, completed: 0 });
       }
@@ -171,7 +189,9 @@ const Reports = () => {
 
     // Sort months based on order in the monthNames array
     const months = Array.from(monthMap.keys()).sort(
-      (a, b) => TRANSLATIONS[language].months.indexOf(a) - TRANSLATIONS[language].months.indexOf(b)
+      (a, b) =>
+        TRANSLATIONS[language].months.indexOf(a) -
+        TRANSLATIONS[language].months.indexOf(b)
     );
     const totalPendingReference = months.map(
       (month) => monthMap.get(month).pending
@@ -237,9 +257,19 @@ const Reports = () => {
       { totalResponseTime: 0, completedCount: 0 }
     );
 
-    return completedCount > 0
-      ? Math.round(totalResponseTime / completedCount)
-      : 0;
+    if (completedCount === 0) return 0;
+
+    const averageDays = totalResponseTime / completedCount;
+
+    if (averageDays < 1) {
+      // Convert to hours and round to nearest hour
+      const hours = Math.round(averageDays * 24);
+      return `${hours} ${hours === 1 ? "hour" : "hours"}`;
+    }
+
+    return `${Math.round(averageDays)} ${
+      Math.round(averageDays) === 1 ? "day" : "days"
+    }`;
   }, [reference]);
 
   const cardData = [
@@ -257,10 +287,7 @@ const Reports = () => {
     },
     {
       title: TRANSLATIONS[language].averageResponseTime,
-      value:
-        calculateAverageResponseDays > 1
-          ? `${calculateAverageResponseDays} days`
-          : `${calculateAverageResponseDays} day`,
+      value: calculateAverageResponseDays,
       color: "#319F43",
       refresh: true, // Indicate that this card should refresh the page
     },
@@ -603,9 +630,7 @@ const Reports = () => {
                     <tr>
                       <th>{TRANSLATIONS[language].applicant}</th>
                       <th>{TRANSLATIONS[language].referee}</th>
-                      <th >
-                        {TRANSLATIONS[language].status}
-                      </th>
+                      <th>{TRANSLATIONS[language].status}</th>
                       <th className="text-center">
                         {TRANSLATIONS[language].actions}
                       </th>
@@ -617,7 +642,6 @@ const Reports = () => {
                         <td>{`${entry.candidate.firstName} ${entry.candidate.lastName}`}</td>
                         <td>{`${entry.refereeName.firstName} ${entry.refereeName.lastName}`}</td>
                         <td
-                          
                           style={{
                             color: getStatusColor(entry.status),
                             fontWeight: "bold",

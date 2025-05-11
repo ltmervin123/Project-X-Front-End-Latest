@@ -1,22 +1,21 @@
-import React, { useMemo } from "react";
+import React from "react";
+
+const TRANSLATIONS = {
+  English: {
+    title: "Top Active Users",
+    subtitle: "Most active users on the platform for all companies",
+    noData: "No Data Available",
+  },
+  Japanese: {
+    title: "トップアクティブユーザー",
+    subtitle: "全企業の中で最もアクティブなユーザー",
+    noData: "データがありません",
+  },
+};
 
 const TopActiveUserRankingSection = ({ isVisible, companiesRankingData }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Top Active Users",
-      subtitle: "Most active users on the platform for all companies",
-      noData: "No Data Available",
-    },
-    Japanese: {
-      title: "トップアクティブユーザー",
-      subtitle: "全企業の中で最もアクティブなユーザー",
-      noData: "データがありません",
-    },
-  };
-
-  const t = translations[language];
+  const t = TRANSLATIONS[language];
 
   const getPlanStyle = (plan) => {
     switch (plan) {
