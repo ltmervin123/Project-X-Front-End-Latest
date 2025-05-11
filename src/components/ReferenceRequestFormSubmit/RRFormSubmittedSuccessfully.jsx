@@ -15,9 +15,8 @@ const TRANSLATIONS = {
 
 const RRFormSubmittedSuccessfully = () => {
   const [currentLanguage] = useState(
-    sessionStorage.getItem("preferred-language") || "Japanese"
+    localStorage.getItem("selectedLanguage") || "English"
   );
-
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">

@@ -44,6 +44,12 @@ function ReferenceRequestForm() {
   const token = sessionStorage.getItem("candidateToken");
   const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
   const selectedLanguage = candidateData?.selectedLanguage || "English";
+  
+  // Ensure selectedLanguage is saved to sessionStorage
+  React.useEffect(() => {
+    sessionStorage.setItem("selectedLanguage", selectedLanguage);
+  }, []);
+
   const numReferees = candidateData?.numberOfReferees || 1;
 
   const navigate = useNavigate();
