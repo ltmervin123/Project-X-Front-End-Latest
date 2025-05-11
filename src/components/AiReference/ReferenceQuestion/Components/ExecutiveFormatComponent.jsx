@@ -1,4 +1,25 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    executiveFormat: "Executive Format",
+    executiveFormatDesc: "In-depth questions for senior executive positions.",
+    executiveTooltip: "Designed for top positions, these questions evaluate vision, industry expertise, and leadership impact.",
+    noQuestionsFound: "No questions found",
+    returnToHRHatch: "Return to HR-HATCH Formats",
+  },
+  Japanese: {
+    executiveFormat: "エグゼクティブフォーマット",
+    executiveFormatDesc: "上級管理職向けの詳細な質問。",
+    executiveTooltip: "最高職向けに設計されたこれらの質問は、ビジョン、業界の専門知識、およびリーダーシップの影響を評価します。",
+    noQuestionsFound: "質問が見つかりません",
+    returnToHRHatch: "HR-HATCH フォーマットに戻る",
+  },
+};
 
 const ExecutiveFormatComponent = ({
   ExecutiveQuestionsSets,
@@ -7,13 +28,14 @@ const ExecutiveFormatComponent = ({
   flippedState,
   handleButtonClick,
 }) => {
-        const [showTooltip, setShowTooltip] = useState(false);
-  
+  const [showTooltip, setShowTooltip] = useState(false);
+
   return (
     <>
       <div className="AiReference-table-title">
-        <h4 className="color-yellow mb-0 d-flex gap-2 align-items-center">Executive Format
-        <div className="position-relative d-flex">
+        <h4 className="color-yellow mb-0 d-flex gap-2 align-items-center">
+          {TRANSLATIONS[language].executiveFormat}
+          <div className="position-relative d-flex">
             <svg
               width="16"
               height="16"
@@ -34,20 +56,21 @@ const ExecutiveFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-Designed for top positions, these questions evaluate vision, industry expertise, and leadership impact.
-</span>
+                {TRANSLATIONS[language].executiveTooltip}
+              </span>
             )}
-            </div>
+          </div>
         </h4>
-        <p>In-depth questions for senior executive positions.</p>
+        <p>{TRANSLATIONS[language].executiveFormatDesc}</p>
       </div>
+
       <div className="Format-Container">
         {ExecutiveQuestionsSets && ExecutiveQuestionsSets.length > 0 ? (
           ExecutiveQuestionsSets.map((item) => (
             <div key={item.id} className="question-set-container border mb-3">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="question-set-info">
-                  <h5 className="mb-0">{item.category}</h5>
+                  <h5 className="mb-0">{item.category[language]}</h5>
                 </div>
                 <div className="d-flex justify-content-end gap-5 question-controls">
                   <button
@@ -78,7 +101,7 @@ Designed for top positions, these questions evaluate vision, industry expertise,
                 <div className="dropdown-content-q-sets mt-3">
                   <ul>
                     {item.questions.map((question, qIndex) => (
-                      <li key={qIndex}>{question}</li>
+                      <li key={qIndex}>{question[language]}</li>
                     ))}
                   </ul>
                 </div>
@@ -86,17 +109,16 @@ Designed for top positions, these questions evaluate vision, industry expertise,
             </div>
           ))
         ) : (
-          <div>No questions found</div>
+          <div>{TRANSLATIONS[language].noQuestionsFound}</div>
         )}
       </div>
 
       <div className="d-flex justify-content-center align-items-center reference-question-returnbtn-container">
-        {/* Return Button */}
         <button
           className="btn-return"
-          onClick={() => handleButtonClick("HR-HATCH Formats")} // Set to HR-HATCH Formats
+          onClick={() => handleButtonClick("HR-HATCH Formats")}
         >
-          Return to HR-HATCH Formats
+          {TRANSLATIONS[language].returnToHRHatch}
         </button>
       </div>
     </>

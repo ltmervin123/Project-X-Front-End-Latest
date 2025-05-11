@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import UsageTrendSection from "./UsageTrendSection";
 import ReferenceStatSection from "./ReferenceStatSection";
 import AverageUsageSection from "./AverageUsageSection";
-import { getSystemUsage } from "../../../../api/ai-reference/admin/admin-api";
+import { getSystemUsage } from "../../../../../api/ai-reference/admin/admin-api";
 import { useQuery } from "@tanstack/react-query";
 
 const SystemUsageChartSection = ({ isVisible }) => {

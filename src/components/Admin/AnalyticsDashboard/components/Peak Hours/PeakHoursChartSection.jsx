@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import PeakHourSection from "./PeakHourSection";
 import TopActiveUserRankingSection from "./TopActiveUserRankingSection";
 import { useQuery } from "@tanstack/react-query";
-import { getPeakHourStat } from "../../../../api/ai-reference/admin/admin-api";
+import { getPeakHourStat } from "../../../../../api/ai-reference/admin/admin-api";
 
 const PeakHoursChartSection = ({ isVisible }) => {
   const { data: peakHourStat } = useQuery({

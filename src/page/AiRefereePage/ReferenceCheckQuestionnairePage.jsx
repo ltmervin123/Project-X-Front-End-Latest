@@ -71,7 +71,6 @@ const TRANSLATIONS = {
     reattemptingCamera: "Reattempting access to camera...",
     steps: [
       "Basic Information",
-      "Select Language",
       "Choose Method",
       "Questionnaire",
       "Reference Completed",
@@ -97,19 +96,19 @@ const TRANSLATIONS = {
     leavePageConfirmation: "このページから移動してもよろしいですか？",
     goBackConfirmation: "前に戻ってもよろしいですか？進行状況は失われます。",
     reattemptingCamera: "カメラへのアクセスを再試行しています...",
-    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    steps: ["基本情報", "方法選択", "アンケート", "参照完了"],
     question: "質問",
   },
 };
 
-const CURRENT_STEP = 4;
+const CURRENT_STEP = 3;
 
 const ReferenceCheckQuestionnairePage = () => {
   // Constants
   const API = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const selectedMethod = sessionStorage.getItem("interview-method");
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const STEPS = TRANSLATIONS[language].steps;
   const REFEREE = JSON.parse(sessionStorage.getItem("refereeData")) || {};
   const candidateName = REFEREE?.candidateName || "N/A";
@@ -308,11 +307,25 @@ const ReferenceCheckQuestionnairePage = () => {
   }, []);
 
   const handleProceed = () => {
+    // Save reference questions data
     sessionStorage.setItem(
       "referenceQuestionsData",
       JSON.stringify(referenceQuestionsData)
     );
-    navigate("/reference-thankyou-msg");
+
+    // Create assessment data object with category ratings
+    const assessmentData = referenceQuestionsData.reduce((acc, category) => {
+      if (CATEGORY_TO_RATE.includes(category.category)) {
+        acc[category.category] = category.assessmentRating;
+      }
+      return acc;
+    }, {});
+
+    // Save assessment data to session storage
+    sessionStorage.setItem("assessmentData", JSON.stringify(assessmentData));
+
+    // Navigate to review page
+    navigate("/reference-review");
   };
 
   // Prevent accidental page exit
@@ -364,7 +377,7 @@ const ReferenceCheckQuestionnairePage = () => {
   useEffect(() => {
     //Only speak when their is question
     const speakQuestion = async () => {
-      if (questions.length > 0) {
+      if (questions.length > 0 && selectedMethod === "VOICE_BASE") {
         setIsSpeaking(true);
         try {
           await speak(questions[currentQuestionIndex]);

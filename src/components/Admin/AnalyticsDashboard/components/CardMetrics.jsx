@@ -5,6 +5,24 @@ import * as AdminAPI from "../../../../api/ai-reference/admin/admin-api";
 
 const CardMetrics = ({ isAiReferenceCardVisible }) => {
   const navigate = useNavigate();
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      totalUsers: "Total Users",
+      activeUsers: "Active Users",
+      totalReferences: "Total References",
+      revenue: "Revenue",
+    },
+    Japanese: {
+      totalUsers: "総ユーザー数",
+      activeUsers: "アクティブユーザー",
+      totalReferences: "総照会数",
+      revenue: "収益",
+    },
+  };
+
+  const t = translations[language];
 
   const { data: analyticsData } = useQuery({
     queryKey: ["adminDashboardStat"],
@@ -16,25 +34,25 @@ const CardMetrics = ({ isAiReferenceCardVisible }) => {
 
   const cardData = [
     {
-      title: "Total Users",
+      title: t.totalUsers,
       count: analyticsData?.totalCompany || 0,
       color: "#f46a05",
       path: "/analytics-dashboard",
     },
     {
-      title: "Active Users",
+      title: t.activeUsers,
       count: analyticsData?.activeCompany || 0,
       color: "#F8BD00",
       path: "/analytics-dashboard",
     },
     {
-      title: "Reference Checks",
+      title: t.totalReferences,
       count: analyticsData?.referenceCheck || 0,
       color: "#319F43",
       path: "/analytics-dashboard",
     },
     {
-      title: "Revenue",
+      title: t.revenue,
       count: `¥ ${
         analyticsData?.totalRevenue ||
         (0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")

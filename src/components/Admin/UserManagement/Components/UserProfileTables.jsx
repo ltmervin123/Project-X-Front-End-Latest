@@ -16,6 +16,61 @@ const UserProfileTables = ({
   setCurrentPage,
   isTableVisible,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      columns: {
+        name: "Name",
+        email: "Email",
+        role: "Role",
+        status: "Status",
+        lastLogin: "Last Login",
+        actions: "Actions",
+      },
+      buttons: {
+        viewDetails: "View Details",
+        editUser: "Edit User",
+        resetPassword: "Reset Password",
+        deleteUser: "Delete User",
+        warn: "Warn",
+        banned: "Banned",
+        forceLogout: "Force Logout",
+      },
+      noData: "No data available",
+      status: {
+        Active: "Active",
+        Inactive: "Inactive",
+      },
+    },
+    Japanese: {
+      columns: {
+        name: "名前",
+        email: "メール",
+        role: "役割",
+        status: "状態",
+        lastLogin: "最終ログイン",
+        actions: "アクション",
+      },
+      buttons: {
+        viewDetails: "詳細を見る",
+        editUser: "ユーザー編集",
+        resetPassword: "パスワードリセット",
+        deleteUser: "ユーザー削除",
+        warn: "警告",
+        banned: "禁止",
+        forceLogout: "強制ログアウト",
+      },
+      noData: "データがありません",
+      status: {
+        Active: "アクティブ",
+        Inactive: "非アクティブ",
+      },
+    },
+  };
+
+  const t = translations[language];
+
   const [showWarnPopup, setShowWarnPopup] = useState(false);
   const [showSuspendPopup, setShowSuspendPopup] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
@@ -126,7 +181,7 @@ const UserProfileTables = ({
               setShowWarnPopup(true);
             }}
           >
-            Warn
+            {t.buttons.warn}
           </button>
           <button
             onClick={() => {
@@ -134,7 +189,7 @@ const UserProfileTables = ({
               setShowSuspendPopup(true);
             }}
           >
-            Banned
+            {t.buttons.banned}
           </button>
           <button
             onClick={() => {
@@ -142,7 +197,7 @@ const UserProfileTables = ({
               setShowLogoutPopup(true);
             }}
           >
-            Force Logout
+            {t.buttons.forceLogout}
           </button>
         </div>
       </div>
@@ -406,7 +461,7 @@ const UserProfileTables = ({
             setShowEditPopup(true);
           }}
         >
-          Edit User
+          {t.buttons.editUser}
         </button>
         <button
           onClick={() => {
@@ -414,7 +469,7 @@ const UserProfileTables = ({
             setShowResetPasswordPopup(true);
           }}
         >
-          Reset Password
+          {t.buttons.resetPassword}
         </button>
         <button
           onClick={() => {
@@ -422,7 +477,7 @@ const UserProfileTables = ({
             setShowDeletePopup(true);
           }}
         >
-          Delete User
+          {t.buttons.deleteUser}
         </button>
       </div>
     </div>
@@ -437,12 +492,11 @@ const UserProfileTables = ({
       <table className="mb-0">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th className="text-center">Status</th>
-            <th>Last Login</th>
-            <th className="text-center">Actions</th>
+            {Object.keys(t.columns).map((key) => (
+              <th key={key} className={key === 'status' ? 'text-center' : ''}>
+                {t.columns[key]}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -452,14 +506,14 @@ const UserProfileTables = ({
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
-                <td className="position-relative">
+                <td className="position-relative text-center">
                   <div className="d-flex align-items-center justify-content-center gap-2">
                     <span
                       style={{
                         color: user.status === "Active" ? "#319F43" : "#FF0000",
                       }}
                     >
-                      {user.status}
+                      {t.status[user.status]}
                     </span>
                     <button
                       className="btn-status p-0 position-relative"
@@ -499,7 +553,7 @@ const UserProfileTables = ({
                 <td className="d-flex justify-content-center align-items-center">
                   <div className="d-flex align-items-center gap-2 position-relative">
                     <button className="btn-view-details d-flex align-items-center gap-1">
-                      View Details
+                      {t.buttons.viewDetails}
                     </button>
                     <button
                       className="btn-status p-0 position-relative"
@@ -540,7 +594,7 @@ const UserProfileTables = ({
           ) : (
             <tr>
               <td colSpan={6} className="text-center">
-                No data available
+                {t.noData}
               </td>
             </tr>
           )}
@@ -593,6 +647,7 @@ const UserProfileTables = ({
           onConfirm={handleWarn}
           isProcessing={isProcessing}
           username={selectedUser?.name}
+          language={language}
         />
       )}
       {showSuspendPopup && (
@@ -601,6 +656,7 @@ const UserProfileTables = ({
           onConfirm={handleSuspend}
           isProcessing={isProcessing}
           username={selectedUser?.name}
+          language={language}
         />
       )}
       {showLogoutPopup && (
@@ -608,6 +664,7 @@ const UserProfileTables = ({
           onClose={() => setShowLogoutPopup(false)}
           onConfirm={handleForceLogout}
           isProcessing={isProcessing}
+          language={language}
         />
       )}
       {showDeletePopup && (
@@ -616,6 +673,7 @@ const UserProfileTables = ({
           onConfirm={handleDelete}
           isProcessing={isProcessing}
           username={selectedUser?.name}
+          language={language}
         />
       )}
       {showEditPopup && (
@@ -624,6 +682,7 @@ const UserProfileTables = ({
           onConfirm={handleEdit}
           user={selectedUser}
           isProcessing={isProcessing}
+          language={language}
         />
       )}
       {showResetPasswordPopup && (
@@ -632,6 +691,7 @@ const UserProfileTables = ({
           onConfirm={handleResetPassword}
           isProcessing={isProcessing}
           email={selectedUser?.email}
+          language={language}
         />
       )}
     </div>

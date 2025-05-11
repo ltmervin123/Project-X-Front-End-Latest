@@ -1,6 +1,31 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
 const APIUsageTable = ({ searchQuery }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      columns: {
+        endpoint: "Endpoint",
+        timestamp: "Timestamp",
+        status: "Status",
+        method: "Method"
+      },
+      noData: "No data available"
+    },
+    Japanese: {
+      columns: {
+        endpoint: "エンドポイント",
+        timestamp: "タイムスタンプ",
+        status: "状態",
+        method: "メソッド"
+      },
+      noData: "データがありません"
+    }
+  };
+
+  const t = translations[language];
+
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
@@ -54,10 +79,9 @@ const APIUsageTable = ({ searchQuery }) => {
       <table className="mb-0">
         <thead>
           <tr>
-            <th>Endpoint</th>
-            <th>Timestamp</th>
-            <th>Status</th>
-            <th>Method</th>
+            {Object.keys(t.columns).map(key => (
+              <th key={key}>{t.columns[key]}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -72,7 +96,7 @@ const APIUsageTable = ({ searchQuery }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={4} className="text-center">No data available</td>
+              <td colSpan={4} className="text-center">{t.noData}</td>
             </tr>
           )}
         </tbody>

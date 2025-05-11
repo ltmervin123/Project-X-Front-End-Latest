@@ -1,5 +1,22 @@
-import React, { useMemo } from "react";
+import React from "react";
+
+const TRANSLATIONS = {
+  English: {
+    title: "Top Active Users",
+    subtitle: "Most active users on the platform for all companies",
+    noData: "No Data Available",
+  },
+  Japanese: {
+    title: "トップアクティブユーザー",
+    subtitle: "全企業の中で最もアクティブなユーザー",
+    noData: "データがありません",
+  },
+};
+
 const TopActiveUserRankingSection = ({ isVisible, companiesRankingData }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const t = TRANSLATIONS[language];
+
   const getPlanStyle = (plan) => {
     switch (plan) {
       case "Free":
@@ -49,10 +66,8 @@ const TopActiveUserRankingSection = ({ isVisible, companiesRankingData }) => {
       }`}
     >
       <div className="chart-content">
-        <b className="chart-title mb-0">Top Active Users</b>
-        <p className="chart-subtitle mb-0">
-          Most active users on the platform for all companies
-        </p>
+        <b className="chart-title mb-0">{t.title}</b>
+        <p className="chart-subtitle mb-0">{t.subtitle}</p>
       </div>
       <div className="total-reference-check-data mt-3">
         {companiesRankingData?.length > 0 ? (
@@ -96,7 +111,7 @@ const TopActiveUserRankingSection = ({ isVisible, companiesRankingData }) => {
               <div>
                 <div className="d-flex justify-content-between align-items-center">
                   <p className="mb-0 fw-bold d-flex align-items-end gap-2">
-                    No Data Available
+                    {t.noData}
                   </p>
                 </div>
               </div>

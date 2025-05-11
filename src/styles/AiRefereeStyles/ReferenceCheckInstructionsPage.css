@@ -52,10 +52,23 @@
 
 .instruction-card p {
   color: #333;
-  font-size: 12px;
-  line-height: 30px;
+  font-size: 11px;
+  margin: 0;
 }
-
+.instruction-card .list-style1 li{
+  font-size: 11px;
+  list-style:decimal;
+}
+.instruction-card li{
+  font-size: 11px;
+}
+.instruction-card  ul{
+  margin: 10px 0;
+}
+.instruction-card .list-style1{
+  margin: 10px 0;
+  padding-left: 20px;
+}
 .instruction-card svg{
 height: 40px;
 }

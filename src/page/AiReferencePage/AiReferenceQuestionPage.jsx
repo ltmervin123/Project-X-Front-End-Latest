@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import ReferenceQuestion from "../../components/AiReference/ReferenceQuestion/ReferenceQuestion";
+import TranslationDropdown from "../../components/AiReference/TranslationDropdown";
 import "../../styles/AiReferenceStyles/AiReferenceQuestion.css";
 
 function AiReferenceQuestionPage() {
@@ -18,6 +19,7 @@ function AiReferenceQuestionPage() {
           {/* Main content area with 9/12 width */}
           <Col md={10} className="p-3">
             <ReferenceQuestion />
+            <TranslationDropdown />
           </Col>
         </Row>
       </div>

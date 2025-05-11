@@ -19,15 +19,14 @@
   background: var(--font-white);
   border-radius: 50px;
   border: none;
-  padding: 5px ;
+  padding: 5px;
   font-size: 13px;
-  width: 140px;
+  width: 160px;
   font-size: 0.8rem;
   transition: all 0.2s ease;
 }
-.trashbin-category-filters button:hover{
+.trashbin-category-filters button:hover {
   color: var(--primary-color);
-
 }
 .trashbin-category-filters button.active {
   background: var(--primary-color);
@@ -39,14 +38,14 @@
   border: 0.5px solid rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   padding: 20px;
-  height: 60vh;
+  height: 62vh;
 }
 .AiReference-trashbin-container .trashbin-important-text {
   border-radius: 50px;
   border: 1px solid var(--primary-color);
   padding: 10px 20px;
   font-size: 12px;
-  width:fit-content;
+  width: fit-content;
 }
 /* .AiReference-trashbin-container > div {
   height: 15%;
@@ -65,9 +64,13 @@
   height: 100%;
 }
 .AiReference-trashbin-container tbody {
-    display: block; /* Make tbody a block element */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
+  display: block; /* Make tbody a block element */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+.AiReference-trashbin-container tbody p{
+  font-weight: 400;
+  font-size: 12px;
+}
 .AiReference-trashbin-container tr {
   display: table; /* Ensure rows are displayed as table rows */
   table-layout: fixed; /* Prevent layout shifts */
@@ -81,18 +84,19 @@
   padding: 15px; /* Padding for table cells */
   word-wrap: break-word;
   text-align: left; /* Align text to the left */
+  font-weight: bold;
 }
-.AiReference-trashbin-container .action-menu{
-position: relative;
-right: 0;
+.AiReference-trashbin-container .action-menu {
+  position: relative;
+  right: 0;
 }
 .AiReference-trashbin-container .action-options {
-    position: absolute;
-    top: 0;
-    left: -90px !important;
+  position: absolute;
+  top: 0;
+  left: -90px !important;
 }
-.AiReference-trashbin-container th:nth-last-child(1){
-    text-align: center;
+.AiReference-trashbin-container th:nth-last-child(1) {
+  text-align: center;
 }
 
 .AiReference-trashbin-container .button-controls > button {
@@ -106,7 +110,7 @@ right: 0;
 }
 
 .AiReference-trashbin-container .button-controls > button:hover {
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 
 .AiReference-trashbin-container .button-controls > button:nth-child(1) {
@@ -119,46 +123,55 @@ right: 0;
   background: var(--secondary-color);
 }
 .AiReference-trashbin-container .button-controls > button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  .AiReference-trashbin-container .button-controls > button:disabled:hover{
-    transform: scale(1);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.AiReference-trashbin-container .button-controls > button:disabled:hover {
+  transform: scale(1);
 }
 .btn-yes-recover {
-    background: var(--primary-color);
-    width: 100px;
-    border-radius: 50px;
-    color: var(--font-white);
-    border: none;
-    padding: 8px 30px;
+  background: var(--primary-color);
+  width: 120px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px;
 }
 .btn-no-recover {
-    background: var(--secondary-color);
-    width: 100px;
-    border-radius: 50px;
-    color: var(--font-white);
-    border: none;
-    padding: 8px 30px;
+  background: var(--secondary-color);
+  width: 120px;
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+  padding: 8px 30px;
+}
+.custom-checkbox:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+ .custom-checkbox:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: 0 0 0 .25rem #f4690554;
 }
 /* Customizing the scrollbar */
 .AiReference-trashbin-container tbody::-webkit-scrollbar {
-    width: 5px; /* Scrollbar width */
-  }
-  
-  .AiReference-trashbin-container tbody::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color); /* Scrollbar thumb color */
-    border-radius: 6px; /* Rounded corners */
-  }
-  
-  .AiReference-trashbin-container tbody::-webkit-scrollbar-thumb:hover {
-    background-color: var(--primary-color); /* Scrollbar thumb color */
-  }
-  
-  .AiReference-trashbin-container tbody::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Track color */
-    border-radius: 6px; /* Rounded corners for the track */
-  }
+  width: 5px; /* Scrollbar width */
+}
+
+.AiReference-trashbin-container tbody::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+
+.AiReference-trashbin-container tbody::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+
+.AiReference-trashbin-container tbody::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}
 
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) {
@@ -201,8 +214,6 @@ right: 0;
     width: 100%;
     font-size: 14px;
   }
-
-
 
   .AiReference-trashbin-container th,
   .AiReference-trashbin-container td {
@@ -269,9 +280,9 @@ right: 0;
     z-index: 2;
     padding: 10px 0;
   }
-.trashbin-controls{
-  display: block !important;
-}
+  .trashbin-controls {
+    display: block !important;
+  }
 }
 
 /* Small Mobile Devices */

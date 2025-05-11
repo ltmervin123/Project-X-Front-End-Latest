@@ -3,6 +3,61 @@ import CameraVerificationPopUp from "../CameraVerification/CameraVerificationPop
 import VerificationPreviewPopUp from "../VerificationPreviewPopUp/VerificationPreviewPopUp";
 import { useNavigate } from "react-router-dom";
 
+const TRANSLATIONS = {
+  English: {
+    preferredId: "Preferred ID",
+    selectId: "Select ID",
+    passport: "Passport",
+    driversLicense: "Driver's License",
+    nationalId: "National ID",
+    uploadYourId: "Upload Your ID",
+    frontIdPage: "Front ID page",
+    fileUploaded: "File uploaded: {fileName}",
+    clear: "Clear",
+    submit: "Submit",
+    submitting: "Submitting...",
+    selectFile: "Select File",
+    backIdPage: "Back ID page",
+    confidentialityDisclaimer:
+      "Please rest assured that all information provided will be treated with the utmost confidentiality and handled in full compliance with our data protection policies.",
+    proceed: "Proceed",
+    documentVerification: "Referee Identity Verification",
+    identificationDocument:
+      "Step 1: Select ID type and upload for verification.",
+    cameraVerification:
+      "Step 2: Please verify using your camera or upload your business card for confirmation.",
+
+    takePhoto: "Take a photo",
+    or: "OR",
+  },
+  Japanese: {
+    preferredId: "優先ID",
+    selectId: "IDを選択",
+    passport: "パスポート",
+    driversLicense: "運転免許証",
+    nationalId: "国民ID",
+    uploadYourId: "IDをアップロード",
+    frontIdPage: "IDの前面ページ",
+    fileUploaded: "アップロードされたファイル: {fileName}",
+    clear: "クリア",
+    submit: "送信",
+    submitting: "送信中...",
+    selectFile: "ファイルを選択",
+    backIdPage: "IDの裏面ページ",
+    confidentialityDisclaimer:
+      "提供された情報はすべて機密として扱われ、当社のデータ保護方針に完全に従って処理されることをご安心ください。",
+    proceed: "進む",
+    documentVerification: "推薦者の本人確認",
+    identificationDocument:
+      "ステップ1：IDタイプを選択してアップロードしてください。",
+    cameraVerification:
+      "ステップ2：カメラで認証するか、名刺をアップロードしてください。",
+
+    takePhoto: "写真を撮る",
+    or: "または",
+  },
+};
+
 const IdUploadSection = ({
   frontIdFile,
   backIdFile,
@@ -14,59 +69,7 @@ const IdUploadSection = ({
   submitting,
   setSelfie,
 }) => {
-  const navigate = useNavigate();
-
-  const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      preferredId: "Preferred ID",
-      selectId: "Select ID",
-      passport: "Passport",
-      driversLicense: "Driver's License",
-      nationalId: "National ID",
-      uploadYourId: "Upload Your ID",
-      frontIdPage: "Front ID page",
-      fileUploaded: "File uploaded: {fileName}",
-      clear: "Clear",
-      submit: "Submit",
-      submitting: "Submitting...",
-      selectFile: "Select File",
-      backIdPage: "Back ID page",
-      confidentialityDisclaimer:
-        "Please rest assured that all information provided will be treated with the utmost confidentiality and handled in full compliance with our data protection policies.",
-      proceed: "Proceed",
-      documentVerification: "Document Verification",
-      identificationDocument: "Identification Document",
-      cameraVerification: "Camera Verification",
-      takePhoto: "Take a photo",
-      or: "OR",
-    },
-    Japanese: {
-      preferredId: "優先ID",
-      selectId: "IDを選択",
-      passport: "パスポート",
-      driversLicense: "運転免許証",
-      nationalId: "国民ID",
-      uploadYourId: "IDをアップロード",
-      frontIdPage: "IDの前面ページ",
-      fileUploaded: "アップロードされたファイル: {fileName}",
-      clear: "クリア",
-      submit: "送信",
-      submitting: "送信中...",
-      selectFile: "ファイルを選択",
-      backIdPage: "IDの裏面ページ",
-      confidentialityDisclaimer:
-        "提供された情報はすべて機密として扱われ、当社のデータ保護方針に完全に従って処理されることをご安心ください。",
-      proceed: "進む",
-      documentVerification: "本人確認書類",
-      identificationDocument: "身分証明書",
-      cameraVerification: "カメラ認証",
-      takePhoto: "写真を撮る",
-      or: "または",
-    },
-  };
-
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const [selectedIdType, setSelectedIdType] = useState("");
   const [showCameraPopup, setShowCameraPopup] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -75,14 +78,23 @@ const IdUploadSection = ({
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null); // Add this state
 
-  const shortenFileName = (fileName) => {
+  const shortenFileName = (fileName, maxLength = 20) => {
     if (!fileName) return "";
 
     if (typeof fileName === "string" && fileName.startsWith("data:")) {
       return "captured_image.jpg";
     }
 
-    return fileName;
+    if (fileName.length <= maxLength) return fileName;
+
+    const dotIndex = fileName.lastIndexOf(".");
+    if (dotIndex === -1) return fileName.slice(0, maxLength - 3) + "...";
+
+    const name = fileName.substring(0, dotIndex);
+    const ext = fileName.substring(dotIndex);
+    const shortenedName = name.substring(0, maxLength - ext.length - 3) + "...";
+
+    return shortenedName + ext;
   };
 
   // Function to trigger the file input click
@@ -110,7 +122,15 @@ const IdUploadSection = ({
     setSelectedIdType(event.target.value);
   };
 
+  // Add this helper function
+  const isPassportSelected = () => {
+    return selectedIdType === "Passport";
+  };
+
   const hasNoId = () => {
+    if (isPassportSelected()) {
+      return !frontIdFile;
+    }
     return !frontIdFile || !backIdFile;
   };
 
@@ -165,7 +185,7 @@ const IdUploadSection = ({
             <p className=" d-flex gap-2 align-items-center">
               {" "}
               <div className="label-number">1</div>{" "}
-              {translations[language].identificationDocument}
+              {TRANSLATIONS[language].identificationDocument}
             </p>
             <select
               name="preferred-id"
@@ -174,15 +194,15 @@ const IdUploadSection = ({
               value={selectedIdType}
               onChange={handleIdTypeChange}
             >
-              <option value="">{translations[language].selectId}</option>
+              <option value="">{TRANSLATIONS[language].selectId}</option>
               <option value="Passport">
-                {translations[language].passport}
+                {TRANSLATIONS[language].passport}
               </option>
               <option value="Driver's License">
-                {translations[language].driversLicense}
+                {TRANSLATIONS[language].driversLicense}
               </option>
               <option value="National ID">
-                {translations[language].nationalId}
+                {TRANSLATIONS[language].nationalId}
               </option>
             </select>
           </div>
@@ -190,14 +210,14 @@ const IdUploadSection = ({
           <div className="upload-id-container">
             <div className="d-flex gap-4">
               <div className="front-id-container mb-3 w-100 ">
-                <p>{translations[language].frontIdPage}</p>
+                <p>{TRANSLATIONS[language].frontIdPage}</p>
 
                 <div className="d-flex justify-content-between w-100">
                   {frontIdFile ? (
                     <div className="d-flex justify-content-between align-items-center w-100">
                       <div className="front-id-img-container d-flex align-items-center ">
                         <p className="m-0">
-                          {translations[language].fileUploaded.replace(
+                          {TRANSLATIONS[language].fileUploaded.replace(
                             "{fileName}",
                             shortenFileName(frontIdFile.name)
                           )}
@@ -207,7 +227,7 @@ const IdUploadSection = ({
                         onClick={triggerFrontFileInput}
                         disabled={!selectedIdType}
                       >
-                        {translations[language].selectFile}
+                        {TRANSLATIONS[language].selectFile}
                       </button>
                       <input
                         type="file"
@@ -224,7 +244,7 @@ const IdUploadSection = ({
                         onClick={triggerFrontFileInput}
                         disabled={!selectedIdType}
                       >
-                        {translations[language].selectFile}
+                        {TRANSLATIONS[language].selectFile}
                       </button>
                       <input
                         type="file"
@@ -239,13 +259,13 @@ const IdUploadSection = ({
               </div>
 
               <div className="back-id-container mb-3 w-100">
-                <p>{translations[language].backIdPage}</p>
+                <p>{TRANSLATIONS[language].backIdPage}</p>
                 <div className="d-flex justify-content-between w-100">
                   {backIdFile ? (
                     <div className="d-flex justify-content-between align-items-center w-100">
                       <div className="back-id-img-container d-flex align-items-center ">
                         <p className="m-0">
-                          {translations[language].fileUploaded.replace(
+                          {TRANSLATIONS[language].fileUploaded.replace(
                             "{fileName}",
                             shortenFileName(backIdFile.name)
                           )}
@@ -253,9 +273,9 @@ const IdUploadSection = ({
                       </div>
                       <button
                         onClick={triggerBackFileInput}
-                        disabled={!selectedIdType}
+                        disabled={!selectedIdType || isPassportSelected()}
                       >
-                        {translations[language].selectFile}
+                        {TRANSLATIONS[language].selectFile}
                       </button>
                       <input
                         type="file"
@@ -270,9 +290,9 @@ const IdUploadSection = ({
                       <div className="back-id-img-container d-flex"></div>
                       <button
                         onClick={triggerBackFileInput}
-                        disabled={!selectedIdType}
+                        disabled={!selectedIdType || isPassportSelected()}
                       >
-                        {translations[language].selectFile}
+                        {TRANSLATIONS[language].selectFile}
                       </button>
                       <input
                         type="file"
@@ -292,7 +312,7 @@ const IdUploadSection = ({
             <p className="mb-3 d-flex gap-2 align-items-center">
               {" "}
               <div className="label-number">2</div>
-              {translations[language].cameraVerification}
+              {TRANSLATIONS[language].cameraVerification}
             </p>
             <div className="row d-flex align-items-center">
               <div className="col-md-5 text-center">
@@ -313,7 +333,7 @@ const IdUploadSection = ({
                   {capturedImage ? (
                     <div className="d-flex align-items-center justify-content-center">
                       <p>
-                        {translations[language].fileUploaded.replace(
+                        {TRANSLATIONS[language].fileUploaded.replace(
                           "{fileName}",
                           shortenFileName(
                             capturedImage.name || "captured_image.jpg"
@@ -332,14 +352,14 @@ const IdUploadSection = ({
                         hasNoId()
                       }
                     >
-                      {translations[language].takePhoto}
+                      {TRANSLATIONS[language].takePhoto}
                     </button>
                   )}
                 </div>
               </div>
               <div className="col-md-2 text-center d-flex align-items-center justify-content-center or-container position-relative">
                 <div>
-                  <span>{translations[language].or}</span>
+                  <span>{TRANSLATIONS[language].or}</span>
                 </div>
               </div>
               <div className="col-md-5 text-center">
@@ -384,7 +404,7 @@ const IdUploadSection = ({
                   {uploadedImage ? (
                     <div className="d-flex flex-column align-items-center justify-content-center">
                       <p>
-                        {translations[language].fileUploaded.replace(
+                        {TRANSLATIONS[language].fileUploaded.replace(
                           "{fileName}",
                           typeof uploadedImage === "string"
                             ? "captured_image.jpg"
@@ -403,7 +423,7 @@ const IdUploadSection = ({
                         hasNoId()
                       }
                     >
-                      {translations[language].selectFile}
+                      {TRANSLATIONS[language].selectFile}
                     </button>
                   )}
                 </div>
@@ -425,11 +445,11 @@ const IdUploadSection = ({
                 fill="#F46A05"
               />
             </svg>
-            {translations[language].confidentialityDisclaimer}
+            {TRANSLATIONS[language].confidentialityDisclaimer}
           </div>
           <div className="IdUploadSection-button-controls d-flex gap-3 mt-3 w-100 justify-content-center">
             <button onClick={clearId} disabled={submitting || hasNoId()}>
-              {translations[language].clear}
+              {TRANSLATIONS[language].clear}
             </button>
             <button
               onClick={handleSubmit}
@@ -441,7 +461,7 @@ const IdUploadSection = ({
                   role="status"
                 ></div>
               ) : (
-                translations[language].submit
+                TRANSLATIONS[language].submit
               )}
             </button>
           </div>

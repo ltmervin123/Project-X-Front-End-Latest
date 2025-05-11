@@ -17,7 +17,7 @@
   border-radius: 20px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   padding: 10px;
-  gap: 10px;
+  gap: 5px;
 }
 .btn-export-data {
   border: 1px solid var(--primary-color);
@@ -38,17 +38,20 @@
   background: var(--font-white);
   border-radius: 50px;
   border: none;
-  width: 23%;
-  padding: 5px;
+  width: auto;
+  min-width: 110px;
+  padding: 5px 10px;
   font-size: 0.8rem;
+  color: var(--card-color);
+
   transition: all 0.2s ease;
 }
 .user-management-button-controller > button:hover {
   color: var(--primary-color);
 }
 .user-management-button-controller > button.active {
-  color: var(--font-white);
-  background: var(--primary-color);
+  color: var(--font-black);
+  font-weight: bold;
 }
 
 .filter-search-container {
@@ -123,10 +126,11 @@
 }
 .action-option-action {
   position: absolute;
-  left: -110px;
+  right: 0;
   top: 30px;
   background: var(--font-white);
-  width: 120px;
+  min-width: 140px;
+  width: auto;
   font-size: 12px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border-radius: 10px;

@@ -4,6 +4,8 @@ import Header from "../../components/AiReference/Header";
 import Sidebar from "../../components/AiReference/Sidebar";
 import ReferenceRequest from "../../components/AiReference/ReferenceRequest/ReferenceRequest";
 import PopupGuide from "../../components/AiReference/PopupGuide"; // Import PopupGuide
+import TranslationDropdown from "../../components/AiReference/TranslationDropdown";
+
 import "../../styles/AiReferenceStyles/AiReferenceJobs.css";
 import "../../styles/AiReferenceStyles/AiReferenceRequest.css";
 
@@ -23,6 +25,8 @@ function AiReferenceRequestPage() {
             {/* Main content area with 9/12 width */}
             <Col md={10} className="p-3">
               <ReferenceRequest />
+              <TranslationDropdown />
+
             </Col>
           </Row>
         </div>

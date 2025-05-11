@@ -47,7 +47,7 @@ const AudioBase = ({
 }) => {
   const API = process.env.REACT_APP_API_URL;
   const token = sessionStorage.getItem("token");
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   // States
   const [isRecording, setIsRecording] = useState(false);
   const [hasTranscription, setHasTranscription] = useState(true);

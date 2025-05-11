@@ -2,6 +2,43 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, ProgressBar } from "react-bootstrap";
 import axios from "axios";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    createQuestionnaire: "Create Your Own Questionnaire",
+    createDesc: "Create your own set of reference check questions.",
+    questionName: "Question Name",
+    enterSetName: "Enter Set Name",
+    description: "Description",
+    enterDescription: "Enter description",
+    questionRequired: "Question is required",
+    question: "Question",
+    questions: "Questions",
+    of: "of",
+    addQuestions: "Add Questions",
+    adding: "Adding...",
+    addSet: "Add Set"
+  },
+  Japanese: {
+    createQuestionnaire: "独自のアンケートを作成",
+    createDesc: "独自の参考質問セットを作成します。",
+    questionName: "質問名",
+    enterSetName: "セット名を入力",
+    description: "説明",
+    enterDescription: "説明を入力",
+    questionRequired: "質問は必須です",
+    question: "質問",
+    questions: "質問",
+    of: "の",
+    addQuestions: "質問を追加",
+    adding: "追加中...",
+    addSet: "セットを追加"
+  }
+};
+
 const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
   const API = process.env.REACT_APP_API_URL;
   const [name, setName] = useState("");
@@ -62,7 +99,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
         description,
         questions: formatQuestions(),
       };
-      const response = await axios.post(URL, {payload}, {
+      const response = await axios.post(URL, { payload }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,8 +128,8 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="mb-0">Create Your Own Questionnaire</h5>
-            <small>Create your own set of reference check questions.</small>
+            <h5 className="mb-0">{TRANSLATIONS[language].createQuestionnaire}</h5>
+            <small>{TRANSLATIONS[language].createDesc}</small>
           </div>
           <Button
             className="closebtn"
@@ -109,14 +146,14 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-              Question Name
+              {TRANSLATIONS[language].questionName}
             </Form.Label>
             <Form.Control
               type="text"
               value={name}
               className="input-set-name"
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter Set Name"
+              placeholder={TRANSLATIONS[language].enterSetName}
               required
             />
           </Form.Group>
@@ -126,24 +163,24 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             className="d-flex align-items-center mb-3"
           >
             <Form.Label className="me-2" style={{ width: "150px" }}>
-              Description
+              {TRANSLATIONS[language].description}
             </Form.Label>
             <Form.Control
               as="textarea"
               rows={1} // You can adjust the number of rows
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter description"
+              placeholder={TRANSLATIONS[language].enterDescription}
               required
             />
-            {isQuestionsEmpty && <div>Question is required</div>}
+            {isQuestionsEmpty && <div>{TRANSLATIONS[language].questionRequired}</div>}
           </Form.Group>
 
           <div className="questions-list">
             {questions.map((question, index) => (
               <div key={index} className="d-flex align-items-center mb-2 ">
                 <Form.Label className="me-2" style={{ width: "150px" }}>
-                  Question {index + 1}
+                  {TRANSLATIONS[language].question} {index + 1}
                 </Form.Label>
 
                 <div className="d-flex gap-2 w-100 mb-2">
@@ -157,7 +194,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                         onChange={(e) =>
                           handleQuestionChange(index, e.target.value)
                         }
-                        placeholder={`Question ${index + 1}`}
+                        placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
                         required
                       />
                       <Button
@@ -186,7 +223,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                       onChange={(e) =>
                         handleQuestionChange(index, e.target.value)
                       }
-                      placeholder={`Question ${index + 1}`}
+                      placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
                       required
                     />
                   )}
@@ -202,7 +239,9 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
 
               {/* Progress bar and count */}
               <div style={{ width: "95%" }}>
-                <p className="mb-2">{questions.length} of 10 Questions</p>
+                <p className="mb-2">
+                  {questions.length} {TRANSLATIONS[language].of} 10 {TRANSLATIONS[language].questions}
+                </p>
                 <ProgressBar
                   className="progress-bar-for-question"
                   now={progress}
@@ -223,7 +262,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                     variant="link"
                     onClick={handleAddQuestion}
                   >
-                    Add Questions
+                    {TRANSLATIONS[language].addQuestions}
                   </button>
                 </div>
               </div>
@@ -239,7 +278,7 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                 type="submit"
                 disabled={questions.length < 10 || submitting}
               >
-                {submitting ? "Adding..." : "Add Set"}
+                {submitting ? TRANSLATIONS[language].adding : TRANSLATIONS[language].addSet}
               </button>
             </div>
           </div>

@@ -4,14 +4,130 @@ import { Row, Col } from "react-bootstrap";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import AddJobComponent from "./Components/AddJobComponent";
+import SelectionLanguagePopUp from "./PopUpComponents/SelectionLanguagePopUp";
 import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const TRANSLATIONS = {
+  English: {
+    Dashboard: "Dashboard",
+
+    ManageTrackResponse: "Manage and track your reference response",
+    StartReferenceCheck: "Start Reference Check",
+    ActiveJobs: "Active Jobs",
+    PendingReferences: "Pending References",
+    CompletedReferences: "Completed References",
+
+    TotalApplicants: "Total Applicants",
+    ReferenceOverview: "Reference Overview",
+    ByDepartment: "By Department",
+    RecentActivities: "Recent Activities",
+    ClickToStart: "Click here to begin the reference check process.",
+    ManageTrackProcesses: "Manage and track your reference check processes.",
+    completed: "completed",
+    NoRecentActivities: "No recent activities",
+    ViewAll: "View All",
+    ShowLess: "Show Less",
+    departments: {
+      sales: "Sales",
+      marketing: "Marketing",
+      customerService: "Customer Service",
+      hr: "Human Resources (HR)",
+      finance: "Finance",
+      accounting: "Accounting",
+      operations: "Operations",
+      it: "IT (Information Technology)",
+      legal: "Legal",
+      administration: "Administration",
+      productDevelopment: "Product Development",
+      rAndD: "Research and Development (R&D)",
+      logistics: "Logistics, Supply Chain & Procurement",
+      businessDev: "Business Development",
+      pr: "Public Relations (PR)",
+      design: "Design",
+      compliance: "Compliance",
+      riskManagement: "Risk Management",
+    },
+    Total: "Total",
+    Complete: "Complete",
+    months: {
+      January: "January",
+      February: "February",
+      March: "March",
+      April: "April",
+      May: "May",
+      June: "June",
+      July: "July",
+      August: "August",
+      September: "September",
+      October: "October",
+      November: "November",
+      December: "December",
+    },
+  },
+  Japanese: {
+    Dashboard: "ダッシュボード",
+
+    ManageTrackResponse: "リファレンスチェックの管理と追跡",
+    StartReferenceCheck: "リファレンスチェックを開始する",
+    ActiveJobs: "求人",
+    PendingReferences: "保留中のリファレンス",
+    CompletedReferences: "完了リファレンス",
+    TotalApplicants: "応募者数",
+    ReferenceOverview: "リファレンスチェック概要",
+    ByDepartment: "部門別",
+    RecentActivities: "最近の活動",
+    ClickToStart:
+      "ここをクリックしてリファレンスチェックプロセスを開始します。",
+    ManageTrackProcesses: "リファレンスチェックプロセスを管理し、追跡します。",
+    completed: "完了",
+    NoRecentActivities: "最近の活動はありません",
+    ViewAll: "すべて表示",
+    ShowLess: "表示を減らす",
+    departments: {
+      sales: "営業",
+      marketing: "マーケティング",
+      customerService: "カスタマーサービス",
+      hr: "人事",
+      finance: "財務",
+      accounting: "経理",
+      operations: "運営",
+      it: "IT",
+      legal: "法務",
+      administration: "総務",
+      productDevelopment: "製品開発",
+      rAndD: "研究開発",
+      logistics: "物流・調達",
+      businessDev: "事業開発",
+      pr: "広報",
+      design: "デザイン",
+      compliance: "コンプライアンス",
+      riskManagement: "リスク管理",
+    },
+    Total: "合計",
+    Complete: "完了",
+    months: {
+      January: "1月",
+      February: "2月",
+      March: "3月",
+      April: "4月",
+      May: "5月",
+      June: "6月",
+      July: "7月",
+      August: "8月",
+      September: "9月",
+      October: "10月",
+      November: "11月",
+      December: "12月",
+    },
+  },
+};
+
 // Register all necessary components
 Chart.register(...registerables);
 
-const LogContainer = ({ completedRecords }) => {
+const LogContainer = ({ completedRecords, language }) => {
   const handleToggleShowAll = (event) => {
     event.preventDefault(); // Prevent default anchor behavior
     setShowAll(!showAll);
@@ -49,9 +165,11 @@ const LogContainer = ({ completedRecords }) => {
   return (
     <div className="LogContainer my-4">
       <div className="d-flex justify-content-between align-items-center">
-        <p className="mb-3">Recent Activities</p>
+        <p className="mb-3">{TRANSLATIONS[language].RecentActivities}</p>
         <a href="#" onClick={handleToggleShowAll}>
-          {showAll ? "Show Less" : "View All"}
+          {showAll
+            ? TRANSLATIONS[language].ShowLess
+            : TRANSLATIONS[language].ViewAll}
         </a>
       </div>
       <div className="list-log-containerlist-log-container">
@@ -71,7 +189,7 @@ const LogContainer = ({ completedRecords }) => {
                   </div>
                   <div>
                     <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    completed a reference check for{" "}
+                    {TRANSLATIONS[language].completed} a reference check for{" "}
                     <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
                     <div className="text-muted">
                       {timeAgo(log.completedDate)}
@@ -80,7 +198,7 @@ const LogContainer = ({ completedRecords }) => {
                 </div>
               ))
           ) : (
-            <div>No recent activities</div>
+            <div>{TRANSLATIONS[language].NoRecentActivities}</div>
           )
         }
       </div>
@@ -95,15 +213,13 @@ const MainDashboard = () => {
   const id = USER?.id;
   const token = USER?.token;
   const [showJobForm, setShowJobForm] = useState(false);
-
-  // For fade in smooth animation
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
     useState(false);
   const [isLineChartVisible, setIsLineChartVisible] = useState(false);
   const [isBarChartVisible, setIsBarChartVisible] = useState(false);
-
   const [isLogContainerVisible, setIsLogContainerVisible] = useState(false);
 
   useEffect(() => {
@@ -312,9 +428,13 @@ const MainDashboard = () => {
       "December",
     ];
 
+    const translatedMonthNames = monthNames.map(
+      (month) => TRANSLATIONS[language].months[month]
+    );
+
     const monthMap = new Map();
 
-    // Initialize month map
+    // Initialize month map using English month names for internal mapping
     reference.forEach((record) => {
       const date = new Date(record.dateSent);
       const month = monthNames[date.getMonth()];
@@ -342,14 +462,18 @@ const MainDashboard = () => {
     const months = Array.from(monthMap.keys()).sort(
       (a, b) => monthNames.indexOf(a) - monthNames.indexOf(b)
     );
-    const totalReferenceCount = months.map(
-      (month) => monthMap.get(month).total
+
+    // Map the sorted English month names to translated ones
+    const translatedMonths = months.map(
+      (month) => TRANSLATIONS[language].months[month]
     );
+
+    const totalReferenceCount = months.map((month) => monthMap.get(month).total);
     const completedReferenceCounts = months.map(
       (month) => monthMap.get(month).completed
     );
 
-    return { months, totalReferenceCount, completedReferenceCounts };
+    return { months: translatedMonths, totalReferenceCount, completedReferenceCounts };
   };
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);
@@ -395,31 +519,30 @@ const MainDashboard = () => {
 
   const cardData = [
     {
-      title: "Active Jobs",
+      title: TRANSLATIONS[language].ActiveJobs, // Use translation
       count: activeJobCount,
       color: "#1877F2",
       path: "/AiReferenceJobs",
     },
     {
-      title: "Pending References",
+      title: TRANSLATIONS[language].PendingReferences,
       count: pendingReferenceCount,
       color: "#F8BD00",
       path: "/AiReferenceRequest",
     },
     {
-      title: "Completed References",
+      title: TRANSLATIONS[language].CompletedReferences,
       count: totalCompletedReference,
       color: "#319F43",
       path: "/AiReferenceRequest",
     },
     {
-      title: "Total Candidates",
+      title: TRANSLATIONS[language].TotalApplicants,
       count: totalCandidateCount,
       color: "#686868",
       path: "/AiReferenceApplicant",
     },
   ];
-
   // Data for the line chart
   const lineData = {
     labels: months,
@@ -522,14 +645,18 @@ const MainDashboard = () => {
             <td style="font-weight: 500;">${month}</td>
           </tr>
           <tr>
-            <td style="color: #1877F2; font-weight: 400;">Total: ${
-              lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
-            }</td>
+            <td style="color: #1877F2; font-weight: 400;">${
+              TRANSLATIONS[language].Total
+            }: ${
+            lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
+          }</td>
           </tr>
           <tr>
-            <td style="color: #319F43;font-weight: 400;">Complete: ${
-              lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
-            }</td>
+            <td style="color: #319F43;font-weight: 400;">${
+              TRANSLATIONS[language].Complete
+            }: ${
+            lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
+          }</td>
           </tr>
         </table>
       `;
@@ -751,36 +878,6 @@ const MainDashboard = () => {
     };
   }, []);
 
-  // Prevent accidental page exit
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      event.returnValue = "Are you sure you want to leave this page?";
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, []);
-
-  //Add a warning when user is navigating back to previous page
-  useEffect(() => {
-    const handleBackButton = (event) => {
-      event.preventDefault();
-      const userConfirmed = window.confirm(
-        "Are you sure you want to go back? Your progress will be lost."
-      );
-      if (!userConfirmed) {
-        window.history.pushState(null, "", window.location.pathname);
-      }
-    };
-
-    window.history.pushState(null, "", window.location.pathname);
-    window.addEventListener("popstate", handleBackButton);
-
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, []);
-
   const handleRefetchCandidates = async () => {
     await fetchCandidates(abortControllerRef.current);
   };
@@ -805,9 +902,9 @@ const MainDashboard = () => {
       ) : (
         <>
           <div>
-            <h3 className="mb-0">Dashboard</h3>
+            <h3 className="mb-0">{TRANSLATIONS[language].Dashboard}</h3>
             <p className="mb-2">
-              Manage and track your reference check processes.
+              {TRANSLATIONS[language].ManageTrackResponse}{" "}
             </p>
           </div>
           <div className="d-flex justify-content-start mb-3 w-100">
@@ -822,7 +919,7 @@ const MainDashboard = () => {
                   className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-3 "
                   onClick={handleOpenJobForm}
                 >
-                  Start Reference Check{" "}
+                  {TRANSLATIONS[language].StartReferenceCheck}{" "}
                   <svg
                     width="17"
                     height="17"
@@ -837,7 +934,7 @@ const MainDashboard = () => {
                   </svg>
                 </button>
                 <i className="w-100 text-center my-1">
-                  "Click here to begin the reference check process."
+                  " {TRANSLATIONS[language].ClickToStart} "
                 </i>
               </Col>
               <Col md={6} className="p-0"></Col>
@@ -849,9 +946,9 @@ const MainDashboard = () => {
               {cardData.map((card, index) => (
                 <Col
                   key={index}
-                  xs={12}  // Full width on extra small devices
-                  sm={6}   // Half width on small devices
-                  md={3}   // Quarter width on medium and larger devices
+                  xs={12} // Full width on extra small devices
+                  sm={6} // Half width on small devices
+                  md={3} // Quarter width on medium and larger devices
                   className={` fade-in ${
                     isAiReferenceCardVisible ? "visible" : ""
                   }`}
@@ -890,7 +987,7 @@ const MainDashboard = () => {
               >
                 <div className="line-chart">
                   <p className="mb-3 line-title-overlay">
-                    Reference Check Overview
+                    {TRANSLATIONS[language].ReferenceOverview}{" "}
                   </p>
                   <Line data={lineData} options={lineOptions} />
                 </div>
@@ -903,7 +1000,10 @@ const MainDashboard = () => {
                 }`}
               >
                 <div className="bar-chart">
-                  <p className="mb-3 bar-title-overlay">By Department</p>
+                  <p className="mb-3 bar-title-overlay">
+                    {" "}
+                    {TRANSLATIONS[language].ByDepartment}{" "}
+                  </p>
 
                   <Bar data={barData} options={barOptions} />
                 </div>
@@ -911,7 +1011,10 @@ const MainDashboard = () => {
             </Col>
           </Row>
           <div className={`fade-in ${isLogContainerVisible ? "visible" : ""}`}>
-            <LogContainer completedRecords={completedRecords} />
+            <LogContainer
+              completedRecords={completedRecords}
+              language={language}
+            />{" "}
           </div>
         </>
       )}

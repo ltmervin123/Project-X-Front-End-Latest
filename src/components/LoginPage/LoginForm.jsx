@@ -122,7 +122,9 @@ const LoginForm = () => {
                     className={`form-control ${
                       error === "Incorrect email address" ||
                       error ===
-                        "Account not activated. Check your email for activation"
+                        "Account not activated. Check your email for activation" ||
+                      error ===
+                        "Too many login attempts, please try again after 1 minute"
                         ? "is-invalid"
                         : ""
                     }`}
@@ -217,7 +219,9 @@ const LoginForm = () => {
                     className={`form-control ${
                       error === "Incorrect password" ||
                       error ===
-                        "Account not activated. Check your email for activation"
+                        "Account not activated. Check your email for activation" ||
+                      error ===
+                        "Too many login attempts, please try again after 1 minute"
                         ? "is-invalid"
                         : ""
                     }`}
@@ -251,7 +255,9 @@ const LoginForm = () => {
 
                   {(error === "Incorrect password" ||
                     error ===
-                      "Account not activated. Check your email for activation") && (
+                      "Account not activated. Check your email for activation" ||
+                    error ===
+                      "Too many login attempts, please try again after 1 minute") && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>

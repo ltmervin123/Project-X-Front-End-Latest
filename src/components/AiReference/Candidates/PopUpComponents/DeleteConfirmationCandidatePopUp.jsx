@@ -1,11 +1,22 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const DeleteConfirmationCandidatePopUp = ({
-  onClose,
-  onConfirmDelete,
-  isDeleting,
-}) => {
+const TRANSLATIONS = {
+  English: {
+    DeleteConfirmation: "Are you sure you want to delete this applicant? Deleting this applicant will also remove all associated reference records.",
+    Yes: "Yes",
+    No: "No"
+  },
+  Japanese: {
+    DeleteConfirmation: "この応募者を削除してもよろしいですか？この応募者を削除すると、関連するすべての参照記録も削除されます。",
+    Yes: "はい",
+    No: "いいえ"
+  }
+};
+
+const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, isDeleting }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  
   return (
     <Modal
       show={true}
@@ -17,12 +28,9 @@ const DeleteConfirmationCandidatePopUp = ({
     >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
-          {/* <p>Would you like to confirm to delete this applicant?</p> */}
           <p className="text-center m-0">
-            Are you sure you want to delete this applicant? Deleting this
-            applicant will also remove all associated reference records.
+            {TRANSLATIONS[language].DeleteConfirmation}
           </p>
-          {/* <p>This action will also delete all associated reference records.</p> */}
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button
               className="btn-yes-delete-applicant"
@@ -35,7 +43,7 @@ const DeleteConfirmationCandidatePopUp = ({
                   role="status"
                 ></div>
               ) : (
-                "Yes"
+                TRANSLATIONS[language].Yes
               )}
             </button>
             <button
@@ -43,7 +51,7 @@ const DeleteConfirmationCandidatePopUp = ({
               disabled={isDeleting}
               onClick={onClose}
             >
-              No
+              {TRANSLATIONS[language].No}
             </button>
           </div>
         </div>

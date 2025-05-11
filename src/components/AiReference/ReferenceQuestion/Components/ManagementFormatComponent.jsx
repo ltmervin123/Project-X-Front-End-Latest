@@ -1,5 +1,26 @@
 import React, { useState } from "react";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    managementFormat: "Management Format",
+    managementFormatDesc: "Questions tailored for managerial and leadership roles.",
+    noQuestionsFound: "No questions found",
+    returnToHRHatch: "Return to HR-HATCH Formats",
+    tooltip: "Designed to assess decision-making, team management, and strategic thinking.",
+  },
+  Japanese: {
+    managementFormat: "マネジメントフォーマット",
+    managementFormatDesc: "マネジメントやリーダーシップ職向けに調整された質問。",
+    noQuestionsFound: "質問が見つかりません",
+    returnToHRHatch: "HR-HATCH フォーマットに戻る",
+    tooltip: "意思決定、チームマネジメント、戦略的思考を評価するために設計されています。",
+  },
+};
+
 const ManagementFormatComponent = ({
   ManagementQuestionsSets,
   selectedSet,
@@ -13,7 +34,7 @@ const ManagementFormatComponent = ({
     <>
       <div className="AiReference-table-title">
         <h4 className="color-blue1 mb-0 d-flex gap-2 align-items-center">
-          Management Format
+          {TRANSLATIONS[language].managementFormat}
           <div className="position-relative d-flex">
             <svg
               width="16"
@@ -35,21 +56,22 @@ const ManagementFormatComponent = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-                Designed to assess decision-making, team management, and
-                strategic thinking.{" "}
+                          {TRANSLATIONS[language].tooltip}
+
               </span>
             )}
           </div>
         </h4>
-        <p> Questions tailored for managerial and leadership roles.</p>
+        <p>{TRANSLATIONS[language].managementFormatDesc}</p>
       </div>
+
       <div className="Format-Container">
         {ManagementQuestionsSets && ManagementQuestionsSets.length > 0 ? (
           ManagementQuestionsSets.map((item) => (
             <div key={item.id} className="question-set-container border mb-3">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="question-set-info">
-                  <h5 className="mb-0">{item.category}</h5>
+                  <h5 className="mb-0">{item.category[language]}</h5>
                 </div>
                 <div className="d-flex justify-content-end gap-5 question-controls">
                   <button
@@ -57,9 +79,7 @@ const ManagementFormatComponent = ({
                     onClick={() => handleSetClick(item.id)}
                   >
                     <svg
-                      className={
-                        flippedState[item.id] ? "dropdown-flipped" : ""
-                      }
+                      className={flippedState[item.id] ? "dropdown-flipped" : ""}
                       width="28"
                       height="17"
                       viewBox="0 0 28 17"
@@ -69,7 +89,7 @@ const ManagementFormatComponent = ({
                       <path
                         fillRule="evenodd"
                         clipRule="evenodd"
-                        d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
+                        d="M12.1349 15.5181..."
                         fill="#686868"
                       />
                     </svg>
@@ -80,7 +100,7 @@ const ManagementFormatComponent = ({
                 <div className="dropdown-content-q-sets mt-3">
                   <ul>
                     {item.questions.map((question, qIndex) => (
-                      <li key={qIndex}>{question}</li>
+                      <li key={qIndex}>{question[language]}</li>
                     ))}
                   </ul>
                 </div>
@@ -88,16 +108,16 @@ const ManagementFormatComponent = ({
             </div>
           ))
         ) : (
-          <div>No questions found</div>
+          <div>{TRANSLATIONS[language].noQuestionsFound}</div>
         )}
       </div>
+
       <div className="d-flex justify-content-center align-items-center reference-question-returnbtn-container">
-        {/* Return Button */}
         <button
           className="btn-return"
-          onClick={() => handleButtonClick("HR-HATCH Formats")} // Set to HR-HATCH Formats
+          onClick={() => handleButtonClick("HR-HATCH Formats")}
         >
-          Return to HR-HATCH Formats
+          {TRANSLATIONS[language].returnToHRHatch}
         </button>
       </div>
     </>

@@ -3,6 +3,41 @@ import { useQuery } from "@tanstack/react-query";
 import * as AdminAPI from "../../../../api/ai-reference/admin/admin-api";
 
 const CompanyListSection = ({ searchQuery }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      columns: {
+        name: "Name",
+        email: "Email",
+        company: "Company",
+        status: "Status",
+        lastLogin: "Last Login",
+      },
+      noData: "No data available",
+      status: {
+        active: "Active",
+        inactive: "Inactive",
+      },
+    },
+    Japanese: {
+      columns: {
+        name: "名前",
+        email: "メール",
+        company: "会社",
+        status: "状態",
+        lastLogin: "最終ログイン",
+      },
+      noData: "データがありません",
+      status: {
+        active: "アクティブ",
+        inactive: "非アクティブ",
+      },
+    },
+  };
+
+  const t = translations[language];
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(0);
   const rowHeight = 40; // Set the height of each row in pixels
@@ -46,21 +81,29 @@ const CompanyListSection = ({ searchQuery }) => {
     return filteredCompanies.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredCompanies, currentPage, itemsPerPage]);
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Active":
+        return "#319F43";
+      case "Inactive":
+        return "#FF0000";
+      case "Pending":
+        return "#F46A05";
+      case "Suspended":
+        return "#808080";
+      default:
+        return "#000000";
+    }
+  };
+
   return (
     <div className="company-table-container d-flex justify-content-between flex-column bg-white shadow p-3 mb-2">
       <table className=" mb-0">
-
         <thead>
           <tr>
-            {[
-              { key: "name", label: "Name" },
-              { key: "email", label: "Email" },
-              { key: "company", label: "Company" },
-              { key: "status", label: "Status" },
-              { key: "lastLogin", label: "Last Login" },
-            ].map(({ key, label }) => (
+            {Object.keys(t.columns).map((key) => (
               <th key={key} className="sortable" style={{ cursor: "pointer" }}>
-                {label}
+                {t.columns[key]}
               </th>
             ))}
           </tr>
@@ -75,11 +118,10 @@ const CompanyListSection = ({ searchQuery }) => {
                   <td>{company.name}</td>
                   <td
                     style={{
-                      color:
-                        company.isLogin === "Active" ? "#319F43" : "#FF0000",
+                      color: getStatusColor(company.isLogin),
                     }}
                   >
-                    {company.isLogin}
+                    {t.status[company.isLogin.toLowerCase()] || company.isLogin}
                   </td>
                   <td>{company.lastLoginAt}</td>
                 </tr>
@@ -96,7 +138,7 @@ const CompanyListSection = ({ searchQuery }) => {
           ) : (
             <tr>
               <td colSpan={5} className="text-center">
-                No data available
+                {t.noData}
               </td>
             </tr>
           )}

@@ -1,8 +1,20 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceQuestionPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceQuestionPopUp";
-import RecoverConfirmationReferenceQuestionPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationReferenceQuestionPopUp";
+import RestoreConfirmationReferenceQuestionPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceQuestionPopUp";
 
+const TRANSLATIONS = {
+  English: {
+    restore: "Restore",
+    delete: "Delete",
+
+  },
+  Japanese: {
+    restore: "復元",
+    delete: "削除",
+ 
+  },
+};
 const ReferenceQuestionTable = ({
   data,
   selectedItems,
@@ -11,11 +23,13 @@ const ReferenceQuestionTable = ({
   onDelete,
   showCheckboxes,
   isDeletingReferenceQuestions,
-  isRecoveringReferenceQuestions,
+  isRestoringReferenceQuestions,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
+  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
     event.stopPropagation(); // Stop event propagation here
@@ -35,17 +49,29 @@ const ReferenceQuestionTable = ({
     setVisibleOptions({});
   };
 
-  const handleRecoverClick = (e) => {
-    setShowRecoverConfirmation(true);
+  const handleRestoreClick = (e) => {
+    setShowRestoreConfirmation(true);
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting reference question: ", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
-  const handleConfirmRecover = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring reference question: ", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
 
   return (
@@ -63,15 +89,15 @@ const ReferenceQuestionTable = ({
           {" "}
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />
         </td>
 
         <td>{data.name}</td>
-        <td className="text-center">{data.questionCount}</td>
-        <td className="text-center">
+        <td>{data.questionCount}</td>
+        <td>
           {data.deletedAt.toString().split("T")[0]}
         </td>
         <td className="position-relative text-center">
@@ -98,11 +124,11 @@ const ReferenceQuestionTable = ({
                 <div className="action-options">
                   <p
                     className="d-flex align-items-center gap-2"
-                    onClick={() => handleRecoverClick(data._id)}
+                    onClick={() => handleRestoreClick(data._id)}
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Recover
+                    {TRANSLATIONS[language].restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -110,7 +136,7 @@ const ReferenceQuestionTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    Delete
+                    {TRANSLATIONS[language].delete}
                   </p>
                 </div>
               )}
@@ -121,19 +147,21 @@ const ReferenceQuestionTable = ({
       {showDeleteConfirmation && (
         <DeleteConfirmationReferenceQuestionPopUp
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount} // Pass the selected count
+          isSingleItem={selectedCount === 1} // Check if only one item is selected
+          isAll={selectedCount === data.length} // Check if all items are selected
           isDeletingReferenceQuestions={isDeletingReferenceQuestions}
           onClose={() => setShowDeleteConfirmation(false)}
         />
       )}
-      {showRecoverConfirmation && (
-        <RecoverConfirmationReferenceQuestionPopUp
-          onConfirmRecover={handleConfirmRecover}
-          selectedCount={1}
-          isSingleItem={true}
-          isRecoveringReferenceQuestions={isRecoveringReferenceQuestions}
-          onClose={() => setShowRecoverConfirmation(false)}
+      {showRestoreConfirmation && (
+        <RestoreConfirmationReferenceQuestionPopUp
+          onConfirmRestore={handleConfirmRestore}
+          selectedCount={selectedCount} // Pass the selected count
+          isSingleItem={selectedCount === 1} // Check if only one item is selected
+          isAll={selectedCount === data.length} // Check if all items are selected
+          isRestoringReferenceQuestions={isRestoringReferenceQuestions}
+          onClose={() => setShowRestoreConfirmation(false)}
         />
       )}
     </>

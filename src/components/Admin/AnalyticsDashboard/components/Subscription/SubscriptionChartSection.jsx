@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { Row, Col } from "react-bootstrap";
 import SubscriptionAnalyticSection from "./SubscriptionAnalyticsSection";
 import SubscriptionRevenueSection from "./SubscriptionRevenueSection";
-import SubscriptionTier from "./SubscriptionTier";
-import { getSubscriptionStat } from "../../../../api/ai-reference/admin/admin-api";
+import SubscriptionTier from "../Revenue/SubscriptionTier";
+import { getSubscriptionStat } from "../../../../../api/ai-reference/admin/admin-api";
 import { useQuery } from "@tanstack/react-query";
 
 const SubscriptionChartSection = ({ isVisible }) => {

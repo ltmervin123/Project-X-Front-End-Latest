@@ -1,6 +1,21 @@
 import React from "react";
 
+const TRANSLATIONS = {
+  English: {
+    reminderSent: "Reminder Sent Successfully!",
+    message: "Your reference reminder has been sent successfully. We appreciate your diligence and thank you for taking the time to follow up.",
+    return: "Return"
+  },
+  Japanese: {
+    reminderSent: "リマインダーが送信されました！",
+    message: "リファレンスのリマインダーが正常に送信されました。ご対応ありがとうございました。",
+    return: "戻る"
+  }
+};
+
 const ReferenceRequestResendEmail = () => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
@@ -21,18 +36,18 @@ const ReferenceRequestResendEmail = () => {
               />
             </svg>
 
-            <h2 className="fs-4 mt-4">Reminder Sent Successfully!</h2>
+            <h2 className="fs-4 mt-4">{TRANSLATIONS[language].reminderSent}</h2>
           </div>
 
           <p style={{ width: "100%" }}>
-          Your reference reminder has been sent successfully. We appreciate your diligence and thank you for taking the time to follow up.
+            {TRANSLATIONS[language].message}
           </p>
 
           <button
             className="btn-activate-now"
             onClick={() => (window.location.href = "/AiReferenceRequest")}
           >
-            Return
+            {TRANSLATIONS[language].return}
           </button>
         </div>
       </div>

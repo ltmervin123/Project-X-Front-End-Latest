@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceRequestPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
-import RecoverConfirmationReferenceRequestPopUp from "../PopUpComponents/RecoverPopup/RecoverConfirmationReferenceRequestPopUp";
+import RestoreConfirmationReferenceRequestPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
+const TRANSLATIONS = {
+  English: {
+    restore: "Restore",
+    delete: "Delete",
 
+  },
+  Japanese: {
+    restore: "復元",
+    delete: "削除",
+ 
+  },
+};
 const ReferenceRequestTable = ({
   data,
   selectedItems,
@@ -11,11 +22,13 @@ const ReferenceRequestTable = ({
   onDelete,
   showCheckboxes,
   isDeletingReferenceRequest,
-  isRecoveringReferenceRequest,
+  isRestoringReferenceRequest,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [showRecoverConfirmation, setShowRecoverConfirmation] = useState(false);
+  const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
+  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
     event.stopPropagation(); // Stop event propagation here
@@ -36,24 +49,70 @@ const ReferenceRequestTable = ({
     setVisibleOptions({});
   };
 
-  const handleRecoverClick = (e) => {
+  const handleRestoreClick = (e) => {
     e.stopPropagation();
-    setShowRecoverConfirmation(true);
+    setShowRestoreConfirmation(true);
     setVisibleOptions({});
   };
 
-  const handleConfirmDelete = () => {
-    onDelete(data._id);
+  const handleConfirmDelete = async () => {
+    try {
+      await onDelete(data._id);
+    } catch (error) {
+      console.error("Error deleting reference request: ", error);
+    } finally {
+      setShowDeleteConfirmation(false);
+    }
   };
 
-  const handleConfirmRecover = () => {
-    onRestore(data._id);
+  const handleConfirmRestore = async () => {
+    try {
+      await onRestore(data._id);
+    } catch (error) {
+      console.error("Error restoring reference request: ", error);
+    } finally {
+      setShowRestoreConfirmation(false);
+    }
   };
 
+  const filterDataBySearch = (requests, searchTerm) => {
+    return requests.filter((request) => {
+      const referees = request.referees;
+      const refereesString = Array.isArray(referees)
+        ? referees.join(", ")
+        : typeof referees === "string"
+        ? referees
+        : "";
+      return refereesString.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "In Progress":
+        return "#F8BD00";
+      case "Expired":
+        return "#FF0000";
+      case "Completed":
+        return "#1877F2";
+      case "New":
+        return "#319F43";
+      default:
+        return "black";
+    }
+  };
   function concatenateStatus() {
     if (!Array.isArray(data.status)) return "";
 
-    return data.status.join(" - ");
+    const statusCount = {};
+
+    data.status.forEach((status) => {
+      statusCount[status] = (statusCount[status] || 0) + 1;
+    });
+
+    return Object.entries(statusCount)
+      .map(([status, count]) => `${count} ${status}`)
+      .join(" - ");
   }
 
   return (
@@ -71,16 +130,34 @@ const ReferenceRequestTable = ({
           {" "}
           <input
             type="checkbox"
-            className="form-check-input"
+            className="form-check-input custom-checkbox"
             checked={selectedItems.includes(data._id)}
             onChange={() => onSelect(data._id)}
           />
         </td>
 
+        {/* <td style={{ width: "12%" }}>{data.applicant}</td> */}
         <td>{data.applicant}</td>
-        <td>{data.referees}</td>
-        <td>{concatenateStatus()}</td>
-        <td className="text-center">
+        <td >{data.referees}</td>
+        <td>
+          {(() => {
+            const concatenatedStatus = concatenateStatus();
+            if (!concatenatedStatus) {
+              return <span style={{ color: "black" }}>No Status</span>;
+            }
+            return concatenatedStatus.split(" - ").map((status, index) => {
+              const [count, ...statusParts] = status.split(" ");
+              const statusText = statusParts.join(" ");
+              return (
+                <span key={index} style={{ color: getStatusColor(statusText) }}>
+                  {count} {statusText}
+                  {index !== concatenatedStatus.split(" - ").length - 1 && " "}
+                </span>
+              );
+            });
+          })()}
+        </td>
+        <td>
           {data.deletedAt.toString().split("T")[0]}
         </td>
         <td className="position-relative text-center">
@@ -107,11 +184,11 @@ const ReferenceRequestTable = ({
                 <div className="action-options">
                   <p
                     className="d-flex align-items-center gap-2"
-                    onClick={handleRecoverClick}
+                    onClick={handleRestoreClick}
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    Recover
+                    {TRANSLATIONS[language].restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -119,7 +196,7 @@ const ReferenceRequestTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    Delete
+                    {TRANSLATIONS[language].delete}
                   </p>
                 </div>
               )}
@@ -131,18 +208,20 @@ const ReferenceRequestTable = ({
         <DeleteConfirmationReferenceRequestPopUp
           onClose={() => setShowDeleteConfirmation(false)}
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={1}
-          isSingleItem={true}
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isDeletingReferenceRequest={isDeletingReferenceRequest}
         />
       )}
-      {showRecoverConfirmation && (
-        <RecoverConfirmationReferenceRequestPopUp
-          onClose={() => setShowRecoverConfirmation(false)}
-          onConfirmRecover={handleConfirmRecover}
-          selectedCount={1}
-          isSingleItem={true}
-          isRecoveringReferenceRequest={isRecoveringReferenceRequest}
+      {showRestoreConfirmation && (
+        <RestoreConfirmationReferenceRequestPopUp
+          onClose={() => setShowRestoreConfirmation(false)}
+          onConfirmRestore={handleConfirmRestore}
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
+          isRestoringReferenceRequest={isRestoringReferenceRequest}
         />
       )}
     </>

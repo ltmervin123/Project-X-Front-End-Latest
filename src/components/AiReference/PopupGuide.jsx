@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import introJs from "intro.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "intro.js/introjs.css";
 
 // Shared guide steps configuration
@@ -15,7 +15,7 @@ const GUIDE_STEPS = {
       title: "<span>2</span> Start Reference Check",
       element: ".btn-start-reference-check",
       intro:
-        "This is the main button to begin a new reference check. Click here when you’re ready to verify a applicant’s background!",
+        "This is the main button to begin a new reference check. Click here when you’re ready to verify a applicants background!",
     },
     {
       title: "<span>3</span> Navigation Menu",
@@ -27,13 +27,13 @@ const GUIDE_STEPS = {
       title: "<span>4</span> Dashboard Metrics",
       element: ".AiReferenceCard-container",
       intro:
-        "These cards give you real-time insights into your hiring process, including active jobs, pending references, completed references, and the total number of applicant’s..",
+        "These cards give you real-time insights into your hiring process, including active jobs, pending references, completed references, and the total number of applicants.",
     },
     {
       title: "<span>5</span> Reference Check Overview",
       element: ".line-chart",
       intro:
-        "This chart displays your reference check activity over time. The blue line shows the total number of reference checks started, while the green line represents the checks that have been completed..",
+        "This chart displays your reference check activity over time. The blue line shows the total number of reference checks started, while the green line represents the checks that have been completed.",
       position: "right",
     },
     {
@@ -41,7 +41,7 @@ const GUIDE_STEPS = {
       element: ".bar-chart",
       position: "left",
       intro:
-        "This bar chart shows reference checks by department, helping you see which teams are most active in the hiring process.",
+        "This bar chart shows reference checks by department, helping you see which departments are most active in the hiring process.",
     },
     {
       title: "<span>7</span> Recent Activity",
@@ -60,7 +60,7 @@ const GUIDE_STEPS = {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily locate specific jobs using the search bar. Enter job titles, departments, or any relevant keywords to filter the list of open positions.",
+        "Easily locate specific jobs using the search bar. Enter job name, departments, or any relevant keywords to filter the list of open positions.",
     },
     {
       title: "<span>3</span> Jobs Page Overview",
@@ -72,56 +72,56 @@ const GUIDE_STEPS = {
   ],
   applicant: [
     {
-      title: "<span>1</span>Let’s Explore Applicant’s",
+      title: "<span>1</span>Let’s Explore Applicants",
       intro:
-        "Now, let's take a look at how you can manage applicant’s throughout the hiring process. Click 'Next' to continue to the Applicant’s page.",
+        "Now, let’s take a look at how you can manage applicants throughout the hiring process. Click ‘Next’ to continue to the Applicants page",
     },
     {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily find specific applicant’s using the search bar. Enter names, positions, or email addresses to filter the applicant list and pinpoint exactly who you're looking for.",
+        "Easily find specific applicants using the search bar. Enter names, job name, or email addresses to filter the applicant list and pinpoint exactly who you're looking for.",
     },
     {
-      title: "<span>3</span> Applicant’s Page Overview",
+      title: "<span>3</span> Applicants Page Overview",
       element: ".AiReference-candidates-container",
       position: "top left",
       intro:
-        "The Applicant’s page allows you to monitor all potential hires throughout the reference checking process. Here, you can view and manage applicant information and check their current status.",
+        "The Applicants page allows you to monitor all potential hires throughout the reference checking process. Here, you can view and manage applicant information and check their current status.",
     },
   ],
   referenceRequests: [
     {
-      title: "<span>1</span> Let’s Check Reference Requests",
+      title: "<span>1</span> Let’s Explore Reference Requests",
       intro:
-        "Now, let's explore how to manage reference checks. Click 'Next' to proceed to the Reference Requests page.",
+        "Now, let's explore how to manage reference requests. Click 'Next' to proceed to the Reference Requests page.",
     },
     {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
       intro:
-        "Easily find specific reference requests using the search bar. Search by applicant name, referee, position, or status to locate exactly what you need.",
+        "Easily find specific reference requests using the search bar. Search by applicant name, referee, job name, or status to locate exactly what you need.",
     },
     {
-      title: "<span>3</span> Reference Check Overview",
+      title: "<span>3</span> Reference Requests Overview",
       element: ".AiReference-reference-request-container",
       position: "top left",
       intro:
-        "The Reference Requests page enables you to manage and track all reference checks for your applicant’s. Here, you can monitor the status of completed references.",
+        "The Reference Requests page enables you to manage and track all reference request for your applicants. Here, you can monitor the status of completed references.",
     },
   ],
   referenceQuestions: [
     {
       title: "<span>1</span> Let’s Explore Reference Questions",
       intro:
-        "Now, let's delve into how to manage reference checks. Click 'Next' to proceed to the Reference Requests page.",
+        "Now, let's delve into how to manage reference questionnaires. Click 'Next' to proceed to the Reference Questions page.",
     },
     {
-      title: "<span>2</span> Custom Sets Format",
+      title: "<span>2</span> Custom Questionnaires",
       element: ".AiReference-question-container",
       position: "top left",
       intro:
-        "Here, you can view the questions you have added or created using the new question set button. You can also search for questions and edit HR-Hatch formats.",
+        "Here, you can view the questionnaire you have added or customized using the custom questionnaires button. You can also search for questionnaires and customized HR-HATCH format.",
     },
     {
       title: "<span>3</span> Navigate to HR-HATCH Formats",
@@ -168,8 +168,8 @@ const GUIDE_STEPS = {
   ],
   trashbin: [
     {
-      title: "<span>1</span> Let’s Explore Reports",
-      intro: "Now, let’s take a look at how reports work. Click ‘Next’ to proceed to the Reports page.",
+      title: "<span>1</span> Let’s Explore Trashbin",
+      intro: "Now, let’s take a look at how trashbin work. Click ‘Next’ to proceed to the Trashbin page.",
     },
     {
       title: "<span>2</span> Search Functionality",
@@ -182,19 +182,20 @@ const GUIDE_STEPS = {
       intro: "This section provides an overview of all previously deleted jobs.",
     },
     {
-      title: "<span>4</span> Navigate to Applicant’s",
+      title: "<span>4</span> Navigate to Applicants",
       intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(2)",
     },
     {
-      title: "<span>5</span> Deleted Applicant’s Overview",
+      title: "<span>5</span> Deleted Applicants Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted applicant’s",
+      intro: "This section provides an overview of all previously deleted applicants",
     },
     {
       title: "<span>6</span> Navigate to Reference Requests",
       intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(3)",
+      position: "left",
     },
     {
       title: "<span>7</span> Deleted Reference Requests Overview",
@@ -205,6 +206,7 @@ const GUIDE_STEPS = {
       title: "<span>8</span> Navigate to Reference Requests",
       intro: "Now, let’s transition to the applicant section.",
       element: ".trashbin-category-filters button:nth-child(4)",
+      position: "left",
     },
     {
       title: "<span>9</span> Deleted Reference Questions Overview",
@@ -214,13 +216,14 @@ const GUIDE_STEPS = {
     {
       title: "<span>10</span> Walkthrough Complete!",
       intro:
-        "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track applicant’s, and process reference requests. Click 'Finish' to begin using the platform.",
+        "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track applicants, and process reference requests. Click 'Finish' to begin using the platform.",
     },
   ],
 };
 
 const PopupGuide = ({ introKey }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const skipClickedRef = useRef(false); // Flag to track if skip was clicked
 
   // Calculate step statistics
@@ -232,18 +235,23 @@ const PopupGuide = ({ introKey }) => {
   );
 
   useEffect(() => {
-    const isIntroShown =
-      JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
-
-    // Check if all intros have been shown at least once
+    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
     const allIntroKeys = Object.keys(GUIDE_STEPS);
     const allIntrosShown = allIntroKeys.every((key) => isIntroShown[key]);
+
     if (allIntrosShown) {
-      return; // Exit if all intros have been shown, regardless of completion
+      return;
+    }
+
+    // Only redirect to dashboard if this is the first guide being shown
+    const isFirstGuide = !Object.keys(isIntroShown).length;
+    if (isFirstGuide && location.pathname !== '/AiReferenceMaindashboard') {
+      navigate('/AiReferenceMaindashboard');
+      return;
     }
 
     if (!isIntroShown[introKey]) {
-      // Initialize or get persistent counter
+      // Initialize counter
       let totalStepsCounter = parseInt(
         sessionStorage.getItem("totalStepsCounter") || "0",
         10
@@ -259,14 +267,15 @@ const PopupGuide = ({ introKey }) => {
               : "Next",
         })
         .onexit(() => {
-          // Only navigate if skip was not clicked
-          if (!skipClickedRef.current) {
+          // Only navigate if skip was not clicked and we're not already on dashboard
+          if (!skipClickedRef.current && introKey !== 'dashboard') {
             const routes = {
               jobs: "/AiReferenceApplicant",
               applicant: "/AiReferenceRequest",
               referenceRequests: "/AiReferenceQuestion",
               referenceQuestions: "/AiReferenceReports",
-              reports: "/AiReferenceMaindashboard",
+              reports: "/AiReferenceTrashbin",
+              trashbin: "/AiReferenceMaindashboard",
             };
             navigate(routes[introKey] || "/AiReferenceJobs");
           }
@@ -321,39 +330,36 @@ const PopupGuide = ({ introKey }) => {
         })
         .start();
 
+      // Update isIntroShown after starting the guide
       sessionStorage.setItem(
         "isIntroShown",
         JSON.stringify({ ...isIntroShown, [introKey]: true })
       );
+
+      // Handle clicks outside
+      const handleClickOutside = (event) => {
+        if (event.target.closest(".introjs-tooltip") === null) {
+          skipClickedRef.current = true;
+          sessionStorage.setItem(
+            "isIntroShown",
+            JSON.stringify({
+              ...isIntroShown,
+              [introKey]: true,
+              ...Object.fromEntries(allIntroKeys.map((key) => [key, true])),
+            })
+          );
+          navigate("/AiReferenceMaindashboard");
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
     }
+  }, [introKey, navigate, currentSteps, categorySteps, location.pathname]);
 
-    // Function to handle clicks outside the guide
-    const handleClickOutside = (event) => {
-      if (event.target.closest(".introjs-tooltip") === null) {
-        // Trigger the same logic as on exit
-        skipClickedRef.current = true; // Set the flag to true
-        sessionStorage.setItem(
-          "isIntroShown",
-          JSON.stringify({
-            ...isIntroShown,
-            [introKey]: true,
-            ...Object.fromEntries(allIntroKeys.map((key) => [key, true])),
-          })
-        );
-        navigate("/AiReferenceMaindashboard"); // Navigate to the default route
-      }
-    };
-
-    // Add event listener for clicks outside the guide
-    document.addEventListener("mousedown", handleClickOutside);
-
-    // Clean up the event listener on component unmount
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [introKey, navigate, currentSteps, categorySteps]);
-
-  return null; // No additional div is added
+  return null; // Remove the path check here
 };
 
 export default PopupGuide;

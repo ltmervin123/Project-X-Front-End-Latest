@@ -6,6 +6,113 @@ import html2pdf from "html2pdf.js";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import { fetchReferenceByReferenceId } from "../../../../api/ai-reference/reference-request/reference-request-api";
 
+// Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
+// Translation dictionary
+const TRANSLATIONS = {
+  English: {
+    loading: "Loading Reference Request...",
+    pleaseWait: "Please wait while we fetch the reference data",
+    returnToReference: "Return to Reference Request",
+    notAvailable: "Not Available",
+    noImage: "No image available",
+    idDisplayed: "ID displayed here...",
+    signatureDisplay: "Signature here...",
+    downloading: "Downloading...",
+    downloadReference: "Download Reference",
+    positionAppliedFor: "Position Applied For",
+    applicant: "Applicant",
+    refereeName: "Referee Name",
+    currentCompany: "Current Company",
+    companyWorkedWith: "Company you worked with",
+    relationshipToApplicant: "Relationship to the Applicant",
+    datesWorkedTogether: "Dates Worked Together",
+    from: "From",
+    to: "To",
+    question: "Question",
+    verification: "VERIFICATION",
+    date: "Date",
+
+    // Category translations
+    relationship: "Relationship",
+    jobResponsibilitiesAndPerformance: "Job Responsibilities and Performance",
+    skillAndCompetencies: "Skills and Competencies",
+    workEthicAndBehavior: "Work Ethic and Behavior",
+    closingQuestions: "Closing Questions",
+    strategicLeadershipAndVision: "Strategic Leadership and Vision",
+    businessImpactAndResults: "Business Impact and Results",
+    teamLeadershipAndOrganizationalDevelopment: "Team Leadership and Organizational Development",
+    decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
+    innovationAndGrowth: "Innovation and Growth",
+    leadershipAndManagementSkills: "Leadership and Management Skills",
+    
+    // Assessment text translations
+    overallJobPerformance: "Overall Job Performance Assessment:",
+    overallSkillsCompetencies: "Overall Assessment of Skills and Competencies:",
+    overallWorkEthicBehavior: "Overall Evaluation Regarding Work Ethic and Behavior:",
+    overallLeadershipManagement: "Overall Performance in Leadership and Management:",
+    overallStrategicLeadership: "Overall Assessment of Strategic Leadership:",
+    overallBusinessImpact: "Overall Assessment of Business Impact and Results:",
+    overallTeamLeadership: "Overall Assessment of Team Leadership and Organizational Development:",
+    overallDecisionMaking: "Overall Assessment of Decision Making and Problem Solving:",
+    overallInnovation: "Overall Assessment of Innovation and Growth:",
+    overallAssessment: "Overall Assessment:",
+    originalAnswer: "Original Answer",
+    aiEnhancedAnswer: "AI Enhanced Answer",
+  },
+  Japanese: {
+    loading: "リファレンス依頼を読み込んでいます...",
+    pleaseWait: "リファレンスデータを取得中です。お待ちください。",
+    returnToReference: "リファレンス依頼に戻る",
+    notAvailable: "利用不可",
+    noImage: "画像がありません",
+    idDisplayed: "IDがここに表示されます...",
+    signatureDisplay: "署名がここに...",
+    downloading: "ダウンロード中...",
+    downloadReference: "リファレンスをダウンロード",
+    positionAppliedFor: "応募職種",
+    applicant: "応募者",
+    refereeName: "推薦者名",
+    currentCompany: "現在の会社",
+    companyWorkedWith: "一緒に働いていた会社",
+    relationshipToApplicant: "応募者との関係",
+    datesWorkedTogether: "一緒に働いた期間",
+    from: "から",
+    to: "まで",
+    question: "質問",
+    verification: "検証",
+    date: "日付",
+
+    // Category translations
+    relationship: "関係性",
+    jobResponsibilitiesAndPerformance: "職務責任とパフォーマンス",
+    skillAndCompetencies: "スキルと能力",
+    workEthicAndBehavior: "職業倫理と行動",
+    closingQuestions: "最終質問",
+    strategicLeadershipAndVision: "戦略的リーダーシップとビジョン",
+    businessImpactAndResults: "ビジネスへの影響と結果",
+    teamLeadershipAndOrganizationalDevelopment: "チームリーダーシップと組織開発",
+    decisionMakingAndProblemSolving: "意思決定と問題解決",
+    innovationAndGrowth: "イノベーションと成長",
+    leadershipAndManagementSkills: "リーダーシップとマネジメントスキル",
+    
+    // Assessment text translations
+    overallJobPerformance: "総合的な職務パフォーマンス評価：",
+    overallSkillsCompetencies: "スキルと能力の総合評価：",
+    overallWorkEthicBehavior: "職業倫理と行動に関する総合評価：",
+    overallLeadershipManagement: "リーダーシップとマネジメントの総合評価：",
+    overallStrategicLeadership: "戦略的リーダーシップの総合評価：",
+    overallBusinessImpact: "ビジネスへの影響と結果の総合評価：",
+    overallTeamLeadership: "チームリーダーシップと組織開発の総合評価：",
+    overallDecisionMaking: "意思決定と問題解決の総合評価：",
+    overallInnovation: "イノベーションと成長の総合評価：",
+    overallAssessment: "総合評価：",
+    originalAnswer: "オリジナルの回答",
+    aiEnhancedAnswer: "AI強化された回答",
+  }
+};
+
 const CATEGORY_ORDER = {
   "Standard Format": [
     "relationship",
@@ -86,105 +193,95 @@ function ViewRequest({
   function formatCategories(letter) {
     switch (letter) {
       case "relationship":
-        return "Relationship";
       case "jobResponsibilitiesAndPerformance":
-        return "Job Responsibilities and Performance";
       case "skillAndCompetencies":
-        return "Skills and Competencies";
       case "workEthicAndBehavior":
-        return "Work Ethic and Behavior";
       case "closingQuestions":
-        return "Closing Questions";
       case "strategicLeadershipAndVision":
-        return "Strategic Leadership and Vision";
       case "businessImpactAndResults":
-        return "Business Impact and Results";
       case "teamLeadershipAndOrganizationalDevelopment":
-        return "Team Leadership and Organizational Development";
       case "decisionMakingAndProblemSolving":
-        return "Decision Making and Problem Solving";
       case "innovationAndGrowth":
-        return "Innovation and Growth";
       case "leadershipAndManagementSkills":
-        return "Leadership and Management Skills";
+        return TRANSLATIONS[language][letter];
       default:
-        return "Not Available";
+        return TRANSLATIONS[language].notAvailable;
     }
   }
 
   function getOverallAssessmentText(category) {
     switch (category) {
-      // Standard Format
       case "jobResponsibilitiesAndPerformance":
-        return "Overall Job Performance Assessment:";
+        return TRANSLATIONS[language].overallJobPerformance;
       case "skillAndCompetencies":
-        return "Overall Assessment of Skills and Competencies:";
+        return TRANSLATIONS[language].overallSkillsCompetencies;
       case "workEthicAndBehavior":
-        return "Overall Evaluation Regarding Work Ethic and Behavior:";
-
-      // Management Format
+        return TRANSLATIONS[language].overallWorkEthicBehavior;
       case "leadershipAndManagementSkills":
-        return "Overall Performance in Leadership and Management:";
-      case "workEthicAndBehavior":
-        return "Overall Evaluation Regarding Work Ethic and Behavior:";
-
-      // Executive Format
+        return TRANSLATIONS[language].overallLeadershipManagement;
       case "strategicLeadershipAndVision":
-        return "Overall Assessment of Strategic Leadership:";
+        return TRANSLATIONS[language].overallStrategicLeadership;
       case "businessImpactAndResults":
-        return "Overall Assessment of Business Impact and Results:";
+        return TRANSLATIONS[language].overallBusinessImpact;
       case "teamLeadershipAndOrganizationalDevelopment":
-        return "Overall Assessment of Team Leadership and Organizational Development:";
+        return TRANSLATIONS[language].overallTeamLeadership;
       case "decisionMakingAndProblemSolving":
-        return "Overall Assessment of Decision Making and Problem Solving:";
+        return TRANSLATIONS[language].overallDecisionMaking;
       case "innovationAndGrowth":
-        return "Overall Assessment of Innovation and Growth:";
-
+        return TRANSLATIONS[language].overallInnovation;
       default:
-        return `Overall ${formatCategories(category)} Assessment:`;
+        return `${TRANSLATIONS[language].overallAssessment} ${formatCategories(category)}`;
     }
   }
 
   const getAssessmentStyle = (assessment) => {
-    switch (assessment) {
-      case "Unsatisfactory":
-        return {
-          color: "#FF1D48",
-          borderColor: "#FF1D48",
-          backgroundColor: "rgba(255, 29, 72, 0.15)",
-        };
-      case "Needs Improvement":
-        return {
-          color: "#ED7D31",
-          borderColor: "#ED7D31",
-          backgroundColor: "rgba(237, 125, 49, 0.15)",
-        };
-      case "Meets Expectations":
-        return {
-          color: "#FFEA66",
-          borderColor: "#FFEA66",
-          backgroundColor: "rgba(255, 234, 102, 0.15)",
-        };
-      case "Exceeds Expectations":
-        return {
-          color: "#70AD47",
-          borderColor: "#70AD47",
-          backgroundColor: "rgba(112, 173, 71, 0.15)",
-        };
-      case "Exceptional":
-        return {
-          color: "#5D643F",
-          borderColor: "#5D643F",
-          backgroundColor: "rgba(93, 100, 63, 0.15)",
-        };
-      default:
-        return {
-          color: "grey",
-          borderColor: "grey",
-          backgroundColor: "rgba(128, 128, 128, 0.15)",
-        };
-    }
-  };
+    // Create a mapping of Japanese to English assessments
+    const japaneseToEnglish = {
+      "不満足": "Unsatisfactory",
+      "改善が必要": "Needs Improvement",
+      "期待通り": "Meets Expectations",
+      "期待以上": "Exceeds Expectations",
+      "優秀": "Exceptional",
+    };
+
+    const assessmentStyles = {
+      "Unsatisfactory": {
+    color: "#FF1D48",
+    borderColor: "#FF1D48",
+    backgroundColor: "rgba(255, 29, 72, 0.15)",
+  },
+  "Needs Improvement": {
+    color: "#ED7D31",
+    borderColor: "#ED7D31",
+    backgroundColor: "rgba(237, 125, 49, 0.15)",
+  },
+  "Meets Expectations": {
+    color: "#FFEA66",
+    borderColor: "#FFEA66",
+    backgroundColor: "rgba(255, 234, 102, 0.15)",
+  },
+  "Exceeds Expectations": {
+    color: "#70AD47",
+    borderColor: "#70AD47",
+    backgroundColor: "rgba(112, 173, 71, 0.15)",
+  },
+  "Exceptional": {
+    backgroundColor: "rgba(93, 100, 63, 0.15)",
+    color: "#5D643F",
+  },
+};
+
+// Convert Japanese assessment to English if necessary
+const englishAssessment = japaneseToEnglish[assessment] || assessment;
+
+console.log("Assessment:", assessment);
+console.log("English Assessment:", englishAssessment);
+console.log("Style:", assessmentStyles[englishAssessment]);
+
+return assessmentStyles[englishAssessment] || {};
+
+
+};
 
   const downloadPDF = () => {
     if (!reportRef.current) return;
@@ -192,15 +289,6 @@ function ViewRequest({
 
     // Clone the report content to modify it without affecting the original
     const clonedReport = reportRef.current.cloneNode(true);
-
-    // Remove the Id image container
-    clonedReport.querySelector(".uploaded-id-container").remove();
-
-    // Modify the "SIGNATURE AND VERIFICATION" text
-    const signatureTitle = clonedReport.querySelector(".signature-verif-title");
-    if (signatureTitle) {
-      signatureTitle.textContent = "Signature";
-    }
 
     const options = {
       margin: [15, 10, 15, 10],
@@ -244,6 +332,16 @@ function ViewRequest({
     console.error("Image failed to load");
   };
 
+  function formatAnswerType(type) {
+    if (type === "Original Answer" || type === "オリジナルの回答") {
+      return TRANSLATIONS[language].originalAnswer;
+    }
+    if (type === "AI Enhanced Answer" || type === "AI強化された回答") {
+      return TRANSLATIONS[language].aiEnhancedAnswer;
+    }
+    return type;
+  }
+
   if (fetchingReference) {
     return (
       <Container className="d-flex justify-content-center align-items-center vh-100">
@@ -255,10 +353,8 @@ function ViewRequest({
               role="status"
               style={{ width: "5rem", height: "5rem" }}
             />
-            <h3>Loading Reference Request...</h3>
-            <p className="text-muted">
-              Please wait while we fetch the reference data
-            </p>
+            <h3>{TRANSLATIONS[language].loading}</h3>
+            <p className="text-muted">{TRANSLATIONS[language].pleaseWait}</p>
           </Col>
         </Row>
       </Container>
@@ -292,72 +388,72 @@ function ViewRequest({
               fill="white"
             />
           </svg>
-          Return to Reference Request
+          {TRANSLATIONS[language].returnToReference}
         </button>
       </div>
       <div className="ViewRequest-container">
         <div ref={reportRef}>
           <h4 className="color-orange mb-2">
-            {referenceData?.questionFormat || "Not Available"}
+            {referenceData?.questionFormat || TRANSLATIONS[language].notAvailable}
           </h4>
           <p className="mb-2">
-            <b>Position Applied For: </b>
+            <b>{TRANSLATIONS[language].positionAppliedFor}: </b>
             <span className="Capitalize">
-              {referenceData?.referenceRequestId?.position || "Not Available"}
+              {referenceData?.referenceRequestId?.position || TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Applicant: </b>
+            <b>{TRANSLATIONS[language].applicant}: </b>
             <span className="Capitalize">
               {`${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}` ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Referee Name: </b>
+            <b>{TRANSLATIONS[language].refereeName}: </b>
             <span className="Capitalize">
               {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Current Company: </b>
+            <b>{TRANSLATIONS[language].currentCompany}: </b>
             <span className="Capitalize">
-              {referenceData?.currentCompany || "Not Available"}
+              {referenceData?.currentCompany || TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
             <b>
-              Company you worked with (
+              {TRANSLATIONS[language].companyWorkedWith} (
               {referenceData?.referenceRequestId?.candidate.firstName}):{" "}
             </b>
             <span>
-              {formatter(referenceData?.companyWorkedWith) || "Not Available"}
+              {formatter(referenceData?.companyWorkedWith) || TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Relationship to the Applicant: </b>
+            <b>{TRANSLATIONS[language].relationshipToApplicant}: </b>
             <span>
               {formatter(referenceData?.refereeRelationshipWithCandidate) ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
           <p className="mb-2">
-            <b>Dates Worked Together: </b>
+            <b>{TRANSLATIONS[language].datesWorkedTogether}: </b>
             <span>
               {referenceData?.workDuration ? (
                 <>
-                  <b>From</b>{" "}
+                  <b>{TRANSLATIONS[language].from}</b>{" "}
                   {formatDateForWorkDuration(
                     referenceData?.workDuration?.startDate
                   )}{" "}
-                  <b>To</b>{" "}
+                  <b>{TRANSLATIONS[language].to}</b>{" "}
                   {formatDateForWorkDuration(
                     referenceData?.workDuration?.endDate
                   )}
                 </>
               ) : (
-                "Not Available"
+                TRANSLATIONS[language].notAvailable
               )}
             </span>
           </p>
@@ -380,17 +476,17 @@ function ViewRequest({
                         <div key={index}>
                           <div className="d-flex w-100 mt-4">
                             <p className="mb-2">
-                              <b>Question {index + 1}: </b>
+                              <b>{TRANSLATIONS[language].question} {index + 1}: </b>
                               {question}
                             </p>
                           </div>
 
                           <h6 className="color-gray mb-2">
-                            {item.preferredAnswerType[index]}
+                            {formatAnswerType(item.preferredAnswerType[index])}
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
-                            <p>{item.answers[index]}</p>
+                            <p className="m-0">{item.answers[index]}</p>
                           </div>
                         </div>
                       ))}
@@ -405,7 +501,7 @@ function ViewRequest({
                               style={getAssessmentStyle(item.assessmentRating)}
                             >
                               <p className="m-0">
-                                {item.assessmentRating || "Not Available"}
+                                {item.assessmentRating || TRANSLATIONS[language].notAvailable}
                               </p>
                             </div>
                           </div>
@@ -419,13 +515,13 @@ function ViewRequest({
                       <div key={index}>
                         <div className="d-flex w-100 mt-4">
                           <p className="mb-2">
-                            <b>Question {index + 1}: </b>
+                            <b>{TRANSLATIONS[language].question} {index + 1}: </b>
                             {question}
                           </p>
                         </div>
 
                         <h6 className="color-gray mb-2">
-                          {item.preferredAnswerType[index]}
+                          {formatAnswerType(item.preferredAnswerType[index])}
                         </h6>
 
                         <div className="AIEnchanceAns-container mb-4">
@@ -444,7 +540,7 @@ function ViewRequest({
                             style={getAssessmentStyle(item.overallAssessment)}
                           >
                             <p className="m-0">
-                              {item.overallAssessment || "Not Available"}
+                              {item.overallAssessment || TRANSLATIONS[language].notAvailable}
                             </p>
                           </div>
                         </div>
@@ -454,38 +550,38 @@ function ViewRequest({
           </div>
 
           <p className="signature-verif-title color-orange mt-5 mb-3">
-            SIGNATURE AND VERIFICATION
+            {TRANSLATIONS[language].verification}
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
             <div>
               {referenceData?.frontIdImageURL ? (
                 <img
                   src={referenceData.frontIdImageURL}
-                  alt="ID displayed here..."
+                  alt={TRANSLATIONS[language].idDisplayed}
                   onLoad={handleImageLoad}
                   onError={handleImageError}
                   className={isLandscape ? "landscape" : "portrait"}
                 />
               ) : (
-                <p>No image available</p>
+                <p>{TRANSLATIONS[language].noImage}</p>
               )}
             </div>
           </div>
-          <img
+          {/* <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}
-            alt="Signature here..."
-          />
+            alt={TRANSLATIONS[language].signatureDisplay}
+          /> */}
 
           <p className="mb-2">
-            <b>Referee Name: </b>
+            <b>{TRANSLATIONS[language].refereeName}: </b>
             <span className="Capitalize">
               {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
-                "Not Available"}
+                TRANSLATIONS[language].notAvailable}
             </span>
           </p>
-          <p className=" mb-2">
-            <b>Date:</b>
+          <p className="mb-2">
+            <b>{TRANSLATIONS[language].date}:</b>
             <span> {formatDate(referenceData?.createdAt)}</span>
           </p>
         </div>
@@ -498,10 +594,10 @@ function ViewRequest({
                   className="spinner-border spinner-border-sm text-light me-2"
                   role="status"
                 ></div>
-                <span>Downloading...</span>
+                <span>{TRANSLATIONS[language].downloading}</span>
               </div>
             ) : (
-              <span>Download Reference</span>
+              <span>{TRANSLATIONS[language].downloadReference}</span>
             )}
           </button>
         </div>

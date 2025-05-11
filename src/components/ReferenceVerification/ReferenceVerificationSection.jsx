@@ -58,13 +58,13 @@ const translations = {
     decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
     innovationAndGrowth: "Innovation and Growth",
     leadershipAndManagementSkills: "Leadership and Management Skills",
-    signatureAndVerification: "SIGNATURE AND VERIFICATION",
+    verification: "VERIFICATION",
     noImageAvailable: "No image available",
     noAnswerProvided: "No Answer Provided",
     downloading: "Downloading...",
     download: "Download",
     date: "Date",
-    signature: "Signature",
+    signature: "VERIFICATION",
     invalidDate: "Invalid Date",
     refereeCompanyWorkedWith: "Company Worked With",
 
@@ -80,7 +80,6 @@ const translations = {
     },
     steps: [
       "Basic Information",
-      "Select Language",
       "Choose Method",
       "Questionnaire",
       "Reference Completed",
@@ -135,13 +134,13 @@ const translations = {
     decisionMakingAndProblemSolving: "意思決定と問題解決",
     innovationAndGrowth: "革新と成長",
     leadershipAndManagementSkills: "リーダーシップと管理スキル",
-    signatureAndVerification: "署名と確認",
+    verification: "検証",
     noImageAvailable: "画像は利用できません",
     noAnswerProvided: "回答は提供されていません",
     downloading: "ダウンロード中...",
     download: "ダウンロード",
     date: "日付",
-    signature: "署名",
+    signature: "検証",
     invalidDate: "無効な日付",
     refereeCompanyWorkedWith: "一緒に働いた会社",
 
@@ -155,13 +154,13 @@ const translations = {
       "Management Format": "管理用フォーマット",
       "Executive Format": "経営層向けフォーマット",
     },
-    steps: ["基本情報", "言語選択", "方法選択", "アンケート", "参照完了"],
+    steps: ["基本情報", "方法選択", "アンケート", "参照完了"],
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
-      "Meets Expectations": "期待に応える",
-      "Exceeds Expectations": "期待を上回る",
-      Exceptional: "優れている",
+      "Meets Expectations": "期待通り",
+      "Exceeds Expectations": "期待以上",
+      Exceptional: "優秀",
     },
     overallAssessments: {
       jobPerformance: "総合的な職務遂行評価：",
@@ -181,7 +180,7 @@ const ReferenceVerificationSection = () => {
   const API = process.env.REACT_APP_API_URL;
   const TOKEN = sessionStorage.getItem("token");
   const location = useLocation();
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const language = sessionStorage.getItem("selectedLanguage") || "English";
   const referenceQuestions =
     JSON.parse(sessionStorage.getItem("referenceQuestions")) || null;
   const [refereeQuestionFormat, setRefereeQuestionFormat] = useState(
@@ -331,9 +330,17 @@ const ReferenceVerificationSection = () => {
   }
 
   const getAssessmentStyle = (assessment) => {
-    const translatedAssessment = translations[language].assessments[assessment];
-    const styles = {
-      Unsatisfactory: {
+        // Create a mapping of Japanese to English assessments
+        const japaneseToEnglish = {
+          "不満足": "Unsatisfactory",
+          "改善が必要": "Needs Improvement",
+          "期待通り": "Meets Expectations",
+          "期待以上": "Exceeds Expectations",
+          "優秀": "Exceptional",
+        };
+    
+        const assessmentStyles = {
+          "Unsatisfactory": {
         color: "#FF1D48",
         borderColor: "#FF1D48",
         backgroundColor: "rgba(255, 29, 72, 0.15)",
@@ -353,20 +360,22 @@ const ReferenceVerificationSection = () => {
         borderColor: "#70AD47",
         backgroundColor: "rgba(112, 173, 71, 0.15)",
       },
-      Exceptional: {
-        color: "#5D643F",
-        borderColor: "#5D643F",
+      "Exceptional": {
         backgroundColor: "rgba(93, 100, 63, 0.15)",
+        color: "#5D643F",
       },
     };
 
-    return (
-      styles[assessment] || {
-        color: "grey",
-        borderColor: "grey",
-        backgroundColor: "rgba(128, 128, 128, 0.15)",
-      }
-    );
+    // Convert Japanese assessment to English if necessary
+    const englishAssessment = japaneseToEnglish[assessment] || assessment;
+
+    console.log("Assessment:", assessment);
+    console.log("English Assessment:", englishAssessment);
+    console.log("Style:", assessmentStyles[englishAssessment]);
+
+    return assessmentStyles[englishAssessment] || {};
+    
+
   };
 
   const downloadPDF = () => {
@@ -376,14 +385,7 @@ const ReferenceVerificationSection = () => {
     // Clone the report content to modify it without affecting the original
     const clonedReport = reportRef.current.cloneNode(true);
 
-    // Remove the Id image container
-    clonedReport.querySelector(".uploaded-id-container").remove();
 
-    // Modify the "SIGNATURE AND VERIFICATION" text
-    const signatureTitle = clonedReport.querySelector(".signature-verif-title");
-    if (signatureTitle) {
-      signatureTitle.textContent = translations[language].signature; // Use the translation for "Signature"
-    }
     const options = {
       margin: 10,
       filename: `Referee ${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName} Response Copy.pdf`,
@@ -530,7 +532,7 @@ const ReferenceVerificationSection = () => {
                           </h6>
 
                           <div className="AIEnchanceAns-container mb-4">
-                            <p>
+                            <p className="m-0">
                               {item?.answers[index] || "No Answer Provided"}
                             </p>
                           </div>
@@ -599,7 +601,7 @@ const ReferenceVerificationSection = () => {
                 ))}
           </div>
           <p className="signature-verif-title color-orange mt-5 mb-3">
-            {translations[language].signatureAndVerification}
+            {translations[language].verification}
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
             <div>
@@ -613,11 +615,11 @@ const ReferenceVerificationSection = () => {
               )}{" "}
             </div>
           </div>
-          <img
+          {/* <img
             className="signature-feild"
             src={referenceData?.signatureImageURL || ""}
             alt="Signature here..."
-          />
+          /> */}
           <p className="mb-2">
             <b>{translations[language].refereeName}: </b>
             <span className="Capitalize">

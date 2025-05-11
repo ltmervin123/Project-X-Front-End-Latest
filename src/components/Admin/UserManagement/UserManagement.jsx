@@ -1,12 +1,84 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
-import UserProfileTables from './Components/UserProfileTables';
-import ActiveLogTables from './Components/ActiveLogTables';
-import APIUsageTable from './Components/APIUsageTable';
-import ReferenceLogsTable from './Components/ReferenceLogsTable';
+import UserProfileTables from "./Components/UserProfileTables";
+import ActiveLogTables from "./Components/ActiveLogTables";
+import APIUsageTable from "./Components/APIUsageTable";
+import ReferenceLogsTable from "./Components/ReferenceLogsTable";
 
 const UserManagement = () => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      title: "User Management",
+      description:
+        "Manage your users, view details, and modify their settings.",
+      export: "Export",
+      tabs: {
+        userProfile: "User Profile",
+        activityLog: "Activity Log",
+        apiUsage: "API Usage",
+        referenceLogs: "Reference Logs",
+      },
+      filter: {
+        button: "Filter by",
+        role: "Role",
+        status: "Status",
+        signupDate: "Signup Date",
+        company: "Company",
+        action: "Action",
+        timestamp: "Timestamp",
+        endpoint: "End Point",
+        pending: "Pending",
+        success: "Success",
+        failed: "Failed",
+        deleted: "Deleted",
+      },
+      search: {
+        userProfile: "Search by user...",
+        activityLog: "Search by company or action...",
+        apiUsage: "Search by endpoint...",
+        referenceLogs: "Search by company...",
+        default: "Search...",
+      },
+    },
+    Japanese: {
+      title: "ユーザー管理",
+      description: "ユーザーの管理、詳細の表示、設定の変更を行います。",
+      export: "エクスポート",
+      tabs: {
+        userProfile: "ユーザープロフィール",
+        activityLog: "アクティビティログ",
+        apiUsage: "API使用状況",
+        referenceLogs: "参照ログ",
+      },
+      filter: {
+        button: "フィルター",
+        role: "役割",
+        status: "状態",
+        signupDate: "登録日",
+        company: "会社",
+        action: "アクション",
+        timestamp: "タイムスタンプ",
+        endpoint: "エンドポイント",
+        pending: "保留中",
+        success: "成功",
+        failed: "失敗",
+        deleted: "削除済み",
+      },
+      search: {
+        userProfile: "ユーザーで検索...",
+        activityLog: "会社またはアクションで検索...",
+        apiUsage: "エンドポイントで検索...",
+        referenceLogs: "会社で検索...",
+        default: "検索...",
+      },
+    },
+  };
+
+  const t = translations[language];
+
   const [activeTab, setActiveTab] = useState("userprofile");
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
@@ -17,19 +89,17 @@ const UserManagement = () => {
   const [showStatusOptions, setShowStatusOptions] = useState(null);
   const [showActionOptions, setShowActionOptions] = useState(null);
 
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [isTableVisible, setIsTable] = useState(false);
 
-    const [isFilterVisible, setIsFilterVisible] = useState(false);
-    const [isTableVisible, setIsTable] =
-      useState(false);
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsFilterVisible(true), 300),
+      setTimeout(() => setIsTable(true), 600),
+    ];
 
-    useEffect(() => {
-      const timers = [
-        setTimeout(() => setIsFilterVisible(true), 300),
-        setTimeout(() => setIsTable(true), 600),
-      ];
-  
-      return () => timers.forEach((timer) => clearTimeout(timer));
-    }, []);
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (filterRef.current && !filterRef.current.contains(event.target)) {
@@ -40,33 +110,32 @@ const UserManagement = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
   const getFilterOptions = () => {
     switch (activeTab) {
-      case 'userprofile':
+      case "userprofile":
         return [
-          { key: 'role', label: 'Role' },
-          { key: 'status', label: 'Status' },
-          { key: 'signupdate', label: 'Signup Date' }
+          { key: "role", label: t.filter.role },
+          { key: "status", label: t.filter.status, textAlign: "center" },
+          { key: "signupdate", label: t.filter.signupDate },
         ];
-      case 'activitylog':
+      case "activitylog":
         return [
-          { key: 'company', label: 'Company' },
-          { key: 'action', label: 'Action' },
-          { key: 'timestamp', label: 'Timestamp' }
+          { key: "company", label: t.filter.company },
+          { key: "action", label: t.filter.action },
+          { key: "timestamp", label: t.filter.timestamp },
         ];
-      case 'apiusage':
+      case "apiusage":
         return [
-          { key: 'endpoint', label: 'End Point' },
-          { key: 'status', label: 'Status' },
-          { key: 'timestamp', label: 'Timestamp' }
+          { key: "endpoint", label: t.filter.endpoint },
+          { key: "status", label: t.filter.status },
+          { key: "timestamp", label: t.filter.timestamp },
         ];
-      case 'referencelogs':
+      case "referencelogs":
         return [
-          { key: 'pending', label: 'Pending' },
-          { key: 'success', label: 'Success' },
-          { key: 'failed', label: 'Failed' },
-          { key: 'deleted', label: 'Deleted' }
+          { key: "pending", label: t.filter.pending },
+          { key: "success", label: t.filter.success },
+          { key: "failed", label: t.filter.failed },
+          { key: "deleted", label: t.filter.deleted },
         ];
       default:
         return [];
@@ -75,16 +144,16 @@ const UserManagement = () => {
 
   const getSearchPlaceholder = () => {
     switch (activeTab) {
-      case 'userprofile':
-        return 'Search by user...';
-      case 'activitylog':
-        return 'Search by company or action...';
-      case 'apiusage':
-        return 'Search by endpoint...';
-      case 'referencelogs':
-        return 'Search by company...';
+      case "userprofile":
+        return t.search.userProfile;
+      case "activitylog":
+        return t.search.activityLog;
+      case "apiusage":
+        return t.search.apiUsage;
+      case "referencelogs":
+        return t.search.referenceLogs;
       default:
-        return 'Search...';
+        return t.search.default;
     }
   };
 
@@ -97,66 +166,59 @@ const UserManagement = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div className="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h3 className="mb-0">User Management</h3>
-        <p className="mb-2">
-          Manage your users, view details, and modify their settings.
-        </p>
-      </div>
-      <button className="btn-export-data">
-        Export
-      </button>
+        <div>
+          <h3 className="mb-0">{t.title}</h3>
+          <p className="mb-2">{t.description}</p>
+        </div>
+        <button className="btn-export-data">{t.export}</button>
       </div>
 
+      <div className="d-flex align-items-center justify-content-between w-100 mb-3">
 
-      <Row>
-        <Col xs={12} md={6}>
-          <div className={`user-management-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
+          <div
+            className={`user-management-button-controller  d-flex align-items-center justify-content-center fade-in ${
               isFilterVisible ? "visible" : ""
-            }`}>
-
+            }`}
+          >
             {[
-
-              "User Profile",
-              "Activity Log",
-              "API Usage",
-              "Reference Logs",
-            ].map((tab) => (
+              { id: "userprofile", label: t.tabs.userProfile },
+              { id: "activitylog", label: t.tabs.activityLog },
+              { id: "apiusage", label: t.tabs.apiUsage },
+              { id: "referencelogs", label: t.tabs.referenceLogs },
+            ].map(({ id, label }) => (
               <button
-                key={tab}
-                className={
-                  activeTab === tab.toLowerCase().replace(" ", "")
-                    ? "active"
-                    : ""
-                }
-                onClick={() => setActiveTab(tab.toLowerCase().replace(" ", ""))}
+                key={id}
+                className={activeTab === id ? "active" : ""}
+                onClick={() => setActiveTab(id)}
               >
-                {tab}
+                {label}
               </button>
             ))}
           </div>
-        </Col>
-        <Col xs={12} md={6}>
-          <div className={`filter-search-container d-flex justify-content-end gap-4 align-items-center fade-in ${
+       
+          <div
+            className={`filter-search-container d-flex justify-content-end gap-4 align-items-center fade-in ${
               isFilterVisible ? "visible" : ""
-            }`}>
-
+            }`}
+          >
             <div className="filter-section position-relative" ref={filterRef}>
               <button
-                className={` ${isFilterOpen ? 'open' : ''}`}
+                className={` ${isFilterOpen ? "open" : ""}`}
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
               >
-                Filter by 
+                {t.filter.button}
               </button>
               {isFilterOpen && (
                 <div className="filter-dropdown">
                   <div className="d-flex flex-column gap-2">
                     {getFilterOptions().map(({ key, label }) => (
-                      <button 
+                      <button
                         key={key}
-                        onClick={() => setRoleFilter(roleFilter === key ? "" : key)}
+                        onClick={() =>
+                          setRoleFilter(roleFilter === key ? "" : key)
+                        }
                       >
-                        {label} {roleFilter === key && '✓'}
+                        {label} {roleFilter === key && "✓"}
                       </button>
                     ))}
                   </div>
@@ -174,11 +236,10 @@ const UserManagement = () => {
               <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
             </div>
           </div>
-        </Col>
-      </Row>
+        </div>
 
-      {activeTab === 'userprofile' && (
-        <UserProfileTables 
+      {activeTab === "userprofile" && (
+        <UserProfileTables
           searchQuery={searchQuery}
           showStatusOptions={showStatusOptions}
           showActionOptions={showActionOptions}
@@ -190,9 +251,13 @@ const UserManagement = () => {
           isTableVisible={isTableVisible}
         />
       )}
-      {activeTab === 'activitylog' && <ActiveLogTables searchQuery={searchQuery} />}
-      {activeTab === 'apiusage' && <APIUsageTable searchQuery={searchQuery} />}
-      {activeTab === 'referencelogs' && <ReferenceLogsTable searchQuery={searchQuery} />}
+      {activeTab === "activitylog" && (
+        <ActiveLogTables searchQuery={searchQuery} />
+      )}
+      {activeTab === "apiusage" && <APIUsageTable searchQuery={searchQuery} />}
+      {activeTab === "referencelogs" && (
+        <ReferenceLogsTable searchQuery={searchQuery} />
+      )}
     </div>
   );
 };
