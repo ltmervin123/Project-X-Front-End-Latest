@@ -112,7 +112,7 @@ function ReferenceRequestForm() {
         sessionStorage.removeItem("candidateToken");
 
         //Redirect to success page
-        navigate("/reference-request-sent");
+        navigate("/reference-request-sent", { state: { selectedLanguage } });
       }
     } catch (error) {
       console.error("Something went wrong:", error.message);
