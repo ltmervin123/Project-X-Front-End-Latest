@@ -18,7 +18,7 @@ const TRANSLATIONS = {
     jobDetails: "Job Details",
     fillRequired: "* Fill in the required information",
     jobName: "Job Name",
-    vacancy: "Vacancy",
+    vacancy: "Vacancies",
     department: "Department",
     hiringManager: "Hiring Manager",
     firstName: "First Name",
@@ -55,7 +55,7 @@ const TRANSLATIONS = {
       "Are you sure you want to go back? Your progress will be lost.",
     noCustomQuestions: "No custom questions available",
     hrHatch: "HR-HATCH",
-    custom: "Custom",
+    custom: "Custom Questionnaire",
     standardFormat: "Standard Format",
     managementFormat: "Management Format",
     executiveFormat: "Executive Format",
@@ -104,7 +104,7 @@ const TRANSLATIONS = {
     backWarning: "前のページに戻りますか？入力内容は失われます。",
     noCustomQuestions: "カスタム質問はありません",
     hrHatch: "HRハッチ",
-    custom: "カスタム",
+    custom: "カスタムアンケート",
     standardFormat: "標準フォーマット",
     managementFormat: "管理職フォーマット",
     executiveFormat: "エグゼクティブフォーマット",
@@ -129,7 +129,6 @@ const AddJobComponent = ({ onCancel }) => {
   const [candidates, setCandidates] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-  const [numberOfReferees, setNumberOfReferees] = useState(1);
   const [showLanguagePopup, setShowLanguagePopup] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
@@ -145,16 +144,19 @@ const AddJobComponent = ({ onCancel }) => {
   const formRef = useRef(null);
 
   const isJobFieldsFilled = useMemo(() => {
-    return [jobName, firstName, lastName, department, vacancies].every(
-      (field) => String(field).trim() !== ""
-    );
+    return jobName.trim() !== "" && 
+           firstName.trim() !== "" && 
+           lastName.trim() !== "" && 
+           department !== "" && 
+           vacancies > 0;
   }, [jobName, firstName, lastName, department, vacancies]);
 
   const areCandidateFieldsFilled = useMemo(() => {
-    return candidates.every((obj) =>
-      Object.values(obj).every(
-        (value) => typeof value === "string" && value.trim() !== ""
-      )
+    return candidates.every(candidate => 
+      candidate.firstName.trim() !== "" &&
+      candidate.lastName.trim() !== "" &&
+      candidate.email.trim() !== "" &&
+      candidate.numberOfReferees > 0
     );
   }, [candidates]);
 
@@ -187,8 +189,8 @@ const AddJobComponent = ({ onCancel }) => {
   }, []);
 
   const validReferees = useMemo(() => {
-    return numberOfReferees > 0;
-  }, [numberOfReferees]);
+    return candidates.every((candidate) => candidate.numberOfReferees > 0);
+  }, [candidates]);
 
   const handleQuestionSelect = (question, format) => {
     setSelectedQuestion(question);
@@ -212,6 +214,7 @@ const AddJobComponent = ({ onCancel }) => {
       firstName: "",
       lastName: "",
       email: "",
+      numberOfReferees: 1, // Add numberOfReferees to each candidate
     }));
     setCandidates(newCandidates);
   }, [vacancies]);
@@ -239,10 +242,13 @@ const AddJobComponent = ({ onCancel }) => {
       newErrorMessages.vacancies = "Vacancies must be at least 1.";
     }
 
-    if (numberOfReferees < 1) {
-      newErrorMessages.numberOfReferees =
-        "Number of referees must be at least 1.";
-    }
+    // Validate numberOfReferees for each candidate
+    candidates.forEach((candidate, index) => {
+      if (candidate.numberOfReferees < 1) {
+        newErrorMessages[`numberOfReferees_${index}`] =
+          "Number of referees must be at least 1.";
+      }
+    });
 
     if (Object.keys(newErrorMessages).length > 0) {
       setErrorMessages(newErrorMessages);
@@ -266,7 +272,6 @@ const AddJobComponent = ({ onCancel }) => {
         jobName: capitalizeWords(jobName),
         vacancies,
         department,
-        numberOfReferees, 
         selectedLanguage,
         questionFormat: selectedFormat,
         questionId: selectedQuestion._id,
@@ -316,7 +321,7 @@ const AddJobComponent = ({ onCancel }) => {
         positionId: createdJob.positionId,
         status,
         selectedLanguage,
-        numberOfReferees,
+        numberOfReferees: candidate.numberOfReferees, // Use individual numberOfReferees
         questionFormat: selectedFormat,
         questionId: selectedQuestion._id,
         questionName: selectedQuestion.name,
@@ -730,32 +735,6 @@ const AddJobComponent = ({ onCancel }) => {
               )}
             </Form.Group>
 
-            <Form.Group controlId="formNumReferees" className="mb-4">
-              <Form.Label
-                className="m-0"
-                style={{ width: "220px", height: "38px" }}
-              >
-                {TRANSLATIONS[currentLanguage].numReferees}
-                <span className="color-orange"> &nbsp;*</span>
-              </Form.Label>
-              <div className="w-100">
-                <Form.Control
-                  type="number"
-                  min={1}
-                  value={numberOfReferees}
-                  onChange={(e) =>
-                    setNumberOfReferees(parseInt(e.target.value))
-                  }
-                  required
-                />
-              </div>
-              {errorMessages.numberOfReferees && (
-                <div className="px-3 py-1 text-danger">
-                  {errorMessages.numberOfReferees}
-                </div>
-              )}
-            </Form.Group>
-
             {candidates.map((candidate, index) => (
               <div key={index} className="applicant-container mb-4">
                 <Form.Group
@@ -818,6 +797,29 @@ const AddJobComponent = ({ onCancel }) => {
                     </div>
                   </div>
                 </Form.Group>
+                
+                <Form.Group controlId={`formNumReferees${index}`} className="mb-4">
+                  <Form.Label className="m-0" style={{ width: "220px", height: "38px" }}>
+                    {TRANSLATIONS[currentLanguage].numReferees}
+                    <span className="color-orange"> &nbsp;*</span>
+                  </Form.Label>
+                  <div className="w-100">
+                    <Form.Control
+                      type="number"
+                      min={1}
+                      value={candidate.numberOfReferees}
+                      onChange={(e) =>
+                        handleInputChange(index, "numberOfReferees", parseInt(e.target.value))
+                      }
+                      required
+                    />
+                  </div>
+                  {errorMessages[`numberOfReferees_${index}`] && (
+                    <div className="px-3 py-1 text-danger">
+                      {errorMessages[`numberOfReferees_${index}`]}
+                    </div>
+                  )}
+                </Form.Group>
 
                 <Form.Group controlId={`formEmail${index}`} className="mb-4">
                   <Form.Label
@@ -844,6 +846,7 @@ const AddJobComponent = ({ onCancel }) => {
                     )}
                   </div>
                 </Form.Group>
+
               </div>
             ))}
           </Form>
@@ -865,8 +868,7 @@ const AddJobComponent = ({ onCancel }) => {
               loading ||
               !isJobFieldsFilled ||
               !areCandidateFieldsFilled ||
-              !selectedQuestion ||
-              !validReferees
+              !selectedQuestion
             }
           >
             {loading ? (

@@ -13,8 +13,8 @@ const TRANSLATIONS = {
     Applicant: "Applicant",
     Email: "Email",
     UpdateCandidate: "Update Candidate",
-    Custom: "Custom",
-    HrHatch: "HR-HATCH",
+    hrHatch: "HR-HATCH",
+    custom: "Custom Questionnaire",
     StandardFormat: "Standard Format",
     ManagementFormat: "Management Format",
     ExecutiveFormat: "Executive Format",
@@ -34,8 +34,8 @@ const TRANSLATIONS = {
     Applicant: "応募者",
     Email: "メール",
     UpdateCandidate: "応募者を更新",
-    Custom: "カスタム",
-    HrHatch: "HR-HATCH",
+    hrHatch: "HRハッチ",
+    custom: "カスタムアンケート",
     StandardFormat: "標準フォーマット",
     ManagementFormat: "管理職フォーマット",
     ExecutiveFormat: "エグゼクティブフォーマット",
@@ -230,11 +230,11 @@ const EditCandidatePopUp = ({
           <Form.Group controlId="formReferenceFormat" className="mb-4">
             <Form.Label
               className="m-0"
-              style={{ width: "150px", height: "38px" }}
+              style={{ width: "150px", height: "38px", opacity: "0.5" }}
             >
               {TRANSLATIONS[language].ReferenceFormat}
             </Form.Label>
-            <div className="w-100 reference-question-format-container d-flex gap-3">
+            <div className="w-100 reference-question-format-container d-flex gap-3" style={{ opacity: "0.5", pointerEvents: "none" }}>
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
@@ -248,14 +248,14 @@ const EditCandidatePopUp = ({
                   }}
                 >
                   {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
-                      ? selectedQuestion.name === "Standard Format"
-                        ? TRANSLATIONS[language].StandardFormat
-                        : selectedQuestion.name === "Management Format"
-                        ? TRANSLATIONS[language].ManagementFormat
-                        : selectedQuestion.name === "Executive Format"
-                        ? TRANSLATIONS[language].ExecutiveFormat
-                        : selectedQuestion.name
-                      : TRANSLATIONS[language].hrHatch}
+                    ? selectedQuestion.name === "Standard Format"
+                      ? TRANSLATIONS[language].StandardFormat
+                      : selectedQuestion.name === "Management Format"
+                      ? TRANSLATIONS[language].ManagementFormat
+                      : selectedQuestion.name === "Executive Format"
+                      ? TRANSLATIONS[language].ExecutiveFormat
+                      : selectedQuestion.name
+                    : TRANSLATIONS[language].hrHatch}
                 </div>
                 {isHrHatchOpen && (
                   <div className="dropdown-list-ref-req">
@@ -288,7 +288,7 @@ const EditCandidatePopUp = ({
                 >
                   {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
                     ? selectedQuestion.name
-                    : TRANSLATIONS[language].Custom}
+                    : TRANSLATIONS[language].custom}
                 </div>
                 {isCustomOpen && (
                   <div className="dropdown-list-ref-req">

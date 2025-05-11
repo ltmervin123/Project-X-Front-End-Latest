@@ -42,7 +42,6 @@ const TRANSLATIONS = {
     actions: "Actions",
     name: "Name",
     email: "Email",
-    position: "Position",
     applicant: "Applicant",
     referees: "Referees",
     status: "Status",
@@ -81,7 +80,6 @@ const TRANSLATIONS = {
     actions: "アクション",
     name: "名前",
     email: "メールアドレス",
-    position: "役職",
     applicant: "応募者",
     referees: "推薦者",
     status: "ステータス",
@@ -329,7 +327,7 @@ const Trashbin = () => {
           (applicant) =>
             applicant.name?.toLowerCase().includes(query) ||
             applicant.email?.toLowerCase().includes(query) ||
-            applicant.position?.toLowerCase().includes(query)
+            applicant.jobName?.toLowerCase().includes(query)
         );
       case TRANSLATIONS[language].referenceRequest:
         return data.filter(
@@ -554,7 +552,7 @@ const Trashbin = () => {
           ...baseHeaders,
           TRANSLATIONS[language].name,
           { label: TRANSLATIONS[language].email},
-          TRANSLATIONS[language].position,
+          TRANSLATIONS[language].jobName,
           TRANSLATIONS[language].deletedDate,
           TRANSLATIONS[language].actions,
         ];

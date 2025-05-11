@@ -179,7 +179,7 @@ width: 20%;
 .action-menu-job{
   position: absolute;
   top: 22%;
-  right: -25px;
+  right: -22px;
   display: flex;
   align-items: center;
 }
@@ -302,7 +302,7 @@ width: 20%;
 .action-options {
   position: absolute; /* or fixed if you want it to stay in view */
   top: 40px;
-  right: -22px;
+  right: 0;
   box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
   padding: 10px !important;
   z-index: 1000;
