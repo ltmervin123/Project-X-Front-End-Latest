@@ -1,28 +1,27 @@
+const TRANSLATIONS = {
+  English: {
+    title: "Average Usage per User",
+    subtitle: "Reference checks per user for all companies",
+    columns: {
+      averageUsage: "Average Usage",
+      peakTime: "Peak Time",
+    },
+    checks: "checks",
+  },
+  Japanese: {
+    title: "ユーザーあたりの平均利用",
+    subtitle: "全企業のユーザーあたりの照会確認数",
+    columns: {
+      averageUsage: "平均利用",
+      peakTime: "ピーク時間",
+    },
+    checks: "件",
+  },
+};
+
 const AverageUsageSection = ({ isVisible, averageUsageData }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Average Usage per User",
-      subtitle: "Reference checks per user for all companies",
-      columns: {
-        averageUsage: "Average Usage",
-        peakTime: "Peak Time",
-      },
-      checks: "checks",
-    },
-    Japanese: {
-      title: "ユーザーあたりの平均利用",
-      subtitle: "全企業のユーザーあたりの照会確認数",
-      columns: {
-        averageUsage: "平均利用",
-        peakTime: "ピーク時間",
-      },
-      checks: "件",
-    },
-  };
-
-  const t = translations[language];
+  const t = TRANSLATIONS[language];
 
   return (
     <div
