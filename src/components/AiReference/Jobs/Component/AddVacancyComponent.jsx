@@ -210,6 +210,22 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
       setVacancyError("");
     }
   }, [vacancies]);
+  
+  useEffect(() => {
+    if (!questionFormat && !questionId && !questionName) {
+      //Find candidate associated with the jobData
+      const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
+      const jobName = jobData?.jobName || null;
+      //Filter the first candidate that matches the jobName
+      const matchingCandidates = candidates.find(
+        (candidate) => candidate.position === jobName
+      );
+
+      setQuestionFormat(matchingCandidates?.questionFormat);
+      setQuestionId(matchingCandidates?.questionId);
+      setQuestionName(matchingCandidates?.questionName);
+    }
+  }, []);
 
   // Add new useEffect to check localStorage for existing candidates
   useEffect(() => {
@@ -477,11 +493,11 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
                     {questionFormat === "HR-HATCH-FORMAT" && questionName
-                      ? questionName === "Standard Format"
+                      ? questionName === "STANDARD"
                         ? TRANSLATIONS[currentLanguage].standardFormat
-                        : questionName === "Management Format"
+                        : questionName === "MANAGEMENT"
                         ? TRANSLATIONS[currentLanguage].managementFormat
-                        : questionName === "Executive Format"
+                        : questionName === "EXECUTIVE"
                         ? TRANSLATIONS[currentLanguage].executiveFormat
                         : questionName
                       : TRANSLATIONS[currentLanguage].hrHatch}
@@ -495,7 +511,9 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     }`}
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
-                    {questionFormat === "CUSTOM-FORMAT" ? questionName : TRANSLATIONS[currentLanguage].custom}
+                    {questionFormat === "CUSTOM-FORMAT" && questionName 
+                      ? questionName 
+                      : TRANSLATIONS[currentLanguage].custom}
                   </div>
                 </div>
                 {errorMessages.question && (
