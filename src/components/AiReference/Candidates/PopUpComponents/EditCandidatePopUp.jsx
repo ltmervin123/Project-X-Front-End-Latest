@@ -12,7 +12,7 @@ const TRANSLATIONS = {
     NoCustomQuestions: "No custom questions available",
     Applicant: "Applicant",
     Email: "Email",
-    UpdateCandidate: "Update Candidate",
+    UpdateCandidate: "Update Applicant",
     hrHatch: "HR-HATCH",
     custom: "Custom Questionnaire",
     StandardFormat: "Standard Format",
