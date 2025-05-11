@@ -1,22 +1,21 @@
+const TRANSLATIONS = {
+  English: {
+    title: "Subscription Analytics",
+    subtitle: "Detailed breakdown of subscription data for all companies",
+    totalRevenue: "Total Revenue",
+    avgRevenuePerUser: "Avg. Revenue Per User",
+  },
+  Japanese: {
+    title: "サブスクリプション分析",
+    subtitle: "全企業のサブスクリプションデータの詳細内訳",
+    totalRevenue: "総収益",
+    avgRevenuePerUser: "ユーザーあたりの平均収益",
+  },
+};
+
 const SubscriptionAnalyticSection = ({ isVisible }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Subscription Analytics",
-      subtitle: "Detailed breakdown of subscription data for all companies",
-      totalRevenue: "Total Revenue",
-      avgRevenuePerUser: "Avg. Revenue Per User",
-    },
-    Japanese: {
-      title: "サブスクリプション分析",
-      subtitle: "全企業のサブスクリプションデータの詳細内訳",
-      totalRevenue: "総収益",
-      avgRevenuePerUser: "ユーザーあたりの平均収益",
-    },
-  };
-
-  const t = translations[language];
+  const t = TRANSLATIONS[language];
 
   return (
     <div

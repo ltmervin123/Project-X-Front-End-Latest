@@ -1,21 +1,20 @@
 import { Bar } from "react-chartjs-2";
 import React, { useMemo } from "react";
 
+const TRANSLATIONS = {
+  English: {
+    title: "Users per Subscription Tier",
+    subtitle: "Distribution across subscription plans for all companies",
+  },
+  Japanese: {
+    title: "サブスクリプション層別ユーザー数",
+    subtitle: "全企業のサブスクリプションプラン分布",
+  },
+};
+
 const SubscriptionTier = ({ isVisible, subscriptionData }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Users per Subscription Tier",
-      subtitle: "Distribution across subscription plans for all companies",
-    },
-    Japanese: {
-      title: "サブスクリプション層別ユーザー数",
-      subtitle: "全企業のサブスクリプションプラン分布",
-    },
-  };
-
-  const t = translations[language];
+  const t = TRANSLATIONS[language];
 
   const createCustomTooltip = useMemo(() => {
     return (isRevenue = false) => ({
