@@ -107,6 +107,29 @@
   width: 290px;
   border-radius: 20px;
   border-top: transparent !important;
+  transition: all 0.3s ease;
+}
+
+/* Add responsive breakpoints for larger screens */
+@media screen and (min-width: 1200px) {
+  .hr-hatch-card {
+    width: 320px;
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .hr-hatch-card {
+    width: 350px;
+    height: 320px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .hr-hatch-card {
+    width: 380px;
+    height: 340px;
+  }
 }
 
 /* Style the first h5 element in hr-hatch-card-container */
@@ -365,14 +388,14 @@ transform: scale(1.01);
 /* Format format */
 .Format-Container{
   overflow-y: auto;
-  height: 37vh;
+  height: 40vh;
   padding-right: 10px;
 }
-/* .AiReference-table-title{
+.AiReference-table-title{
   height: 10vh;
-} */
+}
 .reference-question-returnbtn-container{
-  height: 10vh;
+  height: 8vh;
   
 }
 .AiReference-question-container .btn-return{

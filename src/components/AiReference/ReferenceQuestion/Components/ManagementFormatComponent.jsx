@@ -71,7 +71,7 @@ const ManagementFormatComponent = ({
             <div key={item.id} className="question-set-container border mb-3">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="question-set-info">
-                  <h5 className="mb-0">{item.category[language]}</h5>
+                  <h6 className="mb-0">{item.category[language]}</h6>
                 </div>
                 <div className="d-flex justify-content-end gap-5 question-controls">
                   <button

@@ -369,13 +369,7 @@ const ReferenceVerificationSection = () => {
     // Convert Japanese assessment to English if necessary
     const englishAssessment = japaneseToEnglish[assessment] || assessment;
 
-    console.log("Assessment:", assessment);
-    console.log("English Assessment:", englishAssessment);
-    console.log("Style:", assessmentStyles[englishAssessment]);
-
     return assessmentStyles[englishAssessment] || {};
-    
-
   };
 
   const downloadPDF = () => {
@@ -384,7 +378,6 @@ const ReferenceVerificationSection = () => {
 
     // Clone the report content to modify it without affecting the original
     const clonedReport = reportRef.current.cloneNode(true);
-
 
     const options = {
       margin: 10,
@@ -419,7 +412,7 @@ const ReferenceVerificationSection = () => {
     sessionStorage.removeItem("referenceQuestions");
     sessionStorage.removeItem("referenceQuestionsData");
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("preferred-language");
+    sessionStorage.removeItem("selectedLanguage");
     sessionStorage.removeItem("interview-method");
   };
   const currentStep = 5; // Set the current step (1 for Basic Information)

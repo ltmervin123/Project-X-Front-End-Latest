@@ -408,7 +408,7 @@ function ReviewYourReferenceCheckPage() {
             <h5 className="referencecheckquestiontitle text-left mb-2">
               {TRANSLATIONS[language].reviewResponses}
             </h5>
-            <Col md={!showBothAnswers ? 9 : 12} >
+            <Col md={!showBothAnswers ? 9 : 12}>
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
                   <p className="m-0">
