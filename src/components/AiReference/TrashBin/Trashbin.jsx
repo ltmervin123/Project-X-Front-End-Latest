@@ -769,7 +769,7 @@ const Trashbin = () => {
           </div>
         </div>
 
-        <div className="button-controls mb-3 d-flex gap-2 align-items-center justify-content-end">
+        <div className="button-controls mb-3 d-flex gap-3 align-items-center justify-content-end">
           <button
             disabled={
               selectedItems.length === 0 &&
