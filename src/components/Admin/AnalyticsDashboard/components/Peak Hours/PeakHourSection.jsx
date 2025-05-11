@@ -1,25 +1,24 @@
 import { Line } from "react-chartjs-2";
 import React, { useMemo } from "react";
 
+const TRANSLATIONS = {
+  English: {
+    title: "Peak Hours",
+    subtitle: "Busiest times by hour of day",
+    activityLevel: "Activity Level",
+    peakUsageTime: "Peak Usage Time",
+  },
+  Japanese: {
+    title: "ピーク時間",
+    subtitle: "時間帯別の最も忙しい時間",
+    activityLevel: "アクティビティレベル",
+    peakUsageTime: "ピーク使用時間",
+  },
+};
+
 const PeakHourSection = ({ isVisible, peakHourData }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const translations = {
-    English: {
-      title: "Peak Hours",
-      subtitle: "Busiest times by hour of day",
-      activityLevel: "Activity Level",
-      peakUsageTime: "Peak Usage Time",
-    },
-    Japanese: {
-      title: "ピーク時間",
-      subtitle: "時間帯別の最も忙しい時間",
-      activityLevel: "アクティビティレベル",
-      peakUsageTime: "ピーク使用時間",
-    },
-  };
-
-  const t = translations[language];
+  const t = TRANSLATIONS[language];
 
   const peakHoursData = useMemo(() => {
     return {
