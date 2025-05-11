@@ -15,7 +15,7 @@ const TRANSLATIONS = {
     jobDetails: "Job Details",
     fillRequired: "* Fill in the required information",
     jobName: "Job Name",
-    vacancy: "Vacancy",
+    vacancy: "Vacancies",
     department: "Department",
     hiringManager: "Hiring Manager",
     firstName: "First Name",
@@ -52,8 +52,8 @@ const TRANSLATIONS = {
     backWarning:
       "Are you sure you want to go back? Your progress will be lost.",
     noCustomQuestions: "No custom questions available",
-    hrHatch: "HR-HATCH FORMATS",
-    custom: "CUSTOM SETS FORMAT",
+    hrHatch: "HR-HATCH",
+    custom: "Custom Questionnaire",
     standardFormat: "Standard Format",
     managementFormat: "Management Format",
     executiveFormat: "Executive Format",
@@ -117,7 +117,7 @@ const TRANSLATIONS = {
     backWarning: "前のページに戻りますか？入力内容は失われます。",
     noCustomQuestions: "カスタム質問はありません",
     hrHatch: "HRハッチ",
-    custom: "カスタム",
+    custom: "カスタムアンケート",
     standardFormat: "標準フォーマット",
     managementFormat: "管理職フォーマット",
     executiveFormat: "エグゼクティブフォーマット",
@@ -145,10 +145,6 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   );
   const [jobName, setJobName] = useState(jobData?.jobName || "");
   const [jobId, setJobId] = useState(jobData?._id || null);
-
-  const [numberOfReferees, setNumberOfReferees] = useState(
-    jobData?.numberOfReferees || 1
-  );
   const [questionFormat, setQuestionFormat] = useState(
     jobData?.questionFormat || null
   );
@@ -158,6 +154,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   const [questionId, setQuestionId] = useState(jobData?.questionId || null);
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
+
   const [vacancies, setVacancies] = useState(jobData?.vacancies || 1);
   const [vacancyError, setVacancyError] = useState("");
   const [candidates, setCandidates] = useState([]);
@@ -170,7 +167,9 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   const areCandidateFieldsFilled = useMemo(() => {
     return candidates.every((obj) =>
       Object.values(obj).every(
-        (value) => typeof value === "string" && value.trim() !== ""
+        (value) =>
+          (typeof value === "string" && value.trim() !== "") ||
+          (typeof value === "number" && value >= 1)
       )
     );
   }, [candidates]);
@@ -185,27 +184,8 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   };
 
   useEffect(() => {
-    if (!questionFormat && !questionId && !questionName) {
-      //Find candidate associated with the jobData
-      const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
-      const jobName = jobData?.jobName || null;
-      //Filter the first candidate that matches the jobName
-      const matchingCandidates = candidates.find(
-        (candidate) => candidate.position === jobName
-      );
-
-      setQuestionFormat(matchingCandidates?.questionFormat);
-      setQuestionId(matchingCandidates?.questionId);
-      setQuestionName(matchingCandidates?.questionName);
-    }
-  }, []);
-
-  // Add new useEffect to handle candidates array updates based on vacancy changes
-  useEffect(() => {
-    // Only update candidates if new vacancy number is greater than fetched vacancy
     if (!jobData?.vacancies || vacancies > jobData.vacancies) {
       const newCandidates = Array.from({ length: vacancies }, (_, index) => {
-        // Preserve existing candidate data if available
         if (candidates[index]) {
           return candidates[index];
         }
@@ -213,6 +193,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
           firstName: "",
           lastName: "",
           email: "",
+          numberOfReferees: 1, // Add default numberOfReferees
         };
       });
       setCandidates(newCandidates);
@@ -234,6 +215,22 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
     }
   }, [vacancies]);
 
+  useEffect(() => {
+    if (!questionFormat && !questionId && !questionName) {
+      //Find candidate associated with the jobData
+      const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
+      const jobName = jobData?.jobName || null;
+      //Filter the first candidate that matches the jobName
+      const matchingCandidates = candidates.find(
+        (candidate) => candidate.position === jobName
+      );
+
+      setQuestionFormat(matchingCandidates?.questionFormat);
+      setQuestionId(matchingCandidates?.questionId);
+      setQuestionName(matchingCandidates?.questionName);
+    }
+  }, []);
+
   // Add new useEffect to check localStorage for existing candidates
   useEffect(() => {
     try {
@@ -252,6 +249,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
           firstName: candidate.name?.firstName || "",
           lastName: candidate.name?.lastName || "",
           email: candidate.email || "",
+          numberOfReferees: candidate.numberOfReferees || 1,
         }));
 
         // Merge with existing candidates array
@@ -264,6 +262,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                   firstName: "",
                   lastName: "",
                   email: "",
+                  numberOfReferees: 1,
                 }
               );
             }
@@ -274,7 +273,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
     } catch (error) {
       console.error("Error loading candidates from localStorage:", error);
     }
-  }, [jobName]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -337,7 +336,6 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
 
   const handleAddCandidate = async () => {
     const status = "New";
-    // Only map and save candidates that weren't fetched from localStorage
     const newCandidates = candidates.slice(jobData?.vacancies);
 
     const payload = newCandidates.map((candidate) => {
@@ -351,10 +349,10 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
         positionId: jobId,
         status,
         selectedLanguage: jobData?.selectedLanguage || "English",
-        numberOfReferees,
-        questionFormat,
+        numberOfReferees: candidate.numberOfReferees || 1,
         questionId,
         questionName,
+        questionFormat,
       };
     });
 
@@ -416,7 +414,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   }, []);
 
   const isValidVacancy = useMemo(() => {
-    return vacancies > jobData.vacancies;
+    return !jobData?.vacancies || vacancies > jobData.vacancies;
   }, [vacancies, jobData?.vacancies]);
 
   return (
@@ -501,11 +499,11 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
                     {questionFormat === "HR-HATCH-FORMAT" && questionName
-                      ? questionName === "Standard Format"
+                      ? questionName === "STANDARD"
                         ? TRANSLATIONS[currentLanguage].standardFormat
-                        : questionName === "Management Format"
+                        : questionName === "MANAGEMENT"
                         ? TRANSLATIONS[currentLanguage].managementFormat
-                        : questionName === "Executive Format"
+                        : questionName === "EXECUTIVE"
                         ? TRANSLATIONS[currentLanguage].executiveFormat
                         : questionName
                       : TRANSLATIONS[currentLanguage].hrHatch}
@@ -519,7 +517,9 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     }`}
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
-                    {questionName}
+                    {questionFormat === "CUSTOM-FORMAT" && questionName
+                      ? questionName
+                      : TRANSLATIONS[currentLanguage].custom}
                   </div>
                 </div>
                 {errorMessages.question && (
@@ -528,30 +528,6 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                   </div>
                 )}
               </div>
-            </Form.Group>
-
-            <Form.Group controlId="formNumReferees" className="mb-4">
-              <Form.Label
-                className="m-0"
-                style={{ width: "220px", height: "38px" }}
-              >
-                {TRANSLATIONS[currentLanguage].numReferees}
-                <span className="color-orange"> &nbsp;*</span>
-              </Form.Label>
-              <div className="w-100">
-                <Form.Control
-                  type="number"
-                  min={1}
-                  value={numberOfReferees}
-                  required
-                  disabled
-                />
-              </div>
-              {errorMessages.numberOfReferees && (
-                <div className="px-3 py-1 text-danger">
-                  {errorMessages.numberOfReferees}
-                </div>
-              )}
             </Form.Group>
 
             {candidates.map((candidate, index) => {
@@ -631,7 +607,39 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                       </div>
                     </div>
                   </Form.Group>
-
+                  <Form.Group
+                    controlId={`formNumReferees${index}`}
+                    className="mb-4"
+                  >
+                    <Form.Label
+                      className="m-0"
+                      style={{ width: "220px", height: "38px" }}
+                    >
+                      {TRANSLATIONS[currentLanguage].numReferees}
+                      <span className="color-orange"> &nbsp;*</span>
+                    </Form.Label>
+                    <div className="w-100">
+                      <Form.Control
+                        type="number"
+                        min={1}
+                        value={candidate.numberOfReferees}
+                        onChange={(e) =>
+                          handleInputChange(
+                            index,
+                            "numberOfReferees",
+                            parseInt(e.target.value)
+                          )
+                        }
+                        required
+                        disabled={isDisabled}
+                      />
+                    </div>
+                    {errorMessages[`numberOfReferees${index}`] && (
+                      <div className="px-3 py-1 text-danger">
+                        {errorMessages[`numberOfReferees${index}`]}
+                      </div>
+                    )}
+                  </Form.Group>
                   <Form.Group controlId={`formEmail${index}`} className="mb-4">
                     <Form.Label
                       className="m-0"

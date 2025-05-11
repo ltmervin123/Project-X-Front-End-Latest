@@ -20,13 +20,11 @@ import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/r
 import * as CandidateArchiveAPI from "../../../api/ai-reference/archive/candidate-api";
 import * as JobArchiveAPI from "../../../api/ai-reference/archive/jobs-api";
 
-// Define language
-const language = sessionStorage.getItem("preferred-language") || "English";
-
 const TRANSLATIONS = {
   English: {
     trashBin: "Trash Bin",
-    viewAndRestoreDeletedItems: "View and restore deleted items from your system.",
+    viewAndRestoreDeletedItems:
+      "View and restore deleted items from your system.",
     jobs: "Jobs",
     applicants: "Applicants",
     referenceRequest: "Reference Request",
@@ -42,7 +40,6 @@ const TRANSLATIONS = {
     actions: "Actions",
     name: "Name",
     email: "Email",
-    position: "Position",
     applicant: "Applicant",
     referees: "Referees",
     status: "Status",
@@ -57,7 +54,8 @@ const TRANSLATIONS = {
     searchPlaceholder: "Search in",
     noItemsInTrash: "No items in trash bin",
     noMatchingItems: "No matching items found for",
-    trashWarning: "Items in the trash will be permanently deleted after 10 days. To avoid this, please restore any items you want to keep before the 10-day period ends.",
+    trashWarning:
+      "Items in the trash will be permanently deleted after 10 days. To avoid this, please restore any items you want to keep before the 10-day period ends.",
     noJobsInTrash: "No jobs in trash bin",
     noApplicantsInTrash: "No applicants in trash bin",
     noReferenceRequestsInTrash: "No reference requests in trash bin",
@@ -81,7 +79,6 @@ const TRANSLATIONS = {
     actions: "アクション",
     name: "名前",
     email: "メールアドレス",
-    position: "役職",
     applicant: "応募者",
     referees: "推薦者",
     status: "ステータス",
@@ -96,24 +93,17 @@ const TRANSLATIONS = {
     searchPlaceholder: "検索",
     noItemsInTrash: "ゴミ箱にアイテムがありません",
     noMatchingItems: "該当するアイテムが見つかりません",
-    trashWarning: "ゴミ箱内のアイテムは10日後に完全に削除されます。必要なアイテムは10日以内に復元してください。",
+    trashWarning:
+      "ゴミ箱内のアイテムは10日後に完全に削除されます。必要なアイテムは10日以内に復元してください。",
     noJobsInTrash: "ゴミ箱に求人がありません",
     noApplicantsInTrash: "ゴミ箱に応募者がありません",
     noReferenceRequestsInTrash: "ゴミ箱にリファレンスリクエストがありません",
     noReferenceQuestionsInTrash: "ゴミ箱にリファレンス質問がありません",
-  }
+  },
 };
-
-const CATEGORIES = [
-  TRANSLATIONS[language].jobs,
-  TRANSLATIONS[language].applicants,
-  TRANSLATIONS[language].referenceRequest,
-  TRANSLATIONS[language].referenceQuestions,
-];
 
 const Trashbin = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(TRANSLATIONS[language].jobs);
   const [isSearchAndButtonsVisible, setIsSearchAndButtonsVisible] =
     useState(false);
   const [isContainerVisible, setIsContainerVisible] = useState(false);
@@ -122,6 +112,8 @@ const Trashbin = () => {
   const [showRestorePopup, setShowRestorePopup] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
   const queryClient = useQueryClient();
+  // Define language
+  const language = sessionStorage.getItem("preferred-language") || "English";
 
   useEffect(() => {
     const timers = [
@@ -131,6 +123,16 @@ const Trashbin = () => {
 
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
+
+  const CATEGORIES = [
+    TRANSLATIONS[language].jobs,
+    TRANSLATIONS[language].applicants,
+    TRANSLATIONS[language].referenceRequest,
+    TRANSLATIONS[language].referenceQuestions,
+  ];
+  const [selectedCategory, setSelectedCategory] = useState(
+    TRANSLATIONS[language].jobs
+  );
 
   //Reference Request API
   const {
@@ -329,7 +331,7 @@ const Trashbin = () => {
           (applicant) =>
             applicant.name?.toLowerCase().includes(query) ||
             applicant.email?.toLowerCase().includes(query) ||
-            applicant.position?.toLowerCase().includes(query)
+            applicant.jobName?.toLowerCase().includes(query)
         );
       case TRANSLATIONS[language].referenceRequest:
         return data.filter(
@@ -553,8 +555,8 @@ const Trashbin = () => {
         return [
           ...baseHeaders,
           TRANSLATIONS[language].name,
-          { label: TRANSLATIONS[language].email},
-          TRANSLATIONS[language].position,
+          { label: TRANSLATIONS[language].email },
+          TRANSLATIONS[language].jobName,
           TRANSLATIONS[language].deletedDate,
           TRANSLATIONS[language].actions,
         ];
@@ -562,7 +564,7 @@ const Trashbin = () => {
         return [
           ...baseHeaders,
           TRANSLATIONS[language].applicant,
-          { label: TRANSLATIONS[language].referees},
+          { label: TRANSLATIONS[language].referees },
           TRANSLATIONS[language].status,
           TRANSLATIONS[language].deletedDate,
           TRANSLATIONS[language].actions,
@@ -651,10 +653,14 @@ const Trashbin = () => {
             />
           </svg>
           <h4 className="m-0">
-            {selectedCategory === TRANSLATIONS[language].jobs && TRANSLATIONS[language].noJobsInTrash}
-            {selectedCategory === TRANSLATIONS[language].applicants && TRANSLATIONS[language].noApplicantsInTrash}
-            {selectedCategory === TRANSLATIONS[language].referenceRequest && TRANSLATIONS[language].noReferenceRequestsInTrash}
-            {selectedCategory === TRANSLATIONS[language].referenceQuestions && TRANSLATIONS[language].noReferenceQuestionsInTrash}
+            {selectedCategory === TRANSLATIONS[language].jobs &&
+              TRANSLATIONS[language].noJobsInTrash}
+            {selectedCategory === TRANSLATIONS[language].applicants &&
+              TRANSLATIONS[language].noApplicantsInTrash}
+            {selectedCategory === TRANSLATIONS[language].referenceRequest &&
+              TRANSLATIONS[language].noReferenceRequestsInTrash}
+            {selectedCategory === TRANSLATIONS[language].referenceQuestions &&
+              TRANSLATIONS[language].noReferenceQuestionsInTrash}
           </h4>
           <p>{TRANSLATIONS[language].trashWarning}</p>
         </tr>
@@ -676,7 +682,9 @@ const Trashbin = () => {
               fill="#F46A05"
             />
           </svg>
-          <h4>{TRANSLATIONS[language].noMatchingItems} "{searchQuery}"</h4>
+          <h4>
+            {TRANSLATIONS[language].noMatchingItems} "{searchQuery}"
+          </h4>
         </tr>
       );
     }
@@ -688,7 +696,9 @@ const Trashbin = () => {
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
         <h3 className="mb-0">{TRANSLATIONS[language].trashBin}</h3>
-        <p className="mb-2">{TRANSLATIONS[language].viewAndRestoreDeletedItems}</p>
+        <p className="mb-2">
+          {TRANSLATIONS[language].viewAndRestoreDeletedItems}
+        </p>
       </div>
 
       <div
@@ -700,7 +710,9 @@ const Trashbin = () => {
           <div className="search-wrapper position-relative">
             <input
               type="text"
-              placeholder={`${TRANSLATIONS[language].searchPlaceholder} ${selectedCategory.toLowerCase()}...`}
+              placeholder={`${
+                TRANSLATIONS[language].searchPlaceholder
+              } ${selectedCategory.toLowerCase()}...`}
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -731,10 +743,14 @@ const Trashbin = () => {
       >
         <div className="trash-header mb-3">
           <h4 className="mb-2">
-            {selectedCategory === TRANSLATIONS[language].jobs && TRANSLATIONS[language].deletedJobs}
-            {selectedCategory === TRANSLATIONS[language].applicants && TRANSLATIONS[language].deletedApplicants}
-            {selectedCategory === TRANSLATIONS[language].referenceRequest && TRANSLATIONS[language].deletedReferenceRequests}
-            {selectedCategory === TRANSLATIONS[language].referenceQuestions && TRANSLATIONS[language].deletedReferenceQuestions}
+            {selectedCategory === TRANSLATIONS[language].jobs &&
+              TRANSLATIONS[language].deletedJobs}
+            {selectedCategory === TRANSLATIONS[language].applicants &&
+              TRANSLATIONS[language].deletedApplicants}
+            {selectedCategory === TRANSLATIONS[language].referenceRequest &&
+              TRANSLATIONS[language].deletedReferenceRequests}
+            {selectedCategory === TRANSLATIONS[language].referenceQuestions &&
+              TRANSLATIONS[language].deletedReferenceQuestions}
           </h4>
           <div className="trashbin-important-text d-flex gap-2 align-items-center">
             <svg
@@ -749,15 +765,16 @@ const Trashbin = () => {
                 fill="#F46A05"
               />
             </svg>
-            <p className="m-0">
-            {TRANSLATIONS[language].trashWarning}
-            </p>
+            <p className="m-0">{TRANSLATIONS[language].trashWarning}</p>
           </div>
         </div>
 
         <div className="button-controls mb-3 d-flex gap-2 align-items-center justify-content-end">
           <button
-            disabled={selectedItems.length === 0 && mockData[selectedCategory]?.length === 0}
+            disabled={
+              selectedItems.length === 0 &&
+              mockData[selectedCategory]?.length === 0
+            }
             onClick={
               selectedItems.length > 0 ? handleClearSelection : handleSelectAll
             }
@@ -816,9 +833,7 @@ const Trashbin = () => {
             </tr>
           </thead>
 
-          <tbody>
-            {renderTableBody()}
-          </tbody>
+          <tbody>{renderTableBody()}</tbody>
         </table>
       </div>
 

@@ -8,8 +8,6 @@ import ViewRequest from "./Components/ViewRequest";
 import axios from "axios";
 import { socket } from "../../../utils/socket/socketSetup";
 
-// Define language
-const language = sessionStorage.getItem("preferred-language") || "English";
 
 // Translation dictionary
 const TRANSLATIONS = {
@@ -84,6 +82,9 @@ const ReferenceRequest = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
   const companyId = USER?.id;
   const token = USER?.token;
+  // Define language
+const language = sessionStorage.getItem("preferred-language") || "English";
+
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [showViewRequest, setShowViewRequest] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

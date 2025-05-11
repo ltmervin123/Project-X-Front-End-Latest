@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/Admin/Header";
 import Sidebar from "../../components/Admin/Sidebar";
-import TranslationDropdown from "../../components/Admin/TranslationDropdown";
+// import TranslationDropdown from "../../components/Admin/TranslationDropdown";
 import UserManagement from "../../components/Admin/UserManagement/UserManagement";
 import "../../styles/AdminStyles/UserManagementPage.css";
 
@@ -21,7 +21,7 @@ function UserManagementPage() {
           {/* Main content area with 9/12 width */}
           <Col md={10} className="p-3">
             <UserManagement />
-            <TranslationDropdown />
+            {/* <TranslationDropdown /> */}
           </Col>
         </Row>
       </div>
