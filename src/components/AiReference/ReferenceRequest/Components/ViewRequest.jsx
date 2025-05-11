@@ -6,9 +6,6 @@ import html2pdf from "html2pdf.js";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import { fetchReferenceByReferenceId } from "../../../../api/ai-reference/reference-request/reference-request-api";
 
-// Define language
-const language = sessionStorage.getItem("preferred-language") || "English";
-
 // Translation dictionary
 const TRANSLATIONS = {
   English: {
@@ -42,24 +39,32 @@ const TRANSLATIONS = {
     closingQuestions: "Closing Questions",
     strategicLeadershipAndVision: "Strategic Leadership and Vision",
     businessImpactAndResults: "Business Impact and Results",
-    teamLeadershipAndOrganizationalDevelopment: "Team Leadership and Organizational Development",
+    teamLeadershipAndOrganizationalDevelopment:
+      "Team Leadership and Organizational Development",
     decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
     innovationAndGrowth: "Innovation and Growth",
     leadershipAndManagementSkills: "Leadership and Management Skills",
-    
+
     // Assessment text translations
     overallJobPerformance: "Overall Job Performance Assessment:",
     overallSkillsCompetencies: "Overall Assessment of Skills and Competencies:",
-    overallWorkEthicBehavior: "Overall Evaluation Regarding Work Ethic and Behavior:",
-    overallLeadershipManagement: "Overall Performance in Leadership and Management:",
+    overallWorkEthicBehavior:
+      "Overall Evaluation Regarding Work Ethic and Behavior:",
+    overallLeadershipManagement:
+      "Overall Performance in Leadership and Management:",
     overallStrategicLeadership: "Overall Assessment of Strategic Leadership:",
     overallBusinessImpact: "Overall Assessment of Business Impact and Results:",
-    overallTeamLeadership: "Overall Assessment of Team Leadership and Organizational Development:",
-    overallDecisionMaking: "Overall Assessment of Decision Making and Problem Solving:",
+    overallTeamLeadership:
+      "Overall Assessment of Team Leadership and Organizational Development:",
+    overallDecisionMaking:
+      "Overall Assessment of Decision Making and Problem Solving:",
     overallInnovation: "Overall Assessment of Innovation and Growth:",
     overallAssessment: "Overall Assessment:",
     originalAnswer: "Original Answer",
     aiEnhancedAnswer: "AI Enhanced Answer",
+    standardFormat: "Standard Format",
+    managementFormat: "Management Format",
+    executiveFormat: "Executive Format",
   },
   Japanese: {
     loading: "リファレンス依頼を読み込んでいます...",
@@ -92,11 +97,12 @@ const TRANSLATIONS = {
     closingQuestions: "最終質問",
     strategicLeadershipAndVision: "戦略的リーダーシップとビジョン",
     businessImpactAndResults: "ビジネスへの影響と結果",
-    teamLeadershipAndOrganizationalDevelopment: "チームリーダーシップと組織開発",
+    teamLeadershipAndOrganizationalDevelopment:
+      "チームリーダーシップと組織開発",
     decisionMakingAndProblemSolving: "意思決定と問題解決",
     innovationAndGrowth: "イノベーションと成長",
     leadershipAndManagementSkills: "リーダーシップとマネジメントスキル",
-    
+
     // Assessment text translations
     overallJobPerformance: "総合的な職務パフォーマンス評価：",
     overallSkillsCompetencies: "スキルと能力の総合評価：",
@@ -110,7 +116,10 @@ const TRANSLATIONS = {
     overallAssessment: "総合評価：",
     originalAnswer: "オリジナルの回答",
     aiEnhancedAnswer: "AI強化された回答",
-  }
+    standardFormat: "標準フォーマット",
+    managementFormat: "マネジメントフォーマット",
+    executiveFormat: "エグゼクティブフォーマット",
+  },
 };
 
 const CATEGORY_ORDER = {
@@ -148,12 +157,14 @@ function ViewRequest({
   onClose,
 }) {
   const reportRef = useRef();
-
   const [downloading, setDownloading] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
   const handleReturnReferenceRequest = () => {
     onClose();
   };
+  // Define language
+  const preferredLanguage =
+    sessionStorage.getItem("preferred-language") || "English";
 
   const {
     data: referenceData,
@@ -203,85 +214,94 @@ function ViewRequest({
       case "decisionMakingAndProblemSolving":
       case "innovationAndGrowth":
       case "leadershipAndManagementSkills":
-        return TRANSLATIONS[language][letter];
+        return TRANSLATIONS[
+          referenceData?.referenceRequestId?.selectedLanguage
+        ][letter];
       default:
-        return TRANSLATIONS[language].notAvailable;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .notAvailable;
     }
   }
 
   function getOverallAssessmentText(category) {
     switch (category) {
       case "jobResponsibilitiesAndPerformance":
-        return TRANSLATIONS[language].overallJobPerformance;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallJobPerformance;
       case "skillAndCompetencies":
-        return TRANSLATIONS[language].overallSkillsCompetencies;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallSkillsCompetencies;
       case "workEthicAndBehavior":
-        return TRANSLATIONS[language].overallWorkEthicBehavior;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallWorkEthicBehavior;
       case "leadershipAndManagementSkills":
-        return TRANSLATIONS[language].overallLeadershipManagement;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallLeadershipManagement;
       case "strategicLeadershipAndVision":
-        return TRANSLATIONS[language].overallStrategicLeadership;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallStrategicLeadership;
       case "businessImpactAndResults":
-        return TRANSLATIONS[language].overallBusinessImpact;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallBusinessImpact;
       case "teamLeadershipAndOrganizationalDevelopment":
-        return TRANSLATIONS[language].overallTeamLeadership;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallTeamLeadership;
       case "decisionMakingAndProblemSolving":
-        return TRANSLATIONS[language].overallDecisionMaking;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallDecisionMaking;
       case "innovationAndGrowth":
-        return TRANSLATIONS[language].overallInnovation;
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .overallInnovation;
       default:
-        return `${TRANSLATIONS[language].overallAssessment} ${formatCategories(category)}`;
+        return `${
+          TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+            .overallAssessment
+        } ${formatCategories(category)}`;
     }
   }
 
   const getAssessmentStyle = (assessment) => {
     // Create a mapping of Japanese to English assessments
     const japaneseToEnglish = {
-      "不満足": "Unsatisfactory",
-      "改善が必要": "Needs Improvement",
-      "期待通り": "Meets Expectations",
-      "期待以上": "Exceeds Expectations",
-      "優秀": "Exceptional",
+      不満足: "Unsatisfactory",
+      改善が必要: "Needs Improvement",
+      期待通り: "Meets Expectations",
+      期待以上: "Exceeds Expectations",
+      優秀: "Exceptional",
     };
 
     const assessmentStyles = {
-      "Unsatisfactory": {
-    color: "#FF1D48",
-    borderColor: "#FF1D48",
-    backgroundColor: "rgba(255, 29, 72, 0.15)",
-  },
-  "Needs Improvement": {
-    color: "#ED7D31",
-    borderColor: "#ED7D31",
-    backgroundColor: "rgba(237, 125, 49, 0.15)",
-  },
-  "Meets Expectations": {
-    color: "#FFEA66",
-    borderColor: "#FFEA66",
-    backgroundColor: "rgba(255, 234, 102, 0.15)",
-  },
-  "Exceeds Expectations": {
-    color: "#70AD47",
-    borderColor: "#70AD47",
-    backgroundColor: "rgba(112, 173, 71, 0.15)",
-  },
-  "Exceptional": {
-    backgroundColor: "rgba(93, 100, 63, 0.15)",
-    color: "#5D643F",
-  },
-};
+      Unsatisfactory: {
+        color: "#FF1D48",
+        borderColor: "#FF1D48",
+        backgroundColor: "rgba(255, 29, 72, 0.15)",
+      },
+      "Needs Improvement": {
+        color: "#ED7D31",
+        borderColor: "#ED7D31",
+        backgroundColor: "rgba(237, 125, 49, 0.15)",
+      },
+      "Meets Expectations": {
+        color: "#FFEA66",
+        borderColor: "#FFEA66",
+        backgroundColor: "rgba(255, 234, 102, 0.15)",
+      },
+      "Exceeds Expectations": {
+        color: "#70AD47",
+        borderColor: "#70AD47",
+        backgroundColor: "rgba(112, 173, 71, 0.15)",
+      },
+      Exceptional: {
+        backgroundColor: "rgba(93, 100, 63, 0.15)",
+        color: "#5D643F",
+      },
+    };
 
-// Convert Japanese assessment to English if necessary
-const englishAssessment = japaneseToEnglish[assessment] || assessment;
+    // Convert Japanese assessment to English if necessary
+    const englishAssessment = japaneseToEnglish[assessment] || assessment;
 
-console.log("Assessment:", assessment);
-console.log("English Assessment:", englishAssessment);
-console.log("Style:", assessmentStyles[englishAssessment]);
-
-return assessmentStyles[englishAssessment] || {};
-
-
-};
+    return assessmentStyles[englishAssessment] || {};
+  };
 
   const downloadPDF = () => {
     if (!reportRef.current) return;
@@ -334,13 +354,31 @@ return assessmentStyles[englishAssessment] || {};
 
   function formatAnswerType(type) {
     if (type === "Original Answer" || type === "オリジナルの回答") {
-      return TRANSLATIONS[language].originalAnswer;
+      return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+        .originalAnswer;
     }
     if (type === "AI Enhanced Answer" || type === "AI強化された回答") {
-      return TRANSLATIONS[language].aiEnhancedAnswer;
+      return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+        .aiEnhancedAnswer;
     }
     return type;
   }
+
+  const formatQuestionFormat = (questionFormat) => {
+    switch (questionFormat) {
+      case "Standard Format":
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .standardFormat;
+      case "Management Format":
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .managementFormat;
+      case "Executive Format":
+        return TRANSLATIONS[referenceData?.referenceRequestId?.selectedLanguage]
+          .executiveFormat;
+      default:
+        return questionFormat;
+    }
+  };
 
   if (fetchingReference) {
     return (
@@ -353,8 +391,10 @@ return assessmentStyles[englishAssessment] || {};
               role="status"
               style={{ width: "5rem", height: "5rem" }}
             />
-            <h3>{TRANSLATIONS[language].loading}</h3>
-            <p className="text-muted">{TRANSLATIONS[language].pleaseWait}</p>
+            <h3>{TRANSLATIONS[preferredLanguage].loading}</h3>
+            <p className="text-muted">
+              {TRANSLATIONS[preferredLanguage].pleaseWait}
+            </p>
           </Col>
         </Row>
       </Container>
@@ -370,239 +410,380 @@ return assessmentStyles[englishAssessment] || {};
   }
 
   return (
-    <div className="MockMainDashboard-content d-flex flex-column gap-2">
-      <div className="w-100 mb-2">
-        <button
-          className="btn-back-to-reference-request d-flex gap-3 align-items-center"
-          onClick={handleReturnReferenceRequest}
-        >
-          <svg
-            width="27"
-            height="16"
-            viewBox="0 0 27 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0.292893 8.70711C-0.0976314 8.31658 -0.0976315 7.68342 0.292892 7.2929L6.65685 0.928934C7.04738 0.53841 7.68054 0.538409 8.07107 0.928934C8.46159 1.31946 8.46159 1.95262 8.07107 2.34315L2.41421 8L8.07107 13.6569C8.46159 14.0474 8.46159 14.6805 8.07107 15.0711C7.68054 15.4616 7.04738 15.4616 6.65686 15.0711L0.292893 8.70711ZM27 9L1 9L1 7L27 7L27 9Z"
-              fill="white"
-            />
-          </svg>
-          {TRANSLATIONS[language].returnToReference}
-        </button>
-      </div>
-      <div className="ViewRequest-container">
-        <div ref={reportRef}>
-          <h4 className="color-orange mb-2">
-            {referenceData?.questionFormat || TRANSLATIONS[language].notAvailable}
-          </h4>
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].positionAppliedFor}: </b>
-            <span className="Capitalize">
-              {referenceData?.referenceRequestId?.position || TRANSLATIONS[language].notAvailable}
-            </span>
-          </p>
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].applicant}: </b>
-            <span className="Capitalize">
-              {`${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}` ||
-                TRANSLATIONS[language].notAvailable}
-            </span>
-          </p>
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].refereeName}: </b>
-            <span className="Capitalize">
-              {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
-                TRANSLATIONS[language].notAvailable}
-            </span>
-          </p>
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].currentCompany}: </b>
-            <span className="Capitalize">
-              {referenceData?.currentCompany || TRANSLATIONS[language].notAvailable}
-            </span>
-          </p>
-          <p className="mb-2">
-            <b>
-              {TRANSLATIONS[language].companyWorkedWith} (
-              {referenceData?.referenceRequestId?.candidate.firstName}):{" "}
-            </b>
-            <span>
-              {formatter(referenceData?.companyWorkedWith) || TRANSLATIONS[language].notAvailable}
-            </span>
-          </p>
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].relationshipToApplicant}: </b>
-            <span>
-              {formatter(referenceData?.refereeRelationshipWithCandidate) ||
-                TRANSLATIONS[language].notAvailable}
-            </span>
-          </p>
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].datesWorkedTogether}: </b>
-            <span>
-              {referenceData?.workDuration ? (
-                <>
-                  <b>{TRANSLATIONS[language].from}</b>{" "}
-                  {formatDateForWorkDuration(
-                    referenceData?.workDuration?.startDate
-                  )}{" "}
-                  <b>{TRANSLATIONS[language].to}</b>{" "}
-                  {formatDateForWorkDuration(
-                    referenceData?.workDuration?.endDate
+    <>
+      {referenceData ? (
+        <div className="MockMainDashboard-content d-flex flex-column gap-2">
+          <div className="w-100 mb-2">
+            <button
+              className="btn-back-to-reference-request d-flex gap-3 align-items-center"
+              onClick={handleReturnReferenceRequest}
+            >
+              <svg
+                width="27"
+                height="16"
+                viewBox="0 0 27 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.292893 8.70711C-0.0976314 8.31658 -0.0976315 7.68342 0.292892 7.2929L6.65685 0.928934C7.04738 0.53841 7.68054 0.538409 8.07107 0.928934C8.46159 1.31946 8.46159 1.95262 8.07107 2.34315L2.41421 8L8.07107 13.6569C8.46159 14.0474 8.46159 14.6805 8.07107 15.0711C7.68054 15.4616 7.04738 15.4616 6.65686 15.0711L0.292893 8.70711ZM27 9L1 9L1 7L27 7L27 9Z"
+                  fill="white"
+                />
+              </svg>
+              {TRANSLATIONS[preferredLanguage].returnToReference}
+            </button>
+          </div>
+          <div className="ViewRequest-container">
+            <div ref={reportRef}>
+              <h4 className="color-orange mb-2">
+                {formatQuestionFormat(referenceData?.questionFormat) ||
+                  TRANSLATIONS[
+                    referenceData?.referenceRequestId?.selectedLanguage
+                  ].notAvailable}
+              </h4>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].positionAppliedFor
+                  }
+                  :{" "}
+                </b>
+                <span className="Capitalize">
+                  {referenceData?.referenceRequestId?.position ||
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable}
+                </span>
+              </p>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].applicant
+                  }
+                  :{" "}
+                </b>
+                <span className="Capitalize">
+                  {`${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}` ||
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable}
+                </span>
+              </p>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].refereeName
+                  }
+                  :{" "}
+                </b>
+                <span className="Capitalize">
+                  {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable}
+                </span>
+              </p>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].currentCompany
+                  }
+                  :{" "}
+                </b>
+                <span className="Capitalize">
+                  {referenceData?.currentCompany ||
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable}
+                </span>
+              </p>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].companyWorkedWith
+                  }{" "}
+                  ({referenceData?.referenceRequestId?.candidate.firstName}):{" "}
+                </b>
+                <span>
+                  {formatter(referenceData?.companyWorkedWith) ||
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable}
+                </span>
+              </p>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].relationshipToApplicant
+                  }
+                  :{" "}
+                </b>
+                <span>
+                  {formatter(referenceData?.refereeRelationshipWithCandidate) ||
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable}
+                </span>
+              </p>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].datesWorkedTogether
+                  }
+                  :{" "}
+                </b>
+                <span>
+                  {referenceData?.workDuration ? (
+                    <>
+                      <b>
+                        {
+                          TRANSLATIONS[
+                            referenceData?.referenceRequestId?.selectedLanguage
+                          ].from
+                        }
+                      </b>{" "}
+                      {formatDateForWorkDuration(
+                        referenceData?.workDuration?.startDate
+                      )}{" "}
+                      <b>
+                        {
+                          TRANSLATIONS[
+                            referenceData?.referenceRequestId?.selectedLanguage
+                          ].to
+                        }
+                      </b>{" "}
+                      {formatDateForWorkDuration(
+                        referenceData?.workDuration?.endDate
+                      )}
+                    </>
+                  ) : (
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable
                   )}
-                </>
-              ) : (
-                TRANSLATIONS[language].notAvailable
-              )}
-            </span>
-          </p>
+                </span>
+              </p>
 
-          <div className="my-4">
-            {refereeQuestionFormat === "HR-HATCH-FORMAT"
-              ? referenceData?.referenceQuestion
-                  .sort((a, b) => {
-                    const order = CATEGORY_ORDER[refereeQuestionFormat] || [];
-                    return (
-                      order.indexOf(a.category) - order.indexOf(b.category)
-                    );
-                  })
-                  .map((item) => (
-                    <div key={item.category}>
-                      <h5 className="color-gray mt-5">
-                        {formatCategories(item.category)}
-                      </h5>
-                      {item.questions.map((question, index) => (
-                        <div key={index}>
-                          <div className="d-flex w-100 mt-4">
-                            <p className="mb-2">
-                              <b>{TRANSLATIONS[language].question} {index + 1}: </b>
-                              {question}
-                            </p>
-                          </div>
+              <div className="my-4">
+                {refereeQuestionFormat === "HR-HATCH-FORMAT"
+                  ? referenceData?.referenceQuestion
+                      .sort((a, b) => {
+                        const order =
+                          CATEGORY_ORDER[refereeQuestionFormat] || [];
+                        return (
+                          order.indexOf(a.category) - order.indexOf(b.category)
+                        );
+                      })
+                      .map((item) => (
+                        <div key={item.category}>
+                          <h5 className="color-gray mt-5">
+                            {formatCategories(item.category)}
+                          </h5>
+                          {item.questions.map((question, index) => (
+                            <div key={index}>
+                              <div className="d-flex w-100 mt-4">
+                                <p className="mb-2">
+                                  <b>
+                                    {
+                                      TRANSLATIONS[
+                                        referenceData?.referenceRequestId
+                                          ?.selectedLanguage
+                                      ].question
+                                    }{" "}
+                                    {index + 1}:{" "}
+                                  </b>
+                                  {question}
+                                </p>
+                              </div>
 
-                          <h6 className="color-gray mb-2">
-                            {formatAnswerType(item.preferredAnswerType[index])}
-                          </h6>
+                              <h6 className="color-gray mb-2">
+                                {formatAnswerType(
+                                  item.preferredAnswerType[index]
+                                )}
+                              </h6>
 
-                          <div className="AIEnchanceAns-container mb-4">
-                            <p className="m-0">{item.answers[index]}</p>
-                          </div>
+                              <div className="AIEnchanceAns-container mb-4">
+                                <p className="m-0">{item.answers[index]}</p>
+                              </div>
+                            </div>
+                          ))}
+
+                          {/* Add Overall Category Assessment */}
+                          {item.category !== "relationship" &&
+                            item.category !== "closingQuestions" && (
+                              <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                                <b>{getOverallAssessmentText(item.category)}</b>
+                                <div
+                                  className="overall-assessment-detail"
+                                  style={getAssessmentStyle(
+                                    item.assessmentRating
+                                  )}
+                                >
+                                  <p className="m-0">
+                                    {item.assessmentRating ||
+                                      TRANSLATIONS[
+                                        referenceData?.referenceRequestId
+                                          ?.selectedLanguage
+                                      ].notAvailable}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
                         </div>
-                      ))}
+                      ))
+                  : referenceData?.referenceQuestion.map((item) => (
+                      <div key={item.category}>
+                        <h5 className="color-gray">{item.category}</h5>
+                        {item.questions.map((question, index) => (
+                          <div key={index}>
+                            <div className="d-flex w-100 mt-4">
+                              <p className="mb-2">
+                                <b>
+                                  {
+                                    TRANSLATIONS[
+                                      referenceData?.referenceRequestId
+                                        ?.selectedLanguage
+                                    ].question
+                                  }{" "}
+                                  {index + 1}:{" "}
+                                </b>
+                                {question}
+                              </p>
+                            </div>
 
-                      {/* Add Overall Category Assessment */}
-                      {item.category !== "relationship" &&
+                            <h6 className="color-gray mb-2">
+                              {formatAnswerType(
+                                item.preferredAnswerType[index]
+                              )}
+                            </h6>
+
+                            <div className="AIEnchanceAns-container mb-4">
+                              <p>{item.answers[index]}</p>
+                            </div>
+                          </div>
+                        ))}
+
+                        {/* Add Overall Category Assessment */}
+                        {/* {item.category !== "relationship" &&
                         item.category !== "closingQuestions" && (
                           <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
                             <b>{getOverallAssessmentText(item.category)}</b>
                             <div
                               className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.assessmentRating)}
+                              style={getAssessmentStyle(item.overallAssessment)}
                             >
                               <p className="m-0">
-                                {item.assessmentRating || TRANSLATIONS[language].notAvailable}
+                                {item.overallAssessment || TRANSLATIONS[language].notAvailable}
                               </p>
                             </div>
                           </div>
-                        )}
-                    </div>
-                  ))
-              : referenceData?.referenceQuestion.map((item) => (
-                  <div key={item.category}>
-                    <h5 className="color-gray">{item.category}</h5>
-                    {item.questions.map((question, index) => (
-                      <div key={index}>
-                        <div className="d-flex w-100 mt-4">
-                          <p className="mb-2">
-                            <b>{TRANSLATIONS[language].question} {index + 1}: </b>
-                            {question}
-                          </p>
-                        </div>
-
-                        <h6 className="color-gray mb-2">
-                          {formatAnswerType(item.preferredAnswerType[index])}
-                        </h6>
-
-                        <div className="AIEnchanceAns-container mb-4">
-                          <p>{item.answers[index]}</p>
-                        </div>
+                        )} */}
                       </div>
                     ))}
+              </div>
 
-                    {/* Add Overall Category Assessment */}
-                    {/* {item.category !== "relationship" &&
-                      item.category !== "closingQuestions" && (
-                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                          <b>{getOverallAssessmentText(item.category)}</b>
-                          <div
-                            className="overall-assessment-detail"
-                            style={getAssessmentStyle(item.overallAssessment)}
-                          >
-                            <p className="m-0">
-                              {item.overallAssessment || TRANSLATIONS[language].notAvailable}
-                            </p>
-                          </div>
-                        </div>
-                      )} */}
+              <p className="signature-verif-title color-orange mt-5 mb-3">
+                {
+                  TRANSLATIONS[
+                    referenceData?.referenceRequestId?.selectedLanguage
+                  ].verification
+                }
+              </p>
+              <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
+                <div>
+                  {referenceData?.frontIdImageURL ? (
+                    <img
+                      src={referenceData.frontIdImageURL}
+                      alt={
+                        TRANSLATIONS[
+                          referenceData?.referenceRequestId?.selectedLanguage
+                        ].idDisplayed
+                      }
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                      className={isLandscape ? "landscape" : "portrait"}
+                    />
+                  ) : (
+                    <p>
+                      {
+                        TRANSLATIONS[
+                          referenceData?.referenceRequestId?.selectedLanguage
+                        ].noImage
+                      }
+                    </p>
+                  )}
+                </div>
+              </div>
+              {/* <img
+              className="signature-feild"
+              src={referenceData?.signatureImageURL || ""}
+              alt={TRANSLATIONS[language].signatureDisplay}
+            /> */}
+
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].refereeName
+                  }
+                  :{" "}
+                </b>
+                <span className="Capitalize">
+                  {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].notAvailable}
+                </span>
+              </p>
+              <p className="mb-2">
+                <b>
+                  {
+                    TRANSLATIONS[
+                      referenceData?.referenceRequestId?.selectedLanguage
+                    ].date
+                  }
+                  :
+                </b>
+                <span> {formatDate(referenceData?.createdAt)}</span>
+              </p>
+            </div>
+
+            <div className="d-flex justify-content-center">
+              <button onClick={downloadPDF} disabled={downloading}>
+                {downloading ? (
+                  <div className="d-flex align-items-center justify-content-center">
+                    <div
+                      className="spinner-border spinner-border-sm text-light me-2"
+                      role="status"
+                    ></div>
+                    <span>{TRANSLATIONS[preferredLanguage].downloading}</span>
                   </div>
-                ))}
-          </div>
-
-          <p className="signature-verif-title color-orange mt-5 mb-3">
-            {TRANSLATIONS[language].verification}
-          </p>
-          <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
-            <div>
-              {referenceData?.frontIdImageURL ? (
-                <img
-                  src={referenceData.frontIdImageURL}
-                  alt={TRANSLATIONS[language].idDisplayed}
-                  onLoad={handleImageLoad}
-                  onError={handleImageError}
-                  className={isLandscape ? "landscape" : "portrait"}
-                />
-              ) : (
-                <p>{TRANSLATIONS[language].noImage}</p>
-              )}
+                ) : (
+                  <span>
+                    {TRANSLATIONS[preferredLanguage].downloadReference}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
-          {/* <img
-            className="signature-feild"
-            src={referenceData?.signatureImageURL || ""}
-            alt={TRANSLATIONS[language].signatureDisplay}
-          /> */}
-
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].refereeName}: </b>
-            <span className="Capitalize">
-              {`${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName}` ||
-                TRANSLATIONS[language].notAvailable}
-            </span>
-          </p>
-          <p className="mb-2">
-            <b>{TRANSLATIONS[language].date}:</b>
-            <span> {formatDate(referenceData?.createdAt)}</span>
-          </p>
         </div>
-
-        <div className="d-flex justify-content-center">
-          <button onClick={downloadPDF} disabled={downloading}>
-            {downloading ? (
-              <div className="d-flex align-items-center justify-content-center">
-                <div
-                  className="spinner-border spinner-border-sm text-light me-2"
-                  role="status"
-                ></div>
-                <span>{TRANSLATIONS[language].downloading}</span>
-              </div>
-            ) : (
-              <span>{TRANSLATIONS[language].downloadReference}</span>
-            )}
-          </button>
-        </div>
-      </div>
-    </div>
+      ) : null}
+    </>
   );
 }
 

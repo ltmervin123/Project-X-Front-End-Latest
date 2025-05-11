@@ -145,8 +145,12 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   );
   const [jobName, setJobName] = useState(jobData?.jobName || "");
   const [jobId, setJobId] = useState(jobData?._id || null);
-  const [questionFormat, setQuestionFormat] = useState(jobData?.questionFormat || null);
-  const [questionName, setQuestionName] = useState(jobData?.questionName || null);
+  const [questionFormat, setQuestionFormat] = useState(
+    jobData?.questionFormat || null
+  );
+  const [questionName, setQuestionName] = useState(
+    jobData?.questionName || null
+  );
   const [questionId, setQuestionId] = useState(jobData?.questionId || null);
   const [loading, setLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
@@ -163,7 +167,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   const areCandidateFieldsFilled = useMemo(() => {
     return candidates.every((obj) =>
       Object.values(obj).every(
-        (value) => 
+        (value) =>
           (typeof value === "string" && value.trim() !== "") ||
           (typeof value === "number" && value >= 1)
       )
@@ -210,7 +214,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
       setVacancyError("");
     }
   }, [vacancies]);
-  
+
   useEffect(() => {
     if (!questionFormat && !questionId && !questionName) {
       //Find candidate associated with the jobData
@@ -245,6 +249,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
           firstName: candidate.name?.firstName || "",
           lastName: candidate.name?.lastName || "",
           email: candidate.email || "",
+          numberOfReferees: candidate.numberOfReferees || 1,
         }));
 
         // Merge with existing candidates array
@@ -257,6 +262,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                   firstName: "",
                   lastName: "",
                   email: "",
+                  numberOfReferees: 1,
                 }
               );
             }
@@ -267,7 +273,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
     } catch (error) {
       console.error("Error loading candidates from localStorage:", error);
     }
-  }, [jobName]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -343,10 +349,10 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
         positionId: jobId,
         status,
         selectedLanguage: jobData?.selectedLanguage || "English",
-        numberOfReferees: candidate.numberOfReferees, // Use individual numberOfReferees
-        questionFormat,
+        numberOfReferees: candidate.numberOfReferees || 1,
         questionId,
         questionName,
+        questionFormat,
       };
     });
 
@@ -511,8 +517,8 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     }`}
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
-                    {questionFormat === "CUSTOM-FORMAT" && questionName 
-                      ? questionName 
+                    {questionFormat === "CUSTOM-FORMAT" && questionName
+                      ? questionName
                       : TRANSLATIONS[currentLanguage].custom}
                   </div>
                 </div>
@@ -601,7 +607,10 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                       </div>
                     </div>
                   </Form.Group>
-                  <Form.Group controlId={`formNumReferees${index}`} className="mb-4">
+                  <Form.Group
+                    controlId={`formNumReferees${index}`}
+                    className="mb-4"
+                  >
                     <Form.Label
                       className="m-0"
                       style={{ width: "220px", height: "38px" }}
@@ -615,7 +624,11 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                         min={1}
                         value={candidate.numberOfReferees}
                         onChange={(e) =>
-                          handleInputChange(index, "numberOfReferees", parseInt(e.target.value))
+                          handleInputChange(
+                            index,
+                            "numberOfReferees",
+                            parseInt(e.target.value)
+                          )
                         }
                         required
                         disabled={isDisabled}
@@ -653,8 +666,6 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                       )}
                     </div>
                   </Form.Group>
-
-
                 </div>
               );
             })}
