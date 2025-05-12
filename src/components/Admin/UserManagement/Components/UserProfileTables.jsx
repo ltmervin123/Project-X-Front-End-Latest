@@ -493,7 +493,7 @@ const UserProfileTables = ({
         <thead>
           <tr>
             {Object.keys(t.columns).map((key) => (
-              <th key={key} className={key === 'status' ? 'text-center' : ''}>
+              <th key={key} className={key === 'status' || key === 'actions' ? 'text-center' : ''}>
                 {t.columns[key]}
               </th>
             ))}

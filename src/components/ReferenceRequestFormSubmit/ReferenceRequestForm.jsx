@@ -45,7 +45,6 @@ function ReferenceRequestForm() {
   const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
   const selectedLanguage = candidateData?.selectedLanguage || "English";
   const numReferees = candidateData?.numberOfReferees || 1;
-
   const navigate = useNavigate();
 
   const isRefereeFieldMissing = refereesData.some(
@@ -112,7 +111,7 @@ function ReferenceRequestForm() {
         sessionStorage.removeItem("candidateToken");
 
         //Redirect to success page
-        navigate("/reference-request-sent");
+        navigate("/reference-request-sent", { state: { selectedLanguage } });
       }
     } catch (error) {
       console.error("Something went wrong:", error.message);
