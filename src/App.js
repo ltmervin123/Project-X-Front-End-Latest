@@ -46,6 +46,8 @@ import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionP
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
 import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
+import ReminderCandidateRequestEmailPage from "./page/AiReferencePage/ReminderCandidateRequestEmailPage.jsx";
+
 import ReferenceRequestResendEmailPage from "./page/AiReferencePage/ReferenceRequestResendEmailPage.jsx";
 import ViewRequest from "./components/AiReference/ReferenceRequest/Components/ViewRequest.jsx";
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
@@ -141,6 +143,10 @@ function App() {
             <Route
               path="/candidate-request-sent"
               element={<CandidateRequestEmailPage />}
+            />
+            <Route
+              path="/candidate-request-reminder-sent"
+              element={<ReminderCandidateRequestEmailPage />}
             />
             <Route
               path="/reference-request-reminder-sent"
