@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 
 const TRANSLATIONS = {
   English: {
     title: "Request Submitted Successfully",
-    message: "Thank you for completing the Reference Request Form. Your information has been successfully submitted. We appreciate your time and will begin processing your request shortly. If any further details are required, we will contact you directly.",
-    exit: "Exit"
+    message:
+      "Thank you for completing the Reference Request Form. Your information has been successfully submitted. We appreciate your time and will begin processing your request shortly. If any further details are required, we will contact you directly.",
+    exit: "Exit",
   },
   Japanese: {
     title: "リクエストが正常に送信されました",
-    message: "推薦状リクエストフォームにご記入いただき、ありがとうございます。情報は正常に送信されました。ご協力いただき、ありがとうございます。リクエストの処理を開始いたします。追加の詳細が必要な場合は、直接ご連絡させていただきます。",
-    exit: "終了"
-  }
+    message:
+      "推薦状リクエストフォームにご記入いただき、ありがとうございます。情報は正常に送信されました。ご協力いただき、ありがとうございます。リクエストの処理を開始いたします。追加の詳細が必要な場合は、直接ご連絡させていただきます。",
+    exit: "終了",
+  },
 };
 
 const RRFormSubmittedSuccessfully = () => {
-  const [currentLanguage] = useState(
-    localStorage.getItem("selectedLanguage") || "English"
-  );
+  const { selectedLanguage = "English" } = useLocation().state || {};
+
   return (
     <div className="row main-login justify-content-center position-relative">
       <div className="d-flex align-items-center justify-content-center main-login-form">
@@ -37,18 +39,20 @@ const RRFormSubmittedSuccessfully = () => {
               />
             </svg>
 
-            <h2 className="fs-4 mt-4">{TRANSLATIONS[currentLanguage].title}</h2>
+            <h2 className="fs-4 mt-4">
+              {TRANSLATIONS[selectedLanguage].title}
+            </h2>
           </div>
 
           <p style={{ width: "100%" }}>
-            {TRANSLATIONS[currentLanguage].message}
+            {TRANSLATIONS[selectedLanguage].message}
           </p>
 
           <button
             className="btn-activate-now"
             onClick={() => (window.location.href = "/")}
           >
-            {TRANSLATIONS[currentLanguage].exit}
+            {TRANSLATIONS[selectedLanguage].exit}
           </button>
         </div>
       </div>
