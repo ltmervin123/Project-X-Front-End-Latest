@@ -55,7 +55,6 @@ const EditCandidatePopUp = ({
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const token = USER?.token;
-
   const language = sessionStorage.getItem("preferred-language") || "English";
 
   const [firstName, setFirstName] = useState("");
@@ -219,13 +218,12 @@ const EditCandidatePopUp = ({
               {TRANSLATIONS[language].jobName}
             </Form.Label>
             <Form.Control
-                type="text"
+              type="text"
               value={position}
               onChange={handlePositionChange}
               required
               disabled={true}
             />
-            
           </Form.Group>
           <Form.Group controlId="formReferenceFormat" className="mb-4">
             <Form.Label
@@ -234,7 +232,10 @@ const EditCandidatePopUp = ({
             >
               {TRANSLATIONS[language].ReferenceFormat}
             </Form.Label>
-            <div className="w-100 reference-question-format-container d-flex gap-3" style={{ opacity: "0.5", pointerEvents: "none" }}>
+            <div
+              className="w-100 reference-question-format-container d-flex gap-3"
+              style={{ opacity: "0.5", pointerEvents: "none" }}
+            >
               <div className="custom-dropdown-ref-req">
                 <div
                   className={`dropdown-header-ref-req ${
