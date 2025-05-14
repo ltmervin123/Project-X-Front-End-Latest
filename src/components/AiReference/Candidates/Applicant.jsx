@@ -18,14 +18,16 @@ const TRANSLATIONS = {
     PostedDate: "Posted Date",
     Actions: "Actions",
     Applicants: "Applicants",
-    ManageAndTrack: "Manage and track your potential hires through the reference checking process.",
+    ManageAndTrack:
+      "Manage and track your potential hires through the reference checking process.",
     SearchApplicants: "Search applicants...",
     ApplicantsList: "Applicants List",
     Overview: "Overview of all applicants in the system.",
     Name: "Name",
     Email: "Email",
     Status: "Status",
-    MonitorAndTrack: "Monitor and track potential hires, check their status, and access their details.",
+    MonitorAndTrack:
+      "Monitor and track potential hires, check their status, and access their details.",
     ViewDetails: "View Details",
     Edit: "Edit",
     Delete: "Delete",
@@ -33,7 +35,7 @@ const TRANSLATIONS = {
     NoCandidateRecord: "No candidate record",
     Status_InProgress: "In Progress",
     Status_Completed: "Completed",
-    Status_New: "New"
+    Status_New: "New",
   },
   Japanese: {
     Jobs: "求人",
@@ -45,14 +47,16 @@ const TRANSLATIONS = {
     PostedDate: "掲載日",
     Actions: "操作",
     Applicants: "応募者",
-    ManageAndTrack: "リファレンスチェックプロセスを通じて、潜在的な採用者を管理し追跡します。",
+    ManageAndTrack:
+      "リファレンスチェックプロセスを通じて、潜在的な採用者を管理し追跡します。",
     SearchApplicants: "応募者を検索...",
     ApplicantsList: "応募者リスト",
     Overview: "システム内のすべての応募者の概要。",
     Name: "名前",
     Email: "メール",
     Status: "ステータス",
-    MonitorAndTrack: "潜在的な採用者を監視し、彼らのステータスを確認し、詳細をアクセスします。",
+    MonitorAndTrack:
+      "潜在的な採用者を監視し、彼らのステータスを確認し、詳細をアクセスします。",
     ViewDetails: "詳細を見る",
     Edit: "編集",
     Delete: "削除",
@@ -60,8 +64,8 @@ const TRANSLATIONS = {
     NoCandidateRecord: "候補者記録なし",
     Status_InProgress: "進行中",
     Status_Completed: "完了",
-    Status_New: "新規"
-  }
+    Status_New: "新規",
+  },
 };
 
 const Applicant = () => {
@@ -81,7 +85,7 @@ const Applicant = () => {
     JSON.parse(localStorage.getItem("candidates")) || []
   );
   // Define language here
-  const language = sessionStorage.getItem("preferred-language") || "English"; // For fade in smooth animation
+  const language = sessionStorage.getItem("preferred-language") || "English";
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -237,7 +241,7 @@ const Applicant = () => {
 
   // Add this new function before the render return
   const getTranslatedStatus = (status) => {
-    const statusKey = `Status_${status.replace(/\s+/g, '')}`;
+    const statusKey = `Status_${status.replace(/\s+/g, "")}`;
     return TRANSLATIONS[language][statusKey] || status;
   };
 
@@ -246,9 +250,7 @@ const Applicant = () => {
       <div className="d-flex justify-content-between align-items-end ">
         <div>
           <h3 className="mb-0">{TRANSLATIONS[language].Applicants}</h3>
-          <p className="mb-2">
-            {TRANSLATIONS[language].ManageAndTrack}
-          </p>
+          <p className="mb-2">{TRANSLATIONS[language].ManageAndTrack}</p>
         </div>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -316,8 +318,10 @@ const Applicant = () => {
                   <th>{TRANSLATIONS[language].Name}</th>
                   <th>{TRANSLATIONS[language].Email}</th>
                   <th>{TRANSLATIONS[language].JobName}</th>
-                  <th >{TRANSLATIONS[language].Status}</th>
-                  <th className="text-center">{TRANSLATIONS[language].Actions}</th>
+                  <th>{TRANSLATIONS[language].Status}</th>
+                  <th className="text-center">
+                    {TRANSLATIONS[language].Actions}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -353,9 +357,7 @@ const Applicant = () => {
                       </td>
                       <td>{candidate.email}</td>
                       <td>{candidate.position}</td>
-                      <td
-                        style={{ color: getStatusColor(candidate.status) }}
-                      >
+                      <td style={{ color: getStatusColor(candidate.status) }}>
                         {getTranslatedStatus(candidate.status)}
                       </td>
 

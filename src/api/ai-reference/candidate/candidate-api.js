@@ -17,3 +17,25 @@ export const addCandidate = async (payload) => {
   );
   return response.data;
 };
+
+export const sendCandidateReminder = async (candidateId) => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
+  const token = USER?.token;
+  const URL = `${API}/api/ai-referee/company-candidates/send-candidate-reminder/${candidateId}`;
+  const response = await axios.post(
+    URL,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};
+
+export const checkCandidateReminder = async (candidateId) => {
+  const USER = JSON.parse(localStorage.getItem("user")) || null;
+  const token = USER?.token;
+  const URL = `${API}/api/ai-referee/company-candidates/check-candidate-reminder/${candidateId}`;
+  const response = await axios.get(URL, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data.hasReminder;
+};
