@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Spinner, Container, Row, Col } from "react-bootstrap";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import {
   sendCandidateReminder,
   checkCandidateReminder,
@@ -49,6 +50,7 @@ const TRANSLATIONS = {
 };
 
 const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
+  const navigate = useNavigate();
   const language = sessionStorage.getItem("preferred-language") || "English";
   const [sendingReminder, setSendingReminder] = useState(false);
   const [reminderSent, setReminderSent] = useState(false);
@@ -64,9 +66,9 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
       setSendingReminder(true);
       await sendCandidateReminder(candidates._id);
       setReminderSent(true);
-      setTimeout(() => {
-        onClose();
-      }, 2000);
+      navigate('/candidate-request-reminder-sent', { 
+        state: { email: candidates.email }
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -114,20 +116,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
       className="custom-modal-job"
       backdrop="static"
     >
-      {reminderLoading ? (
-        <Container className="d-flex justify-content-center align-items-center p-5">
-          <Row className="text-center m-5">
-            <Col>
-              <Spinner
-                animation="border"
-                variant="primary"
-                role="status"
-                style={{ width: "5rem", height: "5rem" }}
-              />
-            </Col>
-          </Row>
-        </Container>
-      ) : reminderSent ? (
+      { reminderSent ? (
         <Container
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "400px" }}
@@ -177,7 +166,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
           <div className="d-flex gap-4 flex-column">
             <div className="d-flex justify-content-start gap-3 applicant-details">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
-                <strong className="d-flex gap-2 align-items-center">
+                <strong className="d-flex gap-3 align-items-center">
                   {TRANSLATIONS[language].Status}
                 </strong>{" "}
                 <span style={{ color: getStatusColor(candidates.status) }}>
@@ -186,7 +175,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
                 </span>
               </p>
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
-                <strong className="d-flex gap-2 align-items-center">
+                <strong className="d-flex gap-3 align-items-center">
                   {TRANSLATIONS[language].jobName}
                 </strong>{" "}
                 <span>{candidates.position || TRANSLATIONS[language].NA}</span>
@@ -194,13 +183,13 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
             </div>
             <div className="d-flex justify-content-start gap-3 applicant-details">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
-                <strong className="d-flex gap-2 align-items-center">
+                <strong className="d-flex gap-3 align-items-center">
                   {TRANSLATIONS[language].Email}
                 </strong>{" "}
                 <span>{candidates.email}</span>
               </p>
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
-                <strong className="d-flex gap-2 align-items-center">
+                <strong className="d-flex gap-3 align-items-center">
                   {TRANSLATIONS[language].AppliedDate}
                 </strong>{" "}
                 <span>

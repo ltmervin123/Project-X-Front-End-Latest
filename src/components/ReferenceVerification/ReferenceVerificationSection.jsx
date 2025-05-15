@@ -379,6 +379,12 @@ const ReferenceVerificationSection = () => {
     // Clone the report content to modify it without affecting the original
     const clonedReport = reportRef.current.cloneNode(true);
 
+    // Remove the ID container from the cloned report
+    const idContainer = clonedReport.querySelector('.uploaded-id-container');
+    if (idContainer) {
+      idContainer.remove();
+    }
+
     const options = {
       margin: 10,
       filename: `Referee ${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName} Response Copy.pdf`,
@@ -711,10 +717,7 @@ const ReferenceVerificationSection = () => {
             >
               {downloading ? (
                 <div className="d-flex align-items-center justify-content-center">
-                  <div
-                    className="spinner-border spinner-border-sm text-light me-2"
-                    role="status"
-                  ></div>
+        
                   <span>{translations[language].downloading}</span>
                 </div>
               ) : (

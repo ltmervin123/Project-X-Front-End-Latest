@@ -310,6 +310,12 @@ function ViewRequest({
     // Clone the report content to modify it without affecting the original
     const clonedReport = reportRef.current.cloneNode(true);
 
+    // Remove the ID container from the cloned report
+    const idContainer = clonedReport.querySelector('.uploaded-id-container');
+    if (idContainer) {
+      idContainer.remove();
+    }
+
     const options = {
       margin: [15, 10, 15, 10],
       filename: `${referenceData?.referenceRequestId?.candidate.firstName} ${referenceData?.referenceRequestId?.candidate.lastName}-Reference-Report.pdf`,

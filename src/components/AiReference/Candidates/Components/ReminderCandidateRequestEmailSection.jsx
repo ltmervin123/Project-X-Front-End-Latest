@@ -1,30 +1,28 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const TRANSLATIONS = {
   English: {
     emailSent: "Reminder Sent",
     singleEmailMessage: "We have just sent a reminder to {email} to submit their referee information for the reference check process.",
-    multipleEmailMessage: "We have sent reminders to all listed applicants to submit their referee information for the reference check process.",
-    notWorking: "Not working? Contact",
-    backToDashboard: "Back to Dashboard"
+    backToDashboard: "Return"
   },
   Japanese: {
     emailSent: "リマインダー送信済み",
-    singleEmailMessage: "{email}に、推薦者情報の提出を促すリマインダーを送信しました。",
-    multipleEmailMessage: "リストされている全ての応募者に、推薦者情報の提出を促すリマインダーを送信しました。",
-    notWorking: "問題がありますか？お問い合わせ先",
-    backToDashboard: "ダッシュボードに戻る"
+    singleEmailMessage: "{email} に、推薦者情報の提出を促すリマインダーを送信しました。",
+    backToDashboard: "戻る"
   }
 };
 
 
 const ReminderCandidateRequestEmailSection = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const language = sessionStorage.getItem("preferred-language") || "English";
-  const [emails, setEmails] = useState(
-    JSON.parse(sessionStorage.getItem("candidateEmails")) || []
-  );
+  
+  const email = location.state?.email || 
+    (sessionStorage.getItem("candidateEmails") && 
+    JSON.parse(sessionStorage.getItem("candidateEmails"))[0]);
 
   return (
     <div className="row main-login justify-content-center position-relative">
@@ -46,20 +44,12 @@ const ReminderCandidateRequestEmailSection = () => {
 
             <h2 className="fs-4">{TRANSLATIONS[language].emailSent}</h2>
           </div>
-          {emails.length === 1 ? (
-            <p className="w-100">
-              {TRANSLATIONS[language].singleEmailMessage.replace("{email}", emails[0])}
-            </p>
-          ) : (
-            <p className="w-100">
-              {TRANSLATIONS[language].multipleEmailMessage}
-            </p>
-          )}
+          <p className="w-100">
+            {TRANSLATIONS[language].singleEmailMessage.replace("{email}", email || '')}
+          </p>
 
           <p className="w-100">
-            {TRANSLATIONS[language].notWorking}{" "}
-            <strong className="color-blue">customersupport@hr-hatch.com</strong>
-            .
+
           </p>
           <button className="btn-activate-now" onClick={() => navigate(-1)}>
             {TRANSLATIONS[language].backToDashboard}
