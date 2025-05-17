@@ -116,20 +116,16 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
       className="custom-modal-job"
       backdrop="static"
     >
-      { reminderSent ? (
-        <Container
-          className="d-flex justify-content-center align-items-center"
-          style={{ minHeight: "400px" }}
-        >
-          <Row className="text-center">
+      {reminderLoading ? (
+        <Container className="d-flex justify-content-center align-items-center p-5">
+          <Row className="text-center m-5">
             <Col>
-              <i
-                className="fa-solid fa-check-circle text-success"
-                style={{ fontSize: "4rem" }}
-              ></i>
-              <h4 className="mt-3 text-success">
-                {TRANSLATIONS[language].ReminderSent}
-              </h4>
+              <Spinner
+                animation="border"
+                variant="primary"
+                role="status"
+                style={{ width: "5rem", height: "5rem" }}
+              />
             </Col>
           </Row>
         </Container>

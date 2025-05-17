@@ -400,7 +400,7 @@ const language = sessionStorage.getItem("preferred-language") || "English";
                 onMouseLeave={() => setShowTooltip(false)}
               >
                 <path
-                  d="M9 11C9 11.2652 8.89464 11.5196 8.70711 11.7071C8.51957 11.8946 8.26522 12 8 12C7.73478 12 7.48043 11.8946 7.29289 11.7071C7.10536 11.5196 7 11.2652 7 11C7 10.7348 7.10536 10.4804 7.29289 10.2929C7.48043 10.1054 7.73478 10 8 10C8.26522 10 8.51957 10.1054 8.70711 10.2929C8.89464 10.4804 9 10.7348 9 11ZM7.5 4C6.83696 4 6.20107 4.26339 5.73223 4.73223C5.26339 5.20107 5 5.83696 5 6.5H7C7 6.36739 7.05268 6.24021 7.14645 6.14645C7.24021 6.05268 7.36739 6 7.5 6H8.146C8.2321 6.00004 8.31566 6.02917 8.38313 6.08265C8.45061 6.13614 8.49803 6.21086 8.51771 6.29468C8.53739 6.3785 8.52818 6.46651 8.49156 6.54444C8.45495 6.62237 8.39309 6.68564 8.316 6.724L7 7.382V9H9V8.618L9.211 8.512C9.69063 8.27189 10.0752 7.87692 10.3024 7.39105C10.5296 6.90517 10.5862 6.35683 10.463 5.8348C10.3398 5.31276 10.044 4.8476 9.62346 4.51461C9.20296 4.18162 8.68238 4.0003 8.146 4H7.5Z"
+                  d="M9 11C9 11.2652 8.89464 11.5196 8.70711 11.7071C8.51957 11.8946 8.26522 12 8 12C7.73478 12 7.48043 11.8946 7.29289 11.7071C7.10536 11.5196 7 11.2652 7 11C7 10.7348 7.10536 10.4804 7.29289 10.2929C7.48043 10.1054 7.73478 10 8 10C8.26522 10 8.51957 10.1054 8.70711 10.2929C8.89464 10.4804 9 10.7348 9 11ZM7.5 4C6.83696 4 6.20107 4.26339 5.7039 4.45672C5.20683 4.64645 4.79891 4.95182 4.53757 5.34315C4.27778 5.72485 4.146 6.15685 4.146 6.59375H5.854C5.854 6.46957 5.90568 6.3538 6.04877 6.20711C6.19186 6.06042 6.36739 6 6.5 6H8.146C8.2321 6.00004 8.31566 6.02917 8.38313 6.08265C8.45061 6.13614 8.49803 6.21086 8.51771 6.29468C8.53739 6.3785 8.52818 6.46651 8.49156 6.54444C8.45495 6.62237 8.39309 6.68564 8.316 6.724L7 7.382V9H9V8.618L9.211 8.512C9.69063 8.27189 10.0752 7.87692 10.3024 7.39105C10.5296 6.90517 10.5862 6.35683 10.463 5.8348C10.3398 5.31276 10.044 4.8476 9.62346 4.51461C9.20296 4.18162 8.68238 4.0003 8.146 4H7.5Z"
                   fill="#F46A05"
                 />
                 <path
@@ -418,7 +418,7 @@ const language = sessionStorage.getItem("preferred-language") || "English";
           <p>{TRANSLATIONS[language].referenceRequestListDesc}</p>
         </div>
         {reference && reference.length > 0 ? (
-          <>
+          <div className="scrollable-table-container">
             <table>
               <thead>
                 <tr>
@@ -581,74 +581,72 @@ const language = sessionStorage.getItem("preferred-language") || "English";
                       </tr>
                       {showDropDown &&
                         selectedCandidate._id === reference._id && (
-                          <tr className="d-flex align-items-center w-100 justify-content-start w-100">
-                            <div
-                              className={`reference-dropdown-container mb-2 ${
-                                isExpanded ? "expanded" : ""
-                              }`}
-                            >
-                              <b className="py-2 pb-2 ">
-                                {reference.referees &&
-                                Array.isArray(reference.referees) &&
-                                reference.referees.length > 0
-                                  ? reference.referees.length === 1
-                                    ? TRANSLATIONS[language].referee
-                                    : TRANSLATIONS[language].referees
-                                  : ""}
-                              </b>
-                              <div className="referee-list d-flex gap-2 mt-2">
-                                {showDropDown &&
-                                  selectedCandidate?.referees &&
-                                  selectedCandidate.referees.map((referee) => (
-                                    <>
-                                      <div
-                                        className="referee-item justify-content-center flex-column "
-                                        key={referee?._id}
-                                      >
-                                        <div className="d-flex align-items-center  w-100 mb-1">
-                                          <span className="referee-name mb-1">
-                                            {typeof referee?.name === "string"
-                                              ? referee?.name
-                                              : `${referee?.name.firstName} ${referee?.name.lastName}`}
-                                          </span>
-
-                                          <div className="d-flex referee-status  justify-content-center ">
-                                            <span
-                                              className="mb-1 text-center"
-                                              style={{
-                                                color: getStatusColor(
-                                                  referee?.status
-                                                ),
-                                              }}
-                                            >
-                                              {getTranslatedStatus(referee?.status)}
+                          <tr className={`reference-dropdown-container ${isExpanded ? "expanded" : ""}`}>
+                            <td colSpan="7">
+                              <div className="w-100">
+                                <b className="py-2 pb-2">
+                                  {reference.referees &&
+                                  Array.isArray(reference.referees) &&
+                                  reference.referees.length > 0
+                                    ? reference.referees.length === 1
+                                      ? TRANSLATIONS[language].referee
+                                      : TRANSLATIONS[language].referees
+                                    : ""}
+                                </b>
+                                <div className="referee-list d-flex gap-2 mt-2">
+                                  {showDropDown &&
+                                    selectedCandidate?.referees &&
+                                    selectedCandidate.referees.map((referee) => (
+                                      <>
+                                        <div
+                                          className="referee-item justify-content-center flex-column "
+                                          key={referee?._id}
+                                        >
+                                          <div className="d-flex align-items-center  w-100 mb-1">
+                                            <span className="referee-name mb-1">
+                                              {typeof referee?.name === "string"
+                                                ? referee?.name
+                                                : `${referee?.name.firstName} ${referee?.name.lastName}`}
                                             </span>
-                                          </div>
-                                        </div>
-                                        <div className="d-flex align-items-center  w-100">
-                                          <p className="referee-email m-0">
-                                            {referee?.email}
-                                          </p>
 
-                                          <div className="d-flex referee-status  justify-content-end">
-                                            <button
-                                              className="btn-view-referee"
-                                              onClick={() =>
-                                                handleViewDetails(referee)
-                                              }
-                                            >
-                                              {
-                                                TRANSLATIONS[language]
-                                                  .viewReferee
-                                              }
-                                            </button>
+                                            <div className="d-flex referee-status  justify-content-center ">
+                                              <span
+                                                className="mb-1 text-center"
+                                                style={{
+                                                  color: getStatusColor(
+                                                    referee?.status
+                                                  ),
+                                                }}
+                                              >
+                                                {getTranslatedStatus(referee?.status)}
+                                              </span>
+                                            </div>
+                                          </div>
+                                          <div className="d-flex align-items-center  w-100">
+                                            <p className="referee-email m-0">
+                                              {referee?.email}
+                                            </p>
+
+                                            <div className="d-flex referee-status  justify-content-end">
+                                              <button
+                                                className="btn-view-referee"
+                                                onClick={() =>
+                                                  handleViewDetails(referee)
+                                                }
+                                              >
+                                                {
+                                                  TRANSLATIONS[language]
+                                                    .viewReferee
+                                                }
+                                              </button>
+                                            </div>
                                           </div>
                                         </div>
-                                      </div>
-                                    </>
-                                  ))}
+                                      </>
+                                    ))}
+                                </div>
                               </div>
-                            </div>
+                            </td>
                           </tr>
                         )}
                     </React.Fragment>
@@ -662,7 +660,7 @@ const language = sessionStorage.getItem("preferred-language") || "English";
                 )}
               </tbody>
             </table>
-          </>
+          </div>
         ) : (
           <div>{TRANSLATIONS[language].noRecord}</div>
         )}

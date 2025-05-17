@@ -70,50 +70,22 @@
 .AiReference-candidates-container > div {
   height: 15%;
 }
-.AiReference-candidates-container table {
-  width: 100%;
-  height: 80%;
-  border-collapse: collapse; 
-  font-size: 15px;
-}
 
-.AiReference-candidates-container tbody {
-  display: block; /* Make tbody a block element */
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden;
-  height: 100%;
-}
-
-.AiReference-candidates-container tr {
-  display: table; /* Ensure rows are displayed as table rows */
-  table-layout: fixed; /* Prevent layout shifts */
-  width: 100%; /* Full width for rows */
-}
-.AiReference-candidates-container th {
+/* Remove existing table styles that might conflict */
+.AiReference-candidates-container thead {
+  position: relative;
+  width: auto;
   color: var(--card-color);
 }
-.AiReference-candidates-container th,
-.AiReference-candidates-container td {
-  padding: 10px 10px 10px 0px;  /* Padding for table cells */
-  word-wrap: break-word;
-  text-align: left; /* Align text to the left */
-}
-/* .AiReference-candidates-container td:nth-child(5){
-  padding: 0;
-} */
-.AiReference-candidates-container th,
-.AiReference-candidates-container td{
-  width: 20%;
-  font-weight: bold;
 
-
+.AiReference-candidates-container table {
+  height: auto;
 }
 
-.AiReference-candidates-container td:nth-child(4),
-.AiReference-candidates-container th:nth-child(4){
-width: 10%;
+.AiReference-candidates-container  td:nth-child(5),
+.AiReference-candidates-container  td:nth-child(6) {
+  width: 20% !important;
 }
-
 .AiReference-candidates-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;

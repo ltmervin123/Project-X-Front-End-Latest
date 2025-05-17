@@ -98,60 +98,23 @@
 .AiReference-active-jobs-container .btn-add-vacancy:hover{
   background: var(--secondary-color) !important;
 }
-.AiReference-active-jobs-container table {
-  width: 100%;
-  height: 80%;
-  border-collapse: collapse; /* Ensure borders are collapsed */
-  font-size: 15px;
+.AiReference-active-jobs-container> div {
+  height: 15%;
 }
 
-.AiReference-active-jobs-container tbody {
-  display: block; /* Make tbody a block element */
-  max-height: 35vh; /* Set a max height for scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-}
-
-.AiReference-active-jobs-container tr {
-  display: table; /* Ensure rows are displayed as table rows */
-  table-layout: fixed; /* Prevent layout shifts */
-  width: 100%; /* Full width for rows */
-}
-
-.AiReference-active-jobs-container th {
+/* Remove existing table styles that might conflict */
+.AiReference-active-jobs-containerthead {
+  position: relative;
+  width: auto;
   color: var(--card-color);
 }
 
-.AiReference-active-jobs-container th,
-.AiReference-active-jobs-container td {
-  padding: 10px 10px 10px 0px;  /* Padding for table cells */
-  text-align: left; /* Align text to the left */
-  transition: height 3s ease; /* Add transition for height only over 3 seconds */
-  text-transform: capitalize;
+.AiReference-active-jobs-containertable {
+  height: auto;
 }
 
-/* .AiReference-active-jobs-container th,
-.AiReference-active-jobs-container td {
-  width: 10%;
-}
 
-.AiReference-active-jobs-container th:nth-child(1),
-.AiReference-active-jobs-container td:nth-child(1) {
-  width: 12%;
-} */
 
-/* .AiReference-active-jobs-container th:nth-child(2),
-.AiReference-active-jobs-container td:nth-child(2) {
-  width: 8%;
-} */
-/* .AiReference-active-jobs-container th:nth-last-child(1),
-.AiReference-active-jobs-container td:nth-last-child(1){
-width: 20%;
-}
-
-.AiReference-active-jobs-container th:nth-child(3),
-.AiReference-active-jobs-container td:nth-child(3) {
-  width: 20%;
-} */
 .AiReference-active-jobs-container th:nth-last-child(1),
 .AiReference-active-jobs-container td:nth-last-child(1) {
   width: 20%;
@@ -307,7 +270,7 @@ width: 20%;
   padding: 10px !important;
   z-index: 1000;
   background: var(--font-white);
-  width: 80px;
+  width: 85px;
   font-size: 13px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
   animation: fadeIn 0.5s ease-in; /* Apply the fade-in animation */
@@ -317,6 +280,9 @@ width: 20%;
 }
 .action-options p:nth-child(2) {
   color: red;
+}
+.action-options svg{
+  width: 11px;
 }
 .job-container-form .text-danger {
   position: absolute;
@@ -471,18 +437,16 @@ width: 20%;
   background: var(--primary-color);
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
-
-.job-icon > svg {
-  height: 12px;
+.job-icon svg{
+  width: 12.50px;
 }
+
 
 .fill-req-container {
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+position:relative;
 }
 
 .job-tooltip-text {
@@ -543,11 +507,13 @@ width: 20%;
   background-color: #F46A05;
   font-size: 12px;
   color: var(--font-white);
+  padding-top: 1px;
 }
 .applicant-container .form-label{
   font-weight: 400;
   color: var(--card-color);
 }
+
 /* Scrollbar Customization */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar,
 .referees-list-container::-webkit-scrollbar,
@@ -573,6 +539,10 @@ select::-webkit-scrollbar-thumb:hover {
 select::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
+}
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: var(--primary-color);
 }
 
 /* Mobile Responsive Styles */

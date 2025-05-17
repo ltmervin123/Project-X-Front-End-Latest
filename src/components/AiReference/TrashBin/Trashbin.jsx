@@ -639,30 +639,35 @@ const Trashbin = () => {
 
     if (currentData.length === 0) {
       return (
-        <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
-          <svg
-            width="30"
-            height="41"
-            viewBox="0 0 40 51"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M40 2.83333H30L27.1429 0H12.8571L10 2.83333H0V8.5H40M2.85714 45.3333C2.85714 46.8362 3.45918 48.2776 4.53082 49.3403C5.60245 50.403 7.05591 51 8.57143 51H31.4286C32.9441 51 34.3975 50.403 35.4692 49.3403C36.5408 48.2776 37.1429 46.8362 37.1429 45.3333V11.3333H2.85714V45.3333Z"
-              fill="#F46A05"
-            />
-          </svg>
-          <h4 className="m-0">
-            {selectedCategory === TRANSLATIONS[language].jobs &&
-              TRANSLATIONS[language].noJobsInTrash}
-            {selectedCategory === TRANSLATIONS[language].applicants &&
-              TRANSLATIONS[language].noApplicantsInTrash}
-            {selectedCategory === TRANSLATIONS[language].referenceRequest &&
-              TRANSLATIONS[language].noReferenceRequestsInTrash}
-            {selectedCategory === TRANSLATIONS[language].referenceQuestions &&
-              TRANSLATIONS[language].noReferenceQuestionsInTrash}
-          </h4>
-          <p>{TRANSLATIONS[language].trashWarning}</p>
+        <tr className="d-flex align-items-center nodata-trashbin-container justify-content-center flex-column gap-2 py-4 h-100">
+          <td colSpan="7" >
+            <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2">
+              <svg
+                width="30"
+                height="41"
+                viewBox="0 0 40 51"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M40 2.83333H30L27.1429 0H12.8571L10 2.83333H0V8.5H40M2.85714 45.3333C2.85714 46.8362 3.45918 48.2776 4.53082 49.3403C5.60245 50.403 7.05591 51 8.57143 51H31.4286C32.9441 51 34.3975 50.403 35.4692 49.3403C36.5408 48.2776 37.1429 46.8362 37.1429 45.3333V11.3333H2.85714V45.3333Z"
+                  fill="#F46A05"
+                />
+              </svg>
+              <h4 className="m-0">
+                {selectedCategory === TRANSLATIONS[language].jobs &&
+                  TRANSLATIONS[language].noJobsInTrash}
+                {selectedCategory === TRANSLATIONS[language].applicants &&
+                  TRANSLATIONS[language].noApplicantsInTrash}
+                {selectedCategory === TRANSLATIONS[language].referenceRequest &&
+                  TRANSLATIONS[language].noReferenceRequestsInTrash}
+                {selectedCategory ===
+                  TRANSLATIONS[language].referenceQuestions &&
+                  TRANSLATIONS[language].noReferenceQuestionsInTrash}
+              </h4>
+              <p className="text-center">{TRANSLATIONS[language].trashWarning}</p>
+            </div>
+          </td>
         </tr>
       );
     }
@@ -809,32 +814,35 @@ const Trashbin = () => {
               : `${TRANSLATIONS[language].delete} (${selectedItems.length})`}
           </button>
         </div>
+        <div className="scrollable-table-trashbin-container">
+          <table>
+            <thead>
+              <tr>
+                {getTableHeaders().map((header, index) => (
+                  <th
+                    key={index}
+                    style={
+                      typeof header === "object"
+                        ? { width: header.width }
+                        : undefined
+                    }
+                    className={
+                      typeof header === "object" ? header.className : ""
+                    }
+                  >
+                    {typeof header === "object"
+                      ? typeof header.label === "string"
+                        ? header.label
+                        : header.label
+                      : header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
 
-        <table>
-          <thead>
-            <tr>
-              {getTableHeaders().map((header, index) => (
-                <th
-                  key={index}
-                  style={
-                    typeof header === "object"
-                      ? { width: header.width }
-                      : undefined
-                  }
-                  className={typeof header === "object" ? header.className : ""}
-                >
-                  {typeof header === "object"
-                    ? typeof header.label === "string"
-                      ? header.label
-                      : header.label
-                    : header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>{renderTableBody()}</tbody>
-        </table>
+            <tbody>{renderTableBody()}</tbody>
+          </table>
+        </div>
       </div>
 
       {showDeletePopup && (

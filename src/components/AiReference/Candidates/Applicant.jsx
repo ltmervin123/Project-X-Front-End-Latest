@@ -312,6 +312,8 @@ const Applicant = () => {
 
         {candidates && candidates.length > 0 ? (
           <>
+                    <div className="scrollable-table-container">
+
             <table>
               <thead>
                 <tr>
@@ -454,6 +456,7 @@ const Applicant = () => {
                 )}
               </tbody>
             </table>
+             </div>
           </>
         ) : (
           <div>{TRANSLATIONS[language].NoCandidateRecord}</div>

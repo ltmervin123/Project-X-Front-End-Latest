@@ -246,6 +246,9 @@ const Jobs = () => {
             </div>
 
             {activeJobs && activeJobs.length > 0 ? (
+
+<div className="scrollable-table-container">
+
               <table>
                 <thead>
                   <tr>
@@ -357,6 +360,8 @@ const Jobs = () => {
                   )}
                 </tbody>
               </table>
+              </div>
+
             ) : (
               <div>
                 <p>No active jobs record</p>
