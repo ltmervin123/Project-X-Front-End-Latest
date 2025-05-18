@@ -7,12 +7,50 @@ const TRANSLATIONS = {
   English: {
     restore: "Restore",
     delete: "Delete",
-
+    departments: {
+      sales: "Sales",
+      marketing: "Marketing",
+      customerService: "Customer Service",
+      hr: "Human Resources (HR)",
+      finance: "Finance",
+      accounting: "Accounting",
+      operations: "Operations",
+      it: "IT (Information Technology)",
+      legal: "Legal",
+      administration: "Administration",
+      productDevelopment: "Product Development",
+      rAndD: "Research and Development (R&D)",
+      logistics: "Logistics, Supply Chain & Procurement",
+      businessDev: "Business Development",
+      pr: "Public Relations (PR)",
+      design: "Design",
+      compliance: "Compliance",
+      riskManagement: "Risk Management",
+    },
   },
   Japanese: {
     restore: "復元",
     delete: "削除",
- 
+    departments: {
+      sales: "営業",
+      marketing: "マーケティング",
+      customerService: "カスタマーサービス",
+      hr: "人事",
+      finance: "財務",
+      accounting: "経理",
+      operations: "運営",
+      it: "IT",
+      legal: "法務",
+      administration: "総務",
+      productDevelopment: "製品開発",
+      rAndD: "研究開発",
+      logistics: "物流・調達",
+      businessDev: "事業開発",
+      pr: "広報",
+      design: "デザイン",
+      compliance: "コンプライアンス",
+      riskManagement: "リスク管理",
+    },
   },
 };
 
@@ -84,6 +122,32 @@ const JobTable = ({
     }
   };
 
+  const mapDepartmentToKey = (dept) => {
+    const manualMapping = {
+      "Human Resources (HR)": "hr",
+      "IT (Information Technology)": "it",
+      "Research and Development (R&D)": "rAndD",
+      "Public Relations (PR)": "pr",
+      "Business Development": "businessDev",
+      "Customer Service": "customerService",
+      "Risk Management": "riskManagement",
+      "Product Development": "productDevelopment",
+      "Logistics, Supply Chain & Procurement": "logistics",
+    };
+
+    if (manualMapping[dept]) {
+      return manualMapping[dept];
+    }
+
+    return dept
+      .toLowerCase()
+      .replace(/[\s()&]/g, "")
+      .replace(/and/g, "And")
+      .replace(/(^[a-z]|[A-Z])[a-z]*/g, (word) =>
+        word.charAt(0).toLowerCase() + word.slice(1)
+      );
+  };
+
   return (
     <>
       <tr
@@ -105,7 +169,13 @@ const JobTable = ({
           />
         </td>
         <td>{data.jobName}</td>
-        <td>{data.department}</td>
+        <td>
+          {data.department
+            ? TRANSLATIONS[language].departments[
+                mapDepartmentToKey(data.department)
+              ] || data.department
+            : "Department not specified"}
+        </td>
         <td>{data.hiringManager}</td>
         <td>
           {data.deletedAt.toString().split("T")[0]}

@@ -193,7 +193,7 @@ const GUIDE_STEPS = {
     },
     {
       title: "<span>6</span> Navigate to Reference Requests",
-      intro: "Now, let’s transition to the applicant section.",
+      intro: "Now, let’s transition to the reference request section.",
       element: ".trashbin-category-filters button:nth-child(3)",
       position: "left",
     },
@@ -204,7 +204,7 @@ const GUIDE_STEPS = {
     },
     {
       title: "<span>8</span> Navigate to Reference Requests",
-      intro: "Now, let’s transition to the applicant section.",
+      intro: "Now, let’s transition to the reference question section.",
       element: ".trashbin-category-filters button:nth-child(4)",
       position: "left",
     },

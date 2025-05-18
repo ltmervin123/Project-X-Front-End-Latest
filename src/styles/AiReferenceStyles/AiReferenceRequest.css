@@ -279,6 +279,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: background-image 0.3s ease;
   background: var(--font-white);
+  white-space: nowrap;
 }
 
 .custom-dropdown-ref-req .dropdown-list-ref-req {
@@ -411,7 +412,7 @@
   border: none;
 }
 .scrollable-table-container {
-  height: calc(65vh - 140px) !important; /* Adjust based on header and other elements */
+  height: calc(63vh - 150px) !important; /* Adjust based on header and other elements */
   overflow-y: auto;
   border-radius: 10px;
   margin-top: 20px;

@@ -65,6 +65,8 @@ const TRANSLATIONS = {
       November: "November",
       December: "December",
     },
+    "a reference check for": "a reference check for",
+    ago: "ago",
   },
   Japanese: {
     Dashboard: "ダッシュボード",
@@ -121,6 +123,8 @@ const TRANSLATIONS = {
       November: "11月",
       December: "12月",
     },
+    "a reference check for": "のリファレンスチェック",
+    ago: "前",
   },
 };
 
@@ -189,10 +193,10 @@ const LogContainer = ({ completedRecords, language }) => {
                   </div>
                   <div>
                     <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    {TRANSLATIONS[language].completed} a reference check for{" "}
+                    {TRANSLATIONS[language].completed} {TRANSLATIONS[language]["a reference check for"]}{" "}
                     <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
                     <div className="text-muted">
-                      {timeAgo(log.completedDate)}
+                      {timeAgo(log.completedDate).replace("ago", TRANSLATIONS[language]["ago"])}
                     </div>
                   </div>
                 </div>
@@ -701,24 +705,59 @@ const MainDashboard = () => {
   };
   function getDepartmentCounts() {
     const departmentCounts = {};
+    const departmentMap = new Map();
+
+    // Helper function to map department names to translation keys
+    const mapDepartmentToKey = (dept) => {
+      // Manual mapping for specific department names
+      const manualMapping = {
+        'Human Resources (HR)': 'hr',
+        'IT (Information Technology)': 'it',
+        'Research and Development (R&D)': 'rAndD',
+        'Public Relations (PR)': 'pr',
+        'Business Development': 'businessDev',
+        'Customer Service': 'customerService',
+        'Risk Management': 'riskManagement',
+        'Product Development': 'productDevelopment',
+        'Logistics, Supply Chain & Procurement': 'logistics',
+      };
+
+      // Check manual mapping first
+      if (manualMapping[dept]) {
+        return manualMapping[dept];
+      }
+
+      // Fall back to automatic conversion for other cases
+      return dept
+        .toLowerCase()
+        .replace(/[\s()&]/g, '')
+        .replace(/and/g, 'And')
+        .replace(/(^[a-z]|[A-Z])[a-z]*/g, word => 
+          word.charAt(0).toLowerCase() + word.slice(1)
+        );
+    };
 
     activeJobs.forEach((job) => {
       if (job.department) {
-        departmentCounts[job.department] =
-          (departmentCounts[job.department] || 0) + 1;
+        const deptKey = mapDepartmentToKey(job.department);
+        departmentCounts[job.department] = (departmentCounts[job.department] || 0) + 1;
+        departmentMap.set(job.department, deptKey);
       }
     });
 
     const departments = Object.keys(departmentCounts);
     const counts = Object.values(departmentCounts);
 
-    return { departments, counts };
+    return { departments, counts, departmentMap };
   }
 
-  const { departments, counts } = getDepartmentCounts();
+  const { departments, counts, departmentMap } = getDepartmentCounts();
 
   const barData = {
-    labels: departments,
+    labels: departments.map(dept => {
+      const deptKey = departmentMap.get(dept);
+      return TRANSLATIONS[language].departments[deptKey] || dept;
+    }),
     datasets: [
       {
         label: "Department References",

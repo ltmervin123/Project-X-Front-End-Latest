@@ -417,6 +417,25 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
     return !jobData?.vacancies || vacancies > jobData.vacancies;
   }, [vacancies, jobData?.vacancies]);
 
+  // Add this helper function after the component declaration but before the return statement
+  const getTranslatedQuestionName = (questionName) => {
+    if (!questionName) return "";
+
+    // Remove "Format" suffix if it exists and convert to uppercase
+    const baseName = questionName.replace(" Format", "").toUpperCase();
+
+    switch (baseName) {
+      case "STANDARD":
+        return TRANSLATIONS[currentLanguage].standardFormat;
+      case "MANAGEMENT":
+        return TRANSLATIONS[currentLanguage].managementFormat;
+      case "EXECUTIVE":
+        return TRANSLATIONS[currentLanguage].executiveFormat;
+      default:
+        return questionName;
+    }
+  };
+
   return (
     <>
       <div>
@@ -499,13 +518,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     style={{ opacity: 0.6, cursor: "not-allowed" }}
                   >
                     {questionFormat === "HR-HATCH-FORMAT" && questionName
-                      ? questionName === "STANDARD"
-                        ? TRANSLATIONS[currentLanguage].standardFormat
-                        : questionName === "MANAGEMENT"
-                        ? TRANSLATIONS[currentLanguage].managementFormat
-                        : questionName === "EXECUTIVE"
-                        ? TRANSLATIONS[currentLanguage].executiveFormat
-                        : questionName
+                      ? getTranslatedQuestionName(questionName)
                       : TRANSLATIONS[currentLanguage].hrHatch}
                   </div>
                 </div>

@@ -312,7 +312,7 @@ const Applicant = () => {
 
         {candidates && candidates.length > 0 ? (
           <>
-                    <div className="scrollable-table-container">
+<div className="scrollable-table-job-container">
 
             <table>
               <thead>
