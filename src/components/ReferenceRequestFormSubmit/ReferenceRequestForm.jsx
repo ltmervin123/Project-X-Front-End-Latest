@@ -3,6 +3,7 @@ import { Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../utils/helpers/capitalizeFirstLetterOfAWord";
 import axios from "axios";
+import Captcha from "../ReCaptcha/Captcha";
 
 const TRANSLATIONS = {
   English: {
@@ -19,6 +20,7 @@ const TRANSLATIONS = {
     enterLastName: "Enter last name",
     enterEmail: "Enter email address",
     sendRequest: "Send Reference Request",
+    invalidEmail: "Invalid email format",
   },
   Japanese: {
     title: "推薦状リクエストフォーム",
@@ -34,18 +36,43 @@ const TRANSLATIONS = {
     enterLastName: "姓を入力",
     enterEmail: "メールアドレスを入力",
     sendRequest: "推薦状リクエストを送信",
+    invalidEmail: "無効なメール形式",
   },
 };
 
 function ReferenceRequestForm() {
+  const [captchaToken, setCaptchaToken] = useState(null);
   const API = process.env.REACT_APP_API_URL;
   const [refereesData, setRefereesData] = useState([{}]);
   const [isLoading, setIsLoading] = useState(false);
+  const [emailErrors, setEmailErrors] = useState({});
   const token = sessionStorage.getItem("candidateToken");
   const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
   const selectedLanguage = candidateData?.selectedLanguage || "English";
   const numReferees = candidateData?.numberOfReferees || 1;
   const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const validateAllEmails = () => {
+    const errors = {};
+    let isValid = true;
+
+    refereesData.forEach((referee, index) => {
+      if (referee["email-address"]) {
+        if (!validateEmail(referee["email-address"])) {
+          errors[index] = TRANSLATIONS[selectedLanguage].invalidEmail;
+          isValid = false;
+        }
+      }
+    });
+
+    setEmailErrors(errors);
+    return isValid;
+  };
 
   const isRefereeFieldMissing = refereesData.some(
     (referee) =>
@@ -62,6 +89,15 @@ function ReferenceRequestForm() {
     }
     newRefereesData[index][name] = value;
     setRefereesData(newRefereesData);
+
+    // Clear email error when user starts typing
+    if (name === "email-address" && emailErrors[index]) {
+      setEmailErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[index];
+        return newErrors;
+      });
+    }
   };
 
   const handleReferee = () => {
@@ -82,11 +118,14 @@ function ReferenceRequestForm() {
     event.preventDefault();
     const referees = handleReferee();
 
-    if (isRefereeFieldMissing) {
+    if (isRefereeFieldMissing || !validateAllEmails()) {
       return;
     }
 
     try {
+      if (!captchaToken) {
+        return;
+      }
       setIsLoading(true);
       const URL = `${API}/api/candidate-referee/create-reference-request`;
       const payload = {
@@ -96,6 +135,7 @@ function ReferenceRequestForm() {
         candidateName: `${candidateData.name.firstName} ${candidateData.name.lastName}`,
         selectedLanguage,
         referees,
+        captchaToken
       };
 
       const response = await axios.post(URL, payload, {
@@ -118,6 +158,10 @@ function ReferenceRequestForm() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onChange = (token) => {
+    setCaptchaToken(token);
   };
 
   return (
@@ -243,18 +287,28 @@ function ReferenceRequestForm() {
                         value={refereesData[index]?.["email-address"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
                         placeholder={TRANSLATIONS[selectedLanguage].enterEmail}
-                        className="your-reference-request-form-input"
+                        className={`your-reference-request-form-input ${
+                          emailErrors[index] ? "is-invalid" : ""
+                        }`}
                         id={`email-address-${index}`}
                       />
+                      {emailErrors[index] && (
+                        <div className="invalid-feedback d-block">
+                          {emailErrors[index]}
+                        </div>
+                      )}
                     </div>
                   </Row>
                 </Row>
               ))}
             </div>
+            <div className="mt-5 d-flex flex-row justify-content-center">
+              <Captcha onChange={onChange} />
+            </div>
             <div className="mb-0 d-flex flex-row justify-content-center btn-container">
               <button
                 className="send-reference-request-referee-btn reference-request-referee-btn"
-                disabled={isLoading || isRefereeFieldMissing}
+                disabled={isLoading || isRefereeFieldMissing || !captchaToken}
               >
                 {isLoading ? (
                   <div
