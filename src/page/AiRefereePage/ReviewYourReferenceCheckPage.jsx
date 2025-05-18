@@ -299,6 +299,9 @@ function ReviewYourReferenceCheckPage() {
     const { format } = REFERENCE_QUESTIONS_DATA;
     const workDuration = { endDate, startDate };
     try {
+      if (!captchaToken) {
+        return;
+      }
       setSubmitting(true);
       const formdata = new FormData();
       const selfieBlob = dataURLtoBlob(selfie);
