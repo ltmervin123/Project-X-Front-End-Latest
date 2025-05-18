@@ -174,6 +174,14 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
     );
   }, [candidates]);
 
+  const isValidEmail = useMemo(() => {
+    return candidates.every((obj) => {
+      const email = obj.email;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    });
+  }, [candidates]);
+
   // Utility function to handle candidate input changes
   const handleInputChange = (index, field, value) => {
     setCandidates((prev) => {
@@ -684,7 +692,12 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
             className="btn-proceed"
             type="button"
             onClick={handleSubmit}
-            disabled={loading || !areCandidateFieldsFilled || !isValidVacancy}
+            disabled={
+              loading ||
+              !areCandidateFieldsFilled ||
+              !isValidVacancy ||
+              !isValidEmail
+            }
           >
             {loading ? (
               <div
