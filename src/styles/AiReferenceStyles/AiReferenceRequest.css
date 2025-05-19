@@ -295,7 +295,7 @@
 }
 
 .custom-dropdown-ref-req .dropdown-item-ref-req {
-  padding: 5px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
@@ -414,6 +414,7 @@
 .scrollable-table-container {
   height: calc(63vh - 150px) !important; /* Adjust based on header and other elements */
   overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 10px;
   margin-top: 20px;
   width: 100%;

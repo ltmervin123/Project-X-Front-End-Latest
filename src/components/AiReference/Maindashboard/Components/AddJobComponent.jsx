@@ -154,6 +154,10 @@ const AddJobComponent = ({ onCancel }) => {
   const [showLanguagePopup, setShowLanguagePopup] = useState(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [showVacancyDropdown, setShowVacancyDropdown] = useState(false);
+  const [showRefereesDropdowns, setShowRefereesDropdowns] = useState(
+    Array(vacancies).fill(false)
+  );
 
   const today = new Date();
   const todayStr = today.toISOString().split("T")[0];
@@ -239,9 +243,10 @@ const AddJobComponent = ({ onCancel }) => {
       firstName: "",
       lastName: "",
       email: "",
-      numberOfReferees: 1, // Add numberOfReferees to each candidate
+      numberOfReferees: 1,
     }));
     setCandidates(newCandidates);
+    setShowRefereesDropdowns(Array(vacancies).fill(false));
   }, [vacancies]);
 
   const handleSubmit = async (e) => {
@@ -507,16 +512,32 @@ const AddJobComponent = ({ onCancel }) => {
                           {TRANSLATIONS[currentLanguage].vacancy}
                           <span className="color-orange"> *</span>
                         </Form.Label>
-                        <Form.Control
-                          type="number"
-                          min={1}
-                          value={vacancies}
-                          onChange={(e) =>
-                            setVacancies(parseInt(e.target.value))
-                          }
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.vacancy}
-                          required
-                        />
+                        <div className="custom-dropdown-job-req ">
+                          <div
+                            className={`dropdown-header-job-req ${
+                              showVacancyDropdown ? "dropdown-open" : ""
+                            }`}
+                            onClick={() => setShowVacancyDropdown(!showVacancyDropdown)}
+                          >
+                            {vacancies}
+                          </div>
+                          {showVacancyDropdown && (
+                            <div className="dropdown-list-job-req">
+                              {[1, 2, 3].map((num) => (
+                                <div
+                                  key={num}
+                                  className="dropdown-item-job-req"
+                                  onClick={() => {
+                                    setVacancies(num);
+                                    setShowVacancyDropdown(false);
+                                  }}
+                                >
+                                  {num}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </Form.Group>
                     </Col>
                     <Col>
@@ -865,16 +886,38 @@ const AddJobComponent = ({ onCancel }) => {
                               {TRANSLATIONS[currentLanguage].numReferees}
                               <span className="color-orange"> *</span>
                             </Form.Label>
-                            <Form.Control
-                              type="number"
-                              min={1}
-                              value={candidate.numberOfReferees}
-                              onChange={(e) =>
-                                handleInputChange(index, "numberOfReferees", parseInt(e.target.value))
-                              }
-                              placeholder={TRANSLATIONS[currentLanguage].placeholders.referees}
-                              required
-                            />
+                            <div className="custom-dropdown-job-req">
+                              <div
+                                className={`dropdown-header-job-req ${
+                                  showRefereesDropdowns[index] ? "dropdown-open" : ""
+                                }`}
+                                onClick={() => {
+                                  const newShowDropdowns = [...showRefereesDropdowns];
+                                  newShowDropdowns[index] = !newShowDropdowns[index];
+                                  setShowRefereesDropdowns(newShowDropdowns);
+                                }}
+                              >
+                                {candidate.numberOfReferees}
+                              </div>
+                              {showRefereesDropdowns[index] && (
+                                <div className="dropdown-list-job-req">
+                                  {[1, 2, 3].map((num) => (
+                                    <div
+                                      key={num}
+                                      className="dropdown-item-job-req"
+                                      onClick={() => {
+                                        handleInputChange(index, "numberOfReferees", num);
+                                        const newShowDropdowns = [...showRefereesDropdowns];
+                                        newShowDropdowns[index] = false;
+                                        setShowRefereesDropdowns(newShowDropdowns);
+                                      }}
+                                    >
+                                      {num}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                           </Form.Group>
                         </Col>
                       </Row>

@@ -856,7 +856,8 @@ const MainDashboard = () => {
           color: "#000",
           callback: function (value, index) {
             // Only show labels if there are 2 or fewer departments
-            return departments.length <= 2 ? departments[index] : "";
+            const deptKey = departmentMap.get(departments[index]);
+            return departments.length <= 2 ? (TRANSLATIONS[language].departments[deptKey] || departments[index]) : "";
           },
         },
       },

@@ -112,7 +112,16 @@
 .AiReference-active-jobs-containertable {
   height: auto;
 }
-
+.scrollable-table-job-container {
+  height: calc(63vh - 150px) !important; /* Adjust based on header and other elements */
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  font-size: 15px;
+}
 .scrollable-table-job-container table {
   width: 100%;
   border-collapse: separate;
@@ -320,7 +329,7 @@
 .btn-proceed:disabled {
   background: var(--card-color);
 }
-.btn-cancel-ref-req{
+.btn-cancel-job-req{
   background: var(--secondary-color);
   border-radius: 50px;
   border: none;
@@ -328,7 +337,7 @@
   color: var(--font-white);
   width: 150px;
 }
-.btn-cancel-ref-req:disabled {
+.btn-cancel-job-req:disabled {
   background: var(--card-color);
 }
 .AiReference-active-jobs-container td {
@@ -650,6 +659,70 @@ select::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }
+.custom-dropdown-job-req {
+  position: relative;
+  width: 100%;
+}
+
+.custom-dropdown-job-req .dropdown-header-job-req {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 50px !important;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 12px 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-image 0.3s ease;
+  background: var(--font-white);
+  white-space: nowrap;
+}
+
+.custom-dropdown-job-req .dropdown-list-job-req {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 1000;
+  border-radius: 0px 0px 10px 10px;
+  border-top: none;
+}
+
+.custom-dropdown-job-req .dropdown-item-job-req {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.custom-dropdown-job-req .dropdown-item-job-req:hover {
+  background-color: #f0f0f0;
+}
+.dropdown-header-job-req.active {
+  background: var(--primary-color);
+  color: var(--font-white) !important;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  fill: var(--font-white);
+}
+.dropdown-header-job-req.dropdown-open {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 10px 10px 0px 0px !important;
+  border-bottom: none !important;
+  background-color: none !important;
+}
+.dropdown-header-job-req.dropdown-warning{
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ff0000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+}
+
 
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) {

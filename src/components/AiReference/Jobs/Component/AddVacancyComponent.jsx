@@ -160,6 +160,10 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
   const [candidates, setCandidates] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [showRefereesDropdowns, setShowRefereesDropdowns] = useState(
+    Array(candidates.length).fill(false)
+  );
+  const [showVacancyDropdown, setShowVacancyDropdown] = useState(false);
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -485,25 +489,40 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
               </div>
             </div>
             <Form.Group controlId="formVacancies" className="mb-4">
-              <Form.Label
-                className="m-0"
-                style={{ width: "220px", height: "38px" }}
-              >
+              <Form.Label className="mb-1 ">
                 {TRANSLATIONS[currentLanguage].vacancy}
-                <span className="color-orange"> &nbsp;*</span>
+                <span className="color-orange"> *</span>
               </Form.Label>
-
-              <Form.Control
-                type="number"
-                min={1}
-                value={vacancies}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  setVacancies(value);
-                }}
-                required
-                isInvalid={!!vacancyError}
-              />
+              <div className="custom-dropdown-job-req">
+                <div
+                  className={`dropdown-header-job-req ${
+                    showVacancyDropdown
+                      ? "dropdown-open"
+                      : vacancyError
+                      ? "dropdown-warning"
+                      : ""
+                  }`}
+                  onClick={() => setShowVacancyDropdown(!showVacancyDropdown)}
+                >
+                  {vacancies}
+                </div>
+                {showVacancyDropdown && (
+                  <div className="dropdown-list-job-req">
+                    {[1, 2, 3].map((num) => (
+                      <div
+                        key={num}
+                        className="dropdown-item-job-req"
+                        onClick={() => {
+                          setVacancies(num);
+                          setShowVacancyDropdown(false);
+                        }}
+                      >
+                        {num}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               {vacancyError && (
                 <div className="px-3 py-1 text-danger">{vacancyError}</div>
               )}
@@ -559,10 +578,10 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                 <div key={index} className="applicant-container mb-4">
                   <Form.Group
                     controlId={`formFirstName${index}`}
-                    className="mb-4"
+                    className="mb-2"
                   >
                     <b
-                      className="m-0 applicant-header-label d-flex gap-2 align-items-center"
+                      className="mb-2 applicant-header-label d-flex gap-2 align-items-center"
                       style={{ width: "220px", height: "38px" }}
                     >
                       <div className="applicant-number">{index + 1}</div>
@@ -576,8 +595,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     <div className="d-flex gap-3 w-100">
                       <div className="positiom-relative w-50">
                         <Form.Label
-                          className="m-0"
-                          style={{ width: "220px", height: "38px" }}
+                          className="mb-2 applicant-label"
                         >
                           {TRANSLATIONS[currentLanguage].firstName}
                           <span className="color-orange"> &nbsp;*</span>
@@ -604,8 +622,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                       </div>
                       <div className="positiom-relative w-50">
                         <Form.Label
-                          className="m-0"
-                          style={{ width: "220px", height: "38px" }}
+                          className="mb-2 applicant-label"
                         >
                           {TRANSLATIONS[currentLanguage].lastName}
                           <span className="color-orange"> &nbsp;*</span>
@@ -630,41 +647,61 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                   </Form.Group>
                   <Form.Group
                     controlId={`formNumReferees${index}`}
-                    className="mb-4"
+                    className="mb-2"
                   >
-                    <Form.Label
-                      className="m-0"
-                      style={{ width: "220px", height: "38px" }}
-                    >
+                    <Form.Label className="mb-2 applicant-label">
                       {TRANSLATIONS[currentLanguage].numReferees}
-                      <span className="color-orange"> &nbsp;*</span>
+                      <span className="color-orange"> *</span>
                     </Form.Label>
-                    <div className="w-100">
-                      <Form.Control
-                        type="number"
-                        min={1}
-                        value={candidate.numberOfReferees}
-                        onChange={(e) =>
-                          handleInputChange(
-                            index,
-                            "numberOfReferees",
-                            parseInt(e.target.value)
-                          )
+                    <div className="custom-dropdown-job-req">
+                      <div
+                        className={`dropdown-header-job-req ${
+                          showRefereesDropdowns[index] ? "dropdown-open" : ""
+                        }`}
+                        onClick={() => {
+                          if (!isDisabled) {
+                            const newShowDropdowns = [...showRefereesDropdowns];
+                            newShowDropdowns[index] = !newShowDropdowns[index];
+                            setShowRefereesDropdowns(newShowDropdowns);
+                          }
+                        }}
+                        style={
+                          isDisabled
+                            ? { opacity: 0.6, cursor: "not-allowed" }
+                            : {}
                         }
-                        required
-                        disabled={isDisabled}
-                      />
-                    </div>
-                    {errorMessages[`numberOfReferees${index}`] && (
-                      <div className="px-3 py-1 text-danger">
-                        {errorMessages[`numberOfReferees${index}`]}
+                      >
+                        {candidate.numberOfReferees}
                       </div>
-                    )}
+                      {!isDisabled && showRefereesDropdowns[index] && (
+                        <div className="dropdown-list-job-req">
+                          {[1, 2, 3].map((num) => (
+                            <div
+                              key={num}
+                              className="dropdown-item-job-req"
+                              onClick={() => {
+                                handleInputChange(
+                                  index,
+                                  "numberOfReferees",
+                                  num
+                                );
+                                const newShowDropdowns = [
+                                  ...showRefereesDropdowns,
+                                ];
+                                newShowDropdowns[index] = false;
+                                setShowRefereesDropdowns(newShowDropdowns);
+                              }}
+                            >
+                              {num}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </Form.Group>
-                  <Form.Group controlId={`formEmail${index}`} className="mb-4">
+                  <Form.Group controlId={`formEmail${index}`} className="mb-2">
                     <Form.Label
-                      className="m-0"
-                      style={{ width: "220px", height: "38px" }}
+                      className="mb-2 applicant-label"
                     >
                       {TRANSLATIONS[currentLanguage].email}
                       <span className="color-orange"> &nbsp;*</span>
