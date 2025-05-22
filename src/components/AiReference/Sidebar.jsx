@@ -96,7 +96,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceJobs"
+          to="/ai-reference-jobs"
         >
           <svg
             width="12"
@@ -119,7 +119,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceApplicant"
+          to="/ai-reference-applicants"
         >
           <svg
             width="19"
@@ -140,7 +140,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceRequest"
+          to="/ai-reference-request"
         >
           <svg
             width="24"
@@ -160,7 +160,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceQuestion"
+          to="/ai-reference-questions"
         >
           <svg
             width="11"
@@ -201,7 +201,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceReports"
+          to="/ai-reference-reports"
         >
           <svg
             width="14"
@@ -229,7 +229,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceTrashbin"
+          to="/ai-reference-archives"
         >
           <svg
             width="2"
