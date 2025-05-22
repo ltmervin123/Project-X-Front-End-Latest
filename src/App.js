@@ -117,18 +117,21 @@ function App() {
             />
             <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
 
-            <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
             <Route
-              path="/AiReferenceApplicant"
+              path="/ai-reference-jobs"
+              element={<AiReferenceJobsPage />}
+            />
+            <Route
+              path="/ai-reference-applicants"
               element={<AiReferenceApplicantPage />}
             />
             <Route
-              path="/AiReferenceRequest"
+              path="/ai-reference-request"
               element={<AiReferenceRequestPage />}
             />
-            <Route path="/ViewRequest" element={<ViewRequest />} />
+            <Route path="/view-request" element={<ViewRequest />} />
             <Route
-              path="/AiReferenceQuestion"
+              path="/ai-reference-questions"
               element={<AiReferenceQuestionPage />}
             />
             <Route
@@ -140,7 +143,7 @@ function App() {
               element={<AiReferenceReportsPage />}
             />
             <Route
-              path="/AiReferenceTrashbin"
+              path="/ai-reference-archives"
               element={<AiReferenceTrashBinPage />}
             />
 
