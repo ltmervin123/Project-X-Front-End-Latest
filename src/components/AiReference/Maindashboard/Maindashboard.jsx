@@ -542,25 +542,25 @@ const MainDashboard = () => {
       title: TRANSLATIONS[language].ActiveJobs, // Use translation
       count: activeJobCount,
       color: "#1877F2",
-      path: "/AiReferenceJobs",
+      path: "/ai-reference-jobs",
     },
     {
       title: TRANSLATIONS[language].PendingReferences,
       count: pendingReferenceCount,
       color: "#F8BD00",
-      path: "/AiReferenceRequest",
+      path: "/ai-reference-request",
     },
     {
       title: TRANSLATIONS[language].CompletedReferences,
       count: totalCompletedReference,
       color: "#319F43",
-      path: "/AiReferenceRequest",
+      path: "/ai-reference-request",
     },
     {
       title: TRANSLATIONS[language].TotalApplicants,
       count: totalCandidateCount,
       color: "#686868",
-      path: "/AiReferenceApplicant",
+      path: "/ai-reference-applicants",
     },
     {
       title: TRANSLATIONS[language].TotalCredits,
