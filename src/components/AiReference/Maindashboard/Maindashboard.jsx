@@ -67,6 +67,9 @@ const TRANSLATIONS = {
     },
     "a reference check for": "a reference check for",
     ago: "ago",
+    TotalCredits: "Total Credits",
+    TotalRate: "Total Rate",
+    AcceptanceRate: "Acceptance Rate",
   },
   Japanese: {
     Dashboard: "ダッシュボード",
@@ -125,6 +128,9 @@ const TRANSLATIONS = {
     },
     "a reference check for": "のリファレンスチェック",
     ago: "前",
+    TotalCredits: "総クレジット",
+    TotalRate: "総レート",
+    AcceptanceRate: "承認率",
   },
 };
 
@@ -193,10 +199,14 @@ const LogContainer = ({ completedRecords, language }) => {
                   </div>
                   <div>
                     <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    {TRANSLATIONS[language].completed} {TRANSLATIONS[language]["a reference check for"]}{" "}
+                    {TRANSLATIONS[language].completed}{" "}
+                    {TRANSLATIONS[language]["a reference check for"]}{" "}
                     <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
                     <div className="text-muted">
-                      {timeAgo(log.completedDate).replace("ago", TRANSLATIONS[language]["ago"])}
+                      {timeAgo(log.completedDate).replace(
+                        "ago",
+                        TRANSLATIONS[language]["ago"]
+                      )}
                     </div>
                   </div>
                 </div>
@@ -472,12 +482,18 @@ const MainDashboard = () => {
       (month) => TRANSLATIONS[language].months[month]
     );
 
-    const totalReferenceCount = months.map((month) => monthMap.get(month).total);
+    const totalReferenceCount = months.map(
+      (month) => monthMap.get(month).total
+    );
     const completedReferenceCounts = months.map(
       (month) => monthMap.get(month).completed
     );
 
-    return { months: translatedMonths, totalReferenceCount, completedReferenceCounts };
+    return {
+      months: translatedMonths,
+      totalReferenceCount,
+      completedReferenceCounts,
+    };
   };
   const { months, totalReferenceCount, completedReferenceCounts } =
     getMonthlyCounts(reference);
@@ -545,6 +561,12 @@ const MainDashboard = () => {
       count: totalCandidateCount,
       color: "#686868",
       path: "/AiReferenceApplicant",
+    },
+    {
+      title: TRANSLATIONS[language].TotalCredits,
+      count: 5,
+      color: "#f46a05",
+      path: "/",
     },
   ];
   // Data for the line chart
@@ -711,15 +733,15 @@ const MainDashboard = () => {
     const mapDepartmentToKey = (dept) => {
       // Manual mapping for specific department names
       const manualMapping = {
-        'Human Resources (HR)': 'hr',
-        'IT (Information Technology)': 'it',
-        'Research and Development (R&D)': 'rAndD',
-        'Public Relations (PR)': 'pr',
-        'Business Development': 'businessDev',
-        'Customer Service': 'customerService',
-        'Risk Management': 'riskManagement',
-        'Product Development': 'productDevelopment',
-        'Logistics, Supply Chain & Procurement': 'logistics',
+        "Human Resources (HR)": "hr",
+        "IT (Information Technology)": "it",
+        "Research and Development (R&D)": "rAndD",
+        "Public Relations (PR)": "pr",
+        "Business Development": "businessDev",
+        "Customer Service": "customerService",
+        "Risk Management": "riskManagement",
+        "Product Development": "productDevelopment",
+        "Logistics, Supply Chain & Procurement": "logistics",
       };
 
       // Check manual mapping first
@@ -730,17 +752,19 @@ const MainDashboard = () => {
       // Fall back to automatic conversion for other cases
       return dept
         .toLowerCase()
-        .replace(/[\s()&]/g, '')
-        .replace(/and/g, 'And')
-        .replace(/(^[a-z]|[A-Z])[a-z]*/g, word => 
-          word.charAt(0).toLowerCase() + word.slice(1)
+        .replace(/[\s()&]/g, "")
+        .replace(/and/g, "And")
+        .replace(
+          /(^[a-z]|[A-Z])[a-z]*/g,
+          (word) => word.charAt(0).toLowerCase() + word.slice(1)
         );
     };
 
     activeJobs.forEach((job) => {
       if (job.department) {
         const deptKey = mapDepartmentToKey(job.department);
-        departmentCounts[job.department] = (departmentCounts[job.department] || 0) + 1;
+        departmentCounts[job.department] =
+          (departmentCounts[job.department] || 0) + 1;
         departmentMap.set(job.department, deptKey);
       }
     });
@@ -754,7 +778,7 @@ const MainDashboard = () => {
   const { departments, counts, departmentMap } = getDepartmentCounts();
 
   const barData = {
-    labels: departments.map(dept => {
+    labels: departments.map((dept) => {
       const deptKey = departmentMap.get(dept);
       return TRANSLATIONS[language].departments[deptKey] || dept;
     }),
@@ -857,7 +881,10 @@ const MainDashboard = () => {
           callback: function (value, index) {
             // Only show labels if there are 2 or fewer departments
             const deptKey = departmentMap.get(departments[index]);
-            return departments.length <= 2 ? (TRANSLATIONS[language].departments[deptKey] || departments[index]) : "";
+            return departments.length <= 2
+              ? TRANSLATIONS[language].departments[deptKey] ||
+                  departments[index]
+              : "";
           },
         },
       },
@@ -872,6 +899,124 @@ const MainDashboard = () => {
           color: "#000", // Change the label color if necessary
           callback: function (value) {
             return barYTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+          },
+        },
+      },
+    },
+  };
+
+  // Add sample data for Acceptance Rate Per Agencies
+  const acceptanceRateData = {
+    labels: ["Agency A", "Agency B", "Agency C", "Agency D", "Agency E"],
+    datasets: [
+      {
+        label: TRANSLATIONS[language].AcceptanceRate,
+        data: [85, 72, 90, 65, 78],
+        backgroundColor: [
+          "#1877F2",
+          "#1877F2",
+          "#1877F2",
+          "#1877F2",
+          "#1877F2",
+        ],
+        borderColor: "transparent",
+        borderRadius: 5,
+      },
+    ],
+  };
+
+  const acceptanceRateOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+        external: function (context) {
+          const tooltipEl = document.getElementById("chartjs-tooltip");
+
+          let tooltipElement = tooltipEl;
+          if (!tooltipElement) {
+            tooltipElement = document.createElement("div");
+            tooltipElement.id = "chartjs-tooltip";
+            tooltipElement.innerHTML = "<table></table>";
+            document.body.appendChild(tooltipElement);
+          }
+
+          const tooltipModel = context.tooltip;
+
+          if (tooltipModel.opacity === 0) {
+            tooltipElement.style.opacity = 0;
+            return;
+          }
+
+          const position = context.chart.canvas.getBoundingClientRect();
+          tooltipElement.style.opacity = 1;
+          tooltipElement.style.backgroundColor = "#fff";
+          tooltipElement.style.padding = "10px";
+          tooltipElement.style.position = "absolute";
+          tooltipElement.style.zIndex = 1000;
+          tooltipElement.style.boxShadow =
+            "0px 4px 4px 0px rgba(0, 0, 0, 0.25)";
+          tooltipElement.style.borderRadius = "10px";
+          tooltipElement.style.pointerEvents = "none";
+
+          // Calculate tooltip position
+          const tooltipWidth = tooltipElement.offsetWidth;
+          let tooltipX = position.left + window.scrollX + tooltipModel.caretX;
+          let tooltipY = position.top + window.scrollY + tooltipModel.caretY;
+
+          if (tooltipX + tooltipWidth > position.left + position.width) {
+            tooltipX -= tooltipWidth;
+          }
+
+          tooltipElement.style.left = tooltipX + "px";
+          tooltipElement.style.top = tooltipY + "px";
+
+          const dataIndex = tooltipModel.dataPoints[0].dataIndex;
+          const agency = context.chart.data.labels[dataIndex];
+          const rate = context.chart.data.datasets[0].data[dataIndex];
+
+          const innerHtml = `
+          <table class="tooltip-acceptance-chart">
+            <tr>
+              <td style="font-weight: 500;">${agency}: ${rate}%</td>
+            </tr>
+          </table>
+        `;
+          tooltipElement.querySelector("table").innerHTML = innerHtml;
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          callback: function (value) {
+            return value + "%";
+          },
+        },
+        grid: {
+          display: false,
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            size: 12,
+          },
+          color: "#000",
+          callback: function (value, index) {
+            // Only show labels if there are 2 or fewer agencies
+            return acceptanceRateData.labels.length <= 2
+              ? acceptanceRateData.labels[index]
+              : "";
           },
         },
       },
@@ -982,70 +1127,92 @@ const MainDashboard = () => {
           </div>
 
           <div>
-            <Row className="mb-3 AiReferenceCard-container">
+            <div className="mb-3 AiReferenceCard-container ">
               {cardData.map((card, index) => (
-                <Col
-                  key={index}
-                  xs={12} // Full width on extra small devices
-                  sm={6} // Half width on small devices
-                  md={3} // Quarter width on medium and larger devices
-                  className={` fade-in ${
+                <div
+                  onClick={() => navigate(card.path)}
+                  className={`AiReferenceCard fade-in ${
                     isAiReferenceCardVisible ? "visible" : ""
                   }`}
                 >
-                  <div
-                    className="AiReferenceCard"
-                    onClick={() => navigate(card.path)}
-                  >
-                    <div className="h-100">
-                      <p className="d-flex title">
-                        <div
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            backgroundColor: card.color,
-                            marginRight: "10px",
-                          }}
-                        ></div>
-                        {card.title}
-                      </p>
-                      <p className="d-flex align-items-center justify-content-center count">
-                        {card.count}
-                      </p>
-                    </div>
+                  <div className="h-100">
+                    <p className="d-flex title">
+                      <div
+                        style={{
+                          width: "18px",
+                          height: "18px",
+                          backgroundColor: card.color,
+                          marginRight: "10px",
+                        }}
+                      ></div>
+                      {card.title}
+                    </p>
+                    <p className="d-flex align-items-center justify-content-center count">
+                      {card.count}
+                    </p>
                   </div>
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
           </div>
-          <Row>
-            <Col md="6">
+          <Row className="chart-row">
+            <Col md="4">
               <div
-                className={`line-bar-chart-container fade-in ${
+                className={`line-bar-chart-container h-100 fade-in ${
                   isLineChartVisible ? "visible" : ""
                 }`}
               >
-                <div className="line-chart">
+                <div className="line-chart h-100">
                   <p className="mb-3 line-title-overlay">
                     {TRANSLATIONS[language].ReferenceOverview}{" "}
                   </p>
-                  <Line data={lineData} options={lineOptions} />
+                  <div className="chart-wrapper">
+                    <Line
+                      data={lineData}
+                      options={{ ...lineOptions, maintainAspectRatio: false }}
+                    />
+                  </div>
                 </div>
               </div>
             </Col>
-            <Col md="6">
+            <Col md="4">
               <div
-                className={`line-bar-chart-container fade-in ${
+                className={`line-bar-chart-container h-100 fade-in ${
                   isBarChartVisible ? "visible" : ""
                 }`}
               >
-                <div className="bar-chart">
+                <div className="bar-chart h-100">
                   <p className="mb-3 bar-title-overlay">
-                    {" "}
                     {TRANSLATIONS[language].ByDepartment}{" "}
                   </p>
-
-                  <Bar data={barData} options={barOptions} />
+                  <div className="chart-wrapper">
+                    <Bar
+                      data={barData}
+                      options={{ ...barOptions, maintainAspectRatio: false }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col md="4">
+            <div
+                className={`line-bar-chart-container h-100 fade-in ${
+                  isLineChartVisible ? "visible" : ""
+                }`}
+              >
+                <div className="acceptance-rate-chart h-100">
+                  <p className="mb-3 acceptance-title-overlay">
+                    {TRANSLATIONS[language].AcceptanceRate}{" "}
+                  </p>
+                  <div className="chart-wrapper">
+                    <Bar
+                      data={acceptanceRateData}
+                      options={{
+                        ...acceptanceRateOptions,
+                        maintainAspectRatio: false,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </Col>

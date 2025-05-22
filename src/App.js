@@ -43,11 +43,11 @@ import AiReferenceJobsPage from "./page/AiReferencePage/AiReferenceJobsPage.jsx"
 import AiReferenceApplicantPage from "./page/AiReferencePage/AiReferenceApplicantPage.jsx";
 import AiReferenceRequestPage from "./page/AiReferencePage/AiReferenceRequestPage.jsx";
 import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionPage.jsx";
+import AiReferenceAgencyPartnersPage from "./page/AiReferencePage/AiReferenceAgencyPartnersPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
 import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 import ReminderCandidateRequestEmailPage from "./page/AiReferencePage/ReminderCandidateRequestEmailPage.jsx";
-
 import ReferenceRequestResendEmailPage from "./page/AiReferencePage/ReferenceRequestResendEmailPage.jsx";
 import ViewRequest from "./components/AiReference/ReferenceRequest/Components/ViewRequest.jsx";
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
@@ -130,6 +130,10 @@ function App() {
             <Route
               path="/AiReferenceQuestion"
               element={<AiReferenceQuestionPage />}
+            />
+            <Route
+              path="/AiReferenceAgencyPartner"
+              element={<AiReferenceAgencyPartnersPage />}
             />
             <Route
               path="/AiReferenceReports"

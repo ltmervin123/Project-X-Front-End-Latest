@@ -103,13 +103,13 @@
 }
 
 /* Remove existing table styles that might conflict */
-.AiReference-active-jobs-containerthead {
+.AiReference-active-jobs-container thead {
   position: relative;
   width: auto;
   color: var(--card-color);
 }
 
-.AiReference-active-jobs-containertable {
+.AiReference-active-jobs-container table {
   height: auto;
 }
 .scrollable-table-job-container {
@@ -132,7 +132,7 @@
 .scrollable-table-job-container thead {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 99999;
   background: white;
 }
 

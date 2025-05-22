@@ -11,6 +11,7 @@ const TRANSLATIONS = {
   English: {
     Jobs: "Jobs",
     ActiveJobs: "Active Jobs",
+    JobId: "Job ID",
     JobName: "Job Name",
     Vacancies: "Vacancies",
     Department: "Department",
@@ -50,7 +51,7 @@ const TRANSLATIONS = {
   Japanese: {
     Jobs: "求人",
     ActiveJobs: "求人",
-
+    JobId: "求人ID",
     JobName: "職種名",
     Vacancies: "求人情報",
     Department: "部門",
@@ -244,6 +245,11 @@ const Jobs = () => {
       );
   };
 
+  // Add this helper function with the other helper functions
+  const shortenJobId = (id) => {
+    return id.slice(-6); // Show only last 6 characters
+  };
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       {showAddVacancy ? (
@@ -325,6 +331,7 @@ const Jobs = () => {
                 <table>
                   <thead>
                     <tr>
+                      <th>{TRANSLATIONS[language].JobId}</th>
                       <th>{TRANSLATIONS[language].JobName}</th>
                       <th>{TRANSLATIONS[language].Vacancies}</th>
                       <th>{TRANSLATIONS[language].Department}</th>
@@ -350,6 +357,7 @@ const Jobs = () => {
                         );
                         return (
                           <tr key={job._id}>
+                            <td title={job._id}>{shortenJobId(job._id)}</td>
                             <td>{job.jobName}</td>
                             <td>{job.vacancies}</td>
                             <td>

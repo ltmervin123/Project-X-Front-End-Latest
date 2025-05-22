@@ -512,32 +512,14 @@ const AddJobComponent = ({ onCancel }) => {
                           {TRANSLATIONS[currentLanguage].vacancy}
                           <span className="color-orange"> *</span>
                         </Form.Label>
-                        <div className="custom-dropdown-job-req ">
-                          <div
-                            className={`dropdown-header-job-req ${
-                              showVacancyDropdown ? "dropdown-open" : ""
-                            }`}
-                            onClick={() => setShowVacancyDropdown(!showVacancyDropdown)}
-                          >
-                            {vacancies}
-                          </div>
-                          {showVacancyDropdown && (
-                            <div className="dropdown-list-job-req">
-                              {[1, 2, 3].map((num) => (
-                                <div
-                                  key={num}
-                                  className="dropdown-item-job-req"
-                                  onClick={() => {
-                                    setVacancies(num);
-                                    setShowVacancyDropdown(false);
-                                  }}
-                                >
-                                  {num}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
+                        <Form.Control
+                          type="number"
+                          min="1"
+                          value={vacancies}
+                          onChange={(e) => setVacancies(parseInt(e.target.value) || 1)}
+                          placeholder={TRANSLATIONS[currentLanguage].placeholders.vacancy}
+                          required
+                        />
                       </Form.Group>
                     </Col>
                     <Col>

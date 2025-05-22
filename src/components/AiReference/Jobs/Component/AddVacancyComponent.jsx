@@ -493,36 +493,13 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                 {TRANSLATIONS[currentLanguage].vacancy}
                 <span className="color-orange"> *</span>
               </Form.Label>
-              <div className="custom-dropdown-job-req">
-                <div
-                  className={`dropdown-header-job-req ${
-                    showVacancyDropdown
-                      ? "dropdown-open"
-                      : vacancyError
-                      ? "dropdown-warning"
-                      : ""
-                  }`}
-                  onClick={() => setShowVacancyDropdown(!showVacancyDropdown)}
-                >
-                  {vacancies}
-                </div>
-                {showVacancyDropdown && (
-                  <div className="dropdown-list-job-req">
-                    {[1, 2, 3].map((num) => (
-                      <div
-                        key={num}
-                        className="dropdown-item-job-req"
-                        onClick={() => {
-                          setVacancies(num);
-                          setShowVacancyDropdown(false);
-                        }}
-                      >
-                        {num}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <Form.Control
+                type="number"
+                min="1"
+                value={vacancies}
+                onChange={(e) => setVacancies(parseInt(e.target.value) || 1)}
+                isInvalid={!!vacancyError}
+              />
               {vacancyError && (
                 <div className="px-3 py-1 text-danger">{vacancyError}</div>
               )}

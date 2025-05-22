@@ -542,8 +542,8 @@ const Reports = () => {
                 <p className="d-flex title">
                   <div
                     style={{
-                      width: "20px",
-                      height: "20px",
+                      width: "18px",
+                      height: "18px",
                       backgroundColor: card.color,
                       marginRight: "10px",
                     }}
