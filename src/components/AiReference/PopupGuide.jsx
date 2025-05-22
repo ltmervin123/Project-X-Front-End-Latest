@@ -276,14 +276,14 @@ const PopupGuide = ({ introKey }) => {
           // Only navigate if skip was not clicked and we're not already on dashboard
           if (!skipClickedRef.current && introKey !== "dashboard") {
             const routes = {
-              jobs: "/AiReferenceApplicant",
-              applicant: "/AiReferenceRequest",
-              referenceRequests: "/AiReferenceQuestion",
-              referenceQuestions: "/AiReferenceReports",
-              reports: "/AiReferenceTrashbin",
+              jobs: "/ai-reference-applicants",
+              applicant: "/ai-reference-request",
+              referenceRequests: "/ai-reference-questions",
+              referenceQuestions: "/ai-reference-reports",
+              reports: "/ai-reference-archives",
               trashbin: "/ai-reference-dashboard",
             };
-            navigate(routes[introKey] || "/AiReferenceJobs");
+            navigate(routes[introKey] || "/ai-reference-jobs");
           }
         })
         .onchange(function (targetElement) {
