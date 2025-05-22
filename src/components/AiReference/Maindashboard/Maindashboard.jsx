@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import { Line, Bar } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
 import AddJobComponent from "./Components/AddJobComponent";
-import SelectionLanguagePopUp from "./PopUpComponents/SelectionLanguagePopUp";
 import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import RecentActivity from "./Components/RecentActivity";
 
 const TRANSLATIONS = {
   English: {
@@ -132,92 +131,6 @@ const TRANSLATIONS = {
     TotalRate: "総レート",
     AcceptanceRate: "承認率",
   },
-};
-
-// Register all necessary components
-Chart.register(...registerables);
-
-const LogContainer = ({ completedRecords, language }) => {
-  const handleToggleShowAll = (event) => {
-    event.preventDefault(); // Prevent default anchor behavior
-    setShowAll(!showAll);
-  };
-  const [showAll, setShowAll] = useState(false);
-
-  function timeAgo(timestamp) {
-    const now = new Date();
-    const past = new Date(timestamp);
-    const seconds = Math.floor((now - past) / 1000);
-
-    const intervals = {
-      year: 31536000,
-      month: 2592000,
-      week: 604800,
-      day: 86400,
-      hour: 3600,
-      minute: 60,
-      second: 1,
-    };
-
-    for (let unit in intervals) {
-      const interval = Math.floor(seconds / intervals[unit]);
-      if (interval >= 1) {
-        return `${interval} ${unit}${interval !== 1 ? "s" : ""} ago`;
-      }
-    }
-    return "just now";
-  }
-
-  const displayedLogs = showAll
-    ? completedRecords
-    : completedRecords.slice(completedRecords.length - 2);
-
-  return (
-    <div className="LogContainer my-4">
-      <div className="d-flex justify-content-between align-items-center">
-        <p className="mb-3">{TRANSLATIONS[language].RecentActivities}</p>
-        <a href="#" onClick={handleToggleShowAll}>
-          {showAll
-            ? TRANSLATIONS[language].ShowLess
-            : TRANSLATIONS[language].ViewAll}
-        </a>
-      </div>
-      <div className="list-log-containerlist-log-container">
-        {
-          // Display the logs
-          completedRecords.length > 0 ? (
-            displayedLogs
-              .slice()
-              .reverse()
-              .map((log, index) => (
-                <div
-                  key={index}
-                  className="log-item d-flex align-items-center mb-3 gap-3"
-                >
-                  <div className="avatar-letter d-flex align-items-center justify-content-center">
-                    {log.refereeName.firstName.charAt(0)}
-                  </div>
-                  <div>
-                    <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    {TRANSLATIONS[language].completed}{" "}
-                    {TRANSLATIONS[language]["a reference check for"]}{" "}
-                    <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
-                    <div className="text-muted">
-                      {timeAgo(log.completedDate).replace(
-                        "ago",
-                        TRANSLATIONS[language]["ago"]
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))
-          ) : (
-            <div>{TRANSLATIONS[language].NoRecentActivities}</div>
-          )
-        }
-      </div>
-    </div>
-  );
 };
 
 const MainDashboard = () => {
@@ -1218,9 +1131,10 @@ const MainDashboard = () => {
             </Col>
           </Row>
           <div className={`fade-in ${isLogContainerVisible ? "visible" : ""}`}>
-            <LogContainer
+            <RecentActivity
               completedRecords={completedRecords}
               language={language}
+              translations={TRANSLATIONS}
             />{" "}
           </div>
         </>
