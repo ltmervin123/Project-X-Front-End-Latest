@@ -26,7 +26,7 @@ const LoginForm = () => {
         isLogin?.service === SERVICE[0] &&
         isLogin?.accountType === "company"
       ) {
-        navigate("/AiReferenceMaindashboard");
+        navigate("/ai-reference-dashboard");
       } else if (
         isLogin?.service === SERVICE[0] &&
         isLogin?.accountType === "admin"

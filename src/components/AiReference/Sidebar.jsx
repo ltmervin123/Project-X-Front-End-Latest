@@ -78,7 +78,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceMaindashboard"
+          to="/ai-reference-dashboard"
         >
           <svg
             width="14"

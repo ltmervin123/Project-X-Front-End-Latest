@@ -112,7 +112,7 @@ function App() {
 
           <Route element={<RequireAuthAIReference />}>
             <Route
-              path="/AiReferenceMaindashboard"
+              path="/ai-reference-dashboard"
               element={<AiReferenceMainDashboardPage />}
             />
             <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
