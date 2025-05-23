@@ -180,7 +180,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceAgencyPartner"
+          to="/ai-reference-agency-partners"
         >
           <svg
             width="24"

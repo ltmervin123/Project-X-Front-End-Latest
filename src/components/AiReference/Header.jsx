@@ -76,7 +76,7 @@ function Header() {
             <Dropdown.Menu className="dropdown-menu-end">
               <Dropdown.Item
                 as={NavLink}
-                to="/CompanyProfile#personal-info"
+                to="/company-profile#personal-info"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 {t.profile}

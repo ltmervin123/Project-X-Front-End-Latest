@@ -68,7 +68,7 @@ function Header() {
               {/* Conditionally applying the active class to Dropdown.Item based on current location */}
               <Dropdown.Item
                 as={NavLink}
-                to="/CompanyProfile#personal-info"
+                to="/company-profile#personal-info"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 {t.profile}

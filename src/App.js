@@ -115,7 +115,7 @@ function App() {
               path="/ai-reference-dashboard"
               element={<AiReferenceMainDashboardPage />}
             />
-            <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
+            <Route path="/company-profile" element={<CompanyProfilePage />} />
 
             <Route
               path="/ai-reference-jobs"
@@ -135,11 +135,11 @@ function App() {
               element={<AiReferenceQuestionPage />}
             />
             <Route
-              path="/AiReferenceAgencyPartner"
+              path="/ai-reference-agency-partners"
               element={<AiReferenceAgencyPartnersPage />}
             />
             <Route
-              path="/AiReferenceReports"
+              path="/ai-reference-reports"
               element={<AiReferenceReportsPage />}
             />
             <Route
