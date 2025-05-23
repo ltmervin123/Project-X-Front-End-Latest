@@ -14,6 +14,17 @@ export const addJob = async (payload) => {
   return response.data;
 };
 
+export const getJobs = async (user) => {
+  const { id, token } = user;
+  const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
+  const response = await axios.get(URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data.jobs;
+};
+
 export const updateVacancies = async (payload) => {
   const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;
