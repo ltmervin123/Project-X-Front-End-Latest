@@ -10,42 +10,73 @@ const ChartSection = ({
   barOptions,
   translations,
   language,
+  acceptanceRateData,
+  acceptanceRateOptions,
 }) => {
   return (
-    <>
-      <Row>
-        <Col md="6">
-          <div
-            className={`line-bar-chart-container fade-in ${
-              isLineChartVisible ? "visible" : ""
-            }`}
-          >
-            <div className="line-chart">
-              <p className="mb-3 line-title-overlay">
-                {translations[language].ReferenceOverview}{" "}
-              </p>
-              <Line data={lineData} options={lineOptions} />
+    <Row className="chart-row">
+      <Col md="4">
+        <div
+          className={`line-bar-chart-container h-100 fade-in ${
+            isLineChartVisible ? "visible" : ""
+          }`}
+        >
+          <div className="line-chart h-100">
+            <p className="mb-3 line-title-overlay">
+              - {translations[language].ReferenceOverview} -{" "}
+            </p>
+            <div className="chart-wrapper">
+              <Line
+                data={lineData}
+                options={{ ...lineOptions, maintainAspectRatio: false }}
+              />
             </div>
           </div>
-        </Col>
-        <Col md="6">
-          <div
-            className={`line-bar-chart-container fade-in ${
-              isBarChartVisible ? "visible" : ""
-            }`}
-          >
-            <div className="bar-chart">
-              <p className="mb-3 bar-title-overlay">
-                {" "}
-                {translations[language].ByDepartment}{" "}
-              </p>
+        </div>
+      </Col>
+      <Col md="4">
+        <div
+          className={`line-bar-chart-container h-100 fade-in ${
+            isBarChartVisible ? "visible" : ""
+          }`}
+        >
+          <div className="bar-chart h-100">
+            <p className="mb-3 bar-title-overlay">
+              - {translations[language].ByDepartment} -{" "}
+            </p>
 
-              <Bar data={barData} options={barOptions} />
+            <div className="chart-wrapper">
+              <Bar
+                data={barData}
+                options={{ ...barOptions, maintainAspectRatio: false }}
+              />
             </div>
           </div>
-        </Col>
-      </Row>
-    </>
+        </div>
+      </Col>
+      <Col md="4">
+        <div
+          className={`line-bar-chart-container h-100 fade-in ${
+            isLineChartVisible ? "visible" : ""
+          }`}
+        >
+          <div className="acceptance-rate-chart h-100">
+            <p className="mb-3 acceptance-title-overlay">
+              - {translations[language].AcceptanceRate} -{" "}
+            </p>
+            <div className="chart-wrapper">
+              <Bar
+                data={acceptanceRateData}
+                options={{
+                  ...acceptanceRateOptions,
+                  maintainAspectRatio: false,
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </Col>
+    </Row>
   );
 };
 
