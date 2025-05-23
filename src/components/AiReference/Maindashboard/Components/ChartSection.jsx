@@ -23,7 +23,7 @@ const ChartSection = ({
         >
           <div className="line-chart h-100">
             <p className="mb-3 line-title-overlay">
-              - {translations[language].ReferenceOverview} -{" "}
+              {translations[language].ReferenceOverview}
             </p>
             <div className="chart-wrapper">
               <Line
@@ -42,7 +42,7 @@ const ChartSection = ({
         >
           <div className="bar-chart h-100">
             <p className="mb-3 bar-title-overlay">
-              - {translations[language].ByDepartment} -{" "}
+              {translations[language].ByDepartment}
             </p>
 
             <div className="chart-wrapper">
@@ -62,7 +62,7 @@ const ChartSection = ({
         >
           <div className="acceptance-rate-chart h-100">
             <p className="mb-3 acceptance-title-overlay">
-              - {translations[language].AcceptanceRate} -{" "}
+              {translations[language].AcceptanceRate}
             </p>
             <div className="chart-wrapper">
               <Bar
