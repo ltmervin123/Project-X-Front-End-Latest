@@ -64,7 +64,7 @@ const Header = () => {
                 </NavDropdown.Item>
                 <NavDropdown.Item
                   className="noclickblue"
-                  onClick={() => navigate("/AiReferenceMaindashboard")}
+                  onClick={() => navigate("/ai-reference-dashboard")}
                 >
                   AI Reference Checker
                 </NavDropdown.Item>

@@ -164,22 +164,24 @@ const GUIDE_STEPS = {
       intro:
         "This section displays all the recently completed requests, and you also have the option to download them.",
     },
-
   ],
   trashbin: [
     {
       title: "<span>1</span> Let’s Explore Trashbin",
-      intro: "Now, let’s take a look at how trashbin work. Click ‘Next’ to proceed to the Trashbin page.",
+      intro:
+        "Now, let’s take a look at how trashbin work. Click ‘Next’ to proceed to the Trashbin page.",
     },
     {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
-      intro: "Use this search bar to quickly find specific deleted items by name or type.",
+      intro:
+        "Use this search bar to quickly find specific deleted items by name or type.",
     },
     {
       title: "<span>3</span> Deleted Jobs Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted jobs.",
+      intro:
+        "This section provides an overview of all previously deleted jobs.",
     },
     {
       title: "<span>4</span> Navigate to Applicants",
@@ -189,7 +191,8 @@ const GUIDE_STEPS = {
     {
       title: "<span>5</span> Deleted Applicants Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted applicants",
+      intro:
+        "This section provides an overview of all previously deleted applicants",
     },
     {
       title: "<span>6</span> Navigate to Reference Requests",
@@ -200,7 +203,8 @@ const GUIDE_STEPS = {
     {
       title: "<span>7</span> Deleted Reference Requests Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted reference requests",
+      intro:
+        "This section provides an overview of all previously deleted reference requests",
     },
     {
       title: "<span>8</span> Navigate to Reference Requests",
@@ -211,7 +215,8 @@ const GUIDE_STEPS = {
     {
       title: "<span>9</span> Deleted Reference Questions Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted reference questions",
+      intro:
+        "This section provides an overview of all previously deleted reference questions",
     },
     {
       title: "<span>10</span> Walkthrough Complete!",
@@ -235,7 +240,8 @@ const PopupGuide = ({ introKey }) => {
   );
 
   useEffect(() => {
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
+    const isIntroShown =
+      JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
     const allIntroKeys = Object.keys(GUIDE_STEPS);
     const allIntrosShown = allIntroKeys.every((key) => isIntroShown[key]);
 
@@ -245,8 +251,8 @@ const PopupGuide = ({ introKey }) => {
 
     // Only redirect to dashboard if this is the first guide being shown
     const isFirstGuide = !Object.keys(isIntroShown).length;
-    if (isFirstGuide && location.pathname !== '/AiReferenceMaindashboard') {
-      navigate('/AiReferenceMaindashboard');
+    if (isFirstGuide && location.pathname !== "/ai-reference-dashboard") {
+      navigate("/ai-reference-dashboard");
       return;
     }
 
@@ -268,16 +274,16 @@ const PopupGuide = ({ introKey }) => {
         })
         .onexit(() => {
           // Only navigate if skip was not clicked and we're not already on dashboard
-          if (!skipClickedRef.current && introKey !== 'dashboard') {
+          if (!skipClickedRef.current && introKey !== "dashboard") {
             const routes = {
-              jobs: "/AiReferenceApplicant",
-              applicant: "/AiReferenceRequest",
-              referenceRequests: "/AiReferenceQuestion",
-              referenceQuestions: "/AiReferenceReports",
-              reports: "/AiReferenceTrashbin",
-              trashbin: "/AiReferenceMaindashboard",
+              jobs: "/ai-reference-applicants",
+              applicant: "/ai-reference-request",
+              referenceRequests: "/ai-reference-questions",
+              referenceQuestions: "/ai-reference-reports",
+              reports: "/ai-reference-archives",
+              trashbin: "/ai-reference-dashboard",
             };
-            navigate(routes[introKey] || "/AiReferenceJobs");
+            navigate(routes[introKey] || "/ai-reference-jobs");
           }
         })
         .onchange(function (targetElement) {
@@ -304,16 +310,33 @@ const PopupGuide = ({ introKey }) => {
           if (targetElement.classList.contains("btn-aireference-report")) {
             document.querySelector(".btn-aireference-report")?.click();
           }
-          if (targetElement.matches(".trashbin-category-filters button:nth-child(2)")) {
-            document.querySelector(".trashbin-category-filters button:nth-child(2)")?.click(); // Auto-click "Applicant’s" button
+          if (
+            targetElement.matches(
+              ".trashbin-category-filters button:nth-child(2)"
+            )
+          ) {
+            document
+              .querySelector(".trashbin-category-filters button:nth-child(2)")
+              ?.click(); // Auto-click "Applicant’s" button
           }
-          if (targetElement.matches(".trashbin-category-filters button:nth-child(3)")) {
-            document.querySelector(".trashbin-category-filters button:nth-child(3)")?.click(); // Auto-click "Reference Request" button
+          if (
+            targetElement.matches(
+              ".trashbin-category-filters button:nth-child(3)"
+            )
+          ) {
+            document
+              .querySelector(".trashbin-category-filters button:nth-child(3)")
+              ?.click(); // Auto-click "Reference Request" button
           }
-          if (targetElement.matches(".trashbin-category-filters button:nth-child(4)")) {
-            document.querySelector(".trashbin-category-filters button:nth-child(4)")?.click(); // Auto-click "Reference Question" button
+          if (
+            targetElement.matches(
+              ".trashbin-category-filters button:nth-child(4)"
+            )
+          ) {
+            document
+              .querySelector(".trashbin-category-filters button:nth-child(4)")
+              ?.click(); // Auto-click "Reference Question" button
           }
-          
         })
         .onskip(() => {
           // Mark all intros as shown when Skip is clicked
@@ -326,7 +349,7 @@ const PopupGuide = ({ introKey }) => {
               ...Object.fromEntries(allIntroKeys.map((key) => [key, true])),
             })
           );
-          navigate("/AiReferenceMaindashboard"); // Navigate to the default route
+          navigate("/ai-reference-dashboard"); // Navigate to the default route
         })
         .start();
 
@@ -348,7 +371,7 @@ const PopupGuide = ({ introKey }) => {
               ...Object.fromEntries(allIntroKeys.map((key) => [key, true])),
             })
           );
-          navigate("/AiReferenceMaindashboard");
+          navigate("/ai-reference-dashboard");
         }
       };
 

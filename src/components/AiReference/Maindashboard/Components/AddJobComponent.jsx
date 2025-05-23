@@ -7,6 +7,7 @@ import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-a
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
 import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
 import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Translation dictionary
 const TRANSLATIONS = {
@@ -134,6 +135,7 @@ const TRANSLATIONS = {
 };
 
 const AddJobComponent = ({ onCancel }) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const [currentLanguage, setCurrentLanguage] = useState("English");
@@ -318,6 +320,12 @@ const AddJobComponent = ({ onCancel }) => {
       // Create candidate
       await handleAddCandidate(createdJob?.createdJob);
 
+      //Invalidates all realed queries
+      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+      queryClient.invalidateQueries({ queryKey: ["completed-reference"] });
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["references"] });
+
       // Store candidate emails before navigation
       const candidateEmails = candidates.map((c) => c.email);
       sessionStorage.setItem(
@@ -497,7 +505,9 @@ const AddJobComponent = ({ onCancel }) => {
                       type="text"
                       value={jobName}
                       onChange={(e) => setJobName(e.target.value)}
-                      placeholder={TRANSLATIONS[currentLanguage].placeholders.jobName}
+                      placeholder={
+                        TRANSLATIONS[currentLanguage].placeholders.jobName
+                      }
                       required
                     />
                     {errorMessages.jobName && (
@@ -516,8 +526,12 @@ const AddJobComponent = ({ onCancel }) => {
                           type="number"
                           min="1"
                           value={vacancies}
-                          onChange={(e) => setVacancies(parseInt(e.target.value) || 1)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.vacancy}
+                          onChange={(e) =>
+                            setVacancies(parseInt(e.target.value) || 1)
+                          }
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.vacancy
+                          }
                           required
                         />
                       </Form.Group>
@@ -534,7 +548,10 @@ const AddJobComponent = ({ onCancel }) => {
                           required
                         >
                           <option value="">
-                            {TRANSLATIONS[currentLanguage].placeholders.selectDepartment}
+                            {
+                              TRANSLATIONS[currentLanguage].placeholders
+                                .selectDepartment
+                            }
                           </option>
                           <option value="Sales">
                             {TRANSLATIONS[currentLanguage].departments.sales}
@@ -636,7 +653,9 @@ const AddJobComponent = ({ onCancel }) => {
                           type="text"
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.firstName}
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.firstName
+                          }
                           required
                         />
                       </Col>
@@ -645,7 +664,9 @@ const AddJobComponent = ({ onCancel }) => {
                           type="text"
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.lastName}
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.lastName
+                          }
                           required
                         />
                       </Col>
@@ -834,9 +855,16 @@ const AddJobComponent = ({ onCancel }) => {
                               value={candidate.firstName}
                               type="text"
                               onChange={(e) =>
-                                handleInputChange(index, "firstName", e.target.value)
+                                handleInputChange(
+                                  index,
+                                  "firstName",
+                                  e.target.value
+                                )
                               }
-                              placeholder={TRANSLATIONS[currentLanguage].placeholders.firstName}
+                              placeholder={
+                                TRANSLATIONS[currentLanguage].placeholders
+                                  .firstName
+                              }
                               required
                             />
                           </Form.Group>
@@ -851,15 +879,22 @@ const AddJobComponent = ({ onCancel }) => {
                               value={candidate.lastName}
                               type="text"
                               onChange={(e) =>
-                                handleInputChange(index, "lastName", e.target.value)
+                                handleInputChange(
+                                  index,
+                                  "lastName",
+                                  e.target.value
+                                )
                               }
-                              placeholder={TRANSLATIONS[currentLanguage].placeholders.lastName}
+                              placeholder={
+                                TRANSLATIONS[currentLanguage].placeholders
+                                  .lastName
+                              }
                               required
                             />
                           </Form.Group>
                         </Col>
 
-                        <Col >
+                        <Col>
                           <Form.Group
                             controlId={`formNumReferees${index}`}
                             className="mb-3"
@@ -871,11 +906,16 @@ const AddJobComponent = ({ onCancel }) => {
                             <div className="custom-dropdown-job-req">
                               <div
                                 className={`dropdown-header-job-req ${
-                                  showRefereesDropdowns[index] ? "dropdown-open" : ""
+                                  showRefereesDropdowns[index]
+                                    ? "dropdown-open"
+                                    : ""
                                 }`}
                                 onClick={() => {
-                                  const newShowDropdowns = [...showRefereesDropdowns];
-                                  newShowDropdowns[index] = !newShowDropdowns[index];
+                                  const newShowDropdowns = [
+                                    ...showRefereesDropdowns,
+                                  ];
+                                  newShowDropdowns[index] =
+                                    !newShowDropdowns[index];
                                   setShowRefereesDropdowns(newShowDropdowns);
                                 }}
                               >
@@ -888,10 +928,18 @@ const AddJobComponent = ({ onCancel }) => {
                                       key={num}
                                       className="dropdown-item-job-req"
                                       onClick={() => {
-                                        handleInputChange(index, "numberOfReferees", num);
-                                        const newShowDropdowns = [...showRefereesDropdowns];
+                                        handleInputChange(
+                                          index,
+                                          "numberOfReferees",
+                                          num
+                                        );
+                                        const newShowDropdowns = [
+                                          ...showRefereesDropdowns,
+                                        ];
                                         newShowDropdowns[index] = false;
-                                        setShowRefereesDropdowns(newShowDropdowns);
+                                        setShowRefereesDropdowns(
+                                          newShowDropdowns
+                                        );
                                       }}
                                     >
                                       {num}
@@ -915,8 +963,12 @@ const AddJobComponent = ({ onCancel }) => {
                         <Form.Control
                           value={candidate.email}
                           type="email"
-                          onChange={(e) => handleInputChange(index, "email", e.target.value)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.email}
+                          onChange={(e) =>
+                            handleInputChange(index, "email", e.target.value)
+                          }
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.email
+                          }
                           required
                         />
                       </Form.Group>

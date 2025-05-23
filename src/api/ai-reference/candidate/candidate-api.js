@@ -18,6 +18,18 @@ export const addCandidate = async (payload) => {
   return response.data;
 };
 
+export const getCandidate = async (user) => {
+  const { id, token } = user;
+  const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${id}`;
+  const response = await axios.get(URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data.candidates;
+};
+
 export const sendCandidateReminder = async (candidateId) => {
   const USER = JSON.parse(localStorage.getItem("user")) || null;
   const token = USER?.token;

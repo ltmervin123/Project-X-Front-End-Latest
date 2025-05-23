@@ -277,7 +277,7 @@ const Reports = () => {
       title: TRANSLATIONS[language].totalReferences,
       value: countTotalReference,
       color: "#1877F2",
-      route: "/AiReferenceRequest", // Add route for Total References
+      route: "/ai-reference-request", // Add route for Total References
     },
     {
       title: TRANSLATIONS[language].completionRate,

@@ -449,3 +449,7 @@
     height: 35vh;
   }
 }
+
+.hover-pointer {
+  cursor: pointer;
+}

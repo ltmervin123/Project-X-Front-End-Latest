@@ -1,233 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
-import { Line, Bar } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
 import AddJobComponent from "./Components/AddJobComponent";
-import SelectionLanguagePopUp from "./PopUpComponents/SelectionLanguagePopUp";
 import { socket } from "../../../utils/socket/socketSetup";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const TRANSLATIONS = {
-  English: {
-    Dashboard: "Dashboard",
-
-    ManageTrackResponse: "Manage and track your reference response",
-    StartReferenceCheck: "Start Reference Check",
-    ActiveJobs: "Active Jobs",
-    PendingReferences: "Pending References",
-    CompletedReferences: "Completed References",
-
-    TotalApplicants: "Total Applicants",
-    ReferenceOverview: "Reference Overview",
-    ByDepartment: "By Department",
-    RecentActivities: "Recent Activities",
-    ClickToStart: "Click here to begin the reference check process.",
-    ManageTrackProcesses: "Manage and track your reference check processes.",
-    completed: "completed",
-    NoRecentActivities: "No recent activities",
-    ViewAll: "View All",
-    ShowLess: "Show Less",
-    departments: {
-      sales: "Sales",
-      marketing: "Marketing",
-      customerService: "Customer Service",
-      hr: "Human Resources (HR)",
-      finance: "Finance",
-      accounting: "Accounting",
-      operations: "Operations",
-      it: "IT (Information Technology)",
-      legal: "Legal",
-      administration: "Administration",
-      productDevelopment: "Product Development",
-      rAndD: "Research and Development (R&D)",
-      logistics: "Logistics, Supply Chain & Procurement",
-      businessDev: "Business Development",
-      pr: "Public Relations (PR)",
-      design: "Design",
-      compliance: "Compliance",
-      riskManagement: "Risk Management",
-    },
-    Total: "Total",
-    Complete: "Complete",
-    months: {
-      January: "January",
-      February: "February",
-      March: "March",
-      April: "April",
-      May: "May",
-      June: "June",
-      July: "July",
-      August: "August",
-      September: "September",
-      October: "October",
-      November: "November",
-      December: "December",
-    },
-    "a reference check for": "a reference check for",
-    ago: "ago",
-    TotalCredits: "Total Credits",
-    TotalRate: "Total Rate",
-    AcceptanceRate: "Acceptance Rate",
-  },
-  Japanese: {
-    Dashboard: "ダッシュボード",
-
-    ManageTrackResponse: "リファレンスチェックの管理と追跡",
-    StartReferenceCheck: "リファレンスチェックを開始する",
-    ActiveJobs: "求人",
-    PendingReferences: "保留中のリファレンス",
-    CompletedReferences: "完了リファレンス",
-    TotalApplicants: "応募者数",
-    ReferenceOverview: "リファレンスチェック概要",
-    ByDepartment: "部門別",
-    RecentActivities: "最近の活動",
-    ClickToStart:
-      "ここをクリックしてリファレンスチェックプロセスを開始します。",
-    ManageTrackProcesses: "リファレンスチェックプロセスを管理し、追跡します。",
-    completed: "完了",
-    NoRecentActivities: "最近の活動はありません",
-    ViewAll: "すべて表示",
-    ShowLess: "表示を減らす",
-    departments: {
-      sales: "営業",
-      marketing: "マーケティング",
-      customerService: "カスタマーサービス",
-      hr: "人事",
-      finance: "財務",
-      accounting: "経理",
-      operations: "運営",
-      it: "IT",
-      legal: "法務",
-      administration: "総務",
-      productDevelopment: "製品開発",
-      rAndD: "研究開発",
-      logistics: "物流・調達",
-      businessDev: "事業開発",
-      pr: "広報",
-      design: "デザイン",
-      compliance: "コンプライアンス",
-      riskManagement: "リスク管理",
-    },
-    Total: "合計",
-    Complete: "完了",
-    months: {
-      January: "1月",
-      February: "2月",
-      March: "3月",
-      April: "4月",
-      May: "5月",
-      June: "6月",
-      July: "7月",
-      August: "8月",
-      September: "9月",
-      October: "10月",
-      November: "11月",
-      December: "12月",
-    },
-    "a reference check for": "のリファレンスチェック",
-    ago: "前",
-    TotalCredits: "総クレジット",
-    TotalRate: "総レート",
-    AcceptanceRate: "承認率",
-  },
-};
-
-// Register all necessary components
-Chart.register(...registerables);
-
-const LogContainer = ({ completedRecords, language }) => {
-  const handleToggleShowAll = (event) => {
-    event.preventDefault(); // Prevent default anchor behavior
-    setShowAll(!showAll);
-  };
-  const [showAll, setShowAll] = useState(false);
-
-  function timeAgo(timestamp) {
-    const now = new Date();
-    const past = new Date(timestamp);
-    const seconds = Math.floor((now - past) / 1000);
-
-    const intervals = {
-      year: 31536000,
-      month: 2592000,
-      week: 604800,
-      day: 86400,
-      hour: 3600,
-      minute: 60,
-      second: 1,
-    };
-
-    for (let unit in intervals) {
-      const interval = Math.floor(seconds / intervals[unit]);
-      if (interval >= 1) {
-        return `${interval} ${unit}${interval !== 1 ? "s" : ""} ago`;
-      }
-    }
-    return "just now";
-  }
-
-  const displayedLogs = showAll
-    ? completedRecords
-    : completedRecords.slice(completedRecords.length - 2);
-
-  return (
-    <div className="LogContainer my-4">
-      <div className="d-flex justify-content-between align-items-center">
-        <p className="mb-3">{TRANSLATIONS[language].RecentActivities}</p>
-        <a href="#" onClick={handleToggleShowAll}>
-          {showAll
-            ? TRANSLATIONS[language].ShowLess
-            : TRANSLATIONS[language].ViewAll}
-        </a>
-      </div>
-      <div className="list-log-containerlist-log-container">
-        {
-          // Display the logs
-          completedRecords.length > 0 ? (
-            displayedLogs
-              .slice()
-              .reverse()
-              .map((log, index) => (
-                <div
-                  key={index}
-                  className="log-item d-flex align-items-center mb-3 gap-3"
-                >
-                  <div className="avatar-letter d-flex align-items-center justify-content-center">
-                    {log.refereeName.firstName.charAt(0)}
-                  </div>
-                  <div>
-                    <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    {TRANSLATIONS[language].completed}{" "}
-                    {TRANSLATIONS[language]["a reference check for"]}{" "}
-                    <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
-                    <div className="text-muted">
-                      {timeAgo(log.completedDate).replace(
-                        "ago",
-                        TRANSLATIONS[language]["ago"]
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))
-          ) : (
-            <div>{TRANSLATIONS[language].NoRecentActivities}</div>
-          )
-        }
-      </div>
-    </div>
-  );
-};
+import RecentActivitySection from "./Components/RecentActivitySection";
+import HeaderSections from "./Components/HeaderSections";
+import CardSection from "./Components/CardSection";
+import ChartSection from "./Components/ChartSection";
+import { useLabels } from "./Hooks/useLabels";
+import { useGetCandidate } from "../../../hook/useCandidate";
+import {
+  useGetCompletedReference,
+  useGetReferences,
+} from "../../../hook/useReference";
+import { useGetJobs } from "../../../hook/useJob";
+import { useQueryClient } from "@tanstack/react-query";
 
 const MainDashboard = () => {
-  const navigate = useNavigate();
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const id = USER?.id;
-  const token = USER?.token;
-  const [showJobForm, setShowJobForm] = useState(false);
   const language = sessionStorage.getItem("preferred-language") || "English";
+  const user = JSON.parse(localStorage.getItem("user"));
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { labels } = useLabels(language);
+  const { data: candidates = [] } = useGetCandidate(user);
+  const { data: completedRecords = [] } = useGetCompletedReference(user);
+  const { data: ActiveJobs = [] } = useGetJobs(user);
+  const { data: reference = [] } = useGetReferences(user);
+  const [showJobForm, setShowJobForm] = useState(false);
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
@@ -248,174 +47,14 @@ const MainDashboard = () => {
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
 
-  const handleOpenJobForm = () => {
-    setShowJobForm(true);
-  };
-
-  const [candidates, setCandidates] = useState(
-    JSON.parse(localStorage.getItem("candidates")) || []
-  );
-  const [activeJobs, setActiveJobs] = useState(
-    JSON.parse(localStorage.getItem("jobs")) || []
-  );
-  const [reference, setReference] = useState(
-    JSON.parse(localStorage.getItem("reference")) || []
-  );
-  const [questionSets, setQuestionSets] = useState(
-    JSON.parse(localStorage.getItem("questions")) || []
-  );
-  const [completedRecords, setCompletedRecords] = useState(
-    JSON.parse(localStorage.getItem("completedReference")) || []
-  );
-  const timeoutRef = useRef(null);
-  const abortControllerRef = useRef(new AbortController());
-
-  const fetchCompletedRecords = async ({ signal }) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-request-reference/get-completed-reference/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          signal,
-        },
-      });
-      localStorage.setItem(
-        "completedReference",
-        JSON.stringify(response.data.result)
-      );
-      setCompletedRecords(response.data.result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchCustomReferenceQuestions = async ({ signal } = {}) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          signal,
-        },
-      });
-      localStorage.setItem(
-        "questions",
-        JSON.stringify(response.data.questions)
-      );
-      setQuestionSets(response.data.questions);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchReference = async ({ signal } = {}) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-request-by-companyId/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        signal,
-      });
-
-      if (response.status === 200) {
-        localStorage.setItem(
-          "reference",
-          JSON.stringify(response.data.reference)
-        );
-        setReference(response.data.reference);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchJobs = async ({ signal } = {}) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        signal,
-      });
-      if (response.status === 200) {
-        localStorage.setItem("jobs", JSON.stringify(response.data.jobs));
-        setActiveJobs(response.data.jobs);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const fetchCandidates = async ({ signal }) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        signal,
-      });
-
-      if (response.status === 200) {
-        setCandidates(response.data.candidates);
-        localStorage.setItem(
-          "candidates",
-          JSON.stringify(response.data.candidates)
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchCandidates = async ({ signal } = {}) => {
-    try {
-      await fetchCandidates(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchUpdatedQuestions = async ({ signal } = {}) => {
-    try {
-      await fetchCustomReferenceQuestions(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchReference = async ({ signal } = {}) => {
-    try {
-      await fetchReference(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchCompletedReference = async ({ signal } = {}) => {
-    try {
-      await fetchCompletedRecords(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const refetchJobs = async ({ signal } = {}) => {
-    try {
-      //fetch the jobs again
-      await fetchJobs(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    //INVALIDATE QUERIES WHEN SOMEONE SUBMIT REFERENCE RESPONSE
     const handleReferenceSubmitted = async (data) => {
       if (data?.completed) {
-        await handleRefetchCandidates();
-        await handleRefetchJobs();
-        await handleRefetchReference();
+        queryClient.invalidateQueries({ queryKey: ["candidates"] });
+        queryClient.invalidateQueries({ queryKey: ["completed-reference"] });
+        queryClient.invalidateQueries({ queryKey: ["jobs"] });
+        queryClient.invalidateQueries({ queryKey: ["references"] });
       }
     };
 
@@ -425,7 +64,6 @@ const MainDashboard = () => {
     });
   }, []);
 
-  //This function return an array of months according to the reference data
   const getMonthlyCounts = (reference) => {
     const monthNames = [
       "January",
@@ -441,10 +79,6 @@ const MainDashboard = () => {
       "November",
       "December",
     ];
-
-    const translatedMonthNames = monthNames.map(
-      (month) => TRANSLATIONS[language].months[month]
-    );
 
     const monthMap = new Map();
 
@@ -478,9 +112,7 @@ const MainDashboard = () => {
     );
 
     // Map the sorted English month names to translated ones
-    const translatedMonths = months.map(
-      (month) => TRANSLATIONS[language].months[month]
-    );
+    const translatedMonths = months.map((month) => labels.months[month]);
 
     const totalReferenceCount = months.map(
       (month) => monthMap.get(month).total
@@ -500,7 +132,7 @@ const MainDashboard = () => {
 
   // Calculate the count for each card
   const activeJobCount =
-    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+    ActiveJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
 
   const totalCompletedReference = reference.reduce((count, record) => {
     // Check if the record has referees
@@ -539,37 +171,37 @@ const MainDashboard = () => {
 
   const cardData = [
     {
-      title: TRANSLATIONS[language].ActiveJobs, // Use translation
+      title: labels.ActiveJobs,
       count: activeJobCount,
       color: "#1877F2",
-      path: "/AiReferenceJobs",
+      path: "/ai-reference-jobs",
     },
     {
-      title: TRANSLATIONS[language].PendingReferences,
+      title: labels.PendingReferences,
       count: pendingReferenceCount,
       color: "#F8BD00",
-      path: "/AiReferenceRequest",
+      path: "/ai-reference-request",
     },
     {
-      title: TRANSLATIONS[language].CompletedReferences,
+      title: labels.CompletedReferences,
       count: totalCompletedReference,
       color: "#319F43",
-      path: "/AiReferenceRequest",
+      path: "/ai-reference-request",
     },
     {
-      title: TRANSLATIONS[language].TotalApplicants,
+      title: labels.TotalApplicants,
       count: totalCandidateCount,
       color: "#686868",
-      path: "/AiReferenceApplicant",
+      path: "/ai-reference-applicants",
     },
     {
-      title: TRANSLATIONS[language].TotalCredits,
-      count: 5,
+      title: labels.TotalCredits,
+      count: 0,
       color: "#f46a05",
       path: "/",
     },
   ];
-  // Data for the line chart
+
   const lineData = {
     labels: months,
     datasets: [
@@ -592,7 +224,6 @@ const MainDashboard = () => {
     ],
   };
 
-  // Ensure the tooltip element exists and is created before using it
   const createTooltipElement = () => {
     let tooltipEl = document.getElementById("chartjs-tooltip");
 
@@ -605,10 +236,9 @@ const MainDashboard = () => {
     return tooltipEl;
   };
 
-  // Function to generate unique whole number ticks
   const generateYTicks = (min, max) => {
     const ticks = [];
-    // Ensure the minimum is at least 0
+
     const start = Math.min(0, Math.floor(min));
     const end = Math.ceil(max);
 
@@ -618,20 +248,16 @@ const MainDashboard = () => {
     return ticks;
   };
 
-  // Calculate the min and max values from your datasets
   const minTotal = Math.min(...totalReferenceCount);
   const maxTotal = Math.max(...totalReferenceCount);
   const minCompleted = Math.min(...completedReferenceCounts);
   const maxCompleted = Math.max(...completedReferenceCounts);
 
-  // Determine overall min and max
   const minY = Math.min(minTotal, minCompleted);
   const maxY = Math.max(maxTotal, maxCompleted);
 
-  // Generate unique whole number ticks for the y-axis
   const yTicks = generateYTicks(minY, maxY);
 
-  // Update the lineOptions
   const lineOptions = {
     responsive: true,
     plugins: {
@@ -641,7 +267,7 @@ const MainDashboard = () => {
       tooltip: {
         enabled: false,
         external: function (context) {
-          const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
+          const tooltipEl = createTooltipElement();
 
           const tooltipModel = context.tooltip;
 
@@ -664,23 +290,19 @@ const MainDashboard = () => {
           tooltipEl.style.top =
             position.top + window.scrollY + tooltipModel.caretY + "px";
 
-          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
+          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex];
           const innerHtml = `
         <table class="tooltip-line=chart">
           <tr>
             <td style="font-weight: 500;">${month}</td>
           </tr>
           <tr>
-            <td style="color: #1877F2; font-weight: 400;">${
-              TRANSLATIONS[language].Total
-            }: ${
+            <td style="color: #1877F2; font-weight: 400;">${labels.Total}: ${
             lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
           }</td>
           </tr>
           <tr>
-            <td style="color: #319F43;font-weight: 400;">${
-              TRANSLATIONS[language].Complete
-            }: ${
+            <td style="color: #319F43;font-weight: 400;">${labels.Complete}: ${
             lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
           }</td>
           </tr>
@@ -711,15 +333,15 @@ const MainDashboard = () => {
             size: 12,
           },
           color: "#000",
-          // Use the generated ticks
+
           callback: function (value) {
-            return yTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+            return yTicks.includes(value) ? value : "";
           },
         },
-        // Set the ticks to the generated array
+
         ticks: {
           callback: function (value) {
-            return yTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+            return yTicks.includes(value) ? value : "";
           },
         },
       },
@@ -729,9 +351,7 @@ const MainDashboard = () => {
     const departmentCounts = {};
     const departmentMap = new Map();
 
-    // Helper function to map department names to translation keys
     const mapDepartmentToKey = (dept) => {
-      // Manual mapping for specific department names
       const manualMapping = {
         "Human Resources (HR)": "hr",
         "IT (Information Technology)": "it",
@@ -760,7 +380,7 @@ const MainDashboard = () => {
         );
     };
 
-    activeJobs.forEach((job) => {
+    ActiveJobs.forEach((job) => {
       if (job.department) {
         const deptKey = mapDepartmentToKey(job.department);
         departmentCounts[job.department] =
@@ -780,7 +400,7 @@ const MainDashboard = () => {
   const barData = {
     labels: departments.map((dept) => {
       const deptKey = departmentMap.get(dept);
-      return TRANSLATIONS[language].departments[deptKey] || dept;
+      return labels.departments[deptKey] || dept;
     }),
     datasets: [
       {
@@ -793,11 +413,9 @@ const MainDashboard = () => {
     ],
   };
 
-  // Calculate the min and max values from your counts array
   const minCount = Math.min(...counts);
   const maxCount = Math.max(...counts);
 
-  // Generate unique whole number ticks for the y-axis
   const barYTicks = generateYTicks(minCount, maxCount);
 
   const barOptions = {
@@ -845,7 +463,7 @@ const MainDashboard = () => {
 
           // If tooltip would overflow the canvas on the right, place it on the left
           if (tooltipX + tooltipWidth > position.left + position.width) {
-            tooltipX -= tooltipWidth; // Shift to the left
+            tooltipX -= tooltipWidth;
           }
 
           // Apply the calculated position
@@ -879,38 +497,35 @@ const MainDashboard = () => {
           },
           color: "#000",
           callback: function (value, index) {
-            // Only show labels if there are 2 or fewer departments
             const deptKey = departmentMap.get(departments[index]);
             return departments.length <= 2
-              ? TRANSLATIONS[language].departments[deptKey] ||
-                  departments[index]
+              ? labels.departments[deptKey] || departments[index]
               : "";
           },
         },
       },
       y: {
         grid: {
-          display: false, // Disable grid on the y-axis
+          display: false,
         },
         ticks: {
           font: {
-            size: 12, // Adjust the font size of the y-axis labels if needed
+            size: 12,
           },
-          color: "#000", // Change the label color if necessary
+          color: "#000",
           callback: function (value) {
-            return barYTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+            return barYTicks.includes(value) ? value : "";
           },
         },
       },
     },
   };
 
-  // Add sample data for Acceptance Rate Per Agencies
   const acceptanceRateData = {
     labels: ["Agency A", "Agency B", "Agency C", "Agency D", "Agency E"],
     datasets: [
       {
-        label: TRANSLATIONS[language].AcceptanceRate,
+        label: labels.AcceptanceRate,
         data: [85, 72, 90, 65, 78],
         backgroundColor: [
           "#1877F2",
@@ -1023,59 +638,6 @@ const MainDashboard = () => {
     },
   };
 
-  async function refetchAllData(timeoutRef, abortController) {
-    if (abortController.signal.aborted) return; // Stop execution if aborted
-
-    try {
-      await Promise.all([
-        reFetchCandidates({ signal: abortController.signal }),
-        refetchJobs({ signal: abortController.signal }),
-        reFetchReference({ signal: abortController.signal }),
-        reFetchCompletedReference({ signal: abortController.signal }),
-      ]);
-    } catch (error) {
-      if (error.name === "AbortError") {
-        console.error("Request aborted");
-        return;
-      }
-      console.error("Fetch error:", error);
-    }
-
-    if (!abortController.signal.aborted) {
-      timeoutRef.current = setTimeout(
-        () => refetchAllData(timeoutRef, abortController),
-        60000
-      );
-    }
-  }
-
-  useEffect(() => {
-    refetchAllData(timeoutRef, abortControllerRef.current);
-
-    return () => {
-      // Clear timeout
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      // Abort fetch requests
-      abortControllerRef.current.abort();
-    };
-  }, []);
-
-  const handleRefetchCandidates = async () => {
-    await fetchCandidates(abortControllerRef.current);
-  };
-  const handleRefetchJobs = async () => {
-    await fetchJobs(abortControllerRef.current);
-  };
-  const handleRefetchReference = async () => {
-    await fetchReference(abortControllerRef.current);
-  };
-
-  const handleRefetchCompletedRecords = async () => {
-    await fetchCompletedRecords(abortControllerRef.current);
-  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       {showJobForm ? (
@@ -1086,143 +648,39 @@ const MainDashboard = () => {
         />
       ) : (
         <>
-          <div>
-            <h3 className="mb-0">{TRANSLATIONS[language].Dashboard}</h3>
-            <p className="mb-2">
-              {TRANSLATIONS[language].ManageTrackResponse}{" "}
-            </p>
-          </div>
-          <div className="d-flex justify-content-start mb-3 w-100">
-            <Row className="w-100">
-              <Col
-                md={6}
-                className={`start-reference-check-container fade-in ${
-                  isStartReferenceCheckVisible ? "visible" : ""
-                }`}
-              >
-                <button
-                  className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-3 "
-                  onClick={handleOpenJobForm}
-                >
-                  {TRANSLATIONS[language].StartReferenceCheck}{" "}
-                  <svg
-                    width="17"
-                    height="17"
-                    viewBox="0 0 17 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.39847 2.59891C9.611 2.38645 9.89922 2.26709 10.1997 2.26709C10.5003 2.26709 10.7885 2.38645 11.001 2.59891L16.101 7.69891C16.3135 7.91145 16.4328 8.19966 16.4328 8.50018C16.4328 8.8007 16.3135 9.08892 16.101 9.30145L11.001 14.4014C10.7873 14.6079 10.501 14.7221 10.2038 14.7195C9.90666 14.717 9.62241 14.5978 9.41228 14.3876C9.20215 14.1775 9.08296 13.8933 9.08038 13.5961C9.07779 13.2989 9.19203 13.0127 9.39847 12.7989L12.4664 9.63351H1.69974C1.39916 9.63351 1.11089 9.51411 0.898352 9.30157C0.685811 9.08903 0.566406 8.80076 0.566406 8.50018C0.566406 8.1996 0.685811 7.91133 0.898352 7.69879C1.11089 7.48625 1.39916 7.36685 1.69974 7.36685H12.4664L9.39847 4.20145C9.18601 3.98892 9.06665 3.7007 9.06665 3.40018C9.06665 3.09966 9.18601 2.81145 9.39847 2.59891Z"
-                      fill="white"
-                    />
-                  </svg>
-                </button>
-                <i className="w-100 text-center my-1">
-                  " {TRANSLATIONS[language].ClickToStart} "
-                </i>
-              </Col>
-              <Col md={6} className="p-0"></Col>
-            </Row>
-          </div>
+          {/* HEADER SECTION */}
+          <HeaderSections
+            labels={labels}
+            setAddJob={() => setShowJobForm(true)}
+            isStartReferenceCheckVisible={isStartReferenceCheckVisible}
+          />
 
-          <div>
-            <div className="mb-3 AiReferenceCard-container ">
-              {cardData.map((card, index) => (
-                <div
-                  onClick={() => navigate(card.path)}
-                  className={`AiReferenceCard fade-in ${
-                    isAiReferenceCardVisible ? "visible" : ""
-                  }`}
-                >
-                  <div className="h-100">
-                    <p className="d-flex title">
-                      <div
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          backgroundColor: card.color,
-                          marginRight: "10px",
-                        }}
-                      ></div>
-                      {card.title}
-                    </p>
-                    <p className="d-flex align-items-center justify-content-center count">
-                      {card.count}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <Row className="chart-row">
-            <Col md="4">
-              <div
-                className={`line-bar-chart-container h-100 fade-in ${
-                  isLineChartVisible ? "visible" : ""
-                }`}
-              >
-                <div className="line-chart h-100">
-                  <p className="mb-3 line-title-overlay">
-                    {TRANSLATIONS[language].ReferenceOverview}{" "}
-                  </p>
-                  <div className="chart-wrapper">
-                    <Line
-                      data={lineData}
-                      options={{ ...lineOptions, maintainAspectRatio: false }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col md="4">
-              <div
-                className={`line-bar-chart-container h-100 fade-in ${
-                  isBarChartVisible ? "visible" : ""
-                }`}
-              >
-                <div className="bar-chart h-100">
-                  <p className="mb-3 bar-title-overlay">
-                    {TRANSLATIONS[language].ByDepartment}{" "}
-                  </p>
-                  <div className="chart-wrapper">
-                    <Bar
-                      data={barData}
-                      options={{ ...barOptions, maintainAspectRatio: false }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col md="4">
-            <div
-                className={`line-bar-chart-container h-100 fade-in ${
-                  isLineChartVisible ? "visible" : ""
-                }`}
-              >
-                <div className="acceptance-rate-chart h-100">
-                  <p className="mb-3 acceptance-title-overlay">
-                    {TRANSLATIONS[language].AcceptanceRate}{" "}
-                  </p>
-                  <div className="chart-wrapper">
-                    <Bar
-                      data={acceptanceRateData}
-                      options={{
-                        ...acceptanceRateOptions,
-                        maintainAspectRatio: false,
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Col>
-          </Row>
-          <div className={`fade-in ${isLogContainerVisible ? "visible" : ""}`}>
-            <LogContainer
-              completedRecords={completedRecords}
-              language={language}
-            />{" "}
-          </div>
+          {/* CARD SECTION */}
+          <CardSection
+            cardData={cardData}
+            isAiReferenceCardVisible={isAiReferenceCardVisible}
+            navigate={navigate}
+          />
+
+          {/* CHART SECTION */}
+          <ChartSection
+            isLineChartVisible={isLineChartVisible}
+            isBarChartVisible={isBarChartVisible}
+            lineData={lineData}
+            lineOptions={lineOptions}
+            barData={barData}
+            barOptions={barOptions}
+            labels={labels}
+            acceptanceRateData={acceptanceRateData}
+            acceptanceRateOptions={acceptanceRateOptions}
+          />
+
+          {/* RECENT ACTIVITY SECTION */}
+          <RecentActivitySection
+            completedRecords={completedRecords}
+            labels={labels}
+            isLogContainerVisible={isLogContainerVisible}
+          />
         </>
       )}
     </div>
