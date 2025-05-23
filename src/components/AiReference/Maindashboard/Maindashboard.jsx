@@ -1026,6 +1026,8 @@ const MainDashboard = () => {
             barOptions={barOptions}
             translations={TRANSLATIONS}
             language={language}
+            acceptanceRateData={acceptanceRateData}
+            acceptanceRateOptions={acceptanceRateOptions}
           />
 
           {/* RECENT ACTIVITY SECTION */}
