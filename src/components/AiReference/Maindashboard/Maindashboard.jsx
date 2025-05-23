@@ -1,23 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobComponent from "./Components/AddJobComponent";
 import { socket } from "../../../utils/socket/socketSetup";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import RecentActivitySection from "./Components/RecentActivitySection";
 import HeaderSections from "./Components/HeaderSections";
 import CardSection from "./Components/CardSection";
 import ChartSection from "./Components/ChartSection";
 import { useLabels } from "./Hooks/useLabels";
+import { useGetCandidate } from "../../../hook/useCandidate";
+import {
+  useGetCompletedReference,
+  useGetReferences,
+} from "../../../hook/useReference";
+import { useGetJobs } from "../../../hook/useJob";
+import { useQueryClient } from "@tanstack/react-query";
 
 const MainDashboard = () => {
   const language = sessionStorage.getItem("preferred-language") || "English";
-  const { labels } = useLabels(language);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const id = USER?.id;
-  const token = USER?.token;
+  const { labels } = useLabels(language);
+  const { data: candidates = [] } = useGetCandidate(user);
+  const { data: completedRecords = [] } = useGetCompletedReference(user);
+  const { data: ActiveJobs = [] } = useGetJobs(user);
+  const { data: reference = [] } = useGetReferences(user);
   const [showJobForm, setShowJobForm] = useState(false);
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
@@ -39,173 +47,14 @@ const MainDashboard = () => {
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
 
-  const handleOpenJobForm = () => {
-    setShowJobForm(true);
-  };
-
-  const [candidates, setCandidates] = useState(
-    JSON.parse(localStorage.getItem("candidates")) || []
-  );
-  const [activeJobs, setActiveJobs] = useState(
-    JSON.parse(localStorage.getItem("jobs")) || []
-  );
-  const [reference, setReference] = useState(
-    JSON.parse(localStorage.getItem("reference")) || []
-  );
-  const [questionSets, setQuestionSets] = useState(
-    JSON.parse(localStorage.getItem("questions")) || []
-  );
-  const [completedRecords, setCompletedRecords] = useState(
-    JSON.parse(localStorage.getItem("completedReference")) || []
-  );
-  const timeoutRef = useRef(null);
-  const abortControllerRef = useRef(new AbortController());
-
-  const fetchCompletedRecords = async ({ signal }) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-request-reference/get-completed-reference/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          signal,
-        },
-      });
-      localStorage.setItem(
-        "completedReference",
-        JSON.stringify(response.data.result)
-      );
-      setCompletedRecords(response.data.result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchCustomReferenceQuestions = async ({ signal } = {}) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/get-reference-questions/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          signal,
-        },
-      });
-      localStorage.setItem(
-        "questions",
-        JSON.stringify(response.data.questions)
-      );
-      setQuestionSets(response.data.questions);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchReference = async ({ signal } = {}) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-request-by-companyId/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        signal,
-      });
-
-      if (response.status === 200) {
-        localStorage.setItem(
-          "reference",
-          JSON.stringify(response.data.reference)
-        );
-        setReference(response.data.reference);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchJobs = async ({ signal } = {}) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        signal,
-      });
-      if (response.status === 200) {
-        localStorage.setItem("jobs", JSON.stringify(response.data.jobs));
-        setActiveJobs(response.data.jobs);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const fetchCandidates = async ({ signal }) => {
-    try {
-      const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        signal,
-      });
-
-      if (response.status === 200) {
-        setCandidates(response.data.candidates);
-        localStorage.setItem(
-          "candidates",
-          JSON.stringify(response.data.candidates)
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchCandidates = async ({ signal } = {}) => {
-    try {
-      await fetchCandidates(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchUpdatedQuestions = async ({ signal } = {}) => {
-    try {
-      await fetchCustomReferenceQuestions(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchReference = async ({ signal } = {}) => {
-    try {
-      await fetchReference(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const reFetchCompletedReference = async ({ signal } = {}) => {
-    try {
-      await fetchCompletedRecords(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const refetchJobs = async ({ signal } = {}) => {
-    try {
-      await fetchJobs(signal);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
+    //INVALIDATE QUERIES WHEN SOMEONE SUBMIT REFERENCE RESPONSE
     const handleReferenceSubmitted = async (data) => {
       if (data?.completed) {
-        await handleRefetchCandidates();
-        await handleRefetchJobs();
-        await handleRefetchReference();
+        queryClient.invalidateQueries({ queryKey: ["candidates"] });
+        queryClient.invalidateQueries({ queryKey: ["completed-reference"] });
+        queryClient.invalidateQueries({ queryKey: ["jobs"] });
+        queryClient.invalidateQueries({ queryKey: ["references"] });
       }
     };
 
@@ -283,7 +132,7 @@ const MainDashboard = () => {
 
   // Calculate the count for each card
   const activeJobCount =
-    activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
+    ActiveJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0;
 
   const totalCompletedReference = reference.reduce((count, record) => {
     // Check if the record has referees
@@ -347,7 +196,7 @@ const MainDashboard = () => {
     },
     {
       title: labels.TotalCredits,
-      count: 5,
+      count: 0,
       color: "#f46a05",
       path: "/",
     },
@@ -502,9 +351,7 @@ const MainDashboard = () => {
     const departmentCounts = {};
     const departmentMap = new Map();
 
-    // Helper function to map department names to translation keys
     const mapDepartmentToKey = (dept) => {
-      // Manual mapping for specific department names
       const manualMapping = {
         "Human Resources (HR)": "hr",
         "IT (Information Technology)": "it",
@@ -533,7 +380,7 @@ const MainDashboard = () => {
         );
     };
 
-    activeJobs.forEach((job) => {
+    ActiveJobs.forEach((job) => {
       if (job.department) {
         const deptKey = mapDepartmentToKey(job.department);
         departmentCounts[job.department] =
@@ -789,54 +636,6 @@ const MainDashboard = () => {
         },
       },
     },
-  };
-
-  async function refetchAllData(timeoutRef, abortController) {
-    if (abortController.signal.aborted) return;
-
-    try {
-      await Promise.all([
-        reFetchCandidates({ signal: abortController.signal }),
-        refetchJobs({ signal: abortController.signal }),
-        reFetchReference({ signal: abortController.signal }),
-        reFetchCompletedReference({ signal: abortController.signal }),
-      ]);
-    } catch (error) {
-      if (error.name === "AbortError") {
-        console.error("Request aborted");
-        return;
-      }
-      console.error("Fetch error:", error);
-    }
-
-    if (!abortController.signal.aborted) {
-      timeoutRef.current = setTimeout(
-        () => refetchAllData(timeoutRef, abortController),
-        60000
-      );
-    }
-  }
-
-  useEffect(() => {
-    refetchAllData(timeoutRef, abortControllerRef.current);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      abortControllerRef.current.abort();
-    };
-  }, []);
-
-  const handleRefetchCandidates = async () => {
-    await fetchCandidates(abortControllerRef.current);
-  };
-  const handleRefetchJobs = async () => {
-    await fetchJobs(abortControllerRef.current);
-  };
-  const handleRefetchReference = async () => {
-    await fetchReference(abortControllerRef.current);
   };
 
   return (
