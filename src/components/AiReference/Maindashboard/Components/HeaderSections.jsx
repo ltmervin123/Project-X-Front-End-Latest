@@ -1,16 +1,15 @@
 import { Row, Col } from "react-bootstrap";
 
 export default function HeaderSections({
-  translations,
-  language,
+  labels,
   setAddJob,
   isStartReferenceCheckVisible,
 }) {
   return (
     <>
       <div>
-        <h3 className="mb-0">{translations[language].Dashboard}</h3>
-        <p className="mb-2">{translations[language].ManageTrackResponse} </p>
+        <h3 className="mb-0">{labels.Dashboard}</h3>
+        <p className="mb-2">{labels.ManageTrackResponse} </p>
       </div>
       <div className="d-flex justify-content-start mb-3 w-100">
         <Row className="w-100">
@@ -24,7 +23,7 @@ export default function HeaderSections({
               className="btn-start-reference-check d-flex align-items-center justify-content-center px-4 gap-3 "
               onClick={setAddJob}
             >
-              {translations[language].StartReferenceCheck}{" "}
+              {labels.StartReferenceCheck}{" "}
               <svg
                 width="17"
                 height="17"
@@ -38,9 +37,7 @@ export default function HeaderSections({
                 />
               </svg>
             </button>
-            <i className="w-100 text-center my-1">
-              " {translations[language].ClickToStart} "
-            </i>
+            <i className="w-100 text-center my-1">" {labels.ClickToStart} "</i>
           </Col>
           <Col md={6} className="p-0"></Col>
         </Row>

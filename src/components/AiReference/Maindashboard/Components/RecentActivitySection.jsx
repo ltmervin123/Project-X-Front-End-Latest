@@ -3,8 +3,7 @@ import { useState } from "react";
 
 export default function RecentActivity({
   completedRecords,
-  translations,
-  language,
+  labels,
   isLogContainerVisible,
 }) {
   const [showAll, setShowAll] = useState(false);
@@ -47,11 +46,9 @@ export default function RecentActivity({
     <div className={`fade-in ${isLogContainerVisible ? "visible" : ""}`}>
       <div className="LogContainer my-4">
         <div className="d-flex justify-content-between align-items-center">
-          <p className="mb-3">{translations[language].RecentActivities}</p>
+          <p className="mb-3">{labels.RecentActivities}</p>
           <p className="hover-pointer" onClick={handleToggleShowAll}>
-            {showAll
-              ? translations[language].ShowLess
-              : translations[language].ViewAll}
+            {showAll ? labels.ShowLess : labels.ViewAll}
           </p>
         </div>
         <div className="list-log-containerlist-log-container">
@@ -69,20 +66,16 @@ export default function RecentActivity({
                   </div>
                   <div>
                     <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    {translations[language].completed}{" "}
-                    {translations[language]["a reference check for"]}{" "}
+                    {labels.completed} {labels["a reference check for"]}{" "}
                     <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
                     <div className="text-muted">
-                      {timeAgo(log.completedDate).replace(
-                        "ago",
-                        translations[language]["ago"]
-                      )}
+                      {timeAgo(log.completedDate).replace("ago", labels["ago"])}
                     </div>
                   </div>
                 </div>
               ))
           ) : (
-            <div>{translations[language].NoRecentActivities}</div>
+            <div>{labels.NoRecentActivities}</div>
           )}
         </div>
       </div>

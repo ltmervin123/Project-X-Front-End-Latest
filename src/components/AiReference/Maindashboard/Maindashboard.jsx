@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import AddJobComponent from "./Components/AddJobComponent";
 import { socket } from "../../../utils/socket/socketSetup";
 import axios from "axios";
@@ -9,140 +8,17 @@ import RecentActivitySection from "./Components/RecentActivitySection";
 import HeaderSections from "./Components/HeaderSections";
 import CardSection from "./Components/CardSection";
 import ChartSection from "./Components/ChartSection";
-
-const TRANSLATIONS = {
-  English: {
-    Dashboard: "Dashboard",
-
-    ManageTrackResponse: "Manage and track your reference response",
-    StartReferenceCheck: "Start Reference Check",
-    ActiveJobs: "Active Jobs",
-    PendingReferences: "Pending References",
-    CompletedReferences: "Completed References",
-
-    TotalApplicants: "Total Applicants",
-    ReferenceOverview: "Reference Overview",
-    ByDepartment: "By Department",
-    RecentActivities: "Recent Activities",
-    ClickToStart: "Click here to begin the reference check process.",
-    ManageTrackProcesses: "Manage and track your reference check processes.",
-    completed: "completed",
-    NoRecentActivities: "No recent activities",
-    ViewAll: "View All",
-    ShowLess: "Show Less",
-    departments: {
-      sales: "Sales",
-      marketing: "Marketing",
-      customerService: "Customer Service",
-      hr: "Human Resources (HR)",
-      finance: "Finance",
-      accounting: "Accounting",
-      operations: "Operations",
-      it: "IT (Information Technology)",
-      legal: "Legal",
-      administration: "Administration",
-      productDevelopment: "Product Development",
-      rAndD: "Research and Development (R&D)",
-      logistics: "Logistics, Supply Chain & Procurement",
-      businessDev: "Business Development",
-      pr: "Public Relations (PR)",
-      design: "Design",
-      compliance: "Compliance",
-      riskManagement: "Risk Management",
-    },
-    Total: "Total",
-    Complete: "Complete",
-    months: {
-      January: "January",
-      February: "February",
-      March: "March",
-      April: "April",
-      May: "May",
-      June: "June",
-      July: "July",
-      August: "August",
-      September: "September",
-      October: "October",
-      November: "November",
-      December: "December",
-    },
-    "a reference check for": "a reference check for",
-    ago: "ago",
-    TotalCredits: "Total Credits",
-    TotalRate: "Total Rate",
-    AcceptanceRate: "Acceptance Rate",
-  },
-  Japanese: {
-    Dashboard: "ダッシュボード",
-
-    ManageTrackResponse: "リファレンスチェックの管理と追跡",
-    StartReferenceCheck: "リファレンスチェックを開始する",
-    ActiveJobs: "求人",
-    PendingReferences: "保留中のリファレンス",
-    CompletedReferences: "完了リファレンス",
-    TotalApplicants: "応募者数",
-    ReferenceOverview: "リファレンスチェック概要",
-    ByDepartment: "部門別",
-    RecentActivities: "最近の活動",
-    ClickToStart:
-      "ここをクリックしてリファレンスチェックプロセスを開始します。",
-    ManageTrackProcesses: "リファレンスチェックプロセスを管理し、追跡します。",
-    completed: "完了",
-    NoRecentActivities: "最近の活動はありません",
-    ViewAll: "すべて表示",
-    ShowLess: "表示を減らす",
-    departments: {
-      sales: "営業",
-      marketing: "マーケティング",
-      customerService: "カスタマーサービス",
-      hr: "人事",
-      finance: "財務",
-      accounting: "経理",
-      operations: "運営",
-      it: "IT",
-      legal: "法務",
-      administration: "総務",
-      productDevelopment: "製品開発",
-      rAndD: "研究開発",
-      logistics: "物流・調達",
-      businessDev: "事業開発",
-      pr: "広報",
-      design: "デザイン",
-      compliance: "コンプライアンス",
-      riskManagement: "リスク管理",
-    },
-    Total: "合計",
-    Complete: "完了",
-    months: {
-      January: "1月",
-      February: "2月",
-      March: "3月",
-      April: "4月",
-      May: "5月",
-      June: "6月",
-      July: "7月",
-      August: "8月",
-      September: "9月",
-      October: "10月",
-      November: "11月",
-      December: "12月",
-    },
-    "a reference check for": "のリファレンスチェック",
-    ago: "前",
-    TotalCredits: "総クレジット",
-    TotalRate: "総レート",
-    AcceptanceRate: "承認率",
-  },
-};
+import { useLabels } from "./Hooks/useLabels";
 
 const MainDashboard = () => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const { labels } = useLabels(language);
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
   const USER = JSON.parse(localStorage.getItem("user"));
   const id = USER?.id;
   const token = USER?.token;
   const [showJobForm, setShowJobForm] = useState(false);
-  const language = sessionStorage.getItem("preferred-language") || "English";
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
@@ -387,9 +263,7 @@ const MainDashboard = () => {
     );
 
     // Map the sorted English month names to translated ones
-    const translatedMonths = months.map(
-      (month) => TRANSLATIONS[language].months[month]
-    );
+    const translatedMonths = months.map((month) => labels.months[month]);
 
     const totalReferenceCount = months.map(
       (month) => monthMap.get(month).total
@@ -448,31 +322,31 @@ const MainDashboard = () => {
 
   const cardData = [
     {
-      title: TRANSLATIONS[language].ActiveJobs,
+      title: labels.ActiveJobs,
       count: activeJobCount,
       color: "#1877F2",
       path: "/ai-reference-jobs",
     },
     {
-      title: TRANSLATIONS[language].PendingReferences,
+      title: labels.PendingReferences,
       count: pendingReferenceCount,
       color: "#F8BD00",
       path: "/ai-reference-request",
     },
     {
-      title: TRANSLATIONS[language].CompletedReferences,
+      title: labels.CompletedReferences,
       count: totalCompletedReference,
       color: "#319F43",
       path: "/ai-reference-request",
     },
     {
-      title: TRANSLATIONS[language].TotalApplicants,
+      title: labels.TotalApplicants,
       count: totalCandidateCount,
       color: "#686868",
       path: "/ai-reference-applicants",
     },
     {
-      title: TRANSLATIONS[language].TotalCredits,
+      title: labels.TotalCredits,
       count: 5,
       color: "#f46a05",
       path: "/",
@@ -567,23 +441,19 @@ const MainDashboard = () => {
           tooltipEl.style.top =
             position.top + window.scrollY + tooltipModel.caretY + "px";
 
-          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex]; // Get the month
+          const month = lineData.labels[tooltipModel.dataPoints[0].dataIndex];
           const innerHtml = `
         <table class="tooltip-line=chart">
           <tr>
             <td style="font-weight: 500;">${month}</td>
           </tr>
           <tr>
-            <td style="color: #1877F2; font-weight: 400;">${
-              TRANSLATIONS[language].Total
-            }: ${
+            <td style="color: #1877F2; font-weight: 400;">${labels.Total}: ${
             lineData.datasets[0].data[tooltipModel.dataPoints[0].dataIndex]
           }</td>
           </tr>
           <tr>
-            <td style="color: #319F43;font-weight: 400;">${
-              TRANSLATIONS[language].Complete
-            }: ${
+            <td style="color: #319F43;font-weight: 400;">${labels.Complete}: ${
             lineData.datasets[1].data[tooltipModel.dataPoints[0].dataIndex]
           }</td>
           </tr>
@@ -683,7 +553,7 @@ const MainDashboard = () => {
   const barData = {
     labels: departments.map((dept) => {
       const deptKey = departmentMap.get(dept);
-      return TRANSLATIONS[language].departments[deptKey] || dept;
+      return labels.departments[deptKey] || dept;
     }),
     datasets: [
       {
@@ -782,8 +652,7 @@ const MainDashboard = () => {
           callback: function (value, index) {
             const deptKey = departmentMap.get(departments[index]);
             return departments.length <= 2
-              ? TRANSLATIONS[language].departments[deptKey] ||
-                  departments[index]
+              ? labels.departments[deptKey] || departments[index]
               : "";
           },
         },
@@ -809,7 +678,7 @@ const MainDashboard = () => {
     labels: ["Agency A", "Agency B", "Agency C", "Agency D", "Agency E"],
     datasets: [
       {
-        label: TRANSLATIONS[language].AcceptanceRate,
+        label: labels.AcceptanceRate,
         data: [85, 72, 90, 65, 78],
         backgroundColor: [
           "#1877F2",
@@ -982,8 +851,7 @@ const MainDashboard = () => {
         <>
           {/* HEADER SECTION */}
           <HeaderSections
-            translations={TRANSLATIONS}
-            language={language}
+            labels={labels}
             setAddJob={() => setShowJobForm(true)}
             isStartReferenceCheckVisible={isStartReferenceCheckVisible}
           />
@@ -1003,8 +871,7 @@ const MainDashboard = () => {
             lineOptions={lineOptions}
             barData={barData}
             barOptions={barOptions}
-            translations={TRANSLATIONS}
-            language={language}
+            labels={labels}
             acceptanceRateData={acceptanceRateData}
             acceptanceRateOptions={acceptanceRateOptions}
           />
@@ -1012,8 +879,7 @@ const MainDashboard = () => {
           {/* RECENT ACTIVITY SECTION */}
           <RecentActivitySection
             completedRecords={completedRecords}
-            language={language}
-            translations={TRANSLATIONS}
+            labels={labels}
             isLogContainerVisible={isLogContainerVisible}
           />
         </>
