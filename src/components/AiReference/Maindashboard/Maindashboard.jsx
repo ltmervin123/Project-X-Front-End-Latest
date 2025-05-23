@@ -318,7 +318,6 @@ const MainDashboard = () => {
 
   const refetchJobs = async ({ signal } = {}) => {
     try {
-      //fetch the jobs again
       await fetchJobs(signal);
     } catch (error) {
       console.error(error);
@@ -340,7 +339,6 @@ const MainDashboard = () => {
     });
   }, []);
 
-  //This function return an array of months according to the reference data
   const getMonthlyCounts = (reference) => {
     const monthNames = [
       "January",
@@ -356,10 +354,6 @@ const MainDashboard = () => {
       "November",
       "December",
     ];
-
-    const translatedMonthNames = monthNames.map(
-      (month) => TRANSLATIONS[language].months[month]
-    );
 
     const monthMap = new Map();
 
@@ -454,7 +448,7 @@ const MainDashboard = () => {
 
   const cardData = [
     {
-      title: TRANSLATIONS[language].ActiveJobs, // Use translation
+      title: TRANSLATIONS[language].ActiveJobs,
       count: activeJobCount,
       color: "#1877F2",
       path: "/ai-reference-jobs",
@@ -484,7 +478,7 @@ const MainDashboard = () => {
       path: "/",
     },
   ];
-  // Data for the line chart
+
   const lineData = {
     labels: months,
     datasets: [
@@ -507,7 +501,6 @@ const MainDashboard = () => {
     ],
   };
 
-  // Ensure the tooltip element exists and is created before using it
   const createTooltipElement = () => {
     let tooltipEl = document.getElementById("chartjs-tooltip");
 
@@ -520,10 +513,9 @@ const MainDashboard = () => {
     return tooltipEl;
   };
 
-  // Function to generate unique whole number ticks
   const generateYTicks = (min, max) => {
     const ticks = [];
-    // Ensure the minimum is at least 0
+
     const start = Math.min(0, Math.floor(min));
     const end = Math.ceil(max);
 
@@ -533,20 +525,16 @@ const MainDashboard = () => {
     return ticks;
   };
 
-  // Calculate the min and max values from your datasets
   const minTotal = Math.min(...totalReferenceCount);
   const maxTotal = Math.max(...totalReferenceCount);
   const minCompleted = Math.min(...completedReferenceCounts);
   const maxCompleted = Math.max(...completedReferenceCounts);
 
-  // Determine overall min and max
   const minY = Math.min(minTotal, minCompleted);
   const maxY = Math.max(maxTotal, maxCompleted);
 
-  // Generate unique whole number ticks for the y-axis
   const yTicks = generateYTicks(minY, maxY);
 
-  // Update the lineOptions
   const lineOptions = {
     responsive: true,
     plugins: {
@@ -556,7 +544,7 @@ const MainDashboard = () => {
       tooltip: {
         enabled: false,
         external: function (context) {
-          const tooltipEl = createTooltipElement(); // Ensure tooltip element exists
+          const tooltipEl = createTooltipElement();
 
           const tooltipModel = context.tooltip;
 
@@ -626,15 +614,15 @@ const MainDashboard = () => {
             size: 12,
           },
           color: "#000",
-          // Use the generated ticks
+
           callback: function (value) {
-            return yTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+            return yTicks.includes(value) ? value : "";
           },
         },
-        // Set the ticks to the generated array
+
         ticks: {
           callback: function (value) {
-            return yTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+            return yTicks.includes(value) ? value : "";
           },
         },
       },
@@ -708,11 +696,9 @@ const MainDashboard = () => {
     ],
   };
 
-  // Calculate the min and max values from your counts array
   const minCount = Math.min(...counts);
   const maxCount = Math.max(...counts);
 
-  // Generate unique whole number ticks for the y-axis
   const barYTicks = generateYTicks(minCount, maxCount);
 
   const barOptions = {
@@ -760,7 +746,7 @@ const MainDashboard = () => {
 
           // If tooltip would overflow the canvas on the right, place it on the left
           if (tooltipX + tooltipWidth > position.left + position.width) {
-            tooltipX -= tooltipWidth; // Shift to the left
+            tooltipX -= tooltipWidth;
           }
 
           // Apply the calculated position
@@ -794,7 +780,6 @@ const MainDashboard = () => {
           },
           color: "#000",
           callback: function (value, index) {
-            // Only show labels if there are 2 or fewer departments
             const deptKey = departmentMap.get(departments[index]);
             return departments.length <= 2
               ? TRANSLATIONS[language].departments[deptKey] ||
@@ -805,22 +790,21 @@ const MainDashboard = () => {
       },
       y: {
         grid: {
-          display: false, // Disable grid on the y-axis
+          display: false,
         },
         ticks: {
           font: {
-            size: 12, // Adjust the font size of the y-axis labels if needed
+            size: 12,
           },
-          color: "#000", // Change the label color if necessary
+          color: "#000",
           callback: function (value) {
-            return barYTicks.includes(value) ? value : ""; // Only show the tick if it's in the generated ticks
+            return barYTicks.includes(value) ? value : "";
           },
         },
       },
     },
   };
 
-  // Add sample data for Acceptance Rate Per Agencies
   const acceptanceRateData = {
     labels: ["Agency A", "Agency B", "Agency C", "Agency D", "Agency E"],
     datasets: [
@@ -939,7 +923,7 @@ const MainDashboard = () => {
   };
 
   async function refetchAllData(timeoutRef, abortController) {
-    if (abortController.signal.aborted) return; // Stop execution if aborted
+    if (abortController.signal.aborted) return;
 
     try {
       await Promise.all([
@@ -968,12 +952,10 @@ const MainDashboard = () => {
     refetchAllData(timeoutRef, abortControllerRef.current);
 
     return () => {
-      // Clear timeout
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
 
-      // Abort fetch requests
       abortControllerRef.current.abort();
     };
   }, []);
@@ -988,9 +970,6 @@ const MainDashboard = () => {
     await fetchReference(abortControllerRef.current);
   };
 
-  const handleRefetchCompletedRecords = async () => {
-    await fetchCompletedRecords(abortControllerRef.current);
-  };
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       {showJobForm ? (
