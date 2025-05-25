@@ -24,7 +24,7 @@ const MainDashboard = () => {
   const { labels } = useLabels(language);
   const { data: candidates = [] } = useGetCandidate(user);
   const { data: completedRecords = [] } = useGetCompletedReference(user);
-  const { data: ActiveJobs = [] } = useGetJobs(user);
+  const { data: activeJobs = [] } = useGetJobs(user);
   const { data: reference = [] } = useGetReferences(user);
   const [showJobForm, setShowJobForm] = useState(false);
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
@@ -135,9 +135,9 @@ const MainDashboard = () => {
   // Calculate the count for each card
   const activeJobCount = useMemo(() => {
     return (
-      ActiveJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0
+      activeJobs.reduce((total, job) => total + (job.vacancies || 0), 0) || 0
     );
-  }, [ActiveJobs]);
+  }, [activeJobs]);
 
   const totalCompletedReference = useMemo(() => {
     return reference.reduce((count, record) => {
@@ -419,7 +419,7 @@ const MainDashboard = () => {
         );
     };
 
-    ActiveJobs.forEach((job) => {
+    activeJobs.forEach((job) => {
       if (job.department) {
         const deptKey = mapDepartmentToKey(job.department);
         departmentCounts[job.department] =
@@ -432,7 +432,7 @@ const MainDashboard = () => {
     const counts = Object.values(departmentCounts);
 
     return { departments, counts, departmentMap };
-  }, [ActiveJobs]);
+  }, [activeJobs]);
 
   const barData = useMemo(() => {
     return {
