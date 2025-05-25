@@ -6,88 +6,6 @@ import { useGetJobs } from "../../../hook/useJob";
 import AddVacancyComponent from "./Component/AddVacancyComponent";
 import EditJobPopUp from "./PopUpComponents/EditJobPopUp";
 import DeleteConfirmationJobPopUp from "./PopUpComponents/DeleteConfirmationJobPopUp";
-const labels = {
-  English: {
-    Jobs: "Jobs",
-    ActiveJobs: "Active Jobs",
-    JobId: "Job ID",
-    JobName: "Job Name",
-    Vacancies: "Vacancies",
-    Department: "Department",
-    HiringManager: "Hiring Manager",
-    PostedDate: "Posted Date",
-    Actions: "Actions",
-    Edit: "Edit",
-    Delete: "Delete",
-    AddVacancy: "Add Vacancy",
-    ManageAndTrackPositions: "Manage and track your open positions.",
-    SearchJobName: "Search job name...",
-    JobNotFound: "Job not found",
-    NoActiveJobs: "No active jobs record",
-    departments: {
-      sales: "Sales",
-      marketing: "Marketing",
-      customerService: "Customer Service",
-      hr: "Human Resources (HR)",
-      finance: "Finance",
-      accounting: "Accounting",
-      operations: "Operations",
-      it: "IT (Information Technology)",
-      legal: "Legal",
-      administration: "Administration",
-      productDevelopment: "Product Development",
-      rAndD: "Research and Development (R&D)",
-      logistics: "Logistics, Supply Chain & Procurement",
-      businessDev: "Business Development",
-      pr: "Public Relations (PR)",
-      design: "Design",
-      compliance: "Compliance",
-      riskManagement: "Risk Management",
-    },
-    ViewManageTrack:
-      "View, manage, and track open job positions. You can edit details or delete listings as needed.",
-  },
-  Japanese: {
-    Jobs: "求人",
-    ActiveJobs: "求人",
-    JobId: "求人ID",
-    JobName: "職種名",
-    Vacancies: "求人情報",
-    Department: "部門",
-    HiringManager: "採用担当者",
-    PostedDate: "掲載日",
-    Actions: "操作",
-    Edit: "編集",
-    Delete: "削除",
-    AddVacancy: "追加",
-    ManageAndTrackPositions: "空いているポジションを管理および追跡します。",
-    SearchJobName: "職種名を検索...",
-    JobNotFound: "求人が見つかりません",
-    NoActiveJobs: "アクティブな求人情報はありません",
-    departments: {
-      sales: "営業",
-      marketing: "マーケティング",
-      customerService: "カスタマーサービス",
-      hr: "人事",
-      finance: "財務",
-      accounting: "経理",
-      operations: "運営",
-      it: "IT",
-      legal: "法務",
-      administration: "総務",
-      productDevelopment: "製品開発",
-      rAndD: "研究開発",
-      logistics: "物流・調達",
-      businessDev: "事業開発",
-      pr: "広報",
-      design: "デザイン",
-      compliance: "コンプライアンス",
-      riskManagement: "リスク管理",
-    },
-    ViewManageTrack:
-      "公開されている求人情報を表示、管理、追跡できます。詳細を編集したり、必要に応じてリストを削除したりできます。",
-  },
-};
 
 const Jobs = () => {
   //Constants
@@ -108,6 +26,7 @@ const Jobs = () => {
 
   //Hooks
   const { data: activeJobs = [] } = useGetJobs(user);
+  const { labels } = useLabels(language);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsSearchVisible(true), 300);
@@ -145,9 +64,7 @@ const Jobs = () => {
     setShowAddVacancy(true);
   };
 
-  // Helper function to map department names to translation keys
   const mapDepartmentToKey = (dept) => {
-    // Manual mapping for specific department names
     const manualMapping = {
       "Human Resources (HR)": "hr",
       "IT (Information Technology)": "it",
@@ -160,12 +77,10 @@ const Jobs = () => {
       "Logistics, Supply Chain & Procurement": "logistics",
     };
 
-    // Check manual mapping first
     if (manualMapping[dept]) {
       return manualMapping[dept];
     }
 
-    // Fall back to automatic conversion for other cases
     return dept
       .toLowerCase()
       .replace(/[\s()&]/g, "")
@@ -176,9 +91,8 @@ const Jobs = () => {
       );
   };
 
-  // Add this helper function with the other helper functions
   const shortenJobId = (id) => {
-    return id.slice(-6); // Show only last 6 characters
+    return id.slice(-6);
   };
 
   return (
@@ -193,8 +107,8 @@ const Jobs = () => {
         <>
           <div className="d-flex justify-content-between align-items-end ">
             <div>
-              <h3 className="mb-0">{labels[language].Jobs}</h3>
-              <p className="mb-2">{labels[language].ManageAndTrackPositions}</p>
+              <h3 className="mb-0">{labels.Jobs}</h3>
+              <p className="mb-2">{labels.ManageAndTrackPositions}</p>
             </div>
           </div>
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -206,7 +120,7 @@ const Jobs = () => {
               >
                 <input
                   type="text"
-                  placeholder={labels[language].SearchJobName}
+                  placeholder={labels.SearchJobName}
                   className="form-control ps-4 pe-5"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -224,7 +138,7 @@ const Jobs = () => {
           >
             <div className="AiReference-table-title">
               <h4 className="mb-0 d-flex align-items-center gap-2 ">
-                {labels[language].ActiveJobs}{" "}
+                {labels.ActiveJobs}{" "}
                 <div className="position-relative d-flex">
                   <svg
                     width="16"
@@ -246,12 +160,12 @@ const Jobs = () => {
                   </svg>
                   {showTooltip && (
                     <span className="job-tooltip-text">
-                      {labels[language].ViewManageTrack}
+                      {labels.ViewManageTrack}
                     </span>
                   )}
                 </div>
               </h4>
-              <p>{labels[language].ManageAndTrackPositions}</p>
+              <p>{labels.ManageAndTrackPositions}</p>
             </div>
 
             {activeJobs && activeJobs.length > 0 ? (
@@ -259,15 +173,13 @@ const Jobs = () => {
                 <table>
                   <thead>
                     <tr>
-                      <th>{labels[language].JobId}</th>
-                      <th>{labels[language].JobName}</th>
-                      <th>{labels[language].Vacancies}</th>
-                      <th>{labels[language].Department}</th>
-                      <th>{labels[language].HiringManager}</th>
-                      <th>{labels[language].PostedDate}</th>
-                      <th className="text-center">
-                        {labels[language].Actions}
-                      </th>
+                      <th>{labels.JobId}</th>
+                      <th>{labels.JobName}</th>
+                      <th>{labels.Vacancies}</th>
+                      <th>{labels.Department}</th>
+                      <th>{labels.HiringManager}</th>
+                      <th>{labels.PostedDate}</th>
+                      <th className="text-center">{labels.Actions}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -290,8 +202,7 @@ const Jobs = () => {
                             <td>{job.vacancies}</td>
                             <td>
                               {job.department
-                                ? labels[language].departments[deptKey] ||
-                                  job.department
+                                ? labels.departments[deptKey] || job.department
                                 : "Department not specified"}
                             </td>
                             <td>
@@ -308,7 +219,7 @@ const Jobs = () => {
                                     className="btn-add-vacancy"
                                     onClick={() => handleAddVacancy(job)}
                                   >
-                                    {labels[language].AddVacancy}
+                                    {labels.AddVacancy}
                                   </button>
                                   <div className="action-menu-job">
                                     <p
@@ -340,7 +251,7 @@ const Jobs = () => {
                                           style={{ cursor: "pointer" }}
                                         >
                                           <FaEdit />
-                                          {labels[language].Edit}
+                                          {labels.Edit}
                                         </p>
                                         <p
                                           className="d-flex align-items-center gap-2 m-0 icon-delete-job"
@@ -353,7 +264,7 @@ const Jobs = () => {
                                           }}
                                         >
                                           <FaTrash />
-                                          {labels[language].Delete}
+                                          {labels.Delete}
                                         </p>
                                       </div>
                                     )}
@@ -371,7 +282,7 @@ const Jobs = () => {
                     ).length === 0 && (
                       <tr>
                         <td colSpan="6" className="text-center">
-                          {labels[language].JobNotFound}
+                          {labels.JobNotFound}
                         </td>
                       </tr>
                     )}
@@ -380,7 +291,7 @@ const Jobs = () => {
               </div>
             ) : (
               <div>
-                <p>{labels[language].NoActiveJobs}</p>
+                <p>{labels.NoActiveJobs}</p>
               </div>
             )}
           </div>
