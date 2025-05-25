@@ -139,7 +139,7 @@ const TRANSLATIONS = {
   },
 };
 
-const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
+const AddVacancyComponent = ({ onCancel, jobData }) => {
   const [currentLanguage, setCurrentLanguage] = useState(
     sessionStorage.getItem("preferred-language") || "English"
   );
@@ -321,9 +321,6 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
 
       // Run both API calls in parallel instead of sequentially
       await Promise.all([handleUpdateVacancies(), handleAddCandidate()]);
-
-      //Refetch jobs after adding candidates
-      await onRefetchJobs();
 
       onCancel();
     } catch (error) {
@@ -571,9 +568,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     </b>
                     <div className="d-flex gap-3 w-100">
                       <div className="positiom-relative w-50">
-                        <Form.Label
-                          className="mb-2 applicant-label"
-                        >
+                        <Form.Label className="mb-2 applicant-label">
                           {TRANSLATIONS[currentLanguage].firstName}
                           <span className="color-orange"> &nbsp;*</span>
                         </Form.Label>
@@ -598,9 +593,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                         )}
                       </div>
                       <div className="positiom-relative w-50">
-                        <Form.Label
-                          className="mb-2 applicant-label"
-                        >
+                        <Form.Label className="mb-2 applicant-label">
                           {TRANSLATIONS[currentLanguage].lastName}
                           <span className="color-orange"> &nbsp;*</span>
                         </Form.Label>
@@ -677,9 +670,7 @@ const AddVacancyComponent = ({ onCancel, jobData, onRefetchJobs }) => {
                     </div>
                   </Form.Group>
                   <Form.Group controlId={`formEmail${index}`} className="mb-2">
-                    <Form.Label
-                      className="mb-2 applicant-label"
-                    >
+                    <Form.Label className="mb-2 applicant-label">
                       {TRANSLATIONS[currentLanguage].email}
                       <span className="color-orange"> &nbsp;*</span>
                     </Form.Label>
