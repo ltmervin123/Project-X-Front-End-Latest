@@ -13,7 +13,7 @@ const JobListSection = ({
   formatDate,
   handleAddVacancy,
   handleToggleOptions,
-  visibleOptions,
+  editToggle,
   handleEditJob,
   handleDeleteJob,
 }) => {
@@ -129,7 +129,7 @@ const JobListSection = ({
                                     />
                                   </svg>
                                 </p>
-                                {visibleOptions === job._id && (
+                                {editToggle === job._id && (
                                   <div className="action-options-job">
                                     <p
                                       className="d-flex align-items-center gap-2 m-0 icon-edit-job"
