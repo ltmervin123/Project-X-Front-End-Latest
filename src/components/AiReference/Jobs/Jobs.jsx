@@ -17,7 +17,7 @@ const Jobs = () => {
   const [showAddVacancy, setShowAddVacancy] = useState(false);
   const [job, setJob] = useState(null);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [visibleOptions, setVisibleOptions] = useState(null);
+  const [editToggle, setEditToggle] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -61,9 +61,9 @@ const Jobs = () => {
   const handleToggleOptions = useCallback(
     (jobId, event) => {
       event.stopPropagation();
-      setVisibleOptions(visibleOptions === jobId ? null : jobId);
+      setEditToggle(editToggle === jobId ? null : jobId);
     },
-    [visibleOptions]
+    [editToggle]
   );
 
   const handleAddVacancy = useCallback((jobDetails) => {
@@ -132,7 +132,7 @@ const Jobs = () => {
             formatDate={formatDate}
             handleAddVacancy={handleAddVacancy}
             handleToggleOptions={handleToggleOptions}
-            visibleOptions={visibleOptions}
+            editToggle={editToggle}
             handleEditJob={handleEditJob}
             handleDeleteJob={handleDeleteJob}
           />
@@ -144,6 +144,8 @@ const Jobs = () => {
           onClose={() => setShowDeleteConfirmation(false)}
           user={user}
           jobId={jobToDelete}
+          setEditToggle={() => setEditToggle(null)}
+          labels={labels}
         />
       )}
       {showEditPopup && (
@@ -151,6 +153,8 @@ const Jobs = () => {
           onClose={handleClosePopup}
           jobDetails={selectedJob}
           user={user}
+          labels={labels}
+          setEditToggle={() => setEditToggle(null)}
         />
       )}
     </div>
