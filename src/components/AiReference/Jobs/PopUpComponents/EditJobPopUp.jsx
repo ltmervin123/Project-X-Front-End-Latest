@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
-
+import { useUpdateJob } from "../../../../hook/useJob";
 const language = sessionStorage.getItem("preferred-language") || "English";
 
 const TRANSLATIONS = {
@@ -34,8 +33,8 @@ const TRANSLATIONS = {
       pr: "Public Relations (PR)",
       design: "Design",
       compliance: "Compliance",
-      riskManagement: "Risk Management"
-    }
+      riskManagement: "Risk Management",
+    },
   },
   Japanese: {
     editJob: "ジョブを編集",
@@ -66,23 +65,27 @@ const TRANSLATIONS = {
       pr: "広報",
       design: "デザイン",
       compliance: "コンプライアンス",
-      riskManagement: "リスク管理"
-    }
-  }
+      riskManagement: "リスク管理",
+    },
+  },
 };
 
-const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const id = USER?.id;
-  const token = USER?.token;
+const EditJobPopUp = ({ onClose, jobDetails, user }) => {
   const [jobName, setJobName] = useState("");
   const [vacancies, setVacancies] = useState(1);
   const [department, setDepartment] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  const {
+    mutate: updateJob,
+    isPending: isUpdating,
+    error,
+  } = useUpdateJob(user, {
+    onSettled: () => {
+      onClose();
+    },
+  });
 
   useEffect(() => {
     if (jobDetails) {
@@ -104,35 +107,18 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
-      const URL = `${API}/api/ai-referee/company-jobs/update-job-by-id/${jobDetails._id}`;
-      const payload = {
-        jobName: capitalizeWords(jobName),
-        vacancies,
-        hiringManager: {
-          firstName: capitalizeWords(firstName),
-          lastName: capitalizeWords(lastName),
-        },
-        department,
-      };
-      const response = await axios.put(URL, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const payload = {
+      jobName: capitalizeWords(jobName),
+      vacancies,
+      hiringManager: {
+        firstName: capitalizeWords(firstName),
+        lastName: capitalizeWords(lastName),
+      },
+      department,
+    };
+    const jobId = jobDetails._id;
 
-      if (response.status === 200) {
-        await onUpdateJob();
-        onClose();
-      }
-    } catch (error) {
-      setError(
-        error.response?.data?.error || "An error occurred. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
+    await updateJob({ jobId, payload });
   };
 
   const isFormValid = () => {
@@ -207,25 +193,63 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
               onChange={(e) => setDepartment(e.target.value)}
               required
             >
-              <option value="">{TRANSLATIONS[language].selectDepartment}</option>
-              <option value="Sales">{TRANSLATIONS[language].departments.sales}</option>
-              <option value="Marketing">{TRANSLATIONS[language].departments.marketing}</option>
-              <option value="Customer Service">{TRANSLATIONS[language].departments.customerService}</option>
-              <option value="Human Resources (HR)">{TRANSLATIONS[language].departments.hr}</option>
-              <option value="Finance">{TRANSLATIONS[language].departments.finance}</option>
-              <option value="Accounting">{TRANSLATIONS[language].departments.accounting}</option>
-              <option value="Operations">{TRANSLATIONS[language].departments.operations}</option>
-              <option value="IT (Information Technology)">{TRANSLATIONS[language].departments.it}</option>
-              <option value="Legal">{TRANSLATIONS[language].departments.legal}</option>
-              <option value="Administration">{TRANSLATIONS[language].departments.administration}</option>
-              <option value="Product Development">{TRANSLATIONS[language].departments.productDev}</option>
-              <option value="Research and Development (R&D)">{TRANSLATIONS[language].departments.rAndD}</option>
-              <option value="Logistics, Supply Chain & Procurement">{TRANSLATIONS[language].departments.logistics}</option>
-              <option value="Business Development">{TRANSLATIONS[language].departments.businessDev}</option>
-              <option value="Public Relations (PR)">{TRANSLATIONS[language].departments.pr}</option>
-              <option value="Design">{TRANSLATIONS[language].departments.design}</option>
-              <option value="Compliance">{TRANSLATIONS[language].departments.compliance}</option>
-              <option value="Risk Management">{TRANSLATIONS[language].departments.riskManagement}</option>
+              <option value="">
+                {TRANSLATIONS[language].selectDepartment}
+              </option>
+              <option value="Sales">
+                {TRANSLATIONS[language].departments.sales}
+              </option>
+              <option value="Marketing">
+                {TRANSLATIONS[language].departments.marketing}
+              </option>
+              <option value="Customer Service">
+                {TRANSLATIONS[language].departments.customerService}
+              </option>
+              <option value="Human Resources (HR)">
+                {TRANSLATIONS[language].departments.hr}
+              </option>
+              <option value="Finance">
+                {TRANSLATIONS[language].departments.finance}
+              </option>
+              <option value="Accounting">
+                {TRANSLATIONS[language].departments.accounting}
+              </option>
+              <option value="Operations">
+                {TRANSLATIONS[language].departments.operations}
+              </option>
+              <option value="IT (Information Technology)">
+                {TRANSLATIONS[language].departments.it}
+              </option>
+              <option value="Legal">
+                {TRANSLATIONS[language].departments.legal}
+              </option>
+              <option value="Administration">
+                {TRANSLATIONS[language].departments.administration}
+              </option>
+              <option value="Product Development">
+                {TRANSLATIONS[language].departments.productDev}
+              </option>
+              <option value="Research and Development (R&D)">
+                {TRANSLATIONS[language].departments.rAndD}
+              </option>
+              <option value="Logistics, Supply Chain & Procurement">
+                {TRANSLATIONS[language].departments.logistics}
+              </option>
+              <option value="Business Development">
+                {TRANSLATIONS[language].departments.businessDev}
+              </option>
+              <option value="Public Relations (PR)">
+                {TRANSLATIONS[language].departments.pr}
+              </option>
+              <option value="Design">
+                {TRANSLATIONS[language].departments.design}
+              </option>
+              <option value="Compliance">
+                {TRANSLATIONS[language].departments.compliance}
+              </option>
+              <option value="Risk Management">
+                {TRANSLATIONS[language].departments.riskManagement}
+              </option>
             </Form.Select>
           </Form.Group>
           <Form.Group controlId="formHiringManager" className="mb-4">
@@ -260,9 +284,9 @@ const EditJobPopUp = ({ onClose, onUpdateJob, jobDetails }) => {
             <button
               className="btn-create-job"
               type="submit"
-              disabled={loading || !isFormValid()}
+              disabled={isUpdating || !isFormValid()}
             >
-              {loading ? (
+              {isUpdating ? (
                 <div
                   className="spinner-border spinner-border-sm text-light"
                   role="status"

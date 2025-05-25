@@ -1,26 +1,30 @@
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { useDeleteJob } from "../../../../hook/useJob";
 
 const language = sessionStorage.getItem("preferred-language") || "English";
 
 const TRANSLATIONS = {
   English: {
-    confirmDelete: "Are you sure you want to delete this job? Deleting this job will also remove all associated candidates and their reference records.",
+    confirmDelete:
+      "Are you sure you want to delete this job? Deleting this job will also remove all associated candidates and their reference records.",
     yes: "Yes",
-    no: "No"
+    no: "No",
   },
   Japanese: {
-    confirmDelete: "このジョブを削除してもよろしいですか？このジョブを削除すると、関連する候補者とその参照記録もすべて削除されます。",
+    confirmDelete:
+      "このジョブを削除してもよろしいですか？このジョブを削除すると、関連する候補者とその参照記録もすべて削除されます。",
     yes: "はい",
-    no: "いいえ"
-  }
+    no: "いいえ",
+  },
 };
 
-const DeleteConfirmationJobPopUp = ({
-  onClose,
-  onConfirmDelete,
-  isDeleting,
-}) => {
+const DeleteConfirmationJobPopUp = ({ onClose, user, jobId }) => {
+  const { mutate: deleteJob, isPending: isDeleting } = useDeleteJob(user, {
+    onSettled: () => {
+      onClose();
+    },
+  });
+
   return (
     <Modal
       show={true}
@@ -40,7 +44,7 @@ const DeleteConfirmationJobPopUp = ({
             <button
               className="btn-yes-delete-job"
               disabled={isDeleting}
-              onClick={onConfirmDelete}
+              onClick={async () => await deleteJob(jobId)}
             >
               {isDeleting ? (
                 <div
