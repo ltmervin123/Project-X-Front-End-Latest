@@ -1,11 +1,11 @@
 import { Chart, registerables } from "chart.js";
-import { useState } from "react";
+import { useState, memo } from "react";
 
-export default function RecentActivity({
+const RecentActivity = ({
   completedRecords,
   labels,
   isLogContainerVisible,
-}) {
+}) => {
   const [showAll, setShowAll] = useState(false);
   Chart.register(...registerables);
 
@@ -81,4 +81,6 @@ export default function RecentActivity({
       </div>
     </div>
   );
-}
+};
+
+export default memo(RecentActivity);

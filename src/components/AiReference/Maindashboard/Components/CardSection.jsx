@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { memo } from "react";
 
 const CardSection = ({ cardData, isAiReferenceCardVisible }) => {
   const navigate = useNavigate();
@@ -36,4 +37,4 @@ const CardSection = ({ cardData, isAiReferenceCardVisible }) => {
   );
 };
 
-export default CardSection;
+export default memo(CardSection);

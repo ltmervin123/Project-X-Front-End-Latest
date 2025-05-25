@@ -1,10 +1,11 @@
 import { Row, Col } from "react-bootstrap";
+import { memo } from "react";
 
-export default function HeaderSections({
+const HeaderSections = ({
   labels,
   setAddJob,
   isStartReferenceCheckVisible,
-}) {
+}) => {
   return (
     <>
       <div>
@@ -44,4 +45,6 @@ export default function HeaderSections({
       </div>
     </>
   );
-}
+};
+
+export default memo(HeaderSections);
