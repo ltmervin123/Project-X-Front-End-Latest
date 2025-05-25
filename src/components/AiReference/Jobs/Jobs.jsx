@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
+import { useLabels } from "./hooks/useLabels";
+import { useGetJobs } from "../../../hook/useJob";
+import AddVacancyComponent from "./Component/AddVacancyComponent";
 import EditJobPopUp from "./PopUpComponents/EditJobPopUp";
 import DeleteConfirmationJobPopUp from "./PopUpComponents/DeleteConfirmationJobPopUp";
-import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import AddVacancyComponent from "./Component/AddVacancyComponent";
-
-const TRANSLATIONS = {
+const labels = {
   English: {
     Jobs: "Jobs",
     ActiveJobs: "Active Jobs",
@@ -91,68 +90,34 @@ const TRANSLATIONS = {
 };
 
 const Jobs = () => {
-  const queryClient = useQueryClient();
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const id = USER?.id;
-  const token = USER?.token;
-  const [visibleOptions, setVisibleOptions] = useState(null); // Changed from object to single value
+  //Constants
+  const user = JSON.parse(localStorage.getItem("user"));
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  //States
+  const [showAddVacancy, setShowAddVacancy] = useState(false);
+  const [job, setJob] = useState(null);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [visibleOptions, setVisibleOptions] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [jobToDelete, setJobToDelete] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [activeJobs, setActiveJobs] = useState(
-    JSON.parse(localStorage.getItem("jobs")) || []
-  );
-  const [showAddVacancy, setShowAddVacancy] = useState(false);
-  const [job, setJob] = useState(null);
-  const language = sessionStorage.getItem("preferred-language") || "English";
 
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  //Hooks
+  const { data: activeJobs = [] } = useGetJobs(user);
+
   useEffect(() => {
     const timer = setTimeout(() => setIsSearchVisible(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
-  const fetchJobs = async () => {
-    try {
-      const URL = `${API}/api/ai-referee/company-jobs/get-jobs-by-id/${id}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        localStorage.setItem("jobs", JSON.stringify(response.data.jobs));
-        setActiveJobs(response.data.jobs);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const formatDate = (date) => {
     if (!date) return "";
     return date.split("T")[0];
   };
-
-  const refetchJobs = async () => {
-    try {
-      await fetchJobs();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    const getJobsWhenFirstRender = async () => {
-      await fetchJobs();
-    };
-    getJobsWhenFirstRender();
-  }, []);
 
   const handleEditJob = (jobId) => {
     const recordFound = activeJobs.find((job) => job._id === jobId);
@@ -163,40 +128,6 @@ const Jobs = () => {
   const handleDeleteJob = (jobId) => {
     setJobToDelete(jobId);
     setShowDeleteConfirmation(true);
-  };
-
-  const confirmDeleteJob = async () => {
-    if (isDeleting) {
-      return;
-    }
-
-    try {
-      setIsDeleting(true);
-      const URL = `${API}/api/ai-referee/company-jobs/delete-job-by-id/${jobToDelete}`;
-      const response = await axios.delete(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        await refetchJobs();
-        queryClient.invalidateQueries({
-          queryKey: ["archivedCandidates"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceRequest"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["archivedJobs"],
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsDeleting(false);
-      setShowDeleteConfirmation(false);
-    }
   };
 
   const handleClosePopup = () => {
@@ -257,16 +188,13 @@ const Jobs = () => {
           onBack={() => setShowAddVacancy(false)}
           jobData={job}
           onCancel={() => setShowAddVacancy(false)}
-          onRefetchJobs={refetchJobs}
         />
       ) : (
         <>
           <div className="d-flex justify-content-between align-items-end ">
             <div>
-              <h3 className="mb-0">{TRANSLATIONS[language].Jobs}</h3>
-              <p className="mb-2">
-                {TRANSLATIONS[language].ManageAndTrackPositions}
-              </p>
+              <h3 className="mb-0">{labels[language].Jobs}</h3>
+              <p className="mb-2">{labels[language].ManageAndTrackPositions}</p>
             </div>
           </div>
           <div className="d-flex justify-content-between align-items-center mb-3">
@@ -278,7 +206,7 @@ const Jobs = () => {
               >
                 <input
                   type="text"
-                  placeholder={TRANSLATIONS[language].SearchJobName}
+                  placeholder={labels[language].SearchJobName}
                   className="form-control ps-4 pe-5"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -296,7 +224,7 @@ const Jobs = () => {
           >
             <div className="AiReference-table-title">
               <h4 className="mb-0 d-flex align-items-center gap-2 ">
-                {TRANSLATIONS[language].ActiveJobs}{" "}
+                {labels[language].ActiveJobs}{" "}
                 <div className="position-relative d-flex">
                   <svg
                     width="16"
@@ -318,12 +246,12 @@ const Jobs = () => {
                   </svg>
                   {showTooltip && (
                     <span className="job-tooltip-text">
-                      {TRANSLATIONS[language].ViewManageTrack}
+                      {labels[language].ViewManageTrack}
                     </span>
                   )}
                 </div>
               </h4>
-              <p>{TRANSLATIONS[language].ManageAndTrackPositions}</p>
+              <p>{labels[language].ManageAndTrackPositions}</p>
             </div>
 
             {activeJobs && activeJobs.length > 0 ? (
@@ -331,14 +259,14 @@ const Jobs = () => {
                 <table>
                   <thead>
                     <tr>
-                      <th>{TRANSLATIONS[language].JobId}</th>
-                      <th>{TRANSLATIONS[language].JobName}</th>
-                      <th>{TRANSLATIONS[language].Vacancies}</th>
-                      <th>{TRANSLATIONS[language].Department}</th>
-                      <th>{TRANSLATIONS[language].HiringManager}</th>
-                      <th>{TRANSLATIONS[language].PostedDate}</th>
+                      <th>{labels[language].JobId}</th>
+                      <th>{labels[language].JobName}</th>
+                      <th>{labels[language].Vacancies}</th>
+                      <th>{labels[language].Department}</th>
+                      <th>{labels[language].HiringManager}</th>
+                      <th>{labels[language].PostedDate}</th>
                       <th className="text-center">
-                        {TRANSLATIONS[language].Actions}
+                        {labels[language].Actions}
                       </th>
                     </tr>
                   </thead>
@@ -362,7 +290,7 @@ const Jobs = () => {
                             <td>{job.vacancies}</td>
                             <td>
                               {job.department
-                                ? TRANSLATIONS[language].departments[deptKey] ||
+                                ? labels[language].departments[deptKey] ||
                                   job.department
                                 : "Department not specified"}
                             </td>
@@ -380,7 +308,7 @@ const Jobs = () => {
                                     className="btn-add-vacancy"
                                     onClick={() => handleAddVacancy(job)}
                                   >
-                                    {TRANSLATIONS[language].AddVacancy}
+                                    {labels[language].AddVacancy}
                                   </button>
                                   <div className="action-menu-job">
                                     <p
@@ -412,7 +340,7 @@ const Jobs = () => {
                                           style={{ cursor: "pointer" }}
                                         >
                                           <FaEdit />
-                                          {TRANSLATIONS[language].Edit}
+                                          {labels[language].Edit}
                                         </p>
                                         <p
                                           className="d-flex align-items-center gap-2 m-0 icon-delete-job"
@@ -425,7 +353,7 @@ const Jobs = () => {
                                           }}
                                         >
                                           <FaTrash />
-                                          {TRANSLATIONS[language].Delete}
+                                          {labels[language].Delete}
                                         </p>
                                       </div>
                                     )}
@@ -443,7 +371,7 @@ const Jobs = () => {
                     ).length === 0 && (
                       <tr>
                         <td colSpan="6" className="text-center">
-                          {TRANSLATIONS[language].JobNotFound}
+                          {labels[language].JobNotFound}
                         </td>
                       </tr>
                     )}
@@ -452,7 +380,7 @@ const Jobs = () => {
               </div>
             ) : (
               <div>
-                <p>{TRANSLATIONS[language].NoActiveJobs}</p>
+                <p>{labels[language].NoActiveJobs}</p>
               </div>
             )}
           </div>
@@ -462,15 +390,15 @@ const Jobs = () => {
       {showDeleteConfirmation && (
         <DeleteConfirmationJobPopUp
           onClose={() => setShowDeleteConfirmation(false)}
-          onConfirmDelete={confirmDeleteJob}
-          isDeleting={isDeleting}
+          user={user}
+          jobId={jobToDelete}
         />
       )}
       {showEditPopup && (
         <EditJobPopUp
           onClose={handleClosePopup}
-          onUpdateJob={refetchJobs}
           jobDetails={selectedJob}
+          user={user}
         />
       )}
     </div>
