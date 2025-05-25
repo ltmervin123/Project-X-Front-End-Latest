@@ -37,3 +37,25 @@ export const updateVacancies = async (payload) => {
   });
   return response.data;
 };
+
+export const deleteJob = async (user, jobId) => {
+  const { token } = user;
+  const URL = `${API}/api/ai-referee/company-jobs/delete-job-by-id/${jobId}`;
+  const response = await axios.delete(URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export const updateJob = async (user, jobId, payload) => {
+  const { token } = user;
+  const URL = `${API}/api/ai-referee/company-jobs/update-job-by-id/${jobId}`;
+  const response = await axios.put(URL, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
