@@ -12,8 +12,7 @@
     border-radius: 15px;
     position: relative;
 }
-.btn-add-agency,
-.btn-edit-agency {
+.btn-add-agency {
     border-radius: 50px;
     border: none;
     color: var(--font-white);
@@ -21,6 +20,16 @@
     width: 150px;
     text-align: center;
     background: var(--primary-color);
+    transition: all 0.3s;
+  }
+  .btn-edit-agency {
+    border-radius: 50px;
+    border: none;
+    color: var(--font-white);
+    padding: 5px 20px;
+    width: 150px;
+    text-align: center;
+    background: var(--secondary-color);
     transition: all 0.3s;
   }
   .btn-add-agency:hover{
@@ -45,3 +54,28 @@
     padding: 5px 30px; /* Adjusted padding */
   
   }
+  .AiReference-agency-partners-container {
+    background: var(--font-white);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 0.5px solid rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+  
+  }
+  .custom-modal-job .modal-body .btn-create-agency {
+    background: var(--primary-color);
+    border-radius: 50px;
+    border: none;
+    width: 150px;
+    padding: 5px;
+    color: var(--font-white);
+  }
+  .custom-modal-job .modal-body .btn-discard-agency {
+    background: var(--secondary-color);
+    border-radius: 50px;
+    border: none;
+    width: 150px;
+    padding: 5px;
+    color: var(--font-white);
+  }
+  

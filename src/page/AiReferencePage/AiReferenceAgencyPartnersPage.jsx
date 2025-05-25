@@ -25,7 +25,7 @@ function AiReferenceAgencyPartnersPage() {
           </Col>
         </Row>
       </div>
-      {showGuide && <PopupGuide introKey="jobs" />}{" "}
+      {showGuide && <PopupGuide introKey="agencyPartners" />}{" "}
     </>
   );
 }

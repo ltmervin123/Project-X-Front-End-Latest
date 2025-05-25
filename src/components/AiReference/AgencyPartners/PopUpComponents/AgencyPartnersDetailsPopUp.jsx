@@ -58,7 +58,7 @@ const AgencyPartnersDetailsPopUp = ({ agency, onClose, onEdit }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0 color-orange">
+            <h5 className="m-0 ">
               {TRANSLATIONS[language].AgencyPartnerDetails}
             </h5>
           </div>

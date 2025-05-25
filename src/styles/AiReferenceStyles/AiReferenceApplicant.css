@@ -283,3 +283,60 @@ border: none;
     padding: 5px 15px;
   }
 }
+
+.custom-status-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+}
+
+.custom-status-dropdown .status-trigger {
+  position: relative;
+  padding: 4px 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  border-color: currentColor;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23686868" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+
+}
+
+.custom-status-dropdown .status-trigger.open {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23686868" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+}
+
+
+.custom-status-dropdown .status-options {
+  position: absolute; /* or fixed if you want it to stay in view */
+  top: 0px;
+  right: -90px;
+  box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.224); /* Added shadow for depth */
+  padding: 10px !important;
+  z-index: 1000;
+  background: var(--font-white);
+  width: 85px;
+  font-size: 13px;
+  text-align: center;
+  overflow-y: auto; /* Allow scrolling if content exceeds max height */
+  animation: fadeIn 0.5s ease-in; /* Apply the fade-in animation */
+
+}
+
+.status-display {
+  padding: 4px 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 50px;
+  display: inline-block;
+  text-align: center;
+  width: 110px;
+}

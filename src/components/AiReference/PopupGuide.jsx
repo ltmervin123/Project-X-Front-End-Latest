@@ -44,7 +44,15 @@ const GUIDE_STEPS = {
         "This bar chart shows reference checks by department, helping you see which departments are most active in the hiring process.",
     },
     {
-      title: "<span>7</span> Recent Activity",
+      title: "<span>7</span> Acceptance Rate",
+      element: ".acceptance-rate-chart ",
+      position: "left",
+      intro:
+        "This bar chart displays the acceptance rate, giving you insight into which agencies are most engaged in the hiring process.",
+    },
+
+    {
+      title: "<span>8</span> Recent Activity",
       element: ".LogContainer",
       intro:
         "Stay updated with real-time notifications about your team's actions. This feed displays the latest activities of referees and other relevant actions.",
@@ -136,6 +144,39 @@ const GUIDE_STEPS = {
         "Here, you can view the questions provided by the HR-Hatch company. You can explore questions categorized by each format, including Standard, Management, and Executive formats.",
     },
   ],
+  agencyPartners: [
+    {
+      title: "<span>1</span> Let's Explore Agency Partners",
+      intro:
+        "Welcome to the Agency Partners section. Here you can manage and track your agency partnerships. Click 'Next' to proceed.",
+    },
+    {
+      title: "<span>2</span> Search Functionality",
+      element: ".search-wrapper",
+      intro:
+        "Use this search bar to quickly find specific agencies by name, email, or contact number.",
+    },
+    {
+      title: "<span>3</span> Add New Agency",
+      element: ".btn-add-agency",
+      position: "left",
+      intro: "Click here to add a new agency partner to your network.",
+    },
+    {
+      title: "<span>4</span> Performance Overview",
+      element: ".AiReference-agency-partners-container",
+      position: "top",
+      intro:
+        "This chart displays the acceptance and rejection rates of your agency partners, helping you track their performance.",
+    },
+    {
+      title: "<span>5</span> Agency Partners List",
+      element: ".AiReference-active-jobs-container",
+      position: "top",
+      intro:
+        "View and manage all your agency partners here. You can view details, edit information, or remove partners as needed.",
+    },
+  ],
   reports: [
     {
       title: "<span>1</span> Let’s Explore Reports",
@@ -164,22 +205,25 @@ const GUIDE_STEPS = {
       intro:
         "This section displays all the recently completed requests, and you also have the option to download them.",
     },
-
   ],
+
   trashbin: [
     {
       title: "<span>1</span> Let’s Explore Trashbin",
-      intro: "Now, let’s take a look at how trashbin work. Click ‘Next’ to proceed to the Trashbin page.",
+      intro:
+        "Now, let’s take a look at how trashbin work. Click ‘Next’ to proceed to the Trashbin page.",
     },
     {
       title: "<span>2</span> Search Functionality",
       element: ".search-wrapper",
-      intro: "Use this search bar to quickly find specific deleted items by name or type.",
+      intro:
+        "Use this search bar to quickly find specific deleted items by name or type.",
     },
     {
       title: "<span>3</span> Deleted Jobs Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted jobs.",
+      intro:
+        "This section provides an overview of all previously deleted jobs.",
     },
     {
       title: "<span>4</span> Navigate to Applicants",
@@ -189,7 +233,8 @@ const GUIDE_STEPS = {
     {
       title: "<span>5</span> Deleted Applicants Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted applicants",
+      intro:
+        "This section provides an overview of all previously deleted applicants",
     },
     {
       title: "<span>6</span> Navigate to Reference Requests",
@@ -200,7 +245,8 @@ const GUIDE_STEPS = {
     {
       title: "<span>7</span> Deleted Reference Requests Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted reference requests",
+      intro:
+        "This section provides an overview of all previously deleted reference requests",
     },
     {
       title: "<span>8</span> Navigate to Reference Requests",
@@ -211,7 +257,8 @@ const GUIDE_STEPS = {
     {
       title: "<span>9</span> Deleted Reference Questions Overview",
       element: ".AiReference-trashbin-container",
-      intro: "This section provides an overview of all previously deleted reference questions",
+      intro:
+        "This section provides an overview of all previously deleted reference questions",
     },
     {
       title: "<span>10</span> Walkthrough Complete!",
@@ -235,7 +282,8 @@ const PopupGuide = ({ introKey }) => {
   );
 
   useEffect(() => {
-    const isIntroShown = JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
+    const isIntroShown =
+      JSON.parse(sessionStorage.getItem("isIntroShown")) || {};
     const allIntroKeys = Object.keys(GUIDE_STEPS);
     const allIntrosShown = allIntroKeys.every((key) => isIntroShown[key]);
 
@@ -245,8 +293,8 @@ const PopupGuide = ({ introKey }) => {
 
     // Only redirect to dashboard if this is the first guide being shown
     const isFirstGuide = !Object.keys(isIntroShown).length;
-    if (isFirstGuide && location.pathname !== '/AiReferenceMaindashboard') {
-      navigate('/AiReferenceMaindashboard');
+    if (isFirstGuide && location.pathname !== "/AiReferenceMaindashboard") {
+      navigate("/AiReferenceMaindashboard");
       return;
     }
 
@@ -268,12 +316,13 @@ const PopupGuide = ({ introKey }) => {
         })
         .onexit(() => {
           // Only navigate if skip was not clicked and we're not already on dashboard
-          if (!skipClickedRef.current && introKey !== 'dashboard') {
+          if (!skipClickedRef.current && introKey !== "dashboard") {
             const routes = {
               jobs: "/AiReferenceApplicant",
               applicant: "/AiReferenceRequest",
               referenceRequests: "/AiReferenceQuestion",
-              referenceQuestions: "/AiReferenceReports",
+              referenceQuestions: "/AiReferenceAgencyPartner",
+              agencyPartners: "/AiReferenceReports", // Add this line
               reports: "/AiReferenceTrashbin",
               trashbin: "/AiReferenceMaindashboard",
             };
@@ -304,16 +353,33 @@ const PopupGuide = ({ introKey }) => {
           if (targetElement.classList.contains("btn-aireference-report")) {
             document.querySelector(".btn-aireference-report")?.click();
           }
-          if (targetElement.matches(".trashbin-category-filters button:nth-child(2)")) {
-            document.querySelector(".trashbin-category-filters button:nth-child(2)")?.click(); // Auto-click "Applicant’s" button
+          if (
+            targetElement.matches(
+              ".trashbin-category-filters button:nth-child(2)"
+            )
+          ) {
+            document
+              .querySelector(".trashbin-category-filters button:nth-child(2)")
+              ?.click(); // Auto-click "Applicant’s" button
           }
-          if (targetElement.matches(".trashbin-category-filters button:nth-child(3)")) {
-            document.querySelector(".trashbin-category-filters button:nth-child(3)")?.click(); // Auto-click "Reference Request" button
+          if (
+            targetElement.matches(
+              ".trashbin-category-filters button:nth-child(3)"
+            )
+          ) {
+            document
+              .querySelector(".trashbin-category-filters button:nth-child(3)")
+              ?.click(); // Auto-click "Reference Request" button
           }
-          if (targetElement.matches(".trashbin-category-filters button:nth-child(4)")) {
-            document.querySelector(".trashbin-category-filters button:nth-child(4)")?.click(); // Auto-click "Reference Question" button
+          if (
+            targetElement.matches(
+              ".trashbin-category-filters button:nth-child(4)"
+            )
+          ) {
+            document
+              .querySelector(".trashbin-category-filters button:nth-child(4)")
+              ?.click(); // Auto-click "Reference Question" button
           }
-          
         })
         .onskip(() => {
           // Mark all intros as shown when Skip is clicked

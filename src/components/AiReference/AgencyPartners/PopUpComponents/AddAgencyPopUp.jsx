@@ -10,6 +10,8 @@ const TRANSLATIONS = {
     Email: "Email",
     ContactNo: "Contact No.",
     Add: "Add Agency",
+    Save: "Save",
+    Discard: "Discard",
   },
   Japanese: {
     AddAgency: "代理店を追加",
@@ -18,6 +20,8 @@ const TRANSLATIONS = {
     Email: "メール",
     ContactNo: "連絡先",
     Add: "代理店を追加",
+    Save: "保存",
+    Discard: "破棄",
   }
 };
 
@@ -124,16 +128,23 @@ const AddAgencyPopUp = ({ onClose, onAddAgency }) => {
             />
           </Form.Group>
 
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-end gap-2">
             <button
-              className="btn-create-job"
+              className="btn-discard-agency"
+              type="button"
+              onClick={onClose}
+            >
+              {TRANSLATIONS[language].Discard}
+            </button>
+            <button
+              className="btn-create-agency"
               type="submit"
               disabled={isLoading || !isFormValid}
             >
               {isLoading ? (
                 <div className="spinner-border spinner-border-sm text-light" role="status" />
               ) : (
-                TRANSLATIONS[language].Add
+                TRANSLATIONS[language].Save
               )}
             </button>
           </div>
