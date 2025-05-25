@@ -18,6 +18,20 @@ const labels = {
     SearchJobName: "Search job name...",
     JobNotFound: "Job not found",
     NoActiveJobs: "No active jobs record",
+    editJob: "Edit Job",
+    updateJobDetails: "Update the job details below.",
+    department: "Department",
+    hiringManager: "Hiring Manager",
+    firstName: "First Name",
+    lastName: "Last Name",
+    updateJob: "Update Job",
+    selectDepartment: "Select Department",
+    ViewManageTrack:
+      "View, manage, and track open job positions. You can edit details or delete listings as needed.",
+    confirmDelete:
+      "Are you sure you want to delete this job? Deleting this job will also remove all associated candidates and their reference records.",
+    yes: "Yes",
+    no: "No",
     departments: {
       sales: "Sales",
       marketing: "Marketing",
@@ -38,8 +52,6 @@ const labels = {
       compliance: "Compliance",
       riskManagement: "Risk Management",
     },
-    ViewManageTrack:
-      "View, manage, and track open job positions. You can edit details or delete listings as needed.",
   },
   Japanese: {
     Jobs: "求人",
@@ -58,6 +70,20 @@ const labels = {
     SearchJobName: "職種名を検索...",
     JobNotFound: "求人が見つかりません",
     NoActiveJobs: "アクティブな求人情報はありません",
+    editJob: "ジョブを編集",
+    updateJobDetails: "以下のジョブ詳細を更新してください。",
+    department: "部署",
+    hiringManager: "採用担当者",
+    firstName: "名",
+    lastName: "姓",
+    updateJob: "更新",
+    selectDepartment: "部署を選択",
+    ViewManageTrack:
+      "公開されている求人情報を表示、管理、追跡できます。詳細を編集したり、必要に応じてリストを削除したりできます。",
+    confirmDelete:
+      "このジョブを削除してもよろしいですか？このジョブを削除すると、関連する候補者とその参照記録もすべて削除されます。",
+    yes: "はい",
+    no: "いいえ",
     departments: {
       sales: "営業",
       marketing: "マーケティング",
@@ -78,8 +104,6 @@ const labels = {
       compliance: "コンプライアンス",
       riskManagement: "リスク管理",
     },
-    ViewManageTrack:
-      "公開されている求人情報を表示、管理、追跡できます。詳細を編集したり、必要に応じてリストを削除したりできます。",
   },
 };
 
