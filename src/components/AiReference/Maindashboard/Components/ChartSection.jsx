@@ -1,5 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 import { Line, Bar } from "react-chartjs-2";
+import { memo } from "react";
 
 const ChartSection = ({
   isLineChartVisible,
@@ -77,4 +78,4 @@ const ChartSection = ({
   );
 };
 
-export default ChartSection;
+export default memo(ChartSection);

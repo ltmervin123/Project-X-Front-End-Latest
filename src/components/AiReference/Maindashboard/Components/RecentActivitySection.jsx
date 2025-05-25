@@ -1,18 +1,13 @@
 import { Chart, registerables } from "chart.js";
-import { useState } from "react";
+import { useState, memo, useMemo } from "react";
 
-export default function RecentActivity({
+const RecentActivity = ({
   completedRecords,
   labels,
   isLogContainerVisible,
-}) {
+}) => {
   const [showAll, setShowAll] = useState(false);
   Chart.register(...registerables);
-
-  const handleToggleShowAll = (event) => {
-    event.preventDefault();
-    setShowAll(!showAll);
-  };
 
   function timeAgo(timestamp) {
     const now = new Date();
@@ -38,42 +33,47 @@ export default function RecentActivity({
     return "just now";
   }
 
-  const displayedLogs = showAll
-    ? completedRecords
-    : completedRecords.slice(completedRecords.length - 2);
+  const displayedLogsWithTimeAgo = useMemo(() => {
+    const logs = showAll
+      ? completedRecords
+      : completedRecords.slice(completedRecords.length - 2);
+
+    return logs
+      .slice()
+      .reverse()
+      .map((log) => ({
+        ...log,
+        timeAgoText: timeAgo(log.completedDate).replace("ago", labels["ago"]),
+      }));
+  }, [completedRecords, showAll, labels]);
 
   return (
     <div className={`fade-in ${isLogContainerVisible ? "visible" : ""}`}>
       <div className="LogContainer my-4">
         <div className="d-flex justify-content-between align-items-center">
           <p className="mb-3">{labels.RecentActivities}</p>
-          <p className="hover-pointer" onClick={handleToggleShowAll}>
+          <p className="hover-pointer" onClick={() => setShowAll(!showAll)}>
             {showAll ? labels.ShowLess : labels.ViewAll}
           </p>
         </div>
         <div className="list-log-containerlist-log-container">
           {completedRecords.length > 0 ? (
-            displayedLogs
-              .slice()
-              .reverse()
-              .map((log, index) => (
-                <div
-                  key={index}
-                  className="log-item d-flex align-items-center mb-3 gap-3"
-                >
-                  <div className="avatar-letter d-flex align-items-center justify-content-center">
-                    {log.refereeName.firstName.charAt(0)}
-                  </div>
-                  <div>
-                    <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
-                    {labels.completed} {labels["a reference check for"]}{" "}
-                    <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
-                    <div className="text-muted">
-                      {timeAgo(log.completedDate).replace("ago", labels["ago"])}
-                    </div>
-                  </div>
+            displayedLogsWithTimeAgo.map((log, index) => (
+              <div
+                key={index}
+                className="log-item d-flex align-items-center mb-3 gap-3"
+              >
+                <div className="avatar-letter d-flex align-items-center justify-content-center">
+                  {log.refereeName.firstName.charAt(0)}
                 </div>
-              ))
+                <div>
+                  <strong>{`${log.refereeName.firstName} ${log.refereeName.lastName}`}</strong>{" "}
+                  {labels.completed} {labels["a reference check for"]}{" "}
+                  <strong>{`${log.candidateName.firstName} ${log.candidateName.lastName}`}</strong>
+                  <div className="text-muted">{log.timeAgoText}</div>
+                </div>
+              </div>
+            ))
           ) : (
             <div>{labels.NoRecentActivities}</div>
           )}
@@ -81,4 +81,6 @@ export default function RecentActivity({
       </div>
     </div>
   );
-}
+};
+
+export default memo(RecentActivity);
