@@ -1,10 +1,5 @@
-import React, {
-  useState,
-  useRef,
-  useMemo,
-  useEffect,
-  useCallback,
-} from "react";
+import { useState, useRef, useMemo, useEffect, useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Form } from "react-bootstrap";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
@@ -18,6 +13,7 @@ import ApplicantSection from "./VacancyApplicantSection";
 import ControllerSection from "./VacancyControllerSection";
 
 const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
+  const queryClient = useQueryClient();
   const { data: storedCandidates = [], isPending } = useGetCandidate(user);
   const [jobName, setJobName] = useState(jobData?.jobName || "");
   const [jobId, setJobId] = useState(jobData?._id || null);
@@ -83,7 +79,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
           firstName: "",
           lastName: "",
           email: "",
-          numberOfReferees: 1, // Add default numberOfReferees
+          numberOfReferees: 1,
         };
       });
 
@@ -91,18 +87,17 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     }
   }, [vacancies, jobData?.vacancies]);
 
-  // Modify the vacancy effect handler
   useEffect(() => {
     if (vacancies < 1) {
       setVacancyError(labels.errors.vacancyMin);
-    } else if (jobData?.vacancies && vacancies <= jobData.vacancies) {
+    } else if (vacancies <= jobData.vacancies) {
       setVacancyError(labels.errors.vacancyGreater(jobData.vacancies));
-      // Keep the existing candidates instead of resetting them
+
       setCandidates((prev) => prev.slice(0, jobData.vacancies));
     } else {
       setVacancyError("");
     }
-  }, [vacancies]);
+  }, [vacancies, jobData, labels.errors]);
 
   useEffect(() => {
     if (!questionFormat && !questionId && !questionName) {
@@ -120,18 +115,15 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     }
   }, []);
 
-  // Add new useEffect to check localStorage for existing candidates
   useEffect(() => {
     try {
       const matchingCandidates = storedCandidates.filter(
-        (candidate) => candidate.position === jobName
+        (candidate) => candidate.positionId === jobId
       );
 
       if (matchingCandidates.length > 0) {
-        // Update vacancies count if we found matching candidates
         setVacancies(Math.max(vacancies, matchingCandidates.length));
 
-        // Map the matching candidates to our required format
         const formattedCandidates = matchingCandidates.map((candidate) => ({
           firstName: candidate.name?.firstName || "",
           lastName: candidate.name?.lastName || "",
@@ -139,7 +131,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
           numberOfReferees: candidate.numberOfReferees || 1,
         }));
 
-        // Merge with existing candidates array
         setCandidates((prev) => {
           const newCandidates = Array.from(
             { length: vacancies },
@@ -160,18 +151,15 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     } catch (error) {
       console.error("Error loading candidates from localStorage:", error);
     }
-  }, [storedCandidates]);
+  }, [storedCandidates, vacancies, jobName]);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
-    // Reset error messages
     setErrorMessages({});
 
-    // Validation
     const newErrorMessages = {};
 
-    // Add vacancyError to the validation if it exists
     if (vacancyError) {
       newErrorMessages.vacancies = vacancyError;
     }
@@ -181,7 +169,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
       return;
     }
 
-    // Show confirmation popup instead of submitting directly
     setShowConfirmation(true);
   }, []);
 
@@ -200,7 +187,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [vacancies, jobId]);
 
   const handleAddCandidate = useCallback(async () => {
     const status = "New";
@@ -238,9 +225,10 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
         return;
       }
 
-      // Run both API calls in parallel instead of sequentially
       await Promise.all([handleUpdateVacancies(), handleAddCandidate()]);
 
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["candidates"] });
       onCancel();
     } catch (error) {
       console.error(error);
@@ -253,8 +241,9 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     handleUpdateVacancies,
     handleAddCandidate,
     onCancel,
+    queryClient,
   ]);
-  // Add warning when user is navigating back to previous page
+
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
@@ -274,7 +263,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     };
   }, [labels.backWarning, onCancel]);
 
-  // Prevent accidental page exit
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
@@ -284,7 +272,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  //Add a warning when user is navigating back to previous page
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
@@ -304,12 +291,10 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     };
   }, []);
 
-  // Add this helper function after the component declaration but before the return statement
   const getTranslatedQuestionName = useCallback(
     (questionName) => {
       if (!questionName) return "";
 
-      // Remove "Format" suffix if it exists and convert to uppercase
       const baseName = questionName.replace(" Format", "").toUpperCase();
 
       switch (baseName) {
@@ -323,7 +308,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
           return questionName;
       }
     },
-    [vacancies, labels]
+    [labels]
   );
 
   return (
@@ -348,7 +333,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
             />
 
             {/* APPLICANT DETAILS */}
-
             <ApplicantSection
               isPending={isPending}
               candidates={candidates}
@@ -363,7 +347,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
         </div>
 
         {/* CONTROLLER SECTION */}
-
         <ControllerSection
           labels={labels}
           setShowCancelConfirmation={setShowCancelConfirmation}
