@@ -6,7 +6,7 @@ import {
 
 export const useGetCompletedReference = (user) => {
   return useQuery({
-    queryKey: ["completed-reference"],
+    queryKey: ["completed-reference", user],  // ✅ include user
     queryFn: () => getCompletedReferences(user),
     staleTime: 1000 * 60 * 1,
     refetchInterval: 1000 * 60 * 1,
@@ -16,7 +16,7 @@ export const useGetCompletedReference = (user) => {
 
 export const useGetReferences = (user) => {
   return useQuery({
-    queryKey: ["references"],
+    queryKey: ["references", user],  // ✅ include user
     queryFn: () => getReferences(user),
     staleTime: 1000 * 60 * 1,
     refetchInterval: 1000 * 60 * 1,

@@ -283,3 +283,56 @@ border: none;
     padding: 5px 15px;
   }
 }
+
+.custom-status-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.custom-status-dropdown .status-trigger {
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 120px;
+}
+
+.custom-status-dropdown .status-trigger svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  transition: transform 0.2s;
+}
+
+.custom-status-dropdown .status-trigger.open svg {
+  transform: rotate(180deg);
+}
+.custom-status-dropdown .status-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+.custom-status-dropdown .status-option {
+  padding: 8px 12px;
+  transition: background-color 0.2s;
+}
+.custom-status-dropdown .status-option:hover {
+  background-color: #f5f5f5;
+}
+.status-display {
+  padding: 4px 12px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  display: inline-block;
+  text-align: center;
+}

@@ -3,12 +3,12 @@ import { Modal, Button } from "react-bootstrap";
 
 const TRANSLATIONS = {
   English: {
-    DeleteConfirmation: "Are you sure you want to delete this agency partner? Deleting this agency will also remove all associated records.",
+    DeleteConfirmation: "Warning: This action cannot be undone. Are you sure you want to permanently delete this agency partner? All associated records will be permanently removed from the system.",
     Yes: "Yes",
     No: "No"
   },
   Japanese: {
-    DeleteConfirmation: "この代理店パートナーを削除してもよろしいですか？この代理店を削除すると、関連するすべての記録も削除されます。",
+    DeleteConfirmation: "警告：この操作は取り消すことができません。この代理店パートナーを完全に削除してもよろしいですか？関連するすべての記録がシステムから完全に削除されます。",
     Yes: "はい",
     No: "いいえ"
   }
