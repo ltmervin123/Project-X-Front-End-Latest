@@ -68,6 +68,7 @@ const labels = {
       existing: "(Existing)",
       emailPlaceholder: "applicant@example.com",
       loading: "Loading...",
+      noApplicants: "No applicants available for this job.",
     },
     departments: {
       sales: "Sales",
@@ -157,6 +158,7 @@ const labels = {
       existing: "(既存)",
       emailPlaceholder: "応募者@example.com",
       loading: "読み込み中...",
+      noApplicants: "この求人に応募者はありません。",
     },
     departments: {
       sales: "営業",
