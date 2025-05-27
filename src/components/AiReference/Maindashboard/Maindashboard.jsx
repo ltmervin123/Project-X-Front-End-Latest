@@ -690,6 +690,8 @@ const MainDashboard = () => {
           onCancel={() => {
             setShowJobForm(false);
           }}
+          user={user}
+          labels={labels}
         />
       ) : (
         <>
