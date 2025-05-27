@@ -36,3 +36,19 @@ export const updateCustomReferenceQuestion = async (param) => {
     }
   );
 };
+
+export const createCustomReferenceQuestion = async (param) => {
+  const { payload, user } = param;
+  const { token } = user;
+  const URL = `${API}/api/ai-referee/company-reference-questions/create-reference-questions`;
+
+  await axios.post(
+    URL,
+    { payload },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
