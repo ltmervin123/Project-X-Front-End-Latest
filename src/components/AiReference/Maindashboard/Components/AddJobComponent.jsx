@@ -1,4 +1,5 @@
-import React, { useState, useRef, useMemo, useEffect } from "react"; // Add useEffect
+import React, { useState, useRef, useMemo, useEffect } from "react";
+import { TRANSLATIONS } from "../../../../translations/translations";
 import { Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
@@ -7,133 +8,10 @@ import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-a
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
 import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
 import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
-
-// Translation dictionary
-const TRANSLATIONS = {
-  English: {
-    createNewJob: "Create New",
-    job: "Job and Applicant",
-    addNewJob:
-      "Add a new job opening and applicant to the system. Fill out the details below.",
-    referredBy: "Referred By",
-    jobDetails: "Job Details",
-    fillRequired: "* Fill in the required information",
-    jobName: "Job Name",
-    vacancy: "Vacancies",
-    department: "Department",
-    hiringManager: "Hiring Manager",
-    firstName: "First Name",
-    lastName: "Last Name",
-    applicantDetails: "Applicant Details",
-    referenceFormat: "Reference Format",
-    applicant: "Applicant",
-    email: "Email",
-    cancel: "Cancel",
-    proceed: "Proceed",
-    selectDepartment: "Select Department",
-    numReferees: "No. of Referees",
-    departments: {
-      sales: "Sales",
-      marketing: "Marketing",
-      customerService: "Customer Service",
-      hr: "Human Resources (HR)",
-      finance: "Finance",
-      accounting: "Accounting",
-      operations: "Operations",
-      it: "IT (Information Technology)",
-      legal: "Legal",
-      administration: "Administration",
-      productDevelopment: "Product Development",
-      rAndD: "Research and Development (R&D)",
-      logistics: "Logistics, Supply Chain & Procurement",
-      businessDev: "Business Development",
-      pr: "Public Relations (PR)",
-      design: "Design",
-      compliance: "Compliance",
-      riskManagement: "Risk Management",
-    },
-    backWarning:
-      "Are you sure you want to go back? Your progress will be lost.",
-    noCustomQuestions: "No custom questions available",
-    hrHatch: "HR-HATCH",
-    custom: "Custom Questionnaire",
-    standardFormat: "Standard Format",
-    managementFormat: "Management Format",
-    executiveFormat: "Executive Format",
-    placeholders: {
-      jobName: "Enter job title",
-      firstName: "Enter first name",
-      lastName: "Enter last name",
-      email: "Enter email address",
-      selectDepartment: "Select department",
-      referredBy: "Select referee",
-      vacancy: "Enter number of vacancies",
-      referees: "Enter number of referees",
-    },
-  },
-  Japanese: {
-    createNewJob: "新規作成",
-    job: "ジョブと応募者",
-    addNewJob:
-      "システムに新しい求人と応募者を追加します。以下の詳細を入力してください。",
-    referredBy: "紹介者",
-    jobDetails: "職務内容",
-    fillRequired: "* 必須情報を入力してください",
-    jobName: "職種名",
-    vacancy: "空き",
-    department: "部署",
-    hiringManager: "採用担当者",
-    firstName: "名",
-    lastName: "姓",
-    applicantDetails: "応募者詳細",
-    referenceFormat: "リファレンス形式",
-    applicant: "応募者",
-    email: "メールアドレス",
-    cancel: "キャンセル",
-    proceed: "続行",
-    selectDepartment: "部署を選択",
-    numReferees: "推薦者数",
-    departments: {
-      sales: "営業",
-      marketing: "マーケティング",
-      customerService: "カスタマーサービス",
-      hr: "人事",
-      finance: "財務",
-      accounting: "経理",
-      operations: "運営",
-      it: "IT",
-      legal: "法務",
-      administration: "総務",
-      productDevelopment: "製品開発",
-      rAndD: "研究開発",
-      logistics: "物流・調達",
-      businessDev: "事業開発",
-      pr: "広報",
-      design: "デザイン",
-      compliance: "コンプライアンス",
-      riskManagement: "リスク管理",
-    },
-    backWarning: "前のページに戻りますか？入力内容は失われます。",
-    noCustomQuestions: "カスタム質問はありません",
-    hrHatch: "HRハッチ",
-    custom: "カスタムアンケート",
-    standardFormat: "標準フォーマット",
-    managementFormat: "管理職フォーマット",
-    executiveFormat: "エグゼクティブフォーマット",
-    placeholders: {
-      jobName: "職種名を入力",
-      firstName: "名を入力",
-      lastName: "姓を入力",
-      email: "メールアドレスを入力",
-      selectDepartment: "部署を選択",
-      referredBy: "紹介者を選択",
-      vacancy: "募集人数を入力",
-      referees: "推薦者数を入力",
-    },
-  },
-};
+import { useQueryClient } from "@tanstack/react-query";
 
 const AddJobComponent = ({ onCancel }) => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const [currentLanguage, setCurrentLanguage] = useState("English");
@@ -318,6 +196,12 @@ const AddJobComponent = ({ onCancel }) => {
       // Create candidate
       await handleAddCandidate(createdJob?.createdJob);
 
+      //Invalidates all realed queries
+      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+      queryClient.invalidateQueries({ queryKey: ["completed-reference"] });
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["references"] });
+
       // Store candidate emails before navigation
       const candidateEmails = candidates.map((c) => c.email);
       sessionStorage.setItem(
@@ -497,7 +381,9 @@ const AddJobComponent = ({ onCancel }) => {
                       type="text"
                       value={jobName}
                       onChange={(e) => setJobName(e.target.value)}
-                      placeholder={TRANSLATIONS[currentLanguage].placeholders.jobName}
+                      placeholder={
+                        TRANSLATIONS[currentLanguage].placeholders.jobName
+                      }
                       required
                     />
                     {errorMessages.jobName && (
@@ -516,8 +402,12 @@ const AddJobComponent = ({ onCancel }) => {
                           type="number"
                           min="1"
                           value={vacancies}
-                          onChange={(e) => setVacancies(parseInt(e.target.value) || 1)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.vacancy}
+                          onChange={(e) =>
+                            setVacancies(parseInt(e.target.value) || 1)
+                          }
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.vacancy
+                          }
                           required
                         />
                       </Form.Group>
@@ -534,7 +424,10 @@ const AddJobComponent = ({ onCancel }) => {
                           required
                         >
                           <option value="">
-                            {TRANSLATIONS[currentLanguage].placeholders.selectDepartment}
+                            {
+                              TRANSLATIONS[currentLanguage].placeholders
+                                .selectDepartment
+                            }
                           </option>
                           <option value="Sales">
                             {TRANSLATIONS[currentLanguage].departments.sales}
@@ -636,7 +529,9 @@ const AddJobComponent = ({ onCancel }) => {
                           type="text"
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.firstName}
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.firstName
+                          }
                           required
                         />
                       </Col>
@@ -645,7 +540,9 @@ const AddJobComponent = ({ onCancel }) => {
                           type="text"
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.lastName}
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.lastName
+                          }
                           required
                         />
                       </Col>
@@ -834,9 +731,16 @@ const AddJobComponent = ({ onCancel }) => {
                               value={candidate.firstName}
                               type="text"
                               onChange={(e) =>
-                                handleInputChange(index, "firstName", e.target.value)
+                                handleInputChange(
+                                  index,
+                                  "firstName",
+                                  e.target.value
+                                )
                               }
-                              placeholder={TRANSLATIONS[currentLanguage].placeholders.firstName}
+                              placeholder={
+                                TRANSLATIONS[currentLanguage].placeholders
+                                  .firstName
+                              }
                               required
                             />
                           </Form.Group>
@@ -851,15 +755,22 @@ const AddJobComponent = ({ onCancel }) => {
                               value={candidate.lastName}
                               type="text"
                               onChange={(e) =>
-                                handleInputChange(index, "lastName", e.target.value)
+                                handleInputChange(
+                                  index,
+                                  "lastName",
+                                  e.target.value
+                                )
                               }
-                              placeholder={TRANSLATIONS[currentLanguage].placeholders.lastName}
+                              placeholder={
+                                TRANSLATIONS[currentLanguage].placeholders
+                                  .lastName
+                              }
                               required
                             />
                           </Form.Group>
                         </Col>
 
-                        <Col >
+                        <Col>
                           <Form.Group
                             controlId={`formNumReferees${index}`}
                             className="mb-3"
@@ -871,11 +782,16 @@ const AddJobComponent = ({ onCancel }) => {
                             <div className="custom-dropdown-job-req">
                               <div
                                 className={`dropdown-header-job-req ${
-                                  showRefereesDropdowns[index] ? "dropdown-open" : ""
+                                  showRefereesDropdowns[index]
+                                    ? "dropdown-open"
+                                    : ""
                                 }`}
                                 onClick={() => {
-                                  const newShowDropdowns = [...showRefereesDropdowns];
-                                  newShowDropdowns[index] = !newShowDropdowns[index];
+                                  const newShowDropdowns = [
+                                    ...showRefereesDropdowns,
+                                  ];
+                                  newShowDropdowns[index] =
+                                    !newShowDropdowns[index];
                                   setShowRefereesDropdowns(newShowDropdowns);
                                 }}
                               >
@@ -888,10 +804,18 @@ const AddJobComponent = ({ onCancel }) => {
                                       key={num}
                                       className="dropdown-item-job-req"
                                       onClick={() => {
-                                        handleInputChange(index, "numberOfReferees", num);
-                                        const newShowDropdowns = [...showRefereesDropdowns];
+                                        handleInputChange(
+                                          index,
+                                          "numberOfReferees",
+                                          num
+                                        );
+                                        const newShowDropdowns = [
+                                          ...showRefereesDropdowns,
+                                        ];
                                         newShowDropdowns[index] = false;
-                                        setShowRefereesDropdowns(newShowDropdowns);
+                                        setShowRefereesDropdowns(
+                                          newShowDropdowns
+                                        );
                                       }}
                                     >
                                       {num}
@@ -915,8 +839,12 @@ const AddJobComponent = ({ onCancel }) => {
                         <Form.Control
                           value={candidate.email}
                           type="email"
-                          onChange={(e) => handleInputChange(index, "email", e.target.value)}
-                          placeholder={TRANSLATIONS[currentLanguage].placeholders.email}
+                          onChange={(e) =>
+                            handleInputChange(index, "email", e.target.value)
+                          }
+                          placeholder={
+                            TRANSLATIONS[currentLanguage].placeholders.email
+                          }
                           required
                         />
                       </Form.Group>

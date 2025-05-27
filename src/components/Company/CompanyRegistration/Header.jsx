@@ -1,7 +1,7 @@
 // src/components/LandingPage/Header.jsx
 import React from "react";
 import { Navbar } from "react-bootstrap";
-import logo from "../../assets/logo.png";
+import logo from "../../../assets/logo.png";
 
 const Header = () => {
   return (

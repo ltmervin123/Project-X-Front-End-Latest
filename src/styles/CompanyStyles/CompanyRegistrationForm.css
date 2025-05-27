@@ -63,7 +63,9 @@
   font-weight: 200 !important;
   font-size: 13px;
 }
-.company-registration-container-form input,
+.company-registration-container-form input[type="text"],
+.company-registration-container-form input[type="email"],
+.company-registration-container-form input[type="password"],
 .company-registration-container-form select {
   border-radius: 20px;
   border: 1px solid var(--primary-color);
@@ -119,10 +121,13 @@
 .company-registration-container-form .invalid-feedback {
   left: 12px;
 }
-.company-registration-container-form .cr-form-check-input {
-  font-size: 13px;
+.form-company-reg input[type="checkbox"]:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  
 }
-.form-company-reg > .cr-agreement-box-check{
-  width: 100% !important;
-  font-size: 13px !important;
+.form-company-reg input[type="checkbox"]:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: 0 0 0 .25rem #f4690554;
 }

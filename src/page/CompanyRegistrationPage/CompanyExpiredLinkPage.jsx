@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/ExpiredLink.css";
-import Header from "../components/ExpiredLink/Header";
-import CompanyExpiredLinkSection from "../components/CompanyExpiredLink/CompanyExpiredLinkSection.jsx";
+import "../../styles/ExpiredLink.css";
+import Header from "../../components/ExpiredLink/Header.jsx";
+import CompanyExpiredLinkSection from "../../components/Company/CompanyExpiredLink/CompanyExpiredLinkSection";
 
 function CompanyExpiredLinkPage() {
   return (

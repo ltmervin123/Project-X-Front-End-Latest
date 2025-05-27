@@ -1,6 +1,5 @@
 import React, { useState } from "react"; // Add useState import
 import { Modal } from "react-bootstrap";
-import "../../styles/DPA.css";
 const DPAPopUp = ({ showModal, setShowModal, handleContinue }) => {
   const [isChecked, setIsChecked] = useState(false); // Track the checkbox state
 
@@ -187,6 +186,7 @@ const DPAPopUp = ({ showModal, setShowModal, handleContinue }) => {
               <div className="d-flex gap-2 align-items-center justify-content-start p-1">
                 <input
                   type="checkbox"
+                  className="custom-checkbox form-check-input"
                   id="agreeCheckbox"
                   checked={isChecked}
                   onChange={(e) => setIsChecked(e.target.checked)}

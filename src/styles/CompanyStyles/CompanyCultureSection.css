@@ -1,0 +1,114 @@
+.culture-page-container{
+  width: 100%;
+}
+.company-culture-section{
+  width: 80%;
+  max-width: 900px;
+}
+.company-culture-header{
+  position: relative;
+}
+.company-culture-header::before{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 6px;
+  width: 100%;
+  border-radius: 50px;
+  background-color: var(--primary-color);
+}
+.company-culture-title{
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.company-culture-subtitle,
+.company-culture-option-title,
+.company-culture-option-label,
+.company-culture-count{
+  font-size: 14px;
+  margin: 0;
+}
+.company-culture-count{
+  width: 100%;
+  text-align: right;
+}
+.company-culture-option-title{
+  padding: 5px 15px;
+position: relative;
+
+}
+.company-culture-option-title::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 6px;
+  border-radius: 10px;
+  background: var(--primary-color);
+}
+
+.company-culture-card{
+  border-radius: 10px;
+  border: 1px solid var(--card-color);
+  padding: 10px;
+  height: 90px;
+    transition: all 0.2s ease;
+
+}
+.company-culture-card:hover{
+  border-color: var(--primary-color);
+}
+.company-culture-card:hover .checkbox-container input[type="checkbox"] {
+  border-color: var(--primary-color);
+  
+}
+.company-culture-card .checkbox-container{
+  width: 10%;
+}
+.company-culture-card .checkbox-container > input[type="checkbox"]{
+  width: 14px;
+  margin: 0;
+  height: 14px;
+  position: relative;
+  top: 3px;
+}
+.company-culture-option-title{
+  font-weight: bold;
+}
+.company-culture-option-description{
+  font-size: 10px;
+}
+.company-culture-section .btn-cancel{
+    padding: 5px 10px;
+    background-color: var(--secondary-color);
+    color: var(--font-white);
+    border-radius: 20px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+}
+.company-culture-section .btn-submit{
+    padding: 5px 10px;
+    background-color: var(--primary-color);
+    color: var(--font-white);
+    border-radius: 20px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+}
+.company-culture-section .btn-submit:disabled{
+  background-color: var(--card-color);
+  cursor: not-allowed;
+}
+.company-culture-section .form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.company-culture-section .form-check-input:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: 0 0 0 .25rem #f4690554;
+}

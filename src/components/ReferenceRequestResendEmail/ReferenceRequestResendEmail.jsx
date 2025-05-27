@@ -45,7 +45,7 @@ const ReferenceRequestResendEmail = () => {
 
           <button
             className="btn-activate-now"
-            onClick={() => (window.location.href = "/AiReferenceRequest")}
+            onClick={() => (window.location.href = "/ai-reference-request")}
           >
             {TRANSLATIONS[language].return}
           </button>

@@ -382,28 +382,31 @@ function ReviewYourReferenceCheckPage() {
 
   return (
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
-      <Row className="ReviewYourReferenceCheck-Row">
-        {showIdUploadSection ? (
-          <>
-            <h5 className="referencecheckquestiontitle text-left mb-2">
-              {TRANSLATIONS[language].documentVerification}
-            </h5>
-            <IdUploadSection
-              frontIdFile={frontIdFile}
-              backIdFile={backIdFile}
-              handleFrontIdSelect={handleFrontIdSelect}
-              handleBackIdSelect={handleBackIdSelect}
-              clearFrontId={clearFrontId}
-              clearBackId={clearBackId}
-              submitIdUpload={submitIdUpload}
-              submitting={submitting}
-              setSelfie={setSelfie}
-              onChange={handleCaptchaChange}
-              captchaToken={captchaToken}
-            />
-          </>
-        ) : showPreviewSection ? (
-          <>
+      {showIdUploadSection ? (
+        <>
+                        <Row className="ReviewYourReferenceCheck-Row ">
+
+          <h5 className="referencecheckquestiontitle text-left mb-2">
+            {TRANSLATIONS[language].documentVerification}
+          </h5>
+          <IdUploadSection
+            frontIdFile={frontIdFile}
+            backIdFile={backIdFile}
+            handleFrontIdSelect={handleFrontIdSelect}
+            handleBackIdSelect={handleBackIdSelect}
+            clearFrontId={clearFrontId}
+            clearBackId={clearBackId}
+            submitIdUpload={submitIdUpload}
+            submitting={submitting}
+            setSelfie={setSelfie}
+            onChange={handleCaptchaChange}
+            captchaToken={captchaToken}
+          />
+          </Row>
+        </>
+      ) : showPreviewSection ? (
+        <>
+          <Row className="ReviewYourReferenceCheck-Row ">
             <h5 className="referencecheckquestiontitle text-left mb-2">
               {TRANSLATIONS[language].reviewResponses}
             </h5>
@@ -413,9 +416,11 @@ function ReviewYourReferenceCheckPage() {
               onContinue={handleContinueFromPreview}
               language={language}
             />
-          </>
-        ) : (
-          <>
+          </Row>
+        </>
+      ) : (
+        <>
+          <Row className="ReviewYourReferenceCheck-Row ">
             <h5 className="referencecheckquestiontitle text-left mb-2">
               {TRANSLATIONS[language].reviewResponses}
             </h5>
@@ -555,9 +560,9 @@ function ReviewYourReferenceCheckPage() {
                 onConfirmSkip={handleConfirmSkip}
               />
             )}
-          </>
-        )}
-      </Row>
+          </Row>
+        </>
+      )}
       {showPreviewConfirmation && (
         <PreviewConfirmationPopUp
           onClose={handleCancelPreview}
