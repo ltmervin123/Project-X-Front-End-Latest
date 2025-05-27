@@ -1,16 +1,15 @@
-import React, { useState, useRef, useMemo, useCallback, useEffect } from "react";
+import { useState, useRef, useMemo, useCallback } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
-// Define language
+import { useCreateCustomQuestion } from "../../../../hook/useCustomQuestion";
 const language = sessionStorage.getItem("preferred-language") || "English";
-
-// Update translations dictionary
 const TRANSLATIONS = {
   English: {
     editHRHatch: "Edit HR-HΛTCH Format Question",
     importantNote: "Important Note",
-    placeholderNote: "Use \"(applicant name)\" as a placeholder. It will be automatically replaced with the actual applicant's name when the form is used.",
-    editInstructions: "Edit the reference check questions below. To add the applicant's name, simply type \"(\".",
+    placeholderNote:
+      'Use "(applicant name)" as a placeholder. It will be automatically replaced with the actual applicant\'s name when the form is used.',
+    editInstructions:
+      'Edit the reference check questions below. To add the applicant\'s name, simply type "(".',
     questionName: "Question Name",
     enterSetName: "Enter set name",
     questionDesc: "Question Description",
@@ -19,13 +18,15 @@ const TRANSLATIONS = {
     enterQuestion: "Enter question",
     default: "Default",
     saving: "Saving...",
-    saveSet: "Save Set"
+    saveSet: "Save Set",
   },
   Japanese: {
     editHRHatch: "HR-HΛTCH フォーマット質問の編集",
     importantNote: "重要な注意事項",
-    placeholderNote: "プレースホルダーとして「(applicant name)」を使用してください。フォーム使用時に実際の応募者名に自動的に置き換えられます。",
-    editInstructions: "以下の照会質問を編集してください。応募者の名前を追加するには、「(」と入力するだけです。",
+    placeholderNote:
+      "プレースホルダーとして「(applicant name)」を使用してください。フォーム使用時に実際の応募者名に自動的に置き換えられます。",
+    editInstructions:
+      "以下の照会質問を編集してください。応募者の名前を追加するには、「(」と入力するだけです。",
     questionName: "質問名",
     enterSetName: "セット名を入力",
     questionDesc: "質問の説明",
@@ -34,30 +35,23 @@ const TRANSLATIONS = {
     enterQuestion: "質問を入力",
     default: "デフォルト",
     saving: "保存中...",
-    saveSet: "セットを保存"
-  }
+    saveSet: "セットを保存",
+  },
 };
-
-const API = process.env.REACT_APP_API_URL;
 
 const EditHRFormatQuestionPopup = ({
   onClose,
-  reFetchUpdatedQuestions,
   selectedQuestionFormat,
+  user,
 }) => {
+  // CONSTANTS
   const defaultName = selectedQuestionFormat.name || "N/A";
   const defaultDescription = selectedQuestionFormat.description || "N/A";
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const TOKEN = USER?.token;
 
-  // Create a reference map to track original questions and their indexes
   const questionRefMap = useRef(new Map());
-
-  // Improved defaultQuestions implementation to preserve original categories
   const defaultQuestions = useMemo(() => {
     const allQuestions = [];
 
-    // Handle the structure with questionSets
     if (selectedQuestionFormat?.questionSets) {
       selectedQuestionFormat.questionSets.forEach((categoryData, catIndex) => {
         if (Array.isArray(categoryData.questions)) {
@@ -67,12 +61,11 @@ const EditHRFormatQuestionPopup = ({
                 typeof question === "string" ? question : question.text || "",
               category: categoryData.category || "Default Category",
               categoryId: categoryData.id || null,
-              // Add unique identifier
+
               id: `${catIndex}-${qIndex}`,
             };
             allQuestions.push(questionObj);
 
-            // Store reference to this question
             questionRefMap.current.set(
               `${categoryData.category}-${questionObj.text}`,
               questionObj.id
@@ -126,18 +119,17 @@ const EditHRFormatQuestionPopup = ({
     return allQuestions;
   }, [selectedQuestionFormat]);
 
+  // STATE
   const [name, setName] = useState(defaultName);
   const [description, setDescription] = useState(defaultDescription);
   const [questions, setQuestions] = useState(defaultQuestions);
-  const [originalQuestions, setOriginalQuestions] = useState(defaultQuestions);
-  const [submitting, setSubmitting] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(null);
   const [showTooltip, setShowTooltip] = useState(false);
-
   const [cursorPosition, setCursorPosition] = useState(0);
-  const suppressSuggestionsRef = useRef(false);
 
+  // REFS
+  const suppressSuggestionsRef = useRef(false);
   const capitalizeWords = (str) => {
     return str
       .split(" ")
@@ -145,12 +137,18 @@ const EditHRFormatQuestionPopup = ({
       .join(" ");
   };
 
-  // Fixed reset handler to properly use the defaultQuestions
+  // HOOKS
+  const { mutate: createQuestion, isPending: submitting } =
+    useCreateCustomQuestion(user, {
+      onSettled: () => {
+        onClose();
+      },
+    });
+
   const handleReset = () => {
     setName(defaultName);
     setDescription(defaultDescription);
     setQuestions(defaultQuestions);
-    setOriginalQuestions(defaultQuestions);
   };
 
   const handleQuestionChange = (index, value) => {
@@ -175,10 +173,8 @@ const EditHRFormatQuestionPopup = ({
     if (activeQuestionIndex !== null) {
       const updatedQuestions = [...questions];
       const currentText = updatedQuestions[activeQuestionIndex].text;
-
       const beforeCursor = currentText.slice(0, cursorPosition);
       const afterCursor = currentText.slice(cursorPosition);
-
       const newText = beforeCursor.endsWith("(")
         ? beforeCursor.slice(0, -1) + suggestion + afterCursor
         : beforeCursor + suggestion + afterCursor;
@@ -209,34 +205,14 @@ const EditHRFormatQuestionPopup = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setSubmitting(true);
-      const URL = `${API}/api/ai-referee/company-reference-questions/create-reference-questions`;
-      const payload = {
-        name: capitalizeWords(name),
-        description,
-        hrHatchCustomQuestionsFormat: true,
-        questions: formatQuestions(questions),
-      };
+    const payload = {
+      name: capitalizeWords(name),
+      description,
+      hrHatchCustomQuestionsFormat: true,
+      questions: formatQuestions(questions),
+    };
 
-      const response = await axios.post(
-        URL,
-        { payload },
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
-        }
-      );
-      if (response.status === 201) {
-        reFetchUpdatedQuestions();
-      }
-      onClose();
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      setSubmitting(false);
-    }
+    await createQuestion(payload);
   };
 
   const calculateRows = useCallback((text = "") => {
@@ -257,7 +233,6 @@ const EditHRFormatQuestionPopup = ({
     );
   }, []);
 
-  // Generate a flattened map of question indexes for quick lookup
   const questionIndexMap = useMemo(() => {
     const map = new Map();
     questions.forEach((question, index) => {
@@ -265,17 +240,6 @@ const EditHRFormatQuestionPopup = ({
     });
     return map;
   }, [questions]);
-
-  // Add useEffect to log data when component mounts
-  useEffect(() => {
-    console.log('Selected Question Format:', selectedQuestionFormat);
-    if (selectedQuestionFormat?.questionSets) {
-      selectedQuestionFormat.questionSets.forEach((category, index) => {
-        console.log(`Category ${index + 1}:`, category.category);
-        console.log('Questions:', category.questions);
-      });
-    }
-  }, [selectedQuestionFormat]);
 
   return (
     <Modal
@@ -311,8 +275,12 @@ const EditHRFormatQuestionPopup = ({
                 </svg>
                 {showTooltip && (
                   <span className="job-tooltip-text">
-                    <b className="color-orange">{TRANSLATIONS[language].importantNote}</b>
-                    <p className="mb-0">{TRANSLATIONS[language].placeholderNote}</p>
+                    <b className="color-orange">
+                      {TRANSLATIONS[language].importantNote}
+                    </b>
+                    <p className="mb-0">
+                      {TRANSLATIONS[language].placeholderNote}
+                    </p>
                   </span>
                 )}
               </div>
@@ -369,7 +337,7 @@ const EditHRFormatQuestionPopup = ({
 
                           console.log(`Question ${questionIndex + 1}:`, {
                             category: category.category,
-                            text: questionText
+                            text: questionText,
                           });
 
                           // Find the right question in our state by its ID
@@ -383,7 +351,8 @@ const EditHRFormatQuestionPopup = ({
                             >
                               <Form.Label className="w-100 d-flex align-items-center px-2">
                                 <span className="me-2">
-                                  {TRANSLATIONS[language].question} {questionIndex + 1}
+                                  {TRANSLATIONS[language].question}{" "}
+                                  {questionIndex + 1}
                                 </span>
                               </Form.Label>
 
@@ -427,9 +396,9 @@ const EditHRFormatQuestionPopup = ({
                                       setActiveQuestionIndex(null);
                                     }
                                   }}
-                                  placeholder={`${TRANSLATIONS[language].enterQuestion} ${
-                                    questionIndex + 1
-                                  }`}
+                                  placeholder={`${
+                                    TRANSLATIONS[language].enterQuestion
+                                  } ${questionIndex + 1}`}
                                   required
                                 />
                                 {suggestions.length > 0 &&
@@ -477,7 +446,9 @@ const EditHRFormatQuestionPopup = ({
                 type="submit"
                 disabled={submitting}
               >
-                {submitting ? TRANSLATIONS[language].saving : TRANSLATIONS[language].saveSet}
+                {submitting
+                  ? TRANSLATIONS[language].saving
+                  : TRANSLATIONS[language].saveSet}
               </button>
             </div>
           </div>

@@ -1,20 +1,22 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import { useState, useRef, useMemo, useEffect, useCallback, memo } from "react";
 import { TRANSLATIONS } from "../../../../translations/translations";
+
 import { Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../../../utils/helpers/capitalizeFirstLetterOfAWord";
 import { addJob } from "../../../../api/ai-reference/job/jobs-api";
 import { addCandidate } from "../../../../api/ai-reference/candidate/candidate-api";
+import { useGetCustomQuestions } from "../../../../hook/useCustomQuestion";
 import SubmitConfirmationPopUp from "../PopUpComponents/SubmitConfirmationPopUp";
 import CancelConfirmationPopUp from "../PopUpComponents/CancelComfirmationPopUp";
 import SelectionLanguagePopUp from "../PopUpComponents/SelectionLanguagePopUp";
 import { useQueryClient } from "@tanstack/react-query";
 
-const AddJobComponent = ({ onCancel }) => {
+const AddJobComponent = ({ onCancel, user, labels }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
-  const [currentLanguage, setCurrentLanguage] = useState("English");
+  const { data: customQuestion = [], isPending: isFetchingQuestionSets } =
+    useGetCustomQuestions(user);
   const [jobName, setJobName] = useState("");
   const [department, setDepartment] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -30,19 +32,10 @@ const AddJobComponent = ({ onCancel }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
   const [showLanguagePopup, setShowLanguagePopup] = useState(true);
-  const [isDisabled, setIsDisabled] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
-  const [showVacancyDropdown, setShowVacancyDropdown] = useState(false);
   const [showRefereesDropdowns, setShowRefereesDropdowns] = useState(
     Array(vacancies).fill(false)
   );
-
-  const today = new Date();
-  const todayStr = today.toISOString().split("T")[0];
-
-  const tomorrow = new Date();
-  tomorrow.setDate(today.getDate() + 1);
-  const minDateStr = tomorrow.toISOString().split("T")[0];
 
   // Create a ref for the form
   const formRef = useRef(null);
@@ -70,52 +63,40 @@ const AddJobComponent = ({ onCancel }) => {
   const hrHatchQuestion = useMemo(() => {
     return [
       {
-        name: TRANSLATIONS[currentLanguage].standardFormat,
+        name: labels.standardFormat,
         value: "STANDARD",
         _id: "67b404a91eb4c9da22cff68e",
       },
       {
-        name: TRANSLATIONS[currentLanguage].managementFormat,
+        name: labels.managementFormat,
         value: "MANAGEMENT",
         _id: "67b405191eb4c9da22cff690",
       },
       {
-        name: TRANSLATIONS[currentLanguage].executiveFormat,
+        name: labels.executiveFormat,
         value: "EXECUTIVE",
         _id: "67b405a41eb4c9da22cff691",
       },
     ];
-  }, [currentLanguage]);
+  }, [labels.executiveFormat, labels.managementFormat, labels.standardFormat]);
 
-  const customQuestion = useMemo(() => {
-    const questions = JSON.parse(localStorage.getItem("questions")) || [];
-    return questions.map((question) => ({
-      name: question.name,
-      _id: question._id,
-    }));
-  }, []);
-
-  const validReferees = useMemo(() => {
-    return candidates.every((candidate) => candidate.numberOfReferees > 0);
-  }, [candidates]);
-
-  const handleQuestionSelect = (question, format) => {
+  const handleQuestionSelect = useCallback((question, format) => {
     setSelectedQuestion(question);
     setSelectedFormat(format);
     setIsHrHatchOpen(false);
     setIsCustomOpen(false);
-  };
+  }, []);
 
-  // Utility function to handle candidate input changes
-  const handleInputChange = (index, field, value) => {
+  const handleInputChange = useCallback((index, field, value) => {
     setCandidates((prev) => {
+      if (prev[index][field] === value) return prev;
+      
       const updatedCandidates = [...prev];
       updatedCandidates[index][field] = value;
       return updatedCandidates;
     });
-  };
+  }, []);
 
-  // Initialize candidates based on vacancies
   useEffect(() => {
     const newCandidates = Array.from({ length: vacancies }, () => ({
       firstName: "",
@@ -127,47 +108,76 @@ const AddJobComponent = ({ onCancel }) => {
     setShowRefereesDropdowns(Array(vacancies).fill(false));
   }, [vacancies]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    // Reset error messages
-    setErrorMessages({});
+      // Reset error messages
+      setErrorMessages({});
 
-    // Validation
-    const newErrorMessages = {};
+      // Validation
+      const newErrorMessages = {};
 
-    if (jobName.length < 2) {
-      newErrorMessages.jobName = "Job name must be at least 2 characters.";
-    }
-    if (firstName.length < 2) {
-      newErrorMessages.firstName = "First name must be at least 2 characters.";
-    }
-    if (lastName.length < 2) {
-      newErrorMessages.lastName = "Last name must be at least 2 characters.";
-    }
-
-    if (vacancies < 1) {
-      newErrorMessages.vacancies = "Vacancies must be at least 1.";
-    }
-
-    // Validate numberOfReferees for each candidate
-    candidates.forEach((candidate, index) => {
-      if (candidate.numberOfReferees < 1) {
-        newErrorMessages[`numberOfReferees_${index}`] =
-          "Number of referees must be at least 1.";
+      if (jobName.length < 2) {
+        newErrorMessages.jobName = "Job name must be at least 2 characters.";
       }
-    });
+      if (firstName.length < 2) {
+        newErrorMessages.firstName =
+          "First name must be at least 2 characters.";
+      }
+      if (lastName.length < 2) {
+        newErrorMessages.lastName = "Last name must be at least 2 characters.";
+      }
 
-    if (Object.keys(newErrorMessages).length > 0) {
-      setErrorMessages(newErrorMessages);
-      return;
-    }
+      if (vacancies < 1) {
+        newErrorMessages.vacancies = "Vacancies must be at least 1.";
+      }
 
-    // Show confirmation popup instead of submitting directly
-    setShowConfirmation(true);
-  };
+      // Validate numberOfReferees for each candidate
+      candidates.forEach((candidate, index) => {
+        if (candidate.numberOfReferees < 1) {
+          newErrorMessages[`numberOfReferees_${index}`] =
+            "Number of referees must be at least 1.";
+        }
+      });
 
-  const handleConfirmSubmit = async () => {
+      if (Object.keys(newErrorMessages).length > 0) {
+        setErrorMessages(newErrorMessages);
+        return;
+      }
+
+      // Show confirmation popup instead of submitting directly
+      setShowConfirmation(true);
+    },
+    [jobName, firstName, lastName, vacancies, candidates]
+  );
+
+  const handleAddCandidate = useCallback(
+    async (createdJob) => {
+      const status = "New";
+      const payload = candidates.map((candidate) => {
+        return {
+          name: {
+            firstName: capitalizeWords(candidate.firstName),
+            lastName: capitalizeWords(candidate.lastName),
+          },
+          email: candidate.email,
+          position: createdJob.positionName,
+          positionId: createdJob.positionId,
+          status,
+          selectedLanguage,
+          numberOfReferees: candidate.numberOfReferees,
+          questionFormat: selectedFormat,
+          questionId: selectedQuestion._id,
+          questionName: selectedQuestion.name,
+        };
+      });
+      await addCandidate(payload);
+    },
+    [candidates, selectedFormat, selectedLanguage, selectedQuestion]
+  );
+
+  const handleConfirmSubmit = useCallback(async () => {
     try {
       setLoading(true);
       setShowConfirmation(false);
@@ -220,37 +230,32 @@ const AddJobComponent = ({ onCancel }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    jobName,
+    vacancies,
+    department,
+    firstName,
+    lastName,
+    selectedLanguage,
+    selectedFormat,
+    selectedQuestion,
+    candidates,
+    queryClient,
+    navigate,
+    areCandidateFieldsFilled,
+    isJobFieldsFilled,
+    handleAddCandidate,
+  ]);
 
-  const handleAddCandidate = async (createdJob) => {
-    const status = "New";
-    const payload = candidates.map((candidate) => {
-      return {
-        name: {
-          firstName: capitalizeWords(candidate.firstName),
-          lastName: capitalizeWords(candidate.lastName),
-        },
-        email: candidate.email,
-        position: createdJob.positionName,
-        positionId: createdJob.positionId,
-        status,
-        selectedLanguage,
-        numberOfReferees: candidate.numberOfReferees,
-        questionFormat: selectedFormat,
-        questionId: selectedQuestion._id,
-        questionName: selectedQuestion.name,
-      };
-    });
-    await addCandidate(payload);
-  };
+  const handleLanguageContinue = useCallback((selectedLanguage) => {
+    setSelectedLanguage(selectedLanguage);
+    setShowLanguagePopup(false);
+  }, []);
 
-  // Add warning when user is navigating back to previous page
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
-      const userConfirmed = window.confirm(
-        TRANSLATIONS[currentLanguage].backWarning
-      );
+      const userConfirmed = window.confirm(labels.backWarning);
       if (!userConfirmed) {
         window.history.pushState(null, "", window.location.pathname);
       } else {
@@ -264,27 +269,8 @@ const AddJobComponent = ({ onCancel }) => {
     return () => {
       window.removeEventListener("popstate", handleBackButton);
     };
-  }, [onCancel, currentLanguage]);
+  }, [onCancel]);
 
-  useEffect(() => {
-    const handleLanguageChange = () => {
-      setCurrentLanguage(
-        sessionStorage.getItem("preferred-language") || "English"
-      );
-    };
-
-    // Initial language setup
-    handleLanguageChange();
-
-    // Listen for storage changes
-    window.addEventListener("storage", handleLanguageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleLanguageChange);
-    };
-  }, []);
-
-  // Prevent accidental page exit
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault();
@@ -294,7 +280,6 @@ const AddJobComponent = ({ onCancel }) => {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
-  //Add a warning when user is navigating back to previous page
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
@@ -314,11 +299,6 @@ const AddJobComponent = ({ onCancel }) => {
     };
   }, []);
 
-  const handleLanguageContinue = (selectedLanguage) => {
-    setSelectedLanguage(selectedLanguage);
-    setShowLanguagePopup(false);
-  };
-
   return (
     <>
       {showLanguagePopup && (
@@ -329,12 +309,9 @@ const AddJobComponent = ({ onCancel }) => {
       )}
       <div>
         <h3 className="mb-0">
-          {TRANSLATIONS[currentLanguage].createNewJob}{" "}
-          <span className="color-blue">
-            {TRANSLATIONS[currentLanguage].job}
-          </span>
+          {labels.createNewJob} <span className="color-blue">{labels.job}</span>
         </h3>
-        <p className="mb-4">{TRANSLATIONS[currentLanguage].addNewJob}</p>
+        <p className="mb-4">{labels.addNewJob}</p>
       </div>
       <div className="d-flex w-100 justify-content-center align-items-center flex-column">
         <div className="create-job-applicant-container-form d-flex align-items-center justify-content-center flex-column mb-3">
@@ -362,28 +339,23 @@ const AddJobComponent = ({ onCancel }) => {
                       />
                     </svg>
                   </div>
-                  {TRANSLATIONS[currentLanguage].jobDetails}
+                  {labels.jobDetails}
                 </h4>
                 <div className="job-details-container">
-                  {/* Left Column */}
                   <Form.Group controlId="formJobName" className="mb-4">
                     <div className="d-flex justify-content-between">
                       <Form.Label className="mb-3">
-                        {TRANSLATIONS[currentLanguage].jobName}
+                        {labels.jobName}
                         <span className="color-orange"> *</span>
                       </Form.Label>
-                      <div className="color-orange">
-                        {TRANSLATIONS[currentLanguage].fillRequired}
-                      </div>
+                      <div className="color-orange">{labels.fillRequired}</div>
                     </div>
 
                     <Form.Control
                       type="text"
                       value={jobName}
                       onChange={(e) => setJobName(e.target.value)}
-                      placeholder={
-                        TRANSLATIONS[currentLanguage].placeholders.jobName
-                      }
+                      placeholder={labels.placeholders.jobName}
                       required
                     />
                     {errorMessages.jobName && (
@@ -395,7 +367,7 @@ const AddJobComponent = ({ onCancel }) => {
                     <Col>
                       <Form.Group controlId="formVacancies">
                         <Form.Label className="mb-3">
-                          {TRANSLATIONS[currentLanguage].vacancy}
+                          {labels.vacancy}
                           <span className="color-orange"> *</span>
                         </Form.Label>
                         <Form.Control
@@ -405,9 +377,7 @@ const AddJobComponent = ({ onCancel }) => {
                           onChange={(e) =>
                             setVacancies(parseInt(e.target.value) || 1)
                           }
-                          placeholder={
-                            TRANSLATIONS[currentLanguage].placeholders.vacancy
-                          }
+                          placeholder={labels.placeholders.vacancy}
                           required
                         />
                       </Form.Group>
@@ -415,7 +385,7 @@ const AddJobComponent = ({ onCancel }) => {
                     <Col>
                       <Form.Group controlId="formDepartment">
                         <Form.Label className="mb-3">
-                          {TRANSLATIONS[currentLanguage].department}
+                          {labels.department}
                           <span className="color-orange"> *</span>
                         </Form.Label>
                         <Form.Select
@@ -424,94 +394,61 @@ const AddJobComponent = ({ onCancel }) => {
                           required
                         >
                           <option value="">
-                            {
-                              TRANSLATIONS[currentLanguage].placeholders
-                                .selectDepartment
-                            }
+                            {labels.placeholders.selectDepartment}
                           </option>
                           <option value="Sales">
-                            {TRANSLATIONS[currentLanguage].departments.sales}
+                            {labels.departments.sales}
                           </option>
                           <option value="Marketing">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .marketing
-                            }
+                            {labels.departments.marketing}
                           </option>
                           <option value="Customer Service">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .customerService
-                            }
+                            {labels.departments.customerService}
                           </option>
                           <option value="Human Resources (HR)">
-                            {TRANSLATIONS[currentLanguage].departments.hr}
+                            {labels.departments.hr}
                           </option>
                           <option value="Finance">
-                            {TRANSLATIONS[currentLanguage].departments.finance}
+                            {labels.departments.finance}
                           </option>
                           <option value="Accounting">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .accounting
-                            }
+                            {labels.departments.accounting}
                           </option>
                           <option value="Operations">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .operations
-                            }
+                            {labels.departments.operations}
                           </option>
                           <option value="IT (Information Technology)">
-                            {TRANSLATIONS[currentLanguage].departments.it}
+                            {labels.departments.it}
                           </option>
                           <option value="Legal">
-                            {TRANSLATIONS[currentLanguage].departments.legal}
+                            {labels.departments.legal}
                           </option>
                           <option value="Administration">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .administration
-                            }
+                            {labels.departments.administration}
                           </option>
                           <option value="Product Development">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .productDevelopment
-                            }
+                            {labels.departments.productDevelopment}
                           </option>
                           <option value="Research and Development (R&D)">
-                            {TRANSLATIONS[currentLanguage].departments.rAndD}
+                            {labels.departments.rAndD}
                           </option>
                           <option value="Logistics, Supply Chain & Procurement">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .logistics
-                            }
+                            {labels.departments.logistics}
                           </option>
                           <option value="Business Development">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .businessDev
-                            }
+                            {labels.departments.businessDev}
                           </option>
                           <option value="Public Relations (PR)">
-                            {TRANSLATIONS[currentLanguage].departments.pr}
+                            {labels.departments.pr}
                           </option>
                           <option value="Design">
-                            {TRANSLATIONS[currentLanguage].departments.design}
+                            {labels.departments.design}
                           </option>
                           <option value="Compliance">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .compliance
-                            }
+                            {labels.departments.compliance}
                           </option>
                           <option value="Risk Management">
-                            {
-                              TRANSLATIONS[currentLanguage].departments
-                                .riskManagement
-                            }
+                            {labels.departments.riskManagement}
                           </option>
                         </Form.Select>
                       </Form.Group>
@@ -520,7 +457,7 @@ const AddJobComponent = ({ onCancel }) => {
 
                   <Form.Group controlId="formHiringManager" className="mb-4">
                     <Form.Label className="mb-3">
-                      {TRANSLATIONS[currentLanguage].hiringManager}
+                      {labels.hiringManager}
                       <span className="color-orange"> *</span>
                     </Form.Label>
                     <Row>
@@ -529,9 +466,7 @@ const AddJobComponent = ({ onCancel }) => {
                           type="text"
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
-                          placeholder={
-                            TRANSLATIONS[currentLanguage].placeholders.firstName
-                          }
+                          placeholder={labels.placeholders.firstName}
                           required
                         />
                       </Col>
@@ -540,9 +475,7 @@ const AddJobComponent = ({ onCancel }) => {
                           type="text"
                           value={lastName}
                           onChange={(e) => setLastName(e.target.value)}
-                          placeholder={
-                            TRANSLATIONS[currentLanguage].placeholders.lastName
-                          }
+                          placeholder={labels.placeholders.lastName}
                           required
                         />
                       </Col>
@@ -550,22 +483,18 @@ const AddJobComponent = ({ onCancel }) => {
                   </Form.Group>
                   <Form.Group controlId="formDepartment" className="mb-4">
                     <Form.Label className="mb-3">
-                      {TRANSLATIONS[currentLanguage].referredBy}
+                      {labels.referredBy}
                       <span className="color-orange"> *</span>
                     </Form.Label>
                     <Form.Select
                       value={department}
                       onChange={(e) => setDepartment(e.target.value)}
                       required
-                    >
-                      <option value="">
-                        {/* {TRANSLATIONS[currentLanguage].placeholders.referredBy} */}
-                      </option>
-                    </Form.Select>
+                    ></Form.Select>
                   </Form.Group>
                   <Form.Group controlId="formReferenceFormat" className="mb-4">
                     <Form.Label className="mb-3">
-                      {TRANSLATIONS[currentLanguage].referenceFormat}
+                      {labels.referenceFormat}
                       <span className="color-orange"> *</span>
                     </Form.Label>
                     <Row>
@@ -586,7 +515,7 @@ const AddJobComponent = ({ onCancel }) => {
                             {selectedFormat === "HR-HATCH-FORMAT" &&
                             selectedQuestion
                               ? selectedQuestion.name
-                              : TRANSLATIONS[currentLanguage].hrHatch}
+                              : labels.hrHatch}
                           </div>
                           {isHrHatchOpen && (
                             <div className="dropdown-list-ref-req">
@@ -625,7 +554,7 @@ const AddJobComponent = ({ onCancel }) => {
                             {selectedFormat === "CUSTOM-FORMAT" &&
                             selectedQuestion
                               ? selectedQuestion.name
-                              : TRANSLATIONS[currentLanguage].custom}
+                              : labels.custom}
                           </div>
                           {isCustomOpen && (
                             <div className="dropdown-list-ref-req">
@@ -646,10 +575,7 @@ const AddJobComponent = ({ onCancel }) => {
                                 ))
                               ) : (
                                 <div className="dropdown-item-ref-req" disabled>
-                                  {
-                                    TRANSLATIONS[currentLanguage]
-                                      .noCustomQuestions
-                                  }
+                                  {labels.noCustomQuestions}
                                 </div>
                               )}
                             </div>
@@ -665,7 +591,7 @@ const AddJobComponent = ({ onCancel }) => {
                       onClick={() => setShowCancelConfirmation(true)}
                       disabled={loading}
                     >
-                      {TRANSLATIONS[currentLanguage].cancel}
+                      {labels.cancel}
                     </button>
                     <button
                       className="btn-proceed"
@@ -684,7 +610,7 @@ const AddJobComponent = ({ onCancel }) => {
                           role="status"
                         ></div>
                       ) : (
-                        TRANSLATIONS[currentLanguage].proceed
+                        labels.proceed
                       )}
                     </button>
                   </div>
@@ -692,7 +618,6 @@ const AddJobComponent = ({ onCancel }) => {
               </Col>
 
               <Col md={6}>
-                {/* Right Column */}
                 <h4 className="d-flex gap-2 mb-4 ">
                   <div className="job-icon">
                     <svg
@@ -708,7 +633,7 @@ const AddJobComponent = ({ onCancel }) => {
                       />
                     </svg>
                   </div>
-                  {TRANSLATIONS[currentLanguage].applicantDetails}
+                  {labels.applicantDetails}
                 </h4>
                 <div className="applicant-details-container">
                   {candidates.map((candidate, index) => (
@@ -718,13 +643,13 @@ const AddJobComponent = ({ onCancel }) => {
                         style={{ width: "220px", height: "38px" }}
                       >
                         <div className="applicant-number">{index + 1}</div>
-                        {TRANSLATIONS[currentLanguage].applicant}
+                        {labels.applicant}
                       </b>
                       <Row className="mb-1">
                         <Col md="4">
                           <Form.Group controlId={`formFirstName${index}`}>
                             <Form.Label className="mb-1 applicant-label">
-                              {TRANSLATIONS[currentLanguage].firstName}
+                              {labels.firstName}
                               <span className="color-orange"> *</span>
                             </Form.Label>
                             <Form.Control
@@ -737,10 +662,7 @@ const AddJobComponent = ({ onCancel }) => {
                                   e.target.value
                                 )
                               }
-                              placeholder={
-                                TRANSLATIONS[currentLanguage].placeholders
-                                  .firstName
-                              }
+                              placeholder={labels.placeholders.firstName}
                               required
                             />
                           </Form.Group>
@@ -748,7 +670,7 @@ const AddJobComponent = ({ onCancel }) => {
                         <Col md="4">
                           <Form.Group controlId={`formLastName${index}`}>
                             <Form.Label className="mb-1 applicant-label">
-                              {TRANSLATIONS[currentLanguage].lastName}
+                              {labels.lastName}
                               <span className="color-orange"> *</span>
                             </Form.Label>
                             <Form.Control
@@ -761,10 +683,7 @@ const AddJobComponent = ({ onCancel }) => {
                                   e.target.value
                                 )
                               }
-                              placeholder={
-                                TRANSLATIONS[currentLanguage].placeholders
-                                  .lastName
-                              }
+                              placeholder={labels.placeholders.lastName}
                               required
                             />
                           </Form.Group>
@@ -776,7 +695,7 @@ const AddJobComponent = ({ onCancel }) => {
                             className="mb-3"
                           >
                             <Form.Label className="mb-1 applicant-label">
-                              {TRANSLATIONS[currentLanguage].numReferees}
+                              {labels.numReferees}
                               <span className="color-orange"> *</span>
                             </Form.Label>
                             <div className="custom-dropdown-job-req">
@@ -833,7 +752,7 @@ const AddJobComponent = ({ onCancel }) => {
                         className="mb-3"
                       >
                         <Form.Label className="mb-1 applicant-label">
-                          {TRANSLATIONS[currentLanguage].email}
+                          {labels.email}
                           <span className="color-orange"> *</span>
                         </Form.Label>
                         <Form.Control
@@ -842,9 +761,7 @@ const AddJobComponent = ({ onCancel }) => {
                           onChange={(e) =>
                             handleInputChange(index, "email", e.target.value)
                           }
-                          placeholder={
-                            TRANSLATIONS[currentLanguage].placeholders.email
-                          }
+                          placeholder={labels.placeholders.email}
                           required
                         />
                       </Form.Group>
@@ -872,4 +789,4 @@ const AddJobComponent = ({ onCancel }) => {
   );
 };
 
-export default AddJobComponent;
+export default memo(AddJobComponent);
