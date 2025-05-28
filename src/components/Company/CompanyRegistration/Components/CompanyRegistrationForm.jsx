@@ -37,15 +37,33 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
     );
   }, [formData.country, countries]);
 
-  const validateForm = useMemo(() => {
+  // Memoized form validation
+  const isFormValid = useMemo(() => {
     return Object.values(formData).every((value) => value.trim() !== "");
   }, [formData]);
 
-  const disableButton = useMemo(() => {
-    return !validateForm || isLoading || !isChecked;
-  }, [validateForm, isLoading, isChecked]);
+  // Memoized button disabled state
+  const isButtonDisabled = useMemo(() => {
+    return !isFormValid || isLoading || !isChecked;
+  }, [isFormValid, isLoading, isChecked]);
 
-  const handleChange = (e) => {
+  // Load countries data
+  useEffect(() => {
+    const loadCountries = async () => {
+      try {
+        const data = await import(
+          "../../../../utils/countries/countries+cities.json"
+        );
+        setCountries(data.default);
+      } catch (error) {
+        console.error("Failed to load countries data:", error);
+      }
+    };
+    loadCountries();
+  }, []);
+
+  // Memoized handlers
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     const formattedValue =
       name === "name" || name === "firstName" || name === "lastName"
@@ -417,16 +435,16 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
       </Form.Group>
 
       <DPAPopUp
-        showModal={showModal}
-        setShowModal={setShowModal}
+        showModal={showAgreementModal}
+        setShowModal={setShowAgreementModal}
         handleContinue={handleContinue}
       />
 
       <Button
         variant="primary"
         type="submit"
-        disabled={disableButton}
-        className={`register-company-btn ${disableButton ? "disable" : ""}`}
+        disabled={isButtonDisabled}
+        className={`register-company-btn ${isButtonDisabled ? "disable" : ""}`}
       >
         {!isLoading ? "Register Company" : "Processing..."}
       </Button>
