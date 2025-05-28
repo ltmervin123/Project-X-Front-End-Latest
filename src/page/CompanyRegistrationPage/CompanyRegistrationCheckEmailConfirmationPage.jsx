@@ -40,7 +40,7 @@ const CompanyRegistrationCheckEmailConfirmationPage = () => {
     setTimeLeft(30);
   };
   const handleRedirectToCompanyRegistration = () => {
-    navigate("/company-registration");
+    navigate("/login");
   };
 
   return (
@@ -120,7 +120,7 @@ const CompanyRegistrationCheckEmailConfirmationPage = () => {
                   className={`resend-confirmation-link-disabled ${
                     timeLeft > 0 ? "disabled" : ""
                   }`}
-                  disabled={timeLeft > 0} // Disable the button based on the timer state
+                  disabled={timeLeft > 0}
                   onClick={handleResendLink}
                 >
                   Resend confirmation
@@ -135,7 +135,7 @@ const CompanyRegistrationCheckEmailConfirmationPage = () => {
                 <button
                   className="resend-confirmation-link"
                   onClick={handleResendLink}
-                  disabled={timeLeft > 0} // Disable the button based on the timer state
+                  disabled={timeLeft > 0}
                 >
                   Resend confirmation
                 </button>
@@ -146,7 +146,7 @@ const CompanyRegistrationCheckEmailConfirmationPage = () => {
             className="redirect-to-login"
             onClick={handleRedirectToCompanyRegistration}
           >
-            Return to Registration
+            Login
           </button>
         </div>
       </div>
