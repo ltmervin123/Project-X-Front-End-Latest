@@ -1,33 +1,25 @@
-import React, { useState, useMemo } from "react";
+import React, { useCallback, useMemo, useEffect, useState } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { capitalizeWords } from "../../utils/helper";
 import DPAPopUp from "../PopUpComponent/DPAPopUp";
 
-const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
+const CompanyRegistrationForm = ({
+  setShowCultureModal,
+  formData,
+  isLoading,
+  setFormData,
+  error,
+  selectedCultures,
+  onSubmit,
+  setIsChecked,
+  isChecked,
+  agreeChecked,
+  setAgreeChecked,
+}) => {
+  const [countries, setCountries] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [agreeChecked, setAgreeChecked] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    size: "",
-    industry: "",
-    annualHiringVolume: "",
-    firstName: "",
-    lastName: "",
-    country: "",
-    cities: "",
-    hiringInvolvement: "",
-  });
-
-  const capitalizeWords = (str) => {
-    return str
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  };
+  const [showAgreementModal, setShowAgreementModal] = useState(false);
 
   const selectedCountryData = useMemo(() => {
     return (
@@ -37,17 +29,14 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
     );
   }, [formData.country, countries]);
 
-  // Memoized form validation
   const isFormValid = useMemo(() => {
     return Object.values(formData).every((value) => value.trim() !== "");
   }, [formData]);
 
-  // Memoized button disabled state
   const isButtonDisabled = useMemo(() => {
     return !isFormValid || isLoading || !isChecked;
   }, [isFormValid, isLoading, isChecked]);
 
-  // Load countries data
   useEffect(() => {
     const loadCountries = async () => {
       try {
@@ -62,7 +51,6 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
     loadCountries();
   }, []);
 
-  // Memoized handlers
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     const formattedValue =
@@ -74,48 +62,42 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
       ...prevData,
       [name]: formattedValue,
     }));
-  };
+  }, []);
 
-  const handleCheckboxChange = (e) => {
-    if (e.target.checked) {
-      if (!agreeChecked) {
-        setShowModal(true);
+  const handleCheckboxChange = useCallback(
+    (e) => {
+      if (e.target.checked) {
+        if (!agreeChecked) {
+          setShowAgreementModal(true);
+        } else {
+          setIsChecked(true);
+        }
       } else {
-        setIsChecked(true);
+        setIsChecked(false);
+        setAgreeChecked(false);
       }
-    } else {
-      setIsChecked(false);
-      setAgreeChecked(false);
-    }
-  };
+    },
+    [agreeChecked]
+  );
 
-  const handleContinue = () => {
+  const handleContinue = useCallback(() => {
     setAgreeChecked(true);
     setIsChecked(true);
-    setShowModal(false);
-  };
+    setShowAgreementModal(false);
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      size: "",
-      industry: "",
-      annualHiringVolume: "",
-      firstName: "",
-      lastName: "",
-      country: "",
-      cities: "",
-      hiringInvolvement: "",
-    });
-    setIsChecked(false);
-  };
+  const handleSubmit = useCallback(async () => {
+    //Show modal initialy if user not yet selecting prefere culture
+    if (selectedCultures.length === 0) {
+      setShowCultureModal(true);
+      return;
+    }
+
+    await onSubmit();
+  }, [selectedCultures, setShowCultureModal, onSubmit]);
 
   return (
-    <Form onSubmit={handleSubmit} className="form-company-reg">
+    <Form className="form-company-reg">
       <Row>
         <Col md={12}>
           <Form.Group className="mb-2">
@@ -145,11 +127,14 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
                   onChange={handleChange}
                   placeholder="Enter Email Address"
                   isInvalid={
-                    error === "Email is not valid" || error === "Email already exists"
+                    error === "Email is not valid" ||
+                    error === "Email already exists"
                   }
                   id="email-address"
                 />
-                <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  {error}
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col md={6}>
@@ -173,7 +158,9 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
-                <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  {error}
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -442,11 +429,17 @@ const CompanyRegistrationForm = ({ onSubmit, error, isLoading, countries }) => {
 
       <Button
         variant="primary"
-        type="submit"
+        type="button"
+        onClick={handleSubmit}
         disabled={isButtonDisabled}
         className={`register-company-btn ${isButtonDisabled ? "disable" : ""}`}
       >
-        {!isLoading ? "Register Company" : "Processing..."}
+        {/* {!isLoading ? "Select Culture Preferences" : "Processing..."} */}
+        {selectedCultures.length === 0
+          ? "Select Culture Preferences"
+          : isLoading
+          ? "Processing..."
+          : "Register Company"}
       </Button>
     </Form>
   );
