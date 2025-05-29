@@ -1,9 +1,9 @@
-import React from "react";
+import { memo } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 
 const ReportsChart = ({
-  translations,
+  labels,
   chartData,
   barOptions,
   showTooltip,
@@ -13,7 +13,7 @@ const ReportsChart = ({
     <>
       <div className="AiReference-table-title">
         <h4 className="mb-0 d-flex gap-2 align-items-center">
-          {translations.referenceCheckAnalytics}
+          {labels.referenceCheckAnalytics}
           <div className="position-relative d-flex">
             <svg
               width="16"
@@ -35,12 +35,12 @@ const ReportsChart = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-                {translations.tooltipAnalytics}
+                {labels.tooltipAnalytics}
               </span>
             )}
           </div>
         </h4>
-        <p>{translations.overviewOfCompletedAndPending}</p>
+        <p>{labels.overviewOfCompletedAndPending}</p>
       </div>
       <Row>
         <Col xs={12} md={5}>
@@ -53,11 +53,11 @@ const ReportsChart = ({
             <ul>
               <li>
                 <div className="legend-box completed"></div>
-                {translations.completed}
+                {labels.completed}
               </li>
               <li>
                 <div className="legend-box pending"></div>
-                {translations.pending}
+                {labels.pending}
               </li>
             </ul>
           </div>
@@ -67,4 +67,4 @@ const ReportsChart = ({
   );
 };
 
-export default ReportsChart;
+export default memo(ReportsChart);
