@@ -30,9 +30,9 @@ export const getCandidate = async (user) => {
   return response.data.candidates;
 };
 
-export const sendCandidateReminder = async (candidateId) => {
-  const USER = JSON.parse(localStorage.getItem("user")) || null;
-  const token = USER?.token;
+export const sendCandidateReminder = async (params) => {
+  const { token = null } = params?.user;
+  const { candidateId = null } = params;
   const URL = `${API}/api/ai-referee/company-candidates/send-candidate-reminder/${candidateId}`;
   const response = await axios.post(
     URL,
@@ -42,12 +42,34 @@ export const sendCandidateReminder = async (candidateId) => {
   return response.data;
 };
 
-export const checkCandidateReminder = async (candidateId) => {
-  const USER = JSON.parse(localStorage.getItem("user")) || null;
-  const token = USER?.token;
+export const checkCandidateReminder = async (params) => {
+  const { token = null } = params?.user;
+  const { candidateId = null } = params;
   const URL = `${API}/api/ai-referee/company-candidates/check-candidate-reminder/${candidateId}`;
   const response = await axios.get(URL, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data.hasReminder;
+};
+
+export const deleteCandidate = async (params) => {
+  const { token = null } = params?.user;
+  const { candidateId = null } = params;
+  const URL = `${API}/api/ai-referee/company-candidates/delete-candidate-by-id/${candidateId}`;
+  await axios.delete(URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const updateCandidate = async (params) => {
+  const { token = null } = params?.user;
+  const { candidateId, payload } = params;
+  const URL = `${API}/api/ai-referee/company-candidates/update-candidate-by-id/${candidateId}`;
+  await axios.put(URL, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

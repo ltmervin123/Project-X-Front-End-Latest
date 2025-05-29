@@ -1,19 +1,18 @@
-import React from 'react';
+import { memo } from "react";
 import { FaSearch } from "react-icons/fa";
 
-const ReferenceRequestHeader = ({ 
-  TRANSLATIONS, 
-  language, 
-  searchQuery, 
-  setSearchQuery, 
-  isSearchVisible 
+const ReferenceRequestHeader = ({
+  labels,
+  searchQuery,
+  setSearchQuery,
+  isSearchVisible,
 }) => {
   return (
     <>
       <div className="d-flex justify-content-between align-items-end ">
         <div>
-          <h3 className="mb-0">{TRANSLATIONS[language].referenceRequest}</h3>
-          <p className="mb-2">{TRANSLATIONS[language].referenceRequestDesc}</p>
+          <h3 className="mb-0">{labels.referenceRequest}</h3>
+          <p className="mb-2">{labels.referenceRequestDesc}</p>
         </div>
       </div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -25,7 +24,7 @@ const ReferenceRequestHeader = ({
           >
             <input
               type="text"
-              placeholder={TRANSLATIONS[language].search}
+              placeholder={labels.search}
               className="form-control ps-4 pe-5"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -38,4 +37,4 @@ const ReferenceRequestHeader = ({
   );
 };
 
-export default ReferenceRequestHeader;
+export default memo(ReferenceRequestHeader);
