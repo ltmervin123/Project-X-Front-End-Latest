@@ -1,34 +1,30 @@
-import React from 'react';
 import { FaEdit, FaTrash } from "react-icons/fa";
-import StatusDropdown from './StatusDropdown';
-import CultureFitScore from './CultureFitScore';
+import StatusDropdown from "./StatusDropdown";
+import CultureFitScore from "./CultureFitScore";
 
 const CandidatesTable = ({
   candidates,
   searchQuery,
-  TRANSLATIONS,
-  language,
+  labels,
   visibleOptions,
   handleToggleOptions,
   handleViewDetails,
   handleEditCandidate,
   handleDeleteCandidate,
   handleStatusChange,
-  getStatusColor
+  getStatusColor,
 }) => {
   return (
     <div className="scrollable-table-job-container">
       <table>
         <thead>
           <tr>
-            <th>{TRANSLATIONS[language].Name}</th>
-            <th>{TRANSLATIONS[language].Email}</th>
-            <th>{TRANSLATIONS[language].JobName}</th>
-            <th>{TRANSLATIONS[language].Status}</th>
-            <th>{TRANSLATIONS[language].CultureFit}</th>
-            <th className="text-center">
-              {TRANSLATIONS[language].Actions}
-            </th>
+            <th>{labels.Name}</th>
+            <th>{labels.Email}</th>
+            <th>{labels.JobName}</th>
+            <th>{labels.Status}</th>
+            <th>{labels.CultureFit}</th>
+            <th className="text-center">{labels.Actions}</th>
           </tr>
         </thead>
         <tbody>
@@ -45,9 +41,7 @@ const CandidatesTable = ({
                   candidate.name.lastName || ""
                 }`.trim();
               }
-              return fullName
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase());
+              return fullName.toLowerCase().includes(searchQuery.toLowerCase());
             })
             .slice()
             .reverse()
@@ -64,10 +58,14 @@ const CandidatesTable = ({
                 <td>{candidate.position}</td>
                 <td>
                   <StatusDropdown
-                    status={candidate.status === "New" ? "Pending" : candidate.status}
-                    onChange={(value) => handleStatusChange(candidate._id, value)}
+                    status={
+                      candidate.status === "New" ? "Pending" : candidate.status
+                    }
+                    onChange={(value) =>
+                      handleStatusChange(candidate._id, value)
+                    }
                     getStatusColor={getStatusColor}
-                    translations={TRANSLATIONS[language]}
+                    translations={labels}
                   />
                 </td>
                 <td>
@@ -80,7 +78,7 @@ const CandidatesTable = ({
                         className="btn-view-details"
                         onClick={() => handleViewDetails(candidate)}
                       >
-                        {TRANSLATIONS[language].ViewDetails}
+                        {labels.ViewDetails}
                       </button>
                       <div className="action-menu">
                         <p
@@ -108,19 +106,23 @@ const CandidatesTable = ({
                             >
                               <p
                                 className="d-flex align-items-center gap-2"
-                                onClick={() => handleEditCandidate(candidate._id)}
+                                onClick={() =>
+                                  handleEditCandidate(candidate._id)
+                                }
                                 style={{ cursor: "pointer" }}
                               >
                                 <FaEdit />
-                                {TRANSLATIONS[language].Edit}
+                                {labels.Edit}
                               </p>
                               <p
                                 className="d-flex align-items-center gap-2"
-                                onClick={() => handleDeleteCandidate(candidate._id)}
+                                onClick={() =>
+                                  handleDeleteCandidate(candidate._id)
+                                }
                                 style={{ cursor: "pointer", color: "red" }}
                               >
                                 <FaTrash />
-                                {TRANSLATIONS[language].Delete}
+                                {labels.Delete}
                               </p>
                             </div>
                           )}
@@ -147,7 +149,7 @@ const CandidatesTable = ({
           }).length === 0 && (
             <tr>
               <td colSpan="5" className="text-center">
-                {TRANSLATIONS[language].CandidateNotFound}
+                {labels.CandidateNotFound}
               </td>
             </tr>
           )}

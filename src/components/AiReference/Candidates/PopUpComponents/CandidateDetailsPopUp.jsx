@@ -1,111 +1,37 @@
-// CandidateDetailsPopUp.jsx
-import React, { useState } from "react";
 import { Modal, Button, Spinner, Container, Row, Col } from "react-bootstrap";
-import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import {
-  sendCandidateReminder,
-  checkCandidateReminder,
-} from "../../../../api/ai-reference/candidate/candidate-api";
+  useCheckCandidateReminder,
+  useSendCandidateReminder,
+} from "../../../../hook/useCandidate";
+import {
+  getCandidateColorStatus,
+  formatDate,
+  getTranslatedStatus,
+  getTranslatedFormat,
+} from "../utils/helper";
+import { useNavigate } from "react-router-dom";
 
-const TRANSLATIONS = {
-  English: {
-    ApplicantId: "Applicant ID:",
-    Status: "Status:",
-    jobName: "Job Name",
-    Email: "Email:",
-    AppliedDate: "Applied Date:",
-    ReferenceFormat: "Reference Format:",
-    Edit: "Edit",
-    SendEmail: "Send Email",
-    NA: "N/A",
-    Status_New: "New",
-    Status_Completed: "Completed",
-    Status_Failed: "Failed",
-    standardFormat: "Standard Format",
-    managementFormat: "Management Format",
-    executiveFormat: "Executive Format",
-    sending: "Sending...",
-    ReminderSent: "Reminder Sent Successfully",
-  },
-  Japanese: {
-    ApplicantId: "応募者ID:",
-    Status: "ステータス:",
-    jobName: "職位",
-    Email: "メール:",
-    AppliedDate: "応募日:",
-    ReferenceFormat: "リファレンス形式:",
-    Edit: "編集",
-    SendEmail: "メール送信",
-    NA: "該当なし",
-    Status_New: "新規",
-    Status_Completed: "完了",
-    Status_Failed: "失敗",
-    standardFormat: "標準フォーマット",
-    managementFormat: "マネジメントフォーマット",
-    executiveFormat: "エグゼクティブフォーマット",
-    sending: "送信中...",
-    ReminderSent: "リマインダー送信済み",
-  },
-};
-
-const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
+const CandidateDetailsPopUp = ({
+  candidates,
+  onClose,
+  onEdit,
+  labels,
+  user,
+}) => {
   const navigate = useNavigate();
-  const language = sessionStorage.getItem("preferred-language") || "English";
-  const [sendingReminder, setSendingReminder] = useState(false);
-  const [reminderSent, setReminderSent] = useState(false);
-  const { data: hasReminder, isPending: reminderLoading } = useQuery({
-    queryKey: ["reminder", candidates._id],
-    queryFn: () => checkCandidateReminder(candidates._id),
-    enabled: !!candidates._id,
-    staleTime: 1000 * 60 * 1, // 1 minute
-  });
+
+  const { data: hasReminder, isPending: reminderLoading } =
+    useCheckCandidateReminder(user, candidates._id);
+  const { mutate: sendCandidateReminder, isPending: sendingReminder } =
+    useSendCandidateReminder(user, {
+      onSettled: () =>
+        navigate("/candidate-request-reminder-sent", {
+          state: { email: candidates.email },
+        }),
+    });
 
   const handleSendReminder = async () => {
-    try {
-      setSendingReminder(true);
-      await sendCandidateReminder(candidates._id);
-      setReminderSent(true);
-      navigate('/candidate-request-reminder-sent', { 
-        state: { email: candidates.email }
-      });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSendingReminder(false);
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "New":
-        return "#319F43";
-      case "Completed":
-        return "#1877F2";
-      case "Failed":
-        return "#FF0000";
-      default:
-        return "black";
-    }
-  };
-
-  const formatDate = (date) => {
-    return date.split("T")[0];
-  };
-
-  const getTranslatedStatus = (status) => {
-    const statusKey = `Status_${status}`;
-    return TRANSLATIONS[language][statusKey] || status;
-  };
-
-  const getTranslatedFormat = (format) => {
-    if (format === "Standard Format")
-      return TRANSLATIONS[language].standardFormat;
-    if (format === "Management Format")
-      return TRANSLATIONS[language].managementFormat;
-    if (format === "Executive Format")
-      return TRANSLATIONS[language].executiveFormat;
-    return format || TRANSLATIONS[language].NA;
+    await sendCandidateReminder(candidates._id);
   };
 
   return (
@@ -144,8 +70,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
             </div>
             <div className="d-flex justify-content-center align-items-center">
               <p className="m-0 candidate-id">
-                <strong>{TRANSLATIONS[language].ApplicantId}</strong>{" "}
-                {candidates._id}
+                <strong>{labels.ApplicantId}</strong> {candidates._id}
               </p>
 
               <Button
@@ -163,45 +88,44 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
             <div className="d-flex justify-content-start gap-3 applicant-details">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {TRANSLATIONS[language].Status}
+                  {labels.Status}
                 </strong>{" "}
-                <span style={{ color: getStatusColor(candidates.status) }}>
+                <span
+                  style={{ color: getCandidateColorStatus(candidates.status) }}
+                >
                   {" "}
-                  {getTranslatedStatus(candidates.status)}
+                  {getTranslatedStatus(candidates.status, labels)}
                 </span>
               </p>
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {TRANSLATIONS[language].jobName}
+                  {labels.jobName}
                 </strong>{" "}
-                <span>{candidates.position || TRANSLATIONS[language].NA}</span>
+                <span>{candidates.position || labels.NA}</span>
               </p>
             </div>
             <div className="d-flex justify-content-start gap-3 applicant-details">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {TRANSLATIONS[language].Email}
+                  {labels.Email}
                 </strong>{" "}
                 <span>{candidates.email}</span>
               </p>
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {TRANSLATIONS[language].AppliedDate}
+                  {labels.AppliedDate}
                 </strong>{" "}
-                <span>
-                  {formatDate(candidates.createdAt) ||
-                    TRANSLATIONS[language].NA}
-                </span>
+                <span>{formatDate(candidates.createdAt) || labels.NA}</span>
               </p>
             </div>
             <div className="d-flex justify-content-start gap-3 applicant-details mb-2">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-2 align-items-center">
-                  {TRANSLATIONS[language].ReferenceFormat}
+                  {labels.ReferenceFormat}
                 </strong>{" "}
                 <span>
-                  {getTranslatedFormat(candidates.questionName) ||
-                    TRANSLATIONS[language].NA}
+                  {getTranslatedFormat(candidates.questionName, labels) ||
+                    labels.NA}
                 </span>
               </p>
             </div>
@@ -215,7 +139,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
               onClick={onEdit}
               disabled={sendingReminder}
             >
-              {TRANSLATIONS[language].Edit}
+              {labels.Edit}
             </button>
             {hasReminder && (
               <button
@@ -225,9 +149,7 @@ const CandidateDetailsPopUp = ({ candidates, onClose, onEdit }) => {
                 onClick={handleSendReminder}
                 disabled={sendingReminder}
               >
-                {sendingReminder
-                  ? TRANSLATIONS[language].sending
-                  : TRANSLATIONS[language].SendEmail}
+                {sendingReminder ? labels.sending : labels.SendEmail}
               </button>
             )}
           </div>

@@ -1,131 +1,65 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
+import { useUpdateCandidate } from "../../../../hook/useCandidate";
+import {
+  formatUpdateCandidatePayload,
+  translateQuestionName,
+} from "../utils/helper";
+import { useGetCustomQuestions } from "../../../../hook/useCustomQuestion";
 
-const TRANSLATIONS = {
-  English: {
-    EditApplicant: "Edit Applicant",
-    UpdateDetails: "Update the details of the applicant below.",
-    jobName: "Job Name",
-    SelectPosition: "Select a position",
-    ReferenceFormat: "Reference Format",
-    NoCustomQuestions: "No custom questions available",
-    Applicant: "Applicant",
-    Email: "Email",
-    UpdateCandidate: "Update Applicant",
-    hrHatch: "HR-HATCH",
-    custom: "Custom Questionnaire",
-    StandardFormat: "Standard Format",
-    ManagementFormat: "Management Format",
-    ExecutiveFormat: "Executive Format",
-    FormatValues: {
-      STANDARD: "Standard Format",
-      MANAGEMENT: "Management Format",
-      EXECUTIVE: "Executive Format",
-    },
-  },
-  Japanese: {
-    EditApplicant: "応募者を編集",
-    UpdateDetails: "以下の応募者の詳細を更新してください。",
-    jobName: "職位",
-    SelectPosition: "職位を選択",
-    ReferenceFormat: "リファレンス形式",
-    NoCustomQuestions: "カスタム質問はありません",
-    Applicant: "応募者",
-    Email: "メール",
-    UpdateCandidate: "応募者を更新",
-    hrHatch: "HRハッチ",
-    custom: "カスタムアンケート",
-    StandardFormat: "標準フォーマット",
-    ManagementFormat: "管理職フォーマット",
-    ExecutiveFormat: "エグゼクティブフォーマット",
-    FormatValues: {
-      STANDARD: "標準フォーマット",
-      MANAGEMENT: "管理職フォーマット",
-      EXECUTIVE: "エグゼクティブフォーマット",
-    },
-  },
-};
-
-const EditCandidatePopUp = ({
-  onClose,
-  onUpdateCandidate,
-  candidateDetails,
-}) => {
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const token = USER?.token;
-  const language = sessionStorage.getItem("preferred-language") || "English";
-
+const EditCandidatePopUp = ({ onClose, candidateDetails, labels, user }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isOther, setIsOther] = useState(false);
   const isFormValid = firstName && lastName && email && position;
-  const [positions, setPositions] = useState(() => {
-    const jobs = JSON.parse(localStorage.getItem("jobs")) || [];
-    return jobs.map((job) => job.jobName);
-  });
-
   const [selectedFormat, setSelectedFormat] = useState("");
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [isHrHatchOpen, setIsHrHatchOpen] = useState(false);
   const [isCustomOpen, setIsCustomOpen] = useState(false);
 
+  const { data: customQuestion = [], isPending: isFetchingQuestionSets } =
+    useGetCustomQuestions(user);
+  const { mutate: UpdateCandidate, isPending: isUpdating } = useUpdateCandidate(
+    user,
+    {
+      onSettled: () => onClose(),
+    }
+  );
+
   const hrHatchQuestion = useMemo(() => {
     return [
       {
-        name: TRANSLATIONS[language].StandardFormat,
+        name: labels.StandardFormat,
         value: "STANDARD",
         _id: "67b404a91eb4c9da22cff68e",
       },
       {
-        name: TRANSLATIONS[language].ManagementFormat,
+        name: labels.ManagementFormat,
         value: "MANAGEMENT",
         _id: "67b405191eb4c9da22cff690",
       },
       {
-        name: TRANSLATIONS[language].ExecutiveFormat,
+        name: labels.ExecutiveFormat,
         value: "EXECUTIVE",
         _id: "67b405a41eb4c9da22cff691",
       },
     ];
-  }, [language]);
+  }, [labels]);
 
-  const customQuestion = useMemo(() => {
-    const questions = JSON.parse(localStorage.getItem("questions")) || [];
-    return questions.map((question) => ({
-      name: question.name,
-      _id: question._id,
-    }));
-  }, []);
-
-  const getTranslatedQuestionName = (format, originalName) => {
-    if (format === "HR-HATCH-FORMAT") {
-      return TRANSLATIONS[language].FormatValues[originalName] || originalName;
-    }
-    return originalName;
-  };
-
-  const handleQuestionSelect = (question, format) => {
-    const translatedQuestion = {
-      ...question,
-      name: getTranslatedQuestionName(format, question.value),
-    };
-    setSelectedQuestion(translatedQuestion);
-    setSelectedFormat(format);
-    setIsHrHatchOpen(false);
-    setIsCustomOpen(false);
-  };
-
-  const capitalizeWords = (str) => {
-    return str
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  };
+  const handleQuestionSelect = useCallback(
+    (question, format) => {
+      const translatedQuestion = {
+        ...question,
+        name: translateQuestionName(format, question.value, labels),
+      };
+      setSelectedQuestion(translatedQuestion);
+      setSelectedFormat(format);
+      setIsHrHatchOpen(false);
+      setIsCustomOpen(false);
+    },
+    [labels]
+  );
 
   useEffect(() => {
     if (candidateDetails) {
@@ -141,49 +75,36 @@ const EditCandidatePopUp = ({
     }
   }, [candidateDetails]);
 
-  const handlePositionChange = (e) => {
+  const handlePositionChange = useCallback((e) => {
     const value = e.target.value;
     setPosition(value);
-    if (value === "Others") {
-      setIsOther(true);
-    } else {
-      setIsOther(false);
-    }
-  };
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    const URL = `${API}/api/ai-referee/company-candidates/update-candidate-by-id/${candidateDetails._id}`;
-    setIsLoading(true);
-    try {
-      const payload = {
-        name: {
-          firstName: capitalizeWords(firstName),
-          lastName: capitalizeWords(lastName),
-        },
+      const payload = formatUpdateCandidatePayload({
+        firstName,
+        lastName,
         email,
-        questionFormat: selectedFormat,
-        questionId: selectedQuestion?._id,
-        questionName: selectedQuestion?.value || selectedQuestion?.name,
-      };
-
-      const response = await axios.put(URL, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        selectedFormat,
+        selectedQuestion,
       });
+      const candidateId = candidateDetails._id;
 
-      if (response.status === 200) {
-        await onUpdateCandidate();
-        onClose();
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      await UpdateCandidate({ candidateId, payload });
+    },
+    [
+      UpdateCandidate,
+      firstName,
+      lastName,
+      email,
+      selectedFormat,
+      selectedQuestion,
+      candidateDetails._id,
+    ]
+  );
 
   return (
     <Modal
@@ -197,8 +118,8 @@ const EditCandidatePopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0">{TRANSLATIONS[language].EditApplicant}</h5>
-            <small>{TRANSLATIONS[language].UpdateDetails}</small>
+            <h5 className="m-0">{labels.EditApplicant}</h5>
+            <small>{labels.UpdateDetails}</small>
           </div>
           <Button
             className="closebtn"
@@ -215,7 +136,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              {TRANSLATIONS[language].jobName}
+              {labels.jobName}
             </Form.Label>
             <Form.Control
               type="text"
@@ -230,7 +151,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px", opacity: "0.5" }}
             >
-              {TRANSLATIONS[language].ReferenceFormat}
+              {labels.ReferenceFormat}
             </Form.Label>
             <div
               className="w-100 reference-question-format-container d-flex gap-3"
@@ -250,13 +171,13 @@ const EditCandidatePopUp = ({
                 >
                   {selectedFormat === "HR-HATCH-FORMAT" && selectedQuestion
                     ? selectedQuestion.name === "Standard Format"
-                      ? TRANSLATIONS[language].StandardFormat
+                      ? labels.StandardFormat
                       : selectedQuestion.name === "Management Format"
-                      ? TRANSLATIONS[language].ManagementFormat
+                      ? labels.ManagementFormat
                       : selectedQuestion.name === "Executive Format"
-                      ? TRANSLATIONS[language].ExecutiveFormat
+                      ? labels.ExecutiveFormat
                       : selectedQuestion.name
-                    : TRANSLATIONS[language].hrHatch}
+                    : labels.hrHatch}
                 </div>
                 {isHrHatchOpen && (
                   <div className="dropdown-list-ref-req">
@@ -289,7 +210,7 @@ const EditCandidatePopUp = ({
                 >
                   {selectedFormat === "CUSTOM-FORMAT" && selectedQuestion
                     ? selectedQuestion.name
-                    : TRANSLATIONS[language].custom}
+                    : labels.custom}
                 </div>
                 {isCustomOpen && (
                   <div className="dropdown-list-ref-req">
@@ -307,7 +228,7 @@ const EditCandidatePopUp = ({
                       ))
                     ) : (
                       <div className="dropdown-item-ref-req" disabled>
-                        {TRANSLATIONS[language].NoCustomQuestions}
+                        {labels.NoCustomQuestions}
                       </div>
                     )}
                   </div>
@@ -320,7 +241,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              {TRANSLATIONS[language].Applicant}
+              {labels.Applicant}
             </Form.Label>
             <div className="d-flex gap-3 w-100">
               <Form.Control
@@ -345,7 +266,7 @@ const EditCandidatePopUp = ({
               className="m-0"
               style={{ width: "150px", height: "38px" }}
             >
-              {TRANSLATIONS[language].Email}
+              {labels.Email}
             </Form.Label>
             <Form.Control
               type="email"
@@ -360,15 +281,15 @@ const EditCandidatePopUp = ({
             <button
               className="btn-create-job"
               type="submit"
-              disabled={isLoading || !isFormValid}
+              disabled={isUpdating || !isFormValid}
             >
-              {isLoading ? (
+              {isUpdating ? (
                 <div
                   className="spinner-border spinner-border-sm text-light"
                   role="status"
                 ></div>
               ) : (
-                TRANSLATIONS[language].UpdateCandidate
+                labels.UpdateCandidate
               )}
             </button>
           </div>
