@@ -1,7 +1,12 @@
-import React from 'react';
+import { memo } from "react";
 import { Row, Col } from "react-bootstrap";
 
-const ReportsHeader = ({ translations, cardData, isReportsCardVisible, onCardClick }) => {
+const ReportsHeader = ({
+  translations,
+  cardData,
+  isReportsCardVisible,
+  onCardClick,
+}) => {
   return (
     <>
       <div className="reports-header">
@@ -12,7 +17,9 @@ const ReportsHeader = ({ translations, cardData, isReportsCardVisible, onCardCli
         {cardData.map((card, index) => (
           <Col key={index} xs={12} sm={6} md={3} className="mb-3">
             <div
-              className={`AiReferenceCard fade-in ${isReportsCardVisible ? "visible" : ""}`}
+              className={`AiReferenceCard fade-in ${
+                isReportsCardVisible ? "visible" : ""
+              }`}
               onClick={() => onCardClick(card)}
               style={{ cursor: "pointer" }}
             >
@@ -40,4 +47,4 @@ const ReportsHeader = ({ translations, cardData, isReportsCardVisible, onCardCli
   );
 };
 
-export default ReportsHeader;
+export default memo(ReportsHeader);
