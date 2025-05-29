@@ -1,9 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import { FaTrash } from "react-icons/fa";
-
 const ReferenceRequestTable = ({
-  TRANSLATIONS,
-  language,
+  labels,
   filteredReferences,
   showDropDown,
   selectedCandidate,
@@ -29,7 +27,7 @@ const ReferenceRequestTable = ({
     >
       <div className="AiReference-table-title">
         <h4 className="mb-0 d-flex gap-2 align-items-center">
-          {TRANSLATIONS[language].referenceRequestList}
+          {labels.referenceRequestList}
           <div className="position-relative d-flex">
             <svg
               width="16"
@@ -51,27 +49,25 @@ const ReferenceRequestTable = ({
             </svg>
             {showTooltip && (
               <span className="job-tooltip-text">
-                {TRANSLATIONS[language].manageTrackTooltip}
+                {labels.manageTrackTooltip}
               </span>
             )}
           </div>
         </h4>
-        <p>{TRANSLATIONS[language].referenceRequestListDesc}</p>
+        <p>{labels.referenceRequestListDesc}</p>
       </div>
       {filteredReferences && filteredReferences.length > 0 ? (
         <div className="scrollable-table-container">
           <table>
             <thead>
               <tr>
-                <th>{TRANSLATIONS[language].applicants}</th>
-                <th>{TRANSLATIONS[language].jobName}</th>
-                <th>{TRANSLATIONS[language].referees}</th>
-                <th>{TRANSLATIONS[language].status}</th>
-                <th>{TRANSLATIONS[language].dateSent}</th>
-                <th>{TRANSLATIONS[language].dueDate}</th>
-                <th className="text-center">
-                  {TRANSLATIONS[language].actions}
-                </th>
+                <th>{labels.applicants}</th>
+                <th>{labels.jobName}</th>
+                <th>{labels.referees}</th>
+                <th>{labels.status}</th>
+                <th>{labels.dateSent}</th>
+                <th>{labels.dueDate}</th>
+                <th className="text-center">{labels.actions}</th>
               </tr>
             </thead>
             <tbody>
@@ -86,8 +82,8 @@ const ReferenceRequestTable = ({
                       <td data-label="Referees">
                         {Array.isArray(reference.referees) &&
                         reference.referees.length > 1
-                          ? `${reference.referees.length} ${TRANSLATIONS[language].referees}`
-                          : `1 ${TRANSLATIONS[language].referee}`}
+                          ? `${reference.referees.length} ${labels.referees}`
+                          : `1 ${labels.referee}`}
                       </td>
                       <td data-label="Status">
                         {(() => {
@@ -98,7 +94,7 @@ const ReferenceRequestTable = ({
                               status.completedCount === 0 &&
                               status.expiredCount === 0 ? (
                                 <span style={{ color: "black" }}>
-                                  {TRANSLATIONS[language].noStatus}
+                                  {labels.noStatus}
                                 </span>
                               ) : (
                                 <>
@@ -109,19 +105,21 @@ const ReferenceRequestTable = ({
                                       }}
                                     >
                                       {status.inProgressCount}{" "}
-                                      {TRANSLATIONS[language].inProgress}
+                                      {labels.inProgress}
                                     </span>
                                   )}
                                   {status.completedCount > 0 && (
                                     <>
-                                      {status.inProgressCount > 0 && <>&nbsp;</>}
+                                      {status.inProgressCount > 0 && (
+                                        <>&nbsp;</>
+                                      )}
                                       <span
                                         style={{
                                           color: getStatusColor("Completed"),
                                         }}
                                       >
                                         {status.completedCount}{" "}
-                                        {TRANSLATIONS[language].completed}
+                                        {labels.completed}
                                       </span>
                                     </>
                                   )}
@@ -136,8 +134,7 @@ const ReferenceRequestTable = ({
                                           color: getStatusColor("Expired"),
                                         }}
                                       >
-                                        {status.expiredCount}{" "}
-                                        {TRANSLATIONS[language].expired}
+                                        {status.expiredCount} {labels.expired}
                                       </span>
                                     </>
                                   )}
@@ -167,9 +164,10 @@ const ReferenceRequestTable = ({
                               toggleDropdown();
                             }}
                           >
-                            {showDropDown && selectedCandidate._id === reference._id
-                              ? TRANSLATIONS[language].hideReports
-                              : TRANSLATIONS[language].viewReports}
+                            {showDropDown &&
+                            selectedCandidate._id === reference._id
+                              ? labels.hideReports
+                              : labels.viewReports}
                           </button>
 
                           <div className="position-relative">
@@ -207,7 +205,7 @@ const ReferenceRequestTable = ({
                                       }}
                                     >
                                       <FaTrash />
-                                      {TRANSLATIONS[language].Delete}
+                                      {labels.Delete}
                                     </p>
                                   </div>
                                 )}
@@ -231,8 +229,8 @@ const ReferenceRequestTable = ({
                                 Array.isArray(reference.referees) &&
                                 reference.referees.length > 0
                                   ? reference.referees.length === 1
-                                    ? TRANSLATIONS[language].referee
-                                    : TRANSLATIONS[language].referees
+                                    ? labels.referee
+                                    : labels.referees
                                   : ""}
                               </b>
                               <div className="referee-list d-flex gap-2 mt-2">
@@ -260,7 +258,10 @@ const ReferenceRequestTable = ({
                                                 ),
                                               }}
                                             >
-                                              {getTranslatedStatus(referee?.status)}
+                                              {getTranslatedStatus(
+                                                referee?.status,
+                                                labels
+                                              )}
                                             </span>
                                           </div>
                                         </div>
@@ -276,10 +277,7 @@ const ReferenceRequestTable = ({
                                                 handleViewDetails(referee)
                                               }
                                             >
-                                              {
-                                                TRANSLATIONS[language]
-                                                  .viewReferee
-                                              }
+                                              {labels.viewReferee}
                                             </button>
                                           </div>
                                         </div>
@@ -296,7 +294,7 @@ const ReferenceRequestTable = ({
               ) : (
                 <tr>
                   <td colSpan="7" className="text-center">
-                    {TRANSLATIONS[language].notFound}
+                    {labels.notFound}
                   </td>
                 </tr>
               )}
@@ -304,10 +302,10 @@ const ReferenceRequestTable = ({
           </table>
         </div>
       ) : (
-        <div>{TRANSLATIONS[language].noRecord}</div>
+        <div>{labels.noRecord}</div>
       )}
     </div>
   );
 };
 
-export default ReferenceRequestTable;
+export default memo(ReferenceRequestTable);
