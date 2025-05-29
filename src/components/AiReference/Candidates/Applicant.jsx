@@ -1,98 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useLabels } from "./hooks/useLabel";
+import { useGetCandidate } from "../../../hook/useCandidate";
+import { getStatusColor } from "./utils/helper";
+import ApplicantHeader from "./Components/ApplicantHeader";
+import CandidatesTable from "./Components/CandidatesTable";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditCandidatePopUp from "./PopUpComponents/EditCandidatePopUp";
 import DeleteConfirmationCandidatePopUp from "./PopUpComponents/DeleteConfirmationCandidatePopUp";
 import CandidateDetailsPopUp from "./PopUpComponents/CandidateDetailsPopUp";
-import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-import axios from "axios";
-import { useQueryClient } from "@tanstack/react-query";
-import ApplicantHeader from './Components/ApplicantHeader';
-import CandidatesTable from './Components/CandidatesTable';
-import StatusDropdown from './Components/StatusDropdown';
-import CultureFitScore from './Components/CultureFitScore';
-
-const TRANSLATIONS = {
-  English: {
-    Jobs: "Jobs",
-    ActiveJobs: "Active Jobs",
-    JobName: "Job Name",
-    Vacancies: "Vacancies",
-    Department: "Department",
-    HiringManager: "Hiring Manager",
-    PostedDate: "Posted Date",
-    Actions: "Actions",
-    Applicants: "Applicants",
-    ManageAndTrack:
-      "Manage and track your potential hires through the reference checking process.",
-    SearchApplicants: "Search applicants...",
-    ApplicantsList: "Applicants List",
-    Overview: "Overview of all applicants in the system.",
-    Name: "Name",
-    Email: "Email",
-    Status: "Status",
-    MonitorAndTrack:
-      "Monitor and track potential hires, check their status, and access their details.",
-    ViewDetails: "View Details",
-    Edit: "Edit",
-    Delete: "Delete",
-    CandidateNotFound: "Candidate not found",
-    NoCandidateRecord: "No candidate record",
-    CultureFit: "Culture Fit",
-    NotRated: "Not Rated",
-    CultureFit: "Culture Fit",
-    NotRated: "Not Rated",
-    Status_InProgress: "In Progress",
-    Status_Completed: "Completed",
-    Status_Pending: "Pending",
-    Status_Accept: "Accept",
-    Status_Reject: "Reject",
-    Status_Pending: "Pending",
-    Status_Accept: "Accept",
-    Status_Reject: "Reject",
-  },
-  Japanese: {
-    Jobs: "求人",
-    ActiveJobs: "求人",
-    JobName: "職種名",
-    Vacancies: "求人情報",
-    Department: "部門",
-    HiringManager: "採用担当者",
-    PostedDate: "掲載日",
-    Actions: "操作",
-    Applicants: "応募者",
-    ManageAndTrack:
-      "リファレンスチェックプロセスを通じて、潜在的な採用者を管理し追跡します。",
-    SearchApplicants: "応募者を検索...",
-    ApplicantsList: "応募者リスト",
-    Overview: "システム内のすべての応募者の概要。",
-    Name: "名前",
-    Email: "メール",
-    Status: "ステータス",
-    MonitorAndTrack:
-      "潜在的な採用者を監視し、彼らのステータスを確認し、詳細をアクセスします。",
-    ViewDetails: "詳細を見る",
-    Edit: "編集",
-    Delete: "削除",
-    CandidateNotFound: "候補者が見つかりません",
-    NoCandidateRecord: "候補者記録なし",
-    CultureFit: "文化適合性",
-    NotRated: "未評価",
-    CultureFit: "文化適合性",
-    NotRated: "未評価",
-    Status_InProgress: "進行中",
-    Status_Completed: "完了",
-    Status_Pending: "保留中",
-    Status_Accept: "承認",
-    Status_Reject: "却下",
-  },
-};
 
 const Applicant = () => {
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const companyId = USER?.id;
-  const token = USER?.token;
-  const API = process.env.REACT_APP_API_URL;
-  const queryClient = useQueryClient();
+  //CONSTANTS
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // STATES
   const [searchQuery, setSearchQuery] = useState("");
   const [showDetailsPopup, setShowDetailsPopup] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
@@ -100,156 +22,59 @@ const Applicant = () => {
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [candidateToDelete, setCandidateToDelete] = useState(null);
-  const [candidates, setCandidates] = useState(
-    JSON.parse(localStorage.getItem("candidates")) || []
-  );
-  // Define language here
-  const language = sessionStorage.getItem("preferred-language") || "English";
-
-  const [isDeleting, setIsDeleting] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-
-  const [showPopup, setShowPopup] = useState(false);
-
-  // For fade in smooth animation
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [isContainerVisible, setIsContainerVisible] = useState(false);
+
+  // HOOKS
+  const { labels } = useLabels(language);
+  const { data: candidates = [], isPending: isFetchingCandidates } =
+    useGetCandidate(user);
 
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setIsSearchVisible(true), 300),
-      setTimeout(() => setIsContainerVisible(true), 700),
-    ];
+    const timers = [setTimeout(() => setIsSearchVisible(true), 300)];
 
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
 
-  const fetchCandidates = async () => {
-    try {
-      const URL = `${API}/api/ai-referee/company-candidates/get-candidates-by-companyId/${companyId}`;
-      const response = await axios.get(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setCandidates(response.data.candidates);
-        localStorage.setItem(
-          "candidates",
-          JSON.stringify(response.data.candidates)
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchCandidatesWhenRender = async () => {
-      await fetchCandidates();
-    };
-
-    fetchCandidatesWhenRender();
-  }, []);
-
-  const handleAddNewCandidate = async () => {
-    setShowPopup(true);
-  };
-
-  const refetchCandidates = async () => {
-    await fetchCandidates();
-  };
-
-  const handleAddCandidate = async () => {
-    await refetchCandidates();
-  };
-
-  // Modify the function to handle "View Details"
-  const handleViewDetails = (candidate) => {
+  const handleViewDetails = useCallback((candidate) => {
     setSelectedCandidate(candidate);
     setShowDetailsPopup(true);
-  };
+  }, []);
 
-  const handleCloseDetailsPopup = () => {
+  const handleCloseDetailsPopup = useCallback(() => {
     setShowDetailsPopup(false);
     setSelectedCandidate(null);
-  };
+  }, []);
 
-  // Function to get the color based on status
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "In Progress":
-        return "#F8BD00"; // Yellow
+  const handleDeleteCandidate = useCallback((candidateId) => {
+    setCandidateToDelete(candidateId);
+    setShowDeleteConfirmation(true);
+  }, []);
 
-      case "Pending":
-        return "#686868"; // Orange
-      case "Accept":
-        return "#1877F2"; // blue
-      case "Reject":
-        return "#DC3545"; // Red
-      default:
-        return "#6c757d"; // Gray for unknown statuses
-    }
-  };
+  const handleEditCandidate = useCallback(
+    (id) => {
+      const candidateFound = candidates.find(
+        (candidate) => candidate._id === id
+      );
+      setSelectedCandidate(candidateFound);
 
-  const handleDeleteCandidate = (candidateId) => {
-    setCandidateToDelete(candidateId); // Set the candidate ID to delete
-    setShowDeleteConfirmation(true); // Show the delete confirmation popup
-  };
+      setShowEditPopup(true);
+    },
+    [candidates]
+  );
 
-  const confirmDeleteCandidate = async () => {
-    if (isDeleting) {
-      return;
-    }
-
-    try {
-      setIsDeleting(true);
-      const URL = `${API}/api/ai-referee/company-candidates/delete-candidate-by-id/${candidateToDelete}`;
-      const response = await axios.delete(URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        await refetchCandidates();
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceRequest"],
-        });
-
-        queryClient.invalidateQueries({
-          queryKey: ["archivedCandidates"],
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsDeleting(false);
-      setShowDeleteConfirmation(false); // Close the confirmation popup
-      setCandidateToDelete(null); // Reset the candidate ID
-    }
-  };
-
-  const handleEditCandidate = (id) => {
-    const candidateFound = candidates.find((candidate) => candidate._id === id);
-    setSelectedCandidate(candidateFound);
-
-    setShowEditPopup(true);
-  };
-  const handleClosePopup = () => {
-    setShowPopup(false);
+  const handleClosePopup = useCallback(() => {
     setShowEditPopup(false);
     setSelectedCandidate(null);
-  };
-  const handleToggleOptions = (candidateId, event) => {
-    const { clientY } = event; // Get the Y position of the click
+  }, []);
+
+  const handleToggleOptions = useCallback((candidateId, event) => {
+    const { clientY } = event;
     setVisibleOptions((prev) => {
-      // If the clicked candidate's options are already visible, hide it; otherwise, show it
       if (prev[candidateId]) {
         return { ...prev, [candidateId]: false };
       }
-      // Hide options for all other candidates and show options for the clicked candidate
+
       const updatedOptions = {};
       updatedOptions[candidateId] = true;
       return updatedOptions;
@@ -257,35 +82,30 @@ const Applicant = () => {
 
     const optionsElement = document.getElementById(`options-${candidateId}`);
     if (optionsElement) {
-      optionsElement.style.top = `${clientY}px`; // Adjust the positioning as needed
+      optionsElement.style.top = `${clientY}px`;
     }
-  };
+  }, []);
 
-  // Add this new function before the render return
-  const getTranslatedStatus = (status) => {
-    const statusKey = `Status_${status.replace(/\s+/g, "")}`;
-    return TRANSLATIONS[language][statusKey] || status;
-  };
+  // const getTranslatedStatus = (status) => {
+  //   const statusKey = `Status_${status.replace(/\s+/g, "")}`;
+  //   return labels[statusKey] || status;
+  // };
 
   const handleStatusChange = (candidateId, newStatus) => {
-    // Here you would typically make an API call to update the status
-    console.log(`Updating candidate ${candidateId} status to ${newStatus}`);
+    alert("NOTE: This feature is not implemented yet.");
   };
-
-
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <ApplicantHeader
-        TRANSLATIONS={TRANSLATIONS}
-        language={language}
+        labels={labels}
         isSearchVisible={isSearchVisible}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       >
         <div className="AiReference-table-title">
           <h4 className="mb-0 d-flex gap-2 align-items-center">
-            {TRANSLATIONS[language].ApplicantsList}
+            {labels.ApplicantsList}
             <div className="position-relative d-flex">
               <svg
                 width="16"
@@ -307,21 +127,20 @@ const Applicant = () => {
               </svg>
               {showTooltip && (
                 <span className="job-tooltip-text">
-                  {TRANSLATIONS[language].MonitorAndTrack}
+                  {labels.MonitorAndTrack}
                 </span>
               )}
             </div>
           </h4>
-          <p>{TRANSLATIONS[language].Overview}</p>
+          <p>{labels.Overview}</p>
         </div>
 
         {candidates && candidates.length > 0 ? (
           <>
-            <CandidatesTable 
+            <CandidatesTable
               candidates={candidates}
               searchQuery={searchQuery}
-              TRANSLATIONS={TRANSLATIONS}
-              language={language}
+              labels={labels}
               visibleOptions={visibleOptions}
               handleToggleOptions={handleToggleOptions}
               handleViewDetails={handleViewDetails}
@@ -332,38 +151,40 @@ const Applicant = () => {
             />
           </>
         ) : (
-          <div>{TRANSLATIONS[language].NoCandidateRecord}</div>
+          <div>{labels.NoCandidateRecord}</div>
         )}
       </ApplicantHeader>
 
       {showDeleteConfirmation && (
         <DeleteConfirmationCandidatePopUp
           onClose={() => setShowDeleteConfirmation(false)}
-          onConfirmDelete={confirmDeleteCandidate}
-          isDeleting={isDeleting}
+          labels={labels}
+          user={user}
+          candidateId={candidateToDelete}
         />
       )}
       {showDetailsPopup && selectedCandidate && (
         <CandidateDetailsPopUp
           candidates={selectedCandidate}
+          labels={labels}
           onClose={handleCloseDetailsPopup}
           onEdit={() => {
             handleCloseDetailsPopup();
             handleEditCandidate(selectedCandidate._id);
           }}
+          user={user}
         />
       )}
       {showEditPopup && selectedCandidate && (
         <EditCandidatePopUp
           onClose={handleClosePopup}
-          onUpdateCandidate={refetchCandidates}
+          labels={labels}
           candidateDetails={selectedCandidate}
+          user={user}
         />
       )}
     </div>
   );
 };
-
-
 
 export default Applicant;
