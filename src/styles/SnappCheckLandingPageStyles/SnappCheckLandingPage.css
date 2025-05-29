@@ -1,0 +1,410 @@
+/* Global styles */
+* {
+  box-sizing: border-box; /* Set box-sizing to border-box for all elements */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-family: "Roboto", sans-serif; /* Set font family to Roboto */
+}
+
+/* CSS Variables for color scheme */
+:root {
+  --primary-color: #f46a05; /* Primary color for buttons and highlights */
+  --secondary-color: #1706ac; /* Secondary color for accents */
+  --font-white: #fff; /* White font color */
+  --font-black: #000; /* Black font color */
+  --acttivit-card-bg: #d9d9d9; /* Background color for activity cards */
+  --exclusive-btn-color: #b90416; /* Color for exclusive buttons */
+  --color-brown: #686868; /* Brown color for text */
+      --color-grey: #38434B; /* Brown color for text */
+
+  --subcription-card-color: #f8f8f9; /* Background color for subscription cards */
+}
+.color-grey{
+color: var(--color-grey);
+}
+.snappcheck-hero-section-bg,
+.snappcheck-about-us-container,
+.snappcheck-did-you-know-container,
+.snappcheck-pricing-container {
+  height: auto;
+}
+
+.snappcheck-hero-section-bg .row,
+.snappcheck-about-us-container .row,
+.snappcheck-did-you-know-container .row,
+.snappcheck-pricing-container .row {
+  padding: 20vh 10% 0vh 10%;
+}
+/* Header styles for the landing page */
+.snappcheck-hero-section-bg .row {
+  padding: 106px 10%;
+}
+.snappcheck-landing-header {
+  background: #000000d8 !important;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  padding: 0px 5% !important;
+  margin: 0 !important;
+}
+.snappcheck-language-dropdown{
+  background: var(--font-white);
+  border-radius: 50px;
+  padding: 3px 10px;
+  position: relative;
+}
+
+.snappcheck-language-dropdown a {
+  color: var(--font-black) !important;
+  display: flex;
+  gap:5px;
+  align-items: center;
+  justify-content: center;
+
+}
+.snappcheck-language-dropdown a:hover {
+  color: var(--font-black) !important;
+
+}
+.snappcheck-language-dropdown .dropdown-menu{
+  width: 100%;
+  min-width: 100%;
+  inset: 0px auto auto 0px !important;
+  transform: translate(0px, 40px) !important;
+}
+.snappcheck-landing-header a,
+.snappcheck-language-dropdown {
+  text-decoration: none !important;
+  color: var(--font-white);
+}
+.snappcheck-landing-header a:nth-child(2),
+.snappcheck-landing-header a:nth-child(3) {
+  border-left: 2px solid var(--font-white);
+  padding-left: 0.5rem;
+}
+.snappcheck-landing-header .snappcheck-login-signup a {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.snappcheck-landing-header .snappcheck-login-signup a:nth-child(2) {
+  border-left: 3px solid var(--primary-color);
+  padding-left: 0.5rem;
+}
+
+/*Hero Section*/
+.snappcheck-hero-section-bg {
+  height: 600px;
+  color: var(--font-white);
+  background: linear-gradient(
+    180deg,
+    var(--font-black) 20%,
+    var(--primary-color) 108%
+  );
+}
+
+.snappcheck-hero-section-bg h1 {
+  font-size: 60px;
+}
+.snappcheck-button-controller button {
+  border-radius: 50px;
+  color: var(--font-white);
+  width: 200px;
+  padding: 5px 20px;
+  font-size: 18px;
+  border: none;
+}
+.snappcheck-button-controller button:nth-child(1) {
+  background: var(--secondary-color);
+}
+.snappcheck-button-controller button:nth-child(2) {
+  background: var(--font-black);
+}
+.snappcheck-hero-img-container img{
+  width: 100%;
+}
+/*About Us Section*/
+.snappcheck-left-content h3,
+.snappcheck-left-content h2 {
+  font-weight: 800;
+}
+.snappcheck-left-content h2 {
+  width: 80%;
+}
+.snappcheck-left-content p {
+  font-weight: 500;
+}
+.snappcheck-left-content button {
+  font-size: 15px;
+  padding: 5px 30px;
+  width: 170px;
+  background: var(--secondary-color);
+  border-radius: 50px;
+  color: var(--font-white);
+  border: none;
+}
+.snapcheck-about-us-image-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+/*Did You Know Section*/
+.snappcheck-button-controller1 button {
+  border-radius: 50px;
+  color: var(--font-white);
+  padding: 5px 30px;
+  font-size: 15px;
+  width: 170px;
+  border: none;
+}
+.snappcheck-button-controller1 button:nth-child(1) {
+  background: var(--secondary-color);
+}
+.snappcheck-button-controller1 button:nth-child(2) {
+  background: var(--font-black);
+}
+/* How IT Works Section */
+.snappcheck-left-did-you-know-content h3,
+.snappcheck-left-did-you-know-content h2 {
+  font-weight: 800;
+}
+.snappcheck-did-you-know-container img {
+  width: 60%;
+}
+
+/* Sliding Animation Styles */
+.slider-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.sliding-cards {
+  display: flex;
+  gap: 30px;
+  animation: slide 30s linear infinite;
+  width: fit-content;
+}
+
+.business-company-card {
+  background: var(--acttivit-card-bg);
+  width: 200px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.sliding-cards:hover {
+  animation-play-state: paused;
+}
+
+/* Testimonial Carousel Styles */
+.testimonial-carousel {
+  padding: 20px 40px;
+}
+
+.testimonial-carousel .carousel-indicators {
+  bottom: -40px;
+}
+
+.testimonial-carousel .carousel-indicators button {
+  background-color: var(--primary-color);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.testimonial-carousel .carousel-control-prev,
+.testimonial-carousel .carousel-control-next {
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 50px;
+  color: var(--color-brown);
+  background-color: var(--acttivit-card-bg);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonial-carousel .carousel-control-prev-icon,
+.testimonial-carousel .carousel-control-next-icon {
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%)
+    contrast(100%);
+}
+
+.testimonial-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.testemony-card {
+  flex: 1;
+  max-width: 400px;
+  padding: 20px;
+  background: var(--subcription-card-color);
+  border-radius: 8px;
+}
+
+/* Pricing Cards Styles */
+.pricing-cards-container {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.pricing-card {
+  border-radius: 16px;
+  padding: 24px;
+  width: 300px;
+  height: 350px;
+
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+}
+
+.pricing-card h3 {
+  font-size: 24px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.pricing-card p {
+  color: var(--color-brown);
+  margin-bottom: 24px;
+  min-height: 60px;
+}
+
+.pricing-card .price {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 14px 0;
+  color: var(--font-black);
+}
+
+.pricing-card .choose-plan-btn {
+  border-radius: 50px;
+  color: var(--font-black);
+  background: none;
+  padding: 5px 30px;
+  font-size: 15px;
+  width: 170px;
+  border: none;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
+
+  transition: background-color 0.3s ease;
+}
+.pricing-card .choose-plan-btn:hover {
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+.pricing-card.popular {
+  border: 2px solid var(--primary-color);
+}
+
+.pricing-card.popular .popular-badge {
+  background: var(--primary-color);
+  color: var(--font-white);
+  padding: 4px 12px;
+  border-radius:  0px 0px 15px 15px;
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+}
+
+.pricing-card.popular .choose-plan-btn {
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+
+.pricing-card.enterprise .choose-plan-btn {
+  color: var(--font-black);
+  background: none;
+}
+
+.pricing-card .choose-plan-btn:hover,
+.pricing-.enterprise .choose-plan-btn:hover  {
+  background: var(--primary-color);
+  color: var(--font-white);
+}
+.pricing-container-description{
+  background: #F2F3F7;
+    border-radius:  0px 0px 15px 15px;
+  padding: 20px;
+  border-radius: 20px;
+}
+.pricing-container-description p{
+  width: 500px;
+  text-align: center;
+}
+/* Footer Section */
+.snappcheck-landing-footer {
+  background: var(--font-black);
+  padding: 1rem 10%;
+  color: var(--font-white);
+}
+
+.snappcheck-landing-footer a {
+  color: var(--font-white) !important;
+  text-decoration: none;
+  font-size: 14px;
+  height: auto;
+  width: auto;
+  line-height: normal;
+}
+.snappcheck-landing-footer  .snappcheck-footer-nav a:nth-child(2),
+.snappcheck-landing-footer .snappcheck-footer-nav a:nth-child(3) {
+  border-left: 2px solid var(--font-white);
+  padding-left: 0.5rem;
+}
+
+.snappcheck-social-icon a {
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+.snappcheck-landing-footer  span{
+  font-weight: bold;
+}
+.snappcheck-social-icon a:hover {
+  color: var(--primary-color);
+}
+
+.copyright-text {
+  color: var(--font-white);
+  font-size: 12px;
+  opacity: 0.8;
+  border-top: 2px solid var(--color-grey);
+}
+
+.snappcheck-language-dropdown .dropdown-toggle {
+  color: var(--font-black) !important;
+}
+
+.snappcheck-language-dropdown .dropdown-toggle:focus,
+.snappcheck-language-dropdown .dropdown-toggle:active,
+.show > .dropdown-toggle {
+  color: var(--font-black) !important;
+  background-color: var(--font-white) !important;
+  box-shadow: none !important;
+}

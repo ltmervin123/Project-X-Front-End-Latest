@@ -19,6 +19,7 @@ import FailedPage from "./page/LoginPage/LoginFailed.jsx";
 import SuccessPage from "./page/LoginPage/LoginSucess.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MockLandingPage from "./page/MockLanding.jsx";
+import SnappCheckLandingPage from "./page/SnappCheckLandingPage.jsx";
 import MockInterviewPage from "./page/MockInterviewPage.jsx";
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
@@ -73,6 +74,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/snappcheck-landing-page"
+          element={<SnappCheckLandingPage />}
+        />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/comingsoon" element={<CommingSoonPage />} />
         <Route path="/signup" element={<SignUp />} />
@@ -89,6 +94,7 @@ function App() {
               element={<EnglishResumeBuilderPage />}
             />
             <Route path="/MockLandingPage" element={<MockLandingPage />} />
+
             <Route path="/mockInterview" element={<MockInterviewPage />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/result/:interviewId" element={<Results />} />
@@ -242,7 +248,6 @@ function App() {
           path="/company-email-verification"
           element={<CompanyRegistrationCheckEmailConfirmationPage />}
         />
-
 
         <Route
           path="/company-account-password-changed"
