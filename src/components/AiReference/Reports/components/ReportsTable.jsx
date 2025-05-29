@@ -1,7 +1,7 @@
-import React from "react";
+import { memo } from "react";
 
 const ReportsTable = ({
-  translations,
+  labels,
   candidateData,
   getStatusColor,
   getTranslatedStatus,
@@ -13,7 +13,7 @@ const ReportsTable = ({
     <>
       <div className="AiReference-table-title">
         <h4 className="mb-0 d-flex gap-2 align-items-center">
-          {translations.recentReports}
+          {labels.recentReports}
           <div className="position-relative d-flex">
             <svg
               width="16"
@@ -34,23 +34,21 @@ const ReportsTable = ({
               />
             </svg>
             {showTooltip && (
-              <span className="job-tooltip-text">
-                {translations.tooltipReports}
-              </span>
+              <span className="job-tooltip-text">{labels.tooltipReports}</span>
             )}
           </div>
         </h4>
-        <p>{translations.downloadOrView}</p>
+        <p>{labels.downloadOrView}</p>
       </div>
       <div className="table-responsive">
         {candidateData.length > 0 ? (
           <table className="AiReference-report-table">
             <thead>
               <tr>
-                <th>{translations.applicant}</th>
-                <th>{translations.referee}</th>
-                <th>{translations.status}</th>
-                <th className="text-center">{translations.actions}</th>
+                <th>{labels.applicant}</th>
+                <th>{labels.referee}</th>
+                <th>{labels.status}</th>
+                <th className="text-center">{labels.actions}</th>
               </tr>
             </thead>
             <tbody>
@@ -64,7 +62,7 @@ const ReportsTable = ({
                       fontWeight: "bold",
                     }}
                   >
-                    {getTranslatedStatus(entry.status)}
+                    {getTranslatedStatus({ status: entry.status, labels })}
                   </td>
                   <td>
                     <div className="d-flex justify-content-center">
@@ -73,7 +71,7 @@ const ReportsTable = ({
                         className="btn-view-details"
                         onClick={() => onDownloadRecord(entry)}
                       >
-                        {translations.downloadPDF}
+                        {labels.downloadPDF}
                       </button>
                     </div>
                   </td>
@@ -82,13 +80,11 @@ const ReportsTable = ({
             </tbody>
           </table>
         ) : (
-          <div className="text-center py-3">
-            {translations.noRecordsFound}
-          </div>
+          <div className="text-center py-3">{labels.noRecordsFound}</div>
         )}
       </div>
     </>
   );
 };
 
-export default ReportsTable;
+export default memo(ReportsTable);
