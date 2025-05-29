@@ -1,22 +1,22 @@
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { useDeleteCandidate } from "../../../../hook/useCandidate";
+const DeleteConfirmationCandidatePopUp = ({
+  onClose,
+  labels,
+  user,
+  candidateId,
+}) => {
+  const { mutate: deleteCandidate, isPending: isDeleting } = useDeleteCandidate(
+    user,
+    {
+      onSettled: () => onClose(),
+    }
+  );
 
-const TRANSLATIONS = {
-  English: {
-    DeleteConfirmation: "Are you sure you want to delete this applicant? Deleting this applicant will also remove all associated reference records.",
-    Yes: "Yes",
-    No: "No"
-  },
-  Japanese: {
-    DeleteConfirmation: "この応募者を削除してもよろしいですか？この応募者を削除すると、関連するすべての参照記録も削除されます。",
-    Yes: "はい",
-    No: "いいえ"
-  }
-};
+  const handleDelete = async () => {
+    await deleteCandidate(candidateId);
+  };
 
-const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, isDeleting }) => {
-  const language = sessionStorage.getItem("preferred-language") || "English";
-  
   return (
     <Modal
       show={true}
@@ -28,14 +28,12 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, isDeleting
     >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
-          <p className="text-center m-0">
-            {TRANSLATIONS[language].DeleteConfirmation}
-          </p>
+          <p className="text-center m-0">{labels.DeleteConfirmation}</p>
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button
               className="btn-yes-delete-applicant"
               disabled={isDeleting}
-              onClick={onConfirmDelete}
+              onClick={handleDelete}
             >
               {isDeleting ? (
                 <div
@@ -43,7 +41,7 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, isDeleting
                   role="status"
                 ></div>
               ) : (
-                TRANSLATIONS[language].Yes
+                labels.Yes
               )}
             </button>
             <button
@@ -51,7 +49,7 @@ const DeleteConfirmationCandidatePopUp = ({ onClose, onConfirmDelete, isDeleting
               disabled={isDeleting}
               onClick={onClose}
             >
-              {TRANSLATIONS[language].No}
+              {labels.No}
             </button>
           </div>
         </div>
