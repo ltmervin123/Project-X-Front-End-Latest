@@ -706,7 +706,7 @@ const MainDashboard = () => {
           <CardSection
             cardData={cardData}
             isAiReferenceCardVisible={isAiReferenceCardVisible}
-            navigate={navigate}
+            language={language}
           />
 
           {/* CHART SECTION */}

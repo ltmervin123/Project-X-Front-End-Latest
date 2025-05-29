@@ -1,16 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { memo } from "react";
+import { memo, useState } from "react";
+import AddCreditsPopUp from "../PopUpComponents/AddCreditsPopUp";
+import { useLabels } from "../Hooks/useLabels";
 
-const CardSection = ({ cardData, isAiReferenceCardVisible }) => {
+const CardSection = ({ cardData, isAiReferenceCardVisible, language }) => {
   const navigate = useNavigate();
+  const [showAddCredits, setShowAddCredits] = useState(false);
+  const { labels } = useLabels(language);
+
   return (
     <div>
       <div className="mb-3 AiReferenceCard-container">
         {cardData.map((card, index) => (
           <div
             key={index}
-            onClick={() => navigate(card.path)}
-            className={`AiReferenceCard fade-in ${
+            onClick={() => card.title !== labels.TotalCredits && navigate(card.path)}
+            className={`AiReferenceCard position-relative fade-in ${
               isAiReferenceCardVisible ? "visible" : ""
             }`}
           >
@@ -26,9 +31,28 @@ const CardSection = ({ cardData, isAiReferenceCardVisible }) => {
                 ></div>
                 {card.title}
               </p>
-              <p className="d-flex align-items-center justify-content-center count">
+              <p className="count d-flex align-items-center justify-content-center  position-relative">
                 {card.count}
               </p>
+              {card.title === labels.TotalCredits && (
+                <>
+                  <button
+                    className="btn-add-credits"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowAddCredits(true);
+                    }}
+                  >
+                    {labels.AddCredits}
+                  </button>
+                  {showAddCredits && (
+                    <AddCreditsPopUp
+                      currentBalance={card.count}
+                      onClose={() => setShowAddCredits(false)}
+                    />
+                  )}
+                </>
+              )}
             </div>
           </div>
         ))}
