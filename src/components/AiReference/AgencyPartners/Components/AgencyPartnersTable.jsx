@@ -1,41 +1,44 @@
-import React from 'react';
+import { memo } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const AgencyPartnersTable = ({
-  TRANSLATIONS,
-  language,
+  labels,
   filteredAgencies,
   isSearchVisible,
   visibleOptions,
   handleToggleOptions,
   handleViewDetails,
   handleEditAgency,
-  handleDeleteAgency
+  handleDeleteAgency,
 }) => {
   return (
-    <div className={`AiReference-active-jobs-container fade-in ${isSearchVisible ? "visible" : ""}`}>
+    <div
+      className={`AiReference-active-jobs-container fade-in ${
+        isSearchVisible ? "visible" : ""
+      }`}
+    >
       <div className="AiReference-table-title">
-        <h4 className="mb-0">{TRANSLATIONS[language].AgencyPartnersList}</h4>
-        <p>{TRANSLATIONS[language].Overview}</p>
+        <h4 className="mb-0">{labels.AgencyPartnersList}</h4>
+        <p>{labels.Overview}</p>
       </div>
 
       <div className="scrollable-table-container">
         <table>
           <thead>
             <tr>
-              <th>{TRANSLATIONS[language].AgencyName}</th>
-              <th>{TRANSLATIONS[language].Email}</th>
-              <th>{TRANSLATIONS[language].ContactNo}</th>
-              <th className="text-center">{TRANSLATIONS[language].Actions}</th>
+              <th>{labels.AgencyName}</th>
+              <th>{labels.Email}</th>
+              <th>{labels.ContactNo}</th>
+              <th className="text-center">{labels.Actions}</th>
             </tr>
           </thead>
           <tbody>
             {filteredAgencies.length > 0 ? (
               filteredAgencies.map((agency) => (
-                <tr key={agency.id}>
+                <tr key={agency._id}>
                   <td>{agency.name}</td>
                   <td>{agency.email}</td>
-                  <td>{agency.contact}</td>
+                  <td>{agency.contactNumber}</td>
                   <td className="text-center">
                     <div className="position-relative d-flex align-items-center w-100 justify-content-center">
                       <div className="position-relative d-flex justify-content-center">
@@ -43,13 +46,13 @@ const AgencyPartnersTable = ({
                           className="btn-view-details"
                           onClick={() => handleViewDetails(agency)}
                         >
-                          {TRANSLATIONS[language].ViewDetails}
+                          {labels.ViewDetails}
                         </button>
                         <div className="action-menu">
                           <p
                             className="m-0 position-relative d-flex"
                             style={{ cursor: "pointer" }}
-                            onClick={(e) => handleToggleOptions(agency.id, e)}
+                            onClick={(e) => handleToggleOptions(agency._id, e)}
                           >
                             <svg
                               className="menu-icon-candidate"
@@ -64,26 +67,26 @@ const AgencyPartnersTable = ({
                                 fill="black"
                               />
                             </svg>
-                            {visibleOptions[agency.id] && (
+                            {visibleOptions[agency._id] && (
                               <div
-                                id={`options-${agency.id}`}
+                                id={`options-${agency._id}`}
                                 className="action-options"
                               >
                                 <p
                                   className="d-flex align-items-center gap-2"
-                                  onClick={() => handleEditAgency(agency.id)}
+                                  onClick={() => handleEditAgency(agency)}
                                   style={{ cursor: "pointer" }}
                                 >
                                   <FaEdit />
-                                  {TRANSLATIONS[language].Edit}
+                                  {labels.Edit}
                                 </p>
                                 <p
                                   className="d-flex align-items-center gap-2"
-                                  onClick={() => handleDeleteAgency(agency.id)}
+                                  onClick={() => handleDeleteAgency(agency)}
                                   style={{ cursor: "pointer", color: "red" }}
                                 >
                                   <FaTrash />
-                                  {TRANSLATIONS[language].Delete}
+                                  {labels.Delete}
                                 </p>
                               </div>
                             )}
@@ -97,7 +100,7 @@ const AgencyPartnersTable = ({
             ) : (
               <tr>
                 <td colSpan="4" className="text-center">
-                  {TRANSLATIONS[language].NoAgencyFound}
+                  {labels.NoAgencyFound}
                 </td>
               </tr>
             )}
@@ -108,4 +111,4 @@ const AgencyPartnersTable = ({
   );
 };
 
-export default AgencyPartnersTable;
+export default memo(AgencyPartnersTable);
