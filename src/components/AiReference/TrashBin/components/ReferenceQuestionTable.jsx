@@ -1,39 +1,26 @@
-import React, { useState } from "react";
+import { useState, memo } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceQuestionPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceQuestionPopUp";
 import RestoreConfirmationReferenceQuestionPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceQuestionPopUp";
 
-const TRANSLATIONS = {
-  English: {
-    restore: "Restore",
-    delete: "Delete",
-
-  },
-  Japanese: {
-    restore: "復元",
-    delete: "削除",
- 
-  },
-};
 const ReferenceQuestionTable = ({
   data,
-  selectedItems,
+  selectedCount,
+  isSelected,
   onSelect,
+  labels,
   onRestore,
   onDelete,
-  showCheckboxes,
   isDeletingReferenceQuestions,
   isRestoringReferenceQuestions,
 }) => {
-  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
-  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
-    event.stopPropagation(); // Stop event propagation here
-    const { clientY } = event;
+    event.stopPropagation();
+
     setVisibleOptions((prev) => {
       if (prev[candidateId]) {
         return { ...prev, [candidateId]: false };
@@ -77,11 +64,10 @@ const ReferenceQuestionTable = ({
   return (
     <>
       <tr
-        className={selectedItems.includes(data._id) ? "table-active" : ""}
+        className={isSelected ? "table-active" : ""}
         onClick={() => onSelect(data._id)}
         style={{ cursor: "pointer" }}
       >
-        {/* Add stopPropagation to checkbox container */}
         <td
           style={{ width: "30px", cursor: "pointer" }}
           onClick={(e) => e.stopPropagation()}
@@ -90,16 +76,14 @@ const ReferenceQuestionTable = ({
           <input
             type="checkbox"
             className="form-check-input custom-checkbox"
-            checked={selectedItems.includes(data._id)}
+            checked={isSelected}
             onChange={() => onSelect(data._id)}
           />
         </td>
 
         <td>{data.name}</td>
         <td>{data.questionCount}</td>
-        <td>
-          {data.deletedAt.toString().split("T")[0]}
-        </td>
+        <td>{data.deletedAt.toString().split("T")[0]}</td>
         <td className="position-relative text-center">
           <div className="action-menu d-flex justify-content-center align-items-center">
             <p
@@ -128,7 +112,7 @@ const ReferenceQuestionTable = ({
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    {TRANSLATIONS[language].restore}
+                    {labels.restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -136,7 +120,7 @@ const ReferenceQuestionTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    {TRANSLATIONS[language].delete}
+                    {labels.delete}
                   </p>
                 </div>
               )}
@@ -147,9 +131,9 @@ const ReferenceQuestionTable = ({
       {showDeleteConfirmation && (
         <DeleteConfirmationReferenceQuestionPopUp
           onConfirmDelete={handleConfirmDelete}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isDeletingReferenceQuestions={isDeletingReferenceQuestions}
           onClose={() => setShowDeleteConfirmation(false)}
         />
@@ -157,9 +141,9 @@ const ReferenceQuestionTable = ({
       {showRestoreConfirmation && (
         <RestoreConfirmationReferenceQuestionPopUp
           onConfirmRestore={handleConfirmRestore}
-          selectedCount={selectedCount} // Pass the selected count
-          isSingleItem={selectedCount === 1} // Check if only one item is selected
-          isAll={selectedCount === data.length} // Check if all items are selected
+          selectedCount={selectedCount}
+          isSingleItem={selectedCount === 1}
+          isAll={selectedCount === data.length}
           isRestoringReferenceQuestions={isRestoringReferenceQuestions}
           onClose={() => setShowRestoreConfirmation(false)}
         />
@@ -168,4 +152,11 @@ const ReferenceQuestionTable = ({
   );
 };
 
-export default ReferenceQuestionTable;
+export default memo(ReferenceQuestionTable, (prevProps, nextProps) => {
+  return (
+    prevProps.data._id === nextProps.data._id &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.isDeletingJobs === nextProps.isDeletingJobs &&
+    prevProps.isRestoringJobs === nextProps.isRestoringJobs
+  );
+});
