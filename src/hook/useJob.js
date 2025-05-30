@@ -25,9 +25,11 @@ export const useDeleteJob = (user, options = {}) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+      queryClient.invalidateQueries({ queryKey: ["references"] });
+      queryClient.invalidateQueries({ queryKey: ["archivedJobs"] });
       queryClient.invalidateQueries({ queryKey: ["archivedCandidates"] });
       queryClient.invalidateQueries({ queryKey: ["archivedReferenceRequest"] });
-      queryClient.invalidateQueries({ queryKey: ["archivedJobs"] });
     },
     onSettled: onSettled,
   });
