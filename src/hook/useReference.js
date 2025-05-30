@@ -10,8 +10,8 @@ export const useGetCompletedReference = (user) => {
   return useQuery({
     queryKey: ["completed-reference", user],
     queryFn: () => getCompletedReferences(user),
-    staleTime: 1000 * 60 * 1,
-    refetchInterval: 1000 * 60 * 1,
+    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60 * 5,
     refetchIntervalInBackground: true,
   });
 };
@@ -20,8 +20,8 @@ export const useGetReferences = (user) => {
   return useQuery({
     queryKey: ["references", user],
     queryFn: () => getReferences(user),
-    staleTime: 1000 * 60 * 1,
-    refetchInterval: 1000 * 60 * 1,
+    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60 * 5,
     refetchIntervalInBackground: true,
   });
 };

@@ -11,8 +11,8 @@ export const useGetCandidate = (user) => {
   return useQuery({
     queryKey: ["candidates", user],
     queryFn: () => getCandidate(user),
-    staleTime: 1000 * 60 * 1,
-    refetchInterval: 1000 * 60 * 1,
+    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60 * 5,
     refetchIntervalInBackground: true,
   });
 };
