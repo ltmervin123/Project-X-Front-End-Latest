@@ -1,69 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
 
-const TRANSLATIONS = {
-  English: {
-    AddAgency: "Add Agency",
-    AddNewAgency: "Add a new agency partner to the system.",
-    AgencyName: "Agency Name",
-    Email: "Email",
-    ContactNo: "Contact No.",
-    Add: "Add Agency",
-    Save: "Save",
-    Discard: "Discard",
-  },
-  Japanese: {
-    AddAgency: "代理店を追加",
-    AddNewAgency: "システムに新しい代理店パートナーを追加します。",
-    AgencyName: "代理店名",
-    Email: "メール",
-    ContactNo: "連絡先",
-    Add: "代理店を追加",
-    Save: "保存",
-    Discard: "破棄",
-  }
-};
-
-const AddAgencyPopUp = ({ onClose, onAddAgency }) => {
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user"));
-  const token = USER?.token;
-  const language = sessionStorage.getItem("preferred-language") || "English";
-
+const AddAgencyPopUp = ({
+  onClose,
+  labels,
+  createAgency,
+  isCreatingAgency,
+  createError,
+}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [contact, setContact] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [contactNumber, setContactNumber] = useState("");
 
-  const isFormValid = name && email && contact;
+  const isFormValid = name && email && contactNumber;
+  const isButtonDisable = !isFormValid || isCreatingAgency;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const payload = {
-        name,
-        email,
-        contact,
-      };
-
-      const response = await axios.post(`${API}/api/agency-partners`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 201) {
-        await onAddAgency(response.data);
-        onClose();
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    await createAgency({ name, email, contactNumber });
   };
 
   return (
@@ -78,8 +32,8 @@ const AddAgencyPopUp = ({ onClose, onAddAgency }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="m-0">{TRANSLATIONS[language].AddAgency}</h5>
-            <small className=" mb-0">{TRANSLATIONS[language].AddNewAgency}</small>
+            <h5 className="m-0">{labels.AddAgency}</h5>
+            <small className=" mb-0">{labels.AddNewAgency}</small>
           </div>
           <Button
             className="closebtn"
@@ -93,8 +47,11 @@ const AddAgencyPopUp = ({ onClose, onAddAgency }) => {
 
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formAgencyName" className="mb-4">
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
-              {TRANSLATIONS[language].AgencyName}
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
+              {labels.AgencyName}
             </Form.Label>
             <Form.Control
               type="text"
@@ -105,8 +62,11 @@ const AddAgencyPopUp = ({ onClose, onAddAgency }) => {
           </Form.Group>
 
           <Form.Group controlId="formAgencyEmail" className="mb-4">
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
-              {TRANSLATIONS[language].Email}
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
+              {labels.Email}
             </Form.Label>
             <Form.Control
               type="email"
@@ -117,34 +77,45 @@ const AddAgencyPopUp = ({ onClose, onAddAgency }) => {
           </Form.Group>
 
           <Form.Group controlId="formAgencyContact" className="mb-4">
-            <Form.Label className="m-0" style={{ width: "150px", height: "38px" }}>
-              {TRANSLATIONS[language].ContactNo}
+            <Form.Label
+              className="m-0"
+              style={{ width: "150px", height: "38px" }}
+            >
+              {labels.ContactNo}
             </Form.Label>
             <Form.Control
               type="text"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
+              value={contactNumber}
+              onChange={(e) => setContactNumber(e.target.value)}
               required
             />
           </Form.Group>
 
           <div className="d-flex justify-content-end gap-2">
             <button
-              className="btn-discard-agency"
+              className={`btn-discard-agency ${
+                isCreatingAgency ? "opacity-50" : ""
+              }`}
               type="button"
+              disabled={isCreatingAgency}
               onClick={onClose}
             >
-              {TRANSLATIONS[language].Discard}
+              {labels.Discard}
             </button>
             <button
-              className="btn-create-agency"
+              className={`btn-create-agency ${
+                isButtonDisable ? "opacity-50" : ""
+              }`}
               type="submit"
-              disabled={isLoading || !isFormValid}
+              disabled={isButtonDisable}
             >
-              {isLoading ? (
-                <div className="spinner-border spinner-border-sm text-light" role="status" />
+              {isCreatingAgency ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                />
               ) : (
-                TRANSLATIONS[language].Save
+                labels.Save
               )}
             </button>
           </div>

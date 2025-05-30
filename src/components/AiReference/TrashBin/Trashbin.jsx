@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { FaSearch } from "react-icons/fa";
+import { useLabels } from "./hooks/useLabel";
 import JobTable from "./components/JobTable";
 import ApplicantTable from "./components/ApplicantTable";
 import ReferenceRequestTable from "./components/ReferenceRequestTable";
@@ -15,94 +15,14 @@ import RestoreConfirmationApplicantPopUp from "./PopUpComponents/RestorePopup/Re
 import RestoreConfirmationReferenceRequestPopUp from "./PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
 import RestoreConfirmationReferenceQuestionPopUp from "./PopUpComponents/RestorePopup/RestoreConfirmationReferenceQuestionPopUp";
 import PopupGuide from "../../AiReference/PopupGuide";
-import * as ReferenceQuestionArchiveAPI from "../../../api/ai-reference/archive/reference-question-api";
-import * as ReferenceRequestArchiveAPI from "../../../api/ai-reference/archive/reference-request-api";
-import * as CandidateArchiveAPI from "../../../api/ai-reference/archive/candidate-api";
-import * as JobArchiveAPI from "../../../api/ai-reference/archive/jobs-api";
-
-const TRANSLATIONS = {
-  English: {
-    trashBin: "Trash Bin",
-    viewAndRestoreDeletedItems:
-      "View and restore deleted items from your system.",
-    jobs: "Jobs",
-    applicants: "Applicants",
-    referenceRequest: "Reference Request",
-    referenceQuestions: "Reference Question",
-    deletedJobs: "Deleted Jobs",
-    deletedApplicants: "Deleted Applicants",
-    deletedReferenceRequests: "Deleted Reference Requests",
-    deletedReferenceQuestions: "Deleted Reference Questions",
-    jobName: "Job Name",
-    department: "Department",
-    hiringManager: "Hiring Manager",
-    deletedDate: "Deleted Date",
-    actions: "Actions",
-    name: "Name",
-    email: "Email",
-    applicant: "Applicant",
-    referees: "Referees",
-    status: "Status",
-    question: "Question",
-    numberOfQuestions: "No. of Questions",
-    selectAll: "Select All",
-    clearSelection: "Clear Selection",
-    restore: "Restore",
-    delete: "Delete",
-    restoreAll: "Restore All",
-    deleteAll: "Delete All",
-    searchPlaceholder: "Search in",
-    noItemsInTrash: "No items in trash bin",
-    noMatchingItems: "No matching items found for",
-    trashWarning:
-      "Items in the trash will be permanently deleted after 10 days. To avoid this, please restore any items you want to keep before the 10-day period ends.",
-    noJobsInTrash: "No jobs in trash bin",
-    noApplicantsInTrash: "No applicants in trash bin",
-    noReferenceRequestsInTrash: "No reference requests in trash bin",
-    noReferenceQuestionsInTrash: "No reference questions in trash bin",
-  },
-  Japanese: {
-    trashBin: "ゴミ箱",
-    viewAndRestoreDeletedItems: "削除済みアイテムの表示と復元。",
-    jobs: "求人",
-    applicants: "応募者",
-    referenceRequest: "リファレンスリクエスト",
-    referenceQuestions: "リファレンス質問",
-    deletedJobs: "削除済みの求人",
-    deletedApplicants: "削除済みの応募者",
-    deletedReferenceRequests: "削除済みのリファレンスリクエスト",
-    deletedReferenceQuestions: "削除済みのリファレンス質問",
-    jobName: "求人名",
-    department: "部署",
-    hiringManager: "採用担当者",
-    deletedDate: "削除日",
-    actions: "アクション",
-    name: "名前",
-    email: "メールアドレス",
-    applicant: "応募者",
-    referees: "推薦者",
-    status: "ステータス",
-    question: "質問",
-    numberOfQuestions: "質問数",
-    selectAll: "すべて選択",
-    clearSelection: "選択解除",
-    restore: "復元",
-    delete: "削除",
-    restoreAll: "すべて復元",
-    deleteAll: "すべて削除",
-    searchPlaceholder: "検索",
-    noItemsInTrash: "ゴミ箱にアイテムがありません",
-    noMatchingItems: "該当するアイテムが見つかりません",
-    trashWarning:
-      "ゴミ箱内のアイテムは10日後に完全に削除されます。必要なアイテムは10日以内に復元してください。",
-    noJobsInTrash: "ゴミ箱に求人がありません",
-    noApplicantsInTrash: "ゴミ箱に応募者がありません",
-    noReferenceRequestsInTrash: "ゴミ箱にリファレンスリクエストがありません",
-    noReferenceQuestionsInTrash: "ゴミ箱にリファレンス質問がありません",
-  },
-};
+import * as ArchiveQueries from "../../../hook/useArchives";
+import { filterDataBySearch } from "./utils/helper";
 
 const Trashbin = () => {
+  // CONSTANTS
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { labels } = useLabels(language);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchAndButtonsVisible, setIsSearchAndButtonsVisible] =
     useState(false);
@@ -111,9 +31,73 @@ const Trashbin = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showRestorePopup, setShowRestorePopup] = useState(false);
   const [showGuide, setShowGuide] = useState(true);
-  const queryClient = useQueryClient();
-  // Define language
-  const language = sessionStorage.getItem("preferred-language") || "English";
+  const [selectedCategory, setSelectedCategory] = useState(labels.jobs);
+
+  // HOOKS
+  const {
+    data: referenceRequest,
+    isPending: isLoadingReferenceQuestion,
+    isError: isErrorReferenceQuestion,
+  } = ArchiveQueries.useArchiveReference(user);
+
+  const { mutate: deleteReference, isPending: isDeletingReferenceRequest } =
+    ArchiveQueries.useDeleteArchiveReference(user, {
+      onSettled: () => setShowDeletePopup(false),
+    });
+
+  const { mutate: restoreReference, isPending: isRestoringReferenceRequest } =
+    ArchiveQueries.useRestoreArchiveReference(user, {
+      onSettled: () => setShowRestorePopup(false),
+    });
+
+  const {
+    data: referenceQuestion,
+    isPending: isLoadingReferenceRequest,
+    isError: isErrorReferenceRequest,
+  } = ArchiveQueries.useArchiveQuestion(user);
+
+  const { mutate: deleteQuestions, isPending: isDeletingReferenceQuestions } =
+    ArchiveQueries.useDeleteArchiveQuestion(user, {
+      onSettled: () => setShowDeletePopup(false),
+    });
+
+  const { mutate: restoreQuestion, isPending: isRestoringReferenceQuestions } =
+    ArchiveQueries.useRestoreArchiveQuestion(user, {
+      onSettled: () => setShowRestorePopup(false),
+    });
+
+  //Candidate API
+  const {
+    data: candidates,
+    isPending: isLoadingCandidates,
+    isError: isErrorCandidates,
+  } = ArchiveQueries.useArchiveCandidate(user);
+
+  const { mutate: deleteCandidates, isPending: isDeletingCandidates } =
+    ArchiveQueries.useDeleteArchiveCandidate(user, {
+      onSettled: () => setShowDeletePopup(false),
+    });
+
+  const { mutate: restoreCandidate, isPending: isRestoringCandidate } =
+    ArchiveQueries.useRestoreArchiveCandidate(user, {
+      onSettled: () => setShowRestorePopup(false),
+    });
+
+  const {
+    data: jobs,
+    isLoading: isLoadingJobs,
+    isError: isErrorJobs,
+  } = ArchiveQueries.useArchiveJob(user);
+
+  const { mutate: deleteJobs, isPending: isDeletingJobs } =
+    ArchiveQueries.useDeleteArchiveJob(user, {
+      onSettled: () => setShowDeletePopup(false),
+    });
+
+  const { mutate: restoreJobs, isPending: isRestoringJobs } =
+    ArchiveQueries.useRestoreJob(user, {
+      onSettled: () => setShowRestorePopup(false),
+    });
 
   useEffect(() => {
     const timers = [
@@ -124,186 +108,25 @@ const Trashbin = () => {
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
 
-  const CATEGORIES = [
-    TRANSLATIONS[language].jobs,
-    TRANSLATIONS[language].applicants,
-    TRANSLATIONS[language].referenceRequest,
-    TRANSLATIONS[language].referenceQuestions,
-  ];
-  const [selectedCategory, setSelectedCategory] = useState(
-    TRANSLATIONS[language].jobs
-  );
+  const CATEGORIES = useMemo(() => {
+    return [
+      labels.jobs,
+      labels.applicants,
+      labels.referenceRequest,
+      labels.referenceQuestions,
+    ];
+  }, [
+    labels.applicants,
+    labels.jobs,
+    labels.referenceQuestions,
+    labels.referenceRequest,
+  ]);
 
-  //Reference Request API
-  const {
-    data: referenceRequest,
-    isLoading: isLoadingReferenceQuestion,
-    isError: isErrorReferenceQuestion,
-  } = useQuery({
-    queryKey: ["archivedReferenceRequest"],
-    queryFn: ReferenceRequestArchiveAPI.getArchiveReferenceRequest,
-    staleTime: 1000 * 60 * 5,
-  });
-
-  const { mutate: deleteReference, isPending: isDeletingReferenceRequest } =
-    useMutation({
-      mutationFn: ReferenceRequestArchiveAPI.deleteReferenceRequest,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceRequest"],
-        });
-      },
-      onSettled: () => {
-        setShowDeletePopup(false);
-      },
-    });
-
-  const { mutate: restoreReference, isPending: isRestoringReferenceRequest } =
-    useMutation({
-      mutationFn: ReferenceRequestArchiveAPI.restoreReferenceRequest,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceRequest"],
-        });
-      },
-      onSettled: () => {
-        setShowRestorePopup(false);
-      },
-    });
-
-  //Reference Question API
-  const {
-    data: referenceQuestion,
-    isLoading: isLoadingReferenceRequest,
-    isError: isErrorReferenceRequest,
-  } = useQuery({
-    queryKey: ["archivedReferenceQuestions"],
-    queryFn: ReferenceQuestionArchiveAPI.getArchiveReferenceQuestion,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
-
-  const { mutate: deleteQuestions, isPending: isDeletingReferenceQuestions } =
-    useMutation({
-      mutationFn: ReferenceQuestionArchiveAPI.deleteReferenceQuestion,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceQuestions"],
-        });
-      },
-      onSettled: () => {
-        setShowDeletePopup(false);
-      },
-    });
-
-  const { mutate: restoreQuestion, isPending: isRestoringReferenceQuestions } =
-    useMutation({
-      mutationFn: ReferenceQuestionArchiveAPI.restoreReferenceQuestion,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceQuestions"],
-        });
-        localStorage.removeItem("questions");
-      },
-      onSettled: () => {
-        setShowRestorePopup(false);
-      },
-    });
-
-  //Candidate API
-  const {
-    data: candidates,
-    isLoading: isLoadingCandidates,
-    isError: isErrorCandidates,
-  } = useQuery({
-    queryKey: ["archivedCandidates"],
-    queryFn: CandidateArchiveAPI.getArchiveCandidate,
-    staleTime: 1000 * 60 * 5,
-  });
-
-  const { mutate: deleteCandidates, isPending: isDeletingCandidates } =
-    useMutation({
-      mutationFn: CandidateArchiveAPI.deleteCandidate,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["archivedCandidates"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceRequest"],
-        });
-      },
-      onSettled: () => {
-        setShowDeletePopup(false);
-      },
-    });
-
-  const { mutate: restoreCandidate, isPending: isRestoringCandidate } =
-    useMutation({
-      mutationFn: CandidateArchiveAPI.restoreCandidate,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["archivedCandidates"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["archivedReferenceRequest"],
-        });
-      },
-      onSettled: () => {
-        setShowRestorePopup(false);
-      },
-    });
-
-  //Job API
-  const {
-    data: jobs,
-    isLoading: isLoadingJobs,
-    isError: isErrorJobs,
-  } = useQuery({
-    queryKey: ["archivedJobs"],
-    queryFn: JobArchiveAPI.getArchiveJobs,
-    staleTime: 1000 * 60 * 5,
-  });
-
-  const { mutate: deleteJobs, isPending: isDeletingJobs } = useMutation({
-    mutationFn: JobArchiveAPI.deleteJobs,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["archivedJobs"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["archivedCandidates"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["archivedReferenceRequest"],
-      });
-    },
-    onSettled: () => {
-      setShowDeletePopup(false);
-    },
-  });
-
-  const { mutate: restoreJobs, isPending: isRestoringJobs } = useMutation({
-    mutationFn: JobArchiveAPI.restoreJobs,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["archivedJobs"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["archivedCandidates"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["archivedReferenceRequest"],
-      });
-    },
-    onSettled: () => {
-      setShowRestorePopup(false);
-    },
-  });
-
-  const mockData = useMemo(() => {
-    const translatedJobsKey = TRANSLATIONS[language].jobs;
-    const translatedApplicantsKey = TRANSLATIONS[language].applicants;
-    const translatedRequestsKey = TRANSLATIONS[language].referenceRequest;
-    const translatedQuestionsKey = TRANSLATIONS[language].referenceQuestions;
+  const archiveData = useMemo(() => {
+    const translatedJobsKey = labels.jobs;
+    const translatedApplicantsKey = labels.applicants;
+    const translatedRequestsKey = labels.referenceRequest;
+    const translatedQuestionsKey = labels.referenceQuestions;
 
     return {
       [translatedJobsKey]: jobs?.archivedJobs || [],
@@ -311,136 +134,89 @@ const Trashbin = () => {
       [translatedRequestsKey]: referenceRequest?.archivedReferenceRequest || [],
       [translatedQuestionsKey]: referenceQuestion?.questions || [],
     };
-  }, [referenceQuestion, referenceRequest, candidates, jobs, language]);
+  }, [
+    labels.jobs,
+    labels.applicants,
+    labels.referenceRequest,
+    labels.referenceQuestions,
+    jobs?.archivedJobs,
+    candidates?.archiveCandidates,
+    referenceRequest?.archivedReferenceRequest,
+    referenceQuestion?.questions,
+  ]);
 
-  const filterDataBySearch = (data) => {
-    if (!searchQuery) return data;
+  //INDIVIDUAL ACTION HANDLERS
+  const handleRestore = useCallback(
+    async (id) => {
+      switch (selectedCategory) {
+        case labels.jobs:
+          const jobIds = [id];
+          await restoreJobs(jobIds);
+          break;
+        case labels.applicants:
+          const candidateIds = [id];
+          await restoreCandidate(candidateIds);
+          break;
+        case labels.referenceRequest:
+          const referenceRequestId = [id];
+          await restoreReference(referenceRequestId);
+          break;
+        case labels.referenceQuestions:
+          const questionIds = [id];
+          await restoreQuestion(questionIds);
+          break;
+        default:
+          return;
+      }
+    },
+    [
+      labels.applicants,
+      labels.jobs,
+      labels.referenceQuestions,
+      labels.referenceRequest,
+      restoreCandidate,
+      restoreQuestion,
+      restoreReference,
+      selectedCategory,
+      restoreJobs,
+    ]
+  );
 
-    const query = searchQuery.toLowerCase();
-
-    switch (selectedCategory) {
-      case TRANSLATIONS[language].jobs:
-        return data.filter(
-          (job) =>
-            job.jobName?.toLowerCase().includes(query) ||
-            job.department?.toLowerCase().includes(query) ||
-            job.hiringManager?.toLowerCase().includes(query)
-        );
-      case TRANSLATIONS[language].applicants:
-        return data.filter(
-          (applicant) =>
-            applicant.name?.toLowerCase().includes(query) ||
-            applicant.email?.toLowerCase().includes(query) ||
-            applicant.jobName?.toLowerCase().includes(query)
-        );
-      case TRANSLATIONS[language].referenceRequest:
-        return data.filter(
-          (request) =>
-            request.applicant?.toLowerCase().includes(query) ||
-            request.status?.join(" ").toLowerCase().includes(query)
-        );
-      case TRANSLATIONS[language].referenceQuestions:
-        return data.filter((question) =>
-          question.name?.toLowerCase().includes(query)
-        );
-      default:
-        return data;
-    }
-  };
-
-  const handleRestore = (id) => {
-    switch (selectedCategory) {
-      case TRANSLATIONS[language].jobs:
-        const jobIds = [id];
-        return new Promise((resolve) => {
-          restoreJobs(
-            { jobIds },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      case TRANSLATIONS[language].applicants:
-        const candidateIds = [id];
-        return new Promise((resolve) => {
-          restoreCandidate(
-            { candidateIds },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      case TRANSLATIONS[language].referenceRequest:
-        const referenceRequestId = [id];
-        return new Promise((resolve) => {
-          restoreReference(
-            { referenceRequestId },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      case TRANSLATIONS[language].referenceQuestions:
-        const questionIds = [id];
-        return new Promise((resolve) => {
-          restoreQuestion(
-            { questionIds },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      default:
-        return;
-    }
-  };
-
-  const handleDelete = (id) => {
-    switch (selectedCategory) {
-      case TRANSLATIONS[language].jobs:
-        const jobIds = [id];
-        return new Promise((resolve) => {
-          deleteJobs(
-            { jobIds },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      case TRANSLATIONS[language].applicants:
-        const candidateIds = [id];
-        return new Promise((resolve) => {
-          deleteCandidates(
-            { candidateIds },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      case TRANSLATIONS[language].referenceRequest:
-        const referenceRequestId = [id];
-        return new Promise((resolve) => {
-          deleteReference(
-            { referenceRequestId },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      case TRANSLATIONS[language].referenceQuestions:
-        const questionIds = [id];
-        return new Promise((resolve) => {
-          deleteQuestions(
-            { questionIds },
-            {
-              onSettled: resolve,
-            }
-          );
-        });
-      default:
-        return;
-    }
-  };
+  const handleDelete = useCallback(
+    async (id) => {
+      switch (selectedCategory) {
+        case labels.jobs:
+          const jobIds = [id];
+          await deleteJobs(jobIds);
+          break;
+        case labels.applicants:
+          const candidateIds = [id];
+          await deleteCandidates(candidateIds);
+          break;
+        case labels.referenceRequest:
+          const referenceRequestId = [id];
+          await deleteReference(referenceRequestId);
+          break;
+        case labels.referenceQuestions:
+          const questionIds = [id];
+          await deleteQuestions(questionIds);
+          break;
+        default:
+          return;
+      }
+    },
+    [
+      deleteCandidates,
+      deleteJobs,
+      deleteQuestions,
+      deleteReference,
+      labels.applicants,
+      labels.jobs,
+      labels.referenceQuestions,
+      labels.referenceRequest,
+      selectedCategory,
+    ]
+  );
 
   const handleBulkRestore = () => {
     setShowRestorePopup(true);
@@ -450,19 +226,24 @@ const Trashbin = () => {
     setShowDeletePopup(true);
   };
 
-  const handleConfirmRestore = () => {
+  // BULK ACTION HANDLERS
+  const handleConfirmRestore = async () => {
     switch (selectedCategory) {
-      case TRANSLATIONS[language].jobs:
-        restoreJobs({ jobIds: selectedItems });
+      case labels.jobs:
+        const jobIds = selectedItems;
+        await restoreJobs(jobIds);
         break;
-      case TRANSLATIONS[language].applicants:
-        restoreCandidate({ candidateIds: selectedItems });
+      case labels.applicants:
+        const candidateIds = selectedItems;
+        await restoreCandidate(candidateIds);
         break;
-      case TRANSLATIONS[language].referenceRequest:
-        restoreReference({ referenceRequestId: selectedItems });
+      case labels.referenceRequest:
+        const referenceRequestId = selectedItems;
+        await restoreReference(referenceRequestId);
         break;
-      case TRANSLATIONS[language].referenceQuestions:
-        restoreQuestion({ questionIds: selectedItems });
+      case labels.referenceQuestions:
+        const questionIds = selectedItems;
+        await restoreQuestion(questionIds);
         break;
       default:
         return;
@@ -470,19 +251,23 @@ const Trashbin = () => {
     setSelectedItems([]);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     switch (selectedCategory) {
-      case TRANSLATIONS[language].jobs:
-        deleteJobs({ jobIds: selectedItems });
+      case labels.jobs:
+        const jobIds = selectedItems;
+        await deleteJobs(jobIds);
         break;
-      case TRANSLATIONS[language].applicants:
-        deleteCandidates({ candidateIds: selectedItems });
+      case labels.applicants:
+        const candidateIds = selectedItems;
+        await deleteCandidates(candidateIds);
         break;
-      case TRANSLATIONS[language].referenceRequest:
-        deleteReference({ referenceRequestId: selectedItems });
+      case labels.referenceRequest:
+        const referenceRequestId = selectedItems;
+        await deleteReference(referenceRequestId);
         break;
-      case TRANSLATIONS[language].referenceQuestions:
-        deleteQuestions({ questionIds: selectedItems });
+      case labels.referenceQuestions:
+        const questionIds = selectedItems;
+        await deleteQuestions(questionIds);
         break;
       default:
         return;
@@ -490,7 +275,7 @@ const Trashbin = () => {
     setSelectedItems([]);
   };
 
-  const handleSelect = (id) => {
+  const handleSelect = useCallback((id) => {
     setSelectedItems((prev) => {
       if (prev.includes(id)) {
         const newItems = prev.filter((item) => item !== id);
@@ -499,32 +284,32 @@ const Trashbin = () => {
         return [...prev, id];
       }
     });
-  };
+  }, []);
 
-  const handleClearSelection = () => {
+  const handleClearSelection = useCallback(() => {
     setSelectedItems([]);
-  };
+  }, []);
 
-  const handleSelectAll = () => {
-    const currentData = mockData[selectedCategory] || [];
+  const handleSelectAll = useCallback(() => {
+    const currentData = archiveData[selectedCategory] || [];
     if (selectedItems.length === currentData.length) {
       setSelectedItems([]);
     } else {
       setSelectedItems(currentData.map((item) => item._id));
     }
-  };
+  }, [archiveData, selectedCategory, selectedItems.length]);
 
-  const handleSelectAllCheckbox = () => {
-    const currentData = mockData[selectedCategory] || [];
+  const handleSelectAllCheckbox = useCallback(() => {
+    const currentData = archiveData[selectedCategory] || [];
     if (selectedItems.length === currentData.length) {
       setSelectedItems([]);
     } else {
       const allIds = currentData.map((item) => item._id);
       setSelectedItems(allIds);
     }
-  };
+  }, [archiveData, selectedCategory, selectedItems.length]);
 
-  const getTableHeaders = () => {
+  const getTableHeaders = useCallback(() => {
     const baseHeaders = [
       {
         label: (
@@ -533,7 +318,8 @@ const Trashbin = () => {
             className="form-check-input custom-checkbox"
             checked={
               selectedItems.length > 0 &&
-              selectedItems.length === (mockData[selectedCategory]?.length || 0)
+              selectedItems.length ===
+                (archiveData[selectedCategory]?.length || 0)
             }
             onChange={handleSelectAllCheckbox}
           />
@@ -542,105 +328,162 @@ const Trashbin = () => {
       },
     ];
     switch (selectedCategory) {
-      case TRANSLATIONS[language].jobs:
+      case labels.jobs:
         return [
           ...baseHeaders,
-          TRANSLATIONS[language].jobName,
-          TRANSLATIONS[language].department,
-          TRANSLATIONS[language].hiringManager,
-          TRANSLATIONS[language].deletedDate,
-          TRANSLATIONS[language].actions,
+          labels.jobName,
+          labels.department,
+          labels.hiringManager,
+          labels.deletedDate,
+          labels.actions,
         ];
-      case TRANSLATIONS[language].applicants:
+      case labels.applicants:
         return [
           ...baseHeaders,
-          TRANSLATIONS[language].name,
-          { label: TRANSLATIONS[language].email },
-          TRANSLATIONS[language].jobName,
-          TRANSLATIONS[language].deletedDate,
-          TRANSLATIONS[language].actions,
+          labels.name,
+          { label: labels.email },
+          labels.jobName,
+          labels.deletedDate,
+          labels.actions,
         ];
-      case TRANSLATIONS[language].referenceRequest:
+      case labels.referenceRequest:
         return [
           ...baseHeaders,
-          TRANSLATIONS[language].applicant,
-          { label: TRANSLATIONS[language].referees },
-          TRANSLATIONS[language].status,
-          TRANSLATIONS[language].deletedDate,
-          TRANSLATIONS[language].actions,
+          labels.applicant,
+          { label: labels.referees },
+          labels.status,
+          labels.deletedDate,
+          labels.actions,
         ];
-      case TRANSLATIONS[language].referenceQuestions:
+      case labels.referenceQuestions:
         return [
           ...baseHeaders,
-          TRANSLATIONS[language].question,
-          TRANSLATIONS[language].numberOfQuestions,
-          TRANSLATIONS[language].deletedDate,
-          TRANSLATIONS[language].actions,
+          labels.question,
+          labels.numberOfQuestions,
+          labels.deletedDate,
+          labels.actions,
         ];
       default:
         return [];
     }
-  };
+  }, [
+    selectedItems.length,
+    archiveData,
+    selectedCategory,
+    handleSelectAllCheckbox,
+    labels.jobs,
+    labels.jobName,
+    labels.department,
+    labels.hiringManager,
+    labels.deletedDate,
+    labels.actions,
+    labels.applicants,
+    labels.name,
+    labels.email,
+    labels.referenceRequest,
+    labels.applicant,
+    labels.referees,
+    labels.status,
+    labels.referenceQuestions,
+    labels.question,
+    labels.numberOfQuestions,
+  ]);
 
-  const renderTableRow = (item) => {
-    const props = {
-      data: item,
+  const renderTableRow = useCallback(
+    (item) => {
+      const selectedCount = selectedItems.length;
+      const isSelected = selectedItems.includes(item._id);
+      const props = {
+        data: item,
+        onSelect: handleSelect,
+        onRestore: handleRestore,
+        onDelete: handleDelete,
+        showCheckboxes: true,
+        labels,
+      };
+
+      switch (selectedCategory) {
+        case labels.jobs:
+          const jobPropsData = {
+            ...props,
+            selectedCount,
+            isSelected,
+            isDeletingJobs,
+            isRestoringJobs,
+          };
+          return <JobTable key={item._id} {...jobPropsData} />;
+        case labels.applicants:
+          const applicantPropsData = {
+            ...props,
+            selectedCount,
+            isSelected,
+            isDeletingCandidates,
+            isRestoringCandidate,
+          };
+          return <ApplicantTable key={item.id} {...applicantPropsData} />;
+        case labels.referenceRequest:
+          const referenceRequestPropsData = {
+            ...props,
+            selectedCount,
+            isSelected,
+            isDeletingReferenceRequest,
+            isRestoringReferenceRequest,
+          };
+          return (
+            <ReferenceRequestTable
+              key={item.id}
+              {...referenceRequestPropsData}
+            />
+          );
+        case labels.referenceQuestions:
+          const referenceQuestionsPropsData = {
+            ...props,
+            selectedCount,
+            isSelected,
+            isDeletingReferenceQuestions,
+            isRestoringReferenceQuestions,
+          };
+          return (
+            <ReferenceQuestionTable
+              key={item._id}
+              {...referenceQuestionsPropsData}
+            />
+          );
+        default:
+          return null;
+      }
+    },
+    [
+      handleDelete,
+      handleRestore,
+      handleSelect,
+      isDeletingCandidates,
+      isDeletingJobs,
+      isDeletingReferenceQuestions,
+      isDeletingReferenceRequest,
+      isRestoringCandidate,
+      isRestoringJobs,
+      isRestoringReferenceQuestions,
+      isRestoringReferenceRequest,
+      labels,
+      selectedCategory,
       selectedItems,
-      onSelect: handleSelect,
-      onRestore: handleRestore,
-      onDelete: handleDelete,
-      showCheckboxes: true, // Always show checkboxes
-    };
+    ]
+  );
 
-    switch (selectedCategory) {
-      case TRANSLATIONS[language].jobs:
-        const jobPropsData = {
-          ...props,
-          isDeletingJobs,
-          isRestoringJobs,
-        };
-        return <JobTable key={item._id} {...jobPropsData} />;
-      case TRANSLATIONS[language].applicants:
-        const applicantPropsData = {
-          ...props,
-          isDeletingCandidates,
-          isRestoringCandidate,
-        };
-        return <ApplicantTable key={item.id} {...applicantPropsData} />;
-      case TRANSLATIONS[language].referenceRequest:
-        const referenceRequestPropsData = {
-          ...props,
-          isDeletingReferenceRequest,
-          isRestoringReferenceRequest,
-        };
-        return (
-          <ReferenceRequestTable key={item.id} {...referenceRequestPropsData} />
-        );
-      case TRANSLATIONS[language].referenceQuestions:
-        const referenceQuestionsPropsData = {
-          ...props,
-          isDeletingReferenceQuestions,
-          isRestoringReferenceQuestions,
-        };
-        return (
-          <ReferenceQuestionTable
-            key={item._id}
-            {...referenceQuestionsPropsData}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
-  const renderTableBody = () => {
-    const currentData = mockData[selectedCategory] || [];
-    const filteredData = filterDataBySearch(currentData);
+  const renderTableBody = useCallback(() => {
+    const currentData = archiveData[selectedCategory] || [];
+    const filteredData = filterDataBySearch({
+      data: currentData,
+      searchQuery,
+      selectedCategory,
+      labels,
+    });
 
     if (currentData.length === 0) {
       return (
         <tr className="d-flex align-items-center nodata-trashbin-container justify-content-center flex-column gap-2 py-4 h-100">
-          <td colSpan="7" >
+          <td colSpan="7">
             <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2">
               <svg
                 width="30"
@@ -655,17 +498,15 @@ const Trashbin = () => {
                 />
               </svg>
               <h4 className="m-0">
-                {selectedCategory === TRANSLATIONS[language].jobs &&
-                  TRANSLATIONS[language].noJobsInTrash}
-                {selectedCategory === TRANSLATIONS[language].applicants &&
-                  TRANSLATIONS[language].noApplicantsInTrash}
-                {selectedCategory === TRANSLATIONS[language].referenceRequest &&
-                  TRANSLATIONS[language].noReferenceRequestsInTrash}
-                {selectedCategory ===
-                  TRANSLATIONS[language].referenceQuestions &&
-                  TRANSLATIONS[language].noReferenceQuestionsInTrash}
+                {selectedCategory === labels.jobs && labels.noJobsInTrash}
+                {selectedCategory === labels.applicants &&
+                  labels.noApplicantsInTrash}
+                {selectedCategory === labels.referenceRequest &&
+                  labels.noReferenceRequestsInTrash}
+                {selectedCategory === labels.referenceQuestions &&
+                  labels.noReferenceQuestionsInTrash}
               </h4>
-              <p className="text-center">{TRANSLATIONS[language].trashWarning}</p>
+              <p className="text-center">{labels.trashWarning}</p>
             </div>
           </td>
         </tr>
@@ -688,22 +529,20 @@ const Trashbin = () => {
             />
           </svg>
           <h4>
-            {TRANSLATIONS[language].noMatchingItems} "{searchQuery}"
+            {labels.noMatchingItems} "{searchQuery}"
           </h4>
         </tr>
       );
     }
 
     return filteredData.map((item) => renderTableRow(item));
-  };
+  }, [archiveData, labels, renderTableRow, searchQuery, selectedCategory]);
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3 className="mb-0">{TRANSLATIONS[language].trashBin}</h3>
-        <p className="mb-2">
-          {TRANSLATIONS[language].viewAndRestoreDeletedItems}
-        </p>
+        <h3 className="mb-0">{labels.trashBin}</h3>
+        <p className="mb-2">{labels.viewAndRestoreDeletedItems}</p>
       </div>
 
       <div
@@ -716,7 +555,7 @@ const Trashbin = () => {
             <input
               type="text"
               placeholder={`${
-                TRANSLATIONS[language].searchPlaceholder
+                labels.searchPlaceholder
               } ${selectedCategory.toLowerCase()}...`}
               className="form-control ps-4 pe-5"
               value={searchQuery}
@@ -748,14 +587,12 @@ const Trashbin = () => {
       >
         <div className="trash-header mb-3">
           <h4 className="mb-2">
-            {selectedCategory === TRANSLATIONS[language].jobs &&
-              TRANSLATIONS[language].deletedJobs}
-            {selectedCategory === TRANSLATIONS[language].applicants &&
-              TRANSLATIONS[language].deletedApplicants}
-            {selectedCategory === TRANSLATIONS[language].referenceRequest &&
-              TRANSLATIONS[language].deletedReferenceRequests}
-            {selectedCategory === TRANSLATIONS[language].referenceQuestions &&
-              TRANSLATIONS[language].deletedReferenceQuestions}
+            {selectedCategory === labels.jobs && labels.deletedJobs}
+            {selectedCategory === labels.applicants && labels.deletedApplicants}
+            {selectedCategory === labels.referenceRequest &&
+              labels.deletedReferenceRequests}
+            {selectedCategory === labels.referenceQuestions &&
+              labels.deletedReferenceQuestions}
           </h4>
           <div className="trashbin-important-text d-flex gap-2 align-items-center">
             <svg
@@ -770,7 +607,7 @@ const Trashbin = () => {
                 fill="#F46A05"
               />
             </svg>
-            <p className="m-0">{TRANSLATIONS[language].trashWarning}</p>
+            <p className="m-0">{labels.trashWarning}</p>
           </div>
         </div>
 
@@ -778,28 +615,28 @@ const Trashbin = () => {
           <button
             disabled={
               selectedItems.length === 0 &&
-              mockData[selectedCategory]?.length === 0
+              archiveData[selectedCategory]?.length === 0
             }
             onClick={
               selectedItems.length > 0 ? handleClearSelection : handleSelectAll
             }
           >
             {selectedItems.length === 0
-              ? TRANSLATIONS[language].selectAll
-              : selectedItems.length === mockData[selectedCategory].length
-              ? `${TRANSLATIONS[language].clearSelection} (${selectedItems.length})`
-              : `${TRANSLATIONS[language].clearSelection} (${selectedItems.length})`}
+              ? labels.selectAll
+              : selectedItems.length === archiveData[selectedCategory].length
+              ? `${labels.clearSelection} (${selectedItems.length})`
+              : `${labels.clearSelection} (${selectedItems.length})`}
           </button>
           <button
             disabled={selectedItems.length === 0}
             onClick={handleBulkRestore}
             className={`${selectedItems.length === 0 ? "disabled" : ""}`}
           >
-            {selectedItems.length === mockData[selectedCategory].length
-              ? TRANSLATIONS[language].restoreAll
+            {selectedItems.length === archiveData[selectedCategory].length
+              ? labels.restoreAll
               : selectedItems.length === 1
-              ? TRANSLATIONS[language].restore
-              : `${TRANSLATIONS[language].restore} (${selectedItems.length})`}
+              ? labels.restore
+              : `${labels.restore} (${selectedItems.length})`}
           </button>
 
           <button
@@ -807,11 +644,11 @@ const Trashbin = () => {
             onClick={handleBulkDelete}
             className={`${selectedItems.length === 0 ? "disabled" : ""}`}
           >
-            {selectedItems.length === mockData[selectedCategory].length
-              ? TRANSLATIONS[language].deleteAll
+            {selectedItems.length === archiveData[selectedCategory].length
+              ? labels.deleteAll
               : selectedItems.length === 1
-              ? TRANSLATIONS[language].delete
-              : `${TRANSLATIONS[language].delete} (${selectedItems.length})`}
+              ? labels.delete
+              : `${labels.delete} (${selectedItems.length})`}
           </button>
         </div>
         <div className="scrollable-table-trashbin-container">
@@ -847,39 +684,47 @@ const Trashbin = () => {
 
       {showDeletePopup && (
         <>
-          {selectedCategory === TRANSLATIONS[language].jobs && (
+          {selectedCategory === labels.jobs && (
             <DeleteConfirmationJobPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isDeletingJobs={isDeletingJobs}
             />
           )}
-          {selectedCategory === TRANSLATIONS[language].applicants && (
+          {selectedCategory === labels.applicants && (
             <DeleteConfirmationApplicantPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isDeletingCandidates={isDeletingCandidates}
             />
           )}
-          {selectedCategory === TRANSLATIONS[language].referenceRequest && (
+          {selectedCategory === labels.referenceRequest && (
             <DeleteConfirmationReferenceRequestPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isDeletingReferenceRequest={isDeletingReferenceRequest}
             />
           )}
-          {selectedCategory === TRANSLATIONS[language].referenceQuestions && (
+          {selectedCategory === labels.referenceQuestions && (
             <DeleteConfirmationReferenceQuestionPopUp
               onClose={() => setShowDeletePopup(false)}
               onConfirmDelete={handleConfirmDelete}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isDeletingReferenceQuestions={isDeletingReferenceQuestions}
             />
           )}
@@ -888,39 +733,47 @@ const Trashbin = () => {
 
       {showRestorePopup && (
         <>
-          {selectedCategory === TRANSLATIONS[language].jobs && (
+          {selectedCategory === labels.jobs && (
             <RestoreConfirmationJobPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isRestoringJobs={isRestoringJobs}
             />
           )}
-          {selectedCategory === TRANSLATIONS[language].applicants && (
+          {selectedCategory === labels.applicants && (
             <RestoreConfirmationApplicantPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isRestoringCandidate={isRestoringCandidate}
             />
           )}
-          {selectedCategory === TRANSLATIONS[language].referenceRequest && (
+          {selectedCategory === labels.referenceRequest && (
             <RestoreConfirmationReferenceRequestPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isRestoringReferenceRequest={isRestoringReferenceRequest}
             />
           )}
-          {selectedCategory === TRANSLATIONS[language].referenceQuestions && (
+          {selectedCategory === labels.referenceQuestions && (
             <RestoreConfirmationReferenceQuestionPopUp
               onClose={() => setShowRestorePopup(false)}
               onConfirmRestore={handleConfirmRestore}
               selectedCount={selectedItems.length}
-              isAll={selectedItems.length === mockData[selectedCategory].length}
+              isAll={
+                selectedItems.length === archiveData[selectedCategory].length
+              }
               isRestoringReferenceQuestions={isRestoringReferenceQuestions}
             />
           )}
