@@ -1,33 +1,32 @@
-import React from "react";
 import { Modal } from "react-bootstrap";
 
 const TRANSLATIONS = {
   English: {
-    confirmMessage: 'Would you like to restore',
-    singleRequest: 'this reference request',
-    allRequests: 'all these reference requests',
-    selectedRequests: 'these selected reference requests',
-    actionMessage: 'This action will move',
-    theSingleRequest: 'the reference request',
-    theAllRequests: 'all these reference requests',
-    theSelectedRequests: 'these selected reference requests',
-    destination: 'back to the Reference Request list',
-    yes: 'Yes',
-    no: 'No'
+    confirmMessage: "Would you like to restore",
+    singleRequest: "this reference request",
+    allRequests: "all these reference requests",
+    selectedRequests: "these selected reference requests",
+    actionMessage: "This action will move",
+    theSingleRequest: "the reference request",
+    theAllRequests: "all these reference requests",
+    theSelectedRequests: "these selected reference requests",
+    destination: "back to the Reference Request list",
+    yes: "Yes",
+    no: "No",
   },
   Japanese: {
-    confirmMessage: '復元してもよろしいですか',
-    singleRequest: 'このリファレンスリクエスト',
-    allRequests: 'これらすべてのリファレンスリクエスト',
-    selectedRequests: '選択されたリファレンスリクエスト',
-    actionMessage: 'この操作により',
-    theSingleRequest: 'リファレンスリクエスト',
-    theAllRequests: 'すべてのリファレンスリクエスト',
-    theSelectedRequests: '選択されたリファレンスリクエスト',
-    destination: 'がリファレンスリクエストリストに戻ります',
-    yes: 'はい',
-    no: 'いいえ'
-  }
+    confirmMessage: "復元してもよろしいですか",
+    singleRequest: "このリファレンスリクエスト",
+    allRequests: "これらすべてのリファレンスリクエスト",
+    selectedRequests: "選択されたリファレンスリクエスト",
+    actionMessage: "この操作により",
+    theSingleRequest: "リファレンスリクエスト",
+    theAllRequests: "すべてのリファレンスリクエスト",
+    theSelectedRequests: "選択されたリファレンスリクエスト",
+    destination: "がリファレンスリクエストリストに戻ります",
+    yes: "はい",
+    no: "いいえ",
+  },
 };
 
 const RestoreConfirmationReferenceRequestPopUp = ({
@@ -52,19 +51,19 @@ const RestoreConfirmationReferenceRequestPopUp = ({
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
           <p className="text-center m-0">
-            {t('confirmMessage')} {" "}
+            {t("confirmMessage")}{" "}
             {isSingleItem || selectedCount === 1
-              ? t('singleRequest')
+              ? t("singleRequest")
               : isAll
-              ? t('allRequests')
-              : t('selectedRequests')}
-            ? {t('actionMessage')} {" "}
+              ? t("allRequests")
+              : t("selectedRequests")}
+            ? {t("actionMessage")}{" "}
             {isSingleItem || selectedCount === 1
-              ? t('theSingleRequest')
+              ? t("theSingleRequest")
               : isAll
-              ? t('theAllRequests')
-              : t('theSelectedRequests')}
-            {" "} {t('destination')}
+              ? t("theAllRequests")
+              : t("theSelectedRequests")}{" "}
+            {t("destination")}
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
@@ -79,11 +78,11 @@ const RestoreConfirmationReferenceRequestPopUp = ({
                   role="status"
                 ></div>
               ) : (
-                t('yes')
+                t("yes")
               )}
             </button>
             <button className="btn-no-recover" onClick={onClose}>
-              {t('no')}
+              {t("no")}
             </button>
           </div>
         </div>

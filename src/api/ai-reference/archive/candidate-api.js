@@ -1,9 +1,8 @@
 import axios from "axios";
 const API = process.env.REACT_APP_API_URL;
 
-export const getArchiveCandidate = async () => {
-  const USER = JSON.parse(localStorage.getItem("user")) || null;
-  const token = USER?.token;
+export const getArchiveCandidate = async (user) => {
+  const { token = null } = user;
   const URL = `${API}/api/ai-referee/company-candidates/get-archive-candidate`;
   const response = await axios.get(URL, {
     headers: {
@@ -14,9 +13,8 @@ export const getArchiveCandidate = async () => {
   return response.data;
 };
 
-export const deleteCandidate = async ({ candidateIds }) => {
-  const USER = JSON.parse(localStorage.getItem("user")) || null;
-  const token = USER?.token;
+export const deleteCandidate = async ({ user, candidateIds }) => {
+  const { token = null } = user;
   const URL = `${API}/api/ai-referee/company-candidates/delete-candidate`;
   const response = await axios.delete(URL, {
     data: { candidateIds },
@@ -28,9 +26,8 @@ export const deleteCandidate = async ({ candidateIds }) => {
   return response.data;
 };
 
-export const restoreCandidate = async ({ candidateIds }) => {
-  const USER = JSON.parse(localStorage.getItem("user")) || null;
-  const token = USER?.token;
+export const restoreCandidate = async ({ user, candidateIds }) => {
+  const { token } = user;
   const URL = `${API}/api/ai-referee/company-candidates/restore-candidate`;
   const response = await axios.post(
     URL,
