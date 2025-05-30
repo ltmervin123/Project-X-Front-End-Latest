@@ -3,7 +3,7 @@ import React from "react";
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import defaultAvatar from "../../assets/default.png";
-import logo from "../../assets/logo.png"; // Adjust the path to your logo image
+import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 import { useLogout } from "../../hook/useLogout";
 import { useAuthContext } from "../../hook/useAuthContext";
 import * as AuthAPI from "../../api/ai-reference/auth/auth-api";
@@ -52,7 +52,7 @@ function Header() {
         href="/ai-reference-dashboard"
         className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
-        <img src={logo} alt="Logo" width="125" height="18" />
+        <img src={logo} alt="Logo" width="80" height="40" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="UserNameNav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">

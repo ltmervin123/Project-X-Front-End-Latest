@@ -16,6 +16,7 @@ const CompanyRegistrationForm = ({
   isChecked,
   agreeChecked,
   setAgreeChecked,
+  t
 }) => {
   const [countries, setCountries] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
@@ -102,14 +103,14 @@ const CompanyRegistrationForm = ({
         <Col md={12}>
           <Form.Group className="mb-2">
             <Form.Label htmlFor="company-name" className="mb-1">
-              Company Name
+              {t('COMPANY_NAME')}
             </Form.Label>
             <Form.Control
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Enter Company Name"
+              placeholder={t('COMPANY_NAME_PLACEHOLDER')}
               id="company-name"
             />
           </Form.Group>
@@ -118,17 +119,17 @@ const CompanyRegistrationForm = ({
             <Col md={6}>
               <Form.Group className="mb-2 position-relative">
                 <Form.Label htmlFor="email-address" className="mb-1">
-                  Email Address
+                  {t('EMAIL')}
                 </Form.Label>
                 <Form.Control
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter Email Address"
+                  placeholder={t('EMAIL_PLACEHOLDER')}
                   isInvalid={
-                    error === "Email is not valid" ||
-                    error === "Email already exists"
+                    error === t('ERROR_EMAIL_INVALID') ||
+                    error === t('ERROR_EMAIL_EXISTS')
                   }
                   id="email-address"
                 />
@@ -140,15 +141,15 @@ const CompanyRegistrationForm = ({
             <Col md={6}>
               <Form.Group className="mb-2 position-relative">
                 <Form.Label htmlFor="password" className="mb-1">
-                  Password
+                  {t('PASSWORD')}
                 </Form.Label>
                 <Form.Control
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Enter Password"
-                  isInvalid={error === "Password is not strong enough"}
+                  placeholder={t('PASSWORD_PLACEHOLDER')}
+                  isInvalid={error === t('ERROR_PASSWORD_WEAK')}
                   id="password"
                 />
                 <span
@@ -167,7 +168,7 @@ const CompanyRegistrationForm = ({
           <Row className="mb-2">
             <Form.Group>
               <Form.Label htmlFor="city" className="mb-1">
-                Location
+                {t('LOCATION')}
               </Form.Label>
               <Row>
                 <Col md={6}>
@@ -178,7 +179,7 @@ const CompanyRegistrationForm = ({
                     className="mb-2"
                     id="city"
                   >
-                    <option value="">Select City</option>
+                    <option value="">{t('SELECT_CITY')}</option>
                     {selectedCountryData.cities.map((city) => (
                       <option key={city.id} value={city.name}>
                         {city.name}
@@ -193,7 +194,7 @@ const CompanyRegistrationForm = ({
                     onChange={handleChange}
                     id="country"
                   >
-                    <option value="">Select Country</option>
+                    <option value="">{t('SELECT_COUNTRY')}</option>
                     {countries.map((country) => (
                       <option key={country.id} value={country.name}>
                         {country.name}
@@ -208,7 +209,7 @@ const CompanyRegistrationForm = ({
             <Col md={6}>
               <Form.Group className="mb-2">
                 <Form.Label htmlFor="company-size" className="mb-1">
-                  Company Size
+                  {t('COMPANY_SIZE')}
                 </Form.Label>
                 <Form.Select
                   name="size"
@@ -217,17 +218,17 @@ const CompanyRegistrationForm = ({
                   className="form-select"
                   id="company-size"
                 >
-                  <option value="">Select Company Size</option>
-                  <option value="1-50">1-50 employees</option>
-                  <option value="51-200">51-200 employees</option>
-                  <option value="201+">201+ employees</option>
+                  <option value="">{t('SELECT_COMPANY_SIZE')}</option>
+                  <option value="1-50">{t('COMPANY_SIZE_1_50')}</option>
+                  <option value="51-200">{t('COMPANY_SIZE_51_200')}</option>
+                  <option value="201+">{t('COMPANY_SIZE_201_PLUS')}</option>
                 </Form.Select>
               </Form.Group>
             </Col>
             <Col md={6}>
               <Form.Group className="mb-2">
                 <Form.Label htmlFor="industry" className="mb-1">
-                  Industry
+                  {t('INDUSTRY')}
                 </Form.Label>
                 <Form.Select
                   name="industry"
@@ -236,88 +237,38 @@ const CompanyRegistrationForm = ({
                   className="form-select"
                   id="industry"
                 >
-                  <option value="">Select an Industry</option>
-                  <option value="Advertising & Marketing">
-                    Advertising & Marketing
-                  </option>
-                  <option value="Aerospace & Defense">
-                    Aerospace & Defense
-                  </option>
-                  <option value="Agriculture & Farming">
-                    Agriculture & Farming
-                  </option>
-                  <option value="Automotive">Automotive</option>
-                  <option value="Banking & Financial Services">
-                    Banking & Financial Services
-                  </option>
-                  <option value="Biotechnology, Pharmaceuticals & Life Science">
-                    Biotechnology, Pharmaceuticals & Life Science
-                  </option>
-                  <option value="Construction & Real Estate">
-                    Construction & Real Estate
-                  </option>
-                  <option value="Business, Strategy & IT Consulting">
-                    Business, Strategy & IT Consulting
-                  </option>
-                  <option value="Consumer Goods (FMCG)">
-                    Consumer Goods (FMCG)
-                  </option>
-                  <option value="Energy & Utilities">Energy & Utilities</option>
-                  <option value="Entertainment & Media">
-                    Entertainment & Media
-                  </option>
-                  <option value="Fashion & Apparel">Fashion & Apparel</option>
-                  <option value="Gaming">Gaming</option>
-                  <option value="Government & Public Sector">
-                    Government & Public Sector
-                  </option>
-                  <option value="Healthcare & Medical">
-                    Healthcare & Medical
-                  </option>
-                  <option value="Hospitality & Tourism">
-                    Hospitality & Tourism
-                  </option>
-                  <option value="Human Resources & Recruitment">
-                    Human Resources & Recruitment
-                  </option>
-                  <option value="Insurance">Insurance</option>
-                  <option value="IT & Software Development">
-                    IT & Software Development
-                  </option>
-                  <option value="Legal">Legal</option>
-                  <option value="Manufacturing">Manufacturing</option>
-                  <option value="Mining & Metals">Mining & Metals</option>
-                  <option value="Retail & E-commerce">
-                    Retail & E-commerce
-                  </option>
-                  <option value="Telecommunications">Telecommunications</option>
-                  <option value="Logistics, Warehouse, Transportation & Shipping">
-                    Logistics, Warehouse, Transportation & Shipping
-                  </option>
-                  <option value="Venture Capital & Private Equity">
-                    Venture Capital & Private Equity
-                  </option>
-                  <option value="Other">Other</option>
+                  <option value="">{t('SELECT_INDUSTRY')}</option>
+                  <option value="Advertising & Marketing">{t('INDUSTRY_ADVERTISING')}</option>
+                  <option value="Aerospace & Defense">{t('INDUSTRY_AEROSPACE')}</option>
+                  <option value="IT & Software Development">{t('INDUSTRY_IT')}</option>
+                  <option value="Legal">{t('INDUSTRY_LEGAL')}</option>
+                  <option value="Manufacturing">{t('INDUSTRY_MANUFACTURING')}</option>
+                  <option value="Mining & Metals">{t('INDUSTRY_MINING')}</option>
+                  <option value="Retail & E-commerce">{t('INDUSTRY_RETAIL')}</option>
+                  <option value="Telecommunications">{t('INDUSTRY_TELECOM')}</option>
+                  <option value="Logistics, Warehouse, Transportation & Shipping">{t('INDUSTRY_LOGISTICS')}</option>
+                  <option value="Venture Capital & Private Equity">{t('INDUSTRY_VC')}</option>
+                  <option value="Other">{t('INDUSTRY_OTHER')}</option>
                 </Form.Select>
               </Form.Group>
             </Col>
           </Row>
 
           <div>
-            <h5>Person In-charge</h5>
+            <h5>{t('PERSON_IN_CHARGE')}</h5>
 
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-2">
                   <Form.Label htmlFor="first-name" className="mb-1">
-                    First Name
+                    {t('FIRST_NAME')}
                   </Form.Label>
                   <Form.Control
                     type="text"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="Enter First Name"
+                    placeholder={t('FIRST_NAME_PLACEHOLDER')}
                     id="first-name"
                   />
                 </Form.Group>
@@ -326,14 +277,14 @@ const CompanyRegistrationForm = ({
               <Col md={6}>
                 <Form.Group className="mb-2">
                   <Form.Label htmlFor="last-name" className="mb-1">
-                    Last Name
+                    {t('LAST_NAME')}
                   </Form.Label>
                   <Form.Control
                     type="text"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Enter Last Name"
+                    placeholder={t('LAST_NAME_PLACEHOLDER')}
                     id="last-name"
                   />
                 </Form.Group>
@@ -342,34 +293,26 @@ const CompanyRegistrationForm = ({
 
             <Form.Group className="mb-2">
               <Form.Label htmlFor="hiring-involvement" className="mb-1">
-                How are you involved in the hiring process?
+                {t('HIRING_INVOLVEMENT')}
               </Form.Label>
               <Form.Select
-                className="form-control"
                 name="hiringInvolvement"
                 id="hiring-involvement"
                 value={formData.hiringInvolvement}
                 onChange={handleChange}
               >
-                <option value="">Select an option</option>
-                <option value="HR / TA / Recruiter">HR / TA / Recruiter</option>
-                <option value="Hiring Manager / Line Manager">
-                  Hiring Manager / Line Manager
-                </option>
-                <option value="Board Member / Director">
-                  Board Member / Director
-                </option>
-                <option value="CEO / President">CEO / President</option>
+                <option value="">{t('SELECT_INVOLVEMENT')}</option>
+                <option value="HR / TA / Recruiter">{t('INVOLVEMENT_HR')}</option>
+                <option value="Hiring Manager / Line Manager">{t('INVOLVEMENT_MANAGER')}</option>
+                <option value="Board Member / Director">{t('INVOLVEMENT_DIRECTOR')}</option>
+                <option value="CEO / President">{t('INVOLVEMENT_CEO')}</option>
               </Form.Select>
             </Form.Group>
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-2">
-                  <Form.Label
-                    htmlFor="annual-hiring-volume"
-                    className="form-label mb-1"
-                  >
-                    Annual Hiring Volume
+                  <Form.Label htmlFor="annual-hiring-volume" className="form-label mb-1">
+                    {t('ANNUAL_HIRING')}
                   </Form.Label>
                   <Form.Select
                     name="annualHiringVolume"
@@ -378,10 +321,10 @@ const CompanyRegistrationForm = ({
                     className="form-select"
                     id="annual-hiring-volume"
                   >
-                    <option value="">Select Hiring Volume</option>
-                    <option value="1-10">1-10 hires</option>
-                    <option value="11-50">11-50 hires</option>
-                    <option value="51+">51+ hires</option>
+                    <option value="">{t('SELECT_HIRING_VOLUME')}</option>
+                    <option value="1-10">{t('HIRING_1_10')}</option>
+                    <option value="11-50">{t('HIRING_11_50')}</option>
+                    <option value="51+">{t('HIRING_51_PLUS')}</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -399,32 +342,31 @@ const CompanyRegistrationForm = ({
           onChange={handleCheckboxChange}
           label={
             <span className="privacy-content">
-              By continuing, you agree to{" "}
+              {t('TERMS_AGREEMENT')}{" "}
               <a
                 href="URL_TO_TERMS_OF_SERVICE"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                HR-HATCH Terms of Service
+                {t('TERMS_OF_SERVICE')}
               </a>{" "}
-              and acknowledge you've read our{" "}
+              {t('AND')}{" "}
               <a
                 href="URL_TO_DATA_PROTECTION_AGREEMENT"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Data Protection Agreement
+                {t('DATA_PROTECTION')}
               </a>
               .
             </span>
           }
         />
-      </Form.Group>
-
-      <DPAPopUp
+      </Form.Group>      <DPAPopUp
         showModal={showAgreementModal}
         setShowModal={setShowAgreementModal}
         handleContinue={handleContinue}
+        t={t}
       />
 
       <Button
@@ -434,12 +376,11 @@ const CompanyRegistrationForm = ({
         disabled={isButtonDisabled}
         className={`register-company-btn ${isButtonDisabled ? "disable" : ""}`}
       >
-        {/* {!isLoading ? "Select Culture Preferences" : "Processing..."} */}
         {selectedCultures.length === 0
-          ? "Select Culture Preferences"
+          ? t('SELECT_CULTURE')
           : isLoading
-          ? "Processing..."
-          : "Register Company"}
+          ? t('PROCESSING')
+          : t('REGISTER')}
       </Button>
     </Form>
   );

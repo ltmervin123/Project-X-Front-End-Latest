@@ -1,9 +1,29 @@
 import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 // Header component for the landing page navigation
-const Header = () => {
-  const [language, setLanguage] = useState("English");
+const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
+  const { t, language, changeLanguage } = useSnappcheckTranslation();
+
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    onContactClick();
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    onShowMain();
+  };
+
+  const handleLanguageChange = (e, newLanguage) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    changeLanguage(newLanguage);
+    window.location.reload();
+  };
 
   return (
     <div className="snappcheck-landing-header">
@@ -12,15 +32,20 @@ const Header = () => {
           <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
             <img src={logo} alt="Logo" width="200" height="80" />
           </Navbar.Brand>
-          <div className="d-flex gap-2 justify-content-center align-items-center">
-            <a href="">Pricing</a>
-            <a href="">User Guide</a>
-            <a href=""> Contact Us</a>
+          <div className="d-flex gap-3 justify-content-center align-items-center">
+            <a href="#pricing" onClick={onPricingClick}>
+              {t('pricing')}
+            </a>
+            <a href="#guide" onClick={handleClick}>
+              {t('userGuide')}
+            </a>
+            <a href="#contact-us" onClick={handleContactClick}>
+              {t('contactUs')}
+            </a>
             <NavDropdown
               className="snappcheck-language-dropdown "
               title={
-                <div className="d-flex align-items-center gap-2">
-                  <svg
+                <div className="d-flex align-items-center gap-2">                  <svg
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
@@ -34,22 +59,24 @@ const Header = () => {
                       fill="black"
                     />
                   </svg>
-                  {language}
+                  {t('currentLanguage')}
                 </div>
               }
               id="language-dropdown d-flex"
-            >
-              <NavDropdown.Item onClick={() => setLanguage("English")}>
-                English
+            >              <NavDropdown.Item 
+                onClick={(e) => handleLanguageChange(e, "English")}
+              >
+                {t('languageEnglish')}
               </NavDropdown.Item>
-              <NavDropdown.Item onClick={() => setLanguage("日本語")}>
-                日本語
+              <NavDropdown.Item 
+                onClick={(e) => handleLanguageChange(e, "Japanese")}
+              >
+                {t('languageJapanese')}
               </NavDropdown.Item>
             </NavDropdown>
             <div className="snappcheck-login-signup d-flex gap-2">
-              <a href="/login">LOGIN</a>
-
-              <a href="/company-registration">SIGN-UP</a>
+              <a href="/login">{t('login')}</a>
+              <a href="/company-registration">{t('signUp')}</a>
             </div>
           </div>
         </div>

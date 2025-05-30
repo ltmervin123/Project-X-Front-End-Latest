@@ -1,29 +1,28 @@
 import React from "react";
 import { Row, Carousel } from "react-bootstrap";
+import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 
-const testimonials = [
-  {
-    title: "Seamless Experience",
-    content:
-      "SNAPPCHECK transformed the way we conduct reference checks. The process is now much faster, takes hours—automated, secure, and incredibly easy to use. We're making better hires with more confidence and speed.",
-    author: "— Talent Acquisition Manager, Tech Startup",
-  },
-  {
-    title: "Verified and Insightful",
-    content:
-      "The platform is intuitive and professional. Our candidate feedback has been positive about the process, and our hiring managers loved the clear, actionable insights. SNAPPCHECK has become a core part of our hiring toolkit.",
-    author: "— HR Director, Global Finance Firm",
-  },
-  {
-    title: "Seamless Experience",
-    content:
-      "The platform is intuitive and professional. Our candidates appreciated the smooth process, and our hiring managers love to clear, structure reference reports. Snappcheck has become a core part of our hiring process",
-    author: "— HR Director, Global Finance Firm",
-  },
-];
-
-// CaseStudySection functional component
 const CaseStudySection = () => {
+  const { t } = useSnappcheckTranslation();
+
+  const testimonials = [
+    {
+      title: t('testimonial1Title'),
+      content: t('testimonial1Content'),
+      author: t('testimonial1Author'),
+    },
+    {
+      title: t('testimonial2Title'),
+      content: t('testimonial2Content'),
+      author: t('testimonial2Author'),
+    },
+    {
+      title: t('testimonial3Title'),
+      content: t('testimonial3Content'),
+      author: t('testimonial3Author'),
+    },
+  ];
+
   const getSecondCardIndex = (currentIndex) => {
     const nextIndex = currentIndex + 1;
     return nextIndex >= testimonials.length ? 0 : nextIndex;
@@ -33,13 +32,13 @@ const CaseStudySection = () => {
     <>
       {/* Hero Section Container */}
       <section
-        id="about"
+        id="case-study"
         className={
           "snappcheck-about-us-container d-flex align-items-center  w-100 "
         }
       >
         <Row className="w-100  snappcheck-left-content">
-          <h2 className="mb-4">Case Study</h2>
+          <h2 className="mb-4">{t('caseStudyTitle')}</h2>
           <Carousel
             indicators={false}
             controls={true}

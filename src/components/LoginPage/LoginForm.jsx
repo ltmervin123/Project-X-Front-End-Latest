@@ -6,11 +6,13 @@ import { useLogin } from "../../hook/useLogin";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "./LoadingScreen";
 import CustomDropdown from "./CustomDropdown";
+import { useSnappcheckTranslation } from "./Hooks/useTranslation";
 
 const SERVICE = ["AI_REFERENCE", "MOCK_AI"];
 
 const LoginForm = () => {
   const API = process.env.REACT_APP_API_URL;
+  const { t } = useSnappcheckTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -51,12 +53,12 @@ const LoginForm = () => {
       <div className="d-flex align-items-center justify-content-center main-login-form">
         <div className="login-container">
           <div className="login-header text-center">
-            <h2>LOG IN</h2>
-            <p className="mb-2">Welcome back, let’s dive in!</p>
+            <h2>{t('LOG_IN')}</h2>
+            <p className="mb-2">{t('WELCOME_BACK')}</p>
           </div>
           <div className="account-details account-details-login">
-            <h3>Account Details</h3>
-            <p>Please enter your credentials to access your account.</p>
+            <h3>{t('ACCOUNT_DETAILS')}</h3>
+            <p>{t('ACCOUNT_DETAILS_DESC')}</p>
             <form className="login-form" onSubmit={handleSubmit}>
               <div className="input-group mb-2">
                 <span className="input-group-text">
@@ -120,11 +122,9 @@ const LoginForm = () => {
                   <input
                     type="email"
                     className={`form-control ${
-                      error === "Incorrect email address" ||
-                      error ===
-                        "Account not activated. Check your email for activation" ||
-                      error ===
-                        "Too many login attempts, please try again after 1 minute"
+                      error === t('INCORRECT_EMAIL') ||
+                      error === t('ACCOUNT_NOT_ACTIVATED') ||
+                      error === t('TOO_MANY_ATTEMPTS')
                         ? "is-invalid"
                         : ""
                     }`}
@@ -134,16 +134,15 @@ const LoginForm = () => {
                   />
                   <label
                     className={`input-label ${
-                      error === "Incorrect email address" ||
-                      error ===
-                        "Account not activated. Check your email for activation"
+                      error === t('INCORRECT_EMAIL') ||
+                      error === t('ACCOUNT_NOT_ACTIVATED')
                         ? "is-invalid"
                         : ""
                     }`}
                   >
-                    Email
+                    {t('EMAIL')}
                   </label>
-                  {error === "Incorrect email address" && (
+                  {error === t('INCORRECT_EMAIL') && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>
@@ -217,11 +216,9 @@ const LoginForm = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     className={`form-control ${
-                      error === "Incorrect password" ||
-                      error ===
-                        "Account not activated. Check your email for activation" ||
-                      error ===
-                        "Too many login attempts, please try again after 1 minute"
+                      error === t('INCORRECT_PASSWORD') ||
+                      error === t('ACCOUNT_NOT_ACTIVATED') ||
+                      error === t('TOO_MANY_ATTEMPTS')
                         ? "is-invalid"
                         : ""
                     }`}
@@ -231,18 +228,17 @@ const LoginForm = () => {
                   />
                   <label
                     className={`input-label ${
-                      error === "Incorrect password" ||
-                      error ===
-                        "Account not activated. Check your email for activation"
+                      error === t('INCORRECT_PASSWORD') ||
+                      error === t('ACCOUNT_NOT_ACTIVATED')
                         ? "is-invalid"
                         : ""
                     }`}
                   >
-                    Password
+                    {t('PASSWORD')}
                   </label>
                   <span
                     className={`position-absolute end-0 top-50 translate-middle-y me-3 toggle-password ${
-                      error === "Incorrect password" ? "is-invalid" : ""
+                      error === t('INCORRECT_PASSWORD') ? "is-invalid" : ""
                     }`}
                     onClick={() => setShowPassword(!showPassword)}
                     style={{
@@ -253,11 +249,9 @@ const LoginForm = () => {
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </span>
 
-                  {(error === "Incorrect password" ||
-                    error ===
-                      "Account not activated. Check your email for activation" ||
-                    error ===
-                      "Too many login attempts, please try again after 1 minute") && (
+                  {(error === t('INCORRECT_PASSWORD') ||
+                    error === t('ACCOUNT_NOT_ACTIVATED') ||
+                    error === t('TOO_MANY_ATTEMPTS')) && (
                     <div className="invalid-feedback">{error}</div>
                   )}
                 </div>
@@ -266,14 +260,14 @@ const LoginForm = () => {
                 <div className="remember-me form-check">
                   <div className="remember-box-check">
                     <input type="checkbox" className="form-check-input" />
-                    <b className=" form-check-label">Remember me</b>
+                    <b className="form-check-label">{t('REMEMBER_ME')}</b>
                   </div>
                 </div>
                 <div className="forgot d-flex">
-                  Forgot your password?
+                  {t('FORGOT_PASSWORD')}
                   <a href="/forgotpassword" className="forgot-password">
                     {" "}
-                    Click here to reset
+                    {t('CLICK_TO_RESET')}
                   </a>
                 </div>
               </div>
@@ -289,12 +283,12 @@ const LoginForm = () => {
                 className="login-button"
                 disabled={!service || isLoading}
               >
-                {isLoading ? <LoadingScreen /> : "Log in"}
+                {isLoading ? <LoadingScreen /> : t('LOGIN_BUTTON')}
               </button>
             </form>
           </div>
-          <div className="signup-container text-center ">
-            <p className="m-3">Or sign up using</p>
+          <div className="signup-container text-center">
+            <p className="m-3">{t('SIGN_UP_USING')}</p>
             <div className="social-icons">
               {/* Google icon */}
               <button
@@ -305,7 +299,6 @@ const LoginForm = () => {
                 <img src={google} alt="Google" className="social-icon" />
               </button>
               {/* Facebook icon */}
-
               <button
                 className="social-icon-btn"
                 disabled={service === SERVICE[0]}
@@ -314,15 +307,12 @@ const LoginForm = () => {
               </button>
             </div>
 
-            <button
-              className="guest-button"
-              // onClick={() => (window.location.href = "/")} // not implemented yet
-            >
-              Continue as Guest
+            <button className="guest-button">
+              {t('CONTINUE_AS_GUEST')}
             </button>
             <div className="d-flex flex-column dont-have-acc-container">
-              <p>Don't have an account?</p>
-              <i>Join Us Today</i>
+              <p>{t('NO_ACCOUNT')}</p>
+              <i>{t('JOIN_TODAY')}</i>
             </div>
             <button
               className="signup-button"
@@ -339,7 +329,7 @@ const LoginForm = () => {
                 }
               }}
             >
-              Sign up
+              {t('SIGN_UP')}
             </button>
           </div>
         </div>

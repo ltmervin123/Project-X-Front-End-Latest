@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 // Footer component for the landing page navigation
-const Footer = () => {
+const Footer = ({ onShowMain }) => {
+  const { t, language, changeLanguage } = useSnappcheckTranslation();
+  
+  const handleClick = (e) => {
+    e.preventDefault();
+    onShowMain();
+  };
+
   return (
-    <footer className="snappcheck-landing-footer py-5">
+    <footer className="snappcheck-landing-footer py-5" onClick={handleClick}>
       <div className="d-flex justify-content-start align-items-center w-100 gap-5">
         <div className="snappcheck-footer-nav d-flex gap-3">
-          <a href="">Pricing</a>
-          <a href="">User Guide</a>
-          <a href="">Contact Us</a>
+          <a href="">{t('pricing')}</a>
+          <a href="">{t('userGuide')}</a>
+          <a href="">{t('contactUs')}</a>
         </div>
 
         <div className="social-links d-flex gap-3">
-          <a href="#" className="snappcheck-social-icon">
+          <a href="#" className="snappcheck-social-icon" title={t('linkedInTitle')}>
             <svg
               width="15"
               height="15"
@@ -27,7 +35,7 @@ const Footer = () => {
               />
             </svg>
           </a>
-          <a href="#" className="snappcheck-social-icon">
+          <a href="#" className="snappcheck-social-icon" title={t('facebookTitle')}>
             <svg
               width="15"
               height="15"
@@ -41,7 +49,7 @@ const Footer = () => {
               />
             </svg>
           </a>
-          <a href="#" className="snappcheck-social-icon">
+          <a href="#" className="snappcheck-social-icon" title={t('twitterTitle')}>
             <svg
               width="15"
               height="15"
@@ -55,7 +63,7 @@ const Footer = () => {
               />
             </svg>
           </a>
-          <a href="#" className="snappcheck-social-icon">
+          <a href="#" className="snappcheck-social-icon" title={t('instagramTitle')}>
             <svg
               width="15"
               height="15"
@@ -72,17 +80,18 @@ const Footer = () => {
         </div>
       </div>
       <div>
-          <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
-            <img src={logo} alt="Logo" width="200" height="80" />
-          </Navbar.Brand>      </div>
+        <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
+          <img src={logo} alt="Logo" width="200" height="80" />
+        </Navbar.Brand>
+      </div>
       <div className="mt-2">
         <p className="copyright-text mb-0 pt-3">
-          Copyright © 2023{" "}
+          {t('copyright')} © 2023{" "}
           <span className="color-orange">
             SNAPP
             <span className="color-grey">CHECK</span>
           </span>{" "}
-          . All Rights Reserved
+          . {t('allRightsReserved')}
         </p>
       </div>
     </footer>

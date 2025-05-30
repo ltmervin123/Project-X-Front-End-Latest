@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Modal, Row, Col, Form } from "react-bootstrap";
+import IntlTelInput from "intl-tel-input/react";
+import "intl-tel-input/build/css/intlTelInput.css";
 import Paypay from "../../../../assets/aireferencechecker/paypay.svg";
 import Rakuten from "../../../../assets/aireferencechecker/rakuten.svg";
 import Konbini from "../../../../assets/aireferencechecker/konbini.svg";
@@ -163,7 +165,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                     </div>
                   </div>
                   <div className="add-credits mb-2">
-                    <Form.Label>{TRANSLATIONS[language].addCreditsLabel}</Form.Label>
+                    <Form.Label>
+                      {TRANSLATIONS[language].addCreditsLabel}
+                    </Form.Label>
                     <Form.Control
                       type="number"
                       value={creditsToAdd}
@@ -205,7 +209,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                   {selectedPaymentMethods.card && (
                     <div className="credit-card-form mb-2">
                       <Form.Group className="mb-1">
-                        <Form.Label>{TRANSLATIONS[language].cardNumber}</Form.Label>
+                        <Form.Label>
+                          {TRANSLATIONS[language].cardNumber}
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           placeholder="1234 5678 9012 3456"
@@ -215,7 +221,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                       <Row>
                         <Col>
                           <Form.Group className="mb-1">
-                            <Form.Label>{TRANSLATIONS[language].expiryDate}</Form.Label>
+                            <Form.Label>
+                              {TRANSLATIONS[language].expiryDate}
+                            </Form.Label>
                             <Form.Control
                               type="text"
                               placeholder="MM/YY"
@@ -225,7 +233,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                         </Col>
                         <Col>
                           <Form.Group className="mb-1">
-                            <Form.Label>{TRANSLATIONS[language].cvv}</Form.Label>
+                            <Form.Label>
+                              {TRANSLATIONS[language].cvv}
+                            </Form.Label>
                             <Form.Control
                               type="text"
                               placeholder="123"
@@ -235,7 +245,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                         </Col>
                       </Row>
                       <Form.Group>
-                        <Form.Label>{TRANSLATIONS[language].cardholderName}</Form.Label>
+                        <Form.Label>
+                          {TRANSLATIONS[language].cardholderName}
+                        </Form.Label>
                         <Form.Control
                           type="text"
                           placeholder="Cardholder Name"
@@ -297,14 +309,17 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                       </div>
                       <div className="e-wallet-form">
                         {activeWallet === "paypay" && (
-                          <Form.Group className="mb-2">
-                            <Form.Label>
+                          <Form.Group className="form-group mb-2 w-100">
+                            {" "}                            <Form.Label className="w-100">
                               {TRANSLATIONS[language].paypayPhone}
                             </Form.Label>
-                            <Form.Control
-                              type="tel"
-                              placeholder="09123456789"
-                              maxLength="11"
+                            <IntlTelInput
+                              containerClassName="intl-tel-input"
+                              inputClassName="form-control"
+                              preferredCountries={["jp"]}
+                              initialCountry="jp"
+                              onlyCountries={["jp"]}
+                              format
                             />
                           </Form.Group>
                         )}
@@ -313,7 +328,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                           <Row>
                             <Col md={6}>
                               <div className="form-group mb-2">
-                                <label>{TRANSLATIONS[language].rakutenEmail}</label>
+                                <label>
+                                  {TRANSLATIONS[language].rakutenEmail}
+                                </label>
                                 <input
                                   type="email"
                                   className="form-control"
@@ -322,13 +339,17 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                               </div>
                             </Col>
                             <Col md={6}>
-                              <div className="form-group">
-                                <label>{TRANSLATIONS[language].phoneNumber}</label>
-                                <input
-                                  type="tel"
-                                  className="form-control"
-                                  placeholder="09123456789"
-                                  maxLength="11"
+                              {" "}
+                              <div className="form-group">                                <label>
+                                  {TRANSLATIONS[language].phoneNumber}
+                                </label>
+                                <IntlTelInput
+                                  containerClassName="intl-tel-input"
+                                  inputClassName="form-control"
+                                  preferredCountries={["jp"]}
+                                  initialCountry="jp"
+                                  onlyCountries={["jp"]}
+                                  format
                                 />
                               </div>
                             </Col>
@@ -348,19 +369,25 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                               </div>
                             </Col>
                             <Col md={6}>
-                              <div className="form-group mb-2">
-                                <label>{TRANSLATIONS[language].phoneNumber}</label>
-                                <input
-                                  type="tel"
-                                  className="form-control"
-                                  placeholder="09123456789"
-                                  maxLength="11"
+                              {" "}
+                              <div className="form-group mb-2">                                <label>
+                                  {TRANSLATIONS[language].phoneNumber}
+                                </label>
+                                <IntlTelInput
+                                  containerClassName="intl-tel-input"
+                                  inputClassName="form-control"
+                                  preferredCountries={["jp"]}
+                                  initialCountry="jp"
+                                  onlyCountries={["jp"]}
+                                  format
                                 />
                               </div>
                             </Col>
                             <Col md={6}>
                               <div className="form-group mb-2">
-                                <label>{TRANSLATIONS[language].emailForCode}</label>
+                                <label>
+                                  {TRANSLATIONS[language].emailForCode}
+                                </label>
                                 <input
                                   type="email"
                                   className="form-control"
@@ -370,7 +397,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                             </Col>
                             <Col md={6}>
                               <div className="form-group">
-                                <label>{TRANSLATIONS[language].preferredStore}</label>
+                                <label>
+                                  {TRANSLATIONS[language].preferredStore}
+                                </label>
 
                                 <input
                                   type="text"
@@ -386,7 +415,10 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                   )}
                 </div>
               </Col>
-              <Col md={5} className="ps-md-4 d-flex justify-content-between flex-column">
+              <Col
+                md={5}
+                className="ps-md-4 d-flex justify-content-between flex-column"
+              >
                 <div>
                   <label className="mb-2">
                     {TRANSLATIONS[language].transactionSummary}
@@ -396,7 +428,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                     <div>
                       <div className="d-flex justify-content-between mb-2">
                         <span>{TRANSLATIONS[language].currentCredits}</span>
-                        <span>{currentBalance} {TRANSLATIONS[language].credits}</span>
+                        <span>
+                          {currentBalance} {TRANSLATIONS[language].credits}
+                        </span>
                       </div>
                       <div className="d-flex justify-content-between mb-3 pb-3">
                         <span>{TRANSLATIONS[language].creditsToAdd}</span>
@@ -408,7 +442,8 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                       <div className=" d-flex justify-content-between  mb-5">
                         <span>{TRANSLATIONS[language].newCreditBalance}</span>
                         <span className="color-orange credit-total">
-                          {currentBalance + creditsToAdd} {TRANSLATIONS[language].credits}
+                          {currentBalance + creditsToAdd}{" "}
+                          {TRANSLATIONS[language].credits}
                         </span>
                       </div>
                     </div>
@@ -434,9 +469,9 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                     >
                       <path
                         d="M6.6278 6.9995C6.67117 6.63856 6.80536 6.2945 7.01782 5.9995H5.00423V4.9995H9.00141C9.3462 5.00172 9.68663 5.07719 10.0005 5.22V1.0005C10.0005 0.869095 9.97468 0.738964 9.92443 0.617548C9.87417 0.496132 9.80047 0.385812 9.70755 0.292894C9.61462 0.199975 9.5043 0.126282 9.38288 0.0760252C9.26146 0.0257686 9.13132 -6.52193e-05 8.99991 5.00172e-07H1.00105C0.869592 -0.000130964 0.739402 0.0256543 0.617922 0.0758814C0.496443 0.126109 0.386059 0.199792 0.293084 0.292717C0.200108 0.385641 0.126366 0.495984 0.0760763 0.617432C0.0257862 0.738881 -6.52922e-05 0.869052 5.0057e-07 1.0005V7.9995C-0.000131061 8.13099 0.0256719 8.26122 0.0759326 8.38272C0.126193 8.50423 0.199925 8.61463 0.292906 8.70761C0.385888 8.80058 0.496295 8.87431 0.617807 8.92457C0.739319 8.97483 0.86955 9.00063 1.00105 9.0005H5.99977V8.6C6.00254 8.39289 6.04816 8.1886 6.13378 8H2.99964V7L6.6278 6.9995ZM8.99991 3.9995H5.00273V2.9995H8.99991V3.9995ZM2.99964 0.9995H8.99991V1.9995H2.99964V0.9995ZM1.99409 7.9995H0.994046V6.9995H1.99409V7.9995ZM1.99409 1.9995H0.994046V0.9995H1.99409V1.9995ZM2.99664 2.9995H3.99668V3.9995H2.99664V2.9995ZM2.99814 5.9995V4.9995H3.99818V5.9995H2.99814ZM10.4 8V7.25C10.3609 6.90605 10.1966 6.58852 9.93837 6.35797C9.68014 6.12743 9.34608 6 8.99991 6C8.65374 6 8.31967 6.12743 8.06145 6.35797C7.80323 6.58852 7.63891 6.90605 7.59985 7.25V8C7.44418 8.01053 7.2976 8.07712 7.18727 8.18745C7.07695 8.29777 7.01035 8.44434 6.99982 8.6V10.35C7.00049 10.5137 7.06246 10.6713 7.17352 10.7916C7.28459 10.9119 7.43668 10.9863 7.59985 11H10.35C10.5137 10.9993 10.6713 10.9374 10.7916 10.8263C10.9119 10.7152 10.9863 10.5632 11 10.4V8.65C10.9993 8.48627 10.9374 8.32873 10.8263 8.20841C10.7152 8.0881 10.5631 8.01375 10.4 8ZM9.74994 8H8.24988V7.25C8.25454 7.1574 8.27788 7.06671 8.3185 6.98337C8.35913 6.90002 8.41619 6.82576 8.48625 6.76504C8.55632 6.70432 8.63794 6.65839 8.72621 6.63003C8.81449 6.60167 8.90759 6.59145 8.99991 6.6C9.09223 6.59145 9.18533 6.60167 9.2736 6.63003C9.36188 6.65839 9.4435 6.70432 9.51357 6.76504C9.58363 6.82576 9.64069 6.90002 9.68131 6.98337C9.72194 7.06671 9.74528 7.1574 9.74994 7.25V8Z"
-                      fill="#F46A05"
-                    />
-                     </svg>
+                        fill="#F46A05"
+                      />
+                    </svg>
                   </div>
 
                   <div className="d-flex align-items-start flex-column mb-2">

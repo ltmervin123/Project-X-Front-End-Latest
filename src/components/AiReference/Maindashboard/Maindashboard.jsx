@@ -539,7 +539,7 @@ const MainDashboard = () => {
             color: "#000",
             callback: function (value, index) {
               const deptKey = departmentMap.get(departments[index]);
-              return departments.length <= 2
+              return departments.length <= 1
                 ? labels.departments[deptKey] || departments[index]
                 : "";
             },

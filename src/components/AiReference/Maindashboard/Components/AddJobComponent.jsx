@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo, useEffect, useCallback, memo } from "react";
-import { TRANSLATIONS } from "../../../../translations/translations";
+import { TRANSLATIONS } from "../Hooks/addJobsComponentTranslations";
 
 import { Form, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 import AboutUs from "../../assets/snappchecklanding/about-us.svg";
 
 // AboutUsSection functional component
 const AboutUsSection = () => {
+  const { t, language, changeLanguage } = useSnappcheckTranslation();
+  
+  console.log('Current language:', language); // Debug current language
+
   return (
     <>
       {/* Hero Section Container */}
@@ -16,23 +21,25 @@ const AboutUsSection = () => {
       >
         <Row className="w-100  snappcheck-left-content">
           <Col md="6">
-            <h3 className="color-blue mb-2">About Us</h3>
-            <h2 className="mb-4">Streamline Your Hiring Process</h2>
+            <h3 className="color-blue mb-2">
+              {t('aboutUs')}
+            </h3>
+            <h2 className="mb-4">
+              {t('aboutUsTitle')}
+            </h2>
             <p className="snappcheck-about-us-desc1 mb-4">
-              SNAPPCHECK is an innovative tool that automates the reference
-              check process, saving you time and effort while ensuring accuracy
-              and consistency. Let our app handle the heavy lifting by
-              conducting thorough, unbiased reference interviews to help you
-              make smarter hiring decisions.
+              {t('aboutDescription1')}
             </p>
             <p className="snappcheck-about-us-desc2 mb-4">
-              Effortlessly gather insights, validate applicants, and keep your
-              recruitment process efficient and professional.
+              {t('aboutDescription2')}
             </p>
-            <button>Learn More</button>
+            <button>{t('learnMore')}</button>
           </Col>
-          <Col md="6" className="position-relative snapcheck-about-us-image-container">
-            <img src={AboutUs}   alt="about us image" />
+          <Col
+            md="6"
+            className="position-relative snapcheck-about-us-image-container"
+          >
+            <img src={AboutUs} alt="about us image" />
           </Col>
         </Row>
       </section>

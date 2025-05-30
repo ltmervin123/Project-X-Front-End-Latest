@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col } from "react-bootstrap";
+import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 import HowItWorkImage from "../../assets/snappchecklanding/how-it-works.svg";
 
 // HowItWorksSection functional component
 const HowItWorksSection = () => {
+  const { t } = useSnappcheckTranslation();
+
   return (
     <>
       {/* Hero Section Container */}
       <section
-        id="did-you-know"
+        id="how-it-works"
         className={
           "snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 "
         }
       >
         <Row className="w-100  snappcheck-left-did-you-know-content">
           <Col md="6">
-            <h3 className="color-blue mb-2">How It Works</h3>
+            <h3 className="color-blue mb-2">{t('howItWorks')}</h3>
             <h2 className="mb-4">
-              Our streamlined process ensures thorough reference checks with
-              minimal effort
+              {t('howItWorksTitle')}
             </h2>
           </Col>
           <Col md="6" className="position-relative"></Col>
@@ -27,7 +29,7 @@ const HowItWorksSection = () => {
           </div>
         </Row>
         <div className="d-flex justify-content-center align-items-center flex-column w-100">
-          <h2 className="my-5">Trusted by Leading Businesses Worldwide</h2>
+          <h2 className="my-5">{t('trustedBusinesses')}</h2>
           <div className="slider-container">
             <div className="sliding-cards">
               <div className="business-company-card mx-2"></div>

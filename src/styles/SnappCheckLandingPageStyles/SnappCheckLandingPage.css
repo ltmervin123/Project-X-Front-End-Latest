@@ -4,6 +4,7 @@
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
   font-family: "Roboto", sans-serif; /* Set font family to Roboto */
+  scroll-behavior: smooth;
 }
 
 /* CSS Variables for color scheme */
@@ -15,12 +16,12 @@
   --acttivit-card-bg: #d9d9d9; /* Background color for activity cards */
   --exclusive-btn-color: #b90416; /* Color for exclusive buttons */
   --color-brown: #686868; /* Brown color for text */
-      --color-grey: #38434B; /* Brown color for text */
+  --color-grey: #38434b; /* Brown color for text */
 
   --subcription-card-color: #f8f8f9; /* Background color for subscription cards */
 }
-.color-grey{
-color: var(--color-grey);
+.color-grey {
+  color: var(--color-grey);
 }
 .snappcheck-hero-section-bg,
 .snappcheck-about-us-container,
@@ -40,14 +41,14 @@ color: var(--color-grey);
   padding: 106px 10%;
 }
 .snappcheck-landing-header {
-  background: #000000d8 !important;
+  background: var(--font-black) !important;
   width: 100%;
   position: fixed;
   z-index: 100;
   padding: 0px 5% !important;
   margin: 0 !important;
 }
-.snappcheck-language-dropdown{
+.snappcheck-language-dropdown {
   background: var(--font-white);
   border-radius: 50px;
   padding: 3px 10px;
@@ -57,37 +58,56 @@ color: var(--color-grey);
 .snappcheck-language-dropdown a {
   color: var(--font-black) !important;
   display: flex;
-  gap:5px;
+  gap: 5px;
   align-items: center;
   justify-content: center;
-
 }
 .snappcheck-language-dropdown a:hover {
   color: var(--font-black) !important;
-
 }
-.snappcheck-language-dropdown .dropdown-menu{
+.snappcheck-language-dropdown .dropdown-menu {
   width: 100%;
   min-width: 100%;
+  padding: 0;
+  border-radius: 10px;
   inset: 0px auto auto 0px !important;
   transform: translate(0px, 40px) !important;
 }
-.snappcheck-landing-header a,
+.snappcheck-landing-header a{
+    text-decoration: none !important;
+  color: var(--font-white);
+}
 .snappcheck-language-dropdown {
   text-decoration: none !important;
   color: var(--font-white);
+  border-radius: 10px;
 }
-.snappcheck-landing-header a:nth-child(2),
-.snappcheck-landing-header a:nth-child(3) {
-  border-left: 2px solid var(--font-white);
-  padding-left: 0.5rem;
+
+.snappcheck-language-dropdown .dropdown-menu a:active {
+  background-color: var(--primary-color);
+  color: var(--font-white) !important;
+}
+
+.snappcheck-language-dropdown .dropdown-menu a:nth-child(1) {
+  border-radius: 10px 10px 0px 0px;
+}
+.snappcheck-language-dropdown .dropdown-menu a:nth-child(2) {
+  border-radius: 0px 0px 10px 10px;
+  padding: 0;
+  border: 0;
 }
 .snappcheck-landing-header .snappcheck-login-signup a {
   color: var(--primary-color);
   font-weight: bold;
 }
-.snappcheck-landing-header .snappcheck-login-signup a:nth-child(2) {
-  border-left: 3px solid var(--primary-color);
+.snappcheck-landing-header a:nth-child(2),
+.snappcheck-landing-header a:nth-child(3){
+    border-left: 2px solid var(--font-white);
+  padding-left: 0.5rem;
+
+}
+.snappcheck-login-signup a:nth-child(2) {
+  border-left: 2px solid var(--primary-color);
   padding-left: 0.5rem;
 }
 
@@ -119,7 +139,7 @@ color: var(--color-grey);
 .snappcheck-button-controller button:nth-child(2) {
   background: var(--font-black);
 }
-.snappcheck-hero-img-container img{
+.snappcheck-hero-img-container img {
   width: 100%;
 }
 /*About Us Section*/
@@ -261,7 +281,7 @@ color: var(--color-grey);
 /* Pricing Cards Styles */
 .pricing-cards-container {
   display: flex;
-  gap: 24px;
+  gap: 35px;
   justify-content: center;
   padding: 40px 0;
 }
@@ -325,7 +345,7 @@ color: var(--color-grey);
   background: var(--primary-color);
   color: var(--font-white);
   padding: 4px 12px;
-  border-radius:  0px 0px 15px 15px;
+  border-radius: 0px 0px 15px 15px;
   position: absolute;
   top: 2px;
   left: 50%;
@@ -344,17 +364,17 @@ color: var(--color-grey);
 }
 
 .pricing-card .choose-plan-btn:hover,
-.pricing-.enterprise .choose-plan-btn:hover  {
+.pricing-.enterprise .choose-plan-btn:hover {
   background: var(--primary-color);
   color: var(--font-white);
 }
-.pricing-container-description{
-  background: #F2F3F7;
-    border-radius:  0px 0px 15px 15px;
-  padding: 20px;
+.pricing-container-description {
+  background: #f2f3f7;
+  border-radius: 0px 0px 15px 15px;
+  padding: 40px;
   border-radius: 20px;
 }
-.pricing-container-description p{
+.pricing-container-description p {
   width: 500px;
   text-align: center;
 }
@@ -373,7 +393,7 @@ color: var(--color-grey);
   width: auto;
   line-height: normal;
 }
-.snappcheck-landing-footer  .snappcheck-footer-nav a:nth-child(2),
+.snappcheck-landing-footer .snappcheck-footer-nav a:nth-child(2),
 .snappcheck-landing-footer .snappcheck-footer-nav a:nth-child(3) {
   border-left: 2px solid var(--font-white);
   padding-left: 0.5rem;
@@ -383,7 +403,7 @@ color: var(--color-grey);
   font-size: 18px;
   transition: color 0.3s ease;
 }
-.snappcheck-landing-footer  span{
+.snappcheck-landing-footer span {
   font-weight: bold;
 }
 .snappcheck-social-icon a:hover {
@@ -407,4 +427,86 @@ color: var(--color-grey);
   color: var(--font-black) !important;
   background-color: var(--font-white) !important;
   box-shadow: none !important;
+}
+
+/* Contact Section Styles */
+.snappcheck-did-you-know-container .row:nth-child(2) {
+  padding: 0px 10%;
+}
+.contact-form {
+  padding: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--primary-color);
+  background: #fef1e7;
+}
+.contact-form .row {
+  padding: 0;
+}
+.contact-form .form-control {
+  border-radius: 50px;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+}
+.contact-form textarea.form-control {
+  resize: none;
+  border-radius: 10px;
+}
+.contact-form .btn-submit {
+  background: var(--secondary-color);
+  border-radius: 50px;
+  color: var(--font-white);
+  text-align: center;
+  padding: 5px 30px;
+  font-size: 15px;
+  width: 130px;
+  border: none;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
+}
+.contact-info-cards {
+  padding: 20px;
+}
+
+.contact-card {
+  padding: 20px;
+  border-radius: 12px;
+  border: none;
+}
+
+.contact-card .contact-icon {
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+
+.contact-card h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.contact-form .form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.contact-form .form-check-input:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem #f4690554;
+}
+.contact-card p {
+  color: var(--color-grey);
+  margin-bottom: 8px;
+}
+
+.contact-card a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+.privacy-policy-text {
+  color: var(--color-grey);
+  font-size: 14px;
+}
+
+.snappcheck-contact-section {
+  padding-top: 100px; /* Add padding to account for fixed header */
+  scroll-margin-top: 100px;
 }

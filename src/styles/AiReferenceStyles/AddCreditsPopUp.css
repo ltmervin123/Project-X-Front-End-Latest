@@ -70,14 +70,22 @@ color: var(--primary-color);}
   cursor: pointer;
 }
 
-.payment-option input[type="checkbox"].custom-checkbox {
+.payment-option input[type="checkbox"] {
   width: 12px;
   height: 12px;
   margin-top: 2px;
   accent-color: var(--primary-color);
   cursor: pointer;
 }
-
+.payment-option input[type="checkbox"]:checked{
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.payment-option input[type="checkbox"]:focus{
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(244, 106, 5, 0.25);
+}
 .payment-option:hover {
   background-color: var(--sidebar-bg);
 }
@@ -199,6 +207,25 @@ margin-bottom: 15px !important;
         background: #FEF1E7;
 
 }
+.iti{
+  width: 100%;
+}
+.iti__tel-input{
+      display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    appearance: none;
+        border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+}
+.iti__search-input{
+   width: 100%;
+    padding: .375rem .75rem;
+}
 .e-wallet-form .row{
     height: auto;
 }
@@ -264,6 +291,23 @@ margin-bottom: 15px !important;
     color: var(--font-white);
     border: none;
     padding: 5px 30px;
+}
+.custom-modal-add-credits .form-select {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.custom-modal-add-credits .form-select:focus {
+  border-color: #F46A05;
+  box-shadow: 0 0 0 0.2rem rgba(244, 106, 5, 0.25);
+}
+.phone-input-wrapper {
+  position: relative;
+}
+
+.phone-input-wrapper .iti {
+  width: 100%;
 }
 @media (max-width: 768px) {
   .col-md-6.ps-md-4 {
