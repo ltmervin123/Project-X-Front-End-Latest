@@ -27,8 +27,9 @@ export const useDeleteCandidate = (user, options = {}) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["candidates"] });
-      queryClient.invalidateQueries({ queryKey: ["archivedReferenceRequest"] });
+      queryClient.invalidateQueries({ queryKey: ["references"] });
       queryClient.invalidateQueries({ queryKey: ["archivedCandidates"] });
+      queryClient.invalidateQueries({ queryKey: ["archivedReferenceRequest"] });
     },
     onSettled: onSettled,
   });
