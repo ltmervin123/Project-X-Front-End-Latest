@@ -9,8 +9,8 @@ export const useGetJobs = (user) => {
   return useQuery({
     queryKey: ["jobs", user],
     queryFn: () => getJobs(user),
-    staleTime: 1000 * 60 * 1,
-    refetchInterval: 1000 * 60 * 1,
+    staleTime: 1000 * 60 * 5,
+    refetchInterval: 1000 * 60 * 5,
     refetchIntervalInBackground: true,
   });
 };
