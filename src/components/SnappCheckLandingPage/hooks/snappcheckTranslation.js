@@ -81,6 +81,14 @@ export const TRANSLATIONS = {
     howItWorks: "How It Works",
     howItWorksTitle: "Our streamlined process ensures thorough reference checks with minimal effort",
     trustedBusinesses: "Trusted by Leading Businesses Worldwide",
+    referenceCheckFlow: "REFERENCE CHECK FLOW",
+    visualGuide: "(VISUAL GUIDE)",
+    howItWorksStep1: "Client sends link to the applicant",
+    howItWorksStep2: "Applicant submits referee details",
+    howItWorksStep3: "Referee receives automated email",
+    howItWorksStep4: "Referee completes questionnaire",
+    howItWorksStep5: "Referee verifies identity",
+    howItWorksStep6: "Client reviews final report",
 
     // Case Study translations
     caseStudyTitle: "Case Study",
@@ -182,6 +190,14 @@ export const TRANSLATIONS = {
     howItWorks: "使い方",
     howItWorksTitle: "効率的なプロセスで最小限の労力で徹底的な参考文献チェックを実現",
     trustedBusinesses: "世界中の一流企業に信頼されています",
+    referenceCheckFlow: "リファレンスチェックの流れ",
+    visualGuide: "（ビジュアルガイド）",
+    howItWorksStep1: "クライアントが応募者にリンクを送信",
+    howItWorksStep2: "応募者が推薦者情報を提出",
+    howItWorksStep3: "推薦者が自動メールを受信",
+    howItWorksStep4: "推薦者がアンケートに回答",
+    howItWorksStep5: "推薦者が本人確認を実施",
+    howItWorksStep6: "クライアントが最終レポートを確認",
 
     // Case Study translations
     caseStudyTitle: "事例紹介",

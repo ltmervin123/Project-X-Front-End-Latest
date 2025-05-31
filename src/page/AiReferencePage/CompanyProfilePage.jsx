@@ -4,7 +4,7 @@ import "../../styles/UserProfile.css";
 import { Row, Col } from "react-bootstrap";
 import Sidebar from "../../components/AiReference/Sidebar";
 import CompanyProfile from "../../components/AiReference/CompanyProfile/CompanyProfile";
-import Header from "../../components/Result/Header";
+import Header from "../../components/AiReference/Header";
 
 function CompanyProfilePage() {
   return (

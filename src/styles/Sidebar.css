@@ -72,7 +72,7 @@
 
 .dropdown-item.active, .dropdown-item:active {
   text-decoration: none;
-  background-color: var(--primary-color);
+  background-color: var(--primary-color) !important;
   color: var(--font-white);
 }
 .dropdown-menu-end{
@@ -80,6 +80,6 @@
 }
 .dropdown-menu-end .dropdown-item:hover{
   color: var(--font-white);
-  background: var(--primary-color);
+  background: #f46905a0;
 }
 
