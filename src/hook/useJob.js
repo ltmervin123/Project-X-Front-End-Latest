@@ -3,6 +3,7 @@ import {
   getJobs,
   deleteJob,
   updateJob,
+  addJob,
 } from "../api/ai-reference/job/jobs-api";
 
 export const useGetJobs = (user) => {
@@ -12,6 +13,18 @@ export const useGetJobs = (user) => {
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60 * 5,
     refetchIntervalInBackground: true,
+  });
+};
+
+export const useCreateJob = (user, options = {}) => {
+  const { onSuccess, onError } = options;
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      return await addJob(user, payload);
+    },
+    onSuccess: onSuccess,
+    onError: onError,
   });
 };
 
