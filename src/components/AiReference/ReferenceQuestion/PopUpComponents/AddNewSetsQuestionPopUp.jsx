@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button, Form, ProgressBar } from "react-bootstrap";
-import axios from "axios";
+import { useCreateCustomQuestion } from "../../../../hook/useCustomQuestion";
 
-// Define language
 const language = sessionStorage.getItem("preferred-language") || "English";
 
-// Translation dictionary
 const TRANSLATIONS = {
   English: {
     createQuestionnaire: "Create Your Own Questionnaire",
@@ -20,7 +18,7 @@ const TRANSLATIONS = {
     of: "of",
     addQuestions: "Add Questions",
     adding: "Adding...",
-    addSet: "Add Set"
+    addSet: "Add Set",
   },
   Japanese: {
     createQuestionnaire: "独自のアンケートを作成",
@@ -35,20 +33,23 @@ const TRANSLATIONS = {
     of: "の",
     addQuestions: "質問を追加",
     adding: "追加中...",
-    addSet: "セットを追加"
-  }
+    addSet: "セットを追加",
+  },
 };
 
-const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
-  const API = process.env.REACT_APP_API_URL;
+const AddNewSetsQuestionPopUp = ({ onClose, user }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isQuestionsEmpty, setIsQuestionsEmpty] = useState(false);
-  const [questions, setQuestions] = useState([
-    { text: "" }, // Start with one empty question
-  ]);
-  const [submitting, setSubmitting] = useState(false);
-  // Utility function to capitalize the first letter of each word
+  const [questions, setQuestions] = useState([{ text: "" }]);
+
+  const { mutate: createQuestion, isPending: submitting } =
+    useCreateCustomQuestion(user, {
+      onSettled: () => {
+        onClose();
+      },
+    });
+
   const capitalizeWords = (str) => {
     return str
       .split(" ")
@@ -89,33 +90,17 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user?.token;
-    try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/create-reference-questions`;
-      const payload = {
-        name: capitalizeWords(name), // Capitalize name
-        description,
-        questions: formatQuestions(),
-      };
-      const response = await axios.post(URL, { payload }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 201) {
-        reFetchUpdatedQuestions();
-      }
-      onClose();
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      setSubmitting(false);
-    }
+
+    const payload = {
+      name: capitalizeWords(name),
+      description,
+      questions: formatQuestions(),
+    };
+
+    await createQuestion(payload);
   };
 
-  const progress = Math.min(100, (questions.length / 10) * 100); // Progress bar logic
+  const progress = Math.min(100, (questions.length / 10) * 100);
 
   return (
     <Modal
@@ -128,7 +113,9 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="mb-0">{TRANSLATIONS[language].createQuestionnaire}</h5>
+            <h5 className="mb-0">
+              {TRANSLATIONS[language].createQuestionnaire}
+            </h5>
             <small>{TRANSLATIONS[language].createDesc}</small>
           </div>
           <Button
@@ -167,13 +154,15 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             </Form.Label>
             <Form.Control
               as="textarea"
-              rows={1} // You can adjust the number of rows
+              rows={1}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder={TRANSLATIONS[language].enterDescription}
               required
             />
-            {isQuestionsEmpty && <div>{TRANSLATIONS[language].questionRequired}</div>}
+            {isQuestionsEmpty && (
+              <div>{TRANSLATIONS[language].questionRequired}</div>
+            )}
           </Form.Group>
 
           <div className="questions-list">
@@ -184,17 +173,19 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                 </Form.Label>
 
                 <div className="d-flex gap-2 w-100 mb-2">
-                  {questions.length > 1 ? ( // Conditional rendering for delete button
+                  {questions.length > 1 ? (
                     <>
                       <Form.Control
                         as="textarea"
                         className="text-area-question"
-                        rows={1} // Adjust as needed
+                        rows={1}
                         value={question.text}
                         onChange={(e) =>
                           handleQuestionChange(index, e.target.value)
                         }
-                        placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
+                        placeholder={`${TRANSLATIONS[language].question} ${
+                          index + 1
+                        }`}
                         required
                       />
                       <Button
@@ -218,12 +209,14 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                   ) : (
                     <Form.Control
                       as="textarea"
-                      rows={1} // Adjust as needed
+                      rows={1}
                       value={question.text}
                       onChange={(e) =>
                         handleQuestionChange(index, e.target.value)
                       }
-                      placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
+                      placeholder={`${TRANSLATIONS[language].question} ${
+                        index + 1
+                      }`}
                       required
                     />
                   )}
@@ -232,15 +225,14 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             ))}
           </div>
 
-          {/* Progress bar and count */}
           <div className="d-flex justify-content-between align-items-center my-1 mb-3">
             <div className="w-100 d-flex justify-content-center align-items-center">
               <p style={{ width: "150px" }}></p>
 
-              {/* Progress bar and count */}
               <div style={{ width: "95%" }}>
                 <p className="mb-2">
-                  {questions.length} {TRANSLATIONS[language].of} 10 {TRANSLATIONS[language].questions}
+                  {questions.length} {TRANSLATIONS[language].of} 10{" "}
+                  {TRANSLATIONS[language].questions}
                 </p>
                 <ProgressBar
                   className="progress-bar-for-question"
@@ -251,7 +243,6 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
             </div>
           </div>
 
-          {/* Conditionally render Add Question button if less than 10 questions */}
           {questions.length < 10 && (
             <div className="d-flex justify-content-center mb-3">
               <div className="w-100 d-flex justify-content-center align-items-center">
@@ -278,7 +269,9 @@ const AddNewSetsQuestionPopUp = ({ onClose, reFetchUpdatedQuestions }) => {
                 type="submit"
                 disabled={questions.length < 10 || submitting}
               >
-                {submitting ? TRANSLATIONS[language].adding : TRANSLATIONS[language].addSet}
+                {submitting
+                  ? TRANSLATIONS[language].adding
+                  : TRANSLATIONS[language].addSet}
               </button>
             </div>
           </div>

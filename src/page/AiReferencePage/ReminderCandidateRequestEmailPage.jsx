@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../components/AiReference/Maindashboard/Components/Header.jsx";
-import ReminderCandidateRequestEmailSection from "../../components/AiReference/Jobs/Component/ReminderCandidateRequestEmailSection.jsx";
+import ReminderCandidateRequestEmailSection from "../../components/AiReference/Candidates/Components/ReminderCandidateRequestEmailSection.jsx";
 
 function ReminderCandidateRequestEmailPage() {
   return (

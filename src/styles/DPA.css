@@ -70,8 +70,8 @@
     background-color: #F46A05;
     color: var(--font-white) !important;
     font-weight: 400;
-    padding: 5px 50px;
-    font-size: 18px;
+    padding: 5px 40px;
+    font-size: 14px;
     border: none;
     margin-bottom: 5px;
     border-radius: 25px;
@@ -108,3 +108,7 @@
     width: 12px; /* Set the width of the thumb */
     height: 12px; /* Set the height to the same as the width for a circle */
   }
+  .custom-checkbox:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}

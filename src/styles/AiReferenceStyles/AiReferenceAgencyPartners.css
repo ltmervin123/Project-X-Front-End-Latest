@@ -1,0 +1,81 @@
+:root {
+    --primary-color: #f46a05;
+    --secondary-color: #1706ac;
+    --font-white: #fff;
+    --text-color: #000;
+  }
+.double-bar-chart{
+    height: 80% !important;
+    width: 100%;
+    background: var(--font-white) !important;
+    border-radius: 15px;
+    border-radius: 15px;
+    position: relative;
+}
+.btn-add-agency {
+    border-radius: 50px;
+    border: none;
+    color: var(--font-white);
+    padding: 5px 20px;
+    width: 150px;
+    text-align: center;
+    background: var(--primary-color);
+    transition: all 0.3s;
+  }
+  .btn-edit-agency {
+    border-radius: 50px;
+    border: none;
+    color: var(--font-white);
+    padding: 5px 20px;
+    width: 150px;
+    text-align: center;
+    background: var(--secondary-color);
+    transition: all 0.3s;
+  }
+  .btn-add-agency:hover{
+    transform: scale(1.02);
+  }
+
+  .btn-no-delete-agency{
+    background: var(--secondary-color);
+    width: 120px;
+    border-radius: 50px;
+    color: var(--font-white);
+    border: none;
+    padding: 5px 30px; /* Adjusted padding */
+  
+  }
+  .btn-yes-delete-agency{
+    background: var(--primary-color);
+    width: 120px;
+    border-radius: 50px;
+    color: var(--font-white);
+    border: none;
+    padding: 5px 30px; /* Adjusted padding */
+  
+  }
+  .AiReference-agency-partners-container {
+    background: var(--font-white);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border: 0.5px solid rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+  
+  }
+  .custom-modal-job .modal-body .btn-create-agency {
+    background: var(--primary-color);
+    border-radius: 50px;
+    border: none;
+    width: 150px;
+    padding: 5px;
+    color: var(--font-white);
+  }
+  .custom-modal-job .modal-body .btn-discard-agency {
+    background: var(--secondary-color);
+    border-radius: 50px;
+    border: none;
+    width: 150px;
+    padding: 5px;
+    color: var(--font-white);
+  }
+  

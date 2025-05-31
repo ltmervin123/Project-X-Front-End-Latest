@@ -5,7 +5,7 @@ import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
-import CompanyProfilePage from "./page/CompanyProfilePage.jsx";
+import CompanyProfilePage from "./page/AiReferencePage/CompanyProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuthAdmin from "./components/session/requireAuthAdmin.jsx";
@@ -19,6 +19,7 @@ import FailedPage from "./page/LoginPage/LoginFailed.jsx";
 import SuccessPage from "./page/LoginPage/LoginSucess.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MockLandingPage from "./page/MockLanding.jsx";
+import SnappCheckLandingPage from "./page/SnappCheckLandingPage.jsx";
 import MockInterviewPage from "./page/MockInterviewPage.jsx";
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";
@@ -43,16 +44,16 @@ import AiReferenceJobsPage from "./page/AiReferencePage/AiReferenceJobsPage.jsx"
 import AiReferenceApplicantPage from "./page/AiReferencePage/AiReferenceApplicantPage.jsx";
 import AiReferenceRequestPage from "./page/AiReferencePage/AiReferenceRequestPage.jsx";
 import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionPage.jsx";
+import AiReferenceAgencyPartnersPage from "./page/AiReferencePage/AiReferenceAgencyPartnersPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
 import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 import ReminderCandidateRequestEmailPage from "./page/AiReferencePage/ReminderCandidateRequestEmailPage.jsx";
-
 import ReferenceRequestResendEmailPage from "./page/AiReferencePage/ReferenceRequestResendEmailPage.jsx";
 import ViewRequest from "./components/AiReference/ReferenceRequest/Components/ViewRequest.jsx";
-import CompanyRegistrationPage from "./page/CompanyRegistrationPage.jsx";
-import CompanyExpiredLink from "./page/CompanyExpiredLinkPage.jsx";
-import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistrationCheckEmailConfirmationPage.jsx";
+import CompanyRegistrationPage from "./page/CompanyRegistrationPage/CompanyRegistrationPage.jsx";
+import CompanyExpiredLink from "./page/CompanyRegistrationPage/CompanyExpiredLinkPage.jsx";
+import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistrationPage/CompanyRegistrationCheckEmailConfirmationPage.jsx";
 import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
 import ChooseLanguagePage from "./page/AiRefereePage/ChooseLanguagePage.jsx";
 import LanguageSelectionConfirmationPage from "./page/AiRefereePage/LanguageSelectionConfirmationPage.jsx";
@@ -72,7 +73,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/hr-hatch" element={<LandingPage />} />
+        <Route path="/" element={<SnappCheckLandingPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/comingsoon" element={<CommingSoonPage />} />
         <Route path="/signup" element={<SignUp />} />
@@ -89,6 +91,7 @@ function App() {
               element={<EnglishResumeBuilderPage />}
             />
             <Route path="/MockLandingPage" element={<MockLandingPage />} />
+
             <Route path="/mockInterview" element={<MockInterviewPage />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/result/:interviewId" element={<Results />} />
@@ -112,31 +115,38 @@ function App() {
 
           <Route element={<RequireAuthAIReference />}>
             <Route
-              path="/AiReferenceMaindashboard"
+              path="/ai-reference-dashboard"
               element={<AiReferenceMainDashboardPage />}
             />
-            <Route path="/CompanyProfile" element={<CompanyProfilePage />} />
+            <Route path="/company-profile" element={<CompanyProfilePage />} />
 
-            <Route path="/AiReferenceJobs" element={<AiReferenceJobsPage />} />
             <Route
-              path="/AiReferenceApplicant"
+              path="/ai-reference-jobs"
+              element={<AiReferenceJobsPage />}
+            />
+            <Route
+              path="/ai-reference-applicants"
               element={<AiReferenceApplicantPage />}
             />
             <Route
-              path="/AiReferenceRequest"
+              path="/ai-reference-request"
               element={<AiReferenceRequestPage />}
             />
-            <Route path="/ViewRequest" element={<ViewRequest />} />
+            <Route path="/view-request" element={<ViewRequest />} />
             <Route
-              path="/AiReferenceQuestion"
+              path="/ai-reference-questions"
               element={<AiReferenceQuestionPage />}
             />
             <Route
-              path="/AiReferenceReports"
+              path="/ai-reference-agency-partners"
+              element={<AiReferenceAgencyPartnersPage />}
+            />
+            <Route
+              path="/ai-reference-reports"
               element={<AiReferenceReportsPage />}
             />
             <Route
-              path="/AiReferenceTrashbin"
+              path="/ai-reference-archives"
               element={<AiReferenceTrashBinPage />}
             />
 

@@ -50,41 +50,56 @@
 /* .AiReference-trashbin-container > div {
   height: 15%;
 } */
-.AiReference-trashbin-container table {
-  width: 100%;
-  height: 60%;
-  border-collapse: collapse;
-  font-size: 15px;
-}
 
-.AiReference-trashbin-container tbody {
-  display: block; /* Make tbody a block element */
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden;
-  height: 100%;
-}
-.AiReference-trashbin-container tbody {
-  display: block; /* Make tbody a block element */
-  overflow-y: auto; /* Enable vertical scrolling */
-}
-.AiReference-trashbin-container tbody p{
-  font-weight: 400;
-  font-size: 12px;
-}
-.AiReference-trashbin-container tr {
-  display: table; /* Ensure rows are displayed as table rows */
-  table-layout: fixed; /* Prevent layout shifts */
-  width: 100%; /* Full width for rows */
-}
-.AiReference-trashbin-container th {
+/* Remove existing table styles that might conflict */
+.AiReference-trashbin-container thead {
+  position: relative;
+  width: auto;
   color: var(--card-color);
 }
-.AiReference-trashbin-container th,
-.AiReference-trashbin-container td {
-  padding: 15px; /* Padding for table cells */
+
+.AiReference-trashbin-container table {
+  height: auto;
+}
+
+.scrollable-table-trashbin-container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.scrollable-table-trashbin-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: white;
+}
+.scrollable-table-trashbin-container {
+  height: calc(55vh - 140px) !important; /* Adjust based on header and other elements */
+  overflow-y: auto;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  font-size: 15px;
+}
+.scrollable-table-trashbin-container th {
+  padding: 10px 10px 10px 0px;
+  font-weight: bold;
+  text-align: left;
+  background: white;
+  position: sticky;
+  top: 0;
+}
+
+.scrollable-table-trashbin-container td {
+  padding: 10px 10px 10px 0px;  /* Padding for table cells */
   word-wrap: break-word;
+  width: auto;
   text-align: left; /* Align text to the left */
   font-weight: bold;
+  text-transform: capitalize;
 }
 .AiReference-trashbin-container .action-menu {
   position: relative;
@@ -154,21 +169,38 @@
   outline: 0;
   box-shadow: 0 0 0 .25rem #f4690554;
 }
+.nodata-trashbin-container {
+  padding: 15px;
+  height: 80% !important; /* Default height */
+  transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for height and opacity */
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: white;
+  width: 100% !important;
+text-align: center;
+  z-index: 1;
+}
+.nodata-trashbin-container p{
+  width: 90%;
+  font-size: 13px;
+  color: var(--card-color);
+}
 /* Customizing the scrollbar */
-.AiReference-trashbin-container tbody::-webkit-scrollbar {
+.scrollable-table-trashbin-container::-webkit-scrollbar {
   width: 5px; /* Scrollbar width */
 }
 
-.AiReference-trashbin-container tbody::-webkit-scrollbar-thumb {
+.scrollable-table-trashbin-container::-webkit-scrollbar-thumb {
   background-color: var(--primary-color); /* Scrollbar thumb color */
   border-radius: 6px; /* Rounded corners */
 }
 
-.AiReference-trashbin-container tbody::-webkit-scrollbar-thumb:hover {
+.scrollable-table-trashbin-container::-webkit-scrollbar-thumb:hover {
   background-color: var(--primary-color); /* Scrollbar thumb color */
 }
 
-.AiReference-trashbin-container tbody::-webkit-scrollbar-track {
+.scrollable-table-trashbin-container::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }
