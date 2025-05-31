@@ -86,15 +86,6 @@ const Applicant = () => {
     }
   }, []);
 
-  // const getTranslatedStatus = (status) => {
-  //   const statusKey = `Status_${status.replace(/\s+/g, "")}`;
-  //   return labels[statusKey] || status;
-  // };
-
-  const handleStatusChange = (candidateId, newStatus) => {
-    alert("NOTE: This feature is not implemented yet.");
-  };
-
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <ApplicantHeader
@@ -146,8 +137,8 @@ const Applicant = () => {
               handleViewDetails={handleViewDetails}
               handleEditCandidate={handleEditCandidate}
               handleDeleteCandidate={handleDeleteCandidate}
-              handleStatusChange={handleStatusChange}
               getStatusColor={getStatusColor}
+              user={user}
             />
           </>
         ) : (

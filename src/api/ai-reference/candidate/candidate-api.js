@@ -72,3 +72,19 @@ export const updateCandidate = async (params) => {
     },
   });
 };
+
+export const updateCandidateStatus = async (params) => {
+  const token = params?.user?.token;
+  const payload = params?.payload || {};
+  const URL = `${API}/api/ai-referee/company-candidates/update-candidate-status`;
+  const response = await axios.put(
+    URL,
+    { payload },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};

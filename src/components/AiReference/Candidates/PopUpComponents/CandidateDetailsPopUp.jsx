@@ -4,7 +4,7 @@ import {
   useSendCandidateReminder,
 } from "../../../../hook/useCandidate";
 import {
-  getCandidateColorStatus,
+  getStatusColor,
   formatDate,
   getTranslatedStatus,
   getTranslatedFormat,
@@ -90,9 +90,7 @@ const CandidateDetailsPopUp = ({
                 <strong className="d-flex gap-3 align-items-center">
                   {labels.Status}
                 </strong>{" "}
-                <span
-                  style={{ color: getCandidateColorStatus(candidates.status) }}
-                >
+                <span style={{ color: getStatusColor(candidates.status) }}>
                   {" "}
                   {getTranslatedStatus(candidates.status, labels)}
                 </span>

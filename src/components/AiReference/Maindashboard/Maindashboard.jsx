@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useMemo, useCallback, use } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddJobComponent from "./Components/AddJobComponent";
 import { socket } from "../../../utils/socket/socketSetup";
-import { useNavigate } from "react-router-dom";
 import RecentActivitySection from "./Components/RecentActivitySection";
 import HeaderSections from "./Components/HeaderSections";
 import CardSection from "./Components/CardSection";
@@ -15,17 +14,21 @@ import {
 } from "../../../hook/useReference";
 import { useGetJobs } from "../../../hook/useJob";
 import { useQueryClient } from "@tanstack/react-query";
-
+import { useGetAgency } from "../../../hook/useAgencyPartner";
+import {
+  getAgencySuccessRate,
+  calculateAgencySuccessRate,
+} from "../../../utils/helpers/chartData";
 const MainDashboard = () => {
   const language = sessionStorage.getItem("preferred-language") || "English";
   const user = JSON.parse(localStorage.getItem("user"));
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const { labels } = useLabels(language);
   const { data: candidates = [] } = useGetCandidate(user);
   const { data: completedRecords = [] } = useGetCompletedReference(user);
   const { data: activeJobs = [] } = useGetJobs(user);
   const { data: reference = [] } = useGetReferences(user);
+  const { data: agencies = [], isPending } = useGetAgency(user);
   const [showJobForm, setShowJobForm] = useState(false);
   const [isStartReferenceCheckVisible, setIsStartReferenceCheckVisible] =
     useState(false);
@@ -565,11 +568,11 @@ const MainDashboard = () => {
 
   const acceptanceRateData = useMemo(() => {
     return {
-      labels: ["Agency A", "Agency B", "Agency C", "Agency D", "Agency E"],
+      labels: agencies.map((agency) => agency.name),
       datasets: [
         {
           label: labels.AcceptanceRate,
-          data: [85, 72, 90, 65, 78],
+          data: calculateAgencySuccessRate({ agencies, candidates }),
           backgroundColor: [
             "#1877F2",
             "#1877F2",
@@ -582,7 +585,7 @@ const MainDashboard = () => {
         },
       ],
     };
-  }, [labels.AcceptanceRate]);
+  }, [labels.AcceptanceRate, agencies, candidates]);
 
   const acceptanceRateOptions = useMemo(() => {
     return {
@@ -636,13 +639,18 @@ const MainDashboard = () => {
             tooltipElement.style.top = tooltipY + "px";
 
             const dataIndex = tooltipModel.dataPoints[0].dataIndex;
-            const agency = context.chart.data.labels[dataIndex];
-            const rate = context.chart.data.datasets[0].data[dataIndex];
+            const agency = agencies[dataIndex];
+            const agencyId = agency._id;
+
+            const acceptedValue = getAgencySuccessRate({
+              agencyId,
+              candidates,
+            });
 
             const innerHtml = `
           <table class="tooltip-acceptance-chart">
             <tr>
-              <td style="font-weight: 500;">${agency}: ${rate}%</td>
+              <td style="font-weight: 500;">${agency.name}: ${acceptedValue}%</td>
             </tr>
           </table>
         `;
@@ -681,7 +689,7 @@ const MainDashboard = () => {
         },
       },
     };
-  }, [acceptanceRateData.labels]);
+  }, [acceptanceRateData.labels, agencies, candidates]);
 
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">

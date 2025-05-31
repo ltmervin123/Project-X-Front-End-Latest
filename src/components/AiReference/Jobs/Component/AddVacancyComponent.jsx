@@ -108,11 +108,14 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
       if (matchingCandidates.length > 0) {
         setVacancies(Math.max(vacancies, matchingCandidates.length));
 
+        const referredBy = matchingCandidates[0].referredBy || null;
+
         const formattedCandidates = matchingCandidates.map((candidate) => ({
           firstName: candidate.name?.firstName || "",
           lastName: candidate.name?.lastName || "",
           email: candidate.email || "",
           numberOfReferees: candidate.numberOfReferees || 1,
+          referredBy: candidate.referredBy || null,
         }));
 
         setCandidates((prev) => {
@@ -125,6 +128,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
                   lastName: "",
                   email: "",
                   numberOfReferees: 1,
+                  referredBy: referredBy,
                 }
               );
             }
@@ -177,7 +181,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
   }, [vacancies, jobId]);
 
   const handleAddCandidate = useCallback(async () => {
-    const status = "New";
     const newCandidates = candidates.slice(jobData?.vacancies);
 
     const payload = newCandidates.map((candidate) => {
@@ -188,8 +191,8 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
         },
         email: candidate.email,
         position: jobData?.jobName,
+        referredBy: candidate.referredBy,
         positionId: jobId,
-        status,
         selectedLanguage: jobData?.selectedLanguage || "English",
         numberOfReferees: candidate.numberOfReferees || 1,
         questionId,

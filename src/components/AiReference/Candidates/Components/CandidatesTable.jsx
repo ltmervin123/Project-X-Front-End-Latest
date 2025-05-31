@@ -11,8 +11,8 @@ const CandidatesTable = ({
   handleViewDetails,
   handleEditCandidate,
   handleDeleteCandidate,
-  handleStatusChange,
   getStatusColor,
+  user,
 }) => {
   return (
     <div className="scrollable-table-job-container">
@@ -58,18 +58,15 @@ const CandidatesTable = ({
                 <td>{candidate.position}</td>
                 <td>
                   <StatusDropdown
-                    status={
-                      candidate.status === "New" ? "Pending" : candidate.status
-                    }
-                    onChange={(value) =>
-                      handleStatusChange(candidate._id, value)
-                    }
+                    status={candidate.status}
                     getStatusColor={getStatusColor}
                     translations={labels}
+                    user={user}
+                    candidate={candidate}
                   />
                 </td>
                 <td>
-                  <CultureFitScore score={60} />
+                  <CultureFitScore score={0} />
                 </td>
                 <td>
                   <div className="position-relative d-flex align-items-center w-100 justify-content-center">

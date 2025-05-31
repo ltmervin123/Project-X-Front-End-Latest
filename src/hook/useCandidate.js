@@ -6,6 +6,7 @@ import {
   deleteCandidate,
   sendCandidateReminder,
   checkCandidateReminder,
+  updateCandidateStatus,
 } from "../api/ai-reference/candidate/candidate-api";
 
 export const useGetCandidate = (user) => {
@@ -79,6 +80,21 @@ export const useSendCandidateReminder = (user, options = {}) => {
       await sendCandidateReminder({ user, candidateId });
     },
 
+    onSettled: onSettled,
+  });
+};
+
+export const useUpdateCandidateStatus = (user, options = {}) => {
+  const queryClient = useQueryClient();
+  const { onSettled } = options;
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      await updateCandidateStatus({ user, payload });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+    },
     onSettled: onSettled,
   });
 };
