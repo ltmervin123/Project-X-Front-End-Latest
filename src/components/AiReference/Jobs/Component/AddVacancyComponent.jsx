@@ -100,22 +100,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
   }, [vacancies, jobData, labels.errors]);
 
   useEffect(() => {
-    if (!questionFormat && !questionId && !questionName) {
-      //Find candidate associated with the jobData
-      const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
-      const jobName = jobData?.jobName || null;
-      //Filter the first candidate that matches the jobName
-      const matchingCandidates = candidates.find(
-        (candidate) => candidate.position === jobName
-      );
-
-      setQuestionFormat(matchingCandidates?.questionFormat);
-      setQuestionId(matchingCandidates?.questionId);
-      setQuestionName(matchingCandidates?.questionName);
-    }
-  }, []);
-
-  useEffect(() => {
     try {
       const matchingCandidates = storedCandidates.filter(
         (candidate) => candidate.positionId === jobId
@@ -153,24 +137,27 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     }
   }, [storedCandidates, vacancies, jobName]);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    setErrorMessages({});
+      setErrorMessages({});
 
-    const newErrorMessages = {};
+      const newErrorMessages = {};
 
-    if (vacancyError) {
-      newErrorMessages.vacancies = vacancyError;
-    }
+      if (vacancyError) {
+        newErrorMessages.vacancies = vacancyError;
+      }
 
-    if (Object.keys(newErrorMessages).length > 0) {
-      setErrorMessages(newErrorMessages);
-      return;
-    }
+      if (Object.keys(newErrorMessages).length > 0) {
+        setErrorMessages(newErrorMessages);
+        return;
+      }
 
-    setShowConfirmation(true);
-  }, []);
+      setShowConfirmation(true);
+    },
+    [vacancyError]
+  );
 
   const isValidVacancy = useMemo(() => {
     return !jobData?.vacancies || vacancies > jobData.vacancies;
@@ -212,9 +199,17 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     });
 
     if (payload.length > 0) {
-      await addCandidate(payload);
+      await addCandidate(user, payload);
     }
-  }, [jobData, jobId, questionFormat, questionId, questionName, candidates]);
+  }, [
+    jobData,
+    jobId,
+    questionFormat,
+    questionId,
+    questionName,
+    candidates,
+    user,
+  ]);
 
   const handleConfirmSubmit = useCallback(async () => {
     try {
