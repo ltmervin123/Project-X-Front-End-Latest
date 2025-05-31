@@ -27,7 +27,7 @@ export const calculateAgencySuccessRate = ({ candidates, agencies }) => {
         ? (stats.acceptedReferrals / stats.totalReferrals) * 100
         : 0;
 
-    return successRate === 100 ? 100 : parseFloat(successRate.toFixed(2));
+    return successRate === 100 ? 100 : parseFloat(successRate.toFixed(1));
   });
 
   return result;
@@ -62,7 +62,7 @@ export const calculateAgencyFailRate = ({ candidates, agencies }) => {
         ? (stats.acceptedReferrals / stats.totalReferrals) * 100
         : 0;
 
-    return failRate === 100 ? 100 : parseFloat(failRate.toFixed(2));
+    return failRate === 100 ? 100 : parseFloat(failRate.toFixed(1));
   });
 
   return result;
@@ -85,7 +85,7 @@ export const getAgencySuccessRate = ({ candidates, agencyId }) => {
   const successRate =
     totalReferrals > 0 ? (acceptedReferrals / totalReferrals) * 100 : 0;
 
-  return successRate === 100 ? 100 : parseFloat(successRate.toFixed(2));
+  return successRate === 100 ? 100 : parseFloat(successRate.toFixed(1));
 };
 
 export const getAgencyFailRate = ({ candidates, agencyId }) => {
@@ -105,5 +105,5 @@ export const getAgencyFailRate = ({ candidates, agencyId }) => {
   const failRate =
     totalReferrals > 0 ? (acceptedReferrals / totalReferrals) * 100 : 0;
 
-  return failRate === 100 ? 100 : parseFloat(failRate.toFixed(2));
+  return failRate === 100 ? 100 : parseFloat(failRate.toFixed(1));
 };
