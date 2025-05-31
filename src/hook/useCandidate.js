@@ -2,9 +2,11 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import {
   getCandidate,
   updateCandidate,
+  addCandidate,
   deleteCandidate,
   sendCandidateReminder,
   checkCandidateReminder,
+  updateCandidateStatus,
 } from "../api/ai-reference/candidate/candidate-api";
 
 export const useGetCandidate = (user) => {
@@ -14,6 +16,17 @@ export const useGetCandidate = (user) => {
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60 * 5,
     refetchIntervalInBackground: true,
+  });
+};
+
+export const useCreateCandidate = (user, options = {}) => {
+  const { onSuccess } = options;
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      await addCandidate(user, payload);
+    },
+    onSuccess: onSuccess,
   });
 };
 
@@ -67,6 +80,21 @@ export const useSendCandidateReminder = (user, options = {}) => {
       await sendCandidateReminder({ user, candidateId });
     },
 
+    onSettled: onSettled,
+  });
+};
+
+export const useUpdateCandidateStatus = (user, options = {}) => {
+  const queryClient = useQueryClient();
+  const { onSettled } = options;
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      await updateCandidateStatus({ user, payload });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["candidates"] });
+    },
     onSettled: onSettled,
   });
 };

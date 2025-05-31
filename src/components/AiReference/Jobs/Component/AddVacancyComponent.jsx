@@ -100,22 +100,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
   }, [vacancies, jobData, labels.errors]);
 
   useEffect(() => {
-    if (!questionFormat && !questionId && !questionName) {
-      //Find candidate associated with the jobData
-      const candidates = JSON.parse(localStorage.getItem("candidates")) || [];
-      const jobName = jobData?.jobName || null;
-      //Filter the first candidate that matches the jobName
-      const matchingCandidates = candidates.find(
-        (candidate) => candidate.position === jobName
-      );
-
-      setQuestionFormat(matchingCandidates?.questionFormat);
-      setQuestionId(matchingCandidates?.questionId);
-      setQuestionName(matchingCandidates?.questionName);
-    }
-  }, []);
-
-  useEffect(() => {
     try {
       const matchingCandidates = storedCandidates.filter(
         (candidate) => candidate.positionId === jobId
@@ -124,11 +108,14 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
       if (matchingCandidates.length > 0) {
         setVacancies(Math.max(vacancies, matchingCandidates.length));
 
+        const referredBy = matchingCandidates[0].referredBy || null;
+
         const formattedCandidates = matchingCandidates.map((candidate) => ({
           firstName: candidate.name?.firstName || "",
           lastName: candidate.name?.lastName || "",
           email: candidate.email || "",
           numberOfReferees: candidate.numberOfReferees || 1,
+          referredBy: candidate.referredBy || null,
         }));
 
         setCandidates((prev) => {
@@ -141,6 +128,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
                   lastName: "",
                   email: "",
                   numberOfReferees: 1,
+                  referredBy: referredBy,
                 }
               );
             }
@@ -153,24 +141,27 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     }
   }, [storedCandidates, vacancies, jobName]);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    setErrorMessages({});
+      setErrorMessages({});
 
-    const newErrorMessages = {};
+      const newErrorMessages = {};
 
-    if (vacancyError) {
-      newErrorMessages.vacancies = vacancyError;
-    }
+      if (vacancyError) {
+        newErrorMessages.vacancies = vacancyError;
+      }
 
-    if (Object.keys(newErrorMessages).length > 0) {
-      setErrorMessages(newErrorMessages);
-      return;
-    }
+      if (Object.keys(newErrorMessages).length > 0) {
+        setErrorMessages(newErrorMessages);
+        return;
+      }
 
-    setShowConfirmation(true);
-  }, []);
+      setShowConfirmation(true);
+    },
+    [vacancyError]
+  );
 
   const isValidVacancy = useMemo(() => {
     return !jobData?.vacancies || vacancies > jobData.vacancies;
@@ -190,7 +181,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
   }, [vacancies, jobId]);
 
   const handleAddCandidate = useCallback(async () => {
-    const status = "New";
     const newCandidates = candidates.slice(jobData?.vacancies);
 
     const payload = newCandidates.map((candidate) => {
@@ -201,8 +191,8 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
         },
         email: candidate.email,
         position: jobData?.jobName,
+        referredBy: candidate.referredBy,
         positionId: jobId,
-        status,
         selectedLanguage: jobData?.selectedLanguage || "English",
         numberOfReferees: candidate.numberOfReferees || 1,
         questionId,
@@ -212,9 +202,17 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     });
 
     if (payload.length > 0) {
-      await addCandidate(payload);
+      await addCandidate(user, payload);
     }
-  }, [jobData, jobId, questionFormat, questionId, questionName, candidates]);
+  }, [
+    jobData,
+    jobId,
+    questionFormat,
+    questionId,
+    questionName,
+    candidates,
+    user,
+  ]);
 
   const handleConfirmSubmit = useCallback(async () => {
     try {

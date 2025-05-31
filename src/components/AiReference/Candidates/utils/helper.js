@@ -35,6 +35,10 @@ export const getStatusColor = (status) => {
       return "#1877F2";
     case "Reject":
       return "#DC3545";
+    case "Accepted":
+      return "#1877F2";
+    case "Rejected":
+      return "#DC3545";
     default:
       return "#6c757d";
   }

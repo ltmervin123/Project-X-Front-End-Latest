@@ -1,9 +1,8 @@
 import axios from "axios";
 const API = process.env.REACT_APP_API_URL;
 
-export const addCandidate = async (payload) => {
-  const USER = JSON.parse(localStorage.getItem("user")) || null;
-  const token = USER?.token;
+export const addCandidate = async (user, payload) => {
+  const token = user?.token || null;
   const URL = `${API}/api/ai-referee/company-candidates/create-candidate`;
   const response = await axios.post(
     URL,
@@ -72,4 +71,20 @@ export const updateCandidate = async (params) => {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+export const updateCandidateStatus = async (params) => {
+  const token = params?.user?.token;
+  const payload = params?.payload || {};
+  const URL = `${API}/api/ai-referee/company-candidates/update-candidate-status`;
+  const response = await axios.put(
+    URL,
+    { payload },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };

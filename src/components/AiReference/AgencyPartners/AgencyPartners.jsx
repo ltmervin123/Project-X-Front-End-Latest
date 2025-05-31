@@ -17,6 +17,13 @@ import {
   useDeleteAgency,
   useUpdateAgency,
 } from "../../../hook/useAgencyPartner";
+import {
+  calculateAgencySuccessRate,
+  calculateAgencyFailRate,
+  getAgencyFailRate,
+  getAgencySuccessRate,
+} from "../../../utils/helpers/chartData";
+import { useGetCandidate } from "../../../hook/useCandidate";
 import AgencyPartnersDetailsPopUp from "./PopUpComponents/AgencyPartnersDetailsPopUp";
 import EditAgencyPartnersPopUp from "./PopUpComponents/EditAgencyPartnersPopUp";
 import AddAgencyPopUp from "./PopUpComponents/AddAgencyPopUp";
@@ -47,6 +54,8 @@ const AgencyPartners = () => {
   const [agencyToDelete, setAgencyToDelete] = useState(null);
   const { labels } = useLabels(language);
   const { data: agencies = [], isPending } = useGetAgency(user);
+  const { data: candidates = [], isPending: isFetchingCandidates } =
+    useGetCandidate(user);
   const {
     mutate: createAgency,
     isPending: isCreatingAgency,
@@ -135,9 +144,7 @@ const AgencyPartners = () => {
       datasets: [
         {
           label: labels.AcceptedAgencies,
-          data: agencies.map((agency) =>
-            agency.status === "Accepted" ? 100 : 0
-          ),
+          data: calculateAgencySuccessRate({ agencies, candidates }),
           backgroundColor: "#1877F2",
           borderColor: "transparent",
           borderWidth: 2,
@@ -145,9 +152,7 @@ const AgencyPartners = () => {
         },
         {
           label: labels.RejectedAgencies,
-          data: agencies.map((agency) =>
-            agency.status === "Reject" ? 100 : 0
-          ),
+          data: calculateAgencyFailRate({ agencies, candidates }),
           backgroundColor: "#F44336",
           borderColor: "transparent",
           borderWidth: 2,
@@ -155,7 +160,7 @@ const AgencyPartners = () => {
         },
       ],
     };
-  }, [agencies, labels.AcceptedAgencies, labels.RejectedAgencies]);
+  }, [agencies, labels.AcceptedAgencies, labels.RejectedAgencies, candidates]);
 
   const chartOptions = useMemo(() => {
     return {
@@ -213,10 +218,14 @@ const AgencyPartners = () => {
             // Get agency data
             const dataIndex = tooltipModel.dataPoints[0].dataIndex;
             const agency = agencies[dataIndex];
+            const agencyId = agency._id;
 
-            // Calculate percentages
-            const acceptedValue = agency.status === "Accepted" ? 100 : 0;
-            const rejectedValue = agency.status === "Reject" ? 100 : 0;
+            const acceptedValue = getAgencySuccessRate({
+              agencyId,
+              candidates,
+            });
+
+            const rejectedValue = getAgencyFailRate({ agencyId, candidates });
 
             const innerHtml = `
             <table class="tooltip-bar-chart">
@@ -267,7 +276,7 @@ const AgencyPartners = () => {
         },
       },
     };
-  }, [agencies]);
+  }, [agencies, candidates]);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsSearchVisible(true), 300);
