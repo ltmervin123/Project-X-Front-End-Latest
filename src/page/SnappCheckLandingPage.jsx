@@ -44,7 +44,7 @@ const SnappCheckLandingPage = () => {
           onPricingClick={handlePricingClick}
         />
         {showContact ? (
-          <ContactUsSection  ref={contactRef} id="contact-us" />
+          <ContactUsSection ref={contactRef} id="contact-us" />
         ) : (
           <>
             <div className="snappcheck-hero-section-bg">

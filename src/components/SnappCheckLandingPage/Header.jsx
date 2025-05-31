@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
+import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
-// Header component for the landing page navigation
+
 const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
   const { t, language, changeLanguage } = useSnappcheckTranslation();
 
@@ -17,9 +17,8 @@ const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
   };
 
   const handleLanguageChange = (e, newLanguage) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    if (newLanguage === language) {
+      return;
     }
     changeLanguage(newLanguage);
     window.location.reload();
@@ -34,18 +33,20 @@ const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
           </Navbar.Brand>
           <div className="d-flex gap-3 justify-content-center align-items-center">
             <a href="#pricing" onClick={onPricingClick}>
-              {t('pricing')}
+              {t("pricing")}
             </a>
             <a href="#guide" onClick={handleClick}>
-              {t('userGuide')}
+              {t("userGuide")}
             </a>
             <a href="#contact-us" onClick={handleContactClick}>
-              {t('contactUs')}
+              {t("contactUs")}
             </a>
             <NavDropdown
               className="snappcheck-language-dropdown "
               title={
-                <div className="d-flex align-items-center gap-2">                  <svg
+                <div className="d-flex align-items-center gap-2">
+                  {" "}
+                  <svg
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
@@ -59,24 +60,26 @@ const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
                       fill="black"
                     />
                   </svg>
-                  {t('currentLanguage')}
+                  {t("currentLanguage")}
                 </div>
               }
               id="language-dropdown d-flex"
-            >              <NavDropdown.Item 
+            >
+              {" "}
+              <NavDropdown.Item
                 onClick={(e) => handleLanguageChange(e, "English")}
               >
-                {t('languageEnglish')}
+                {t("languageEnglish")}
               </NavDropdown.Item>
-              <NavDropdown.Item 
+              <NavDropdown.Item
                 onClick={(e) => handleLanguageChange(e, "Japanese")}
               >
-                {t('languageJapanese')}
+                {t("languageJapanese")}
               </NavDropdown.Item>
             </NavDropdown>
             <div className="snappcheck-login-signup d-flex gap-2">
-              <a href="/login">{t('login')}</a>
-              <a href="/company-registration">{t('signUp')}</a>
+              <a href="/login">{t("login")}</a>
+              <a href="/company-registration">{t("signUp")}</a>
             </div>
           </div>
         </div>

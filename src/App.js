@@ -73,11 +73,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/snappcheck-landing-page"
-          element={<SnappCheckLandingPage />}
-        />
+        <Route path="/hr-hatch" element={<LandingPage />} />
+        <Route path="/" element={<SnappCheckLandingPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/comingsoon" element={<CommingSoonPage />} />
         <Route path="/signup" element={<SignUp />} />
