@@ -74,9 +74,10 @@ const AddJobComponent = ({ onCancel, user, labels }) => {
       firstName.trim() !== "" &&
       lastName.trim() !== "" &&
       department !== "" &&
-      vacancies > 0
+      vacancies > 0 &&
+      selectedAgency !== null
     );
-  }, [jobName, firstName, lastName, department, vacancies]);
+  }, [jobName, firstName, lastName, department, vacancies, selectedAgency]);
 
   const areCandidateFieldsFilled = useMemo(() => {
     return candidates.every(
