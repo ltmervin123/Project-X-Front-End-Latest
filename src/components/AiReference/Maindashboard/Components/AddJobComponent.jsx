@@ -188,7 +188,6 @@ const AddJobComponent = ({ onCancel, user, labels }) => {
 
   const handleAddCandidate = useCallback(
     async (createdJob) => {
-      const status = "New";
       const payload = candidates.map((candidate) => {
         return {
           name: {
@@ -198,7 +197,6 @@ const AddJobComponent = ({ onCancel, user, labels }) => {
           email: candidate.email,
           position: createdJob.positionName,
           positionId: createdJob.positionId,
-          status,
           selectedLanguage,
           numberOfReferees: candidate.numberOfReferees,
           questionFormat: selectedFormat,

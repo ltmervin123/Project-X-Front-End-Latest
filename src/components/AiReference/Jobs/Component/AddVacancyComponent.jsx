@@ -177,7 +177,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
   }, [vacancies, jobId]);
 
   const handleAddCandidate = useCallback(async () => {
-    const status = "New";
     const newCandidates = candidates.slice(jobData?.vacancies);
 
     const payload = newCandidates.map((candidate) => {
@@ -189,7 +188,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
         email: candidate.email,
         position: jobData?.jobName,
         positionId: jobId,
-        status,
         selectedLanguage: jobData?.selectedLanguage || "English",
         numberOfReferees: candidate.numberOfReferees || 1,
         questionId,
