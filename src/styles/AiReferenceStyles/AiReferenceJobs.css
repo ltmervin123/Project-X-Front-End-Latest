@@ -98,60 +98,80 @@
 .AiReference-active-jobs-container .btn-add-vacancy:hover{
   background: var(--secondary-color) !important;
 }
-.AiReference-active-jobs-container table {
-  width: 100%;
-  height: 80%;
-  border-collapse: collapse; /* Ensure borders are collapsed */
-  font-size: 15px;
+.AiReference-active-jobs-container> div {
+  height: 15%;
 }
 
-.AiReference-active-jobs-container tbody {
-  display: block; /* Make tbody a block element */
-  max-height: 35vh; /* Set a max height for scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-}
-
-.AiReference-active-jobs-container tr {
-  display: table; /* Ensure rows are displayed as table rows */
-  table-layout: fixed; /* Prevent layout shifts */
-  width: 100%; /* Full width for rows */
-}
-
-.AiReference-active-jobs-container th {
+/* Remove existing table styles that might conflict */
+.AiReference-active-jobs-container thead {
+  position: relative;
+  width: auto;
   color: var(--card-color);
 }
 
-.AiReference-active-jobs-container th,
-.AiReference-active-jobs-container td {
+.AiReference-active-jobs-container table {
+  height: auto;
+}
+.scrollable-table-job-container {
+  height: calc(63vh - 150px) !important; /* Adjust based on header and other elements */
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  font-size: 15px;
+}
+.scrollable-table-job-container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.scrollable-table-job-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 99999;
+  background: white;
+}
+
+.scrollable-table-job-container th {
+  padding: 10px 10px 10px 0px;
+  font-weight: bold;
+  text-align: left;
+  background: white;
+  position: sticky;
+  top: 0;
+}
+
+.scrollable-table-job-container td {
   padding: 10px 10px 10px 0px;  /* Padding for table cells */
+  word-wrap: break-word;
+  width: auto;
   text-align: left; /* Align text to the left */
-  transition: height 3s ease; /* Add transition for height only over 3 seconds */
-  text-transform: capitalize;
+  font-weight: bold;
 }
 
-/* .AiReference-active-jobs-container th,
-.AiReference-active-jobs-container td {
-  width: 10%;
+.scrollable-table-job-container tbody {
+  position: relative;
 }
 
-.AiReference-active-jobs-container th:nth-child(1),
-.AiReference-active-jobs-container td:nth-child(1) {
-  width: 12%;
-} */
-
-/* .AiReference-active-jobs-container th:nth-child(2),
-.AiReference-active-jobs-container td:nth-child(2) {
-  width: 8%;
-} */
-/* .AiReference-active-jobs-container th:nth-last-child(1),
-.AiReference-active-jobs-container td:nth-last-child(1){
-width: 20%;
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollable-table-job-container::-webkit-scrollbar {
+  width: 4px;
 }
 
-.AiReference-active-jobs-container th:nth-child(3),
-.AiReference-active-jobs-container td:nth-child(3) {
-  width: 20%;
-} */
+.scrollable-table-job-container::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 6px;
+}
+
+.scrollable-table-job-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 6px;
+}
+
 .AiReference-active-jobs-container th:nth-last-child(1),
 .AiReference-active-jobs-container td:nth-last-child(1) {
   width: 20%;
@@ -214,6 +234,35 @@ width: 20%;
   color: red;
 }
 /* Form Styles */
+.create-job-applicant-container-form {
+  border-radius: 20px;
+  background: var(--container-bg) !important;
+  padding: 30px !important;
+  width: 100%;
+  height:680px;
+  background: var(--form-bg);
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
+}
+
+.create-job-applicant-container-form .col-md-6{
+  padding: 0px 30px;
+  height: 100%;
+}
+.applicant-details-container{
+  height: 530px !important;
+  overflow-y: auto;
+  width: 100%;
+  padding-right: 15px;
+}
+.job-details-container{
+  height: 530px !important;
+
+}
+.create-job-applicant-container-form .col-md-6:nth-child(1){
+  border-right: 2px solid var(--text-color);
+}
+
 .job-container-form {
   border-radius: 20px;
   background: var(--container-bg) !important;
@@ -230,7 +279,7 @@ width: 20%;
   height: 10%;
 }
 
-.job-container-form form {
+.job-container-form form{
   width: 540px;
   display: flex;
   flex-direction: column;
@@ -238,7 +287,8 @@ width: 20%;
   font-size: 15px;
 }
 
-.job-container-form .form-label {
+.job-container-form .form-label,
+.create-job-applicant-container-form .form-label {
   font-weight: bold;
   display: flex;
   justify-content: start;
@@ -247,13 +297,17 @@ width: 20%;
 }
 
 .job-container-form input,
-.job-container-form select {
+.job-container-form select,
+.create-job-applicant-container-form input,
+.create-job-applicant-container-form select {
   border-radius: 50px;
   font-size: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
 .job-container-form input:disabled,
-.job-container-form select:disabled{
+.job-container-form select:disabled,
+.create-job-applicant-container-form input:disabled,
+.create-job-applicant-container-form select:disabled{
   cursor: not-allowed;
 }
 .job-container-form .btn-create-job {
@@ -275,7 +329,7 @@ width: 20%;
 .btn-proceed:disabled {
   background: var(--card-color);
 }
-.btn-cancel-ref-req{
+.btn-cancel-job-req{
   background: var(--secondary-color);
   border-radius: 50px;
   border: none;
@@ -283,7 +337,7 @@ width: 20%;
   color: var(--font-white);
   width: 150px;
 }
-.btn-cancel-ref-req:disabled {
+.btn-cancel-job-req:disabled {
   background: var(--card-color);
 }
 .AiReference-active-jobs-container td {
@@ -307,7 +361,7 @@ width: 20%;
   padding: 10px !important;
   z-index: 1000;
   background: var(--font-white);
-  width: 80px;
+  width: 85px;
   font-size: 13px;
   overflow-y: auto; /* Allow scrolling if content exceeds max height */
   animation: fadeIn 0.5s ease-in; /* Apply the fade-in animation */
@@ -317,6 +371,9 @@ width: 20%;
 }
 .action-options p:nth-child(2) {
   color: red;
+}
+.action-options svg{
+  width: 11px;
 }
 .job-container-form .text-danger {
   position: absolute;
@@ -471,18 +528,17 @@ width: 20%;
   background: var(--primary-color);
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
-
-.job-icon > svg {
-  height: 12px;
+.job-icon svg{
+  width: 12.50px;
 }
+
 
 .fill-req-container {
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+position:relative;
+font-size: 15px;
 }
 
 .job-tooltip-text {
@@ -533,6 +589,14 @@ width: 20%;
   color: var(--primary-color);
   font-size: 18px;
 }
+.applicant-label {
+  position: relative;
+  font-size: 12px !important;
+}
+.applicant-label .color-orange{
+  position: absolute;
+  bottom: -18px;
+}
 .applicant-container  .applicant-number {
   display: flex;
   align-items: center;
@@ -543,11 +607,13 @@ width: 20%;
   background-color: #F46A05;
   font-size: 12px;
   color: var(--font-white);
+  padding-top: 1px;
 }
 .applicant-container .form-label{
   font-weight: 400;
   color: var(--card-color);
 }
+
 /* Scrollbar Customization */
 .AiReference-active-jobs-container tbody::-webkit-scrollbar,
 .referees-list-container::-webkit-scrollbar,
@@ -574,6 +640,89 @@ select::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Track color */
   border-radius: 6px; /* Rounded corners for the track */
 }
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: var(--primary-color);
+}
+
+.applicant-details-container::-webkit-scrollbar {
+  width: 8px; /* Scrollbar width */
+}
+.applicant-details-container::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+  border-radius: 6px; /* Rounded corners */
+}
+.applicant-details-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-color); /* Scrollbar thumb color */
+}
+.applicant-details-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 6px; /* Rounded corners for the track */
+}
+.custom-dropdown-job-req {
+  position: relative;
+  width: 100%;
+}
+
+.custom-dropdown-job-req .dropdown-header-job-req {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 50px !important;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 12px 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-image 0.3s ease;
+  background: var(--font-white);
+  white-space: nowrap;
+}
+
+.custom-dropdown-job-req .dropdown-list-job-req {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 1000;
+  border-radius: 0px 0px 10px 10px;
+  border-top: none;
+}
+
+.custom-dropdown-job-req .dropdown-item-job-req {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.custom-dropdown-job-req .dropdown-item-job-req:hover {
+  background-color: #f0f0f0;
+}
+.dropdown-header-job-req.active {
+  background: var(--primary-color);
+  color: var(--font-white) !important;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ffffff" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  fill: var(--font-white);
+}
+.dropdown-header-job-req.dropdown-open {
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 10px 10px 0px 0px !important;
+  border-bottom: none !important;
+  background-color: none !important;
+}
+.dropdown-header-job-req.dropdown-warning{
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23ff0000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E') !important;
+  background-position: right 10px center !important;
+  background-repeat: no-repeat !important;
+}
+
 
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) {

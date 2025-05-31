@@ -52,7 +52,7 @@ function ReferenceRequestFormPage() {
   if (isVerify) {
     return (
       <>
-        <div className=" bg-gray d-flex justify-content-center align-items-center flex-column h-100">
+        <div className="d-flex justify-content-center align-items-center flex-column h-100">
           <Header />
           <ReferenceRequestForm />
         </div>

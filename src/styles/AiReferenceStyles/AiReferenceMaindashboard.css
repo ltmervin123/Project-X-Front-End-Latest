@@ -89,6 +89,8 @@
   height: 20vh;
   background: var(--font-white);
   cursor: pointer;
+  width: 100%;
+
   transition: transform 0.3s ease-in-out;
 }
 .AiReferenceCard:hover {
@@ -103,10 +105,11 @@
 .AiReferenceCard .title {
   font-weight: bold !important;
   color: var(--card-color);
+  
 }
 
 .AiReferenceCard .count {
-  font-size: 40px !important;
+  font-size: 30px !important;
   font-weight: bold !important;
   margin: 0;
   height: 100%;
@@ -124,11 +127,23 @@
 .AiReferenceCard small {
   color: var(--card-color);
 }
+.AiReferenceCard .btn-add-credits{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: var(--primary-color);
+  border: none;
+  color: var(--font-white);
+  padding: 5px 10px;
+  font-size: 10px; /* Use rem for scalability */
+  border-radius: 15px;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s transform 0.7s ease-in-out;
 
+}
 /*Line/Bar Chart*/
 .line-bar-chart-container {
   width: 100%;
-  height: 40vh;
   background: #b8c4ce;
   border-radius: 15px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -136,7 +151,8 @@
 
 }
 .line-chart,
-.bar-chart {
+.bar-chart,
+.acceptance-rate-chart {
   height: 100% !important;
   width: 100%;
   background: var(--font-white) !important;
@@ -147,7 +163,8 @@
   
 }
 .line-title-overlay,
-.bar-title-overlay {
+.bar-title-overlay,
+.acceptance-title-overlay {
   position: absolute;
   z-index: 10000;
   top: 20px;
@@ -156,9 +173,18 @@
 }
 
 /* Ensure the canvas takes full width */
-.bar-chart > canvas {
+.line-chart > canvas,
+.bar-chart > canvas,
+.acceptance-chart > canvas {
   width: 100% !important; /* Ensure the canvas takes full width */
   height: auto !important; /* Maintain aspect ratio */
+}
+
+.chart-wrapper {
+  flex: 1;
+  position: relative;
+  height: calc(100% - 40px); /* Subtract the height of the title */
+  min-height: 200px;
 }
 .status-labels {
   padding: 20px;
@@ -228,6 +254,32 @@
 .fade-in.visible {
   opacity: 1;
 }
+.AiReferenceCard-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+@media (max-width: 1440px){
+  .AiReferenceCard .title {
+    font-size: 13px;
+  }
+
+} 
+
+/* Responsive breakpoints */
+@media (max-width: 992px) {
+  .AiReferenceCard-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .AiReferenceCard-container {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) {
@@ -409,4 +461,8 @@
   .line-bar-chart-container {
     height: 35vh;
   }
+}
+
+.hover-pointer {
+  cursor: pointer;
 }

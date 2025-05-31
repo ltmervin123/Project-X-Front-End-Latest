@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useSnappcheckTranslation } from "./Hooks/useTranslation";
 
 const CustomDropdown = ({ options, selectedOption, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useSnappcheckTranslation();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -16,9 +18,9 @@ const CustomDropdown = ({ options, selectedOption, onSelect }) => {
   const formatOption = (option) => {
     switch (option) {
       case "MOCK_AI":
-        return "Mock AI";
+        return t('MOCK_AI_LABEL');
       case "AI_REFERENCE":
-        return "AI Reference Checker";
+        return t('AI_REF_CHECKER_LABEL');
       default:
         return option; // Fallback for any other options
     }
@@ -40,7 +42,7 @@ const CustomDropdown = ({ options, selectedOption, onSelect }) => {
               className="dropdown-item"
               onClick={() => handleOptionClick(option)}
             >
-              {formatOption(option)} {/* Format the display of each option */}
+              {formatOption(option)}
             </div>
           ))}
         </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import defaultAvatar from "../../assets/default.png";
-import logo from "../../assets/logo.png"; // Adjust the path to your logo image
+import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 import { useLogout } from "../../hook/useLogout";
 import { useAuthContext } from "../../hook/useAuthContext";
 import * as AuthAPI from "../../api/ai-reference/auth/auth-api";
@@ -18,14 +18,14 @@ function Header() {
       guest: "Guest",
       profile: "Profile",
       settings: "Settings",
-      logout: "Logout"
+      logout: "Logout",
     },
     Japanese: {
       guest: "ゲスト",
       profile: "プロフィール",
       settings: "設定",
-      logout: "ログアウト"
-    }
+      logout: "ログアウト",
+    },
   };
 
   const t = translations[language];
@@ -36,7 +36,7 @@ function Header() {
         const response = await AuthAPI.logoutCompany(companyId);
       }
     } catch (error) {
-      console.error("Error during logout:", error); 
+      console.error("Error during logout:", error);
     } finally {
       logout();
     }
@@ -49,10 +49,10 @@ function Header() {
       className="MockMain-Header d-flex align-items-center justify-content-between"
     >
       <Navbar.Brand
-        href="/AiReferenceMaindashboard"
+        href="/ai-reference-dashboard"
         className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
-        <img src={logo} alt="Logo" width="125" height="18" />
+        <img src={logo} alt="Logo" width="80" height="40" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="UserNameNav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -76,7 +76,7 @@ function Header() {
             <Dropdown.Menu className="dropdown-menu-end">
               <Dropdown.Item
                 as={NavLink}
-                to="/CompanyProfile#personal-info"
+                to="/company-profile#personal-info"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 {t.profile}

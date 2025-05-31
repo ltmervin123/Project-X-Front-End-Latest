@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button, Form, ProgressBar } from "react-bootstrap";
+import { useUpdateCustomQuestion } from "../../../../hook/useCustomQuestion";
 import axios from "axios";
 
 // Define language
@@ -20,7 +21,7 @@ const TRANSLATIONS = {
     updating: "Updating...",
     updateSet: "Update Set",
     of: "of",
-    questions: "Questions"
+    questions: "Questions",
   },
   Japanese: {
     editQuestionSet: "質問セットの編集",
@@ -35,17 +36,16 @@ const TRANSLATIONS = {
     updating: "更新中...",
     updateSet: "セットを更新",
     of: "の",
-    questions: "質問"
-  }
+    questions: "質問",
+  },
 };
 
 const EditNewSetsQuestionPopUp = ({
   onClose,
-  reFetchUpdatedQuestions,
   selectedQuestionSet,
   maxQuestions,
+  user,
 }) => {
-  const API = process.env.REACT_APP_API_URL;
   const [name, setName] = useState(selectedQuestionSet.name || "");
   const [description, setDescription] = useState(
     selectedQuestionSet.description || ""
@@ -54,9 +54,14 @@ const EditNewSetsQuestionPopUp = ({
   const [questions, setQuestions] = useState(
     selectedQuestionSet.questions.map((q) => ({ text: q })) || [{ text: "" }]
   );
-  const [submitting, setSubmitting] = useState(false);
 
-  // Utility function to capitalize the first letter of each word
+  const { mutate: updateQuestion, isPending: submitting } =
+    useUpdateCustomQuestion(user, {
+      onSettled: () => {
+        onClose();
+      },
+    });
+
   const capitalizeWords = (str) => {
     return str
       .split(" ")
@@ -104,37 +109,16 @@ const EditNewSetsQuestionPopUp = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user?.token;
-    try {
-      const URL = `${API}/api/ai-referee/company-reference-questions/update-reference-questions/${selectedQuestionSet._id}`;
-      const payload = {
-        name: capitalizeWords(name),
-        description,
-        questions: selectedQuestionSet?.hrHatchCustomQuestionsFormat
-          ? extractCategoriesAndQuestions()
-          : formatQuestions(),
-      };
 
-      const response = await axios.put(
-        URL,
-        { payload },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        reFetchUpdatedQuestions();
-      }
-      onClose();
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      setSubmitting(false);
-    }
+    const payload = {
+      name: capitalizeWords(name),
+      description,
+      questions: selectedQuestionSet?.hrHatchCustomQuestionsFormat
+        ? extractCategoriesAndQuestions()
+        : formatQuestions(),
+    };
+    const questionId = selectedQuestionSet._id;
+    await updateQuestion({ questionId, payload });
   };
 
   const progress = Math.min(100, (questions.length / maxQuestions) * 100);
@@ -152,7 +136,9 @@ const EditNewSetsQuestionPopUp = ({
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div>
               <div>
-                <h5 className="mb-0">{TRANSLATIONS[language].editQuestionSet}</h5>
+                <h5 className="mb-0">
+                  {TRANSLATIONS[language].editQuestionSet}
+                </h5>
                 <small>{TRANSLATIONS[language].editQuestionDesc}</small>
               </div>
             </div>
@@ -203,7 +189,8 @@ const EditNewSetsQuestionPopUp = ({
                           >
                             <Form.Label className="w-100 d-flex align-items-center px-2">
                               <span className="me-2">
-                                {TRANSLATIONS[language].question} {questionIndex + 1}
+                                {TRANSLATIONS[language].question}{" "}
+                                {questionIndex + 1}
                               </span>
                             </Form.Label>
 
@@ -236,7 +223,9 @@ const EditNewSetsQuestionPopUp = ({
                   type="submit"
                   disabled={submitting}
                 >
-                  {submitting ? TRANSLATIONS[language].updating : TRANSLATIONS[language].updateSet}
+                  {submitting
+                    ? TRANSLATIONS[language].updating
+                    : TRANSLATIONS[language].updateSet}
                 </button>
               </div>
             </div>
@@ -301,7 +290,9 @@ const EditNewSetsQuestionPopUp = ({
               placeholder={TRANSLATIONS[language].enterDescription}
               required
             />
-            {isQuestionsEmpty && <div>{TRANSLATIONS[language].questionRequired}</div>}
+            {isQuestionsEmpty && (
+              <div>{TRANSLATIONS[language].questionRequired}</div>
+            )}
           </Form.Group>
 
           <div className="questions-list">
@@ -312,17 +303,19 @@ const EditNewSetsQuestionPopUp = ({
                 </Form.Label>
 
                 <div className="d-flex gap-2 w-100 mb-2">
-                  {questions.length > 1 ? ( // Conditional rendering for delete button
+                  {questions.length > 1 ? (
                     <>
                       <Form.Control
                         as="textarea"
                         className="text-area-question"
-                        rows={1} // Adjust as needed
+                        rows={1}
                         value={question.text}
                         onChange={(e) =>
                           handleQuestionChange(index, e.target.value)
                         }
-                        placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
+                        placeholder={`${TRANSLATIONS[language].question} ${
+                          index + 1
+                        }`}
                         required
                       />
                       <Button
@@ -351,7 +344,9 @@ const EditNewSetsQuestionPopUp = ({
                       onChange={(e) =>
                         handleQuestionChange(index, e.target.value)
                       }
-                      placeholder={`${TRANSLATIONS[language].question} ${index + 1}`}
+                      placeholder={`${TRANSLATIONS[language].question} ${
+                        index + 1
+                      }`}
                       required
                     />
                   )}
@@ -368,7 +363,8 @@ const EditNewSetsQuestionPopUp = ({
               {/* Progress bar and count */}
               <div style={{ width: "95%" }}>
                 <p className="mb-2">
-                  {questions.length} {TRANSLATIONS[language].of} {maxQuestions} {TRANSLATIONS[language].questions}
+                  {questions.length} {TRANSLATIONS[language].of} {maxQuestions}{" "}
+                  {TRANSLATIONS[language].questions}
                 </p>
                 <ProgressBar
                   className="progress-bar-for-question"
@@ -406,7 +402,9 @@ const EditNewSetsQuestionPopUp = ({
                 type="submit"
                 disabled={questions.length < maxQuestions || submitting}
               >
-                {submitting ? TRANSLATIONS[language].updating : TRANSLATIONS[language].updateSet}
+                {submitting
+                  ? TRANSLATIONS[language].updating
+                  : TRANSLATIONS[language].updateSet}
               </button>
             </div>
           </div>
