@@ -2,6 +2,7 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import {
   getCandidate,
   updateCandidate,
+  addCandidate,
   deleteCandidate,
   sendCandidateReminder,
   checkCandidateReminder,
@@ -14,6 +15,17 @@ export const useGetCandidate = (user) => {
     staleTime: 1000 * 60 * 5,
     refetchInterval: 1000 * 60 * 5,
     refetchIntervalInBackground: true,
+  });
+};
+
+export const useCreateCandidate = (user, options = {}) => {
+  const { onSuccess } = options;
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      await addCandidate(user, payload);
+    },
+    onSuccess: onSuccess,
   });
 };
 
