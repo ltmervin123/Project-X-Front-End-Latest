@@ -19,7 +19,7 @@ import FailedPage from "./page/LoginPage/LoginFailed.jsx";
 import SuccessPage from "./page/LoginPage/LoginSucess.jsx";
 import SignUp from "./page/SignUpPage.jsx";
 import MockLandingPage from "./page/MockLanding.jsx";
-import SnappCheckLandingPage from "./page/SnappCheckLandingPage.jsx";
+import SnappCheckLandingPage from "./page//SnappCheckLandingPage/SnappCheckLandingPage.jsx";
 import MockInterviewPage from "./page/MockInterviewPage.jsx";
 import MockMainDashboardPage from "./page/MockMainDashboardPage.jsx";
 import BasicVideoRecording from "./components/maindashboard/BasicVideoRecording";

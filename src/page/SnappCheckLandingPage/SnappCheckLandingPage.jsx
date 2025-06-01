@@ -1,16 +1,16 @@
 import React, { useState, useRef } from "react";
-import Header from "../components/SnappCheckLandingPage/Header";
-import HeroSection from "../components/SnappCheckLandingPage/HeroSection";
-import AboutUsSection from "../components/SnappCheckLandingPage/AboutUsSection";
-import DidYouKnowSection from "../components/SnappCheckLandingPage/DidYouKnowSection";
-import HowItWorksSection from "../components/SnappCheckLandingPage/HowItWorksSection";
-import CaseStudySection from "../components/SnappCheckLandingPage/CaseStudySection";
-import PricingSection from "../components/SnappCheckLandingPage/PricingSection";
-import ContactUsSection from "../components/SnappCheckLandingPage/ContactUsSection";
+import Header from "../../components/SnappCheckLandingPage/Header";
+import HeroSection from "../../components/SnappCheckLandingPage/HeroSection";
+import AboutUsSection from "../../components/SnappCheckLandingPage/AboutUsSection";
+import DidYouKnowSection from "../../components/SnappCheckLandingPage/DidYouKnowSection";
+import HowItWorksSection from "../../components/SnappCheckLandingPage/HowItWorksSection";
+import CaseStudySection from "../../components/SnappCheckLandingPage/CaseStudySection";
+import PricingSection from "../../components/SnappCheckLandingPage/PricingSection";
+import ContactUsSection from "../../components/SnappCheckLandingPage/ContactUsSection";
 
-import Footer from "../components/SnappCheckLandingPage/Footer";
+import Footer from "../../components/SnappCheckLandingPage/Footer";
 // Global Scroll Color
-import "../styles/SnappCheckLandingPageStyles/SnappCheckLandingPage.css";
+import "../../styles/SnappCheckLandingPageStyles/SnappCheckLandingPage.css";
 
 const SnappCheckLandingPage = () => {
   const [showContact, setShowContact] = useState(false);
@@ -57,7 +57,11 @@ const SnappCheckLandingPage = () => {
             <PricingSection ref={pricingRef} id="pricing" />
           </>
         )}
-        <Footer onShowMain={handleShowMainContent} />
+        <Footer
+          onShowMain={handleShowMainContent}
+          onContactClick={handleContactClick}
+          onPricingClick={handlePricingClick}
+        />
       </div>
     </>
   );

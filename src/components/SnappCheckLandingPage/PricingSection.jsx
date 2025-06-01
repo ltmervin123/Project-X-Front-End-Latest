@@ -1,10 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 
 // PricingSection functional component
-const PricingSection = () => {
+const PricingSection = forwardRef((props, ref) => {
   const { t } = useSnappcheckTranslation();
   const navigate = useNavigate();
 
@@ -41,6 +41,7 @@ const PricingSection = () => {
 
   return (
     <section
+      ref={ref}
       id="pricing"
       className="snappcheck-pricing-container d-flex align-items-center w-100"
     >
@@ -84,7 +85,7 @@ const PricingSection = () => {
       </Row>
     </section>
   );
-};
+});
 
 /* Exporting PricingSection component */
 export default PricingSection;

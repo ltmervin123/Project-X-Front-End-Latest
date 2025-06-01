@@ -58,7 +58,7 @@ export const COMPANY_TRANSLATIONS = {
     'ERROR_PASSWORD_WEAK': 'Password is not strong enough',
     // Buttons and Agreement
     'TERMS_AGREEMENT': 'By continuing, you agree to',
-    'TERMS_OF_SERVICE': 'HR-HATCH Terms of Service',
+    'TERMS_OF_SERVICE': 'Snappcheck Terms of Service',
     'AND': 'and',
     'DATA_PROTECTION': 'Data Protection Agreement',
     'SELECT_CULTURE': 'Select Culture Preferences',
@@ -66,7 +66,7 @@ export const COMPANY_TRANSLATIONS = {
     'REGISTER': 'Register Company',
     // DPA Modal
     'DPA_TITLE': 'Data Protection Agreement (DPA)',
-    'DPA_INTRO': 'This Data Protection Agreement ("Agreement") is entered into by and between the Subscriber ("User") and [HR-HATCH] ("Company") regarding the processing of personal data in connection with the User\'s online subscription.',
+    'DPA_INTRO': 'This Data Protection Agreement ("Agreement") is entered into by and between the Subscriber ("User") and [Snappcheck] ("Company") regarding the processing of personal data in connection with the User\'s online subscription.',
     'DPA_PURPOSE_TITLE': 'Purpose and Scope:',
     'DPA_PURPOSE_TEXT': 'This Agreement outlines how the Company collects, uses, stores, and protects the User\'s personal data in compliance with applicable data protection laws, including but not limited to the General Data Protection Regulation (GDPR) and relevant local regulations. The Company is committed to ensuring the privacy and security of all personal data it processes and will act in accordance with the principles of lawfulness, fairness, transparency, purpose limitation, data minimization, accuracy, storage limitation, integrity, and confidentiality. This Agreement applies to all data processing activities related to the online subscription services provided by the Company, including the collection, storage, transfer, and deletion of personal data.',
     'DPA_DATA_COLLECTED_TITLE': 'Data Collected:',
@@ -188,7 +188,7 @@ export const COMPANY_TRANSLATIONS = {
     'ERROR_PASSWORD_WEAK': 'パスワードが十分に強力ではありません',
     // Buttons and Agreement
     'TERMS_AGREEMENT': '続行することで、以下に同意したことになります：',
-    'TERMS_OF_SERVICE': 'HR-HATCHの利用規約',
+    'TERMS_OF_SERVICE': 'Snappcheckの利用規約',
     'AND': 'および',
     'DATA_PROTECTION': 'データ保護契約',
     'SELECT_CULTURE': '企業文化の設定',
@@ -196,7 +196,7 @@ export const COMPANY_TRANSLATIONS = {
     'REGISTER': '企業を登録',
     // DPA Modal
     'DPA_TITLE': 'データ保護契約（DPA）',
-    'DPA_INTRO': 'このデータ保護契約（以下「本契約」）は、加入者（以下「ユーザー」）と[HR-HATCH]（以下「当社」）との間で、ユーザーのオンラインサブスクリプションに関連する個人データの処理について締結されます。',
+    'DPA_INTRO': 'このデータ保護契約（以下「本契約」）は、加入者（以下「ユーザー」）と[Snappcheck]（以下「当社」）との間で、ユーザーのオンラインサブスクリプションに関連する個人データの処理について締結されます。',
     'DPA_PURPOSE_TITLE': '目的と範囲：',
     'DPA_PURPOSE_TEXT': '本契約は、一般データ保護規則（GDPR）および関連する現地の規制を含む適用されるデータ保護法に準拠して、当社がユーザーの個人データを収集、使用、保存、保護する方法を規定します。当社は、処理するすべての個人データのプライバシーとセキュリティを確保することを約束し、合法性、公平性、透明性、目的の制限、データの最小化、正確性、保存の制限、完全性、機密性の原則に従って行動します。本契約は、当社が提供するオンラインサブスクリプションサービスに関連するすべてのデータ処理活動（個人データの収集、保存、転送、削除を含む）に適用されます。',
     'DPA_DATA_COLLECTED_TITLE': '収集するデータ：',

@@ -3,7 +3,7 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 // Footer component for the landing page navigation
-const Footer = ({ onShowMain }) => {
+const Footer = ({ onShowMain = () => {}, onContactClick = () => {}, onPricingClick = () => {} }) => {
   const { t, language, changeLanguage } = useSnappcheckTranslation();
   
   const handleClick = (e) => {
@@ -11,13 +11,23 @@ const Footer = ({ onShowMain }) => {
     onShowMain();
   };
 
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    onContactClick();
+  };
+
+  const handlePricingClick = (e) => {
+    e.preventDefault();
+    onPricingClick();
+  };
+
   return (
-    <footer className="snappcheck-landing-footer py-5" onClick={handleClick}>
+    <footer className="snappcheck-landing-footer py-5">
       <div className="d-flex justify-content-start align-items-center w-100 gap-5">
         <div className="snappcheck-footer-nav d-flex gap-3">
-          <a href="">{t('pricing')}</a>
-          <a href="">{t('userGuide')}</a>
-          <a href="">{t('contactUs')}</a>
+          <a href="#pricing" onClick={handlePricingClick}>{t('pricing')}</a>
+          <a href="#guide" onClick={handleClick}>{t('userGuide')}</a>
+          <a href="#contact-us" onClick={handleContactClick}>{t('contactUs')}</a>
         </div>
 
         <div className="social-links d-flex gap-3">
@@ -86,7 +96,7 @@ const Footer = ({ onShowMain }) => {
       </div>
       <div className="mt-2">
         <p className="copyright-text mb-0 pt-3">
-          {t('copyright')} © 2023{" "}
+          {t('copyright')} © 2025{" "}
           <span className="color-orange">
             SNAPP
             <span className="color-grey">CHECK</span>
