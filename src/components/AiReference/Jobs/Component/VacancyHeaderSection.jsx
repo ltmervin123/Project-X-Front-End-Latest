@@ -9,7 +9,7 @@ const HeaderSection = ({ labels }) => {
         </h3>
         <p className="mb-4">{labels.addNewJob}</p>
       </div>
-      ;
+      
     </>
   );
 };

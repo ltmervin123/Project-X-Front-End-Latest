@@ -92,8 +92,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
       setVacancyError(labels.errors.vacancyMin);
     } else if (vacancies <= jobData.vacancies) {
       setVacancyError(labels.errors.vacancyGreater(jobData.vacancies));
-
-      setCandidates((prev) => prev.slice(0, jobData.vacancies));
     } else {
       setVacancyError("");
     }
@@ -106,8 +104,6 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
       );
 
       if (matchingCandidates.length > 0) {
-        setVacancies(Math.max(vacancies, matchingCandidates.length));
-
         const referredBy = matchingCandidates[0].referredBy || null;
 
         const formattedCandidates = matchingCandidates.map((candidate) => ({
@@ -120,7 +116,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
 
         setCandidates((prev) => {
           const newCandidates = Array.from(
-            { length: vacancies },
+            { length: Math.max(vacancies, matchingCandidates.length) },
             (_, index) => {
               return (
                 formattedCandidates[index] || {
@@ -139,7 +135,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     } catch (error) {
       console.error("Error loading candidates from localStorage:", error);
     }
-  }, [storedCandidates, vacancies, jobName]);
+  }, [storedCandidates, jobId]);
 
   const handleSubmit = useCallback(
     (e) => {

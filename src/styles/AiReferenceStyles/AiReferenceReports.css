@@ -136,7 +136,8 @@ word-wrap: break-word;
 }
 
 .AiReference-report-container canvas {
-  width: 100% !important; /* Ensure the canvas takes up the full width */
+  height: auto;
+  min-height: 30vh;
   object-fit: contain; /* Ensure the canvas resizes without distortion */
 }
 

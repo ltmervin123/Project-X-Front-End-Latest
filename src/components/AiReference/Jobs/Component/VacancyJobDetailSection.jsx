@@ -44,7 +44,10 @@ const JobDetailSection = ({
           type="number"
           min="1"
           value={vacancies}
-          onChange={(e) => setVacancies(parseInt(e.target.value) || 1)}
+          onChange={(e) => {
+            const value = e.target.value === '' ? '' : parseInt(e.target.value);
+            setVacancies(value);
+          }}
           isInvalid={!!vacancyError}
         />
         {vacancyError && (

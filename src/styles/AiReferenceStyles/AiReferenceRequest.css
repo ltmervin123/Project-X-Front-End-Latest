@@ -426,6 +426,7 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  table-layout: fixed;
 }
 
 .scrollable-table-container thead {
@@ -451,10 +452,10 @@
   text-align: left; /* Align text to the left */
   font-weight: bold;
 }
-.scrollable-table-container td:nth-child(5),
+/* .scrollable-table-container td:nth-child(5),
 .scrollable-table-container td:nth-child(6) {
   width: 10% ;
-}
+} */
 .scrollable-table-container .btn-view-details {
   background: var(--btn-view-color);
   text-decoration: none;
@@ -577,6 +578,7 @@
 
 .AiReference-reference-request-container table {
   height: auto;
+  padding-right: 5px;
 }
 
 /* Media Queries */

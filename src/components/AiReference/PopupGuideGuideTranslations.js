@@ -19,7 +19,7 @@ export const POPUP_GUIDE_TRANSLATIONS = {
         title: '<span>3</span> Navigation Menu',
         element: '.MockMain-sidebar',
         intro:
-          "Use this menu to explore the different sections of HR-Hatch. Just hover over each option for more information!",
+          "Use this menu to explore the different sections of Snappcheck. Just hover over each option for more information!",
       },
       {
         title: '<span>4</span> Dashboard Metrics',
@@ -42,14 +42,14 @@ export const POPUP_GUIDE_TRANSLATIONS = {
           "This bar chart shows reference checks by department, helping you see which departments are most active in the hiring process.",
       },
       {
-        title: '<span>6</span> Acceptance Rate',
+        title: '<span>7</span> Acceptance Rate',
         element: '.acceptance-rate-chart ',
         position: 'left',
         intro:
-          "This bar chart shows reference checks by department, helping you see which departments are most active in the hiring process.",
-      },
+        'This bar chart shows the total percentage of acceptance rate per agency partner, helping you see which agencies are most highly accepted in the hiring process.',
+    },
       {
-        title: '<span>7</span> Recent Activity',
+        title: '<span>8</span> Recent Activity',
         element: '.LogContainer',
         intro:
           "Stay updated with real-time notifications about your team's actions. This feed displays the latest activities of referees and other relevant actions.",
@@ -126,19 +126,19 @@ export const POPUP_GUIDE_TRANSLATIONS = {
         element: ".AiReference-question-container",
         position: "top left",
         intro:
-          "Here, you can view the questionnaire you have added or customized using the custom questionnaires button. You can also search for questionnaires and customized HR-HATCH format.",
+          "Here, you can view the questionnaire you have added or customized using the custom questionnaires button. You can also search for questionnaires and customized Snappcheck format.",
       },
       {
-        title: "<span>3</span> Navigate to HR-HATCH Formats",
-        intro: "Now, let's transition to HR-Hatch formats.",
+        title: "<span>3</span> Navigate to Snappcheck Formats",
+        intro: "Now, let's transition to Snappcheck formats.",
         element: ".btn-hrhatch-formats",
       },
       {
-        title: "<span>4</span> HR-Hatch Formats",
+        title: "<span>4</span> Snappcheck Formats",
         element: ".AiReference-question-container",
         position: "top left",
         intro:
-          "Here, you can view the questions provided by the HR-Hatch company. You can explore questions categorized by each format, including Standard, Management, and Executive formats.",
+          "Here, you can view the questions provided by the Snappcheck company. You can explore questions categorized by each format, including Standard, Management, and Executive formats.",
       },
     ],
     agencyPartners: [
@@ -259,7 +259,7 @@ export const POPUP_GUIDE_TRANSLATIONS = {
       {
         title: "<span>10</span> Walkthrough Complete!",
         intro:
-          "Congratulations! You've successfully completed the HR-Hatch platform walkthrough. You now know how to navigate the dashboard, manage jobs, track applicants, and process reference requests. Click 'Finish' to begin using the platform.",
+          "Congratulations! You've successfully completed the Snappcheck platform walkthrough. You now know how to navigate the dashboard, manage jobs, track applicants, and process reference requests. Click 'Finish' to begin using the platform.",
       },
     ],
   },
@@ -283,7 +283,7 @@ export const POPUP_GUIDE_TRANSLATIONS = {
         title: '<span>3</span> ナビゲーションメニュー',
         element: '.MockMain-sidebar',
         intro:
-          'このメニューを使ってHR-Hatchの各セクションを探索できます。各オプションにカーソルを合わせると詳細が表示されます。',
+          'このメニューを使ってSnappcheckの各セクションを探索できます。各オプションにカーソルを合わせると詳細が表示されます。',
       },
       {
         title: '<span>4</span> ダッシュボード指標',
@@ -306,14 +306,14 @@ export const POPUP_GUIDE_TRANSLATIONS = {
           'この棒グラフは部門ごとのリファレンスチェック数を示し、どの部門が最も活発かを把握できます。',
       },
       {
-        title: '<span>6</span> 承認率',
+        title: '<span>7</span> 承認率',
         element: '.acceptance-rate-chart ',
         position: 'left',
         intro:
-          'この棒グラフは部門ごとのリファレンスチェック数を示し、どの部門が最も活発かを把握できます。',
-      },
+        'この棒グラフはエージェンシーパートナーごとの総承認率を示し、どのエージェンシーが採用プロセスで最も高く承認されているかを把握できます。',
+    },
       {
-        title: '<span>7</span> 最近のアクティビティ',
+        title: '<span>8</span> 最近のアクティビティ',
         element: '.LogContainer',
         intro:
           'チームのアクションに関するリアルタイム通知を確認できます。このフィードには推薦者やその他の最新アクションが表示されます。',
@@ -390,19 +390,19 @@ export const POPUP_GUIDE_TRANSLATIONS = {
         element: ".AiReference-question-container",
         position: "top left",
         intro:
-          "ここでは、カスタム質問票ボタンで追加・カスタマイズした質問票を確認できます。質問票やカスタマイズしたHR-HATCHフォーマットも検索できます。",
+          "ここでは、カスタム質問票ボタンで追加・カスタマイズした質問票を確認できます。質問票やカスタマイズしたSnappcheckフォーマットも検索できます。",
       },
       {
-        title: "<span>3</span> HR-HATCHフォーマットへ移動",
-        intro: "次はHR-Hatchフォーマットに移動しましょう。",
+        title: "<span>3</span> Snappcheckフォーマットへ移動",
+        intro: "次はSnappcheckフォーマットに移動しましょう。",
         element: ".btn-hrhatch-formats",
       },
       {
-        title: "<span>4</span> HR-Hatchフォーマット",
+        title: "<span>4</span> Snappcheckフォーマット",
         element: ".AiReference-question-container",
         position: "top left",
         intro:
-          "ここではHR-Hatch社が提供する質問を確認できます。Standard、Management、Executiveの各フォーマットごとに質問を確認できます。",
+          "ここではSnappcheck社が提供する質問を確認できます。Standard、Management、Executiveの各フォーマットごとに質問を確認できます。",
       },
     ],
     agencyPartners: [
@@ -523,7 +523,7 @@ export const POPUP_GUIDE_TRANSLATIONS = {
       {
         title: "<span>10</span> ウォークスルー完了!",
         intro:
-          "おめでとうございます！HR-Hatchプラットフォームのウォークスルーが完了しました。ダッシュボードの操作、求人管理、応募者の追跡、リファレンスリクエストの処理方法が分かりました。'完了'をクリックしてご利用を開始してください。",
+          "おめでとうございます！Snappcheckプラットフォームのウォークスルーが完了しました。ダッシュボードの操作、求人管理、応募者の追跡、リファレンスリクエストの処理方法が分かりました。'完了'をクリックしてご利用を開始してください。",
       },
     ],
   },
