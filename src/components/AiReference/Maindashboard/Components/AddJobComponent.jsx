@@ -75,7 +75,8 @@ const AddJobComponent = ({ onCancel, user, labels }) => {
       lastName.trim() !== "" &&
       department !== "" &&
       vacancies > 0 &&
-      selectedAgency !== null
+      typeof selectedAgency === "object" &&
+      !!selectedAgency?._id
     );
   }, [jobName, firstName, lastName, department, vacancies, selectedAgency]);
 

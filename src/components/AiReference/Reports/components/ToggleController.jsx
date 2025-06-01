@@ -9,7 +9,7 @@ const ToggleController = ({
 }) => {
   return (
     <div
-      className={`d-flex justify-content-center gap-4 button-controls-report fade-in ${
+      className={`d-flex justify-content-center gap-4 button-controls-report mb-2 fade-in ${
         isButtonVisible ? "visible" : ""
       }`}
     >

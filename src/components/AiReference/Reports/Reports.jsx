@@ -203,7 +203,7 @@ const Reports = () => {
   }
 
   return (
-    <div className="MockMainDashboard-content d-flex flex-column gap-4">
+    <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <ReportsHeader
         translations={labels}
         cardData={cardData}

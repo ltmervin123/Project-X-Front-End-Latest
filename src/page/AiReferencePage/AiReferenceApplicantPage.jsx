@@ -25,7 +25,7 @@ function AiReferenceApplicantPage() {
           </Col>
         </Row>
       </div>
-      {showGuide && <PopupGuide introKey="applicant" />}
+      {showGuide && <PopupGuide introKey="applicants" />}
     </>
   );
 }
