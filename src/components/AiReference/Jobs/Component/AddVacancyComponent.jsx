@@ -219,7 +219,9 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
         return;
       }
 
-      await Promise.all([handleUpdateVacancies(), handleAddCandidate()]);
+      await handleAddCandidate();
+
+      await handleUpdateVacancies();
 
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.invalidateQueries({ queryKey: ["candidates"] });
