@@ -39,6 +39,7 @@ export const useDeleteCandidate = (user, options = {}) => {
       await deleteCandidate({ user, candidateId });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.invalidateQueries({ queryKey: ["candidates"] });
       queryClient.invalidateQueries({ queryKey: ["references"] });
       queryClient.invalidateQueries({ queryKey: ["archivedCandidates"] });
