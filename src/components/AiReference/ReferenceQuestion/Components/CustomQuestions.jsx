@@ -91,10 +91,10 @@ const CustomQuestion = ({
             </svg>
             {TRANSLATIONS[language].createYourOwnQuestionnaire}
           </button>
-          {/* New Button for Editing HR-Hatch Formats */}
+          {/* New Button for Editing Snappcheck Formats */}
           <button
             className="btn-edit-hr-hatch-formats d-flex align-items-center justify-content-center gap-1"
-            onClick={() => setIsHRHatchFormatPopupOpen(true)} // Open the HR-Hatch Format popup
+            onClick={() => setIsHRHatchFormatPopupOpen(true)} // Open the Snappcheck Format popup
           >
             <FaEdit />
             {TRANSLATIONS[language].customizeHRHatchFormat}

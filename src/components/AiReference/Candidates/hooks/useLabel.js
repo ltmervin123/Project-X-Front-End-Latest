@@ -41,7 +41,7 @@ const labels = {
     NoCustomQuestions: "No custom questions available",
     Applicant: "Applicant",
     UpdateCandidate: "Update Applicant",
-    hrHatch: "HR-HATCH",
+    hrHatch: "Snappcheck",
     custom: "Custom Questionnaire",
     StandardFormat: "Standard Format",
     ManagementFormat: "Management Format",

@@ -205,7 +205,9 @@ const JobFormSection = ({
                 </option>
               ))
             ) : (
-              <option>No Agency record</option>
+              <option value="" disabled>
+                No Agency record
+              </option>
             )}
           </Form.Select>
         </Form.Group>

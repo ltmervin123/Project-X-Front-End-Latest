@@ -86,7 +86,7 @@ const AboutHRHatchSection = () => {
         <div className="about-main-content mb-4 mb-md-0">
           {/* Main Content Description */}
           <p>
-            HR-Hatch is your trusted partner in unlocking hiring potential,
+            Snappcheck is your trusted partner in unlocking hiring potential,
             helping job seekers prepare for their job search journey while
             optimizing recruitment processes for companies to achieve more
             efficient talent acquisition. Our mission is to empower both job

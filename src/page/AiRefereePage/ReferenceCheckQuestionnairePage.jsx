@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import ErrorAccessMic from "../../components/Error/ErrorAccessMic";
 import TextBase from "../../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../../components/ReferenceCheckQuestionnaire/AudioBase";
-import OverAllAssesment from "../../components/Assessment/OverAllAssesment";
+import OverAllAssesment from "../../components/ReferenceCheckQuestionnaire/Assessment/OverAllAssesment";
+import CandidateRating from '../../components/ReferenceCheckQuestionnaire/Assessment/PacedRating';
+
 import loadingAnimation from "../../assets/loading.gif";
-import AssessmentModal from "../../components/Assessment/OverAllAssesment.jsx";
 import axios from "axios";
 
 const CATEGORY_ORDER = {
@@ -130,6 +131,8 @@ const ReferenceCheckQuestionnairePage = () => {
   const [currentQuestionCategory, setCurrentQuestionCategory] = useState(null);
   const [hideQuestionSection, setHideQuestionSection] = useState(false);
   const [isAssessmentSubmitted, setIsAssessmentSubmitted] = useState(false);
+  const [isCandidateRatingSubmitted, setIsCandidateRatingSubmitted] = useState(false);
+  const [showRatingAfterNext, setShowRatingAfterNext] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
@@ -216,7 +219,7 @@ const ReferenceCheckQuestionnairePage = () => {
         : q;
 
     switch (referenceQuestions.formatType) {
-      case "HR-HATCH-FORMAT": {
+      case "Snappcheck-FORMAT": {
         const format = referenceQuestions.format;
         const orderedCategories = CATEGORY_ORDER[format];
 
@@ -313,16 +316,19 @@ const ReferenceCheckQuestionnairePage = () => {
       JSON.stringify(referenceQuestionsData)
     );
 
-    // Create assessment data object with category ratings
-    const assessmentData = referenceQuestionsData.reduce((acc, category) => {
-      if (CATEGORY_TO_RATE.includes(category.category)) {
-        acc[category.category] = category.assessmentRating;
-      }
-      return acc;
-    }, {});
+    // Only store workEthicAndBehavior category data
+    const workEthicCategory = referenceQuestionsData.find(
+      (category) => category.category === "workEthicAndBehavior"
+    );
 
-    // Save assessment data to session storage
-    sessionStorage.setItem("assessmentData", JSON.stringify(assessmentData));
+    if (workEthicCategory) {
+      // Save only workEthicAndBehavior assessment data
+      const assessmentData = {
+        workEthicAndBehavior: workEthicCategory.assessmentRating
+      };
+      sessionStorage.setItem("assessmentData", JSON.stringify(assessmentData));
+
+    }
 
     // Navigate to review page
     navigate("/reference-review");
@@ -479,6 +485,55 @@ const ReferenceCheckQuestionnairePage = () => {
     }
   };
 
+  const handleAssessmentSubmit = (rating) => {
+    if (referenceQuestions?.formatType === "CUSTOM-FORMAT") {
+      return;
+    }
+    setAssessmentRating(rating);
+
+    // Update referenceQuestionsData with the assessment rating
+    setReferenceQuestionsData((prevData) =>
+      prevData.map((categoryItem) => {
+        if (categoryItem.category === "workEthicAndBehavior") {
+          return {
+            ...categoryItem,
+            assessmentRating: rating,
+          };
+        }
+        return categoryItem;
+      })
+    );
+
+    setIsAssessmentSubmitted(true);
+    setHideQuestionSection(false);
+
+    // Move to next question after assessment is submitted
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+  };
+
+  const handleRatingSubmit = (selectedValues) => {
+    console.log('Selected pacing options:', selectedValues);
+    setIsCandidateRatingSubmitted(true);
+    setShowRatingAfterNext(false);
+    setHideQuestionSection(true);
+
+    // Save candidate rating with multiple paced values
+    sessionStorage.setItem(
+      "candidateRating",
+      JSON.stringify({
+        category: "workEthicAndBehavior",
+        ratings: selectedValues // Store all selected values as an array
+      })
+    );
+
+    // Move to next question after rating is submitted
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+  };
+
   const getQuestionCategory = () => {
     //Current question
     const currentQuestion = questions[currentQuestionIndex];
@@ -542,8 +597,8 @@ const ReferenceCheckQuestionnairePage = () => {
         });
       });
 
-      // Add assessment item if category needs rating
-      if (CATEGORY_TO_RATE.includes(category.category)) {
+      // Add assessment item only for workEthicAndBehavior category
+      if (category.category === "workEthicAndBehavior") {
         items.push({
           type: "assessment",
           category: category.category,
@@ -585,18 +640,15 @@ const ReferenceCheckQuestionnairePage = () => {
 
     // If we're at the end of a category
     if (current === total) {
-      // For relationship and closingQuestions, just move to next question
-      if (
-        currentCategory === "relationship" ||
-        currentCategory === "closingQuestions"
-      ) {
+ if (currentCategory === "workEthicAndBehavior") {
+        // Show rating after clicking next for Work Ethic and Behavior
+        setShowRatingAfterNext(true);
+        setHideQuestionSection(true);
+      } else {
+        // For other categories, just move to next question
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex((prev) => prev + 1);
         }
-      } else {
-        // For other categories, show assessment
-        setHideQuestionSection(true);
-        setIsAssessmentSubmitted(false);
       }
     } else {
       // If not at the end of category, just move to next question
@@ -638,37 +690,9 @@ const ReferenceCheckQuestionnairePage = () => {
     };
   };
 
-  const handleAssessmentSubmit = (rating) => {
-    if (referenceQuestions?.formatType === "CUSTOM-FORMAT") {
-      return;
-    }
-    setAssessmentRating(rating);
-
-    const currentQuestion = questions[currentQuestionIndex];
-
-    setReferenceQuestionsData((prevData) =>
-      prevData.map((categoryItem) => {
-        const questionIndex = categoryItem.questions.indexOf(currentQuestion);
-        if (questionIndex !== -1) {
-          return {
-            ...categoryItem,
-            assessmentRating: rating,
-          };
-        }
-        return { ...categoryItem };
-      })
-    );
-    setIsAssessmentSubmitted(true);
-    setHideQuestionSection(false);
-    setCurrentQuestionIndex((prev) => prev + 1);
-  };
-
   const shouldShowAssessment = () => {
     const currentCategory = getQuestionCategory();
-    return (
-      currentCategory !== "relationship" &&
-      currentCategory !== "closingQuestions"
-    );
+    return currentCategory === "closingQuestions";
   };
 
   // Add this helper function before the return statement
@@ -730,6 +754,18 @@ const ReferenceCheckQuestionnairePage = () => {
     );
   };
 
+  const shouldShowCandidateRating = () => {
+    const currentCategory = getQuestionCategory();
+    const { current, total } = getCurrentCategoryQuestionInfo();
+    const isCurrentQuestionAnswered = answered[currentQuestionIndex] !== "";
+
+    return currentCategory === "workEthicAndBehavior" && 
+           current === total && 
+           !isCandidateRatingSubmitted && 
+           isCurrentQuestionAnswered &&
+           showRatingAfterNext;
+  };
+
   if (isReattemptingCamera) {
     return (
       <div className="container-fluid d-flex align-items-center justify-content-center flex-column positio-relative">
@@ -757,7 +793,7 @@ const ReferenceCheckQuestionnairePage = () => {
         {STEPS.map((step, index) => (
           <div key={index} className="reference-step-container">
             <div
-              className={`step ${CURRENT_STEP >= index + 1 ? "active" : ""}`} // Change here
+              className={`step ${CURRENT_STEP >= index + 1 ? "active" : ""}`}
             >
               <div className="bullet">{index + 1}</div>
               {index < STEPS.length - 1 && <div className="line" />}{" "}
@@ -766,12 +802,13 @@ const ReferenceCheckQuestionnairePage = () => {
           </div>
         ))}
       </div>
-
       {hideQuestionSection && shouldShowAssessment() ? (
         <OverAllAssesment
           onSubmit={handleAssessmentSubmit}
           category={currentQuestionCategory}
         />
+      ) : shouldShowCandidateRating() ? (
+        <CandidateRating onSubmit={handleRatingSubmit} />
       ) : (
         <>
           <h4
@@ -801,116 +838,110 @@ const ReferenceCheckQuestionnairePage = () => {
               <p>{questions[currentQuestionIndex]}</p>
             </div>
           </div>
+
+          {selectedMethod === "VOICE_BASE" ? (
+            <AudioBase
+              setAudioBaseAnswer={setAudioBaseAnswer}
+              handleAudioBaseSubmit={handleAudioBaseSubmit}
+              reTry={reTry}
+              onReTryRecording={handleRetry}
+              isSubmitting={isSubmitting}
+              answer={currentAnswer}
+              isSpeaking={isSpeaking}
+              streamRef={streamRef}
+              isLastQuestion={currentQuestionIndex === questions.length - 1}
+              handleProceed={handleProceed}
+              nextQuestion={nextQuestion}
+              hideQuestionSection={hideQuestionSection}
+            />
+          ) : (
+            <TextBase
+              setTextBaseAnswer={setTextBaseAnswer}
+              handleTextBaseSubmit={handleTextBaseSubmit}
+              answer={currentAnswer}
+              loading={loading}
+              isSpeaking={isSpeaking}
+              isSubmitted={isSubmitting}
+              reTry={reTry}
+              onReTrySubmit={handleRetry}
+              isLastQuestion={currentQuestionIndex === questions.length - 1}
+              handleProceed={handleProceed}
+              nextQuestion={nextQuestion}
+              hideQuestionSection={hideQuestionSection}
+            />
+          )}
+
+          <div className="category-progress-container mt-3">
+            <div className="bullet-progress d-flex gap-3 align-items-center justify-content-center">
+              {(() => {
+                const items = getAllProgressItems();
+                const groups = groupProgressItems(items);
+
+                return groups.map((group, groupIndex) => (
+                  <div key={groupIndex} className="bullet-group position-relative">
+                    {group.items.map((item, itemIndex) => {
+                      const absoluteIndex = group.startIndex + itemIndex;
+                      const isCurrentItem =
+                        item.type === "question"
+                          ? item.index === currentQuestionIndex
+                          : hideQuestionSection &&
+                            getQuestionCategory() === item.category;
+                      const isCompleted =
+                        item.type === "question"
+                          ? item.index < currentQuestionIndex
+                          : getQuestionCategory() !== item.category &&
+                            currentQuestionIndex > group.startIndex;
+                      const isFirstBullet = itemIndex === 0;
+                      const isLastBullet = itemIndex === group.items.length - 1;
+
+                      return (
+                        <>
+                          <div key={absoluteIndex} className="bullet-item">
+                            <div
+                              className={`${
+                                item.type === "assessment"
+                                  ? `bullet-circle ${
+                                      hideQuestionSection && isCurrentItem
+                                        ? "active"
+                                        : isCompleted ||
+                                          (getQuestionCategory() !==
+                                            item.category &&
+                                            referenceQuestionsData.find(
+                                              (c) => c.category === item.category
+                                            )?.assessmentRating)
+                                        ? "completed"
+                                        : ""
+                                    }`
+                                  : `bullet ${
+                                      !hideQuestionSection && isCurrentItem
+                                        ? "active"
+                                        : isCompleted ||
+                                          isCategoryCompleted(item.category)
+                                        ? "completed"
+                                        : ""
+                                    }`
+                              }`}
+                            />
+                          </div>
+                          {isFirstBullet && (
+                            <div className="bullet-label w-100 mt-2">
+                              {item.type === "assessment"
+                                ? ""
+                                : TRANSLATIONS[language].questionCategory[
+                                    item.category
+                                  ]}
+                            </div>
+                          )}
+                        </>
+                      );
+                    })}
+                  </div>
+                ));
+              })()}
+            </div>
+          </div>
         </>
       )}
-
-      <>
-        {selectedMethod === "VOICE_BASE" ? (
-          <AudioBase
-            setAudioBaseAnswer={setAudioBaseAnswer}
-            handleAudioBaseSubmit={handleAudioBaseSubmit}
-            reTry={reTry}
-            onReTryRecording={handleRetry}
-            isSubmitting={isSubmitting}
-            answer={currentAnswer}
-            isSpeaking={isSpeaking}
-            streamRef={streamRef}
-            isLastQuestion={currentQuestionIndex === questions.length - 1}
-            handleProceed={handleProceed}
-            nextQuestion={nextQuestion}
-            hideQuestionSection={hideQuestionSection}
-          />
-        ) : (
-          <TextBase
-            setTextBaseAnswer={setTextBaseAnswer}
-            handleTextBaseSubmit={handleTextBaseSubmit}
-            answer={currentAnswer}
-            loading={loading}
-            isSpeaking={isSpeaking}
-            isSubmitted={isSubmitting}
-            reTry={reTry}
-            onReTrySubmit={handleRetry}
-            isLastQuestion={currentQuestionIndex === questions.length - 1}
-            handleProceed={handleProceed}
-            nextQuestion={nextQuestion}
-            hideQuestionSection={hideQuestionSection}
-          />
-        )}
-      </>
-
-      <div className="category-progress-container mt-3">
-        <div className="bullet-progress d-flex gap-3 align-items-center justify-content-center">
-          {(() => {
-            const items = getAllProgressItems();
-            const groups = groupProgressItems(items);
-
-            return groups.map((group, groupIndex) => (
-              <div key={groupIndex} className="bullet-group position-relative">
-                {/* {getCategoryBulletLine(group.items)} */}
-                {group.items.map((item, itemIndex) => {
-                  const absoluteIndex = group.startIndex + itemIndex;
-                  const isCurrentItem =
-                    item.type === "question"
-                      ? item.index === currentQuestionIndex
-                      : hideQuestionSection &&
-                        getQuestionCategory() === item.category;
-                  const isCompleted =
-                    item.type === "question"
-                      ? item.index < currentQuestionIndex
-                      : getQuestionCategory() !== item.category &&
-                        currentQuestionIndex > group.startIndex;
-                  const isFirstBullet = itemIndex === 0;
-                  const isLastBullet = itemIndex === group.items.length - 1;
-
-                  return (
-                    <>
-                      <div key={absoluteIndex} className="bullet-item">
-                        <div
-                          className={`${
-                            item.type === "assessment"
-                              ? `bullet-circle ${
-                                  hideQuestionSection && isCurrentItem
-                                    ? "active"
-                                    : isCompleted ||
-                                      (getQuestionCategory() !==
-                                        item.category &&
-                                        referenceQuestionsData.find(
-                                          (c) => c.category === item.category
-                                        )?.assessmentRating)
-                                    ? "completed"
-                                    : ""
-                                }`
-                              : `bullet ${
-                                  !hideQuestionSection && isCurrentItem
-                                    ? "active"
-                                    : isCompleted ||
-                                      isCategoryCompleted(item.category)
-                                    ? "completed"
-                                    : ""
-                                }`
-                          }`}
-                        />
-                        {/* {(isFirstBullet || isLastBullet) && item.type !== 'assessment' && (
-                          <div className="bullet-line"></div>
-                        )} */}
-                      </div>
-                      {isFirstBullet && (
-                        <div className="bullet-label w-100 mt-2">
-                          {item.type === "assessment"
-                            ? ""
-                            : TRANSLATIONS[language].questionCategory[
-                                item.category
-                              ]}
-                        </div>
-                      )}
-                    </>
-                  );
-                })}
-              </div>
-            ));
-          })()}
-        </div>
-      </div>
     </div>
   );
 };

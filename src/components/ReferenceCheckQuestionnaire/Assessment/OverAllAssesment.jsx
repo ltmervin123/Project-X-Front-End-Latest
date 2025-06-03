@@ -5,7 +5,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Form } from "react-bootstrap";
-import "../../styles/AiRefereeStyles/AssessmentPage.css";
+import "../../../styles/AiRefereeStyles/AssessmentPage.css";
 
 const CHECKBOX_OPTION_LABEL = {
   English: {

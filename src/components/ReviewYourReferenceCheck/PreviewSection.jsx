@@ -42,6 +42,7 @@ const translations = {
         "Overall Assessment of Decision Making and Problem Solving:",
       innovationAndGrowth: "Overall Assessment of Innovation and Growth:",
     },
+    candidateRating: "Preferred Paced: ",
   },
   Japanese: {
     continue: "続ける",
@@ -80,6 +81,7 @@ const translations = {
       decisionMaking: "意思決定と問題解決の総合評価：",
       innovationAndGrowth: "革新と成長の総合評価：",
     },
+    candidateRating: "希望するペース：",
   },
 };
 
@@ -89,6 +91,22 @@ const PreviewSection = ({
   onContinue,
   language = "English",
 }) => {
+  const phasedStyles = {
+    "Fast-paced": {
+      backgroundColor: "rgba(237, 125, 49, 0.15)",
+      color: "#ED7D31",
+
+    },
+    "Mid-paced": {
+      backgroundColor: "rgba(112, 173, 71, 0.15)",
+      color: "#70AD47",
+    },
+    "Low-paced": {
+      backgroundColor: "rgba(255, 234, 102, 0.15)",
+      color: "#FFEA66",
+    },
+  };
+
   function getOverallAssessmentText(category) {
     const t = translations[language].overallAssessments;
 
@@ -153,7 +171,7 @@ const PreviewSection = ({
         color: "#5D643F",
       },
     };
-
+    
     // Convert Japanese assessment to English if necessary
     const englishAssessment = japaneseToEnglish[assessment] || assessment;
 
@@ -209,6 +227,9 @@ const PreviewSection = ({
     assessmentRating: category.assessmentRating,
   }));
 
+  // Get candidate rating from session storage
+  const candidateRating = JSON.parse(sessionStorage.getItem("candidateRating"));
+
   return (
     <div className="QuestionPreview-section">
       <div className="QuestionPreview-container">
@@ -239,8 +260,41 @@ const PreviewSection = ({
                 </div>
               </div>
             ))}
-            {group.category !== "relationship" &&
-              group.category !== "closingQuestions" && (
+                  {/* Add candidate rating display for workEthicAndBehavior category */}
+                  {group.category === "workEthicAndBehavior" && candidateRating && (
+                  <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                <div className="d-flex gap-2 align-items-center">
+                  <b>{translations[language].candidateRating}</b>
+                  <div className="d-flex gap-2">
+                    {Array.isArray(candidateRating.ratings) ? (
+                      candidateRating.ratings.map((rating, index) => (
+                        <div
+                          key={index}
+                          className="overall-assessment-detail"
+                          style={phasedStyles[rating]}
+                        >
+                          <p className="m-0">
+                            {rating || translations[language].notAvailable}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <div
+                        className="overall-assessment-detail"
+                        style={phasedStyles[candidateRating.rating]}
+                      >
+                        <p className="m-0">
+                          {candidateRating.rating || translations[language].notAvailable}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* Add candidate rating display for workEthicAndBehavior category */}
+            {group.category === "workEthicAndBehavior" && candidateRating && (
+
                 <>
                   {console.log(
                     `Overall Assessment for ${group.category}:`,
@@ -260,6 +314,7 @@ const PreviewSection = ({
                   </div>
                 </>
               )}
+      
           </div>
         ))}
       </div>

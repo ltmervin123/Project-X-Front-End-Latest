@@ -3,6 +3,7 @@ import { Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../utils/helpers/capitalizeFirstLetterOfAWord";
 import axios from "axios";
+import PrivacyAgreementForApplicant from "./PrivacyAgreementForApplicant";
 import Captcha from "../ReCaptcha/Captcha";
 
 const TRANSLATIONS = {
@@ -21,6 +22,9 @@ const TRANSLATIONS = {
     enterEmail: "Enter email address",
     sendRequest: "Send Reference Request",
     invalidEmail: "Invalid email format",
+    privacyAgreement:
+    "By continuing, you've read, understood and agreed to the Privacy Agreement for Referees",
+
   },
   Japanese: {
     title: "推薦状リクエストフォーム",
@@ -37,6 +41,8 @@ const TRANSLATIONS = {
     enterEmail: "メールアドレスを入力",
     sendRequest: "推薦状リクエストを送信",
     invalidEmail: "無効なメール形式",
+    privacyAgreement:
+    "続行することで、照会者のプライバシー契約を読み、理解し、同意したことになります",
   },
 };
 
@@ -46,6 +52,8 @@ function ReferenceRequestForm() {
   const [refereesData, setRefereesData] = useState([{}]);
   const [isLoading, setIsLoading] = useState(false);
   const [emailErrors, setEmailErrors] = useState({});
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
   const token = sessionStorage.getItem("candidateToken");
   const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
   const selectedLanguage = candidateData?.selectedLanguage || "English";
@@ -302,6 +310,28 @@ function ReferenceRequestForm() {
                 </Row>
               ))}
             </div>
+            
+            {/* Checkbox for Privacy Agreement */}
+            <div className="d-flex align-items-center mt-3">
+              <input
+                type="checkbox"
+                id="privacyAgreementCheckbox"
+                className="form-check-input custom-checkbox"
+                checked={isAgreed}
+                onChange={(e) => {
+                  setIsAgreed(e.target.checked);
+                  if (e.target.checked) {
+                    setShowPrivacyAgreement(true); // Show the Privacy Agreement modal when checked
+                  }
+                }}
+              />
+              <label
+                htmlFor="privacyAgreementCheckbox"
+                className="ms-2 privacyAgreementCheckbox color-grey"
+              >
+                {TRANSLATIONS[selectedLanguage].privacyAgreement}
+              </label>
+            </div>
             <div className="mt-5 d-flex flex-row justify-content-center">
               <Captcha onChange={onChange} />
             </div>
@@ -322,6 +352,16 @@ function ReferenceRequestForm() {
             </div>
           </Col>
         </Form>
+              {/* Privacy Agreement Modal */}
+      <PrivacyAgreementForApplicant
+        showModal={showPrivacyAgreement}
+        setShowModal={setShowPrivacyAgreement}
+        handleContinue={() => {
+          setIsAgreed(true);
+          setShowPrivacyAgreement(false);
+        }}
+        language={selectedLanguage}
+      />
       </div>
     </>
   );

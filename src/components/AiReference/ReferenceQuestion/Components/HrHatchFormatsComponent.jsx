@@ -4,7 +4,7 @@ const TRANSLATIONS = {
     hrhatchQuestionFormats: "Question Formats",
     standardizedQuestionSets: "Standardized question sets provided by",
     formatDescription:
-      "HR-Hatch offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
+      "Snappcheck offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
 
     questions: "questions",
     viewQuestions: "View Questions",
@@ -13,7 +13,7 @@ const TRANSLATIONS = {
     hrhatchQuestionFormats: " 質問フォーマット",
     standardizedQuestionSets: "によって提供される標準化された質問セット",
     formatDescription:
-      "HR-Hatch は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
+      "Snappcheck は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
 
     questions: "質問",
     viewQuestions: "質問を見る",
@@ -30,8 +30,8 @@ const HrHatchFormatsComponent = ({ hrHatchFormats, handleButtonClick }) => {
       <div className="AiReference-table-title">
         <h4 className="mb-0 d-flex gap-2 align-items-center">
           <div>
-            <span className="color-orange">HR</span>
-            -HΛTCH {TRANSLATIONS[language].hrhatchQuestionFormats}
+            <span className="color-orange">SNAPP</span>
+            CHECK {TRANSLATIONS[language].hrhatchQuestionFormats}
           </div>
 
           <div className="position-relative d-flex">
@@ -64,8 +64,8 @@ const HrHatchFormatsComponent = ({ hrHatchFormats, handleButtonClick }) => {
           {TRANSLATIONS[language].standardizedQuestionSets}
           &nbsp;
           <b>
-            <span className="color-orange"> HR</span>
-            -HΛTCH
+            <span className="color-orange">SNAPP</span>
+            CHECK
           </b>
           .
         </p>

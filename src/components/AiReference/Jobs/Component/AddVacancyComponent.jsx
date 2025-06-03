@@ -104,7 +104,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
       );
 
       if (matchingCandidates.length > 0) {
-        const referredBy = matchingCandidates[0].referredBy || null;
+        const referredBy = matchingCandidates[0]?.referredBy || null;
 
         const formattedCandidates = matchingCandidates.map((candidate) => ({
           firstName: candidate.name?.firstName || "",
@@ -135,7 +135,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
     } catch (error) {
       console.error("Error loading candidates from localStorage:", error);
     }
-  }, [storedCandidates, jobId]);
+  }, [jobId, storedCandidates, vacancies]);
 
   const handleSubmit = useCallback(
     (e) => {
@@ -219,7 +219,9 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
         return;
       }
 
-      await Promise.all([handleUpdateVacancies(), handleAddCandidate()]);
+      await handleAddCandidate();
+
+      await handleUpdateVacancies();
 
       queryClient.invalidateQueries({ queryKey: ["jobs"] });
       queryClient.invalidateQueries({ queryKey: ["candidates"] });

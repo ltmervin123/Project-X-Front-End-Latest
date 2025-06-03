@@ -20,17 +20,17 @@ const TRANSLATIONS = {
   English: {
     referenceQuestionnaire: "Reference Questionnaire",
     customQuestionnaire: "Custom Questionnaire",
-    hrhatchFormats: "HR-HATCH Formats",
+    hrhatchFormats: "Snappcheck Formats",
     createYourOwnQuestionnaire: "Create your own questionnaire",
-    customizeHRHatchFormat: "Customize HR-HATCH Format",
+    customizeHRHatchFormat: "Customize Snappcheck Format",
     buildCustomOrTailor:
-      "Build a fully custom reference questionnaire or tailor the HR-Hatch standard format to suit your requirements.",
+      "Build a fully custom reference questionnaire or tailor the Snappcheck standard format to suit your requirements.",
     manageTrackQuestions:
       "Manage, add, and track your customized company questions.",
     hrhatchQuestionFormats: "HR-HΛTCH Question Formats",
     standardizedQuestionSets: "Standardized question sets provided by HR-HΛTCH",
     formatDescription:
-      "HR-Hatch offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
+      "Snappcheck offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
     standardFormat: "Standard Format",
     standardFormatDesc: "Standard questions suitable for most positions.",
     managementFormat: "Management Format",
@@ -47,18 +47,18 @@ const TRANSLATIONS = {
   Japanese: {
     referenceQuestionnaire: "リファレンス質問票",
     customQuestionnaire: "カスタム質問票",
-    hrhatchFormats: "HR-HATCH フォーマット",
+    hrhatchFormats: "Snappcheck フォーマット",
     createYourOwnQuestionnaire: "独自の質問票を作成",
-    customizeHRHatchFormat: "HR-HATCHフォーマットをカスタマイズ",
+    customizeHRHatchFormat: "Snappcheckフォーマットをカスタマイズ",
     buildCustomOrTailor:
-      "完全にカスタマイズされたリファレンス質問票を作成するか、HR-Hatchの標準フォーマットをニーズに合わせて調整できます。",
+      "完全にカスタマイズされたリファレンス質問票を作成するか、Snappcheckの標準フォーマットをニーズに合わせて調整できます。",
     manageTrackQuestions:
       "カスタマイズされた自社の質問を管理・追加・追跡できます。",
     hrhatchQuestionFormats: "HR-HΛTCH 質問フォーマット",
     standardizedQuestionSets:
       "HR-HΛTCH によって提供される標準化された質問セット",
     formatDescription:
-      "HR-Hatch は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
+      "Snappcheck は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
     standardFormat: "標準フォーマット",
     standardFormatDesc: "ほとんどの職種に適した標準的な質問。",
     managementFormat: "マネジメントフォーマット",

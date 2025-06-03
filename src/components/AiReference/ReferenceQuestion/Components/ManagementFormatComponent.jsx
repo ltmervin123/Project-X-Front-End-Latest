@@ -9,14 +9,14 @@ const TRANSLATIONS = {
     managementFormat: "Management Format",
     managementFormatDesc: "Questions tailored for managerial and leadership roles.",
     noQuestionsFound: "No questions found",
-    returnToHRHatch: "Return to HR-HATCH Formats",
+    returnToHRHatch: "Return to Snappcheck Formats",
     tooltip: "Designed to assess decision-making, team management, and strategic thinking.",
   },
   Japanese: {
     managementFormat: "マネジメントフォーマット",
     managementFormatDesc: "マネジメントやリーダーシップ職向けに調整された質問。",
     noQuestionsFound: "質問が見つかりません",
-    returnToHRHatch: "HR-HATCH フォーマットに戻る",
+    returnToHRHatch: "Snappcheck フォーマットに戻る",
     tooltip: "意思決定、チームマネジメント、戦略的思考を評価するために設計されています。",
   },
 };
@@ -115,7 +115,7 @@ const ManagementFormatComponent = ({
       <div className="d-flex justify-content-center align-items-center reference-question-returnbtn-container">
         <button
           className="btn-return"
-          onClick={() => handleButtonClick("HR-HATCH Formats")}
+          onClick={() => handleButtonClick("Snappcheck Formats")}
         >
           {TRANSLATIONS[language].returnToHRHatch}
         </button>

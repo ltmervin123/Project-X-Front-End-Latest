@@ -50,7 +50,7 @@ const labels = {
     sendReminder: "Send Reminder",
     sending: "Sending...",
     formats: {
-      hrHatch: "HR-HATCH Format",
+      hrHatch: "Snappcheck Format",
       custom: "Custom Format",
       na: "Not Available",
     },
@@ -156,7 +156,7 @@ const labels = {
     sendReminder: "リマインダーを送信",
     sending: "送信中...",
     formats: {
-      hrHatch: "HR-HATCHフォーマット",
+      hrHatch: "Snappcheckフォーマット",
       custom: "カスタムフォーマット",
       na: "利用不可",
     },
