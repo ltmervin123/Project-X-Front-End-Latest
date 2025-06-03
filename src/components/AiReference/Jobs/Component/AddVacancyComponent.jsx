@@ -48,7 +48,7 @@ const AddVacancyComponent = ({ onCancel, jobData, labels, user }) => {
       )
     );
   }, [candidates]);
-
+  
   const isValidEmail = useMemo(() => {
     return candidates.every((obj) => {
       const email = obj.email;
