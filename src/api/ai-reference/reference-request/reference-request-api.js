@@ -45,3 +45,19 @@ export const deleteReference = async (params) => {
     },
   });
 };
+
+export const verifyReferenceLink = async (params) => {
+  const token = params?.token || null;
+  const URL = `${API}/api/ai-referee/reference/verify-reference-link`;
+  const response = await axios.post(
+    URL,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};

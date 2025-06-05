@@ -50,7 +50,6 @@ const TRANSLATIONS = {
 function ReviewYourReferenceCheckPage() {
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API_URL;
-  const [captchaToken, setCaptchaToken] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [aiEnhancedAnswers, setAiEnhancedAnswers] = useState([]);
@@ -299,15 +298,11 @@ function ReviewYourReferenceCheckPage() {
     const { format } = REFERENCE_QUESTIONS_DATA;
     const workDuration = { endDate, startDate };
     try {
-      if (!captchaToken) {
-        return;
-      }
       setSubmitting(true);
       const formdata = new FormData();
       const selfieBlob = dataURLtoBlob(selfie);
 
       formdata.append("referenceRequestId", referenceId);
-      formdata.append("captchaToken", captchaToken);
       formdata.append("currentCompany", currentCompany);
       formdata.append("refereeTitle", positionTitle);
       formdata.append("refereeRelationshipWithCandidate", relationship);
@@ -376,32 +371,25 @@ function ReviewYourReferenceCheckPage() {
     setIsSubmitEnabled(true);
   };
 
-  const handleCaptchaChange = (token) => {
-    setCaptchaToken(token);
-  };
-
   return (
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
       {showIdUploadSection ? (
         <>
-                        <Row className="ReviewYourReferenceCheck-Row ">
-
-          <h5 className="referencecheckquestiontitle text-left mb-2">
-            {TRANSLATIONS[language].documentVerification}
-          </h5>
-          <IdUploadSection
-            frontIdFile={frontIdFile}
-            backIdFile={backIdFile}
-            handleFrontIdSelect={handleFrontIdSelect}
-            handleBackIdSelect={handleBackIdSelect}
-            clearFrontId={clearFrontId}
-            clearBackId={clearBackId}
-            submitIdUpload={submitIdUpload}
-            submitting={submitting}
-            setSelfie={setSelfie}
-            onChange={handleCaptchaChange}
-            captchaToken={captchaToken}
-          />
+          <Row className="ReviewYourReferenceCheck-Row ">
+            <h5 className="referencecheckquestiontitle text-left mb-2">
+              {TRANSLATIONS[language].documentVerification}
+            </h5>
+            <IdUploadSection
+              frontIdFile={frontIdFile}
+              backIdFile={backIdFile}
+              handleFrontIdSelect={handleFrontIdSelect}
+              handleBackIdSelect={handleBackIdSelect}
+              clearFrontId={clearFrontId}
+              clearBackId={clearBackId}
+              submitIdUpload={submitIdUpload}
+              submitting={submitting}
+              setSelfie={setSelfie}
+            />
           </Row>
         </>
       ) : showPreviewSection ? (
