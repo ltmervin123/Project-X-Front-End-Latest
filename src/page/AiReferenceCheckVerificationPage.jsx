@@ -4,12 +4,13 @@ import "../styles/LoginPage.css";
 import "../styles/AiReferenceCheckVerification.css";
 import Header from "../components/AiReferenceCheckVerification/Header";
 import AiReferenceCheckVerificationForm from "../components/AiReferenceCheckVerification/AiReferenceCheckVerificationForm";
-import axios from "axios";
+import { verifyReferenceLink } from "../api/ai-reference/reference-request/reference-request-api";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
+import Captcha from "../components/ReCaptcha/Captcha.jsx";
+import { verifyCaptchaToken } from "../api/ai-reference/candidate/candidate-api";
 
 function AiReferenceCheckVerificationPage() {
   const { token } = useParams();
-  const API = process.env.REACT_APP_API_URL;
   const [isExpired, setIsExpired] = useState(false);
   const [refereeName, setRefereeName] = useState("");
   const [referenceId, setReferenceId] = useState("");
@@ -17,21 +18,13 @@ function AiReferenceCheckVerificationPage() {
   const [companyId, setCompanyId] = useState("");
   const [candidateName, setCandidateName] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
-  const [isVerify, setIsVerify] = useState(false);
+  const [isVerifyReferenceLink, setIsVerifyLink] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const [isVerifyCaptcha, setIsVerifyCaptcha] = useState(false);
 
   const validateSession = async () => {
     try {
-      const URL = `${API}/api/ai-referee/reference/verify-reference-link`;
-      const response = await axios.post(
-        URL,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await verifyReferenceLink({ token });
 
       if (response.status === 200) {
         sessionStorage.setItem("token", token);
@@ -41,23 +34,53 @@ function AiReferenceCheckVerificationPage() {
         setRefereeId(response.data.refereeId);
         setCompanyId(response.data.companyId);
         setSelectedLanguage(response.data?.selectedLanguage || "English");
-        setIsVerify(true);
-
+        setIsVerifyLink(true);
       }
     } catch (error) {
       setIsExpired(true);
     }
   };
 
-  useEffect(() => {
-    if (window.location.href.indexOf("#_=_") > 0) {
-      window.location = window.location.href.replace(/#.*/, "");
-    }
+  const handleVerifyCaptchaToken = async () => {
+    try {
+      const response = await verifyCaptchaToken({ captchaToken });
 
+      if (response.data.success) {
+        setIsVerifyCaptcha(true);
+      }
+    } catch (error) {
+      setCaptchaToken(null);
+      console.error("Captcha verification failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!captchaToken) {
+      return;
+    }
+    handleVerifyCaptchaToken();
+  }, [captchaToken]);
+
+  useEffect(() => {
     validateSession();
   }, []);
 
-  if (isVerify) {
+  const onChange = (token) => {
+    setCaptchaToken(token);
+  };
+  // If the link is valid but captcha is not verified, show the captcha
+  if (isVerifyReferenceLink && !captchaToken) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <Captcha onChange={onChange} captchaToken={captchaToken} />
+      </div>
+    );
+  }
+
+  if (isVerifyReferenceLink && isVerifyCaptcha) {
     return (
       <>
         <div className=" login-page-container AiReferenceCheckVerification-page-container">
@@ -75,7 +98,6 @@ function AiReferenceCheckVerificationPage() {
     );
   }
 
-  // If expired, navigate to "/reference-expired-link"
   if (isExpired) {
     return <Navigate to="/reference-expired-link" />;
   }

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import CameraVerificationPopUp from "../CameraVerification/CameraVerificationPopUp";
 import VerificationPreviewPopUp from "../VerificationPreviewPopUp/VerificationPreviewPopUp";
-import Captcha from "../ReCaptcha/Captcha";
 import { useNavigate } from "react-router-dom";
 
 const TRANSLATIONS = {
@@ -66,11 +65,9 @@ const IdUploadSection = ({
   handleBackIdSelect,
   clearFrontId,
   clearBackId,
-    submitIdUpload,
-    submitting,
+  submitIdUpload,
+  submitting,
   setSelfie,
-  onChange,
-  captchaToken,
 }) => {
   const language = sessionStorage.getItem("selectedLanguage") || "English";
   const [selectedIdType, setSelectedIdType] = useState("");
@@ -450,18 +447,13 @@ const IdUploadSection = ({
             </svg>
             {TRANSLATIONS[language].confidentialityDisclaimer}
           </div>
-          <div className="mt-3 d-flex flex-row justify-content-center">
-            <Captcha onChange={onChange} />
-          </div>
           <div className="IdUploadSection-button-controls d-flex gap-3 mt-3 w-100 justify-content-center">
             <button onClick={clearId} disabled={submitting || hasNoId()}>
               {TRANSLATIONS[language].clear}
             </button>
             <button
               onClick={handleSubmit}
-              disabled={
-                submitting || hasNoId() || hasNoVerification() || !captchaToken
-              }
+              disabled={submitting || hasNoId() || hasNoVerification()}
             >
               {submitting ? (
                 <div
