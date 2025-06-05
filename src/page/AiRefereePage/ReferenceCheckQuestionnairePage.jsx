@@ -219,7 +219,7 @@ const ReferenceCheckQuestionnairePage = () => {
         : q;
 
     switch (referenceQuestions.formatType) {
-      case "Snappcheck-FORMAT": {
+      case "HR-HATCH-FORMAT": {
         const format = referenceQuestions.format;
         const orderedCategories = CATEGORY_ORDER[format];
 
@@ -517,7 +517,7 @@ const ReferenceCheckQuestionnairePage = () => {
     console.log('Selected pacing options:', selectedValues);
     setIsPacedRatingSubmitted(true);
     setShowRatingAfterNext(false);
-    setHideQuestionSection(true);
+    setHideQuestionSection(false); // Show questions again after rating
 
     // Save candidate rating with multiple paced values
     sessionStorage.setItem(
@@ -527,11 +527,6 @@ const ReferenceCheckQuestionnairePage = () => {
         ratings: selectedValues // Store all selected values as an array
       })
     );
-
-    // Move to next question after rating is submitted
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-    }
   };
 
   const getQuestionCategory = () => {
@@ -640,10 +635,10 @@ const ReferenceCheckQuestionnairePage = () => {
 
     // If we're at the end of a category
     if (current === total) {
- if (currentCategory === "workEthicAndBehavior") {
-        // Show rating after clicking next for Work Ethic and Behavior
-        setShowRatingAfterNext(true);
+      if (currentCategory === "workEthicAndBehavior") {
+        // Show assessment after last question in workEthicAndBehavior
         setHideQuestionSection(true);
+        setIsAssessmentSubmitted(false); // Reset assessment submission state
       } else {
         // For other categories, just move to next question
         if (currentQuestionIndex < questions.length - 1) {
@@ -692,7 +687,10 @@ const ReferenceCheckQuestionnairePage = () => {
 
   const shouldShowAssessment = () => {
     const currentCategory = getQuestionCategory();
-    return currentCategory === "closingQuestions";
+    const { current, total } = getCurrentCategoryQuestionInfo();
+    
+    // Show assessment when we're at the last question of workEthicAndBehavior
+    return currentCategory === "workEthicAndBehavior" && current === total;
   };
 
   // Add this helper function before the return statement
