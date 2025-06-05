@@ -88,3 +88,48 @@ export const updateCandidateStatus = async (params) => {
   );
   return response.data;
 };
+
+export const submitReferenceDetails = async (params) => {
+  const token = params?.token || null;
+  const payload = params?.payload || {};
+  const URL = `${API}/api/candidate-referee/create-reference-request`;
+  const response = await axios.post(URL, payload, {
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  });
+  return response;
+};
+
+export const verifyApplicantLink = async (params) => {
+  const token = params?.token || null;
+  const URL = `${API}/api/candidate-referee/verify-candidate-link`;
+  const response = await axios.post(
+    URL,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const verifyCaptchaToken = async (params) => {
+  const captchaToken = params?.captchaToken || null;
+
+  const URL = `${API}/api/candidate-referee/verify-captcha-token`;
+  const response = await axios.post(
+    URL,
+    { captchaToken },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response;
+};
