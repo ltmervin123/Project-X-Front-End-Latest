@@ -23,8 +23,7 @@ const TRANSLATIONS = {
     sendRequest: "Send Reference Request",
     invalidEmail: "Invalid email format",
     privacyAgreement:
-    "By continuing, you've read, understood and agreed to the Privacy Agreement for Referees",
-
+      "By continuing, you've read, understood and agreed to the Privacy Agreement for Referees",
   },
   Japanese: {
     title: "推薦状リクエストフォーム",
@@ -42,7 +41,7 @@ const TRANSLATIONS = {
     sendRequest: "推薦状リクエストを送信",
     invalidEmail: "無効なメール形式",
     privacyAgreement:
-    "続行することで、照会者のプライバシー契約を読み、理解し、同意したことになります",
+      "続行することで、照会者のプライバシー契約を読み、理解し、同意したことになります",
   },
 };
 
@@ -143,7 +142,7 @@ function ReferenceRequestForm() {
         candidateName: `${candidateData.name.firstName} ${candidateData.name.lastName}`,
         selectedLanguage,
         referees,
-        captchaToken
+        captchaToken,
       };
 
       const response = await axios.post(URL, payload, {
@@ -171,6 +170,17 @@ function ReferenceRequestForm() {
   const onChange = (token) => {
     setCaptchaToken(token);
   };
+
+  if (!captchaToken) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <Captcha onChange={onChange} />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -310,7 +320,7 @@ function ReferenceRequestForm() {
                 </Row>
               ))}
             </div>
-            
+
             {/* Checkbox for Privacy Agreement */}
             <div className="d-flex align-items-center mt-3">
               <input
@@ -352,16 +362,16 @@ function ReferenceRequestForm() {
             </div>
           </Col>
         </Form>
-              {/* Privacy Agreement Modal */}
-      <PrivacyAgreementForApplicant
-        showModal={showPrivacyAgreement}
-        setShowModal={setShowPrivacyAgreement}
-        handleContinue={() => {
-          setIsAgreed(true);
-          setShowPrivacyAgreement(false);
-        }}
-        language={selectedLanguage}
-      />
+        {/* Privacy Agreement Modal */}
+        <PrivacyAgreementForApplicant
+          showModal={showPrivacyAgreement}
+          setShowModal={setShowPrivacyAgreement}
+          handleContinue={() => {
+            setIsAgreed(true);
+            setShowPrivacyAgreement(false);
+          }}
+          language={selectedLanguage}
+        />
       </div>
     </>
   );
