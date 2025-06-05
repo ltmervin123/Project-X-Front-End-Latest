@@ -288,26 +288,9 @@ const LoginForm = () => {
             </form>
           </div>
           <div className="signup-container text-center">
-            <p className="m-3">{t('SIGN_UP_USING')}</p>
-            <div className="social-icons">
-              {/* Google icon */}
-              <button
-                className="social-icon-btn"
-                onClick={handleGoogleLogin}
-                disabled={service === SERVICE[0]}
-              >
-                <img src={google} alt="Google" className="social-icon" />
-              </button>
-              {/* Facebook icon */}
-              <button
-                className="social-icon-btn"
-                disabled={service === SERVICE[0]}
-              >
-                <img src={fb} alt="Facebook" className="social-icon" />
-              </button>
-            </div>
 
-            <button className="guest-button">
+
+            <button className="guest-button mt-3">
               {t('CONTINUE_AS_GUEST')}
             </button>
             <div className="d-flex flex-column dont-have-acc-container">

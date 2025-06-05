@@ -4,7 +4,7 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
   English: {
     // Headers
     'CULTURE_TITLE': 'Company Culture',
-    'CULTURE_SUBTITLE': 'Please select one characteristic from each category that best describes your company\'s culture.',
+    'CULTURE_SUBTITLE': '<strong>Important:</strong> Please carefully select up to 6 preferred characteristics. These will define your company\'s cultural preferences and serve as the basis for evaluating candidate fit based on referee feedback.',
     'CULTURE_SELECTED': 'Selected',
 
     // Section Names
@@ -60,7 +60,7 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
   Japanese: {
     // Headers
     'CULTURE_TITLE': '企業文化',
-    'CULTURE_SUBTITLE': '各カテゴリーから、御社の企業文化を最もよく表す特徴を1つずつ選択してください。',
+    'CULTURE_SUBTITLE': '<strong>重要：</strong> 最大6つの希望する特性を慎重に選択してください。これらは企業の文化的嗜好を定義し、推薦者からのフィードバックに基づいて候補者の適性を評価する基準となります。',
     'CULTURE_SELECTED': '選択済み',
 
     // Section Names

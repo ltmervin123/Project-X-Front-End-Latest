@@ -79,7 +79,9 @@ const ManagementFormatComponent = ({
                     onClick={() => handleSetClick(item.id)}
                   >
                     <svg
-                      className={flippedState[item.id] ? "dropdown-flipped" : ""}
+                      className={
+                        flippedState[item.id] ? "dropdown-flipped" : ""
+                      }
                       width="28"
                       height="17"
                       viewBox="0 0 28 17"
@@ -89,7 +91,7 @@ const ManagementFormatComponent = ({
                       <path
                         fillRule="evenodd"
                         clipRule="evenodd"
-                        d="M12.1349 15.5181..."
+                        d="M12.1349 15.5181L0.390163 3.02874L3.51196 0.0930747L13.7889 11.0216L24.7174 0.744645L27.653 3.86644L15.1636 15.6112C14.7496 16.0004 14.198 16.2092 13.63 16.1918C13.062 16.1743 12.5243 15.932 12.1349 15.5181Z"
                         fill="#686868"
                       />
                     </svg>

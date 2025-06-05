@@ -4,6 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 import AboutUs from "../../assets/snappchecklanding/about-us.svg";
 
+// Function to make SnappCheck bold
+const makeSnappCheckBold = (text) => {
+  if (!text) return '';
+  return text.split('SnappCheck').map((part, index, array) => {
+    if (index === array.length - 1) return part;
+    return part + '<strong>SnappCheck</strong>';
+  }).join('');
+};
+
 // AboutUsSection functional component
 const AboutUsSection = () => {
   const { t, language, changeLanguage } = useSnappcheckTranslation();
@@ -24,16 +33,18 @@ const AboutUsSection = () => {
             <h3 className="color-blue mb-2">
               {t('aboutUs')}
             </h3>
-            <h2 className="mb-4">
-              {t('aboutUsTitle')}
-            </h2>
-            <p className="snappcheck-about-us-desc1 mb-4">
-              {t('aboutDescription1')}
+            <strong className="mb-4">
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription1')) }} />
+            </strong>
+            <p className="snappcheck-about-us-desc1 my-4">
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription2')) }} />
             </p>
             <p className="snappcheck-about-us-desc2 mb-4">
-              {t('aboutDescription2')}
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription3')) }} />
             </p>
-            <button>{t('learnMore')}</button>
+            <p className="snappcheck-about-us-desc3 mb-4">
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription4')) }} />
+            </p>
           </Col>
           <Col
             md="6"

@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 const ReferenceRequestTable = ({
   labels,
   filteredReferences,
@@ -12,6 +12,7 @@ const ReferenceRequestTable = ({
   handleToggleOptions,
   handleDeleteReference,
   handleViewDetails,
+  handleEditReference,
   getStatusColor,
   formatDate,
   calculateCandidateStatus,
@@ -194,6 +195,14 @@ const ReferenceRequestTable = ({
                                 </svg>
                                 {visibleOptions[reference._id] && (
                                   <div className="action-options-reference">
+                                    <p
+                                      className="d-flex align-items-center gap-2 m-0 icon-edit-job"
+                                      onClick={() => handleEditReference(reference.referees)}
+                                      style={{ cursor: "pointer" }}
+                                    >
+                                      <FaEdit />
+                                      {labels.Edit}
+                                    </p>
                                     <p
                                       className="d-flex align-items-center gap-2"
                                       onClick={() =>

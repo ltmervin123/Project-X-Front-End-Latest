@@ -24,12 +24,13 @@ const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
     window.location.reload();
   };
 
+
   return (
     <div className="snappcheck-landing-header">
       <Navbar expand="lg">
         <div className="d-flex justify-content-between align-items-center w-100 ">
           <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
-            <img src={logo} alt="Logo" width="200" height="80" />
+            <img src={logo} alt="Logo" width="200" height="100" />
           </Navbar.Brand>
           <div className="d-flex gap-3 justify-content-center align-items-center">
             <a href="#pricing" onClick={onPricingClick}>

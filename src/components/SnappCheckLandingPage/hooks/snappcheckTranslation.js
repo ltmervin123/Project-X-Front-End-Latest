@@ -14,10 +14,10 @@ export const TRANSLATIONS = {
 
     // About Us translations
     aboutUs: "About Us",
-    aboutUsTitle: "Streamline Your Hiring Process",
-    aboutDescription1: "SNAPPCHECK is an innovative tool that automates the reference check process, saving you time and effort while ensuring accuracy and consistency. Let our app handle the heavy lifting by conducting thorough, unbiased reference interviews to help you make smarter hiring decisions.",
-    aboutDescription2: "Effortlessly gather insights, validate applicants, and keep your recruitment process efficient and professional.",
-    learnMore: "Learn More",
+    aboutDescription1: "SnappCheck is on a mission to transform hiring and talent acquisition through AI-driven innovation.",
+    aboutDescription2: "We build intelligent, data-powered solutions that help organizations make faster, more informed, and unbiased hiring decisions.",
+    aboutDescription3: "By combining the speed and precision of advanced technology with a deep understanding of modern recruitment challenges, SnappCheck enables HR teams and hiring managers uncover meaningful insights, and elevate candidate evaluation processes.",
+    aboutDescription4: "Our goal is to empower companies with tools that reduce friction in hiring, enhance decision-making with actionable data, and promote fair, efficient, and scalable talent acquisition. From verification automation to candidate assessment, we're creating the next generation of AI applications that shape the future of hiring.",
 
     // Did You Know translations
     didYouKnow: "Did You Know",
@@ -27,7 +27,6 @@ export const TRANSLATIONS = {
       "23% improvement in quality of hire (LinkedIn Talent Solutions)",
       "40% reduction in turnover (SHRM)",
       "25% faster time-to-fill (Glassdoor)",
-      "40% automated reference tools (Glassdoor)",
       "30% of an employee's annual salary (Indeed)"
     ],
     subscribeNow: "Subscribe Now",
@@ -62,14 +61,14 @@ export const TRANSLATIONS = {
     chooseplan: "Choose Plan",
     contactUs: "Contact Us",
     readyToTransform: "Ready to Transform Your Hiring?",
-    joinCompanies: "Join thousands of companies already using SNAPPCHECK to make better hiring decisions.",
+    joinCompanies: "Join us! From reference checks and beyond—SnappCheck's data-driven platforms help you hire right.",
     subscribeNow: "Subscribe Now",
     starterTitle: "Starter",
-    starterDesc: "Perfect for individuals and small teams getting started.",
-    starterSubtext: "for 5 applicants",
+    starterDesc: "Ideal for startups and small teams just getting started",
+    starterSubtext: "Includes 5 Reference Check Cases",
     proTitle: "Professional",
     proDesc: "Ideal for growing businesses and teams.",
-    proSubtext: "for 10 applicants",
+    proSubtext: "Includes 10 Reference Check Cases",
     enterpriseTitle: "Enterprise",
     enterpriseDesc: "We offer tailored bulk packages to meet your specific requirements. Contact us for quotation.",
     mostPopular: "MOST POPULAR",
@@ -79,8 +78,9 @@ export const TRANSLATIONS = {
 
     // How It Works translations
     howItWorks: "How It Works",
-    howItWorksTitle: "Our streamlined process ensures thorough reference checks with minimal effort",
-    trustedBusinesses: "Trusted by Leading Businesses Worldwide",
+    howItWorksTitle: "Reference checks that actually tell you something.",
+    howItWorksDesc: "We combine smart questions with AI-driven analysis to turn feedback into real, actionable hiring data.",
+    trustedBusinesses: "Used by companies dedicated to hiring the right talent.",
     referenceCheckFlow: "REFERENCE CHECK FLOW",
     visualGuide: "(VISUAL GUIDE)",
     howItWorksStep1: "Client sends link to the applicant",
@@ -91,7 +91,7 @@ export const TRANSLATIONS = {
     howItWorksStep6: "Client reviews final report",
 
     // Case Study translations
-    caseStudyTitle: "Case Study",
+    caseStudyTitle: "Powered by Data, Trusted by Clients",
     testimonial1Title: "Seamless Experience",
     testimonial1Content: "SNAPPCHECK transformed the way we conduct reference checks. The process is now much faster, takes hours—automated, secure, and incredibly easy to use. We're making better hires with more confidence and speed.",
     testimonial1Author: "— Talent Acquisition Manager, Tech Startup",
@@ -123,10 +123,10 @@ export const TRANSLATIONS = {
 
     // About Us translations
     aboutUs: "会社概要",
-    aboutUsTitle: "採用プロセスの効率化",
-    aboutDescription1: "SNAPPCHECKは、レファレンスチェックプロセスを自動化する革新的なツールで、正確性と一貫性を確保しながら、時間と労力を節約します。徹底的で偏りのないレファレンス面接を実施し、より賢明な採用決定をサポートします。",
-    aboutDescription2: "効率的にインサイトを収集し、応募者を検証し、採用プロセスを効率的かつプロフェッショナルに保ちます。",
-    learnMore: "詳細はこちら",
+    aboutDescription1: "SnappCheckは、AIを活用した革新を通じて採用と人材獲得を変革することを使命としています。",
+    aboutDescription2: "私たちは、組織がより迅速で、より情報に基づいた、偏りのない採用決定を下すのを支援する、インテリジェントでデータ駆動型のソリューションを構築しています。",
+    aboutDescription3: "先進技術のスピードと精度と現代の採用課題への深い理解を組み合わせることで、SnappCheckはHRチームと採用マネージャーが意味のある洞察を発見し、候補者評価プロセスを向上させることを可能にします。",
+    aboutDescription4: "私たちの目標は、採用における摩擦を減らし、実用的なデータによる意思決定を強化し、公平で効率的、かつスケーラブルな人材獲得を促進するツールで企業を支援することです。検証の自動化から候補者評価まで、私たちは採用の未来を形作る次世代のAIアプリケーションを創造しています。",
 
     // Did You Know translations
     didYouKnow: "ご存知でしたか？",
@@ -136,7 +136,6 @@ export const TRANSLATIONS = {
       "採用の質が23%向上 (LinkedIn Talent Solutions)",
       "離職率が40%減少 (SHRM)",
       "採用までの時間が25%短縮 (Glassdoor)",
-      "レファレンスツールの40%が自動化 (Glassdoor)",
       "従業員の年間給与の30% (Indeed)"
     ],
     subscribeNow: "今すぐ登録",
@@ -171,14 +170,14 @@ export const TRANSLATIONS = {
     chooseplan: "プランを選択",
     contactUs: "お問い合わせ",
     readyToTransform: "採用プロセスを変革する準備はできていますか？",
-    joinCompanies: "すでに多くの企業がSNAPPCHECKを利用して、より良い採用決定を行っています。",
+    joinCompanies: "参加しましょう！ 照会チェックからその先まで—SnappCheckのデータ駆動型プラットフォームが、適切な採用をサポートします。",
     subscribeNow: "今すぐ申し込む",
     starterTitle: "スターター",
-    starterDesc: "個人や小規模チームに最適なプラン",
-    starterSubtext: "5名の応募者まで",
+    starterDesc: "スタートアップや小規模チームの開始に最適",
+    starterSubtext: "5件のレファレンスチェックケースを含む",
     proTitle: "プロフェッショナル",
     proDesc: "成長中の企業やチームに最適なプラン",
-    proSubtext: "10名の応募者まで",
+    proSubtext: "10件のレファレンスチェックケースを含む",
     enterpriseTitle: "エンタープライズ",
     enterpriseDesc: "ご要望に応じたカスタマイズパッケージをご用意しています。お見積りについてはお問い合わせください。",
     mostPopular: "人気プラン",
@@ -188,8 +187,9 @@ export const TRANSLATIONS = {
 
     // How It Works translations
     howItWorks: "使い方",
-    howItWorksTitle: "効率的なプロセスで最小限の労力で徹底的な参考文献チェックを実現",
-    trustedBusinesses: "世界中の一流企業に信頼されています",
+    howItWorksTitle: "意味のある情報を提供するレファレンスチェック",
+    howItWorksDesc: "スマートな質問とAI駆動の分析を組み合わせて、フィードバックを実用的な採用データに変換します。",
+    trustedBusinesses: "適切な人材採用に取り組む企業に利用されています。",
     referenceCheckFlow: "リファレンスチェックの流れ",
     visualGuide: "（ビジュアルガイド）",
     howItWorksStep1: "クライアントが応募者にリンクを送信",
@@ -200,16 +200,16 @@ export const TRANSLATIONS = {
     howItWorksStep6: "クライアントが最終レポートを確認",
 
     // Case Study translations
-    caseStudyTitle: "事例紹介",
-    testimonial1Title: "シームレスな体験",
-    testimonial1Content: "SNAPPCHECKは、レファレンスチェックの方法を一新しました。プロセスは自動化され、安全で、非常に使いやすく、数時間で完了します。より確実で迅速な採用が可能になりました。",
-    testimonial1Author: "— 採用マネージャー、テクノロジースタートアップ",
-    testimonial2Title: "検証済みで洞察に富む",
-    testimonial2Content: "プラットフォームは直感的でプロフェッショナルです。候補者からのフィードバックも好評で、採用担当者は明確で実用的な洞察を高く評価しています。SNAPPCHECKは私たちの採用ツールの重要な部分となっています。",
-    testimonial2Author: "— 人事ディレクター、グローバル金融企業",
-    testimonial3Title: "シームレスな体験",
-    testimonial3Content: "プラットフォームは直感的でプロフェッショナルです。候補者はスムーズなプロセスを評価し、採用担当者は明確で構造化されたレファレンスレポートを気に入っています。Snappcheckは私たちの採用プロセスの重要な部分となっています。",
-    testimonial3Author: "— 人事ディレクター、グローバル金融企業",
+    caseStudyTitle: "データに支えられ、クライアントに信頼される",
+    testimonial1Title: "Seamless Experience",
+    testimonial1Content: "SNAPPCHECK transformed the way we conduct reference checks. The process is now much faster, takes hours—automated, secure, and incredibly easy to use. We're making better hires with more confidence and speed.",
+    testimonial1Author: "— Talent Acquisition Manager, Tech Startup",
+    testimonial2Title: "Verified and Insightful",
+    testimonial2Content: "The platform is intuitive and professional. Our candidate feedback has been positive about the process, and our hiring managers loved the clear, actionable insights. SNAPPCHECK has become a core part of our hiring toolkit.",
+    testimonial2Author: "— HR Director, Global Finance Firm",
+    testimonial3Title: "Seamless Experience",
+    testimonial3Content: "The platform is intuitive and professional. Our candidates appreciated the smooth process, and our hiring managers love to clear, structure reference reports. Snappcheck has become a core part of our hiring process",
+    testimonial3Author: "— HR Director, Global Finance Firm",
 
     // Footer translations
     linkedInTitle: "LinkedInでフォローする",

@@ -539,7 +539,8 @@
 .scrollable-table-container thead {
   position: sticky;
   top: 0;
-  z-index: 99999;
+  width: 100%;
+  z-index: 100;
   background: white;
 }
 
@@ -579,6 +580,10 @@
 .AiReference-reference-request-container table {
   height: auto;
   padding-right: 5px;
+}
+
+.edit-referee-container .form-label{
+  width: 30%;
 }
 
 /* Media Queries */

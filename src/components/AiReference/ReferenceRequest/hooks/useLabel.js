@@ -25,6 +25,7 @@ const labels = {
     viewReports: "View Reports",
     hideReports: "Hide Reports",
     viewReferee: "View Referee",
+    Edit: "Edit",
     Delete: "Delete",
     manageTrackTooltip:
       "Review and manage reference requests for candidates, track their status, and take action.",
@@ -108,6 +109,10 @@ const labels = {
     standardFormat: "Standard Format",
     managementFormat: "Management Format",
     executiveFormat: "Executive Format",
+    editReferenceRequest: "Edit Reference Request",
+    refereesName: "Referee's Name:",
+    updating: "Updating...",
+    updateRequest: "Update Request",
   },
   Japanese: {
     noRecord: "リファレンス依頼の記録がありません",
@@ -132,6 +137,8 @@ const labels = {
     viewReports: "レポートを表示",
     hideReports: "レポート非表示",
     viewReferee: "推薦者を見る",
+    Edit: "編集",
+
     Delete: "削除",
     manageTrackTooltip:
       "候補者のリファレンス依頼を確認し、ステータスを追跡して、アクションを実行します。",
@@ -208,6 +215,10 @@ const labels = {
     standardFormat: "標準フォーマット",
     managementFormat: "マネジメントフォーマット",
     executiveFormat: "エグゼクティブフォーマット",
+    editReferenceRequest: "リファレンス依頼を編集",
+    refereesName: "推薦者名：",
+    updating: "更新中...",
+    updateRequest: "依頼を更新",
   },
 };
 

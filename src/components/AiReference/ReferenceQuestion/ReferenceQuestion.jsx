@@ -258,8 +258,24 @@ const MANAGEMENT_QUESTIONS_SETS = [
       English: "Work Ethic and Behavior",
       Japanese: "仕事への姿勢と行動",
     },
-    questions: STANDARD_QUESTIONS_SETS[3].questions,
-  },
+    questions: [
+      {
+        English:
+          "How would you describe (applicant name)'s attitude and professionalism?",
+        Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
+      },
+      {
+        English: "How did (applicant name) handle feedback and criticism?",
+        Japanese:
+          "(候補者の名前) はフィードバックや批判にどのように対処しましたか？",
+      },
+      {
+        English:
+          "Did (applicant name) show initiative and a willingness to learn?",
+        Japanese: "(候補者の名前) は自主性を持ち、学ぼうとする姿勢を示しましたか？",
+      },
+
+    ],  },
   {
     id: 5,
     category: {

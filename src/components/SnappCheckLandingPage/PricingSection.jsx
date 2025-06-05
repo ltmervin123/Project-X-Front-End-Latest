@@ -12,14 +12,14 @@ const PricingSection = forwardRef((props, ref) => {
     {
       title: t('starterTitle'),
       description: t('starterDesc'),
-      price: "¥ 16,500.00",
+      price: "27,500 JPY",
       subtext: t('starterSubtext'),
       isPopular: false,
     },
     {
       title: t('proTitle'),
       description: t('proDesc'),
-      price: "¥ 27,500.00",
+      price: "44,000 JPY",
       subtext: t('proSubtext'),
       isPopular: true,
     },
