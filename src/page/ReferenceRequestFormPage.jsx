@@ -3,29 +3,23 @@ import { useParams, Navigate } from "react-router-dom";
 import "../styles/ReferenceRequestForm.css";
 import Header from "../components/ReferenceRequestFormSubmit/Header";
 import ReferenceRequestForm from "../components/ReferenceRequestFormSubmit/ReferenceRequestForm.jsx";
+import {
+  verifyApplicantLink,
+  verifyCaptchaToken,
+} from "../api/ai-reference/candidate/candidate-api";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
-import axios from "axios";
+import Captcha from "../components/ReCaptcha/Captcha.jsx";
 
 function ReferenceRequestFormPage() {
   const { token } = useParams();
-  const API = process.env.REACT_APP_API_URL;
-  const [isVerify, setIsVerify] = useState(false);
-  const [isExpired, setIsExpired] = useState(false);
+  const [isVerifyLink, setIsVerifyLink] = useState(false);
+  const [isExpiredLink, setIsExpiredLink] = useState(false);
+  const [isVerifyCaptcha, setIsVerifyCaptcha] = useState(false);
 
-  //verify if the token is valid and not expired
-  const verifyToken = async () => {
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const handleVerifyLink = async () => {
     try {
-      const URL = `${API}/api/candidate-referee/verify-candidate-link`;
-      const response = await axios.post(
-        URL,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await verifyApplicantLink({ token });
 
       if (response.status === 200) {
         sessionStorage.setItem(
@@ -33,23 +27,55 @@ function ReferenceRequestFormPage() {
           JSON.stringify(response.data?.decoded)
         );
         sessionStorage.setItem("candidateToken", token);
-        setIsVerify(true);
+        setIsVerifyLink(true);
       }
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setIsExpired(true);
-      } else {
-        console.error("Something went wrong:", error.message);
-        alert("An unexpected error occurred. Please try again later.");
+      setIsExpiredLink(true);
+    }
+  };
+
+  const handleVerifyCaptchaToken = async () => {
+    try {
+      const response = await verifyCaptchaToken({ captchaToken });
+
+      if (response.data.success) {
+        setIsVerifyCaptcha(true);
       }
+    } catch (error) {
+      setCaptchaToken(null);
+      console.error("Captcha verification failed:", error);
     }
   };
 
   useEffect(() => {
-    verifyToken();
+    handleVerifyLink();
   }, []);
 
-  if (isVerify) {
+  useEffect(() => {
+    if (!captchaToken) {
+      return;
+    }
+    handleVerifyCaptchaToken();
+  }, [captchaToken]);
+
+  const onChange = (token) => {
+    setCaptchaToken(token);
+  };
+
+  // If the link is valid but captcha is not verified, show the captcha
+  if (isVerifyLink && !captchaToken) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <Captcha onChange={onChange} captchaToken={captchaToken} />
+      </div>
+    );
+  }
+
+  // If the link is valid and captcha is verified, show the form
+  if (isVerifyLink && isVerifyCaptcha) {
     return (
       <>
         <div className="d-flex justify-content-center align-items-center flex-column h-100">
@@ -60,10 +86,12 @@ function ReferenceRequestFormPage() {
     );
   }
 
-  if (isExpired) {
+  // If the link is expired, redirect to the expired link page
+  if (isExpiredLink) {
     return <Navigate to="/reference-expired-link" />;
   }
 
+  // While verifying the link and captcha token, show a loading spinner
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
       <Row className="text-center">
