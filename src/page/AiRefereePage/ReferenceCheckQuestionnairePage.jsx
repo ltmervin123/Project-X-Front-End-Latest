@@ -5,7 +5,7 @@ import ErrorAccessMic from "../../components/Error/ErrorAccessMic";
 import TextBase from "../../components/ReferenceCheckQuestionnaire/TextBase";
 import AudioBase from "../../components/ReferenceCheckQuestionnaire/AudioBase";
 import OverAllAssesment from "../../components/ReferenceCheckQuestionnaire/Assessment/OverAllAssesment";
-import CandidateRating from '../../components/ReferenceCheckQuestionnaire/Assessment/PacedRating';
+import PacedRating from '../../components/ReferenceCheckQuestionnaire/Assessment/PacedRating';
 
 import loadingAnimation from "../../assets/loading.gif";
 import axios from "axios";
@@ -131,14 +131,14 @@ const ReferenceCheckQuestionnairePage = () => {
   const [currentQuestionCategory, setCurrentQuestionCategory] = useState(null);
   const [hideQuestionSection, setHideQuestionSection] = useState(false);
   const [isAssessmentSubmitted, setIsAssessmentSubmitted] = useState(false);
-  const [isCandidateRatingSubmitted, setIsCandidateRatingSubmitted] = useState(false);
+  const [isPacedRatingSubmitted, setIsPacedRatingSubmitted] = useState(false);
   const [showRatingAfterNext, setShowRatingAfterNext] = useState(false);
 
   //Refs
   const audioRef = useRef(null);
   const streamRef = useRef(null);
   const assessmentRating = useRef(null);
-
+ 
   const setAssessmentRating = (rating) => {
     assessmentRating.current = rating;
   };
@@ -515,7 +515,7 @@ const ReferenceCheckQuestionnairePage = () => {
 
   const handleRatingSubmit = (selectedValues) => {
     console.log('Selected pacing options:', selectedValues);
-    setIsCandidateRatingSubmitted(true);
+    setIsPacedRatingSubmitted(true);
     setShowRatingAfterNext(false);
     setHideQuestionSection(true);
 
@@ -754,16 +754,15 @@ const ReferenceCheckQuestionnairePage = () => {
     );
   };
 
-  const shouldShowCandidateRating = () => {
+  const shouldShowPacedRating = () => {
     const currentCategory = getQuestionCategory();
-    const { current, total } = getCurrentCategoryQuestionInfo();
+    const { current } = getCurrentCategoryQuestionInfo();
     const isCurrentQuestionAnswered = answered[currentQuestionIndex] !== "";
 
     return currentCategory === "workEthicAndBehavior" && 
-           current === total && 
-           !isCandidateRatingSubmitted && 
-           isCurrentQuestionAnswered &&
-           showRatingAfterNext;
+           current === 1 && // Show at first question of the category
+           !isPacedRatingSubmitted && 
+           !isCurrentQuestionAnswered; // Show before answering any questions
   };
 
   if (isReattemptingCamera) {
@@ -807,8 +806,8 @@ const ReferenceCheckQuestionnairePage = () => {
           onSubmit={handleAssessmentSubmit}
           category={currentQuestionCategory}
         />
-      ) : shouldShowCandidateRating() ? (
-        <CandidateRating onSubmit={handleRatingSubmit} />
+      ) : shouldShowPacedRating() ? (
+        <PacedRating onSubmit={handleRatingSubmit} />
       ) : (
         <>
           <h4

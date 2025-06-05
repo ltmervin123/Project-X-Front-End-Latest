@@ -47,7 +47,7 @@ const PACING_OPTIONS = {
   },
 };
 
-function CandidateRating({ onSubmit }) {
+function PacedRating({ onSubmit }) {
   const [selectedValues, setSelectedValues] = useState([]);
   const language = sessionStorage.getItem("selectedLanguage") || "English";
   const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
@@ -173,4 +173,4 @@ function CandidateRating({ onSubmit }) {
   );
 }
 
-export default CandidateRating; 
+export default PacedRating; 
