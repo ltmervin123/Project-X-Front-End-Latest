@@ -3,7 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useLabels } from "../hooks/useLabel";
 
-const EditReferenceRequestPopUp = ({ referee, onClose, onUpdate }) => {
+const EditRefereePopUp = ({ referee, onClose, onUpdate }) => {
   const language = sessionStorage.getItem("preferred-language") || "English";
   const { labels } = useLabels(language);
   const API = process.env.REACT_APP_API_URL;
@@ -81,7 +81,7 @@ const EditReferenceRequestPopUp = ({ referee, onClose, onUpdate }) => {
       show={true}
       onHide={onClose}
       centered
-      className="custom-modal-job"
+      className="custom-modal-referee"
       backdrop={true}
     >
       <Modal.Body>
@@ -101,8 +101,8 @@ const EditReferenceRequestPopUp = ({ referee, onClose, onUpdate }) => {
           {formData.map((referee, index) => (
             <div key={referee.id} className="mb-2">
               <Form.Group className="mb-3">
-                <div className="d-flex edit-referee-container">
-                <Form.Label>{labels.refereesName}</Form.Label>
+                <div className="d-flex edit-referee-container gap-2">
+                <Form.Label className="m-0">{labels.refereesName}</Form.Label>
                 <Form.Control
                   type="text"
                   name="name"
@@ -116,8 +116,8 @@ const EditReferenceRequestPopUp = ({ referee, onClose, onUpdate }) => {
               </Form.Group>
 
               <Form.Group className="mb-3">
-              <div className="d-flex edit-referee-container">
-              <Form.Label>{labels.email}</Form.Label>
+              <div className="d-flex edit-referee-container gap-2">
+              <Form.Label className="m-0">{labels.refereesEmail}</Form.Label>
                 <Form.Control
                   type="email"
                   name="email"
@@ -135,7 +135,7 @@ const EditReferenceRequestPopUp = ({ referee, onClose, onUpdate }) => {
           <div className="d-flex justify-content-end mt-2">
             <button
               type="submit"
-              className="btn-create-job"
+              className="btn-update-referee"
               disabled={isSubmitting}
             >
               {isSubmitting ? labels.updating : labels.updateRequest}
@@ -147,4 +147,4 @@ const EditReferenceRequestPopUp = ({ referee, onClose, onUpdate }) => {
   );
 };
 
-export default EditReferenceRequestPopUp; 
+export default EditRefereePopUp; 

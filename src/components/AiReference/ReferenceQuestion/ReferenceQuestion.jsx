@@ -125,7 +125,7 @@ const STANDARD_QUESTIONS_SETS = [
     questions: [
       {
         English:
-          "How would you describe (applicant name)'s attitude and professionalism?",
+          "How would you describe (applicant name) attitude and professionalism?",
         Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
       },
       {
@@ -140,7 +140,7 @@ const STANDARD_QUESTIONS_SETS = [
       },
       {
         English:
-          "How would you describe (applicant name) working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+          "How would you describe (applicant name)'s working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
         Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
       },
       {
@@ -191,7 +191,7 @@ const MANAGEMENT_QUESTIONS_SETS = [
         English:
           "How do you know (applicant name), and how long have you worked together?",
         Japanese:
-          "あなたは(応募者名)をどのように知っており、どれくらい一緒に働きましたか？",
+          "(応募者の名前) とはどのように知り合い、どのくらいの期間一緒に働いていますか？",
       },
     ],
   },
@@ -205,17 +205,17 @@ const MANAGEMENT_QUESTIONS_SETS = [
       {
         English:
           "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
-        Japanese: "(応募者名)の前職での主な職務内容を説明できますか？",
+        Japanese: "(応募者の名前) の前職での主な職務内容や主な責任についてご説明いただけますか？",
       },
       {
         English: "What do you consider to be (applicant name)'s key strengths?",
-        Japanese: "(応募者名)の主な強みは何だと考えますか？",
+        Japanese: "(応募者の名前) の強みは何だとお考えですか？",
       },
       {
         English:
           "What areas, if any, do you think (applicant name) could further develop or improve?",
         Japanese:
-          "(応募者名)がさらに成長または改善できると考える分野はありますか？",
+          "(応募者の名前) がさらに成長・改善できる点があれば、どのような点だとお考えですか？",
       },
     ],
   },
@@ -230,25 +230,19 @@ const MANAGEMENT_QUESTIONS_SETS = [
         English:
           "How would you describe (applicant name)'s leadership style? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)のリーダーシップスタイルをどのように表現しますか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) のリーダーシップスタイルをどのように評価されますか？可能であれば、具体的な例を挙げてご説明いただけますか？",
       },
       {
         English:
           "How did (applicant name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)は難しいチーム状況や対立をどのように処理しましたか？可能であれば、具体例も挙げてください。",
-      },
-      {
-        English:
-          "How effective was (applicant name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
-        Japanese:
-          "(応募者名)はタスクを委任し、他者に権限を与える能力がどの程度ありましたか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) は困難なチームの状況や対立をどのように対応していましたか？可能であれば、具体的な例を挙げてご説明いただけますか？",
       },
       {
         English:
           "What would you say are (applicant name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "リーダーとしての(応募者名)の最も大きな強みは何だと思いますか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) のリーダーとしての最大の強みは何だとお考えですか？可能であれば、具体的な例を挙げてご説明いただけますか？",
       },
     ],
   },
@@ -261,21 +255,35 @@ const MANAGEMENT_QUESTIONS_SETS = [
     questions: [
       {
         English:
-          "How would you describe (applicant name)'s attitude and professionalism?",
+          "How would you describe (applicant name) attitude and professionalism?",
         Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
       },
       {
-        English: "How did (applicant name) handle feedback and criticism?",
+        English: "Can you describe how (applicant name) works within a team? Are they more Collaborative or Independent? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(候補者の名前) はフィードバックや批判にどのように対処しましたか？",
+          "（候補者名）様がチーム内でどのように働かれる方か、ご説明いただけますでしょうか。より協調的に取り組まれるタイプか、それとも自立的に業務を進められるタイプかについて、可能であれば具体的なご経験やエピソードを交えてご回答いただけますと幸いです。",
       },
       {
         English:
-          "Did (applicant name) show initiative and a willingness to learn?",
-        Japanese: "(候補者の名前) は自主性を持ち、学ぼうとする姿勢を示しましたか？",
+          "Does (applicant name) thrive in an Innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a Process Driven setting that values established procedures, consistency, and predictability?",
+        Japanese: "（応募者氏名）様は、実験的な取り組みや新しいアイデアを奨励し、変化を歓迎するイノベーティブな環境で力を発揮されるタイプでしょうか？それとも、確立された手順や一貫性、予測可能性を重視するプロセス重視の環境においてより高い成果を上げられる方でしょうか？",
       },
-
-    ],  },
+      {
+        English:
+          "How would you describe (applicant name)'s working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+        Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
+      },
+      {
+        English:
+          "Would you describe (applicant name) as someone who values Work-life balance and sustainable pace, or do they thrive in Work-centric / high-intensity environments with demanding expectations? Any brief example you can share?",
+        Japanese: "（応募者氏名）様は、ワークライフバランスや持続可能な働き方を重視される方でしょうか？それとも、高い負荷や厳しい期待値のあるワーク中心の環境においてこそ、パフォーマンスを最大限に発揮されるタイプでしょうか？差し支えなければ、簡単な事例を共有いただけますと幸いです。",
+      },
+      {
+        English:
+          "How would you describe (applicant name) communication style, do they tend to be open and Transparent, or more Selective and strategic in how they share information? Could you provide a brief example?",
+        Japanese: "（応募者氏名）様のコミュニケーションスタイルについて、率直でオープンに情報を共有されるタイプとお感じでしょうか？それとも、状況に応じて戦略的に情報を選択しながら伝える、選択的かつ戦略的なスタイルに近いでしょうか？具体的なご経験があれば教えていただけますか？",
+      },
+    ], },
   {
     id: 5,
     category: {

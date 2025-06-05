@@ -111,8 +111,10 @@ const labels = {
     executiveFormat: "Executive Format",
     editReferenceRequest: "Edit Reference Request",
     refereesName: "Referee's Name:",
+    refereesEmail: "Email: ",
     updating: "Updating...",
     updateRequest: "Update Request",
+    editReferee: "Edit Referee",
   },
   Japanese: {
     noRecord: "リファレンス依頼の記録がありません",
@@ -217,8 +219,10 @@ const labels = {
     executiveFormat: "エグゼクティブフォーマット",
     editReferenceRequest: "リファレンス依頼を編集",
     refereesName: "推薦者名：",
+    refereesEmail: "メールアドレス: ",
     updating: "更新中...",
     updateRequest: "依頼を更新",
+    editReferee: "推薦者を編集",
   },
 };
 

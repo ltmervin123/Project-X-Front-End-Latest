@@ -13,6 +13,7 @@ const ReferenceRequestDetailsPopUp = ({
   referee,
   onClose,
   onViewReference,
+  onEditReferee,
   labels,
 }) => {
   const API = process.env.REACT_APP_API_URL;
@@ -126,7 +127,6 @@ const ReferenceRequestDetailsPopUp = ({
         <div className="Reference-details">
           <Row>
             <Col md={6}>
-              <b className="mb-3">{labels.referenceStatus}</b>
               <div className="Request-container-status d-flex justify-content-between align-items-center mt-3 mb-3">
                 <p className="d-flex align-items-center">
                   {/* Check icon */}
@@ -189,7 +189,6 @@ const ReferenceRequestDetailsPopUp = ({
               </div>
             </Col>
             <Col md={6}>
-              <b className="mb-3">{labels.referenceDetails}</b>
 
               <div className="candidate-info-container  mt-3">
                 <b>{labels.applicantInformation}</b>
@@ -256,6 +255,12 @@ const ReferenceRequestDetailsPopUp = ({
                   disabled={isSending || isSent}
                 >
                   {isSending ? labels.sending : labels.sendReminder}
+                </button>
+                <button
+                  className="btn-edit-referee d-flex gap-2 align-items-center justify-content-center"
+                  onClick={() => onEditReferee(referee)}
+                >
+                  {labels.editReferee || "Edit Referee"}
                 </button>
               </>
             ) : null}

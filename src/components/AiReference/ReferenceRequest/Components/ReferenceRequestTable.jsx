@@ -12,7 +12,6 @@ const ReferenceRequestTable = ({
   handleToggleOptions,
   handleDeleteReference,
   handleViewDetails,
-  handleEditReference,
   getStatusColor,
   formatDate,
   calculateCandidateStatus,
@@ -195,14 +194,6 @@ const ReferenceRequestTable = ({
                                 </svg>
                                 {visibleOptions[reference._id] && (
                                   <div className="action-options-reference">
-                                    <p
-                                      className="d-flex align-items-center gap-2 m-0 icon-edit-job"
-                                      onClick={() => handleEditReference(reference.referees)}
-                                      style={{ cursor: "pointer" }}
-                                    >
-                                      <FaEdit />
-                                      {labels.Edit}
-                                    </p>
                                     <p
                                       className="d-flex align-items-center gap-2"
                                       onClick={() =>

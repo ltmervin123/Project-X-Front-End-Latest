@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DeleteConfirmationReferenceRequestPopUp from "./PopUpComponents/DeleteConfirmationReferenceRequestPopUp";
 import ReferenceRequestDetailsPopUp from "./PopUpComponents/ReferenceRequestDetailsPopUp";
-import EditReferenceRequestPopUp from "./PopUpComponents/EditReferenceRequestPopUp";
+import EditRefereePopUp from "./PopUpComponents/EditRefereePopUp";
 import ViewRequest from "./Components/ViewRequest";
 import { socket } from "../../../utils/socket/socketSetup";
 import ReferenceRequestHeader from "./Components/ReferenceRequestHeader";
@@ -95,8 +95,12 @@ const ReferenceRequest = () => {
     setShowDetailsPopup(false);
   }, []);
 
-  const handleEditReference = useCallback((referee) => {
+ 
+
+  const handleEditReferee = useCallback((referee) => {
     setSelectedReferee(referee);
+    setShowDetailsPopup(false);
+
     setShowEditPopup(true);
   }, []);
 
@@ -199,7 +203,6 @@ const ReferenceRequest = () => {
         handleToggleOptions={handleToggleOptions}
         handleDeleteReference={handleDeleteReference}
         handleViewDetails={handleViewDetails}
-        handleEditReference={handleEditReference}
         getStatusColor={getReferenceStatusColor}
         formatDate={formatDate}
         calculateCandidateStatus={calculateCandidateStatus}
@@ -223,12 +226,13 @@ const ReferenceRequest = () => {
           referee={selectedReferee}
           onClose={handleCloseDetailsPopup}
           onViewReference={handleViewRequest}
+          onEditReferee={handleEditReferee}
           labels={labels}
         />
       )}
 
       {showEditPopup && selectedReferee && (
-        <EditReferenceRequestPopUp
+        <EditRefereePopUp
           referee={selectedReferee}
           onClose={handleCloseEditPopup}
           onUpdate={handleUpdateReference}
