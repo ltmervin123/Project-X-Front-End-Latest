@@ -3,18 +3,9 @@ import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 
-const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
+const Header = ({ }) => {
   const { t, language, changeLanguage } = useSnappcheckTranslation();
 
-  const handleContactClick = (e) => {
-    e.preventDefault();
-    onContactClick();
-  };
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    onShowMain();
-  };
 
   const handleLanguageChange = (e, newLanguage) => {
     if (newLanguage === language) {
@@ -33,13 +24,13 @@ const Header = ({ onContactClick, onShowMain, onPricingClick }) => {
             <img src={logo} alt="Logo" width="200" height="100" />
           </Navbar.Brand>
           <div className="d-flex gap-3 justify-content-center align-items-center">
-            <a href="#pricing" onClick={onPricingClick}>
+          <a href="#how-it-works">{t('howItWorks')}</a>
+
+            <a href="#pricing" >
               {t("pricing")}
             </a>
-            <a href="#guide" onClick={handleClick}>
-              {t("userGuide")}
-            </a>
-            <a href="#contact-us" onClick={handleContactClick}>
+            
+            <a href="#contact-us" >
               {t("contactUs")}
             </a>
             <NavDropdown

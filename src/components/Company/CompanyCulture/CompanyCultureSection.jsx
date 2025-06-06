@@ -49,10 +49,12 @@ const CompanyCultureSection = ({
   };
 
   return (
-    <div className="company-culture-section my-3">
+    <div className="company-culture-section d-flex align-items-center justify-content-center flex-column ">
       <div className="company-culture-header ">
-        <p className="company-culture-title">{t("CULTURE_TITLE")}</p>
+        <p className="company-culture-title"> {t("CULTURE_TITLE")}</p>
         <p className="company-culture-subtitle mb-2">
+          <b>          {t("CULTURE_SUBTITLE_BOLD")}
+          </b>
           {t("CULTURE_SUBTITLE")}
         </p>
         <p className="company-culture-count mb-3 pb-2">
@@ -64,7 +66,7 @@ const CompanyCultureSection = ({
         </p>
       </div>
 
-      <div className="row">
+      <div className="row mt-3">
         {Object.entries(cultureOptions).map(([section, options]) => (
           <div key={section} className="col-md-4 ">
             <p className="company-culture-option-title mb-2">

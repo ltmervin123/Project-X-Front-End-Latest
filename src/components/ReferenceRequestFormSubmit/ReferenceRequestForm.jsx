@@ -18,6 +18,7 @@ function ReferenceRequestForm() {
   const [refereesData, setRefereesData] = useState([{}]);
   const [isLoading, setIsLoading] = useState(false);
   const [emailErrors, setEmailErrors] = useState({});
+  const [confirmationEmailErrors, setConfirmationEmailErrors] = useState({});
   const [isAgreed, setIsAgreed] = useState(false);
   const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
 
@@ -32,6 +33,7 @@ function ReferenceRequestForm() {
 
   const validateAllEmails = () => {
     const errors = {};
+    const confirmationErrors = {};
     let isValid = true;
 
     refereesData.forEach((referee, index) => {
@@ -41,9 +43,20 @@ function ReferenceRequestForm() {
           isValid = false;
         }
       }
+      if (referee["confirmation-email"]) {
+        if (!validateEmail(referee["confirmation-email"])) {
+          confirmationErrors[index] = labels.invalidEmail;
+          isValid = false;
+        }
+        if (referee["email-address"] !== referee["confirmation-email"]) {
+          confirmationErrors[index] = labels.emailsDoNotMatch;
+          isValid = false;
+        }
+      }
     });
 
     setEmailErrors(errors);
+    setConfirmationEmailErrors(confirmationErrors);
     return isValid;
   };
 
@@ -51,7 +64,8 @@ function ReferenceRequestForm() {
     (referee) =>
       !referee["first-name"]?.trim() ||
       !referee["last-name"]?.trim() ||
-      !referee["email-address"]?.trim()
+      !referee["email-address"]?.trim() ||
+      !referee["confirmation-email"]?.trim()
   );
 
   const handleInputChange = (index, event) => {
@@ -244,6 +258,33 @@ function ReferenceRequestForm() {
                       {emailErrors[index] && (
                         <div className="invalid-feedback d-block">
                           {emailErrors[index]}
+                        </div>
+                      )}
+                    </div>
+                  </Row>
+                  <Row className="mb-0 py-0 px-0 d-flex justify-content-between">
+                    <div className="mb-0 your-reference-request-form-group position-relative">
+                      <Form.Label
+                        htmlFor={`confirmation-email-${index}`}
+                        className="your-reference-request-form-label mb-1 "
+                      >
+                        {labels.confirmationEmail}
+                        <span className="orange-text"> *</span>
+                      </Form.Label>
+                      <Form.Control
+                        type="email"
+                        name="confirmation-email"
+                        value={refereesData[index]?.["confirmation-email"] || ""}
+                        onChange={(event) => handleInputChange(index, event)}
+                        placeholder={labels.enterEmail}
+                        className={`your-reference-request-form-input ${
+                          confirmationEmailErrors[index] ? "is-invalid" : ""
+                        }`}
+                        id={`confirmation-email-${index}`}
+                      />
+                      {confirmationEmailErrors[index] && (
+                        <div className="invalid-feedback d-block">
+                          {confirmationEmailErrors[index]}
                         </div>
                       )}
                     </div>

@@ -374,8 +374,8 @@ const AddJobComponent = ({ onCancel, user, labels }) => {
       </div>
       <div className="d-flex w-100 justify-content-center align-items-center flex-column">
         <div className="create-job-applicant-container-form d-flex align-items-center justify-content-center flex-column mb-3">
-          <Form className="w-100" ref={formRef} onSubmit={handleSubmit}>
-            <Row className="d-flex align-items-center">
+          <Form className="w-100 h-100" ref={formRef} onSubmit={handleSubmit}>
+            <Row className="d-flex align-items-center h-100">
               {/* JOB DETAIL */}
               <JobFormSection
                 labels={labels}

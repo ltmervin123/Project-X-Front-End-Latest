@@ -239,7 +239,7 @@
   background: var(--container-bg) !important;
   padding: 30px !important;
   width: 100%;
-  height:680px;
+  height:820px;
   background: var(--form-bg);
   position: relative;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
@@ -250,7 +250,7 @@
   height: 100%;
 }
 .applicant-details-container{
-  height: 530px !important;
+  height: 710px !important;
   overflow-y: auto;
   width: 100%;
   padding-right: 15px;
@@ -293,7 +293,7 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .job-container-form input,
@@ -301,7 +301,7 @@
 .create-job-applicant-container-form input,
 .create-job-applicant-container-form select {
   border-radius: 50px;
-  font-size: 15px;
+  font-size: 13px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 }
 .job-container-form input:disabled,
@@ -309,6 +309,10 @@
 .create-job-applicant-container-form input:disabled,
 .create-job-applicant-container-form select:disabled{
   cursor: not-allowed;
+}
+.create-job-applicant-container-form input,
+.create-job-applicant-container-form select {
+  font-size: 16px;
 }
 .job-container-form .btn-create-job {
   background: var(--primary-color);
@@ -612,6 +616,16 @@ font-size: 15px;
 .applicant-container .form-label{
   font-weight: 400;
   color: var(--card-color);
+}
+.applicant-container .applicant-input{
+  width: 100%;
+  flex-grow: 1; /* Allow this item to grow */
+  flex-shrink: 1; /* Allow this item to shrink */
+  flex-basis: 0; /* Distribute space based on growth */
+}
+.applicant-container .applicant-input-last{
+  width: 100px !important;
+  flex-shrink: 0; /* Prevent this item from shrinking */
 }
 
 /* Scrollbar Customization */

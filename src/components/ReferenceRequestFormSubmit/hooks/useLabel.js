@@ -18,6 +18,8 @@ const labels = {
     invalidEmail: "Invalid email format",
     privacyAgreement:
       "By continuing, you've read, understood and agreed to the Privacy Agreement for Referees",
+    confirmationEmail: "Confirmation Email",
+    emailsDoNotMatch: "Email addresses do not match",
   },
   Japanese: {
     title: "推薦状リクエストフォーム",
@@ -36,6 +38,8 @@ const labels = {
     invalidEmail: "無効なメール形式",
     privacyAgreement:
       "続行することで、照会者のプライバシー契約を読み、理解し、同意したことになります",
+    confirmationEmail: "確認用メールアドレス",
+    emailsDoNotMatch: "メールアドレスが一致しません",
   },
 };
 

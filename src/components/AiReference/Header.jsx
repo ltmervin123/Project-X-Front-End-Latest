@@ -52,7 +52,7 @@ function Header() {
         href="/ai-reference-dashboard"
         className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
-        <img src={logo} alt="Logo" width="90" height="80" />
+        <img src={logo} alt="Logo" width="90" height="75" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="UserNameNav" />
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">

@@ -9,7 +9,7 @@ const makeSnappCheckBold = (text) => {
   if (!text) return '';
   return text.split('SnappCheck').map((part, index, array) => {
     if (index === array.length - 1) return part;
-    return part + '<strong>SnappCheck</strong>';
+    return part + '<span className="color-orange">SnappCheck</span>';
   }).join('');
 };
 
@@ -29,28 +29,29 @@ const AboutUsSection = () => {
         }
       >
         <Row className="w-100  snappcheck-left-content">
-          <Col md="6">
-            <h3 className="color-blue mb-2">
-              {t('aboutUs')}
-            </h3>
-            <strong className="mb-4">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription1')) }} />
-            </strong>
-            <p className="snappcheck-about-us-desc1 my-4">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription2')) }} />
-            </p>
-            <p className="snappcheck-about-us-desc2 mb-4">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription3')) }} />
-            </p>
-            <p className="snappcheck-about-us-desc3 mb-4">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription4')) }} />
-            </p>
-          </Col>
+          
           <Col
             md="6"
             className="position-relative snapcheck-about-us-image-container"
           >
             <img src={AboutUs} alt="about us image" />
+          </Col>
+          <Col md="6">
+            <h3 className="color-grey mb-4">
+              {t('aboutUs')}
+            </h3>
+            <p className="mb-4">
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription1')) }} />
+            </p>
+            <p className="snappcheck-about-us-desc1 mb-2">
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription2')) }} />
+            </p>
+            <p className="snappcheck-about-us-desc2 mb-2">
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription3')) }} />
+            </p>
+            <p className="snappcheck-about-us-desc3 mb-2">
+              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription4')) }} />
+            </p>
           </Col>
         </Row>
       </section>

@@ -8,10 +8,14 @@
 }
 .culture-page-container{
   width: 100%;
+height: auto;
 }
 .company-culture-section{
   width: 80%;
   max-width: 900px;
+  height: 100%;
+  margin: 5vh 0;
+
 }
 .company-culture-header{
   position: relative;
