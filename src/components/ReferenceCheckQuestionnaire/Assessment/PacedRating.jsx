@@ -9,7 +9,7 @@ import "../../../styles/AiRefereeStyles/AssessmentPage.css";
 const PACING_OPTIONS = {
   English: {
     title: "How would you describe {applicantName}'s preferred work pace?",
-    subtitle: "Select one or two paced based on the applicant.",
+    subtitle: "Select one paced based on the applicant.",
     options: {
       fastPaced: {
         label: "Fast-paced",
@@ -47,32 +47,12 @@ const PACING_OPTIONS = {
   },
 };
 
-function PacedRating({ onSubmit }) {
-  const [selectedValues, setSelectedValues] = useState([]);
+function PacedRating({ onSubmit, candidateName }) {
+  const [selectedValues, setSelectedValues] = useState("");
+  const [selectedRating, setSelectedRating] = useState("");
   const language = sessionStorage.getItem("selectedLanguage") || "English";
-  const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
-  const applicantName = candidateData?.name ? `${candidateData.name.firstName} ${candidateData.name.lastName}` : "the applicant";
   const t = PACING_OPTIONS[language];
-  const title = t.title.replace("{applicantName}", applicantName);
-
-  const handleChange = (event) => {
-    const value = event.target.value;
-    setSelectedValues(prev => {
-      if (prev.includes(value)) {
-        return prev.filter(v => v !== value);
-      }
-      if (prev.length >= 2) {
-        return [prev[1], value];
-      }
-      return [...prev, value];
-    });
-  };
-
-  const handleSubmit = () => {
-    if (selectedValues.length > 0) {
-      onSubmit(selectedValues);
-    }
-  };
+  const title = t.title.replace("{applicantName}", candidateName);
 
   const pacingOptions = [
     {
@@ -98,6 +78,28 @@ function PacedRating({ onSubmit }) {
     },
   ];
 
+  const handleChange = (event, label) => {
+    const value = event.target.value;
+    const selectedOption = `${label} - ${value}`;
+    setSelectedRating(label);
+    setSelectedValues(selectedOption);
+  };
+
+  const handleSubmit = () => {
+    if (selectedValues && selectedRating) {
+      onSubmit(selectedValues, selectedRating);
+    }
+  };
+
+  const isSelected = (label, description) => {
+    const option = `${label} - ${description}`;
+    return selectedValues === option;
+  };
+
+  const isDisable = () => {
+    return selectedValues === "";
+  };
+
   return (
     <div className="assessment-form-container">
       <div className="job-performance-assessment-content">
@@ -120,11 +122,11 @@ function PacedRating({ onSubmit }) {
                 {pacingOptions.map((option, index) => (
                   <FormControlLabel
                     key={index}
-                    value={option.label}
+                    value={option.description}
                     control={
                       <Radio
-                        checked={selectedValues.includes(option.label)}
-                        onChange={handleChange}
+                        checked={isSelected(option.label, option.description)}
+                        onChange={(event) => handleChange(event, option.label)}
                         sx={{
                           color: "#333",
                           "&.Mui-checked": {
@@ -135,10 +137,10 @@ function PacedRating({ onSubmit }) {
                     }
                     className="assessment-form-group"
                     style={{
-                      border: selectedValues.includes(option.label)
+                      border: isSelected(option.label, option.description)
                         ? `1px solid ${option.borderColor} !important`
                         : "",
-                      boxShadow: selectedValues.includes(option.label)
+                      boxShadow: isSelected(option.label, option.description)
                         ? `0 0 5px ${option.borderColor}`
                         : "",
                       transition: "all 0.3s ease",
@@ -162,7 +164,7 @@ function PacedRating({ onSubmit }) {
             <button
               className="assessment-form-btn-submit"
               onClick={handleSubmit}
-              disabled={selectedValues.length === 0}
+              disabled={isDisable()}
             >
               {t.submit}
             </button>
@@ -173,4 +175,4 @@ function PacedRating({ onSubmit }) {
   );
 }
 
-export default PacedRating; 
+export default PacedRating;

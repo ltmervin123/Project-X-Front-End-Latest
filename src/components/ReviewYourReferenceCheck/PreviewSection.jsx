@@ -1,4 +1,3 @@
-import React from "react";
 
 const translations = {
   English: {
@@ -95,13 +94,24 @@ const PreviewSection = ({
     "Fast-paced": {
       backgroundColor: "rgba(237, 125, 49, 0.15)",
       color: "#ED7D31",
-
     },
     "Mid-paced": {
       backgroundColor: "rgba(112, 173, 71, 0.15)",
       color: "#70AD47",
     },
     "Low-paced": {
+      backgroundColor: "rgba(255, 234, 102, 0.15)",
+      color: "#FFEA66",
+    },
+    高速ペース: {
+      backgroundColor: "rgba(237, 125, 49, 0.15)",
+      color: "#ED7D31",
+    },
+    中程度のペース: {
+      backgroundColor: "rgba(112, 173, 71, 0.15)",
+      color: "#70AD47",
+    },
+    ゆっくりしたペース: {
       backgroundColor: "rgba(255, 234, 102, 0.15)",
       color: "#FFEA66",
     },
@@ -142,15 +152,15 @@ const PreviewSection = ({
   const getAssessmentStyle = (assessment) => {
     // Create a mapping of Japanese to English assessments
     const japaneseToEnglish = {
-      "不満足": "Unsatisfactory",
-      "改善が必要": "Needs Improvement",
-      "期待通り": "Meets Expectations",
-      "期待以上": "Exceeds Expectations",
-      "優秀": "Exceptional",
+      不満足: "Unsatisfactory",
+      改善が必要: "Needs Improvement",
+      期待通り: "Meets Expectations",
+      期待以上: "Exceeds Expectations",
+      優秀: "Exceptional",
     };
 
     const assessmentStyles = {
-      "Unsatisfactory": {
+      Unsatisfactory: {
         backgroundColor: "rgba(255, 29, 72, 0.15)",
         color: "#FF1D48",
       },
@@ -166,18 +176,14 @@ const PreviewSection = ({
         backgroundColor: "rgba(112, 173, 71, 0.15)",
         color: "#70AD47",
       },
-      "Exceptional": {
+      Exceptional: {
         backgroundColor: "rgba(93, 100, 63, 0.15)",
         color: "#5D643F",
       },
     };
-    
+
     // Convert Japanese assessment to English if necessary
     const englishAssessment = japaneseToEnglish[assessment] || assessment;
-
-    console.log("Assessment:", assessment);
-    console.log("English Assessment:", englishAssessment);
-    console.log("Style:", assessmentStyles[englishAssessment]);
 
     return assessmentStyles[englishAssessment] || {};
   };
@@ -224,11 +230,9 @@ const PreviewSection = ({
         assessment: submittedAnswer?.assessment || "",
       };
     }),
-    assessmentRating: category.assessmentRating,
+    paceRating: category?.paceRating || "",
+    assessmentRating: category?.assessmentRating || "",
   }));
-
-  // Get candidate rating from session storage
-  const candidateRating = JSON.parse(sessionStorage.getItem("candidateRating"));
 
   return (
     <div className="QuestionPreview-section">
@@ -260,31 +264,30 @@ const PreviewSection = ({
                 </div>
               </div>
             ))}
-                  {/* Add candidate rating display for workEthicAndBehavior category */}
-                  {group.category === "workEthicAndBehavior" && candidateRating && (
-                  <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+            {group.category === "workEthicAndBehavior" && group.paceRating && (
+              <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
                 <div className="d-flex gap-2 align-items-center">
                   <b>{translations[language].candidateRating}</b>
                   <div className="d-flex gap-2">
-                    {Array.isArray(candidateRating.ratings) ? (
-                      candidateRating.ratings.map((rating, index) => (
-                        <div
-                          key={index}
-                          className="overall-assessment-detail"
-                          style={phasedStyles[rating]}
-                        >
-                          <p className="m-0">
-                            {rating || translations[language].notAvailable}
-                          </p>
-                        </div>
-                      ))
+                    {group.paceRating ? (
+                      <div
+                        key={index}
+                        className="overall-assessment-detail"
+                        style={phasedStyles[group.paceRating]}
+                      >
+                        <p className="m-0">
+                          {group.paceRating ||
+                            translations[language].notAvailable}
+                        </p>
+                      </div>
                     ) : (
                       <div
                         className="overall-assessment-detail"
-                        style={phasedStyles[candidateRating.rating]}
+                        style={phasedStyles[group.paceRating]}
                       >
                         <p className="m-0">
-                          {candidateRating.rating || translations[language].notAvailable}
+                          {group.paceRating ||
+                            translations[language].notAvailable}
                         </p>
                       </div>
                     )}
@@ -292,29 +295,22 @@ const PreviewSection = ({
                 </div>
               </div>
             )}
-            {/* Add candidate rating display for workEthicAndBehavior category */}
-            {group.category === "workEthicAndBehavior" && candidateRating && (
-
-                <>
-                  {console.log(
-                    `Overall Assessment for ${group.category}:`,
-                    group.assessmentRating
-                  )}
-                  <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                    <b>{getOverallAssessmentText(group.category)}</b>
-                    <div
-                      className="overall-assessment-detail"
-                      style={getAssessmentStyle(group.assessmentRating)}
-                    >
-                      <p className="m-0">
-                        {group.assessmentRating ||
-                          translations[language].notAvailable}
-                      </p>
-                    </div>
+            {group.category === "workEthicAndBehavior" && (
+              <>
+                <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                  <b>{getOverallAssessmentText(group.category)}</b>
+                  <div
+                    className="overall-assessment-detail"
+                    style={getAssessmentStyle(group.assessmentRating)}
+                  >
+                    <p className="m-0">
+                      {group.assessmentRating ||
+                        translations[language].notAvailable}
+                    </p>
                   </div>
-                </>
-              )}
-      
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
