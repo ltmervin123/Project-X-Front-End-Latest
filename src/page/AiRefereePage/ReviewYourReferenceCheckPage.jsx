@@ -229,8 +229,8 @@ function ReviewYourReferenceCheckPage() {
           answers: updatedAnswers,
           preferredAnswerType: updatedPreferredAnswerTypes,
           assessments: updatedAssessments,
-          // Keep the original assessmentRating
           assessmentRating: categoryItem.assessmentRating,
+          paceRating: categoryItem.paceRating,
         };
       }
     );
