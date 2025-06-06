@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PacedRating from "../../components/ReferenceCheckQuestionnaire/Assessment/PacedRating";
 import axios from "axios";
 
 const TRANSLATIONS = {
@@ -34,13 +35,24 @@ const QuestionDisplay = ({
   language,
 }) => {
   const API = process.env.REACT_APP_API_URL;
+  const REFERENCE_DATA =
+    JSON.parse(sessionStorage.getItem("refereeData")) || {};
+  const { candidateName } = REFERENCE_DATA;
   const token = sessionStorage.getItem("token");
+  const referenceQuestionsData =
+    JSON.parse(sessionStorage.getItem("referenceQuestionsData")) || [];
   const [updating, setUpdating] = useState(false);
   const [editedOriginalAnswer, setEditedOriginalAnswer] = useState("");
   const [editedAIEnhancedAnswer, setEditedAIEnhancedAnswer] = useState("");
   const [editingType, setEditingType] = useState(null);
+  const [paceRatingQuestion, setPaceRatingQuestion] = useState(null);
 
-  // const language = sessionStorage.getItem("preferred-language") || "English";
+  useEffect(() => {
+    const workEthicCategory = referenceQuestionsData.find(
+      (category) => category.category === "workEthicAndBehavior"
+    );
+    setPaceRatingQuestion(workEthicCategory.questions[0]);
+  }, []);
 
   const handleSaveOriginalAnswer = async () => {
     setAnswers((prevAnswers) => {
@@ -51,6 +63,34 @@ const QuestionDisplay = ({
     await handleNormalizedAnswers();
     setEditedOriginalAnswer("");
     setEditedAIEnhancedAnswer("");
+    setIsEditing(false);
+    setEditingType(null);
+  };
+
+  const handlePacedRatingChange = (selectedValues, selectedRating) => {
+    setAnswers((prevAnswers) => {
+      const newAnswers = [...prevAnswers];
+      newAnswers[currentQuestionIndex] = selectedValues;
+      return newAnswers;
+    });
+
+    //Update referenceQuestionsData from sessionStorage
+    const updatedReferenceQuestionsData = referenceQuestionsData.map((item) => {
+      if (item.category === "workEthicAndBehavior") {
+        return {
+          ...item,
+          paceRating: selectedRating,
+        };
+      }
+      return item;
+    });
+    
+    // Save the updated data back to sessionStorage
+    sessionStorage.setItem(
+      "referenceQuestionsData",
+      JSON.stringify(updatedReferenceQuestionsData)
+    );
+    setEditedOriginalAnswer(selectedValues);
     setIsEditing(false);
     setEditingType(null);
   };
@@ -83,6 +123,15 @@ const QuestionDisplay = ({
       setUpdating(false);
     }
   };
+
+  if (isEditing && questions[currentQuestionIndex] === paceRatingQuestion) {
+    return (
+      <PacedRating
+        onSubmit={handlePacedRatingChange}
+        candidateName={candidateName}
+      />
+    );
+  }
 
   return (
     <div className="ReviewYourReferenceCheck-box-item h-100">
