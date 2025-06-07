@@ -145,7 +145,7 @@ const CandidatesTable = ({
             return fullName.toLowerCase().includes(searchQuery.toLowerCase());
           }).length === 0 && (
             <tr>
-              <td colSpan="5" className="text-center">
+              <td colSpan="7" className="text-center">
                 {labels.CandidateNotFound}
               </td>
             </tr>

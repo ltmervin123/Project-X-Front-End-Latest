@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
-import "../styles/LoginPage.css";
-import "../styles/AiReferenceCheckVerification.css";
-import Header from "../components/AiReferenceCheckVerification/Header";
-import AiReferenceCheckVerificationForm from "../components/AiReferenceCheckVerification/AiReferenceCheckVerificationForm";
-import { verifyReferenceLink } from "../api/ai-reference/reference-request/reference-request-api";
+import "../../styles/LoginPage.css";
+import "../../styles/AiReferenceCheckVerification.css";
+import Header from "../../components/AiReferenceCheckVerification/Header.jsx";
+import AiReferenceCheckVerificationForm from "../../components/AiReferenceCheckVerification/AiReferenceCheckVerificationForm.jsx";
+import { verifyReferenceLink } from "../../api/ai-reference/reference-request/reference-request-api.js";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
-import Captcha from "../components/ReCaptcha/Captcha.jsx";
-import { verifyCaptchaToken } from "../api/ai-reference/candidate/candidate-api";
+import Captcha from "../../components/ReCaptcha/Captcha.jsx";
+import { verifyCaptchaToken } from "../../api/ai-reference/candidate/candidate-api.js";
 
 function AiReferenceCheckVerificationPage() {
   const { token } = useParams();
@@ -73,7 +73,7 @@ function AiReferenceCheckVerificationPage() {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: "80vh" }}
+        style={{ height: "100vh" }}
       >
         <Captcha onChange={onChange} captchaToken={captchaToken} />
       </div>

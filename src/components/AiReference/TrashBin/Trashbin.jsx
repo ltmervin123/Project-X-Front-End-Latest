@@ -482,31 +482,10 @@ const Trashbin = () => {
 
     if (currentData.length === 0) {
       return (
-        <tr className="d-flex align-items-center nodata-trashbin-container justify-content-center flex-column gap-2 py-4 h-100">
+        <tr className="d-flex align-items-center nodata-trashbin-container justify-content-start flex-column gap-2 h-100">
           <td colSpan="7">
-            <div className="w-100 d-flex align-items-center justify-content-center flex-column gap-2">
-              <svg
-                width="30"
-                height="41"
-                viewBox="0 0 40 51"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M40 2.83333H30L27.1429 0H12.8571L10 2.83333H0V8.5H40M2.85714 45.3333C2.85714 46.8362 3.45918 48.2776 4.53082 49.3403C5.60245 50.403 7.05591 51 8.57143 51H31.4286C32.9441 51 34.3975 50.403 35.4692 49.3403C36.5408 48.2776 37.1429 46.8362 37.1429 45.3333V11.3333H2.85714V45.3333Z"
-                  fill="#F46A05"
-                />
-              </svg>
-              <h4 className="m-0">
-                {selectedCategory === labels.jobs && labels.noJobsInTrash}
-                {selectedCategory === labels.applicants &&
-                  labels.noApplicantsInTrash}
-                {selectedCategory === labels.referenceRequest &&
-                  labels.noReferenceRequestsInTrash}
-                {selectedCategory === labels.referenceQuestions &&
-                  labels.noReferenceQuestionsInTrash}
-              </h4>
-              <p className="text-center">{labels.trashWarning}</p>
+            <div className="w-100 d-flex justify-content-center">
+{labels.trashbinEmpty}
             </div>
           </td>
         </tr>
@@ -515,22 +494,15 @@ const Trashbin = () => {
 
     if (filteredData.length === 0) {
       return (
-        <tr className="d-flex align-items-center justify-content-center flex-column gap-2 py-4 h-100">
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 23 23"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.375 14.5H15.3875L15.0375 14.1625C16.3049 12.6926 17.0015 10.8159 17 8.875C17 7.26803 16.5235 5.69715 15.6307 4.361C14.7379 3.02485 13.469 1.98344 11.9843 1.36848C10.4997 0.75352 8.86599 0.592618 7.28989 0.906123C5.7138 1.21963 4.26606 1.99346 3.12976 3.12976C1.99346 4.26606 1.21963 5.7138 0.906123 7.28989C0.592618 8.86599 0.75352 10.4997 1.36848 11.9843C1.98344 13.469 3.02485 14.7379 4.361 15.6307C5.69715 16.5235 7.26803 17 8.875 17C10.8875 17 12.7375 16.2625 14.1625 15.0375L14.5 15.3875V16.375L20.75 22.6125L22.6125 20.75L16.375 14.5ZM8.875 14.5C5.7625 14.5 3.25 11.9875 3.25 8.875C3.25 5.7625 5.7625 3.25 8.875 3.25C11.9875 3.25 14.5 5.7625 14.5 8.875C14.5 11.9875 11.9875 14.5 8.875 14.5Z"
-              fill="#F46A05"
-            />
-          </svg>
-          <h4>
-            {labels.noMatchingItems} "{searchQuery}"
-          </h4>
+        <tr className="d-flex align-items-center nodata-trashbin-container justify-content-start flex-column gap-2 h-100">
+          <td colSpan="7">
+            <div className="w-100 d-flex justify-content-center">
+              {selectedCategory === labels.jobs && `${labels.noMatchingJobs} "${searchQuery}"`}
+              {selectedCategory === labels.applicants && `${labels.noMatchingApplicants} "${searchQuery}"`}
+              {selectedCategory === labels.referenceRequest && `${labels.noMatchingReferenceRequests} "${searchQuery}"`}
+              {selectedCategory === labels.referenceQuestions && `${labels.noMatchingReferenceQuestions} "${searchQuery}"`}
+            </div>
+          </td>
         </tr>
       );
     }

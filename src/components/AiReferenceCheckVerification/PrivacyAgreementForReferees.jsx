@@ -285,7 +285,7 @@ const PrivacyAgreementForReferees = ({
               </div>
             ))}
             <div className="cr-section">
-              <div className="d-flex gap-2 align-items-center justify-content-start p-1">
+              <div className="d-flex gap-2 justify-content-start p-1">
                 <input
                   type="checkbox"
                   className="form-check-input custom-checkbox"

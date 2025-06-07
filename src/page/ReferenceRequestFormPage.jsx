@@ -67,7 +67,7 @@ function ReferenceRequestFormPage() {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
-        style={{ height: "80vh" }}
+        style={{ height: "100vh" }}
       >
         <Captcha onChange={onChange} captchaToken={captchaToken} />
       </div>

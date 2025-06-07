@@ -6,6 +6,7 @@
   --input-bg: #686868;
   --bg-fade-signup: #d9d9d9;
 }
+
 .AiReferenceCheckVerification-page-container {
   height: 100vh;
 }
@@ -25,24 +26,32 @@
   border: 1px solid #dedede;
   font-size: 13px;
 }
+
 .reference-progress-indicator {
   display: flex;
-  align-items: center; /* Center align items vertically */
-  margin-bottom: 20px; /* Space between progress and form */
+  align-items: center;
+  /* Center align items vertically */
+  margin-bottom: 20px;
+  /* Space between progress and form */
 }
 
 .reference-progress-indicator .reference-step-container {
   display: flex;
-  flex-direction: column; /* Stack bullet and label vertically */
-  align-items: center; /* Center align items horizontally */
-  position: relative; /* Position relative for line positioning */
-  flex-grow: 1; /* Allow the step containers to grow */
+  flex-direction: column;
+  /* Stack bullet and label vertically */
+  align-items: center;
+  /* Center align items horizontally */
+  position: relative;
+  /* Position relative for line positioning */
+  flex-grow: 1;
+  /* Allow the step containers to grow */
   width: 120px;
 }
 
 .reference-progress-indicator .step {
   display: flex;
-  align-items: center; /* Align bullet and line horizontally */
+  align-items: center;
+  /* Align bullet and line horizontally */
 }
 
 .reference-progress-indicator .bullet {
@@ -55,28 +64,36 @@
   justify-content: center;
   font-weight: bold;
   color: var(--font-black);
-  z-index: 1; /* Ensure bullet is above the line */
+  z-index: 1;
+  /* Ensure bullet is above the line */
 }
 
 .reference-progress-indicator .step-label {
-  margin-top: 5px; /* Space between line and label */
+  margin-top: 5px;
+  /* Space between line and label */
   text-align: center;
   font-size: 12px;
 }
 
 .reference-progress-indicator .step.active .bullet {
-  background-color: var(--primary-color); /* Change color for active step */
+  background-color: var(--primary-color);
+  /* Change color for active step */
   color: var(--font-white);
 }
 
 .reference-progress-indicator .line {
-  height: 2.3px; /* Height of the line */
-  background-color: var(--font-black); /* Color of the line */
-  width: 76px; /* Width of the line */
-  margin-left: 37px; /* Space between bullet and line */
+  height: 2.3px;
+  /* Height of the line */
+  background-color: var(--font-black);
+  /* Color of the line */
+  width: 76px;
+  /* Width of the line */
+  margin-left: 37px;
+  /* Space between bullet and line */
   margin-right: 37px;
   position: absolute;
 }
+
 .form-AiReferenceCheckVerification {
   padding: 20px 100px 10px 100px;
   border-radius: 0px 0px 20px 20px;
@@ -91,17 +108,17 @@
   position: relative;
   top: 0;
   left: 0;
-  width: 100%; /* Ensures full width */
+  width: 100%;
+  /* Ensures full width */
   border: none;
   margin: 0 !important;
   z-index: 1000;
-  background: linear-gradient(
-    97deg,
-    rgba(255, 157, 85, 1) 0%,
-    rgba(245, 110, 11, 1) 79%,
-    rgba(244, 106, 5, 1) 100%
-  );
+  background: linear-gradient(97deg,
+      rgba(255, 157, 85, 1) 0%,
+      rgba(245, 110, 11, 1) 79%,
+      rgba(244, 106, 5, 1) 100%);
 }
+
 .AiReferenceCheckVerification-title::after {
   content: "";
   position: absolute;
@@ -109,12 +126,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("data:image/svg+xml,%3Csvg width='840' height='94' viewBox='0 0 840 94' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M221.852 62.0905C84.842 103.624 36.3506 89.637 0 73.6387V94H839.634C839.634 94 840.458 88.9351 839.634 29.0375C838.81 -30.8601 672.713 13.7905 555.032 56.4972C453.636 93.2935 404.167 75.2593 338.27 55.3041C305.143 49.3553 269.226 47.7296 221.852 62.0905Z' fill='url(%23paint0_linear_4743_3357)'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_4743_3357' x1='786.642' y1='60.0643' x2='18.0063' y2='58.5658' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23F46A05'/%3E%3Cstop offset='0.925' stop-color='%23FFDCC2'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E")
-    no-repeat left bottom -5px !important;
+  background: url("data:image/svg+xml,%3Csvg width='840' height='94' viewBox='0 0 840 94' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M221.852 62.0905C84.842 103.624 36.3506 89.637 0 73.6387V94H839.634C839.634 94 840.458 88.9351 839.634 29.0375C838.81 -30.8601 672.713 13.7905 555.032 56.4972C453.636 93.2935 404.167 75.2593 338.27 55.3041C305.143 49.3553 269.226 47.7296 221.852 62.0905Z' fill='url(%23paint0_linear_4743_3357)'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_4743_3357' x1='786.642' y1='60.0643' x2='18.0063' y2='58.5658' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23F46A05'/%3E%3Cstop offset='0.925' stop-color='%23FFDCC2'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E") no-repeat left bottom -5px !important;
   background-size: 100% !important;
   z-index: -1;
 }
-.AiReferenceCheckVerification-title > p {
+
+.AiReferenceCheckVerification-title>p {
   font-weight: 200 !important;
 }
 
@@ -131,15 +148,18 @@
 
 .AiReferenceCheckVerification-container-form select {
   appearance: none;
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E'); /* SVG down arrow */
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 4l5 5 5-5"%3E%3C/path%3E%3C/svg%3E');
+  /* SVG down arrow */
   background-position: right 15px center;
   background-repeat: no-repeat;
   padding: 5px 16px 7px 16px;
 }
 
 .AiReferenceCheckVerification-container-form select:focus {
-  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E'); /* SVG up arrow (flipped) */
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E');
+  /* SVG up arrow (flipped) */
 }
+
 .AiReferenceCheckVerification-container-form label {
   margin: 0;
 }
@@ -152,52 +172,100 @@
   color: var(--font-white);
   font-size: 13px;
 }
+
 .referencheckavatar {
   height: 80%;
   position: absolute;
   bottom: 20px;
   right: -30px;
 }
+
 .privacyAgreementCheckbox {
   font-size: 12px;
 }
+
 .cr-privacy-modal-agreement .modal-dialog {
   width: 100% !important;
   max-width: 700px !important;
+
 }
+
 .cr-privacy-modal-agreement .cr-section-title {
   font-size: 15px;
 }
+
 .cr-privacy-modal-agreement .btn-cr-continue {
   font-size: 13px !important;
   padding: 5px 30px !important;
 }
+
 .cr-privacy-modal-agreement .cr-section-description {
-  font-size: 13px;
+  font-size: 15px;
+}
+
+.cr-privacy-content {
+  width: 100% !important;
+  max-width: 800px !important;
+  height: 70vh;
+  overflow: auto;
+}
+
+/* Scrollbar styling */
+.cr-privacy-content::-webkit-scrollbar {
+  width: 8px;
+  /* Width of the scrollbar */
+}
+
+.cr-privacy-content::-webkit-scrollbar-track {
+  background: #D1D1D1;
+  width: 8px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+
+.cr-privacy-content::-webkit-scrollbar-thumb {
+  background-color: #F46A05;
+  /* Color of the scrollbar thumb */
+  border-radius: 6px;
+  /* Rounded corners */
+  width: 12px;
+  /* Set the width of the thumb */
+  height: 12px;
+  /* Set the height to the same as the width for a circle */
 }
 
 /* Customizing the scrollbar */
 .login-page-container::-webkit-scrollbar {
-  width: 12px; /* Scrollbar width */
+  width: 12px;
+  /* Scrollbar width */
 }
 
 .login-page-container::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color); /* Scrollbar thumb color */
-  border-radius: 12px; /* Rounded corners */
+  background-color: var(--primary-color);
+  /* Scrollbar thumb color */
+  border-radius: 12px;
+  /* Rounded corners */
 }
 
 .login-page-container::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary-color); /* Scrollbar thumb color */
+  background-color: var(--primary-color);
+  /* Scrollbar thumb color */
 }
 
 .login-page-container::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Track color */
-  border-radius: 6px; /* Rounded corners for the track */
+  background-color: #f1f1f1;
+  /* Track color */
+  border-radius: 6px;
+  /* Rounded corners for the track */
 }
 
 /* Scrollbar styling */
 .cr-privacy-modal-agreement::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
+  width: 8px;
+  /* Width of the scrollbar */
 }
 
 .cr-privacy-modal-agreement::-webkit-scrollbar-track {
@@ -211,8 +279,12 @@
 }
 
 .cr-privacy-modal-agreement::-webkit-scrollbar-thumb {
-  background-color: #f46a05; /* Color of the scrollbar thumb */
-  border-radius: 6px; /* Rounded corners */
-  width: 12px; /* Set the width of the thumb */
-  height: 12px; /* Set the height to the same as the width for a circle */
+  background-color: #f46a05;
+  /* Color of the scrollbar thumb */
+  border-radius: 6px;
+  /* Rounded corners */
+  width: 12px;
+  /* Set the width of the thumb */
+  height: 12px;
+  /* Set the height to the same as the width for a circle */
 }

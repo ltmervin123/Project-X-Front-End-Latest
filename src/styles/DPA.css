@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: flex-start;
     line-height: 1;
-    font-size: 12px;
+    font-size: 15px;
     margin-block: 10px;
   }
   .cr-agreement-box-check > .cr-form-check-input {
@@ -39,7 +39,7 @@
   .cr-dpa-content {
     width: 100% !important;
     max-width: 800px !important;
-    height: 510px;
+    height: 70vh;
     overflow: auto;
   }
   .cr-dpa-content > h2 {
@@ -49,7 +49,7 @@
   
   .cr-dpa-content > p,
   .cr-dpa-content ul {
-    font-size: 12px;
+    font-size: 15px;
   }
   .cr-section {
     width: 100%;
@@ -60,12 +60,13 @@
     font-size: 20px;
   }
   .cr-section .cr-section-description {
-    font-size: 12px;
+    font-size: 15px;
   }
   .cr-section > .acceptance {
     color: #686868;
     font-style: italic;
   }
+
   .btn-cr-continue {
     background-color: #F46A05;
     color: var(--font-white) !important;
@@ -105,8 +106,8 @@
   .cr-dpa-content::-webkit-scrollbar-thumb {
     background-color: #F46A05; /* Color of the scrollbar thumb */
     border-radius: 6px; /* Rounded corners */
-    width: 12px; /* Set the width of the thumb */
-    height: 12px; /* Set the height to the same as the width for a circle */
+    width: 15px; /* Set the width of the thumb */
+    height: 15px; /* Set the height to the same as the width for a circle */
   }
   .custom-checkbox:checked {
     background-color: var(--primary-color);

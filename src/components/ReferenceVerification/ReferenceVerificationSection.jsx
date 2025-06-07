@@ -67,6 +67,12 @@ const translations = {
     signature: "VERIFICATION",
     invalidDate: "Invalid Date",
     refereeCompanyWorkedWith: "Company Worked With",
+    candidateRating: "Preferred Pace: ",
+    paceRatings: {
+      "Fast-paced": "Fast-paced",
+      "Mid-paced": "Mid-paced",
+      "Slow-paced": "Slow-paced"
+    },
 
     question: function (index) {
       return `Question ${index + 1}`;
@@ -143,6 +149,12 @@ const translations = {
     signature: "検証",
     invalidDate: "無効な日付",
     refereeCompanyWorkedWith: "一緒に働いた会社",
+    candidateRating: "希望するペース：",
+    paceRatings: {
+      "Fast-paced": "高速ペース",
+      "Mid-paced": "中程度のペース",
+      "Slow-paced": "ゆっくりしたペース"
+    },
 
     question: function (index) {
       return `第${index + 1}問`;
@@ -301,6 +313,7 @@ const ReferenceVerificationSection = () => {
     const t = translations[language].overallAssessments;
 
     switch (category) {
+      
       // Standard Format
       case "jobResponsibilitiesAndPerformance":
         return t.jobPerformance;
@@ -537,22 +550,49 @@ const ReferenceVerificationSection = () => {
                           </div>
                         </div>
                       ))}
-                      {/* Add Overall Category Assessment */}
-                      {item.category !== "relationship" &&
-                        item.category !== "closingQuestions" && (
-                          <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                            <b>{getOverallAssessmentText(item.category)}</b>
-                            <div
-                              className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.assessmentRating)}
-                            >
-                              <p className="m-0">
-                                {item.assessmentRating ||
-                                  translations[language].notAvailable}
-                              </p>
+                      {/* Add Pace Rating for Work Ethic and Behavior */}
+                      {item.category === "workEthicAndBehavior" && item.paceRating && (
+                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                          <div className="d-flex gap-2 align-items-center">
+                            <b>{translations[language].candidateRating}</b>
+                            <div className="d-flex gap-2">
+                              <div
+                                className="overall-assessment-detail"
+                                style={{
+                                  backgroundColor: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                    ? "rgba(237, 125, 49, 0.15)"
+                                    : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                    ? "rgba(112, 173, 71, 0.15)"
+                                    : "rgba(255, 234, 102, 0.15)",
+                                  color: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                    ? "#ED7D31"
+                                    : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                    ? "#70AD47"
+                                    : "#FFEA66",
+                                }}
+                              >
+                                <p className="m-0">
+                                  {item.paceRating || translations[language].notAvailable}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        )}
+                        </div>
+                      )}
+                      {/* Add Overall Category Assessment */}
+                      {item.category === "workEthicAndBehavior" && (
+                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                          <b>{getOverallAssessmentText(item.category)}</b>
+                          <div
+                            className="overall-assessment-detail"
+                            style={getAssessmentStyle(item.assessmentRating)}
+                          >
+                            <p className="m-0">
+                              {item.assessmentRating || translations[language].notAvailable}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))
               : (referenceData?.referenceQuestion || []).map((item) => (
@@ -580,22 +620,49 @@ const ReferenceVerificationSection = () => {
                         </div>
                       </div>
                     ))}
-                    {/* Add Overall Category Assessment */}
-                    {/* {item.category !== "relationship" &&
-                      item.category !== "closingQuestions" && (
-                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                          <b>{getOverallAssessmentText(item.category)}</b>
-                          <div
-                            className="overall-assessment-detail"
-                            style={getAssessmentStyle(item.overallAssessment)}
-                          >
-                            <p className="m-0">
-                              {item.overallAssessment ||
-                                translations[language].notAvailable}
-                            </p>
+                    {/* Add Pace Rating for Work Ethic and Behavior */}
+                    {item.category === "workEthicAndBehavior" && item.paceRating && (
+                      <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                        <div className="d-flex gap-2 align-items-center">
+                          <b>{translations[language].candidateRating}</b>
+                          <div className="d-flex gap-2">
+                            <div
+                              className="overall-assessment-detail"
+                              style={{
+                                backgroundColor: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                  ? "rgba(237, 125, 49, 0.15)"
+                                  : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                  ? "rgba(112, 173, 71, 0.15)"
+                                  : "rgba(255, 234, 102, 0.15)",
+                                color: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                  ? "#ED7D31"
+                                  : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                  ? "#70AD47"
+                                  : "#FFEA66",
+                              }}
+                            >
+                              <p className="m-0">
+                                {item.paceRating || translations[language].notAvailable}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      )} */}
+                      </div>
+                    )}
+                    {/* Add Overall Category Assessment */}
+                    {item.category === "workEthicAndBehavior" && (
+                      <div className="overall-assessment-container d-flex gap-2 align-items-center">
+                        <b>{getOverallAssessmentText(item.category)}</b>
+                        <div
+                          className="overall-assessment-detail"
+                          style={getAssessmentStyle(item.assessmentRating)}
+                        >
+                          <p className="m-0">
+                            {item.assessmentRating || translations[language].notAvailable}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
           </div>

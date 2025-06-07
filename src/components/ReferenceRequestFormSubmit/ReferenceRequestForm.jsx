@@ -268,7 +268,7 @@ function ReferenceRequestForm() {
                         htmlFor={`confirmation-email-${index}`}
                         className="your-reference-request-form-label mb-1 "
                       >
-                        {labels.confirmationEmail}
+                        {labels.confirmEmail}
                         <span className="orange-text"> *</span>
                       </Form.Label>
                       <Form.Control

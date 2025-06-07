@@ -50,6 +50,8 @@ const PACING_OPTIONS = {
 function PacedRating({ onSubmit, candidateName }) {
   const [selectedValues, setSelectedValues] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
+  const [hoveredOption, setHoveredOption] = useState(null);
+  const [activeOption, setActiveOption] = useState(null);
   const language = sessionStorage.getItem("selectedLanguage") || "English";
   const t = PACING_OPTIONS[language];
   const title = t.title.replace("{applicantName}", candidateName);
@@ -132,17 +134,30 @@ function PacedRating({ onSubmit, candidateName }) {
                           "&.Mui-checked": {
                             color: option.checkboxColor,
                           },
+                          "&:hover": {
+                            color: option.checkboxColor,
+                          },
                         }}
                       />
                     }
                     className="assessment-form-group"
+                    onMouseEnter={() => setHoveredOption(option.nameId)}
+                    onMouseLeave={() => setHoveredOption(null)}
+                    onMouseDown={() => setActiveOption(option.nameId)}
+                    onMouseUp={() => setActiveOption(null)}
                     style={{
                       border: isSelected(option.label, option.description)
                         ? `1px solid ${option.borderColor} !important`
-                        : "",
+                        : hoveredOption === option.nameId
+                        ? `1px solid ${option.borderColor}`
+                        : activeOption === option.nameId
+                        ? `1px solid ${option.borderColor}`
+                        : "1px solid black",
                       boxShadow: isSelected(option.label, option.description)
                         ? `0 0 5px ${option.borderColor}`
-                        : "",
+                        : hoveredOption === option.nameId
+                        ? `0 0 3px ${option.borderColor}`
+                        : "none",
                       transition: "all 0.3s ease",
                     }}
                     label={
