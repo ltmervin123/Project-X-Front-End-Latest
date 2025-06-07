@@ -56,6 +56,7 @@ const ReferenceRequestTable = ({
         </h4>
         <p>{labels.referenceRequestListDesc}</p>
       </div>
+      {filteredReferences && filteredReferences.length > 0 ? (
         <div className="scrollable-table-container">
           <table>
             <thead>
@@ -290,10 +291,6 @@ const ReferenceRequestTable = ({
                       )}
                   </React.Fragment>
                 ))
-              ) : filteredReferences && filteredReferences.length === 0 ? (
-                <tr>
-                  <td colSpan="7" className="text-center">{labels.noRecord}</td>
-                </tr>
               ) : (
                 <tr>
                   <td colSpan="7" className="text-center">
@@ -304,7 +301,9 @@ const ReferenceRequestTable = ({
             </tbody>
           </table>
         </div>
-
+      ) : (
+        <div>{labels.noRecord}</div>
+      )}
     </div>
   );
 };

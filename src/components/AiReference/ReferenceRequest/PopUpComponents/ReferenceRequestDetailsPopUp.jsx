@@ -129,7 +129,6 @@ const ReferenceRequestDetailsPopUp = ({
             <Col md={6}>
               <div className="Request-container-status d-flex justify-content-between align-items-center mt-3 mb-3">
                 <p className="d-flex align-items-center">
-                  {/* Check icon */}
                   <svg
                     width="14"
                     height="14"
@@ -189,7 +188,6 @@ const ReferenceRequestDetailsPopUp = ({
               </div>
             </Col>
             <Col md={6}>
-
               <div className="candidate-info-container  mt-3">
                 <b>{labels.applicantInformation}</b>
                 <div className="candidate-labels-and-details w-100">

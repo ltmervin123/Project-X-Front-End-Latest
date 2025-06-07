@@ -4,6 +4,7 @@ import {
   getReferences,
   deleteReference,
   fetchReferenceByReferenceId,
+  updateReference,
 } from "../api/ai-reference/reference-request/reference-request-api";
 
 export const useGetCompletedReference = (user) => {
@@ -48,5 +49,20 @@ export const useGetReferencesById = (params) => {
     queryFn: () => fetchReferenceByReferenceId(params),
     staleTime: 1000 * 60 * 5,
     enabled: !!params.referenceId && !!params.refereeId && !!params.token,
+  });
+};
+
+export const useUpdateReferee = (user, options = {}) => {
+  const queryClient = useQueryClient();
+  const { onSettled } = options;
+
+  return useMutation({
+    mutationFn: async (payload) => {
+      await updateReference({ user, payload });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["references"] });
+    },
+    onSettled: onSettled,
   });
 };

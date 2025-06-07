@@ -27,7 +27,7 @@ const ReferenceRequest = () => {
   const [showViewRequest, setShowViewRequest] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCandidate, setSelectedCandidate] = useState([]);
+  const [selectedReference, setSelectedReference] = useState([]);
   const [selectedReferee, setSelectedReferee] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [visibleOptions, setVisibleOptions] = useState({});
@@ -75,7 +75,7 @@ const ReferenceRequest = () => {
   const handleSetCandidate = useCallback(
     (referenceId) => {
       const referenceFound = reference.find((ref) => ref._id === referenceId);
-      setSelectedCandidate(referenceFound);
+      setSelectedReference(referenceFound);
 
       setShowDropDown(true);
       setIsExpanded(false);
@@ -95,8 +95,6 @@ const ReferenceRequest = () => {
     setShowDetailsPopup(false);
   }, []);
 
- 
-
   const handleEditReferee = useCallback((referee) => {
     setSelectedReferee(referee);
     setShowDetailsPopup(false);
@@ -107,11 +105,6 @@ const ReferenceRequest = () => {
   const handleCloseEditPopup = useCallback(() => {
     setShowEditPopup(false);
   }, []);
-
-  const handleUpdateReference = useCallback((updatedData) => {
-    reFetchReference();
-    setShowEditPopup(false);
-  }, [reFetchReference]);
 
   const filteredReferences = useMemo(() => {
     return reference
@@ -169,7 +162,7 @@ const ReferenceRequest = () => {
   if (showViewRequest) {
     return (
       <ViewRequest
-        referenceId={selectedCandidate._id}
+        referenceId={selectedReference._id}
         refereeId={selectedReferee._id}
         token={token}
         refereeQuestionFormat={selectedReferee.questionFormat}
@@ -195,7 +188,7 @@ const ReferenceRequest = () => {
         labels={labels}
         filteredReferences={filteredReferences}
         showDropDown={showDropDown}
-        selectedCandidate={selectedCandidate}
+        selectedCandidate={selectedReference}
         isExpanded={isExpanded}
         handleSetCandidate={handleSetCandidate}
         toggleDropdown={toggleDropdown}
@@ -220,9 +213,9 @@ const ReferenceRequest = () => {
         />
       )}
 
-      {showDetailsPopup && selectedCandidate && (
+      {showDetailsPopup && selectedReference && (
         <ReferenceRequestDetailsPopUp
-          candidate={selectedCandidate}
+          candidate={selectedReference}
           referee={selectedReferee}
           onClose={handleCloseDetailsPopup}
           onViewReference={handleViewRequest}
@@ -233,10 +226,11 @@ const ReferenceRequest = () => {
 
       {showEditPopup && selectedReferee && (
         <EditRefereePopUp
+          selectedReference={selectedReference}
           referee={selectedReferee}
           onClose={handleCloseEditPopup}
-          onUpdate={handleUpdateReference}
           labels={labels}
+          user={user}
         />
       )}
     </div>
