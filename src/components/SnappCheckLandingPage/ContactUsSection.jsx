@@ -22,8 +22,10 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
       >
         <Row className="w-100  snappcheck-left-did-you-know-content">
           <Col md="7">
-            <h3 className="color-blue mb-2">{t('contactUs')}</h3>
-            <h2 className="mb-2">{t('contactUsTitle')}</h2>
+            <h3 className="color-grey mb-2">{t('contactUs')}</h3>
+            <h2 className="mb-2">
+              {t('letsGrowTeam')} <span className="color-orange">{t('letsGrowTeamHighlight')}</span>
+            </h2>
             <p>
               {t('contactUsSubtitle')}
             </p>
@@ -39,10 +41,10 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                     <Form.Label>
                       {t('firstName')} <span className="color-orange">*</span>{" "}
                     </Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      placeholder={t('firstNamePlaceholder')} 
-                      required 
+                    <Form.Control
+                      type="text"
+                      placeholder={t('firstNamePlaceholder')}
+                      required
                     />
                   </Form.Group>
                 </Col>
@@ -63,30 +65,30 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                 <Form.Label>
                   {t('email')} <span className="color-orange">*</span>
                 </Form.Label>
-                <Form.Control 
-                  type="email" 
-                  placeholder={t('emailPlaceholder')} 
-                  required 
+                <Form.Control
+                  type="email"
+                  placeholder={t('emailPlaceholder')}
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>
                   {t('company')}<span className="color-orange">*</span>
                 </Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder={t('companyPlaceholder')} 
-                  required 
+                <Form.Control
+                  type="text"
+                  placeholder={t('companyPlaceholder')}
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>
                   {t('location')} <span className="color-orange">*</span>
                 </Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder={t('locationPlaceholder')} 
-                  required 
+                <Form.Control
+                  type="text"
+                  placeholder={t('locationPlaceholder')}
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-1">
@@ -100,9 +102,9 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                   required
                 />
               </Form.Group>
-               <Form.Group className="my-2">
-                
-                <Form.Check 
+              <Form.Group className="my-2">
+
+                <Form.Check
                   type="checkbox"
                   id="privacy-policy"
                   label={t('privacyPolicy')}
@@ -112,7 +114,7 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
               <div className="btn-submit">
                 {t('submit')}
               </div>
-             
+
             </Form>
           </Col>
           <Col md="5">

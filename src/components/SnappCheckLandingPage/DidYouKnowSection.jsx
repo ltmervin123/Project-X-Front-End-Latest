@@ -16,11 +16,28 @@ const DidYouKnowSection = () => {
         }
       >
         <Row className="w-100  snappcheck-left-content">
+        <h3 className="color-grey mb-2">{t("didYouKnow")}</h3>
+
           <Col md="6">
-            <h3 className="color-blue mb-2">{t("didYouKnow")}</h3>
-            <h2 className="mb-4">{t("didYouKnowTitle")}</h2>
+            <h2 className="mb-4">
+              {language === 'English' ? (
+                t("didYouKnowTitle").split("global hiring data").map((part, index, array) => (
+                  <React.Fragment key={index}>
+                    {part}
+                    {index < array.length - 1 && <span className="color-orange">global hiring data</span>}
+                  </React.Fragment>
+                ))
+              ) : (
+                t("didYouKnowTitle").split("グローバルな採用データ").map((part, index, array) => (
+                  <React.Fragment key={index}>
+                    {part}
+                    {index < array.length - 1 && <span className="color-orange">グローバルな採用データ</span>}
+                  </React.Fragment>
+                ))
+              )}
+            </h2>
           </Col>
-          <Col md="6" className="position-relative">
+          <Col md="6" className="position-relative did-you-know-descitiption">
             <p className="mb-4">{t("didYouKnowDesc")}</p>
             <div className="d-flex flex-column">
               {t("stats").map((stat, index) => (
@@ -43,10 +60,7 @@ const DidYouKnowSection = () => {
                 </div>
               ))}
             </div>
-            <div className="d-flex gap-3 justify-content-start w-100 snappcheck-button-controller1">
-              <button>{t("subscribeNow")}</button>
-              <button>{t("userGuide")}</button>
-            </div>
+          
           </Col>
         </Row>
       </section>

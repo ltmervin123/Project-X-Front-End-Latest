@@ -28,7 +28,7 @@ const CustomDropdown = ({ options, selectedOption, onSelect }) => {
 
   return (
     <div
-      className={`login-custom-dropdown ${isOpen ? "open" : ""}`}
+      className={`login-custom-dropdown d-none ${isOpen ? "open" : ""}`}
       onClick={toggleDropdown}
     >
       <div className={`dropdown-header ${isOpen ? "open" : ""}`}>

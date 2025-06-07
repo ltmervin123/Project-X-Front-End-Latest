@@ -20,7 +20,7 @@ export const formatUpdateCandidatePayload = (params) => {
 };
 
 export const translateQuestionName = (format, originalName, labels) => {
-  if (format === "HR-HATCH-FORMAT") {
+  if (format === "Snappcheck-FORMAT") {
     return labels.FormatValues[originalName] || originalName;
   }
   return originalName;

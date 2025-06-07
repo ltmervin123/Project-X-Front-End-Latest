@@ -3,7 +3,7 @@ import { useState } from 'react';
 export const COMPANY_TRANSLATIONS = {
   English: {
     'COMPANY_REGISTRATION': 'Company Registration',
-    'JOIN_PLATFORM': 'Join our platform and start hiring top talent today!',
+    'JOIN_PLATFORM': 'Verify before you hire. Join SnappCheck now.',
     'REGISTER_COMPANY': 'Register Your Company',
     'PROVIDE_DETAILS': 'Provide your company details to create an account',
     // Company Information
@@ -61,7 +61,7 @@ export const COMPANY_TRANSLATIONS = {
     'TERMS_OF_SERVICE': 'Snappcheck Terms of Service',
     'AND': 'and',
     'DATA_PROTECTION': 'Data Protection Agreement',
-    'SELECT_CULTURE': 'Select Culture Preferences',
+    'SELECT_CULTURE': 'Define your company culture',
     'PROCESSING': 'Processing...',
     'REGISTER': 'Register Company',
     // DPA Modal
@@ -133,7 +133,7 @@ export const COMPANY_TRANSLATIONS = {
   },
   Japanese: {
     'COMPANY_REGISTRATION': '企業登録',
-    'JOIN_PLATFORM': '当プラットフォームに参加して、今すぐ優秀な人材の採用を始めましょう！',
+    'JOIN_PLATFORM': '採用前に確認。今すぐSnappCheckに参加しましょう。',
     'REGISTER_COMPANY': '企業を登録する',
     'PROVIDE_DETAILS': 'アカウントを作成するために企業情報を入力してください',
     // Company Information
@@ -191,7 +191,7 @@ export const COMPANY_TRANSLATIONS = {
     'TERMS_OF_SERVICE': 'Snappcheckの利用規約',
     'AND': 'および',
     'DATA_PROTECTION': 'データ保護契約',
-    'SELECT_CULTURE': '企業文化の設定',
+    'SELECT_CULTURE': '企業文化を定義する',
     'PROCESSING': '処理中...',
     'REGISTER': '企業を登録',
     // DPA Modal

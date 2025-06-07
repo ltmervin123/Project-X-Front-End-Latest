@@ -66,7 +66,7 @@ const CandidatesTable = ({
                   />
                 </td>
                 <td>
-                  <CultureFitScore score={0} />
+                  <CultureFitScore score={candidate.overallRating} />
                 </td>
                 <td>
                   <div className="position-relative d-flex align-items-center w-100 justify-content-center">
@@ -145,7 +145,7 @@ const CandidatesTable = ({
             return fullName.toLowerCase().includes(searchQuery.toLowerCase());
           }).length === 0 && (
             <tr>
-              <td colSpan="5" className="text-center">
+              <td colSpan="7" className="text-center">
                 {labels.CandidateNotFound}
               </td>
             </tr>

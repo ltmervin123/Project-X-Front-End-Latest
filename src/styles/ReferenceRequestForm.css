@@ -133,6 +133,18 @@
     padding: 12px 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.your-reference-request-form-input.is-invalid{
+    color: red !important;
+    border-color: red !important;
+}
+.your-reference-request-form-input.is-invalid::placeholder {
+    color: red !important;
+}
+.your-reference-request-form-group .invalid-feedback{
+    position: relative;
+    top: -2px;
+    left: 0;
+}
 .btn-container {
     margin-block: 50px;
 }

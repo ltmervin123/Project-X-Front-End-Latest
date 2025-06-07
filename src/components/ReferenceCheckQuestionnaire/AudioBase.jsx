@@ -94,10 +94,7 @@ const AudioBase = ({
       if (mediaRecorder.current?.state === "recording") {
         mediaRecorder.current.stop();
       }
-      streamRef.current?.getTracks().forEach((track) => track.stop());
-
       mediaRecorder.current = null;
-      streamRef.current = null;
     };
   }, []);
 

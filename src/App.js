@@ -54,7 +54,7 @@ import ViewRequest from "./components/AiReference/ReferenceRequest/Components/Vi
 import CompanyRegistrationPage from "./page/CompanyRegistrationPage/CompanyRegistrationPage.jsx";
 import CompanyExpiredLink from "./page/CompanyRegistrationPage/CompanyExpiredLinkPage.jsx";
 import CompanyRegistrationCheckEmailConfirmationPage from "./page/CompanyRegistrationPage/CompanyRegistrationCheckEmailConfirmationPage.jsx";
-import AiReferenceCheckVerificationPage from "./page/AiReferenceCheckVerificationPage.jsx";
+import AiReferenceCheckVerificationPage from "./page/AiRefereePage/AiReferenceCheckVerificationPage.jsx";
 import ChooseLanguagePage from "./page/AiRefereePage/ChooseLanguagePage.jsx";
 import LanguageSelectionConfirmationPage from "./page/AiRefereePage/LanguageSelectionConfirmationPage.jsx";
 import ChooseYourReferenceMethodPage from "./page/AiRefereePage/ChooseYourReferenceMethodPage.jsx";

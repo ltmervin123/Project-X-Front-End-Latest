@@ -28,9 +28,9 @@ const ApplicantFormSection = ({
         </div>
         {labels.applicantDetails}
       </h4>
-      <div className="applicant-details-container">
+      <div className="applicant-details-container d-flex gap-3 flex-column">
         {candidates.map((candidate, index) => (
-          <div key={index} className="applicant-container mb-4">
+          <div key={index} className="applicant-container">
             <b
               className="m-0 applicant-header-label d-flex mb-2 gap-2 align-items-center"
               style={{ width: "220px", height: "38px" }}
@@ -38,9 +38,10 @@ const ApplicantFormSection = ({
               <div className="applicant-number">{index + 1}</div>
               {labels.applicant}
             </b>
-            <Row className="mb-1">
-              <Col md="4">
-                <Form.Group controlId={`formFirstName${index}`}>
+            <div className="d-flex gap-3 mb-2">
+             
+                <Form.Group controlId={`formFirstName${index}`}
+                className="applicant-input">
                   <Form.Label className="mb-1 applicant-label">
                     {labels.firstName}
                     <span className="color-orange"> *</span>
@@ -55,9 +56,8 @@ const ApplicantFormSection = ({
                     required
                   />
                 </Form.Group>
-              </Col>
-              <Col md="4">
-                <Form.Group controlId={`formLastName${index}`}>
+              
+                <Form.Group controlId={`formLastName${index}`}className="applicant-input">
                   <Form.Label className="mb-1 applicant-label">
                     {labels.lastName}
                     <span className="color-orange"> *</span>
@@ -72,13 +72,11 @@ const ApplicantFormSection = ({
                     required
                   />
                 </Form.Group>
-              </Col>
+              
 
-              <Col>
                 <Form.Group
                   controlId={`formNumReferees${index}`}
-                  className="mb-3"
-                >
+                  className="applicant-input-last"                >
                   <Form.Label className="mb-1 applicant-label">
                     {labels.numReferees}
                     <span className="color-orange"> *</span>
@@ -107,10 +105,10 @@ const ApplicantFormSection = ({
                     )}
                   </div>
                 </Form.Group>
-              </Col>
-            </Row>
+              
+            </div>
 
-            <Form.Group controlId={`formEmail${index}`} className="mb-3">
+            <Form.Group controlId={`formEmail${index}`} className="mb-1">
               <Form.Label className="mb-1 applicant-label">
                 {labels.email}
                 <span className="color-orange"> *</span>

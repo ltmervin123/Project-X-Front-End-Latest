@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Bar } from "react-chartjs-2";
+import { Row, Col } from "react-bootstrap";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -255,8 +257,8 @@ const AgencyPartners = () => {
             },
             color: "#000",
             callback: function (value, index) {
-              // Hide labels if there are more than 4 agencies
-              return agencies.length <= 4 ? agencies[index].name : "";
+              // Hide labels if there are more than 1 agencies
+              return agencies.length <= 1 ? agencies[index].name : "";
             },
           },
         },
@@ -292,8 +294,9 @@ const AgencyPartners = () => {
         isSearchVisible={isSearchVisible}
         handleAddAgency={handleAddAgency}
       />
-
-      <div className="AiReference-agency-partners-container fade-in mb-4 visible">
+      <Row>
+        <Col md={4}>
+        <div className="AiReference-active-jobs-container fade-in visible ">
         <div className="AiReference-table-title">
           <h4 className="mb-0">{labels.AcceptanceRejectionRates}</h4>
           <p>{labels.RatesOverview}</p>
@@ -303,7 +306,9 @@ const AgencyPartners = () => {
         </div>
       </div>
 
-      <AgencyPartnersTable
+        </Col>
+        <Col md={8}>
+        <AgencyPartnersTable
         labels={labels}
         filteredAgencies={filteredAgencies}
         isSearchVisible={isSearchVisible}
@@ -313,6 +318,11 @@ const AgencyPartners = () => {
         handleEditAgency={handleEditAgency}
         handleDeleteAgency={handleDeleteAgency}
       />
+        </Col>
+      </Row>
+
+
+
 
       {showDetailsPopup && selectedAgency && (
         <AgencyPartnersDetailsPopUp

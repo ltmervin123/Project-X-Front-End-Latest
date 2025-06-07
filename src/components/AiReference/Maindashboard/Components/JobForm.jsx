@@ -34,7 +34,7 @@ const JobFormSection = ({
 }) => {
   return (
     <Col md={6}>
-      <h4 className="d-flex gap-2 mb-4">
+      <h4 className="d-flex gap-2 mb-5">
         <div className="job-icon">
           <svg
             width="19"
@@ -58,7 +58,7 @@ const JobFormSection = ({
         {labels.jobDetails}
       </h4>
       <div className="job-details-container">
-        <Form.Group controlId="formJobName" className="mb-4">
+        <Form.Group controlId="formJobName" className="mb-5">
           <div className="d-flex justify-content-between">
             <Form.Label className="mb-3">
               {labels.jobName}
@@ -79,7 +79,7 @@ const JobFormSection = ({
           )}
         </Form.Group>
 
-        <Row className="mb-4">
+        <Row className="mb-5">
           <Col>
             <Form.Group controlId="formVacancies">
               <Form.Label className="mb-3">
@@ -163,7 +163,7 @@ const JobFormSection = ({
           </Col>
         </Row>
 
-        <Form.Group controlId="formHiringManager" className="mb-4">
+        <Form.Group controlId="formHiringManager" className="mb-5">
           <Form.Label className="mb-3">
             {labels.hiringManager}
             <span className="color-orange"> *</span>
@@ -189,7 +189,7 @@ const JobFormSection = ({
             </Col>
           </Row>
         </Form.Group>
-        <Form.Group controlId="formDepartment" className="mb-4">
+        <Form.Group controlId="formDepartment" className="mb-5">
           <Form.Label className="mb-3">
             {labels.referredBy}
             <span className="color-orange"> *</span>
@@ -211,7 +211,7 @@ const JobFormSection = ({
             )}
           </Form.Select>
         </Form.Group>
-        <Form.Group controlId="formReferenceFormat" className="mb-4">
+        <Form.Group controlId="formReferenceFormat" className="mb-5">
           <Form.Label className="mb-3">
             {labels.referenceFormat}
             <span className="color-orange"> *</span>

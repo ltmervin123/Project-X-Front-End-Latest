@@ -2,54 +2,28 @@ import React, { useState } from "react";
 import { Col, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { capitalizeWords } from "../../utils/helpers/capitalizeFirstLetterOfAWord";
-import axios from "axios";
-import Captcha from "../ReCaptcha/Captcha";
-
-const TRANSLATIONS = {
-  English: {
-    title: "Reference Request Form",
-    subtitle: "Fill in this form for your references.",
-    position: "Position",
-    applicant: "Applicant",
-    yourReferees: "YOUR REFEREES",
-    referee: "Referee",
-    firstName: "First Name",
-    lastName: "Last Name",
-    email: "Email",
-    enterFirstName: "Enter first name",
-    enterLastName: "Enter last name",
-    enterEmail: "Enter email address",
-    sendRequest: "Send Reference Request",
-    invalidEmail: "Invalid email format",
-  },
-  Japanese: {
-    title: "推薦状リクエストフォーム",
-    subtitle: "推薦者の情報を入力してください。",
-    position: "職位",
-    applicant: "応募者",
-    yourReferees: "推薦者",
-    referee: "推薦者",
-    firstName: "名",
-    lastName: "姓",
-    email: "メールアドレス",
-    enterFirstName: "名を入力",
-    enterLastName: "姓を入力",
-    enterEmail: "メールアドレスを入力",
-    sendRequest: "推薦状リクエストを送信",
-    invalidEmail: "無効なメール形式",
-  },
-};
+import { useLabels } from "./hooks/useLabel";
+import { submitReferenceDetails } from "../../api/ai-reference/candidate/candidate-api";
+import { getPayload } from "./utils/helper";
+import PrivacyAgreementForApplicant from "./PrivacyAgreementForApplicant";
 
 function ReferenceRequestForm() {
-  const [captchaToken, setCaptchaToken] = useState(null);
-  const API = process.env.REACT_APP_API_URL;
-  const [refereesData, setRefereesData] = useState([{}]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [emailErrors, setEmailErrors] = useState({});
+  // CONSTANTS
   const token = sessionStorage.getItem("candidateToken");
   const candidateData = JSON.parse(sessionStorage.getItem("candidateData"));
   const selectedLanguage = candidateData?.selectedLanguage || "English";
   const numReferees = candidateData?.numberOfReferees || 1;
+
+  // STATES
+  const [refereesData, setRefereesData] = useState([{}]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailErrors, setEmailErrors] = useState({});
+  const [confirmationEmailErrors, setConfirmationEmailErrors] = useState({});
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [showPrivacyAgreement, setShowPrivacyAgreement] = useState(false);
+
+  // HOOKS
+  const { labels } = useLabels(selectedLanguage);
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
@@ -59,18 +33,30 @@ function ReferenceRequestForm() {
 
   const validateAllEmails = () => {
     const errors = {};
+    const confirmationErrors = {};
     let isValid = true;
 
     refereesData.forEach((referee, index) => {
       if (referee["email-address"]) {
         if (!validateEmail(referee["email-address"])) {
-          errors[index] = TRANSLATIONS[selectedLanguage].invalidEmail;
+          errors[index] = labels.invalidEmail;
+          isValid = false;
+        }
+      }
+      if (referee["confirmation-email"]) {
+        if (!validateEmail(referee["confirmation-email"])) {
+          confirmationErrors[index] = labels.invalidEmail;
+          isValid = false;
+        }
+        if (referee["email-address"] !== referee["confirmation-email"]) {
+          confirmationErrors[index] = labels.emailsDoNotMatch;
           isValid = false;
         }
       }
     });
 
     setEmailErrors(errors);
+    setConfirmationEmailErrors(confirmationErrors);
     return isValid;
   };
 
@@ -78,7 +64,8 @@ function ReferenceRequestForm() {
     (referee) =>
       !referee["first-name"]?.trim() ||
       !referee["last-name"]?.trim() ||
-      !referee["email-address"]?.trim()
+      !referee["email-address"]?.trim() ||
+      !referee["confirmation-email"]?.trim()
   );
 
   const handleInputChange = (index, event) => {
@@ -123,34 +110,20 @@ function ReferenceRequestForm() {
     }
 
     try {
-      if (!captchaToken) {
-        return;
-      }
       setIsLoading(true);
-      const URL = `${API}/api/candidate-referee/create-reference-request`;
-      const payload = {
-        companyId: candidateData?.company,
-        positionId: candidateData?.positionId,
-        candidateId: candidateData?.candidate,
-        candidateName: `${candidateData.name.firstName} ${candidateData.name.lastName}`,
+
+      const payload = getPayload({
+        candidateData,
         selectedLanguage,
         referees,
-        captchaToken
-      };
-
-      const response = await axios.post(URL, payload, {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
       });
 
+      const response = await submitReferenceDetails({ payload, token });
+
       if (response.status === 201) {
-        //Clear candidate session data
         sessionStorage.removeItem("candidateData");
         sessionStorage.removeItem("candidateToken");
 
-        //Redirect to success page
         navigate("/reference-request-sent", { state: { selectedLanguage } });
       }
     } catch (error) {
@@ -160,16 +133,12 @@ function ReferenceRequestForm() {
     }
   };
 
-  const onChange = (token) => {
-    setCaptchaToken(token);
-  };
-
   return (
     <>
       <div className="my-2 reference-request-form-content">
         <div className="reference-request-form-header">
-          <h5 className="m-0">{TRANSLATIONS[selectedLanguage].title}</h5>
-          <p className="m-0">{TRANSLATIONS[selectedLanguage].subtitle}</p>
+          <h5 className="m-0">{labels.title}</h5>
+          <p className="m-0">{labels.subtitle}</p>
         </div>
 
         <Form className="reference-request-form  w-100" onSubmit={handleSubmit}>
@@ -180,7 +149,7 @@ function ReferenceRequestForm() {
                   htmlFor="position"
                   className="reference-request-form-label mb-1 "
                 >
-                  {TRANSLATIONS[selectedLanguage].position}
+                  {labels.position}
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -197,7 +166,7 @@ function ReferenceRequestForm() {
                   htmlFor="candidate"
                   className="reference-request-form-label mb-1 "
                 >
-                  {TRANSLATIONS[selectedLanguage].applicant}
+                  {labels.applicant}
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -215,9 +184,7 @@ function ReferenceRequestForm() {
             </div>
             <div className="mb-0 d-flex justify-content-center flex-column ">
               <div className="referees-section">
-                <h5 className="m-0">
-                  {TRANSLATIONS[selectedLanguage].yourReferees}
-                </h5>
+                <h5 className="m-0">{labels.yourReferees}</h5>
               </div>
               {Array.from({ length: numReferees }).map((_, index) => (
                 <Row
@@ -227,7 +194,7 @@ function ReferenceRequestForm() {
                   <div className="mb-0 py-0 px-0 form-field-title">
                     <div className="numbering-list">{index + 1}</div>
                     <span className="form-field-title-text">
-                      {TRANSLATIONS[selectedLanguage].referee}
+                      {labels.referee}
                     </span>
                   </div>
                   <div className="mb-0 py-0 px-0 d-flex justify-content-between gap-4">
@@ -236,7 +203,7 @@ function ReferenceRequestForm() {
                         htmlFor={`first-name-${index}`}
                         className="your-reference-request-form-label mb-1 "
                       >
-                        {TRANSLATIONS[selectedLanguage].firstName}
+                        {labels.firstName}
                         <span className="orange-text"> *</span>
                       </Form.Label>
                       <Form.Control
@@ -244,9 +211,7 @@ function ReferenceRequestForm() {
                         name="first-name"
                         value={refereesData[index]?.["first-name"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
-                        placeholder={
-                          TRANSLATIONS[selectedLanguage].enterFirstName
-                        }
+                        placeholder={labels.enterFirstName}
                         className="your-reference-request-form-input"
                         id={`first-name-${index}`}
                       />
@@ -256,7 +221,7 @@ function ReferenceRequestForm() {
                         htmlFor={`last-name-${index}`}
                         className="your-reference-request-form-label mb-1 "
                       >
-                        {TRANSLATIONS[selectedLanguage].lastName}
+                        {labels.lastName}
                         <span className="orange-text"> *</span>
                       </Form.Label>
                       <Form.Control
@@ -264,9 +229,7 @@ function ReferenceRequestForm() {
                         name="last-name"
                         value={refereesData[index]?.["last-name"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
-                        placeholder={
-                          TRANSLATIONS[selectedLanguage].enterLastName
-                        }
+                        placeholder={labels.enterLastName}
                         className="your-reference-request-form-input"
                         id={`last-name-${index}`}
                       />
@@ -278,7 +241,7 @@ function ReferenceRequestForm() {
                         htmlFor={`email-address-${index}`}
                         className="your-reference-request-form-label mb-1 "
                       >
-                        {TRANSLATIONS[selectedLanguage].email}
+                        {labels.email}
                         <span className="orange-text"> *</span>
                       </Form.Label>
                       <Form.Control
@@ -286,7 +249,7 @@ function ReferenceRequestForm() {
                         name="email-address"
                         value={refereesData[index]?.["email-address"] || ""}
                         onChange={(event) => handleInputChange(index, event)}
-                        placeholder={TRANSLATIONS[selectedLanguage].enterEmail}
+                        placeholder={labels.enterEmail}
                         className={`your-reference-request-form-input ${
                           emailErrors[index] ? "is-invalid" : ""
                         }`}
@@ -299,16 +262,61 @@ function ReferenceRequestForm() {
                       )}
                     </div>
                   </Row>
+                  <Row className="mb-0 py-0 px-0 d-flex justify-content-between">
+                    <div className="mb-0 your-reference-request-form-group position-relative">
+                      <Form.Label
+                        htmlFor={`confirmation-email-${index}`}
+                        className="your-reference-request-form-label mb-1 "
+                      >
+                        {labels.confirmEmail}
+                        <span className="orange-text"> *</span>
+                      </Form.Label>
+                      <Form.Control
+                        type="email"
+                        name="confirmation-email"
+                        value={refereesData[index]?.["confirmation-email"] || ""}
+                        onChange={(event) => handleInputChange(index, event)}
+                        placeholder={labels.enterEmail}
+                        className={`your-reference-request-form-input ${
+                          confirmationEmailErrors[index] ? "is-invalid" : ""
+                        }`}
+                        id={`confirmation-email-${index}`}
+                      />
+                      {confirmationEmailErrors[index] && (
+                        <div className="invalid-feedback d-block">
+                          {confirmationEmailErrors[index]}
+                        </div>
+                      )}
+                    </div>
+                  </Row>
                 </Row>
               ))}
             </div>
-            <div className="mt-5 d-flex flex-row justify-content-center">
-              <Captcha onChange={onChange} />
+
+            <div className="d-flex align-items-center mt-3">
+              <input
+                type="checkbox"
+                id="privacyAgreementCheckbox"
+                className="form-check-input custom-checkbox"
+                checked={isAgreed}
+                onChange={(e) => {
+                  setIsAgreed(e.target.checked);
+                  if (e.target.checked) {
+                    setShowPrivacyAgreement(true);
+                  }
+                }}
+              />
+              <label
+                htmlFor="privacyAgreementCheckbox"
+                className="ms-2 privacyAgreementCheckbox color-grey"
+              >
+                {labels.privacyAgreement}
+              </label>
             </div>
             <div className="mb-0 d-flex flex-row justify-content-center btn-container">
               <button
                 className="send-reference-request-referee-btn reference-request-referee-btn"
-                disabled={isLoading || isRefereeFieldMissing || !captchaToken}
+                disabled={isLoading || isRefereeFieldMissing || !isAgreed}
               >
                 {isLoading ? (
                   <div
@@ -316,12 +324,21 @@ function ReferenceRequestForm() {
                     role="status"
                   ></div>
                 ) : (
-                  TRANSLATIONS[selectedLanguage].sendRequest
+                  labels.sendRequest
                 )}
               </button>
             </div>
           </Col>
         </Form>
+        <PrivacyAgreementForApplicant
+          showModal={showPrivacyAgreement}
+          setShowModal={setShowPrivacyAgreement}
+          handleContinue={() => {
+            setIsAgreed(true);
+            setShowPrivacyAgreement(false);
+          }}
+          language={selectedLanguage}
+        />
       </div>
     </>
   );

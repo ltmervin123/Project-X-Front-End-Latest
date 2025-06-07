@@ -45,3 +45,36 @@ export const deleteReference = async (params) => {
     },
   });
 };
+
+export const verifyReferenceLink = async (params) => {
+  const token = params?.token || null;
+  const URL = `${API}/api/ai-referee/reference/verify-reference-link`;
+  const response = await axios.post(
+    URL,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
+
+export const updateReference = async (params) => {
+  const token = params?.user?.token || null;
+  const payload = params?.payload || {};
+  const URL = `${API}/api/ai-referee/company-request-reference/update-referee`;
+  const response = await axios.post(
+    URL,
+    { payload },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};

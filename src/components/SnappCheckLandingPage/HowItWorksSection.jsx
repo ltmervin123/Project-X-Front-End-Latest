@@ -22,17 +22,19 @@ const HowItWorksSection = () => {
           "snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 "
         }
       >
-   
+
         <Row className="w-100  snappcheck-left-did-you-know-content">
-          <Col md="6">
-            <h3 className="color-blue mb-2">{t('howItWorks')}</h3>
-            <h2 className="mb-4">
-              {t('howItWorksTitle')}
+          <div className="d-flex justify-content-center align-items-center flex-column ">
+
+            <h3 className="color-grey text-center mb-2">{t('howItWorks')}</h3>
+            <h2 className="mb-4 text-center">
+              {t('howItWorksTitle')}<span className="color-orange">{t('howItWorksTitleHighlight')}</span>
             </h2>
-          </Col>
-          <Col md="6" className="position-relative"></Col>
+
+          </div>
+
           {/* Cards Section */}
-          <div className="d-flex justify-content-center align-items-center flex-column w-100">
+          <div className="d-flex justify-content-center align-items-center flex-column w-100 mt-4">
             {/* Header Content */}
             <div className="text-center my-4">
               <h2 className="how-it-works-title" style={{ letterSpacing: '2px' }}>{t('referenceCheckFlow')}</h2>
@@ -56,26 +58,7 @@ const HowItWorksSection = () => {
             </div>
           </div>
         </Row>
-        <div className="d-flex justify-content-center align-items-center flex-column w-100">
-          <h2 className="my-5">{t('trustedBusinesses')}</h2>
-          <div className="slider-container">
-            <div className="sliding-cards">
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              {/* Duplicate cards for seamless loop */}
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-              <div className="business-company-card mx-2"></div>
-            </div>
-          </div>
-        </div>
+       
       </section>
     </>
   );

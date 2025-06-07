@@ -4,13 +4,13 @@ const cultureOptions = {
       label: "Fast-paced",
       desc: "Thrives in high-speed, rapidly changing environments where decisions are made quickly and multitasking is common.",
     },
-    lowPaced: {
-      label: "Low-paced",
-      desc: "Prefers deliberate planning and steady execution, valuing stability and thoroughness over speed.",
-    },
     midPaced: {
       label: "Mid-paced",
       desc: "Balances urgency with thoughtfulness, adapting to fast or slow environments depending on the situation.",
+    },
+    lowPaced: {
+      label: "Low-paced",
+      desc: "Prefers deliberate planning and steady execution, valuing stability and thoroughness over speed.",
     },
   },
   "Work Style": {
