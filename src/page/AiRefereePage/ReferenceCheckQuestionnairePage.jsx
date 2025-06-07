@@ -222,6 +222,15 @@ const ReferenceCheckQuestionnairePage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
+    };
+  }, []);
+
   const handleProceed = () => {
     // Save reference questions data
     sessionStorage.setItem(
