@@ -66,7 +66,7 @@ const CandidatesTable = ({
                   />
                 </td>
                 <td>
-                  <CultureFitScore score={0} />
+                  <CultureFitScore score={candidate.overallRating} />
                 </td>
                 <td>
                   <div className="position-relative d-flex align-items-center w-100 justify-content-center">

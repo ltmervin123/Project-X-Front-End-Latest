@@ -1,21 +1,21 @@
-import React from 'react';
-
 const CultureFitScore = ({ score }) => {
   const getScoreColor = (value) => {
-    if (value <= 25) return "#DC3545"; // Red
-    if (value <= 50) return "#F8BD00"; // Yellow
-    if (value <= 75) return "#F46A05"; // Orange
-    return "#28A745"; // Green
+    const numValue = value.split("%")[0];
+    const parsedValue = parseInt(numValue, 10);
+    if (parsedValue <= 25) return "#DC3545";
+    if (parsedValue <= 50) return "#F8BD00";
+    if (parsedValue <= 75) return "#F46A05";
+    return "#28A745";
   };
 
   return (
-    <div 
-      style={{ 
+    <div
+      style={{
         color: getScoreColor(score),
-        fontWeight: '500'
+        fontWeight: "500",
       }}
     >
-      {score}%
+      {score}
     </div>
   );
 };
