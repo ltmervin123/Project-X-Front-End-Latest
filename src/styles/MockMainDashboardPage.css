@@ -22,14 +22,15 @@
 .MockMaindashboard-container {
   padding: 0 !important;
   width: 100%;
-  min-height: 80vh;
-  padding-top: 12vh !important;
+  min-height: 100vh;
   padding: 20px;
   overflow-x: hidden;
 }
 
 .MockMaindashboard-container > .row {
   margin: 0;
+  padding-top: 80px !important;
+
   height: 100%;
   width: 100%;
 }
@@ -42,15 +43,13 @@
   top: 0;
   left: 0;
   width: 100%; /* Ensures full width */
-  padding: 10px 3%;
+  padding: 5px 3%;
   border: none;
   margin: 0 !important;
   z-index: 1000;
-  background: linear-gradient(
-    270deg,
-    #f46a05 23.78%,
-    #ff9d55 61.54%
-  ) !important;
+  background: linear-gradient(90deg, #FFDCC2 0%, #F56E0B 79%, #F46A05 100%) !important;
+
+
 }
 .MockMain-Header::after {
   content: "";
@@ -66,11 +65,7 @@
 }
 
 .MockMain-LogoBrand {
-  background: var(--font-white);
-  border-radius: 50px;
-  margin: 0 !important;
-  height: 40px;
-  padding: 0px 10px;
+padding: 0;
   position: relative;
   display: flex;
   align-items: center;
@@ -160,11 +155,11 @@
 
 .MockMain-sidebar {
   position: fixed;
-  top: 60px;
-  left: 0;
+  top:80px;
+  left:0;
   background: var(--sidebar-bg);
-  padding: 3% 0px 10px 10px;
-  height: calc(100vh - 60px);
+  padding: 30px 0px 0px 10px;
+  height: 90vh;
   overflow-y: auto;
   z-index: 999;
   width: 16.5%;
@@ -173,9 +168,9 @@
 }
 
 .MockMain-sidebar > a {
+
   text-decoration: none;
-  padding-left: 5px;
-  border-left: 4px solid var(--sidebar-bg);
+  padding-left: 11px;
   font-size: 14px;
   transition: all 0.3s ease; /* Add transition to all properties */
   display: flex;
@@ -189,10 +184,16 @@
 
 .MockMain-sidebar > a.active-link {
   color: var(--primary-color) !important;
-  border-left: 4px solid var(--primary-color);
   width: 100%;
   padding: 0;
   transition: all 0.3s ease; /* Transition on becoming active */
+}
+
+.MockMain-sidebar > a.active-link::before{
+  content: "";
+  width: 4px;
+  height: 100%;
+  background: var(--primary-color);
 }
 
 .MockMain-sidebar > a.active-link svg {
@@ -227,6 +228,7 @@
 /* Follow Us Section */
 .MockMain-sidebar .follow-us {
   padding-left: 5px;
+  font-weight: 500;
   margin-top: auto; /* Pushes the Follow Us section to the bottom of the sidebar */
   padding: 10px 0; /* Adds some padding for spacing */
   border-top: 1px solid var(--sidebar-bg); /* Optional: adds a top border for separation */
@@ -258,7 +260,7 @@
   fill: var(--primary-color); /* Default icon color */
 }
 .MockMainDashboard-content {
-  padding: 10px 50px;
+  padding: 20px 50px 0px 50px;
   width: 100% !important;
   height: 100% !important;
   opacity: 0; /* Start with hidden */
@@ -581,7 +583,7 @@
   }
 
   .MockMain-sidebar > a,
-  .MockMain-sidebar .follow-us h5 {
+  .MockMain-sidebar .follow-us > p{
     font-size: 15px;
   }
 }
@@ -593,13 +595,10 @@
   }
 
   .MockMain-sidebar > a,
-  .MockMain-sidebar .follow-us h5 {
+  .MockMain-sidebar .follow-us  > p {
     font-size: 18px;
   }
-  .MockMain-sidebar .follow-us p {
-    font-size: 15px;
 
-  }
 }
 
 @media (min-width: 1700px) {
@@ -612,13 +611,10 @@
   }
 
   .MockMain-sidebar > a ,
-  .MockMain-sidebar .follow-us h5{
+  .MockMain-sidebar .follow-us > p{
     font-size: 18px;
   }
-  .MockMain-sidebar .follow-us p {
-    font-size: 15px;
 
-  }
 }
 @media (min-width: 1800px) {
   .MockMain-sidebar {

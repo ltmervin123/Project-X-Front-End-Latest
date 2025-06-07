@@ -16,10 +16,9 @@
 }
 
 .ReviewYourReferenceCheck-Row {
-  display: flex;
+  
   width: 85%;
   max-width: 1200px;
-  /* height: 90vh !important; */
 }
 
 .ReviewYourReferenceCheck-Row > .col-md-10 {
@@ -457,7 +456,7 @@
 .camera-verification-option-container .take-a-photo-container button {
   background: var(--secondary-color);
   width: 175px;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 50px;
   color: var(--font-white);
   border: none;

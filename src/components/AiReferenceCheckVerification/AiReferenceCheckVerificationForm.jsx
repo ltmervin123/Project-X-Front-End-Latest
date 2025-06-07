@@ -148,22 +148,21 @@ const AiReferenceCheckVerificationForm = ({
 
     // Save the updated formData to session storage
     sessionStorage.setItem("refereeData", JSON.stringify(updatedFormData));
-    
   };
 
-    //English Version
-    const getQuestionEnglishVersion = async () => {
-      const token = sessionStorage.getItem("token");
-      const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
-      const requestHeader = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.get(URL, requestHeader);
-      return response.data;
+  //English Version
+  const getQuestionEnglishVersion = async () => {
+    const token = sessionStorage.getItem("token");
+    const URL = `${API}/api/ai-referee/company-request-reference/get-reference-question-by-referenceId/${referenceId}/${refereeId}`;
+    const requestHeader = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     };
-    
+    const response = await axios.get(URL, requestHeader);
+    return response.data;
+  };
+
   //Fetch initial question in English
   const { data: referenceQuestionData } = useQuery({
     queryKey: ["referenceQuestions"],
@@ -198,7 +197,10 @@ const AiReferenceCheckVerificationForm = ({
       setProcessing(true);
       saveRefereeDataTemporary();
 
-      if (selectedLanguage === "Japanese") {
+      if (
+        selectedLanguage === "Japanese" &&
+        referenceQuestionData?.formatType === "HR-HATCH-FORMAT"
+      ) {
         const result = await getQuestionsJapaneseVersion();
         if (result.status === 200) {
           const questions = result?.data?.translatedQuestions;
@@ -359,7 +361,7 @@ const AiReferenceCheckVerificationForm = ({
                     name="companyWorkedWith"
                     value={formData.companyWorkedWith}
                     onChange={handleChange}
-                    placeholder="e.g HR-HATCH"
+                    placeholder="e.g Snappcheck"
                   />
                 </Form.Group>
 
@@ -487,6 +489,7 @@ const AiReferenceCheckVerificationForm = ({
           setIsAgreed(true);
           setShowPrivacyAgreement(false);
         }}
+        language={selectedLanguage}
       />
     </div>
   );

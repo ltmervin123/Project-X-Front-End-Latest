@@ -1,7 +1,24 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const ForcedLogoutPopUp = ({ onClose, onConfirm, isProcessing }) => {
+const ForcedLogoutPopUp = ({ onClose, onConfirm, isProcessing, language = "English" }) => {
+  const translations = {
+    English: {
+      title: "Forced Logout",
+      message: "This will immediately end their current session and require them to log in again. This action does not affect their account status.",
+      yes: "Yes",
+      no: "No"
+    },
+    Japanese: {
+      title: "強制ログアウト",
+      message: "現在のセッションを直ちに終了し、再度ログインが必要になります。この操作はアカウントのステータスには影響しません。",
+      yes: "はい",
+      no: "いいえ"
+    }
+  };
+
+  const t = translations[language];
+
   return (
     <Modal
       show={true}
@@ -13,11 +30,10 @@ const ForcedLogoutPopUp = ({ onClose, onConfirm, isProcessing }) => {
     >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center gap-2 flex-column p-2 py-3">
-        <h3 className="text-center mb-3">Forced Logout</h3>
+          <h3 className="text-center mb-3">{t.title}</h3>
 
           <p className="text-center m-0">
-            This will immediately end their current session and require them to log in again. 
-            This action does not affect their account status.
+            {t.message}
           </p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
@@ -32,7 +48,7 @@ const ForcedLogoutPopUp = ({ onClose, onConfirm, isProcessing }) => {
                   role="status"
                 ></div>
               ) : (
-                "Yes"
+                t.yes
               )}
             </button>
             <button
@@ -40,7 +56,7 @@ const ForcedLogoutPopUp = ({ onClose, onConfirm, isProcessing }) => {
               disabled={isProcessing}
               onClick={onClose}
             >
-              No
+              {t.no}
             </button>
           </div>
         </div>

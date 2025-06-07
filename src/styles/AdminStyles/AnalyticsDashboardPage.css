@@ -19,7 +19,6 @@
   background: var(--font-white);
 }
 
-
 .AnalyticsCard .title {
   font-weight: bold !important;
   color: var(--card-color);
@@ -38,16 +37,18 @@
   border-radius: 20px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   padding: 10px;
-  gap: 10px;
+  gap: 5px;
 }
 
 .analytics-dashboard-button-controller > button {
   background: var(--font-white);
   border-radius: 50px;
   border: none;
-  width: 23%;
-  padding: 5px;
+  width: auto;
+  min-width: 130px;
+  padding: 5px 10px;
   font-size: 0.8rem;
+  color: var(--card-color);
   transition: all 0.2s ease;
 }
 .analytics-dashboard-button-controller > button:hover {
@@ -55,8 +56,8 @@
 }
 
 .analytics-dashboard-button-controller > button.active {
-  color: var(--font-white);
-  background: var(--primary-color);
+  color: var(--font-black);
+  font-weight: bold;
 }
 /* Customize Dropdown button and search company Styles */
 .search-company .search-suggestions {
@@ -149,7 +150,8 @@
 .monthly-user-chart-container,
 .usage-chart-container,
 .subscription-chart-container,
-.peak-hours-chart-container {
+.peak-hours-chart-container,
+.revenue-chart-container {
   width: 100%;
   height: 45vh;
   border-radius: 15px;
@@ -164,7 +166,10 @@
 .subscription-chart-container .chart-content,
 .subscription-analytics-chart-container .chart-content,
 .usage-chart-container .chart-content,
-.peak-hours-chart-container .chart-content {
+.peak-hours-chart-container .chart-content,
+.total-reference-check-chart-container .chart-content,
+.revenue-chart-container .chart-content,
+.revenue-subcription-content-container .chart-content {
   height: 20%;
 }
 
@@ -174,7 +179,10 @@
 .usage-chart-container .chart-subtitle,
 .subscription-chart-container .chart-subtitle,
 .subscription-analytics-chart-container .chart-subtitle,
-.peak-hours-chart-container .chart-subtitle {
+.total-reference-check-chart-container .chart-subtitle,
+.peak-hours-chart-container .chart-subtitle,
+.revenue-chart-container .chart-subtitle,
+.revenue-subcription-content-container .chart-subtitle {
   color: var(--card-color);
   font-size: 13px;
 }
@@ -195,7 +203,8 @@
 .monthly-users-chart canvas,
 .usage-user-chart canvas,
 .subscription-user-chart canvas,
-.peak-hours-user-chart canvas {
+.peak-hours-user-chart canvas,
+.revenue-chart-container canvas {
   width: 100% !important;
   height: auto;
 }
@@ -243,17 +252,20 @@
 
 /* Usage Chart Specific Styles */
 .usage-chart-container,
-.peak-hours-chart-container {
-  height:  calc(60vh + 1.5rem);
+.peak-hours-chart-container,
+.revenue-chart-container {
+  height: calc(70vh + 1.5rem);
 }
 
 /* Dropdown Styles */
-.usage-chart-container .custom-dropdown {
+.usage-chart-container .custom-dropdown,
+.revenue-chart-container .custom-dropdown {
   position: relative;
   min-width: 120px;
 }
 
-.usage-chart-container .dropdown-header {
+.usage-chart-container .dropdown-header,
+.revenue-chart-container .dropdown-header {
   padding: 5px 15px;
   border-radius: 50px;
   background: var(--font-white);
@@ -270,7 +282,8 @@
   color: var(--font-black) !important;
 }
 
-.usage-chart-container .dropdown-header.dropdown-open {
+.usage-chart-container .dropdown-header.dropdown-open,
+.revenue-chart-container .dropdown-header.dropdown-open {
   background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"%3E%3Cpath fill="none" stroke="%23000000" stroke-width="1.2" d="M1 8l5-5 5 5"%3E%3C/path%3E%3C/svg%3E') !important;
   background-position: right 10px center !important;
   background-repeat: no-repeat !important;
@@ -279,7 +292,8 @@
   background-color: var(--font-white) !important;
 }
 
-.usage-chart-container .dropdown-options {
+.usage-chart-container .dropdown-options,
+.revenue-chart-container .dropdown-options {
   position: absolute;
   top: 100%;
   right: 0;
@@ -292,29 +306,34 @@
   z-index: 3;
 }
 
-.usage-chart-container .dropdown-item {
+.usage-chart-container .dropdown-item,
+.revenue-chart-container .dropdown-item {
   padding: 8px 15px;
   cursor: pointer;
   font-size: 13px;
 }
 
-.usage-chart-container .dropdown-item:hover {
+.usage-chart-container .dropdown-item:hover,
+.revenue-chart-container .dropdown-item:hover {
   background: rgba(244, 106, 5, 0.1);
 }
 
-.usage-chart-container .dropdown-item.active {
+.usage-chart-container .dropdown-item.active,
+.revenue-chart-container .dropdown-item.active {
   background: var(--primary-color);
   color: var(--font-white);
 }
 
-.usage-chart-container .dropdown-item:nth-child(3) {
+.usage-chart-container .dropdown-item:nth-child(3),
+.revenue-chart-container .dropdown-item:nth-child(3) {
   border-radius: 0px 0px 8px 8px !important;
 }
 
 /* Reference Check Styles */
-.total-reference-check-chart-container {
+.total-reference-check-chart-container,
+.revenue-subcription-content-container {
   width: 100%;
-  height: 30vh;
+  height: 35vh;
   border-radius: 15px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   border: 0.5px solid rgba(0, 0, 0, 0.104);
@@ -403,7 +422,8 @@
   font-size: 25px;
 }
 /* Peak Hours Styles */
-.peak-hours-user-chart {
+.peak-hours-user-chart,
+.revenue-bar-chart {
   height: 70%;
   width: 100%;
   background: var(--font-white) !important;
@@ -483,12 +503,12 @@
   padding: 10px;
   word-wrap: break-word;
 }
-.company-table-container td:nth-child(4),
+/* .company-table-container td:nth-child(4),
 .company-table-container th:nth-child(4),
 .company-table-container td:nth-child(5),
 .company-table-container th:nth-child(5) {
   text-align: center;
-}
+} */
 .company-table-container table {
   width: 100%;
   border-collapse: collapse;
@@ -514,6 +534,34 @@
   fill: var(--card-color) !important;
 }
 
+/*Revenue styles*/
+.subsrcription-circle-chart {
+  height: 70%;
+  width: 100%;
+  background: var(--font-white) !important;
+  border-radius: 15px;
+  position: relative;
+  font-size: 14px;
+}
+.subsrcription-circle-chart canvas {
+  height: 80%;
+}
+
+.revenue-bottom-chart-content p:nth-child(1) {
+  color: var(--card-color);
+}
+.revenue-bottom-chart-content p:nth-child(2) {
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 25px;
+}
+.subscription-breakdown div:nth-last-child(1) {
+  font-size: 16px;
+  color: var(--card-color);
+}
+.revenue-subcription-content-container th {
+  color: var(--card-color);
+}
 /* Customizing the scrollbar */
 .peak-hours-chart-container .total-reference-check-data::-webkit-scrollbar {
   width: 6px; /* Scrollbar width */

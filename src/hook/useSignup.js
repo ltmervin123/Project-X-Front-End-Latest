@@ -40,6 +40,7 @@ export const useSignup = () => {
         firstName,
         lastName,
         hiringInvolvement,
+        selectedCulture,
       } = userDetail;
       const companyDetails = {
         name,
@@ -51,6 +52,7 @@ export const useSignup = () => {
         industry,
         annualHiringVolume,
         hiringInvolvement,
+        selectedCulture,
       };
       const personInChargeDetails = { firstName, lastName };
 

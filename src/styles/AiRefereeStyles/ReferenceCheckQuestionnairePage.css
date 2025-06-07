@@ -82,7 +82,7 @@
 .transcription-answer-container button {
   padding: 5px 35px;
   font-weight: 400;
-  width: 150px !important;
+  width: 155px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +163,7 @@
 }
 
 .category-progress-container .bullet {
-  width: 60px;
+  width: 50px;
   height: 13px;
   border-radius: 50px;
   background: var(--bg-fade-signup);

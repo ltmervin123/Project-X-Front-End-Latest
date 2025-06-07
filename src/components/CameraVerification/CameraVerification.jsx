@@ -94,7 +94,7 @@ const CameraVerification = React.forwardRef(
     const streamRef = useRef(null);
     const canvasRef = useRef(null);
 
-    const language = sessionStorage.getItem("preferred-language") || "English";
+    const language = sessionStorage.getItem("selectedLanguage") || "English";
 
     useEffect(() => {
       return () => {

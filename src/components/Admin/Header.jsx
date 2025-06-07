@@ -9,20 +9,37 @@ import { useAuthContext } from "../../hook/useAuthContext";
 
 function Header() {
   const { logout } = useLogout();
-  const { user } = useAuthContext(); // Assuming 'user' contains the user information
+  const { user } = useAuthContext();
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      guest: "Guest",
+      profile: "Profile",
+      settings: "Settings",
+      logout: "Logout",
+    },
+    Japanese: {
+      guest: "ゲスト",
+      profile: "プロフィール",
+      settings: "設定",
+      logout: "ログアウト",
+    },
+  };
+
+  const t = translations[language];
   const handleLogout = () => {
     logout();
   };
   const username = user ? user.name.split(" ")[0] : "";
 
   return (
-    
     <Navbar
       expand="lg"
       className="MockMain-Header d-flex align-items-center justify-content-between"
     >
       <Navbar.Brand
-        href="/AiReferenceMaindashboard"
+        href="/ai-reference-dashboard"
         className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
         <img src={logo} alt="Logo" width="125" height="18" />
@@ -42,7 +59,7 @@ function Header() {
                   <p className="user-name">{username}</p>
                 </>
               ) : (
-                <div>Guest</div>
+                <div>{t.guest}</div>
               )}
             </Dropdown.Toggle>
 
@@ -51,17 +68,17 @@ function Header() {
               {/* Conditionally applying the active class to Dropdown.Item based on current location */}
               <Dropdown.Item
                 as={NavLink}
-                to="/CompanyProfile#personal-info"
+                to="/company-profile#personal-info"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Profile
+                {t.profile}
               </Dropdown.Item>
               <Dropdown.Item
                 as={NavLink}
                 to="/comingsoon"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Settings
+                {t.settings}
               </Dropdown.Item>
               <Dropdown.Item
                 as={NavLink}
@@ -69,7 +86,7 @@ function Header() {
                 onClick={handleLogout}
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Logout
+                {t.logout}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

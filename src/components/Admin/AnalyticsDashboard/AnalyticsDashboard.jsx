@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
-import UserStatisticsChartSection from "./components/UserStatisticsChartSection";
-import SystemUsageChartSection from "./components/SystemUsageChartSection";
-import SubscriptionChartSection from "./components/SubscriptionChartSection";
-import PeakHoursChartSection from "./components/PeakHoursChartSection";
+import UserStatisticsChartSection from "./components/UserStatistics/UserStatisticsChartSection";
+import SystemUsageChartSection from "./components/System Usage/SystemUsageChartSection";
+import SubscriptionChartSection from "./components/Subscription/SubscriptionChartSection";
+import PeakHoursChartSection from "./components/Peak Hours/PeakHoursChartSection";
 import CompanyListSection from "./components/CompanyListSection";
 import DashboardController from "./components/DashboardController";
 import CardMetrics from "./components/CardMetrics";
+import RevenueChartSection from "./components/Revenue/RevenueChartSection";
+
+const TRANSLATIONS = {
+  English: {
+    adminDashboard: "Admin Dashboard",
+    adminDashboardDesc: "View analytics and metrics for your application.",
+  },
+  Japanese: {
+    adminDashboard: "管理者ダッシュボード",
+    adminDashboardDesc: "アプリケーションの分析とメトリクスを表示します。",
+  },
+};
 
 const AnalyticsDashboard = () => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+  const t = TRANSLATIONS[language];
   const [searchQuery, setSearchQuery] = useState("");
   const [showTable, setShowTable] = useState(false);
   const [isAiReferenceCardVisible, setIsAiReferenceCardVisible] =
@@ -50,6 +64,8 @@ const AnalyticsDashboard = () => {
         return <SubscriptionChartSection isVisible={isLineChartVisible} />;
       case "peakHours":
         return <PeakHoursChartSection isVisible={isLineChartVisible} />;
+      case "revenue":
+        return <RevenueChartSection isVisible={isLineChartVisible} />;
       default:
         return null;
     }
@@ -58,14 +74,14 @@ const AnalyticsDashboard = () => {
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <div>
-        <h3 className="mb-0"> Admin Dashboard</h3>
-        <p className="mb-2">View analytics and metrics for your application.</p>
+        <h3 className="mb-0">{t.adminDashboard}</h3>
+        <p className="mb-2">{t.adminDashboardDesc}</p>
       </div>
 
       <div>
         <CardMetrics isAiReferenceCardVisible={isAiReferenceCardVisible} />
       </div>
-      <Row>
+      <div>
         <DashboardController
           isButtonControllerVisible={isButtonControllerVisible}
           showTable={showTable}
@@ -75,7 +91,7 @@ const AnalyticsDashboard = () => {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-      </Row>
+      </div>
 
       {showTable ? (
         <Row>

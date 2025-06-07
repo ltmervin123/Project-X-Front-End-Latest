@@ -10,11 +10,34 @@ const DashboardController = ({
   searchQuery,
   setSearchQuery,
 }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      userStatistics: "User Statistics",
+      systemUsage: "System Usage",
+      subscription: "Subscription",
+      peakHours: "Peak Hours",
+      revenue: "Revenue",
+      searchPlaceholder: "Search company",
+    },
+    Japanese: {
+      userStatistics: "ユーザー統計",
+      systemUsage: "システム使用状況",
+      subscription: "サブスクリプション",
+      peakHours: "ピーク時間",
+      revenue: "収益",
+      searchPlaceholder: "会社を検索",
+    },
+  };
+
+  const t = translations[language];
+
   return (
     <>
-      <Col xs={12} md={6}>
+      <div className="d-flex align-items-center justify-content-between w-100 mb-3">
         <div
-          className={`analytics-dashboard-button-controller mb-3 d-flex align-items-center justify-content-center fade-in ${
+          className={`analytics-dashboard-button-controller d-flex align-items-center justify-content-center fade-in ${
             isButtonControllerVisible ? "visible" : ""
           }`}
         >
@@ -27,7 +50,7 @@ const DashboardController = ({
               setShowTable(false);
             }}
           >
-            User Statistics
+            {t.userStatistics}
           </button>
           <button
             className={
@@ -38,7 +61,7 @@ const DashboardController = ({
               setShowTable(false);
             }}
           >
-            System Usage
+            {t.systemUsage}
           </button>
           <button
             className={
@@ -49,7 +72,7 @@ const DashboardController = ({
               setShowTable(false);
             }}
           >
-            Subscription
+            {t.subscription}
           </button>
           <button
             className={activeTab === "peakHours" && !showTable ? "active" : ""}
@@ -58,30 +81,37 @@ const DashboardController = ({
               setShowTable(false);
             }}
           >
-            Peak Hours
+            {t.peakHours}
+          </button>
+          <button
+            className={activeTab === "revenue" && !showTable ? "active" : ""}
+            onClick={() => {
+              setActiveTab("revenue");
+              setShowTable(false);
+            }}
+          >
+            {t.revenue}
           </button>
         </div>
-      </Col>
-      <Col xs={12} md={6} className="d-flex align-items-center mb-2">
+    
         <div
-          className={` filter-search-container d-flex justify-content-end  w-100 fade-in ${
+          className={` filter-search-container d-flex justify-content-end px-0 fade-in ${
             isButtonControllerVisible ? "visible" : ""
           }`}
         >
-            <div className="search-wrapper position-relative ">
-              <input
-                type="text"
-                placeholder="Search company"
-                className="form-control ps-4 pe-5"
-                value={searchQuery}
-                onClick={() => setShowTable(true)}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
-            </div>
-          
+          <div className="search-wrapper position-relative ">
+            <input
+              type="text"
+              placeholder={t.searchPlaceholder}
+              className="form-control ps-4 pe-5"
+              value={searchQuery}
+              onClick={() => setShowTable(true)}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
+          </div>
         </div>
-      </Col>
+      </div>
     </>
   );
 };

@@ -1,6 +1,33 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
 const ReferenceLogsTable = ({ searchQuery }) => {
+  const language = sessionStorage.getItem("preferred-language") || "English";
+
+  const translations = {
+    English: {
+      columns: {
+        company: "Company",
+        pending: "Pending",
+        success: "Success",
+        failed: "Failed",
+        deleted: "Deleted"
+      },
+      noData: "No data available"
+    },
+    Japanese: {
+      columns: {
+        company: "会社",
+        pending: "保留中",
+        success: "成功",
+        failed: "失敗",
+        deleted: "削除済み"
+      },
+      noData: "データがありません"
+    }
+  };
+
+  const t = translations[language];
+
     const [itemsPerPage, setItemsPerPage] = useState(3);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,11 +83,11 @@ const ReferenceLogsTable = ({ searchQuery }) => {
       <table className="mb-0">
         <thead>
           <tr>
-            <th>Company</th>
-            <th className='text-center'>Pending</th>
-            <th className='text-center'>Success</th>
-            <th className='text-center'>Failed</th>
-            <th className='text-center'>Deleted</th>
+            {Object.keys(t.columns).map(key => (
+              <th key={key} className={key !== 'company' ? 'text-center' : ''}>
+                {t.columns[key]}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -76,7 +103,7 @@ const ReferenceLogsTable = ({ searchQuery }) => {
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center">No data available</td>
+              <td colSpan={5} className="text-center">{t.noData}</td>
             </tr>
           )}
         </tbody>

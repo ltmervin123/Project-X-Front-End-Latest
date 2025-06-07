@@ -21,6 +21,7 @@ const TRANSLATIONS = {
     skip: "Skip",
     proceed: "Proceed",
     submit: "Submit",
+    editAnswer: "Edit Answer",
     allQuestionsAnswered: "All questions have been answered.",
     confirmSkip: "Are you sure you want to skip?",
     originalAnswer: "Original Answer",
@@ -37,6 +38,7 @@ const TRANSLATIONS = {
     skip: "スキップ",
     proceed: "進む",
     submit: "送信",
+    editAnswer: "回答を編集",
     allQuestionsAnswered: "すべての質問に回答されました。",
     confirmSkip: "本当にスキップしますか？",
     originalAnswer: "元の回答",
@@ -227,8 +229,8 @@ function ReviewYourReferenceCheckPage() {
           answers: updatedAnswers,
           preferredAnswerType: updatedPreferredAnswerTypes,
           assessments: updatedAssessments,
-          // Keep the original assessmentRating
           assessmentRating: categoryItem.assessmentRating,
+          paceRating: categoryItem.paceRating,
         };
       }
     );
@@ -371,9 +373,9 @@ function ReviewYourReferenceCheckPage() {
 
   return (
     <div className="ReviewYourReferenceCheck d-flex flex-column align-items-center justify-content-center">
-      <Row className="ReviewYourReferenceCheck-Row">
-        {showIdUploadSection ? (
-          <>
+      {showIdUploadSection ? (
+        <>
+          <Row className="ReviewYourReferenceCheck-Row ">
             <h5 className="referencecheckquestiontitle text-left mb-2">
               {TRANSLATIONS[language].documentVerification}
             </h5>
@@ -388,9 +390,11 @@ function ReviewYourReferenceCheckPage() {
               submitting={submitting}
               setSelfie={setSelfie}
             />
-          </>
-        ) : showPreviewSection ? (
-          <>
+          </Row>
+        </>
+      ) : showPreviewSection ? (
+        <>
+          <Row className="ReviewYourReferenceCheck-Row ">
             <h5 className="referencecheckquestiontitle text-left mb-2">
               {TRANSLATIONS[language].reviewResponses}
             </h5>
@@ -400,13 +404,15 @@ function ReviewYourReferenceCheckPage() {
               onContinue={handleContinueFromPreview}
               language={language}
             />
-          </>
-        ) : (
-          <>
+          </Row>
+        </>
+      ) : (
+        <>
+          <Row className="ReviewYourReferenceCheck-Row ">
             <h5 className="referencecheckquestiontitle text-left mb-2">
               {TRANSLATIONS[language].reviewResponses}
             </h5>
-            <Col md={!showBothAnswers ? 9 : 12} >
+            <Col md={!showBothAnswers ? 9 : 12}>
               <div className="ReviewYourReferenceCheckAnswer-left-container">
                 <div className="question-indicator mb-2">
                   <p className="m-0">
@@ -431,6 +437,7 @@ function ReviewYourReferenceCheckPage() {
                   handleUpdateEnhanceAnswer={handleUpdateEnhanceAnswer}
                   handlePreviousQuestion={handlePreviousQuestion}
                   handleNextQuestion={handleNextQuestion}
+                  language={language}
                 />
               </div>
             </Col>
@@ -541,9 +548,9 @@ function ReviewYourReferenceCheckPage() {
                 onConfirmSkip={handleConfirmSkip}
               />
             )}
-          </>
-        )}
-      </Row>
+          </Row>
+        </>
+      )}
       {showPreviewConfirmation && (
         <PreviewConfirmationPopUp
           onClose={handleCancelPreview}

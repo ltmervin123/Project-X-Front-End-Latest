@@ -1,38 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationReferenceRequestPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationReferenceRequestPopUp";
 import RestoreConfirmationReferenceRequestPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationReferenceRequestPopUp";
-const TRANSLATIONS = {
-  English: {
-    restore: "Restore",
-    delete: "Delete",
 
-  },
-  Japanese: {
-    restore: "復元",
-    delete: "削除",
- 
-  },
-};
 const ReferenceRequestTable = ({
   data,
-  selectedItems,
+  selectedCount,
+  isSelected,
   onSelect,
   onRestore,
   onDelete,
-  showCheckboxes,
   isDeletingReferenceRequest,
   isRestoringReferenceRequest,
+  labels,
 }) => {
-  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
-  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
-    event.stopPropagation(); // Stop event propagation here
-    const { clientY } = event;
+    event.stopPropagation();
     setVisibleOptions((prev) => {
       if (prev[candidateId]) {
         return { ...prev, [candidateId]: false };
@@ -75,18 +62,6 @@ const ReferenceRequestTable = ({
     }
   };
 
-  const filterDataBySearch = (requests, searchTerm) => {
-    return requests.filter((request) => {
-      const referees = request.referees;
-      const refereesString = Array.isArray(referees)
-        ? referees.join(", ")
-        : typeof referees === "string"
-        ? referees
-        : "";
-      return refereesString.toLowerCase().includes(searchTerm.toLowerCase());
-    });
-  };
-
   const getStatusColor = (status) => {
     switch (status) {
       case "In Progress":
@@ -101,6 +76,7 @@ const ReferenceRequestTable = ({
         return "black";
     }
   };
+
   function concatenateStatus() {
     if (!Array.isArray(data.status)) return "";
 
@@ -118,11 +94,10 @@ const ReferenceRequestTable = ({
   return (
     <>
       <tr
-        className={selectedItems.includes(data._id) ? "table-active" : ""}
+        className={isSelected ? "table-active" : ""}
         onClick={() => onSelect(data._id)}
         style={{ cursor: "pointer" }}
       >
-        {/* Add stopPropagation to checkbox container */}
         <td
           style={{ width: "30px", cursor: "pointer" }}
           onClick={(e) => e.stopPropagation()}
@@ -131,14 +106,13 @@ const ReferenceRequestTable = ({
           <input
             type="checkbox"
             className="form-check-input custom-checkbox"
-            checked={selectedItems.includes(data._id)}
+            checked={isSelected}
             onChange={() => onSelect(data._id)}
           />
         </td>
 
-        {/* <td style={{ width: "12%" }}>{data.applicant}</td> */}
         <td>{data.applicant}</td>
-        <td >{data.referees}</td>
+        <td>{data.referees}</td>
         <td>
           {(() => {
             const concatenatedStatus = concatenateStatus();
@@ -157,9 +131,7 @@ const ReferenceRequestTable = ({
             });
           })()}
         </td>
-        <td className="text-center">
-          {data.deletedAt.toString().split("T")[0]}
-        </td>
+        <td>{data.deletedAt.toString().split("T")[0]}</td>
         <td className="position-relative text-center">
           <div className="action-menu d-flex justify-content-center align-items-center">
             <p
@@ -188,7 +160,7 @@ const ReferenceRequestTable = ({
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    {TRANSLATIONS[language].restore}
+                    {labels.restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -196,7 +168,7 @@ const ReferenceRequestTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    {TRANSLATIONS[language].delete}
+                    {labels.delete}
                   </p>
                 </div>
               )}
@@ -228,4 +200,11 @@ const ReferenceRequestTable = ({
   );
 };
 
-export default ReferenceRequestTable;
+export default memo(ReferenceRequestTable, (prevProps, nextProps) => {
+  return (
+    prevProps.data._id === nextProps.data._id &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.isDeletingJobs === nextProps.isDeletingJobs &&
+    prevProps.isRestoringJobs === nextProps.isRestoringJobs
+  );
+});

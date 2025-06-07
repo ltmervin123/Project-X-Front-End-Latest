@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Header from "../../components/Admin/Header";
+// import TranslationDropdown from "../../components/Admin/TranslationDropdown";
 import Sidebar from "../../components/Admin/Sidebar";
 
 import AnalyticsDashboard from "../../components/Admin/AnalyticsDashboard/AnalyticsDashboard";
@@ -18,6 +19,7 @@ function AnalyticsDashboardPage() {
 
           <Col md={10} className="p-3">
             <AnalyticsDashboard />
+            {/* <TranslationDropdown /> */}
           </Col>
         </Row>
       </div>

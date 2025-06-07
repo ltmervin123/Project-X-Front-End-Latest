@@ -58,7 +58,7 @@ const translations = {
     decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
     innovationAndGrowth: "Innovation and Growth",
     leadershipAndManagementSkills: "Leadership and Management Skills",
-    signatureAndVerification: "SIGNATURE AND VERIFICATION",
+    verification: "VERIFICATION",
     noImageAvailable: "No image available",
     noAnswerProvided: "No Answer Provided",
     downloading: "Downloading...",
@@ -67,6 +67,12 @@ const translations = {
     signature: "VERIFICATION",
     invalidDate: "Invalid Date",
     refereeCompanyWorkedWith: "Company Worked With",
+    candidateRating: "Preferred Pace: ",
+    paceRatings: {
+      "Fast-paced": "Fast-paced",
+      "Mid-paced": "Mid-paced",
+      "Slow-paced": "Slow-paced"
+    },
 
     question: function (index) {
       return `Question ${index + 1}`;
@@ -134,7 +140,7 @@ const translations = {
     decisionMakingAndProblemSolving: "意思決定と問題解決",
     innovationAndGrowth: "革新と成長",
     leadershipAndManagementSkills: "リーダーシップと管理スキル",
-    signatureAndVerification: "署名と確認",
+    verification: "検証",
     noImageAvailable: "画像は利用できません",
     noAnswerProvided: "回答は提供されていません",
     downloading: "ダウンロード中...",
@@ -143,6 +149,12 @@ const translations = {
     signature: "検証",
     invalidDate: "無効な日付",
     refereeCompanyWorkedWith: "一緒に働いた会社",
+    candidateRating: "希望するペース：",
+    paceRatings: {
+      "Fast-paced": "高速ペース",
+      "Mid-paced": "中程度のペース",
+      "Slow-paced": "ゆっくりしたペース"
+    },
 
     question: function (index) {
       return `第${index + 1}問`;
@@ -158,9 +170,9 @@ const translations = {
     assessments: {
       Unsatisfactory: "不満足",
       "Needs Improvement": "改善が必要",
-      "Meets Expectations": "期待に応える",
-      "Exceeds Expectations": "期待を上回る",
-      Exceptional: "優れている",
+      "Meets Expectations": "期待通り",
+      "Exceeds Expectations": "期待以上",
+      Exceptional: "優秀",
     },
     overallAssessments: {
       jobPerformance: "総合的な職務遂行評価：",
@@ -301,6 +313,7 @@ const ReferenceVerificationSection = () => {
     const t = translations[language].overallAssessments;
 
     switch (category) {
+      
       // Standard Format
       case "jobResponsibilitiesAndPerformance":
         return t.jobPerformance;
@@ -330,9 +343,17 @@ const ReferenceVerificationSection = () => {
   }
 
   const getAssessmentStyle = (assessment) => {
-    const translatedAssessment = translations[language].assessments[assessment];
-    const styles = {
-      Unsatisfactory: {
+        // Create a mapping of Japanese to English assessments
+        const japaneseToEnglish = {
+          "不満足": "Unsatisfactory",
+          "改善が必要": "Needs Improvement",
+          "期待通り": "Meets Expectations",
+          "期待以上": "Exceeds Expectations",
+          "優秀": "Exceptional",
+        };
+    
+        const assessmentStyles = {
+          "Unsatisfactory": {
         color: "#FF1D48",
         borderColor: "#FF1D48",
         backgroundColor: "rgba(255, 29, 72, 0.15)",
@@ -352,20 +373,16 @@ const ReferenceVerificationSection = () => {
         borderColor: "#70AD47",
         backgroundColor: "rgba(112, 173, 71, 0.15)",
       },
-      Exceptional: {
-        color: "#5D643F",
-        borderColor: "#5D643F",
+      "Exceptional": {
         backgroundColor: "rgba(93, 100, 63, 0.15)",
+        color: "#5D643F",
       },
     };
 
-    return (
-      styles[assessment] || {
-        color: "grey",
-        borderColor: "grey",
-        backgroundColor: "rgba(128, 128, 128, 0.15)",
-      }
-    );
+    // Convert Japanese assessment to English if necessary
+    const englishAssessment = japaneseToEnglish[assessment] || assessment;
+
+    return assessmentStyles[englishAssessment] || {};
   };
 
   const downloadPDF = () => {
@@ -375,14 +392,12 @@ const ReferenceVerificationSection = () => {
     // Clone the report content to modify it without affecting the original
     const clonedReport = reportRef.current.cloneNode(true);
 
-    // Remove the Id image container
-    clonedReport.querySelector(".uploaded-id-container").remove();
-
-    // Modify the "SIGNATURE AND VERIFICATION" text
-    const signatureTitle = clonedReport.querySelector(".signature-verif-title");
-    if (signatureTitle) {
-      signatureTitle.textContent = translations[language].signature; // Use the translation for "Signature"
+    // Remove the ID container from the cloned report
+    const idContainer = clonedReport.querySelector('.uploaded-id-container');
+    if (idContainer) {
+      idContainer.remove();
     }
+
     const options = {
       margin: 10,
       filename: `Referee ${referenceData?.referenceRequestId?.refereeName.firstName} ${referenceData?.referenceRequestId?.refereeName.lastName} Response Copy.pdf`,
@@ -416,7 +431,7 @@ const ReferenceVerificationSection = () => {
     sessionStorage.removeItem("referenceQuestions");
     sessionStorage.removeItem("referenceQuestionsData");
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("preferred-language");
+    sessionStorage.removeItem("selectedLanguage");
     sessionStorage.removeItem("interview-method");
   };
   const currentStep = 5; // Set the current step (1 for Basic Information)
@@ -535,22 +550,49 @@ const ReferenceVerificationSection = () => {
                           </div>
                         </div>
                       ))}
-                      {/* Add Overall Category Assessment */}
-                      {item.category !== "relationship" &&
-                        item.category !== "closingQuestions" && (
-                          <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                            <b>{getOverallAssessmentText(item.category)}</b>
-                            <div
-                              className="overall-assessment-detail"
-                              style={getAssessmentStyle(item.assessmentRating)}
-                            >
-                              <p className="m-0">
-                                {item.assessmentRating ||
-                                  translations[language].notAvailable}
-                              </p>
+                      {/* Add Pace Rating for Work Ethic and Behavior */}
+                      {item.category === "workEthicAndBehavior" && item.paceRating && (
+                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                          <div className="d-flex gap-2 align-items-center">
+                            <b>{translations[language].candidateRating}</b>
+                            <div className="d-flex gap-2">
+                              <div
+                                className="overall-assessment-detail"
+                                style={{
+                                  backgroundColor: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                    ? "rgba(237, 125, 49, 0.15)"
+                                    : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                    ? "rgba(112, 173, 71, 0.15)"
+                                    : "rgba(255, 234, 102, 0.15)",
+                                  color: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                    ? "#ED7D31"
+                                    : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                    ? "#70AD47"
+                                    : "#FFEA66",
+                                }}
+                              >
+                                <p className="m-0">
+                                  {item.paceRating || translations[language].notAvailable}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        )}
+                        </div>
+                      )}
+                      {/* Add Overall Category Assessment */}
+                      {item.category === "workEthicAndBehavior" && (
+                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                          <b>{getOverallAssessmentText(item.category)}</b>
+                          <div
+                            className="overall-assessment-detail"
+                            style={getAssessmentStyle(item.assessmentRating)}
+                          >
+                            <p className="m-0">
+                              {item.assessmentRating || translations[language].notAvailable}
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))
               : (referenceData?.referenceQuestion || []).map((item) => (
@@ -578,27 +620,54 @@ const ReferenceVerificationSection = () => {
                         </div>
                       </div>
                     ))}
-                    {/* Add Overall Category Assessment */}
-                    {/* {item.category !== "relationship" &&
-                      item.category !== "closingQuestions" && (
-                        <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                          <b>{getOverallAssessmentText(item.category)}</b>
-                          <div
-                            className="overall-assessment-detail"
-                            style={getAssessmentStyle(item.overallAssessment)}
-                          >
-                            <p className="m-0">
-                              {item.overallAssessment ||
-                                translations[language].notAvailable}
-                            </p>
+                    {/* Add Pace Rating for Work Ethic and Behavior */}
+                    {item.category === "workEthicAndBehavior" && item.paceRating && (
+                      <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                        <div className="d-flex gap-2 align-items-center">
+                          <b>{translations[language].candidateRating}</b>
+                          <div className="d-flex gap-2">
+                            <div
+                              className="overall-assessment-detail"
+                              style={{
+                                backgroundColor: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                  ? "rgba(237, 125, 49, 0.15)"
+                                  : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                  ? "rgba(112, 173, 71, 0.15)"
+                                  : "rgba(255, 234, 102, 0.15)",
+                                color: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                  ? "#ED7D31"
+                                  : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                  ? "#70AD47"
+                                  : "#FFEA66",
+                              }}
+                            >
+                              <p className="m-0">
+                                {item.paceRating || translations[language].notAvailable}
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      )} */}
+                      </div>
+                    )}
+                    {/* Add Overall Category Assessment */}
+                    {item.category === "workEthicAndBehavior" && (
+                      <div className="overall-assessment-container d-flex gap-2 align-items-center">
+                        <b>{getOverallAssessmentText(item.category)}</b>
+                        <div
+                          className="overall-assessment-detail"
+                          style={getAssessmentStyle(item.assessmentRating)}
+                        >
+                          <p className="m-0">
+                            {item.assessmentRating || translations[language].notAvailable}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
           </div>
           <p className="signature-verif-title color-orange mt-5 mb-3">
-            {translations[language].signatureAndVerification}
+            {translations[language].verification}
           </p>
           <div className="w-100 uploaded-id-container d-flex gap-3 mb-5">
             <div>
@@ -715,10 +784,7 @@ const ReferenceVerificationSection = () => {
             >
               {downloading ? (
                 <div className="d-flex align-items-center justify-content-center">
-                  <div
-                    className="spinner-border spinner-border-sm text-light me-2"
-                    role="status"
-                  ></div>
+        
                   <span>{translations[language].downloading}</span>
                 </div>
               ) : (

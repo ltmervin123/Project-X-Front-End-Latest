@@ -1,39 +1,25 @@
-import React, { useState } from "react";
+import { useState, memo, useCallback } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationJobPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationJobPopUp";
 import RestoreConfirmationJobPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationJobPopUp";
 
-const TRANSLATIONS = {
-  English: {
-    restore: "Restore",
-    delete: "Delete",
-
-  },
-  Japanese: {
-    restore: "復元",
-    delete: "削除",
- 
-  },
-};
-
 const JobTable = ({
   data,
-  selectedItems,
+  selectedCount,
+  isSelected,
   onSelect,
   onRestore,
   onDelete,
-  showCheckboxes,
   isDeletingJobs,
   isRestoringJobs,
+  labels,
 }) => {
-  const language = sessionStorage.getItem("preferred-language") || "English";
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
-  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
-    event.stopPropagation(); // Stop event propagation here
+    event.stopPropagation();
 
     const { clientY } = event;
     setVisibleOptions((prev) => {
@@ -84,14 +70,40 @@ const JobTable = ({
     }
   };
 
+  const mapDepartmentToKey = useCallback((dept) => {
+    const manualMapping = {
+      "Human Resources (HR)": "hr",
+      "IT (Information Technology)": "it",
+      "Research and Development (R&D)": "rAndD",
+      "Public Relations (PR)": "pr",
+      "Business Development": "businessDev",
+      "Customer Service": "customerService",
+      "Risk Management": "riskManagement",
+      "Product Development": "productDevelopment",
+      "Logistics, Supply Chain & Procurement": "logistics",
+    };
+
+    if (manualMapping[dept]) {
+      return manualMapping[dept];
+    }
+
+    return dept
+      .toLowerCase()
+      .replace(/[\s()&]/g, "")
+      .replace(/and/g, "And")
+      .replace(
+        /(^[a-z]|[A-Z])[a-z]*/g,
+        (word) => word.charAt(0).toLowerCase() + word.slice(1)
+      );
+  }, []);
+
   return (
     <>
       <tr
-        className={selectedItems.includes(data._id) ? "table-active" : ""}
+        className={isSelected ? "table-active" : ""}
         onClick={() => onSelect(data._id)}
         style={{ cursor: "pointer" }}
       >
-        {/* Add stopPropagation to checkbox container */}
         <td
           style={{ width: "30px", cursor: "pointer" }}
           onClick={(e) => e.stopPropagation()}
@@ -100,16 +112,19 @@ const JobTable = ({
           <input
             type="checkbox"
             className="form-check-input custom-checkbox"
-            checked={selectedItems.includes(data._id)}
+            checked={isSelected}
             onChange={() => onSelect(data._id)}
           />
         </td>
         <td>{data.jobName}</td>
-        <td>{data.department}</td>
-        <td>{data.hiringManager}</td>
-        <td className="text-center">
-          {data.deletedAt.toString().split("T")[0]}
+        <td>
+          {data.department
+            ? labels.departments[mapDepartmentToKey(data.department)] ||
+              data.department
+            : "Department not specified"}
         </td>
+        <td>{data.hiringManager}</td>
+        <td>{data.deletedAt.toString().split("T")[0]}</td>
         <td className="position-relative text-center">
           <div className="action-menu d-flex justify-content-center align-items-center">
             <p
@@ -138,7 +153,7 @@ const JobTable = ({
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    {TRANSLATIONS[language].restore}
+                    {labels.restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -149,7 +164,7 @@ const JobTable = ({
                     }}
                   >
                     <FaTrash />
-                    {TRANSLATIONS[language].delete}
+                    {labels.delete}
                   </p>
                 </div>
               )}
@@ -181,4 +196,11 @@ const JobTable = ({
   );
 };
 
-export default JobTable;
+export default memo(JobTable, (prevProps, nextProps) => {
+  return (
+    prevProps.data._id === nextProps.data._id &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.isDeletingJobs === nextProps.isDeletingJobs &&
+    prevProps.isRestoringJobs === nextProps.isRestoringJobs
+  );
+});

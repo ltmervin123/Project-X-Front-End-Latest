@@ -4,12 +4,12 @@ import { Modal } from "react-bootstrap";
 const TRANSLATIONS = {
   English: {
     confirmationMessage: "Would you like to preview your selected answers?",
-        yes: "Yes",
+    yes: "Yes",
     no: "No",
   },
   Japanese: {
     confirmationMessage: "選択した回答をプレビューしますか？",
-        yes: "はい",
+    yes: "はい",
     no: "いいえ",
   },
 };

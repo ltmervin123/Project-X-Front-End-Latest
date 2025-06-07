@@ -18,6 +18,12 @@
   opacity: 0; /* Start with opacity 0 */
   height: 0; /* Default height */
   transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for height and opacity */
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: white;
+  width: 100% !important;
+  z-index: 1;
 }
 
 .reference-dropdown-container.expanded {
@@ -25,7 +31,10 @@
   height: auto; /* Set this to the desired height when expanded */
   opacity: 1; /* Set opacity to 1 when expanded */
   transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out; /* Smooth transition for height and opacity */
-  width: 99% !important;
+  width: 100% !important;
+  position: relative;
+  margin: 0;
+  padding: 15px;
 }
 .reference-dropdown-container > b {
   color: var(--card-color);
@@ -128,7 +137,7 @@
   font-size: 13px;
   left: -285%;
   top: 140%;
-  z-index: 1; /* Ensure it appears above other elements */
+  z-index: 1000; /* Ensure it appears above other elements */
   animation: fadeIn 0.3s ease-in; /* Apply the fade-in animation */
 }
 
@@ -154,121 +163,14 @@
   border: 0.5px solid rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   padding: 20px;
-  height: 62vh;
+  height: 62vh; /* Increased height for better scrolling area */
+  display: flex;
+  flex-direction: column;
 }
 .AiReference-reference-request-container > div {
   height: 15%;
 }
-.AiReference-reference-request-container thead {
-  position: relative;
-  right: 2px;
-}
-.AiReference-reference-request-container table {
-  width: 100%;
-  height: 80%;
-  border-collapse: collapse;
-  font-size: 15px;
-}
-.AiReference-reference-request-container tbody {
-  display: block; /* Make tbody a block element */
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden;
-  height: 100%;
-}
-.AiReference-reference-request-container tr {
-  display: table; /* Ensure rows are displayed as table rows */
-  width: 100%; /* Full width for rows */
-}
-.AiReference-reference-request-container th {
-  color: var(--card-color);
-}
-.AiReference-reference-request-container th,
-.AiReference-reference-request-container td {
-  padding: 10px 10px 10px 0px;  /* Padding for table cells */
-  word-wrap: break-word;
-  text-align: left; /* Align text to the left */
-  font-weight: bold;
-  width: 10% !important;
-  text-transform: capitalize;
-}
-.AiReference-reference-request-container th:nth-child(5),
-.AiReference-reference-request-container td:nth-child(5),
-.AiReference-reference-request-container th:nth-child(6),
-.AiReference-reference-request-container td:nth-child(6){
-  width: 6.4% !important;
-}
-.AiReference-reference-request-container .btn-view-details {
-  background: var(--btn-view-color);
-  text-decoration: none;
-  color: var(--font-white);
-  /* width: 120px; */
-  padding: 8px; /* Adjusted padding */
-  border-radius: 50px;
-  height: auto;
 
-  border: none !important;
-  cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s;
-  font-size: 14px;
-}
-
-.AiReference-reference-request-container .btn-view-details:hover {
-  background: darkgreen;
-}
-
-/* .status-bg-color{
-  width: 120px !important;
-  padding: 5px 10px;
-  border-radius: 50px;
-  text-align: center;
-  color: var(--font-white);
-} */
-.btn-view-details.isDropdown {
-  background: var(--isDropdown-bgcolor);
-}
-.btn-view-details.isDropdown:hover {
-  background: var(--isDropdown-bgcolor);
-}
-
-
-.AiReference-reference-request-container .btn-view-referee {
-  background: var(--btn-view-color);
-  text-decoration: none;
-  color: var(--font-white);
-  padding: 8px 15px; /* Adjusted padding */
-  border-radius: 50px;
-  height: auto;
-  width: 98px;
-  border: none !important;
-  cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s;
-  font-size: 10px;
-}
-
-.AiReference-reference-request-container .btn-view-referee:hover {
-  background: darkgreen;
-}
-
-.AiReference-reference-request-container .btn-view-details {
-  background: var(--btn-view-color);
-  text-decoration: none;
-  color: var(--font-white);
-  /* width: 140px; */
-  padding: 8px 20px; /* Adjusted padding */
-  border-radius: 50px;
-  border: none !important;
-  cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s;
-  font-size: 14px;
-}
-
-.AiReference-reference-request-container .btn-view-details:hover {
-  background: darkgreen;
-}
-
-.btn-create-new-candidate:hover {
-  background: darkorange; /* Darker shade on hover */
-}
 .btn-no-delete {
   background: var(--secondary-color);
   width: 120px;
@@ -377,6 +279,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: background-image 0.3s ease;
   background: var(--font-white);
+  white-space: nowrap;
 }
 
 .custom-dropdown-ref-req .dropdown-list-ref-req {
@@ -392,7 +295,7 @@
 }
 
 .custom-dropdown-ref-req .dropdown-item-ref-req {
-  padding: 5px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
@@ -508,24 +411,221 @@
   border-radius: 50px;
   border: none;
 }
-/* Customizing the scrollbar */
-.AiReference-reference-request-container tbody::-webkit-scrollbar {
-  width: 4px; /* Scrollbar width */
+.custom-modal-reference .modal-body .button-controls-job > .btn-edit-referee {
+  background: var(--primary-color);
+
+  padding: 5px 15px;
+  color: var(--font-white);
+  border-radius: 50px;
+  border: none;
+}
+.custom-modal-referee .modal-dialog {
+  width: 70% !important;
+  max-width: 620px !important;
+  height: 380px;
+}
+.custom-modal-referee .modal-body {
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+  background: var(--popup-bg-container);
+  border-radius: 20px;
+}
+.custom-modal-referee .modal-body > form > div input, .custom-modal-referee .modal-body > form > div select {
+  border-radius: 50px;
+  border: 1px solid var(--avatar-bg);
+}
+.custom-modal-referee .modal-body .form-label {
+  display: flex
+;
+  align-items: center;
+  margin: 0 !important;
+  height: 38px;
+}
+.custom-modal-referee .modal-body .btn-update-referee {
+  background: var(--primary-color);
+  border-radius: 50px;
+  border: none;
+  width: 150px;
+  padding: 5px;
+  color: var(--font-white);
+}
+.scrollable-table-container {
+  height: calc(63vh - 150px) !important; /* Adjust based on header and other elements */
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  font-size: 15px;
 }
 
-.AiReference-reference-request-container tbody::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color); /* Scrollbar thumb color */
-  border-radius: 6px; /* Rounded corners */
+.scrollable-table-container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
 }
 
-.AiReference-reference-request-container tbody::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary-color); /* Scrollbar thumb color */
+.scrollable-table-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 99999;
+  background: white;
 }
 
-.AiReference-reference-request-container tbody::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Track color */
-  border-radius: 6px; /* Rounded corners for the track */
+.scrollable-table-container th {
+  padding: 10px 10px 10px 0px;
+  font-weight: bold;
+  text-align: left;
+  background: white;
+  position: sticky;
+  top: 0;
 }
+
+.scrollable-table-container td {
+  padding: 10px 10px 10px 0px;  /* Padding for table cells */
+  word-wrap: break-word;
+  width: auto;
+  text-align: left; /* Align text to the left */
+  font-weight: bold;
+}
+/* .scrollable-table-container td:nth-child(5),
+.scrollable-table-container td:nth-child(6) {
+  width: 10% ;
+} */
+.scrollable-table-container .btn-view-details {
+  background: var(--btn-view-color);
+  text-decoration: none;
+  color: var(--font-white);
+  /* width: 120px; */
+  padding: 8px; /* Adjusted padding */
+  border-radius: 50px;
+  height: auto;
+
+  border: none !important;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.scrollable-table-container .btn-view-details:hover {
+  background: darkgreen;
+}
+
+/* .status-bg-color{
+  width: 120px !important;
+  padding: 5px 10px;
+  border-radius: 50px;
+  text-align: center;
+  color: var(--font-white);
+} */
+.btn-view-details.isDropdown {
+  background: var(--isDropdown-bgcolor);
+}
+.btn-view-details.isDropdown:hover {
+  background: var(--isDropdown-bgcolor);
+}
+
+
+.scrollable-table-container .btn-view-referee {
+  background: var(--btn-view-color);
+  text-decoration: none;
+  color: var(--font-white);
+  padding: 8px 15px; /* Adjusted padding */
+  border-radius: 50px;
+  height: auto;
+  width: 98px;
+  border: none !important;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s;
+  font-size: 10px;
+}
+
+.scrollable-table-container .btn-view-referee:hover {
+  background: darkgreen;
+}
+
+.scrollable-table-container .btn-view-details {
+  background: var(--btn-view-color);
+  text-decoration: none;
+  color: var(--font-white);
+  /* width: 140px; */
+  padding: 8px 20px; /* Adjusted padding */
+  border-radius: 50px;
+  border: none !important;
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.scrollable-table-container .btn-view-details:hover {
+  background: darkgreen;
+}
+
+.btn-create-new-candidate:hover {
+  background: darkorange; /* Darker shade on hover */
+}
+
+
+.scrollable-table-container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.scrollable-table-container thead {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: white;
+}
+
+.scrollable-table-container th {
+  padding: 10px 10px 10px 0px;
+  font-weight: bold;
+  text-align: left;
+  background: white;
+}
+
+.scrollable-table-container tbody {
+  position: relative;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollable-table-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollable-table-container::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 6px;
+}
+
+.scrollable-table-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 6px;
+}
+
+/* Remove existing table styles that might conflict */
+.AiReference-reference-request-container thead {
+  position: relative;
+  width: auto;
+  color: var(--card-color);
+}
+
+.AiReference-reference-request-container table {
+  height: auto;
+  padding-right: 5px;
+}
+
+.edit-referee-container .form-label{
+  width: 30%;
+}
+
+/* Media Queries */
 @media (min-width: 1500px) {
   .AiReference-reference-request-container .btn-view-referee {
     width: 120px;

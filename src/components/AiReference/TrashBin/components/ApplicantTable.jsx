@@ -1,37 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { FaTrashRestore, FaTrash } from "react-icons/fa";
 import DeleteConfirmationApplicantPopUp from "../PopUpComponents/DeletePopup/DeleteConfirmationApplicantPopUp";
 import RestoreConfirmationApplicantPopUp from "../PopUpComponents/RestorePopup/RestoreConfirmationApplicantPopUp";
 
-const TRANSLATIONS = {
-  English: {
-    restore: "Restore",
-    delete: "Delete",
-
-  },
-  Japanese: {
-    restore: "復元",
-    delete: "削除",
- 
-  },
-};
 const ApplicantTable = ({
   data,
-  selectedItems,
+  selectedCount,
+  isSelected,
   onSelect,
   onRestore,
   onDelete,
-  showCheckboxes,
   isDeletingCandidates,
   isRestoringCandidate,
+  labels,
 }) => {
-    const language = sessionStorage.getItem("preferred-language") || "English";
-
   const [visibleOptions, setVisibleOptions] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(false);
-  // Add this line to calculate the number of selected items
-  const selectedCount = selectedItems.length;
 
   const handleToggleOptions = (candidateId, event) => {
     event.stopPropagation(); // Stop event propagation here
@@ -81,11 +66,10 @@ const ApplicantTable = ({
   return (
     <>
       <tr
-        className={selectedItems.includes(data._id) ? "table-active" : ""}
+        className={isSelected ? "table-active" : ""}
         onClick={() => onSelect(data._id)}
         style={{ cursor: "pointer" }}
       >
-        {/* Add stopPropagation to checkbox container */}
         <td
           style={{ width: "30px", cursor: "pointer" }}
           onClick={(e) => e.stopPropagation()}
@@ -93,7 +77,7 @@ const ApplicantTable = ({
           <input
             type="checkbox"
             className="form-check-input custom-checkbox"
-            checked={selectedItems.includes(data._id)}
+            checked={isSelected}
             onChange={() => onSelect(data._id)}
           />
         </td>
@@ -101,7 +85,7 @@ const ApplicantTable = ({
         <td>{data.name}</td>
         <td>{data.email}</td>
         <td>{data.position}</td>
-        <td className="text-center">{data.deletedAt.split("T")[0]}</td>
+        <td>{data.deletedAt.split("T")[0]}</td>
         <td className="position-relative text-center">
           <div className="action-menu d-flex justify-content-center align-items-center">
             <p
@@ -130,7 +114,7 @@ const ApplicantTable = ({
                     style={{ cursor: "pointer" }}
                   >
                     <FaTrashRestore />
-                    {TRANSLATIONS[language].restore}
+                    {labels.restore}
                   </p>
                   <p
                     className="d-flex align-items-center gap-2"
@@ -138,7 +122,7 @@ const ApplicantTable = ({
                     style={{ cursor: "pointer", color: "red" }}
                   >
                     <FaTrash />
-                    {TRANSLATIONS[language].delete}
+                    {labels.delete}
                   </p>
                 </div>
               )}
@@ -170,4 +154,11 @@ const ApplicantTable = ({
   );
 };
 
-export default ApplicantTable;
+export default memo(ApplicantTable, (prevProps, nextProps) => {
+  return (
+    prevProps.data._id === nextProps.data._id &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.isDeletingJobs === nextProps.isDeletingJobs &&
+    prevProps.isRestoringJobs === nextProps.isRestoringJobs
+  );
+});

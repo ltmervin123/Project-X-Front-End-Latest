@@ -1,28 +1,25 @@
-import React from "react";
 import { Modal } from "react-bootstrap";
-
-// Define language
-const language = sessionStorage.getItem("preferred-language") || "English";
-
-// Translation dictionary
-const TRANSLATIONS = {
-  English: {
-    deleteConfirmation: "Would you like to confirm to delete this reference request?",
-    yes: "Yes",
-    no: "No"
-  },
-  Japanese: {
-    deleteConfirmation: "このリファレンス依頼を削除してもよろしいですか？",
-    yes: "はい",
-    no: "いいえ"
-  }
-};
+import { useDeleteReference } from "../../../../hook/useReference";
 
 const DeleteConfirmationReferenceRequestPopUp = ({
   onClose,
-  onConfirmDelete,
-  isDeleting,
+  labels,
+  user,
+  referenceId,
 }) => {
+  const { mutate: deleteReference, isPending: isDeleting } = useDeleteReference(
+    user,
+    {
+      onSettled: () => {
+        onClose();
+      },
+    }
+  );
+
+  const handleDelete = async () => {
+    await deleteReference(referenceId);
+  };
+
   return (
     <Modal
       show={true}
@@ -34,14 +31,12 @@ const DeleteConfirmationReferenceRequestPopUp = ({
     >
       <Modal.Body>
         <div className="d-flex justify-content-center align-items-center flex-column p-2 py-3">
-          <p className="text-center m-0">
-            {TRANSLATIONS[language].deleteConfirmation}
-          </p>
+          <p className="text-center m-0">{labels.deleteConfirmation}</p>
 
           <div className="d-flex justify-content-center gap-3 w-100 mt-4">
             <button
               className="btn-yes-delete"
-              onClick={onConfirmDelete}
+              onClick={handleDelete}
               disabled={isDeleting}
             >
               {isDeleting ? (
@@ -50,11 +45,11 @@ const DeleteConfirmationReferenceRequestPopUp = ({
                   role="status"
                 ></div>
               ) : (
-                TRANSLATIONS[language].yes
+                labels.yes
               )}
             </button>
             <button className="btn-no-delete" onClick={onClose}>
-              {TRANSLATIONS[language].no}
+              {labels.no}
             </button>
           </div>
         </div>

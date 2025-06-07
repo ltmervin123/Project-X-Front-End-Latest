@@ -4,21 +4,22 @@ import "../../styles/AiReferenceStyles/TranslationDropdown.css";
 function TranslationDropdown() {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
   const selectLanguage = (lang) => {
-    console.log(`Selected language: ${lang}`);
-    sessionStorage.setItem("preferred-language", lang); // Store the selected language
-    window.location.reload(); // Reload the page to apply the language change
-    setShowDropdown(false);
-};
+    const currentLang = sessionStorage.getItem("preferred-language");
+
+    if (currentLang === lang) {
+      setShowDropdown(false);
+      return;
+    }
+
+    sessionStorage.setItem("preferred-language", lang);
+    window.location.reload();
+  };
 
   return (
     <div className="translation-icon-container">
       <button
-        onClick={toggleDropdown}
+        onClick={() => setShowDropdown(!showDropdown)}
         className="translation-icon-btn d-flex align-items-center justify-content-center"
       >
         <svg
@@ -36,7 +37,10 @@ function TranslationDropdown() {
       </button>
       {showDropdown && (
         <div className="translation-dropdown">
-          <div onClick={() => selectLanguage("English")} className="dropdown-item">
+          <div
+            onClick={() => selectLanguage("English")}
+            className="dropdown-item"
+          >
             <svg
               width="121"
               height="86"
@@ -116,7 +120,10 @@ function TranslationDropdown() {
               </defs>
             </svg>
           </div>
-          <div onClick={() => selectLanguage("Japanese")} className="dropdown-item">
+          <div
+            onClick={() => selectLanguage("Japanese")}
+            className="dropdown-item"
+          >
             <svg
               width="121"
               height="86"

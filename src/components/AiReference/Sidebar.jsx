@@ -9,6 +9,7 @@ const TRANSLATIONS = {
     Applicants: "Applicants",
     ReferenceRequest: "Reference Request",
     ReferenceQuestion: "Reference Question",
+    AgencyPartner: "Agency Partner",
     Reports: "Reports",
     TrashBin: "Trash Bin",
     FollowUsOn: "Follow Us On",
@@ -19,6 +20,7 @@ const TRANSLATIONS = {
     Applicants: "応募者",
     ReferenceRequest: "リファレンス依頼",
     ReferenceQuestion: "リファレンス質問",
+    AgencyPartner: "エージェンシーパートナー",
     Reports: "レポート",
     TrashBin: "ゴミ箱",
     FollowUsOn: "フォローしてください",
@@ -27,7 +29,9 @@ const TRANSLATIONS = {
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState("English");
+  const [currentLanguage, setCurrentLanguage] = useState(
+    sessionStorage.getItem("preferred-language") || "English"
+  );
 
   useEffect(() => {
     const handleLanguageChange = () => {
@@ -35,9 +39,6 @@ const Sidebar = () => {
         sessionStorage.getItem("preferred-language") || "English"
       );
     };
-
-    // Initial language setup
-    handleLanguageChange();
 
     // Listen for storage changes
     window.addEventListener("storage", handleLanguageChange);
@@ -77,7 +78,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceMaindashboard"
+          to="/ai-reference-dashboard"
         >
           <svg
             width="14"
@@ -95,7 +96,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceJobs"
+          to="/ai-reference-jobs"
         >
           <svg
             width="12"
@@ -118,7 +119,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceApplicant"
+          to="/ai-reference-applicants"
         >
           <svg
             width="19"
@@ -139,7 +140,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceRequest"
+          to="/ai-reference-request"
         >
           <svg
             width="24"
@@ -159,7 +160,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceQuestion"
+          to="/ai-reference-questions"
         >
           <svg
             width="11"
@@ -179,7 +180,28 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceReports"
+          to="/ai-reference-agency-partners"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19.291 5.99997H20.001C20.2662 5.99997 20.5206 6.10532 20.7081 6.29286C20.8956 6.4804 21.001 6.73475 21.001 6.99997V14C21.001 14.2652 20.8956 14.5195 20.7081 14.7071C20.5206 14.8946 20.2662 15 20.001 15H18.001L13.831 9.16397C13.5885 8.82461 13.2459 8.56957 12.8512 8.43455C12.4566 8.29953 12.0296 8.29129 11.63 8.41097L9.144 9.15697C8.79817 9.26049 8.43078 9.26849 8.08078 9.18011C7.73077 9.09173 7.41122 8.91026 7.156 8.65497L6.863 8.36197C6.75839 8.25738 6.67829 8.13088 6.62846 7.9916C6.57864 7.85232 6.56034 7.70371 6.57488 7.5565C6.58942 7.4093 6.63644 7.26714 6.71254 7.1403C6.78865 7.01345 6.89195 6.90507 7.015 6.82297L12.416 3.22297C12.7384 3.00788 13.1164 2.8911 13.5039 2.88684C13.8915 2.88258 14.2719 2.99102 14.599 3.19897L18.755 5.84397C18.9149 5.94561 19.1015 5.99971 19.291 5.99997ZM5.027 14.295L3.411 15.709C3.30055 15.8058 3.21279 15.9257 3.15395 16.0603C3.09511 16.1949 3.06663 16.3408 3.07055 16.4876C3.07446 16.6344 3.11067 16.7786 3.1766 16.9098C3.24252 17.0411 3.33655 17.1562 3.452 17.247L8.592 21.287C8.70499 21.3759 8.83584 21.4394 8.97562 21.4732C9.11539 21.507 9.26081 21.5102 9.40195 21.4827C9.5431 21.4552 9.67664 21.3976 9.79348 21.3137C9.91032 21.2299 10.0077 21.1219 10.079 20.997L10.783 19.765C10.9926 19.3981 11.0807 18.9742 11.0345 18.5542C10.9883 18.1342 10.8103 17.7396 10.526 17.427L7.824 14.455C7.47164 14.0673 6.98123 13.8333 6.4582 13.8034C5.93516 13.7735 5.42127 13.95 5.027 14.295ZM7.046 4.99997H3C2.73478 4.99997 2.48043 5.10532 2.29289 5.29286C2.10536 5.4804 2 5.73475 2 5.99997V13.516C2.00005 13.9193 2.12206 14.3132 2.35 14.646L2.424 14.58L4.039 13.166C4.72899 12.5622 5.62835 12.2533 6.54372 12.3056C7.45909 12.358 8.31736 12.7674 8.934 13.446L11.636 16.418C12.1333 16.9648 12.4447 17.6551 12.5255 18.3899C12.6063 19.1246 12.4525 19.8661 12.086 20.508L11.431 21.654C11.7136 21.7611 12.0168 21.8028 12.3178 21.776C12.6188 21.7492 12.9098 21.6544 13.169 21.499L17.579 18.853C17.6972 18.7819 17.7995 18.6872 17.8794 18.5747C17.9592 18.4622 18.0149 18.3344 18.043 18.1994C18.0711 18.0643 18.0709 17.9249 18.0425 17.7899C18.0141 17.6549 17.9581 17.5273 17.878 17.415L12.611 10.036C12.5503 9.95122 12.4647 9.88755 12.3661 9.85384C12.2675 9.82013 12.1608 9.81808 12.061 9.84797L9.575 10.593C8.9698 10.7745 8.32673 10.7889 7.71404 10.6344C7.10135 10.48 6.54188 10.1627 6.095 9.71597L5.802 9.42297C5.54038 9.16149 5.34005 8.84522 5.21544 8.49696C5.09083 8.1487 5.04505 7.77713 5.0814 7.40904C5.11775 7.04095 5.23532 6.68551 5.42564 6.36835C5.61597 6.0512 5.87429 5.78022 6.182 5.57497L7.046 4.99997Z"
+              fill="#686868"
+            />
+          </svg>
+          {TRANSLATIONS[currentLanguage].AgencyPartner}{" "}
+        </NavLink>
+
+        <NavLink
+          className={({ isActive }) =>
+            `sidebarnav ${isActive ? "active-link" : ""}`
+          }
+          to="/ai-reference-reports"
         >
           <svg
             width="14"
@@ -207,7 +229,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             `sidebarnav ${isActive ? "active-link" : ""}`
           }
-          to="/AiReferenceTrashbin"
+          to="/ai-reference-archives"
         >
           <svg
             width="2"
