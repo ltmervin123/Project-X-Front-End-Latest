@@ -15,7 +15,7 @@ export const TRANSLATIONS = {
     fillRequired: "* Fill in the required information",
     firstName: "First Name",
     hiringManager: "Hiring Manager",
-    hrHatch: "HR-HATCH",
+    hrHatch: "Snappcheck",
     job: "Job and Applicant",
     jobDetails: "Job Details",
     jobName: "Job Name",

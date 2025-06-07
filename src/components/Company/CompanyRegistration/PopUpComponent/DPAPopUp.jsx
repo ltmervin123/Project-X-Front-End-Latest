@@ -102,7 +102,7 @@ const DPAPopUp = ({ showModal, setShowModal, handleContinue, t }) => {
 
             <div className="cr-section">
               <span className="cr-section-title">{t('DPA_ACCEPTANCE_TITLE')}</span>
-              <div className="d-flex gap-2 align-items-center justify-content-start p-1">
+              <div className="d-flex gap-2 align-items-start justify-content-start p-1">
                 <input
                   type="checkbox"
                   className="custom-checkbox form-check-input"

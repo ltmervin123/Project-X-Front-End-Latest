@@ -25,6 +25,7 @@ const labels = {
     viewReports: "View Reports",
     hideReports: "Hide Reports",
     viewReferee: "View Referee",
+    Edit: "Edit",
     Delete: "Delete",
     manageTrackTooltip:
       "Review and manage reference requests for candidates, track their status, and take action.",
@@ -50,7 +51,7 @@ const labels = {
     sendReminder: "Send Reminder",
     sending: "Sending...",
     formats: {
-      hrHatch: "HR-HATCH Format",
+      hrHatch: "Snappcheck Format",
       custom: "Custom Format",
       na: "Not Available",
     },
@@ -108,6 +109,14 @@ const labels = {
     standardFormat: "Standard Format",
     managementFormat: "Management Format",
     executiveFormat: "Executive Format",
+    editReferenceRequest: "Edit Referee Details",
+    refereesName: "Referee's Name:",
+    refereesEmail: "Email: ",
+    updating: "Updating...",
+    updateRequest: "Update Request",
+    editReferee: "Edit Referee",
+    firstName: "First Name:",
+    lastName: "Last Name:",
   },
   Japanese: {
     noRecord: "リファレンス依頼の記録がありません",
@@ -132,6 +141,8 @@ const labels = {
     viewReports: "レポートを表示",
     hideReports: "レポート非表示",
     viewReferee: "推薦者を見る",
+    Edit: "編集",
+
     Delete: "削除",
     manageTrackTooltip:
       "候補者のリファレンス依頼を確認し、ステータスを追跡して、アクションを実行します。",
@@ -156,7 +167,7 @@ const labels = {
     sendReminder: "リマインダーを送信",
     sending: "送信中...",
     formats: {
-      hrHatch: "HR-HATCHフォーマット",
+      hrHatch: "Snappcheckフォーマット",
       custom: "カスタムフォーマット",
       na: "利用不可",
     },
@@ -208,6 +219,14 @@ const labels = {
     standardFormat: "標準フォーマット",
     managementFormat: "マネジメントフォーマット",
     executiveFormat: "エグゼクティブフォーマット",
+    editReferenceRequest: "推薦者詳細を編集",
+    refereesName: "推薦者名：",
+    refereesEmail: "メールアドレス: ",
+    updating: "更新中...",
+    updateRequest: "依頼を更新",
+    editReferee: "推薦者を編集",
+    firstName: "名:",
+    lastName: "姓:",
   },
 };
 

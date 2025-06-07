@@ -171,13 +171,16 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                     <Form.Control
                       type="number"
                       value={creditsToAdd}
-                      onChange={(e) => setCreditsToAdd(Number(e.target.value))}
+                      onChange={(e) => {
+                        const value = e.target.value === '' ? '' : Number(e.target.value);
+                        setCreditsToAdd(value);
+                      }}
                       min="1"
                       className="mb-2"
                     />
                     <small className="text-muted">
-                      {creditsToAdd} {TRANSLATIONS[language].credits} = ¥{" "}
-                      {(creditsToAdd * 3.2).toFixed(2)}
+                      {creditsToAdd || 0} {TRANSLATIONS[language].credits} = ¥{" "}
+                      {((creditsToAdd || 0) * 3.2).toFixed(2)}
                     </small>
                   </div>
                 </div>
@@ -435,14 +438,14 @@ const AddCreditsPopUp = ({ onClose, currentBalance = 0 }) => {
                       <div className="d-flex justify-content-between mb-3 pb-3">
                         <span>{TRANSLATIONS[language].creditsToAdd}</span>
                         <span className="color-orange ">
-                          {creditsToAdd} {TRANSLATIONS[language].credits} (¥{" "}
-                          {(creditsToAdd * 3.2).toFixed(2)} )
+                          {creditsToAdd || 0} {TRANSLATIONS[language].credits} (¥{" "}
+                          {((creditsToAdd || 0) * 3.2).toFixed(2)} )
                         </span>
                       </div>
                       <div className=" d-flex justify-content-between  mb-5">
                         <span>{TRANSLATIONS[language].newCreditBalance}</span>
                         <span className="color-orange credit-total">
-                          {currentBalance + creditsToAdd}{" "}
+                          {currentBalance + (creditsToAdd || 0)}{" "}
                           {TRANSLATIONS[language].credits}
                         </span>
                       </div>

@@ -4,7 +4,8 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
   English: {
     // Headers
     'CULTURE_TITLE': 'Company Culture',
-    'CULTURE_SUBTITLE': 'Please select one characteristic from each category that best describes your company\'s culture.',
+    'CULTURE_SUBTITLE_BOLD': "Important:",
+    'CULTURE_SUBTITLE': ' Please carefully select up to 6 preferred characteristics. These will define your company\'s cultural preferences and serve as the basis for evaluating candidate fit based on referee feedback.',
     'CULTURE_SELECTED': 'Selected',
 
     // Section Names
@@ -18,10 +19,10 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
     // Paced Options
     'FAST_PACED_LABEL': 'Fast-paced',
     'FAST_PACED_DESC': 'Thrives in high-speed, rapidly changing environments where decisions are made quickly and multitasking is common.',
-    'LOW_PACED_LABEL': 'Low-paced',
-    'LOW_PACED_DESC': 'Prefers deliberate planning and steady execution, valuing stability and thoroughness over speed.',
     'MID_PACED_LABEL': 'Mid-paced',
     'MID_PACED_DESC': 'Balances urgency with thoughtfulness, adapting to fast or slow environments depending on the situation.',
+    'LOW_PACED_LABEL': 'Low-paced',
+    'LOW_PACED_DESC': 'Prefers deliberate planning and steady execution, valuing stability and thoroughness over speed.',
 
     // Work Style Options
     'COLLABORATIVE_LABEL': 'Collaborative',
@@ -60,7 +61,8 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
   Japanese: {
     // Headers
     'CULTURE_TITLE': '企業文化',
-    'CULTURE_SUBTITLE': '各カテゴリーから、御社の企業文化を最もよく表す特徴を1つずつ選択してください。',
+    'CULTURE_SUBTITLE_BOLD': "重要:",
+    'CULTURE_SUBTITLE': ' 最大6つの希望する特性を慎重に選択してください。これらは企業の文化的嗜好を定義し、推薦者からのフィードバックに基づいて候補者の適性を評価する基準となります。',
     'CULTURE_SELECTED': '選択済み',
 
     // Section Names
@@ -74,10 +76,11 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
     // Paced Options
     'FAST_PACED_LABEL': '高速ペース',
     'FAST_PACED_DESC': '迅速な意思決定とマルチタスクが求められる、高速で変化の激しい環境で力を発揮します。',
-    'LOW_PACED_LABEL': '慎重なペース',
-    'LOW_PACED_DESC': '速さよりも安定性と綿密さを重視し、計画的で着実な実行を好みます。',
     'MID_PACED_LABEL': '中間的なペース',
     'MID_PACED_DESC': '状況に応じて速さと慎重さのバランスを取り、柔軟に対応します。',
+    'LOW_PACED_LABEL': '慎重なペース',
+    'LOW_PACED_DESC': '速さよりも安定性と綿密さを重視し、計画的で着実な実行を好みます。',
+
 
     // Work Style Options
     'COLLABORATIVE_LABEL': '協調的',
@@ -136,7 +139,7 @@ export const useCompanyCulture = () => {
       console.error(`Language ${language} not found, falling back to English`);
       return COMPANY_CULTURE_TRANSLATIONS['English'][key] || key;
     }
-    
+
     if (!COMPANY_CULTURE_TRANSLATIONS[language][key]) {
       console.warn(`Translation key "${key}" not found in language ${language}`);
       return COMPANY_CULTURE_TRANSLATIONS['English'][key] || key;

@@ -10,7 +10,7 @@ const TRANSLATIONS = {
     tooltip:
       "Designed to be asked in most interviews, these questions focus on skills, experience, and personality.",
     noQuestionsFound: "No questions found",
-    returnToHRHatch: "Return to HR-HATCH Formats",
+    returnToHRHatch: "Return to Snappcheck Formats",
   },
   Japanese: {
     standardFormat: "標準フォーマット",
@@ -19,7 +19,7 @@ const TRANSLATIONS = {
     tooltip:
       "ほとんどの面接で尋ねられるように設計されており、スキル、経験、性格に焦点を当てています。",
     noQuestionsFound: "質問が見つかりません",
-    returnToHRHatch: "HR-HATCH フォーマットに戻る",
+    returnToHRHatch: "Snappcheck フォーマットに戻る",
   },
 };
 
@@ -69,8 +69,8 @@ const StandardFormatComponent = ({
         <p>
           {TRANSLATIONS[language].standardizedQuestionSets}
           <b>
-            <span className="color-orange"> HR</span>
-            -HΛTCH
+            <span className="color-orange"> SNAPP</span>
+            Check
           </b>
           .
         </p>
@@ -127,7 +127,7 @@ const StandardFormatComponent = ({
         {/* Return Button */}
         <button
           className="btn-return"
-          onClick={() => handleButtonClick("HR-HATCH Formats")}
+          onClick={() => handleButtonClick("Snappcheck Formats")}
         >
           {TRANSLATIONS[language].returnToHRHatch}
         </button>

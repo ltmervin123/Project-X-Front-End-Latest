@@ -43,15 +43,13 @@
   top: 0;
   left: 0;
   width: 100%; /* Ensures full width */
-  padding: 10px 3%;
+  padding: 5px 3%;
   border: none;
   margin: 0 !important;
   z-index: 1000;
-  background: linear-gradient(
-    270deg,
-    #f46a05 23.78%,
-    #ff9d55 61.54%
-  ) !important;
+  background: linear-gradient(90deg, #FFDCC2 0%, #F56E0B 79%, #F46A05 100%) !important;
+
+
 }
 .MockMain-Header::after {
   content: "";
@@ -67,11 +65,7 @@
 }
 
 .MockMain-LogoBrand {
-  background: var(--font-white);
-  border-radius: 50px;
-  margin: 0 !important;
-  height: 60px;
-  padding: 0px 10px;
+padding: 0;
   position: relative;
   display: flex;
   align-items: center;

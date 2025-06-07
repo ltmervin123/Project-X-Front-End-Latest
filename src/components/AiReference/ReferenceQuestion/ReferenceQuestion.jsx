@@ -20,17 +20,17 @@ const TRANSLATIONS = {
   English: {
     referenceQuestionnaire: "Reference Questionnaire",
     customQuestionnaire: "Custom Questionnaire",
-    hrhatchFormats: "HR-HATCH Formats",
+    hrhatchFormats: "Snappcheck Formats",
     createYourOwnQuestionnaire: "Create your own questionnaire",
-    customizeHRHatchFormat: "Customize HR-HATCH Format",
+    customizeHRHatchFormat: "Customize Snappcheck Format",
     buildCustomOrTailor:
-      "Build a fully custom reference questionnaire or tailor the HR-Hatch standard format to suit your requirements.",
+      "Build a fully custom reference questionnaire or tailor the Snappcheck standard format to suit your requirements.",
     manageTrackQuestions:
       "Manage, add, and track your customized company questions.",
     hrhatchQuestionFormats: "HR-HΛTCH Question Formats",
     standardizedQuestionSets: "Standardized question sets provided by HR-HΛTCH",
     formatDescription:
-      "HR-Hatch offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
+      "Snappcheck offers question formats for reference checks in three categories: Standard, Management, and Executive formats.",
     standardFormat: "Standard Format",
     standardFormatDesc: "Standard questions suitable for most positions.",
     managementFormat: "Management Format",
@@ -47,18 +47,18 @@ const TRANSLATIONS = {
   Japanese: {
     referenceQuestionnaire: "リファレンス質問票",
     customQuestionnaire: "カスタム質問票",
-    hrhatchFormats: "HR-HATCH フォーマット",
+    hrhatchFormats: "Snappcheck フォーマット",
     createYourOwnQuestionnaire: "独自の質問票を作成",
-    customizeHRHatchFormat: "HR-HATCHフォーマットをカスタマイズ",
+    customizeHRHatchFormat: "Snappcheckフォーマットをカスタマイズ",
     buildCustomOrTailor:
-      "完全にカスタマイズされたリファレンス質問票を作成するか、HR-Hatchの標準フォーマットをニーズに合わせて調整できます。",
+      "完全にカスタマイズされたリファレンス質問票を作成するか、Snappcheckの標準フォーマットをニーズに合わせて調整できます。",
     manageTrackQuestions:
       "カスタマイズされた自社の質問を管理・追加・追跡できます。",
     hrhatchQuestionFormats: "HR-HΛTCH 質問フォーマット",
     standardizedQuestionSets:
       "HR-HΛTCH によって提供される標準化された質問セット",
     formatDescription:
-      "HR-Hatch は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
+      "Snappcheck は、標準、マネジメント、エグゼクティブの3種類のカテゴリでリファレンスチェック用の質問フォーマットを提供しています。",
     standardFormat: "標準フォーマット",
     standardFormatDesc: "ほとんどの職種に適した標準的な質問。",
     managementFormat: "マネジメントフォーマット",
@@ -87,7 +87,7 @@ const STANDARD_QUESTIONS_SETS = [
         English:
           "How do you know (applicant name), and how long have you worked together?",
         Japanese:
-          "あなたは(応募者名)をどのように知っており、どれくらい一緒に働きましたか？",
+          "(応募者の名前) とはどのように知り合い、どのくらいの期間一緒に働いていますか？",
       },
     ],
   },
@@ -101,49 +101,23 @@ const STANDARD_QUESTIONS_SETS = [
       {
         English:
           "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
-        Japanese: "(応募者名)の前職での主な職務内容を説明できますか？",
+        Japanese: "(応募者の名前) の前職での職務内容や主な責任についてご説明いただけますか？",
       },
       {
         English: "What do you consider to be (applicant name)'s key strengths?",
-        Japanese: "(応募者名)の主な強みは何だと考えますか？",
+        Japanese: "(応募者の名前) の主な強みは何だとお考えですか？その理由もあわせてお聞かせください?",
       },
       {
         English:
           "What areas, if any, do you think (applicant name) could further develop or improve and why?",
         Japanese:
-          "(応募者名)がさらに成長または改善できると考える分野はありますか？その理由は？",
+          "(応募者の名前) がさらに成長・改善が必要できる点はあれば、どのような点だとお考えですか？",
       },
     ],
   },
+
   {
     id: 3,
-    category: {
-      English: "Skills and Competencies",
-      Japanese: "スキルと能力",
-    },
-    questions: [
-      {
-        English:
-          "How would you describe (applicant name)'s communication skills? If possible, please provide example(s) to support your answer.",
-        Japanese:
-          "(応募者名)のコミュニケーション能力をどのように評価しますか？可能であれば、具体例も挙げてください。",
-      },
-      {
-        English:
-          "How well does (applicant name) work with colleagues or in a team? If possible, please provide example(s) to support your answer.",
-        Japanese:
-          "(応募者名)は同僚やチームとどの程度うまく働いていましたか？可能であれば、具体例も挙げてください。",
-      },
-      {
-        English:
-          "How would you describe (applicant name)'s attention to detail in their work? If possible, please provide example(s) to support your answer.",
-        Japanese:
-          "(応募者名)の仕事における細部への注意についてどのように評価しますか？可能であれば、具体例も挙げてください。",
-      },
-    ],
-  },
-  {
-    id: 4,
     category: {
       English: "Work Ethic and Behavior",
       Japanese: "仕事への姿勢と行動",
@@ -151,23 +125,38 @@ const STANDARD_QUESTIONS_SETS = [
     questions: [
       {
         English:
-          "How would you describe (applicant name)'s attitude and professionalism?",
-        Japanese: "(応募者名)の態度とプロ意識についてどのように評価しますか？",
+          "How would you describe (applicant name) attitude and professionalism?",
+        Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
       },
       {
-        English: "How did (applicant name) handle feedback and criticism?",
+        English: "Can you describe how (applicant name) works within a team? Are they more Collaborative or Independent? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)はフィードバックや批判をどのように受け止めていましたか？",
+          "（候補者名）様がチーム内でどのように働かれる方か、ご説明いただけますでしょうか。より協調的に取り組まれるタイプか、それとも自立的に業務を進められるタイプかについて、可能であれば具体的なご経験やエピソードを交えてご回答いただけますと幸いです。",
       },
       {
         English:
-          "Did (applicant name) show initiative and a willingness to learn?",
-        Japanese: "(応募者名)は自発性や学ぶ意欲を示していましたか？",
+          "Does (applicant name) thrive in an Innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a Process Driven setting that values established procedures, consistency, and predictability?",
+        Japanese: "（応募者氏名）様は、実験的な取り組みや新しいアイデアを奨励し、変化を歓迎するイノベーティブな環境で力を発揮されるタイプでしょうか？それとも、確立された手順や一貫性、予測可能性を重視するプロセス重視の環境においてより高い成果を上げられる方でしょうか？",
+      },
+      {
+        English:
+          "How would you describe (applicant name)'s working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+        Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
+      },
+      {
+        English:
+          "Would you describe (applicant name) as someone who values Work-life balance and sustainable pace, or do they thrive in Work-centric / high-intensity environments with demanding expectations? Any brief example you can share?",
+        Japanese: "（応募者氏名）様は、ワークライフバランスや持続可能な働き方を重視される方でしょうか？それとも、高い負荷や厳しい期待値のあるワーク中心の環境においてこそ、パフォーマンスを最大限に発揮されるタイプでしょうか？差し支えなければ、簡単な事例を共有いただけますと幸いです。",
+      },
+      {
+        English:
+          "How would you describe (applicant name) communication style, do they tend to be open and Transparent, or more Selective and strategic in how they share information? Could you provide a brief example?",
+        Japanese: "（応募者氏名）様のコミュニケーションスタイルについて、率直でオープンに情報を共有されるタイプとお感じでしょうか？それとも、状況に応じて戦略的に情報を選択しながら伝える、選択的かつ戦略的なスタイルに近いでしょうか？具体的なご経験があれば教えていただけますか？",
       },
     ],
   },
   {
-    id: 5,
+    id: 4,
     category: {
       English: "Closing Questions",
       Japanese: "締めくくりの質問",
@@ -202,7 +191,7 @@ const MANAGEMENT_QUESTIONS_SETS = [
         English:
           "How do you know (applicant name), and how long have you worked together?",
         Japanese:
-          "あなたは(応募者名)をどのように知っており、どれくらい一緒に働きましたか？",
+          "(応募者の名前) とはどのように知り合い、どのくらいの期間一緒に働いていますか？",
       },
     ],
   },
@@ -216,17 +205,17 @@ const MANAGEMENT_QUESTIONS_SETS = [
       {
         English:
           "Can you describe (applicant name)'s main responsibilities in his/her previous role?",
-        Japanese: "(応募者名)の前職での主な職務内容を説明できますか？",
+        Japanese: "(応募者の名前) の前職での主な職務内容や主な責任についてご説明いただけますか？",
       },
       {
         English: "What do you consider to be (applicant name)'s key strengths?",
-        Japanese: "(応募者名)の主な強みは何だと考えますか？",
+        Japanese: "(応募者の名前) の強みは何だとお考えですか？",
       },
       {
         English:
           "What areas, if any, do you think (applicant name) could further develop or improve?",
         Japanese:
-          "(応募者名)がさらに成長または改善できると考える分野はありますか？",
+          "(応募者の名前) がさらに成長・改善できる点があれば、どのような点だとお考えですか？",
       },
     ],
   },
@@ -241,25 +230,19 @@ const MANAGEMENT_QUESTIONS_SETS = [
         English:
           "How would you describe (applicant name)'s leadership style? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)のリーダーシップスタイルをどのように表現しますか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) のリーダーシップスタイルをどのように評価されますか？可能であれば、具体的な例を挙げてご説明いただけますか？",
       },
       {
         English:
           "How did (applicant name) handle difficult team situations or conflicts? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)は難しいチーム状況や対立をどのように処理しましたか？可能であれば、具体例も挙げてください。",
-      },
-      {
-        English:
-          "How effective was (applicant name) at delegating tasks and empowering others? If possible, please provide example(s) to support your answer.",
-        Japanese:
-          "(応募者名)はタスクを委任し、他者に権限を与える能力がどの程度ありましたか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) は困難なチームの状況や対立をどのように対応していましたか？可能であれば、具体的な例を挙げてご説明いただけますか？",
       },
       {
         English:
           "What would you say are (applicant name)'s biggest strengths as a leader? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "リーダーとしての(応募者名)の最も大きな強みは何だと思いますか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) のリーダーとしての最大の強みは何だとお考えですか？可能であれば、具体的な例を挙げてご説明いただけますか？",
       },
     ],
   },
@@ -269,16 +252,58 @@ const MANAGEMENT_QUESTIONS_SETS = [
       English: "Work Ethic and Behavior",
       Japanese: "仕事への姿勢と行動",
     },
-    questions: STANDARD_QUESTIONS_SETS[3].questions,
-  },
+    questions: [
+      {
+        English:
+          "How would you describe (applicant name) attitude and professionalism?",
+        Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
+      },
+      {
+        English: "Can you describe how (applicant name) works within a team? Are they more Collaborative or Independent? If possible, please provide example(s) to support your answer.",
+        Japanese:
+          "（候補者名）様がチーム内でどのように働かれる方か、ご説明いただけますでしょうか。より協調的に取り組まれるタイプか、それとも自立的に業務を進められるタイプかについて、可能であれば具体的なご経験やエピソードを交えてご回答いただけますと幸いです。",
+      },
+      {
+        English:
+          "Does (applicant name) thrive in an Innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a Process Driven setting that values established procedures, consistency, and predictability?",
+        Japanese: "（応募者氏名）様は、実験的な取り組みや新しいアイデアを奨励し、変化を歓迎するイノベーティブな環境で力を発揮されるタイプでしょうか？それとも、確立された手順や一貫性、予測可能性を重視するプロセス重視の環境においてより高い成果を上げられる方でしょうか？",
+      },
+      {
+        English:
+          "How would you describe (applicant name)'s working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+        Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
+      },
+      {
+        English:
+          "Would you describe (applicant name) as someone who values Work-life balance and sustainable pace, or do they thrive in Work-centric / high-intensity environments with demanding expectations? Any brief example you can share?",
+        Japanese: "（応募者氏名）様は、ワークライフバランスや持続可能な働き方を重視される方でしょうか？それとも、高い負荷や厳しい期待値のあるワーク中心の環境においてこそ、パフォーマンスを最大限に発揮されるタイプでしょうか？差し支えなければ、簡単な事例を共有いただけますと幸いです。",
+      },
+      {
+        English:
+          "How would you describe (applicant name) communication style, do they tend to be open and Transparent, or more Selective and strategic in how they share information? Could you provide a brief example?",
+        Japanese: "（応募者氏名）様のコミュニケーションスタイルについて、率直でオープンに情報を共有されるタイプとお感じでしょうか？それとも、状況に応じて戦略的に情報を選択しながら伝える、選択的かつ戦略的なスタイルに近いでしょうか？具体的なご経験があれば教えていただけますか？",
+      },
+    ], },
   {
     id: 5,
     category: {
       English: "Closing Questions",
       Japanese: "締めくくりの質問",
     },
-    questions: STANDARD_QUESTIONS_SETS[4].questions,
-  },
+    questions: [
+      {
+        English:
+          "If given the opportunity, would you work with or rehire (applicant name)?",
+        Japanese:
+          "機会があれば、(応募者名)と再び働きたい、または再雇用したいと思いますか？",
+      },
+      {
+        English:
+          "Is there anything else you believe we should know about (applicant name)?",
+        Japanese:
+          "(応募者名)について、私たちが知っておくべきことが他にありますか？",
+      },
+    ],  },
 ];
 
 // Executive format questions
@@ -289,7 +314,14 @@ const EXECUTIVE_QUESTIONS_SET = [
       English: "Relationship",
       Japanese: "関係性",
     },
-    questions: MANAGEMENT_QUESTIONS_SETS[0].questions,
+    questions: [
+      {
+        English:
+          "How do you know (applicant name), and how long have you worked together?",
+        Japanese:
+          "(応募者の名前) とはどのように知り合い、どのくらいの期間一緒に働いていますか？",
+      },
+    ],
   },
   {
     id: 2,
@@ -302,13 +334,13 @@ const EXECUTIVE_QUESTIONS_SET = [
         English:
           "How would you describe (applicant name)'s ability to set and communicate a clear vision for the organization? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)が組織に明確なビジョンを設定し、それを伝える能力についてどのように評価しますか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) の組織に対して明確なビジョンを設定し、伝える能力についてどのように評価されますか？具体的な例を挙げてご説明いただけますか？",
       },
       {
         English:
           "Can you provide an example of a strategic initiative that (applicant name) led and its impact on the business?",
         Japanese:
-          "(応募者名)が主導した戦略的イニシアチブと、それがビジネスに与えた影響についての例を教えてください。",
+          "(応募者の名前) が主導した戦略的な取り組みと、ビジネスに与えた影響について具体的な例を挙げてご説明いただけますか？",
       },
     ],
   },
@@ -323,39 +355,19 @@ const EXECUTIVE_QUESTIONS_SET = [
         English:
           "Can you share examples of how (applicant name) drove growth, profitability, or operational improvements?",
         Japanese:
-          "(応募者名)が成長、収益性、または業務改善を推進した例を教えてください。",
+          "(応募者の名前) が成長・収益性・業務改善を推進した具体的な例を教えていただけますか？",
       },
       {
         English:
-          "How did (applicant name) handle critical business decisions, especially in high-pressure situations?",
+          "How did (applicant name) handle critical business decisions, especially in high-pressure situations? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "特にプレッシャーの高い状況で、(応募者名)は重要なビジネス上の意思決定をどのように行いましたか？",
+          "(応募者の名前) は特にプレッシャーのかかる状況で、重要なビジネスの意思決定をどのように行いましたか？具体的な例を挙げてご説明いただけますか？",
       },
     ],
   },
+
   {
     id: 4,
-    category: {
-      English: "Team Leadership & Organizational Development",
-      Japanese: "チームリーダーシップと組織開発",
-    },
-    questions: [
-      {
-        English:
-          "How did (applicant name) build and develop high-performing teams? If possible, please provide example(s) to support your answer.",
-        Japanese:
-          "(応募者名)はどのようにして高業績のチームを構築・育成しましたか？可能であれば、具体例も挙げてください。",
-      },
-      {
-        English:
-          "How did (applicant name) handle organizational change or restructuring? If possible, please provide example(s) to support your answer.",
-        Japanese:
-          "(応募者名)は組織変更や再構築をどのように処理しましたか？可能であれば、具体例も挙げてください。",
-      },
-    ],
-  },
-  {
-    id: 5,
     category: {
       English: "Decision-Making & Problem-Solving",
       Japanese: "意思決定と問題解決",
@@ -365,7 +377,7 @@ const EXECUTIVE_QUESTIONS_SET = [
         English:
           "How would you describe (applicant name)'s decision-making process for complex, high-stakes decisions? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "複雑で重大な意思決定における(応募者名)の意思決定プロセスをどのように説明しますか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) の複雑で重要な影響を与える意思決定プロセスについてどのように評価されますか？具体的な例を挙げてご説明いただけますか？",
       },
       {
         English:
@@ -376,7 +388,7 @@ const EXECUTIVE_QUESTIONS_SET = [
     ],
   },
   {
-    id: 6,
+    id: 5,
     category: {
       English: "Innovation & Growth",
       Japanese: "イノベーションと成長",
@@ -386,13 +398,52 @@ const EXECUTIVE_QUESTIONS_SET = [
         English:
           "How proactive was (applicant name) in identifying new opportunities for growth or innovation? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)は成長やイノベーションの新たな機会を見つけることにどれほど積極的でしたか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) は新しい成長機会やイノベーションを発見するためにどの程度積極的でしたか？具体的な例を挙げてご説明いただけますか？",
       },
       {
         English:
           "How did (applicant name) stay ahead of industry trends and market changes? If possible, please provide example(s) to support your answer.",
         Japanese:
-          "(応募者名)は業界のトレンドや市場の変化にどうやって先んじて対応していましたか？可能であれば、具体例も挙げてください。",
+          "(応募者の名前) は業界のトレンドや市場の変化にどのように先んじて対応しましたか？",
+      },
+    ],
+  },
+  {
+    id: 6,
+    category: {
+      English: "Work Ethic and Behavior",
+      Japanese: "仕事の姿勢と行動",
+    },
+    questions: [
+      {
+        English:
+          "How would you describe (applicant name)'s attitude and professionalism?",
+        Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
+      },
+      {
+        English: "Can you describe how (applicant name) works within a team? Are they more Collaborative or Independent? If possible, please provide example(s) to support your answer.",
+        Japanese:
+          "（候補者名）様がチーム内でどのように働かれる方か、ご説明いただけますでしょうか。より協調的に取り組まれるタイプか、それとも自立的に業務を進められるタイプかについて、可能であれば具体的なご経験やエピソードを交えてご回答いただけますと幸いです。",
+      },
+      {
+        English:
+          "Does (applicant name) thrive in an Innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a Process Driven setting that values established procedures, consistency, and predictability?",
+        Japanese: "（応募者氏名）様は、実験的な取り組みや新しいアイデアを奨励し、変化を歓迎するイノベーティブな環境で力を発揮されるタイプでしょうか？それとも、確立された手順や一貫性、予測可能性を重視するプロセス重視の環境においてより高い成果を上げられる方でしょうか？",
+      },
+      {
+        English:
+          "How would you describe (applicant name) working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+        Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
+      },
+      {
+        English:
+          "Would you describe (applicant name) as someone who values Work-life balance and sustainable pace, or do they thrive in Work-centric / high-intensity environments with demanding expectations? Any brief example you can share?",
+        Japanese: "（応募者氏名）様は、ワークライフバランスや持続可能な働き方を重視される方でしょうか？それとも、高い負荷や厳しい期待値のあるワーク中心の環境においてこそ、パフォーマンスを最大限に発揮されるタイプでしょうか？差し支えなければ、簡単な事例を共有いただけますと幸いです。",
+      },
+      {
+        English:
+          "How would you describe (applicant name) communication style, do they tend to be open and Transparent, or more Selective and strategic in how they share information? Could you provide a brief example?",
+        Japanese: "（応募者氏名）様のコミュニケーションスタイルについて、率直でオープンに情報を共有されるタイプとお感じでしょうか？それとも、状況に応じて戦略的に情報を選択しながら伝える、選択的かつ戦略的なスタイルに近いでしょうか？具体的なご経験があれば教えていただけますか？",
       },
     ],
   },
@@ -402,8 +453,20 @@ const EXECUTIVE_QUESTIONS_SET = [
       English: "Closing Questions",
       Japanese: "締めくくりの質問",
     },
-    questions: STANDARD_QUESTIONS_SETS[4].questions,
-  },
+    questions: [
+      {
+        English:
+          "If given the opportunity, would you work with or rehire (applicant name)?",
+        Japanese:
+          "機会があれば、(応募者名)と再び働きたい、または再雇用したいと思いますか？",
+      },
+      {
+        English:
+          "Is there anything else you believe we should know about (applicant name)?",
+        Japanese:
+          "(応募者名)について、私たちが知っておくべきことが他にありますか？",
+      },
+    ],  },
 ];
 
 const ReferenceQuestion = () => {
@@ -414,39 +477,39 @@ const ReferenceQuestion = () => {
     StandardFormat: {
       description: TRANSLATIONS[language].standardFormatDesc,
       name: TRANSLATIONS[language].standardFormat,
-      questionSets: STANDARD_QUESTIONS_SETS.map((set) => ({
+      questionSets: (STANDARD_QUESTIONS_SETS || []).map((set) => ({
         ...set,
-        category: set.category[language],
-        questions: set.questions.map((q) => q[language]),
-      })),
+        category: set?.category?.[language] || '',
+        questions: (set?.questions || []).map((q) => q?.[language] || '') || [],
+      })) || [],
     },
     ManagementFormat: {
       description: TRANSLATIONS[language].managementFormatDesc,
       name: TRANSLATIONS[language].managementFormat,
-      questionSets: MANAGEMENT_QUESTIONS_SETS.map((set) => ({
+      questionSets: (MANAGEMENT_QUESTIONS_SETS || []).map((set) => ({
         ...set,
-        category: set.category[language],
-        questions: set.questions.map((q) => q[language]),
-      })),
+        category: set?.category?.[language] || '',
+        questions: (set?.questions || []).map((q) => q?.[language] || '') || [],
+      })) || [],
     },
     ExecutiveFormat: {
       description: TRANSLATIONS[language].executiveFormatDesc,
       name: TRANSLATIONS[language].executiveFormat,
-      questionSets: EXECUTIVE_QUESTIONS_SET.map((set) => ({
+      questionSets: (EXECUTIVE_QUESTIONS_SET || []).map((set) => ({
         ...set,
-        category: set.category[language],
-        questions: set.questions.map((q) => q[language]),
-      })),
+        category: set?.category?.[language] || '',
+        questions: (set?.questions || []).map((q) => q?.[language] || '') || [],
+      })) || [],
     },
   };
   const HR_HATCH_FORMAT = [
     {
       title: TRANSLATIONS[language].standardFormat,
       description: TRANSLATIONS[language].standardFormatDesc,
-      questionCount: STANDARD_QUESTIONS_SETS.reduce(
-        (acc, set) => acc + set.questions.length,
+      questionCount: STANDARD_QUESTIONS_SETS?.reduce(
+        (acc, set) => acc + (set?.questions?.length || 0),
         0
-      ),
+      ) || 0,
       svg: (
         <svg
           width="42"
@@ -465,10 +528,10 @@ const ReferenceQuestion = () => {
     {
       title: TRANSLATIONS[language].managementFormat,
       description: TRANSLATIONS[language].managementFormatDesc,
-      questionCount: MANAGEMENT_QUESTIONS_SETS.reduce(
-        (acc, set) => acc + set.questions.length,
+      questionCount: MANAGEMENT_QUESTIONS_SETS?.reduce(
+        (acc, set) => acc + (set?.questions?.length || 0),
         0
-      ),
+      ) || 0,
       svg: (
         <svg
           width="29"
@@ -487,10 +550,10 @@ const ReferenceQuestion = () => {
     {
       title: TRANSLATIONS[language].executiveFormat,
       description: TRANSLATIONS[language].executiveFormatDesc,
-      questionCount: EXECUTIVE_QUESTIONS_SET.reduce(
-        (acc, set) => acc + set.questions.length,
+      questionCount: EXECUTIVE_QUESTIONS_SET?.reduce(
+        (acc, set) => acc + (set?.questions?.length || 0),
         0
-      ),
+      ) || 0,
       svg: (
         <svg
           width="33"

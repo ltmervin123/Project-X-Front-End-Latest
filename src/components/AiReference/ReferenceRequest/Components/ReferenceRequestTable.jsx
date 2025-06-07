@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 const ReferenceRequestTable = ({
   labels,
   filteredReferences,

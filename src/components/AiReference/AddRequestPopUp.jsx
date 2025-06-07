@@ -418,7 +418,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
                       <option value="" disabled>
                         Choose Question Format
                       </option>
-                      <option value="HR-HATCH-FORMAT">HR-HATCH Format</option>
+                      <option value="HR-HATCH-FORMAT">Snappcheck Format</option>
                       <option value="CUSTOM-FORMAT">Custom Format</option>
                     </Form.Select>
                   ) : (
@@ -454,7 +454,7 @@ const AddRequestPopUp = ({ onClose, onAddRequest }) => {
                           required
                         >
                           <option value="" disabled>
-                            Choose HR-HATCH Question
+                            Choose Snappcheck Question
                           </option>
                           <option value="change-format">
                             Change Question Format

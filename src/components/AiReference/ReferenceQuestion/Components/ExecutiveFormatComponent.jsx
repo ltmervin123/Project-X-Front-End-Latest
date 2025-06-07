@@ -10,14 +10,14 @@ const TRANSLATIONS = {
     executiveFormatDesc: "In-depth questions for senior executive positions.",
     executiveTooltip: "Designed for top positions, these questions evaluate vision, industry expertise, and leadership impact.",
     noQuestionsFound: "No questions found",
-    returnToHRHatch: "Return to HR-HATCH Formats",
+    returnToHRHatch: "Return to Snappcheck Formats",
   },
   Japanese: {
     executiveFormat: "エグゼクティブフォーマット",
     executiveFormatDesc: "上級管理職向けの詳細な質問。",
     executiveTooltip: "最高職向けに設計されたこれらの質問は、ビジョン、業界の専門知識、およびリーダーシップの影響を評価します。",
     noQuestionsFound: "質問が見つかりません",
-    returnToHRHatch: "HR-HATCH フォーマットに戻る",
+    returnToHRHatch: "Snappcheck フォーマットに戻る",
   },
 };
 
@@ -116,7 +116,7 @@ const ExecutiveFormatComponent = ({
       <div className="d-flex justify-content-center align-items-center reference-question-returnbtn-container">
         <button
           className="btn-return"
-          onClick={() => handleButtonClick("HR-HATCH Formats")}
+          onClick={() => handleButtonClick("Snappcheck Formats")}
         >
           {TRANSLATIONS[language].returnToHRHatch}
         </button>

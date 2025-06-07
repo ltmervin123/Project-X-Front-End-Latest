@@ -39,6 +39,7 @@
 /* Header styles for the landing page */
 .snappcheck-hero-section-bg .row {
   padding: 106px 10%;
+  height: 60vh !important;
 }
 .snappcheck-landing-header {
   background: var(--font-black) !important;
@@ -124,9 +125,12 @@
     var(--primary-color) 108%
   );
 }
-
+.snappcheck-hero-content{
+  width: 800px;
+}
 .snappcheck-hero-section-bg h1 {
-  font-size: 60px;
+  font-size: 70px;
+  text-align: center;
 }
 .snappcheck-button-controller button {
   border-radius: 50px;
@@ -153,9 +157,7 @@
 .snappcheck-left-content h2 {
   width: 80%;
 }
-.snappcheck-left-content p {
-  font-weight: 500;
-}
+
 .snappcheck-left-content button {
   font-size: 15px;
   padding: 5px 30px;
@@ -165,12 +167,50 @@
   color: var(--font-white);
   border: none;
 }
+
 .snapcheck-about-us-image-container img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  min-height: 430px;
+  max-height: 450px;
   border-radius: 10px;
 }
+
+/* Why SnappCheck Cards Styles */
+.why-snappcheck-card-container {
+  padding: 0 10%;
+  margin-top: 2rem;
+}
+
+.why-snappcheck-card {
+  width: 270px;
+  height: 270px;
+  flex: 1;
+  transition: transform 0.3s ease;
+  background: var(--primary-color);
+  color: var(--font-white);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.why-snappcheck-card:hover {
+  transform: translateY(-5px);
+}
+
+.why-snappcheck-card h4 {
+  font-weight: 600;
+  font-size: 24px;
+  padding-top: 10%;
+}
+
+.why-snappcheck-card p {
+  font-size: 20px;
+  line-height: 1.5;
+  
+}
+
 /*Did You Know Section*/
+.snappcheck-left-did-you-know-content h2 {
+  width: 800px;
+}
 .snappcheck-button-controller1 button {
   border-radius: 50px;
   color: var(--font-white);
@@ -185,6 +225,13 @@
 .snappcheck-button-controller1 button:nth-child(2) {
   background: var(--font-black);
 }
+.snappcheck-did-you-know-container .did-you-know-descitiption{
+  font-size: 20px;
+}
+.did-you-know-descitiption svg{
+  position: relative;
+  top: 5px;
+}
 /* How IT Works Section */
 .snappcheck-left-did-you-know-content h3,
 .snappcheck-left-did-you-know-content h2 {
@@ -194,44 +241,79 @@
   width: 60%;
 }
 
-/* Sliding Animation Styles */
-.slider-container {
-  width: 100%;
-  overflow: hidden;
+
+/* Our Platforms Section Styles */
+.snappcheck-platforms-container {
+  padding: 100px 0;
+}
+
+.snappcheck-platforms-content {
+  padding: 0 10%;
+}
+
+.platforms-cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 48px;
+}
+
+.platform-card {
+  background: var(--font-white);
+  border-radius: 16px;
+  padding: 40px;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.sliding-cards {
-  display: flex;
-  gap: 30px;
-  animation: slide 30s linear infinite;
-  width: fit-content;
+.platform-card:hover {
+  border: 1px solid var(--primary-color);
 }
 
-.business-company-card {
-  background: var(--acttivit-card-bg);
-  width: 200px;
-  height: 100px;
-  flex-shrink: 0;
+.platform-card h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 45px 0;
+  padding-top: 20px;
+  color: var(--color-grey);
 }
 
-@keyframes slide {
-  0% {
-    transform: translateX(0);
+.platform-card p {
+  color: var(--color-brown);
+  line-height: 1.6;
+  font-size: 20px;
+}
+
+.platform-status {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.platform-status.available {
+  background: #319f4346;
+  color: #319F43;
+}
+
+.platform-status.coming-soon {
+  background: #1876f265;
+  color: #1877F2;
+}
+
+@media (max-width: 900px) {
+  .platforms-cards-container {
+    grid-template-columns: 1fr;
   }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.sliding-cards:hover {
-  animation-play-state: paused;
 }
 
 /* Testimonial Carousel Styles */
 .testimonial-carousel {
   padding: 20px 40px;
-  width: 1080px;
+  width: 90%;
 }
 
 .testimonial-carousel .carousel-indicators {
@@ -276,9 +358,9 @@
 
 .testemony-card {
   flex: 1;
-  max-width: 400px;
+  max-width: 500px;
   padding: 20px;
-  background: var(--subcription-card-color);
+  font-size: 20px;
   border-radius: 8px;
 }
 
@@ -291,17 +373,19 @@
 }
 
 .pricing-card {
-  border-radius: 16px;
+  border-radius: 5px;
   padding: 24px;
   width: 300px;
-  height: 350px;
+  height: 400px;
 
   text-align: left;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   transition: transform 0.3s ease;
 }
-
+.pricing-card:nth-child(2){
+  background: #FFF7ED;
+}
 .pricing-card:hover {
   transform: translateY(-5px);
 }
@@ -313,7 +397,6 @@
 }
 
 .pricing-card p {
-  color: var(--color-brown);
   margin-bottom: 24px;
   min-height: 60px;
 }
@@ -322,25 +405,27 @@
   font-size: 32px;
   font-weight: bold;
   margin: 14px 0;
-  color: var(--font-black);
+  color: var(--primary-color);
 }
-
+.pricing-card .subscription-range{
+  color: var(--color-brown);
+}
+.pricing-card .pricing-subtext > svg{
+  position: relative;
+  top: 5px;
+}
 .pricing-card .choose-plan-btn {
-  border-radius: 50px;
-  color: var(--font-black);
+  border-radius: 5px;
+  color: var(--font-white);
   background: none;
   padding: 5px 30px;
   font-size: 15px;
-  width: 170px;
+  width: 100%;
   border: none;
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
+  background: var(--font-black);
+  transition: all 0.3s ease;
+}
 
-  transition: background-color 0.3s ease;
-}
-.pricing-card .choose-plan-btn:hover {
-  background: var(--primary-color);
-  color: var(--font-white);
-}
 .pricing-card.popular {
   border: 2px solid var(--primary-color);
 }
@@ -349,9 +434,9 @@
   background: var(--primary-color);
   color: var(--font-white);
   padding: 4px 12px;
-  border-radius: 0px 0px 15px 15px;
+  border-radius: 15px;
   position: absolute;
-  top: 2px;
+  top: -14px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 14px;
@@ -363,25 +448,15 @@
 }
 
 .pricing-card.enterprise .choose-plan-btn {
-  color: var(--font-black);
-  background: none;
+  color: var(--font-white);
+  background: var(--font-black);
 }
 
 .pricing-card .choose-plan-btn:hover,
 .pricing-.enterprise .choose-plan-btn:hover {
-  background: var(--primary-color);
-  color: var(--font-white);
+  transform: scale(1.01);
 }
-.pricing-container-description {
-  background: #f2f3f7;
-  border-radius: 0px 0px 15px 15px;
-  padding: 40px;
-  border-radius: 20px;
-}
-.pricing-container-description p {
-  width: 500px;
-  text-align: center;
-}
+
 /* Footer Section */
 .snappcheck-landing-footer {
   background: var(--font-black);
@@ -570,5 +645,90 @@ background: #F5AE29;
 @media (max-width: 900px) {
   .how-it-works-cards-container {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Key Insights Section Styles */
+.snappcheck-keyinsights-section-bg {
+  color: var(--font-white);
+  background: var(--font-black);
+}
+.snappcheck-key-insights-container .row {
+  padding: 20vh 10% 10vh 10%;
+}
+.key-insights-carousel {
+  padding: 20px 0;
+}
+
+.key-insights-carousel .carousel-indicators {
+  bottom: -40px;
+}
+
+.key-insights-carousel .carousel-indicators button {
+  background-color: var(--font-white) !important;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.key-insights-carousel .carousel-indicators button.active{
+  background-color: var(--primary-color) !important;
+
+}
+.key-insights-carousel .carousel-control-prev,
+.key-insights-carousel .carousel-control-next {
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 50px;
+  color: var(--color-brown);
+  background-color: var(--acttivit-card-bg);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.key-insights-carousel .carousel-control-prev-icon,
+.key-insights-carousel .carousel-control-next-icon {
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%)
+    contrast(100%);
+}
+
+.key-insight-card {
+  padding: 70px;
+  border-radius: 12px;
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.key-insight-card h4 {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.key-insight-card p {
+  color: var(--font-white);
+  font-size: 20px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .key-insight-card {
+    min-height: 250px;
+  }
+  
+  .key-insight-card h4 {
+    font-size: 20px;
+  }
+  
+  .key-insight-card p {
+    font-size: 14px;
   }
 }

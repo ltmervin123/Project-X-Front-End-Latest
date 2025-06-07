@@ -17,6 +17,37 @@ import {
   formatQuestionFormat,
 } from "../utils/helper";
 
+const translations = {
+  English: {
+    relationship: "Relationship",
+    jobResponsibilitiesAndPerformance: "Job Responsibilities and Performance",
+    skillAndCompetencies: "Skills and Competencies",
+    workEthicAndBehavior: "Work Ethic and Behavior",
+    closingQuestions: "Closing Questions",
+    strategicLeadershipAndVision: "Strategic Leadership and Vision",
+    businessImpactAndResults: "Business Impact and Results",
+    teamLeadershipAndOrganizationalDevelopment: "Team Leadership and Organizational Development",
+    decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
+    innovationAndGrowth: "Innovation and Growth",
+    leadershipAndManagementSkills: "Leadership and Management Skills",
+    candidateRating: "Preferred Paced: ",
+  },
+  Japanese: {
+    relationship: "関係",
+    jobResponsibilitiesAndPerformance: "職務責任とパフォーマンス",
+    skillAndCompetencies: "スキルと能力",
+    workEthicAndBehavior: "労働倫理と行動",
+    closingQuestions: "締めの質問",
+    strategicLeadershipAndVision: "戦略的リーダーシップとビジョン",
+    businessImpactAndResults: "ビジネスへの影響と結果",
+    teamLeadershipAndOrganizationalDevelopment: "チームリーダーシップと組織開発",
+    decisionMakingAndProblemSolving: "意思決定と問題解決",
+    innovationAndGrowth: "革新と成長",
+    leadershipAndManagementSkills: "リーダーシップと管理スキル",
+    candidateRating: "希望するペース：",
+  },
+};
+
 function ViewRequest({
   referenceId,
   refereeId,
@@ -42,6 +73,10 @@ function ViewRequest({
     refereeId,
     token,
   });
+
+  console.log('Reference Data:', referenceData);
+  console.log('Reference Questions:', referenceData?.referenceQuestion);
+
   const selectedLanguage =
     referenceData?.referenceRequestId?.selectedLanguage || "English";
   const { labels } = useLabels(selectedLanguage);
@@ -94,6 +129,62 @@ function ViewRequest({
         setDownloading(false);
       });
   }, [referenceData]);
+
+  const formatCategories = (category) => {
+    const t = translations[selectedLanguage];
+    switch (category) {
+      case "relationship":
+        return t.relationship;
+      case "jobResponsibilitiesAndPerformance":
+        return t.jobResponsibilitiesAndPerformance;
+      case "skillAndCompetencies":
+        return t.skillAndCompetencies;
+      case "workEthicAndBehavior":
+        return t.workEthicAndBehavior;
+      case "closingQuestions":
+        return t.closingQuestions;
+      case "strategicLeadershipAndVision":
+        return t.strategicLeadershipAndVision;
+      case "businessImpactAndResults":
+        return t.businessImpactAndResults;
+      case "teamLeadershipAndOrganizationalDevelopment":
+        return t.teamLeadershipAndOrganizationalDevelopment;
+      case "decisionMakingAndProblemSolving":
+        return t.decisionMakingAndProblemSolving;
+      case "innovationAndGrowth":
+        return t.innovationAndGrowth;
+      case "leadershipAndManagementSkills":
+        return t.leadershipAndManagementSkills;
+      default:
+        return labels.notAvailable;
+    }
+  };
+
+  const getOverallAssessmentText = (category) => {
+    const t = translations[selectedLanguage];
+    switch (category) {
+      case "jobResponsibilitiesAndPerformance":
+        return labels.overallJobPerformance;
+      case "skillAndCompetencies":
+        return labels.overallSkillsAndCompetencies;
+      case "workEthicAndBehavior":
+        return labels.overallWorkEthicBehavior;
+      case "leadershipAndManagementSkills":
+        return labels.overallLeadershipAndManagement;
+      case "strategicLeadershipAndVision":
+        return labels.overallStrategicLeadership;
+      case "businessImpactAndResults":
+        return labels.overallBusinessImpact;
+      case "teamLeadershipAndOrganizationalDevelopment":
+        return labels.overallTeamLeadership;
+      case "decisionMakingAndProblemSolving":
+        return labels.overallDecisionMaking;
+      case "innovationAndGrowth":
+        return labels.overallInnovationAndGrowth;
+      default:
+        return `${labels.overall} ${formatCategories(category)} ${labels.assessment}`;
+    }
+  };
 
   if (fetchingReference) {
     return (
@@ -230,7 +321,7 @@ function ViewRequest({
                       .map((item) => (
                         <div key={item.category}>
                           <h5 className="color-gray mt-5">
-                            {formatCategories(item.category, labels)}
+                            {formatCategories(item.category)}
                           </h5>
                           {item.questions.map((question, index) => (
                             <div key={index}>
@@ -256,29 +347,50 @@ function ViewRequest({
                             </div>
                           ))}
 
-                          {/* Add Overall Category Assessment */}
-                          {item.category !== "relationship" &&
-                            item.category !== "closingQuestions" && (
-                              <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                                <b>
-                                  {getOverallAssessmentText(
-                                    item.category,
-                                    labels
-                                  )}
-                                </b>
-                                <div
-                                  className="overall-assessment-detail"
-                                  style={getAssessmentStyle(
-                                    item.assessmentRating
-                                  )}
-                                >
-                                  <p className="m-0">
-                                    {item.assessmentRating ||
-                                      labels.notAvailable}
-                                  </p>
+                          {/* Add Pace Rating for Work Ethic and Behavior */}
+                          {item.category === "workEthicAndBehavior" && item.paceRating && (
+                            <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                              <div className="d-flex gap-2 align-items-center">
+                                <b>{translations[selectedLanguage].candidateRating}</b>
+                                <div className="d-flex gap-2">
+                                  <div
+                                    className="overall-assessment-detail"
+                                    style={{
+                                      backgroundColor: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                        ? "rgba(237, 125, 49, 0.15)"
+                                        : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                        ? "rgba(112, 173, 71, 0.15)"
+                                        : "rgba(255, 234, 102, 0.15)",
+                                      color: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
+                                        ? "#ED7D31"
+                                        : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
+                                        ? "#70AD47"
+                                        : "#FFEA66",
+                                    }}
+                                  >
+                                    <p className="m-0">
+                                      {item.paceRating || labels.notAvailable}
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
-                            )}
+                            </div>
+                          )}
+
+                          {/* Add Overall Category Assessment */}
+                          {item.category === "workEthicAndBehavior" && (
+                            <div className="overall-assessment-container d-flex gap-2 align-items-center">
+                              <b>{getOverallAssessmentText(item.category)}</b>
+                              <div
+                                className="overall-assessment-detail"
+                                style={getAssessmentStyle(item.assessmentRating)}
+                              >
+                                <p className="m-0">
+                                  {item.assessmentRating || labels.notAvailable}
+                                </p>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ))
                   : referenceData?.referenceQuestion.map((item) => (
@@ -306,6 +418,21 @@ function ViewRequest({
                             </div>
                           </div>
                         ))}
+
+                        {/* Add Overall Category Assessment for non-HR format */}
+                        {item.category === "workEthicAndBehavior" && (
+                          <div className="overall-assessment-container d-flex gap-2 align-items-center">
+                            <b>{getOverallAssessmentText(item.category)}</b>
+                            <div
+                              className="overall-assessment-detail"
+                              style={getAssessmentStyle(item.assessmentRating)}
+                            >
+                              <p className="m-0">
+                                {item.assessmentRating || labels.notAvailable}
+                              </p>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ))}
               </div>

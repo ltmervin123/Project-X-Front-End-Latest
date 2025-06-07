@@ -13,7 +13,7 @@ export const POPUP_GUIDE_TRANSLATIONS = {
         title: '<span>2</span> Start Reference Check',
         element: '.btn-start-reference-check',
         intro:
-          "This is the main button to begin a new reference check. Click here when you're ready to verify a applicants background!",
+          "This is the main button to begin a new reference check. Click here when you're ready to verify an applicants background!",
       },
       {
         title: '<span>3</span> Navigation Menu',
@@ -245,8 +245,8 @@ export const POPUP_GUIDE_TRANSLATIONS = {
           "This section provides an overview of all previously deleted reference requests",
       },
       {
-        title: "<span>8</span> Navigate to Reference Requests",
-        intro: "Now, let's transition to the reference question section.",
+        title: "<span>8</span> Navigate to Reference Questions",
+        intro: "Now, let's transition to the reference questions section.",
         element: ".trashbin-category-filters button:nth-child(4)",
         position: "left",
       },
@@ -509,7 +509,7 @@ export const POPUP_GUIDE_TRANSLATIONS = {
           "このセクションでは、過去に削除された全てのリファレンスリクエストの概要を確認できます。",
       },
       {
-        title: "<span>8</span> リファレンス質問セクションへ移動",
+        title: "<span>8</span>リファレンス質問セクションへ移動",
         intro: "次はリファレンス質問セクションに移動しましょう。",
         element: ".trashbin-category-filters button:nth-child(4)",
         position: "left",

@@ -49,7 +49,7 @@ const labels = {
     backWarning:
       "Are you sure you want to go back? Your progress will be lost.",
     noCustomQuestions: "No custom questions available",
-    hrHatch: "HR-HATCH",
+    hrHatch: "Snappcheck",
     custom: "Custom Questionnaire",
     standardFormat: "Standard Format",
     managementFormat: "Management Format",

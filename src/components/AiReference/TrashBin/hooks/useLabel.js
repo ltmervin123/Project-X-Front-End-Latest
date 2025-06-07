@@ -5,6 +5,7 @@ const labels = {
     trashBin: "Trash Bin",
     viewAndRestoreDeletedItems:
       "View and restore deleted items from your system.",
+    trashbinEmpty: "Trashbin is Empty",
     jobs: "Jobs",
     applicants: "Applicants",
     referenceRequest: "Reference Request",
@@ -34,12 +35,12 @@ const labels = {
     searchPlaceholder: "Search in",
     noItemsInTrash: "No items in trash bin",
     noMatchingItems: "No matching items found for",
+    noMatchingJobs: "No jobs found for",
+    noMatchingApplicants: "No applicants found for",
+    noMatchingReferenceRequests: "No reference requests found for",
+    noMatchingReferenceQuestions: "No reference questions found for",
     trashWarning:
       "Items in the trash will be permanently deleted after 10 days. To avoid this, please restore any items you want to keep before the 10-day period ends.",
-    noJobsInTrash: "No jobs in trash bin",
-    noApplicantsInTrash: "No applicants in trash bin",
-    noReferenceRequestsInTrash: "No reference requests in trash bin",
-    noReferenceQuestionsInTrash: "No reference questions in trash bin",
     departments: {
       sales: "Sales",
       marketing: "Marketing",
@@ -64,6 +65,7 @@ const labels = {
   Japanese: {
     trashBin: "ゴミ箱",
     viewAndRestoreDeletedItems: "削除済みアイテムの表示と復元。",
+    trashbinEmpty: "ゴミ箱は空です",
     jobs: "求人",
     applicants: "応募者",
     referenceRequest: "リファレンスリクエスト",
@@ -93,12 +95,12 @@ const labels = {
     searchPlaceholder: "検索",
     noItemsInTrash: "ゴミ箱にアイテムがありません",
     noMatchingItems: "該当するアイテムが見つかりません",
+    noMatchingJobs: "該当する求人が見つかりません",
+    noMatchingApplicants: "該当する応募者が見つかりません",
+    noMatchingReferenceRequests: "該当するリファレンスリクエストが見つかりません",
+    noMatchingReferenceQuestions: "該当するリファレンス質問が見つかりません",
     trashWarning:
       "ゴミ箱内のアイテムは10日後に完全に削除されます。必要なアイテムは10日以内に復元してください。",
-    noJobsInTrash: "ゴミ箱に求人がありません",
-    noApplicantsInTrash: "ゴミ箱に応募者がありません",
-    noReferenceRequestsInTrash: "ゴミ箱にリファレンスリクエストがありません",
-    noReferenceQuestionsInTrash: "ゴミ箱にリファレンス質問がありません",
     departments: {
       sales: "営業",
       marketing: "マーケティング",

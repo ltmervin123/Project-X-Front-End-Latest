@@ -121,6 +121,13 @@
 .company-registration-container-form .invalid-feedback {
   left: 12px;
 }
+.form-company-reg input[type="checkbox"]{
+  position: relative;
+  top: -2px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--primary-color);
+}
 .form-company-reg input[type="checkbox"]:checked {
   background-color: var(--primary-color);
   border-color: var(--primary-color);

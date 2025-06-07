@@ -62,6 +62,7 @@ const CompanyRegistrationForm = ({
     setFormData((prevData) => ({
       ...prevData,
       [name]: formattedValue,
+      ...(name === "country" && { cities: "" })
     }));
   }, []);
 

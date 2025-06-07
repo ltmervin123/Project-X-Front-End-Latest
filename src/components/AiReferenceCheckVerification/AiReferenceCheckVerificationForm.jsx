@@ -361,7 +361,7 @@ const AiReferenceCheckVerificationForm = ({
                     name="companyWorkedWith"
                     value={formData.companyWorkedWith}
                     onChange={handleChange}
-                    placeholder="e.g HR-HATCH"
+                    placeholder="e.g Snappcheck"
                   />
                 </Form.Group>
 
