@@ -1,80 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
-import { useLabels } from "../hooks/useLabel";
+import { useUpdateReferee } from "../../../../hook/useReference";
 
-const EditRefereePopUp = ({ referee, onClose, onUpdate }) => {
-  const language = sessionStorage.getItem("preferred-language") || "English";
-  const { labels } = useLabels(language);
-  const API = process.env.REACT_APP_API_URL;
-  const USER = JSON.parse(localStorage.getItem("user")) || null;
-  const token = USER?.token || null;
+const EditRefereePopUp = ({
+  selectedReference,
+  referee,
+  onClose,
+  user,
+  labels,
+}) => {
+  const [firstName, setFirstName] = useState(referee?.name?.firstName || "");
+  const [lastName, setLastName] = useState(referee?.name?.lastName || "");
+  const [email, setEmail] = useState(referee?.email || "");
 
-  const [formData, setFormData] = useState(
-    Array.isArray(referee) 
-      ? referee.map(r => ({
-          id: r._id,
-          name: typeof r.name === "string" 
-            ? r.name 
-            : `${r.name.firstName} ${r.name.lastName}`,
-          email: r.email || "",
-        }))
-      : [{
-          id: referee._id,
-          name: typeof referee.name === "string" 
-            ? referee.name 
-            : `${referee.name.firstName} ${referee.name.lastName}`,
-          email: referee.email || "",
-        }]
+  const { mutate: updateReferee, isPending: isUpdating } = useUpdateReferee(
+    user,
+    {
+      onSettled: () => {
+        onClose();
+      },
+    }
   );
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleInputChange = (index, e) => {
-    const { name, value } = e.target;
-    setFormData(prev => {
-      const newData = [...prev];
-      newData[index] = {
-        ...newData[index],
-        [name]: value,
-      };
-      return newData;
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
+    const referenceId = selectedReference?._id || null;
+    const refereeId = referee?._id || null;
+    const updatedData = { firstName, lastName, email };
+    const payload = { referenceId, refereeId, updatedData };
+    updateReferee(payload);
     try {
-      const updatePromises = formData.map(referee => {
-        const URL = `${API}/api/ai-referee/company-request-reference/update/${referee.id}`;
-        return axios.put(
-          URL,
-          {
-            name: referee.name,
-            email: referee.email,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      });
-
-      const responses = await Promise.all(updatePromises);
-      
-      if (responses.every(response => response.status === 200)) {
-        onUpdate(responses.map(r => r.data));
-        onClose();
-      }
     } catch (error) {
       console.error("Error updating reference requests:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
+
+  const isSameReferee = useMemo(() => {
+    return (
+      firstName === referee?.name?.firstName &&
+      lastName === referee?.name?.lastName &&
+      email === referee?.email
+    );
+  }, [
+    referee?.email,
+    referee?.name?.firstName,
+    referee?.name?.lastName,
+    email,
+    firstName,
+    lastName,
+  ]);
+
+  const isFormEmpty = useMemo(() => {
+    return (
+      firstName.trim() === "" || lastName.trim() === "" || email.trim() === ""
+    );
+  }, [email, firstName, lastName]);
+
+  const isDisabled = useMemo(() => {
+    return isSameReferee || isFormEmpty || isUpdating;
+  }, [isSameReferee, isFormEmpty, isUpdating]);
 
   return (
     <Modal
@@ -82,7 +66,8 @@ const EditRefereePopUp = ({ referee, onClose, onUpdate }) => {
       onHide={onClose}
       centered
       className="custom-modal-referee"
-      backdrop={true}
+      backdrop={"static"}
+      keyboard={false}
     >
       <Modal.Body>
         <div className="d-flex justify-content-between align-items-center mb-1">
@@ -98,47 +83,67 @@ const EditRefereePopUp = ({ referee, onClose, onUpdate }) => {
         </div>
 
         <Form onSubmit={handleSubmit}>
-          {formData.map((referee, index) => (
-            <div key={referee.id} className="mb-2">
-              <Form.Group className="mb-3">
-                <div className="d-flex edit-referee-container gap-2">
+          <div className="mb-2">
+            <Form.Group className="mb-3">
+              <div className="d-flex edit-referee-container gap-2">
                 <Form.Label className="m-0">{labels.refereesName}</Form.Label>
                 <Form.Control
                   type="text"
                   name="name"
-                  value={referee.name}
-                  onChange={(e) => handleInputChange(index, e)}
+                  placeholder="Enter referee's first name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   required
                   className="form-control"
                 />
-                </div>
-          
-              </Form.Group>
+              </div>
+            </Form.Group>
 
-              <Form.Group className="mb-3">
+            <Form.Group className="mb-3">
               <div className="d-flex edit-referee-container gap-2">
-              <Form.Label className="m-0">{labels.refereesEmail}</Form.Label>
+                <Form.Label className="m-0"></Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  placeholder="Enter referee's last name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  className="form-control"
+                />
+              </div>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <div className="d-flex edit-referee-container gap-2">
+                <Form.Label className="m-0">{labels.refereesEmail}</Form.Label>
                 <Form.Control
                   type="email"
                   name="email"
-                  value={referee.email}
-                  onChange={(e) => handleInputChange(index, e)}
+                  placeholder="Enter referee's email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className="form-control"
                 />
-                </div>
-                
-              </Form.Group>
-            </div>
-          ))}
+              </div>
+            </Form.Group>
+          </div>
 
           <div className="d-flex justify-content-end mt-2">
             <button
               type="submit"
-              className="btn-update-referee"
-              disabled={isSubmitting}
+              className={`btn-update-referee ${isDisabled ? "opacity-50" : ""}`}
+              disabled={isDisabled}
             >
-              {isSubmitting ? labels.updating : labels.updateRequest}
+              {isUpdating ? (
+                <div
+                  className="spinner-border spinner-border-sm text-light"
+                  role="status"
+                />
+              ) : (
+                labels.updateRequest
+              )}
             </button>
           </div>
         </Form>
@@ -147,4 +152,4 @@ const EditRefereePopUp = ({ referee, onClose, onUpdate }) => {
   );
 };
 
-export default EditRefereePopUp; 
+export default EditRefereePopUp;
