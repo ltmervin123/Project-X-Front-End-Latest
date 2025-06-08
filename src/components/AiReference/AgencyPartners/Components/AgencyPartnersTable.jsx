@@ -10,8 +10,7 @@ const AgencyPartnersTable = ({
   handleViewDetails,
   handleEditAgency,
   handleDeleteAgency,
-    handleAddAgency,
-
+  handleAddAgency,
 }) => {
   return (
     <div
@@ -21,13 +20,12 @@ const AgencyPartnersTable = ({
     >
       <div className="AiReference-table-title d-flex justify-content-between align-items-end">
         <div>
-        <h4 className="mb-0">{labels.AgencyPartnersList}</h4>
-        <p className="m-0">{labels.Overview}</p>
+          <h4 className="mb-0">{labels.AgencyPartnersList}</h4>
+          <p className="m-0">{labels.Overview}</p>
         </div>
         <button className="btn-add-agency" onClick={handleAddAgency}>
           {labels.AddAgency}
         </button>
-      
       </div>
 
       <div className="scrollable-table-job-container">
