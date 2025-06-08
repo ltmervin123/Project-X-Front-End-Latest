@@ -295,35 +295,30 @@ const AgencyPartners = () => {
       />
       <Row>
         <Col md={4}>
-        <div className="AiReference-active-jobs-container fade-in visible ">
-        <div className="AiReference-table-title">
-          <h4 className="mb-0">{labels.AcceptanceRejectionRates}</h4>
-          <p>{labels.RatesOverview}</p>
-        </div>
-        <div className="double-bar-chart">
-          <Bar data={chartData} options={chartOptions} />
-        </div>
-      </div>
-
+          <div className="AiReference-active-jobs-container fade-in visible ">
+            <div className="AiReference-table-title">
+              <h4 className="mb-0">{labels.AcceptanceRejectionRates}</h4>
+              <p>{labels.RatesOverview}</p>
+            </div>
+            <div className="double-bar-chart">
+              <Bar data={chartData} options={chartOptions} />
+            </div>
+          </div>
         </Col>
         <Col md={8}>
-        <AgencyPartnersTable
-        labels={labels}
-        filteredAgencies={filteredAgencies}
-        isSearchVisible={isSearchVisible}
-        visibleOptions={visibleOptions}
-        handleToggleOptions={handleToggleOptions}
-        handleViewDetails={handleViewDetails}
-        handleEditAgency={handleEditAgency}
-        handleDeleteAgency={handleDeleteAgency}
-        handleAddAgency={handleAddAgency}
-
-      />
+          <AgencyPartnersTable
+            labels={labels}
+            filteredAgencies={filteredAgencies}
+            isSearchVisible={isSearchVisible}
+            visibleOptions={visibleOptions}
+            handleToggleOptions={handleToggleOptions}
+            handleViewDetails={handleViewDetails}
+            handleEditAgency={handleEditAgency}
+            handleDeleteAgency={handleDeleteAgency}
+            handleAddAgency={handleAddAgency}
+          />
         </Col>
       </Row>
-
-
-
 
       {showDetailsPopup && selectedAgency && (
         <AgencyPartnersDetailsPopUp

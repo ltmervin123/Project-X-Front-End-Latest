@@ -37,27 +37,27 @@ const AgencyPartnersDetailsPopUp = ({ agency, onClose, onEdit, labels }) => {
           <div className="d-flex justify-content-start gap-3 agency-details">
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">
-                {labels.Name}
-              </strong>{" "}\ 
+                {labels.Name}:
+              </strong>{" "}
               <span>{agency.name || labels.NA}</span>
             </p>
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">
-                {labels.Email}
+                {labels.Email}:
               </strong>{" "}
-              <span>{agency.email || labels.NA}:</span>
+              <span>{agency.email || labels.NA}</span>
             </p>
           </div>
           <div className="d-flex justify-content-start gap-3 agency-details">
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">
-                {labels.ContactNo}
+                {labels.ContactNo}:
               </strong>{" "}
-              <span>{agency.contactNumber || labels.NA}:</span>
+              <span>{agency.contactNumber || labels.NA}</span>
             </p>
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">
-                {labels.DateAdded}
+                {labels.DateAdded}:
               </strong>{" "}
               <span>{formatDate(agency.createdAt)}</span>
             </p>
