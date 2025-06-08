@@ -36,7 +36,7 @@ import Resetpassword from "./page/ResetPassPage.jsx";
 import PassChanged from "./page/PassChangedPage.jsx";
 import ExpiredLink from "./page/ExpiredLinkPage.jsx";
 import ReferenceVerification from "./page/AiRefereePage/ReferenceVerificationPage.jsx";
-import CreatedAccount from "./page/CreatedAccountPage.jsx";
+import CompanyCreatedAccountPage from "./page/CompanyCreatedAccountPage.jsx";
 import OurParternersPage from "./page/OurPartnersPage.jsx";
 import PaymentMethod from "./components/PaymentMethod/PaymentMethod.jsx";
 import AiReferenceMainDashboardPage from "./page/AiReferencePage/AiReferenceMainDashboardPage.jsx";
@@ -253,14 +253,14 @@ function App() {
 
         <Route
           path="/company-activate-account/:token"
-          element={<CreatedAccount />}
+          element={<CompanyCreatedAccountPage />}
         />
         <Route
           path="/company-expired-activation"
           element={<CompanyExpiredLink />}
         />
 
-        <Route path="/company-created-account" element={<CreatedAccount />} />
+        <Route path="/company-created-account" element={<CompanyCreatedAccountPage />} />
 
         <Route path="/forgotpassword" element={<Forgotpassword />} />
 

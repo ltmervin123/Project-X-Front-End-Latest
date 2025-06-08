@@ -17,9 +17,10 @@
     border: none;
     color: var(--font-white);
     padding: 5px 20px;
-    width: 150px;
+    height: 37px;
     text-align: center;
     background: var(--primary-color);
+    font-size: 14px;
     transition: all 0.3s;
   }
   .btn-edit-agency {

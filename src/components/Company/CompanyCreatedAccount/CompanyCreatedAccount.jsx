@@ -1,7 +1,7 @@
 import React, { use } from "react";
 
 
-const CreatedAccountSection = () => {
+const CompanyCreatedAccount = () => {
 
   return (
     <div className="row main-login justify-content-center position-relative">
@@ -39,4 +39,4 @@ const CreatedAccountSection = () => {
   );
 };
 
-export default CreatedAccountSection;
+export default CompanyCreatedAccount;

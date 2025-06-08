@@ -46,7 +46,7 @@ export const TRANSLATIONS = {
     emailHeader: "Email",
     emailSubtext: "Get in touch through email.",
     locationHeader: "Location",
-    locationSubtext: "Company location here..",
+    locationSubtext: "Tokyo, Japan",
 
     // Placeholder translations
     firstNamePlaceholder: "Enter first name",
@@ -221,7 +221,7 @@ export const TRANSLATIONS = {
     emailHeader: "メール",
     emailSubtext: "メールでのお問い合わせ",
     locationHeader: "所在地",
-    locationSubtext: "会社所在地",
+    locationSubtext: "Tokyo, Japan",
 
     // Placeholder translations
     firstNamePlaceholder: "名を入力",
