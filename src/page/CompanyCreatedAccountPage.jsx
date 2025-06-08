@@ -1,12 +1,12 @@
 import React from "react";
 import "../styles/CreatedAccount.css";
-import Header from "../components/CreatedAccount/Header";
-import CreatedAccountSection from "../components/CreatedAccount/CreatedAccountSection.jsx";
+import Header from "../components/Company/CompanyCreatedAccount/Header.jsx";
+import CompanyCreatedAccount from "../components/Company/CompanyCreatedAccount/CompanyCreatedAccount.jsx";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router";
 
-function CreatedAccountPage() {
+function CompanyCreatedAccountPage() {
   const API = process.env.REACT_APP_API_URL;
   const { token } = useParams();
   const [verified, setVerified] = useState(null);
@@ -34,7 +34,7 @@ function CreatedAccountPage() {
     <>
       <div className="container-fluid main-container login-page-container">
         <Header />
-        <CreatedAccountSection />
+        <CompanyCreatedAccount />
       </div>
     </>
   ) : (
@@ -42,4 +42,4 @@ function CreatedAccountPage() {
   );
 }
 
-export default CreatedAccountPage;
+export default CompanyCreatedAccountPage;

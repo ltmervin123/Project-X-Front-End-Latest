@@ -7,17 +7,17 @@ const StatusDropdown = ({
   translations,
   user,
   candidate,
+  isOpen,
+  onToggle,
 }) => {
   const { mutate: updateCandidateStatus, isPending: isUpdating } =
     useUpdateCandidateStatus(user, {
       onSettled: () => {},
     });
-  const [isOpen, setIsOpen] = useState(false);
-
-  if (status === "Accept" || status === "Reject") {
+  if (status === "Accepted" || status === "Rejected") {
     return (
       <div className="status-display" style={{ color: getStatusColor(status) }}>
-        {translations[`Status_${status}`]}
+        {translations[`Status_${status.replace('ed', '')}`]}
       </div>
     );
   }
@@ -26,11 +26,10 @@ const StatusDropdown = ({
     { value: "Accepted", label: translations.Status_Accept },
     { value: "Rejected", label: translations.Status_Reject },
   ];
-
   const handleSelect = (status) => {
     const candidateId = candidate._id;
     updateCandidateStatus({ candidateId, status });
-    setIsOpen(false);
+    onToggle();
   };
 
   if (isUpdating) {
@@ -45,10 +44,9 @@ const StatusDropdown = ({
   }
 
   return (
-    <div className={`custom-status-dropdown ${isOpen ? "open" : ""}`}>
-      <div
+    <div className={`custom-status-dropdown ${isOpen ? "open" : ""}`}>      <div
         className={`status-trigger ${isOpen ? "open" : ""}`}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         style={{ color: getStatusColor(status) }}
       >
         {translations[`Status_${status}`]}

@@ -1,6 +1,7 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 import StatusDropdown from "./StatusDropdown";
 import CultureFitScore from "./CultureFitScore";
+import { useState } from "react";
 
 const CandidatesTable = ({
   candidates,
@@ -14,6 +15,8 @@ const CandidatesTable = ({
   getStatusColor,
   user,
 }) => {
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
   return (
     <div className="scrollable-table-job-container">
       <table>
@@ -55,14 +58,15 @@ const CandidatesTable = ({
                       }`.trim()}
                 </td>
                 <td>{candidate.email}</td>
-                <td>{candidate.position}</td>
-                <td>
+                <td>{candidate.position}</td>                <td>
                   <StatusDropdown
                     status={candidate.status}
                     getStatusColor={getStatusColor}
                     translations={labels}
                     user={user}
                     candidate={candidate}
+                    isOpen={openDropdownId === candidate._id}
+                    onToggle={() => setOpenDropdownId(openDropdownId === candidate._id ? null : candidate._id)}
                   />
                 </td>
                 <td>

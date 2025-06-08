@@ -121,8 +121,8 @@ const labels = {
   Japanese: {
     noRecord: "リファレンス依頼の記録がありません",
     notFound: "リファレンス依頼が見つかりません",
-    referee: "リファレンス提供者",
-    referees: "リファレンス提供者",
+    referee: "推薦者",
+    referees: "推薦者",
     status: "ステータス",
     noStatus: "ステータスなし",
     inProgress: "進行中",
@@ -138,8 +138,8 @@ const labels = {
     dateSent: "送信日",
     dueDate: "期限日",
     actions: "操作",
-    viewReports: "レポートを表示",
-    hideReports: "レポート非表示",
+    viewReports: "レポートを見る",
+    hideReports: "レポートを隠す",
     viewReferee: "推薦者を見る",
     Edit: "編集",
 

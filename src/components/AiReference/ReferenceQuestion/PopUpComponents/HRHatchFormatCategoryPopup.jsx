@@ -40,7 +40,7 @@ const HRHatchFormatCategoryPopup = ({ onClose, onSelectFormat }) => {
       <Modal.Body className="p-4">
         <div className="d-flex justify-content-center align-items-center mb-3">
           <h5 className="mb-0 text-center">
-            {TRANSLATIONS[language].selectPreferred} <span className="color-orange">HR</span>-HΛTCH{' '}
+            {TRANSLATIONS[language].selectPreferred} <b><span className="color-orange">SNAPP</span>CHECK</b> {' '}
             {TRANSLATIONS[language].formatToCustomize}
           </h5>
         </div>

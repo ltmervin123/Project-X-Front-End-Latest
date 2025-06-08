@@ -79,7 +79,7 @@ const Footer = ({ }) => {
       </div>
       <div>
         <Navbar.Brand href="/" className="d-flex align-items-center gap-2 p-2">
-          <img src={logo} alt="Logo" width="300" height="100" />
+          <img src={logo} alt="Logo" width="auto" height="100" />
         </Navbar.Brand>
       </div>
       <div className="mt-2">

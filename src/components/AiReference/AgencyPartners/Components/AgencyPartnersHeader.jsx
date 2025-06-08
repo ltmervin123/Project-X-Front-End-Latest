@@ -6,7 +6,6 @@ const AgencyPartnersHeader = ({
   searchQuery,
   setSearchQuery,
   isSearchVisible,
-  handleAddAgency,
 }) => {
   return (
     <>
@@ -34,9 +33,7 @@ const AgencyPartnersHeader = ({
             <FaSearch className="search-icon position-absolute top-50 end-0 translate-middle-y" />
           </div>
         </div>
-        <button className="btn-add-agency" onClick={handleAddAgency}>
-          {labels.AddAgency}
-        </button>
+
       </div>
     </>
   );

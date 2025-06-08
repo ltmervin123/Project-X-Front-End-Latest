@@ -1,28 +1,43 @@
 /* Global styles */
 * {
-  box-sizing: border-box; /* Set box-sizing to border-box for all elements */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  font-family: "Roboto", sans-serif; /* Set font family to Roboto */
+  box-sizing: border-box;
+  /* Set box-sizing to border-box for all elements */
+  margin: 0;
+  /* Remove default margin */
+  padding: 0;
+  /* Remove default padding */
+  font-family: "Roboto", sans-serif;
+  /* Set font family to Roboto */
   scroll-behavior: smooth;
 }
 
 /* CSS Variables for color scheme */
 :root {
-  --primary-color: #f46a05; /* Primary color for buttons and highlights */
-  --secondary-color: #1706ac; /* Secondary color for accents */
-  --font-white: #fff; /* White font color */
-  --font-black: #000; /* Black font color */
-  --acttivit-card-bg: #d9d9d9; /* Background color for activity cards */
-  --exclusive-btn-color: #b90416; /* Color for exclusive buttons */
-  --color-brown: #686868; /* Brown color for text */
-  --color-grey: #38434b; /* Brown color for text */
+  --primary-color: #f46a05;
+  /* Primary color for buttons and highlights */
+  --secondary-color: #1706ac;
+  /* Secondary color for accents */
+  --font-white: #fff;
+  /* White font color */
+  --font-black: #000;
+  /* Black font color */
+  --acttivit-card-bg: #d9d9d9;
+  /* Background color for activity cards */
+  --exclusive-btn-color: #b90416;
+  /* Color for exclusive buttons */
+  --color-brown: #686868;
+  /* Brown color for text */
+  --color-grey: #38434b;
+  /* Brown color for text */
 
-  --subcription-card-color: #f8f8f9; /* Background color for subscription cards */
+  --subcription-card-color: #f8f8f9;
+  /* Background color for subscription cards */
 }
+
 .color-grey {
   color: var(--color-grey);
 }
+
 .snappcheck-hero-section-bg,
 .snappcheck-about-us-container,
 .snappcheck-did-you-know-container,
@@ -32,15 +47,18 @@
 
 .snappcheck-hero-section-bg .row,
 .snappcheck-about-us-container .row,
+.snappcheck-platforms-container  .row,
 .snappcheck-did-you-know-container .row,
 .snappcheck-pricing-container .row {
   padding: 20vh 10% 0vh 10%;
 }
+
 /* Header styles for the landing page */
 .snappcheck-hero-section-bg .row {
   padding: 106px 10%;
   height: 60vh !important;
 }
+
 .snappcheck-landing-header {
   background: var(--font-black) !important;
   width: 100%;
@@ -49,6 +67,7 @@
   padding: 0px 5% !important;
   margin: 0 !important;
 }
+
 .snappcheck-language-dropdown {
   background: var(--font-white);
   border-radius: 50px;
@@ -63,9 +82,11 @@
   align-items: center;
   justify-content: center;
 }
+
 .snappcheck-language-dropdown a:hover {
   color: var(--font-black) !important;
 }
+
 .snappcheck-language-dropdown .dropdown-menu {
   width: 100%;
   min-width: 100%;
@@ -74,13 +95,16 @@
   inset: 0px auto auto 0px !important;
   transform: translate(0px, 40px) !important;
 }
-.snappcheck-landing-header a{
-    text-decoration: none !important;
+
+.snappcheck-landing-header a {
+  text-decoration: none !important;
   color: var(--font-white);
 }
-.snappcheck-landing-header a:hover{
+
+.snappcheck-landing-header a:hover {
   text-decoration: underline !important;
 }
+
 .snappcheck-language-dropdown {
   text-decoration: none !important;
   color: var(--font-white);
@@ -95,21 +119,25 @@
 .snappcheck-language-dropdown .dropdown-menu a:nth-child(1) {
   border-radius: 10px 10px 0px 0px;
 }
+
 .snappcheck-language-dropdown .dropdown-menu a:nth-child(2) {
   border-radius: 0px 0px 10px 10px;
   padding: 0;
   border: 0;
 }
+
 .snappcheck-landing-header .snappcheck-login-signup a {
   color: var(--primary-color);
   font-weight: bold;
 }
+
 .snappcheck-landing-header a:nth-child(2),
-.snappcheck-landing-header a:nth-child(3){
-    border-left: 2px solid var(--font-white);
+.snappcheck-landing-header a:nth-child(3) {
+  border-left: 2px solid var(--font-white);
   padding-left: 0.5rem;
 
 }
+
 .snappcheck-login-signup a:nth-child(2) {
   border-left: 2px solid var(--primary-color);
   padding-left: 0.5rem;
@@ -119,19 +147,26 @@
 .snappcheck-hero-section-bg {
   height: 600px;
   color: var(--font-white);
-  background: linear-gradient(
-    180deg,
-    var(--font-black) 20%,
-    var(--primary-color) 108%
-  );
+  background: linear-gradient(180deg,
+      var(--font-black) 20%,
+      var(--primary-color) 108%);
 }
-.snappcheck-hero-content{
+
+.snappcheck-hero-content {
   width: 800px;
+}
+.snappcheck-hero-container .row img{
+  position: absolute;
+  right: 7%;
+  top: 22%;
+  min-width: 400px;
+  max-width: 450px;
 }
 .snappcheck-hero-section-bg h1 {
   font-size: 70px;
   text-align: center;
 }
+
 .snappcheck-button-controller button {
   border-radius: 50px;
   color: var(--font-white);
@@ -140,20 +175,25 @@
   font-size: 18px;
   border: none;
 }
-.snappcheck-button-controller button:nth-child(1) {
+
+.snappcheck-button-controller a:nth-child(1) button {
   background: var(--secondary-color);
 }
-.snappcheck-button-controller button:nth-child(2) {
+
+.snappcheck-button-controller a:nth-child(2) button {
   background: var(--font-black);
 }
+
 .snappcheck-hero-img-container img {
   width: 100%;
 }
+
 /*About Us Section*/
 .snappcheck-left-content h3,
 .snappcheck-left-content h2 {
   font-weight: 800;
 }
+
 .snappcheck-left-content h2 {
   width: 80%;
 }
@@ -204,13 +244,16 @@
 .why-snappcheck-card p {
   font-size: 20px;
   line-height: 1.5;
-  
+
 }
 
 /*Did You Know Section*/
 .snappcheck-left-did-you-know-content h2 {
   width: 800px;
+  font-weight: 800;
+
 }
+
 .snappcheck-button-controller1 button {
   border-radius: 50px;
   color: var(--font-white);
@@ -219,28 +262,36 @@
   width: 170px;
   border: none;
 }
+
 .snappcheck-button-controller1 button:nth-child(1) {
   background: var(--secondary-color);
 }
+
 .snappcheck-button-controller1 button:nth-child(2) {
   background: var(--font-black);
 }
-.snappcheck-did-you-know-container .did-you-know-descitiption{
+
+.snappcheck-did-you-know-container .did-you-know-descitiption {
   font-size: 20px;
 }
-.did-you-know-descitiption svg{
+
+.did-you-know-descitiption svg {
   position: relative;
   top: 5px;
 }
+
 /* How IT Works Section */
 .snappcheck-left-did-you-know-content h3,
 .snappcheck-left-did-you-know-content h2 {
   font-weight: 800;
 }
+
 .snappcheck-did-you-know-container img {
   width: 60%;
 }
-
+.how-it-works-title{
+  font-size: 28px;
+}
 
 /* Our Platforms Section Styles */
 .snappcheck-platforms-container {
@@ -249,6 +300,11 @@
 
 .snappcheck-platforms-content {
   padding: 0 10%;
+}
+
+.snappcheck-platforms-content h3,
+.snappcheck-platforms-content h2 {
+  font-weight: 800;
 }
 
 .platforms-cards-container {
@@ -261,9 +317,12 @@
   background: var(--font-white);
   border-radius: 16px;
   padding: 40px;
+  max-width: 640px;
   position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  border: 1px solid transparent;
+  /* Add transparent border by default */
 }
 
 .platform-card:hover {
@@ -345,8 +404,7 @@
 
 .testimonial-carousel .carousel-control-prev-icon,
 .testimonial-carousel .carousel-control-next-icon {
-  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%)
-    contrast(100%);
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
 .testimonial-container {
@@ -383,9 +441,11 @@
   position: relative;
   transition: transform 0.3s ease;
 }
-.pricing-card:nth-child(2){
+
+.pricing-card:nth-child(2) {
   background: #FFF7ED;
 }
+
 .pricing-card:hover {
   transform: translateY(-5px);
 }
@@ -407,13 +467,16 @@
   margin: 14px 0;
   color: var(--primary-color);
 }
-.pricing-card .subscription-range{
+
+.pricing-card .subscription-range {
   color: var(--color-brown);
 }
-.pricing-card .pricing-subtext > svg{
+
+.pricing-card .pricing-subtext>svg {
   position: relative;
   top: 5px;
 }
+
 .pricing-card .choose-plan-btn {
   border-radius: 5px;
   color: var(--font-white);
@@ -472,6 +535,7 @@
   width: auto;
   line-height: normal;
 }
+
 .snappcheck-landing-footer .snappcheck-footer-nav a:nth-child(2),
 .snappcheck-landing-footer .snappcheck-footer-nav a:nth-child(3) {
   border-left: 2px solid var(--font-white);
@@ -482,9 +546,11 @@
   font-size: 18px;
   transition: color 0.3s ease;
 }
+
 .snappcheck-landing-footer span {
   font-weight: bold;
 }
+
 .snappcheck-social-icon a:hover {
   color: var(--primary-color);
 }
@@ -502,7 +568,7 @@
 
 .snappcheck-language-dropdown .dropdown-toggle:focus,
 .snappcheck-language-dropdown .dropdown-toggle:active,
-.show > .dropdown-toggle {
+.show>.dropdown-toggle {
   color: var(--font-black) !important;
   background-color: var(--font-white) !important;
   box-shadow: none !important;
@@ -512,24 +578,29 @@
 .snappcheck-did-you-know-container .row:nth-child(2) {
   padding: 0px 10%;
 }
+
 .contact-form {
   padding: 40px;
   border-radius: 10px;
   border: 1px solid var(--primary-color);
   background: #fef1e7;
 }
+
 .contact-form .row {
   padding: 0;
 }
+
 .contact-form .form-control {
   border-radius: 50px;
   padding: 10px 15px;
   border: 1px solid #ddd;
 }
+
 .contact-form textarea.form-control {
   resize: none;
   border-radius: 10px;
 }
+
 .contact-form .btn-submit {
   background: var(--secondary-color);
   border-radius: 50px;
@@ -541,6 +612,7 @@
   border: none;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
 }
+
 .contact-info-cards {
   padding: 20px;
 }
@@ -561,15 +633,18 @@
   font-weight: 600;
   margin-bottom: 8px;
 }
+
 .contact-form .form-check-input:checked {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
 }
+
 .contact-form .form-check-input:focus {
   border-color: var(--primary-color);
   outline: 0;
   box-shadow: 0 0 0 0.25rem #f4690554;
 }
+
 .contact-card p {
   color: var(--color-grey);
   margin-bottom: 8px;
@@ -580,13 +655,15 @@
   text-decoration: none;
   font-weight: 500;
 }
+
 .privacy-policy-text {
   color: var(--color-grey);
   font-size: 14px;
 }
 
 .snappcheck-contact-section {
-  padding-top: 100px; /* Add padding to account for fixed header */
+  padding-top: 100px;
+  /* Add padding to account for fixed header */
   scroll-margin-top: 100px;
 }
 
@@ -596,12 +673,15 @@
 .how-it-works-cards-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 32px 32px; /* row gap, column gap */
+  gap: 32px 32px;
+  /* row gap, column gap */
 }
-.how-it-works-title{
+
+.how-it-works-title {
   font-weight: 700
 }
-.how-it-works-card-number{
+
+.how-it-works-card-number {
   position: absolute;
   top: -12px;
   left: -12px;
@@ -616,32 +696,36 @@
   font-weight: 700;
   font-size: 25px;
 }
-.how-it-works-card img{
+
+.how-it-works-card img {
   width: 90%;
   height: 170px;
 }
+
 .how-it-works-card {
   position: relative;
   background: #EE8D29;
 
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   width: 270px;
   height: 270px;
   color: var(--font-white);
   font-size: 24px !important;
   font-weight: bold;
-  margin-bottom: 0; /* grid handles spacing */
+  margin-bottom: 0;
+  /* grid handles spacing */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .how-it-works-card:nth-child(2),
 .how-it-works-card:nth-child(3),
-.how-it-works-card:nth-child(6)
-{
-background: #F5AE29;
+.how-it-works-card:nth-child(6) {
+  background: #F5AE29;
 }
+
 @media (max-width: 900px) {
   .how-it-works-cards-container {
     grid-template-columns: 1fr;
@@ -653,11 +737,18 @@ background: #F5AE29;
   color: var(--font-white);
   background: var(--font-black);
 }
+
 .snappcheck-key-insights-container .row {
   padding: 20vh 10% 10vh 10%;
 }
+
 .key-insights-carousel {
   padding: 20px 0;
+  width: 100%;
+}
+
+.snappcheck-key-insights-container img {
+  width: 100%;
 }
 
 .key-insights-carousel .carousel-indicators {
@@ -670,10 +761,12 @@ background: #F5AE29;
   height: 10px;
   border-radius: 50%;
 }
-.key-insights-carousel .carousel-indicators button.active{
+
+.key-insights-carousel .carousel-indicators button.active {
   background-color: var(--primary-color) !important;
 
 }
+
 .key-insights-carousel .carousel-control-prev,
 .key-insights-carousel .carousel-control-next {
   width: 32px;
@@ -692,18 +785,18 @@ background: #F5AE29;
 
 .key-insights-carousel .carousel-control-prev-icon,
 .key-insights-carousel .carousel-control-next-icon {
-  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%)
-    contrast(100%);
+  filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
 .key-insight-card {
   padding: 70px;
   border-radius: 12px;
   height: 100%;
-  min-height: 300px;
+  height: 350px;
   display: flex;
+  align-items: start;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
 }
 
 .key-insight-card h4 {
@@ -723,11 +816,11 @@ background: #F5AE29;
   .key-insight-card {
     min-height: 250px;
   }
-  
+
   .key-insight-card h4 {
     font-size: 20px;
   }
-  
+
   .key-insight-card p {
     font-size: 14px;
   }
