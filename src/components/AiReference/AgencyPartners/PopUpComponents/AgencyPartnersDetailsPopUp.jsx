@@ -38,7 +38,7 @@ const AgencyPartnersDetailsPopUp = ({ agency, onClose, onEdit, labels }) => {
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">
                 {labels.Name}
-              </strong>{" "}
+              </strong>{" "}\ 
               <span>{agency.name || labels.NA}</span>
             </p>
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
