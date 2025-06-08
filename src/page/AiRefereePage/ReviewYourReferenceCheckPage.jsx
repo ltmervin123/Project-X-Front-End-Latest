@@ -301,7 +301,6 @@ function ReviewYourReferenceCheckPage() {
       setSubmitting(true);
       const formdata = new FormData();
       const selfieBlob = dataURLtoBlob(selfie);
-
       formdata.append("referenceRequestId", referenceId);
       formdata.append("currentCompany", currentCompany);
       formdata.append("refereeTitle", positionTitle);
@@ -313,7 +312,6 @@ function ReviewYourReferenceCheckPage() {
       formdata.append("frontIdFile", frontIdFile);
       formdata.append("backIdFile", backIdFile);
       formdata.append("selfieFile", selfieBlob, "selfie.png");
-
       const response = await axios.post(URL, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",

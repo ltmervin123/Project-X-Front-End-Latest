@@ -37,6 +37,8 @@ const QuestionDisplay = ({
   const API = process.env.REACT_APP_API_URL;
   const REFERENCE_DATA =
     JSON.parse(sessionStorage.getItem("refereeData")) || {};
+  const REFERENCE_QUESTION_DATA =
+    JSON.parse(sessionStorage.getItem("referenceQuestions")) || {};
   const { candidateName } = REFERENCE_DATA;
   const token = sessionStorage.getItem("token");
   const referenceQuestionsData =
@@ -48,6 +50,12 @@ const QuestionDisplay = ({
   const [paceRatingQuestion, setPaceRatingQuestion] = useState(null);
 
   useEffect(() => {
+    const { formatType } = REFERENCE_QUESTION_DATA;
+
+    if (formatType === "CUSTOM-FORMAT") {
+      return;
+    }
+
     const workEthicCategory = referenceQuestionsData.find(
       (category) => category.category === "workEthicAndBehavior"
     );
@@ -84,7 +92,7 @@ const QuestionDisplay = ({
       }
       return item;
     });
-    
+
     // Save the updated data back to sessionStorage
     sessionStorage.setItem(
       "referenceQuestionsData",
