@@ -28,9 +28,8 @@ const labels = {
     updateJob: "Update Job",
     selectDepartment: "Select Department",
     ViewManageTrack:
-      "View, manage, and track open job positions. You can edit details or delete listings as needed.",
-    confirmDelete:
-      "Are you sure you want to delete this job? Deleting this job will also remove all associated candidates and their reference records.",
+      "View, manage, and track open job positions. You can edit details or delete listings as needed.",    confirmDelete:
+      "Are you sure you want to delete this job? Deleting this job will also remove all associated applicants and their reference records.",
     yes: "Yes",
     no: "No",
     createNewJob: "Create New",
@@ -117,9 +116,8 @@ const labels = {
     updateJob: "更新",
     selectDepartment: "部署を選択",
     ViewManageTrack:
-      "公開されている求人情報を表示、管理、追跡できます。詳細を編集したり、必要に応じてリストを削除したりできます。",
-    confirmDelete:
-      "このジョブを削除してもよろしいですか？このジョブを削除すると、関連する候補者とその参照記録もすべて削除されます。",
+      "公開されている求人情報を表示、管理、追跡できます。詳細を編集したり、必要に応じてリストを削除したりできます。",    confirmDelete:
+      "このジョブを削除してもよろしいですか？このジョブを削除すると、関連する応募者とその参照記録もすべて削除されます。",
     yes: "はい",
     no: "いいえ",
     createNewJob: "新しい求人を作成",

@@ -38,14 +38,14 @@ const AgencyPartnersDetailsPopUp = ({ agency, onClose, onEdit, labels }) => {
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">
                 {labels.Name}
-              </strong>{" "}
+              </strong>{" "}\ 
               <span>{agency.name || labels.NA}</span>
             </p>
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">
                 {labels.Email}
               </strong>{" "}
-              <span>{agency.email || labels.NA}</span>
+              <span>{agency.email || labels.NA}:</span>
             </p>
           </div>
           <div className="d-flex justify-content-start gap-3 agency-details">
@@ -53,7 +53,7 @@ const AgencyPartnersDetailsPopUp = ({ agency, onClose, onEdit, labels }) => {
               <strong className="d-flex gap-3 align-items-center">
                 {labels.ContactNo}
               </strong>{" "}
-              <span>{agency.contactNumber || labels.NA}</span>
+              <span>{agency.contactNumber || labels.NA}:</span>
             </p>
             <p className="d-flex gap-2 align-items-center justify-content-start w-50">
               <strong className="d-flex gap-3 align-items-center">

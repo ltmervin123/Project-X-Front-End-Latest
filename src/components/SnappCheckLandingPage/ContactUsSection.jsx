@@ -124,8 +124,8 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                   <HiOutlineMail className="contact-icon" size={24} />
                   <h3>{t('emailHeader')}</h3>
                   <p>{t('emailSubtext')}</p>
-                  <a href="mailto:snappcheck@samplemail.com">
-                    snappcheck@samplemail.com
+                  <a href="mailto:customersupport@snappcheck.com">
+                  customersupport@snappcheck.com
                   </a>
                 </Card.Body>
               </Card>

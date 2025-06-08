@@ -459,6 +459,8 @@
   width: 100%;
   position: relative;
   font-size: 15px;
+padding-left: 5px;
+
 }
 
 .scrollable-table-container table {
@@ -482,6 +484,7 @@
   background: white;
   position: sticky;
   top: 0;
+  font-size: 14px;
 }
 
 .scrollable-table-container td {
@@ -490,6 +493,12 @@
   width: auto;
   text-align: left; /* Align text to the left */
   font-weight: bold;
+  font-size: 14px;
+
+}
+.scrollable-table-container th:nth-last-child(1),
+.scrollable-table-container td:nth-last-child(1) {
+  padding-right: 5px;
 }
 /* .scrollable-table-container td:nth-child(5),
 .scrollable-table-container td:nth-child(6) {
@@ -507,7 +516,7 @@
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .scrollable-table-container .btn-view-details:hover {
@@ -557,7 +566,7 @@
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .scrollable-table-container .btn-view-details:hover {
@@ -618,7 +627,6 @@
 
 .AiReference-reference-request-container table {
   height: auto;
-  padding-right: 5px;
 }
 
 .edit-referee-container .form-label{

@@ -90,15 +90,14 @@
   background: var(--btn-view-color);
   text-decoration: none;
   color: var(--font-white);
-  width: 120px;
-  padding: 8px; /* Adjusted padding */
+  padding: 8px 20px; /* Adjusted padding */
   border-radius: 50px;
   height: auto;
 
   border: none !important;
   cursor: pointer; /* Change cursor to pointer */
   transition: background-color 0.3s;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .AiReference-candidates-container .btn-view-details:hover {
@@ -206,9 +205,9 @@ border: none;
   color: var(--primary-color);
 }
 .action-menu{
-  position: absolute;
+  position: relative;
   top: 22%;
-  right: -25px;
+  right: -5px;
   display: flex;
   align-items: center;
 }

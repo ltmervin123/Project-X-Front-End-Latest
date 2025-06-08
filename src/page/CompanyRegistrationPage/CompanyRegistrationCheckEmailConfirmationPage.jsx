@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "../../components/ExpiredLink/Header";
+import Header from "../../components/Company/CompanyRegistration/Header";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const CompanyRegistrationCheckEmailConfirmationPage = () => {

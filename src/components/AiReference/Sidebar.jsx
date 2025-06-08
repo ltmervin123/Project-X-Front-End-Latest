@@ -247,7 +247,7 @@ const Sidebar = () => {
         </NavLink>
 
         {/* Follow Us Section */}
-        <div className="follow-us p-3">
+        {/* <div className="follow-us p-3">
           <p className="mb-3"> {TRANSLATIONS[currentLanguage].FollowUsOn} </p>
           <div className="social-icons d-flex align-item-center justify-content-around gap-1">
             <a
@@ -318,7 +318,7 @@ const Sidebar = () => {
               </svg>
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
