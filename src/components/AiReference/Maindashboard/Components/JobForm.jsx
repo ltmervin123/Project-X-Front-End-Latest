@@ -1,5 +1,16 @@
 import { Form, Row, Col } from "react-bootstrap";
-import { memo } from "react";
+import { memo, useState, useEffect } from "react";
+
+const TRANSLATIONS = {
+  English: {
+    selectAgency: "Select Agency",
+    noAgencyRecord: "No agency records found"
+  },
+  Japanese: {
+    selectAgency: "代理店を選択",
+    noAgencyRecord: "代理店の記録が見つかりません"
+  }
+};
 
 const JobFormSection = ({
   labels,
@@ -32,6 +43,17 @@ const JobFormSection = ({
   areCandidateFieldsFilled,
   handleSetAgency,
 }) => {
+  const [language, setLanguage] = useState(sessionStorage.getItem("preferred-language") || "English");
+
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguage(sessionStorage.getItem("preferred-language") || "English");
+    };
+
+    window.addEventListener("storage", handleLanguageChange);
+    return () => window.removeEventListener("storage", handleLanguageChange);
+  }, []);
+
   return (
     <Col md={6}>
       <h4 className="d-flex gap-2 mb-5">
@@ -194,9 +216,10 @@ const JobFormSection = ({
             {labels.referredBy}
             <span className="color-orange"> *</span>
           </Form.Label>
+
           <Form.Select onChange={(e) => handleSetAgency(e.target.value)}>
             <option value="" disabled selected>
-              {labels.placeholders.selectAgency || "Select Agency"}
+              {labels.placeholders?.selectAgencyDefault || TRANSLATIONS[language].selectAgency}
             </option>
             {agencies.length > 0 ? (
               agencies.map((agency) => (
@@ -206,7 +229,7 @@ const JobFormSection = ({
               ))
             ) : (
               <option value="" disabled>
-                No Agency record
+                {TRANSLATIONS[language].noAgencyRecord}
               </option>
             )}
           </Form.Select>

@@ -15,7 +15,7 @@ const AgencyPartnersTable = ({
 }) => {
   return (
     <div
-      className={`AiReference-active-jobs-container fade-in ${
+      className={`AiReference-candidates-container fade-in ${
         isSearchVisible ? "visible" : ""
       }`}
     >
@@ -30,7 +30,7 @@ const AgencyPartnersTable = ({
       
       </div>
 
-      <div className="scrollable-table-container">
+      <div className="scrollable-table-job-container">
         <table>
           <thead>
             <tr>
