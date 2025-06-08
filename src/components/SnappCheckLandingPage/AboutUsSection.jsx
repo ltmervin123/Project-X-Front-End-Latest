@@ -40,7 +40,7 @@ const AboutUsSection = () => {
             <h3 className="color-grey mb-4">
               {t('aboutUs')}
             </h3>
-            <p className="mb-4">
+            <p className="snappcheck-about-us-desc1 mb-2">
               <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription1')) }} />
             </p>
             <p className="snappcheck-about-us-desc1 mb-2">

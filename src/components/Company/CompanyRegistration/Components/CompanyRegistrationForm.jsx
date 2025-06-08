@@ -181,10 +181,11 @@ const CompanyRegistrationForm = ({
                     id="city"
                   >
                     <option value="">{t('SELECT_CITY')}</option>
-                    {selectedCountryData.cities.map((city) => (
-                      <option key={city.id} value={city.name}>
-                        {city.name}
-                      </option>
+                    {Array.from(new Set(selectedCountryData.cities.map(city => city.name)))
+                      .map((cityName, index) => (
+                        <option key={index} value={cityName}>
+                          {cityName}
+                        </option>
                     ))}
                   </Form.Select>
                 </Col>

@@ -88,7 +88,7 @@ const CandidateDetailsPopUp = ({
             <div className="d-flex justify-content-start gap-3 applicant-details">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {labels.Status}
+                  {labels.Status}:
                 </strong>{" "}
                 <span style={{ color: getStatusColor(candidates.status) }}>
                   {" "}
@@ -97,7 +97,7 @@ const CandidateDetailsPopUp = ({
               </p>
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {labels.jobName}
+                  {labels.jobName}:
                 </strong>{" "}
                 <span>{candidates.position || labels.NA}</span>
               </p>
@@ -105,13 +105,13 @@ const CandidateDetailsPopUp = ({
             <div className="d-flex justify-content-start gap-3 applicant-details">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {labels.Email}
+                  {labels.Email}:
                 </strong>{" "}
                 <span>{candidates.email}</span>
               </p>
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-3 align-items-center">
-                  {labels.AppliedDate}
+                  {labels.AppliedDate}:
                 </strong>{" "}
                 <span>{formatDate(candidates.createdAt) || labels.NA}</span>
               </p>
@@ -119,7 +119,7 @@ const CandidateDetailsPopUp = ({
             <div className="d-flex justify-content-start gap-3 applicant-details mb-2">
               <p className="d-flex gap-2 align-items-center justify-content-start w-50">
                 <strong className="d-flex gap-2 align-items-center">
-                  {labels.ReferenceFormat}
+                  {labels.ReferenceFormat}:
                 </strong>{" "}
                 <span>
                   {getTranslatedFormat(candidates.questionName, labels) ||

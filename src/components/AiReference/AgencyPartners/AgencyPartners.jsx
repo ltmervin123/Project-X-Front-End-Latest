@@ -292,7 +292,6 @@ const AgencyPartners = () => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         isSearchVisible={isSearchVisible}
-        handleAddAgency={handleAddAgency}
       />
       <Row>
         <Col md={4}>
@@ -317,6 +316,8 @@ const AgencyPartners = () => {
         handleViewDetails={handleViewDetails}
         handleEditAgency={handleEditAgency}
         handleDeleteAgency={handleDeleteAgency}
+        handleAddAgency={handleAddAgency}
+
       />
         </Col>
       </Row>

@@ -37,7 +37,10 @@ const PricingSection = forwardRef((props, ref) => {
 
   const handleButtonClick = (isEnterprise) => {
     if (isEnterprise) {
-      navigate('/PaymentMethod');
+      const contactSection = document.getElementById('contact-us');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
     } else {
       navigate('/PaymentMethod');
     }

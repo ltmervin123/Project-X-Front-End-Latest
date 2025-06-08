@@ -26,7 +26,8 @@ const translations = {
     closingQuestions: "Closing Questions",
     strategicLeadershipAndVision: "Strategic Leadership and Vision",
     businessImpactAndResults: "Business Impact and Results",
-    teamLeadershipAndOrganizationalDevelopment: "Team Leadership and Organizational Development",
+    teamLeadershipAndOrganizationalDevelopment:
+      "Team Leadership and Organizational Development",
     decisionMakingAndProblemSolving: "Decision Making and Problem Solving",
     innovationAndGrowth: "Innovation and Growth",
     leadershipAndManagementSkills: "Leadership and Management Skills",
@@ -40,7 +41,8 @@ const translations = {
     closingQuestions: "締めの質問",
     strategicLeadershipAndVision: "戦略的リーダーシップとビジョン",
     businessImpactAndResults: "ビジネスへの影響と結果",
-    teamLeadershipAndOrganizationalDevelopment: "チームリーダーシップと組織開発",
+    teamLeadershipAndOrganizationalDevelopment:
+      "チームリーダーシップと組織開発",
     decisionMakingAndProblemSolving: "意思決定と問題解決",
     innovationAndGrowth: "革新と成長",
     leadershipAndManagementSkills: "リーダーシップと管理スキル",
@@ -74,8 +76,8 @@ function ViewRequest({
     token,
   });
 
-  console.log('Reference Data:', referenceData);
-  console.log('Reference Questions:', referenceData?.referenceQuestion);
+  console.log("Reference Data:", referenceData);
+  console.log("Reference Questions:", referenceData?.referenceQuestion);
 
   const selectedLanguage =
     referenceData?.referenceRequestId?.selectedLanguage || "English";
@@ -182,7 +184,9 @@ function ViewRequest({
       case "innovationAndGrowth":
         return labels.overallInnovationAndGrowth;
       default:
-        return `${labels.overall} ${formatCategories(category)} ${labels.assessment}`;
+        return `${labels.overall} ${formatCategories(category)} ${
+          labels.assessment
+        }`;
     }
   };
 
@@ -348,34 +352,48 @@ function ViewRequest({
                           ))}
 
                           {/* Add Pace Rating for Work Ethic and Behavior */}
-                          {item.category === "workEthicAndBehavior" && item.paceRating && (
-                            <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
-                              <div className="d-flex gap-2 align-items-center">
-                                <b>{translations[selectedLanguage].candidateRating}</b>
-                                <div className="d-flex gap-2">
-                                  <div
-                                    className="overall-assessment-detail"
-                                    style={{
-                                      backgroundColor: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
-                                        ? "rgba(237, 125, 49, 0.15)"
-                                        : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
-                                        ? "rgba(112, 173, 71, 0.15)"
-                                        : "rgba(255, 234, 102, 0.15)",
-                                      color: item.paceRating === "Fast-paced" || item.paceRating === "高速ペース"
-                                        ? "#ED7D31"
-                                        : item.paceRating === "Mid-paced" || item.paceRating === "中程度のペース"
-                                        ? "#70AD47"
-                                        : "#FFEA66",
-                                    }}
-                                  >
-                                    <p className="m-0">
-                                      {item.paceRating || labels.notAvailable}
-                                    </p>
+                          {item.category === "workEthicAndBehavior" &&
+                            item.paceRating && (
+                              <div className="overall-assessment-container mt-4 d-flex gap-2 align-items-center">
+                                <div className="d-flex gap-2 align-items-center">
+                                  <b>
+                                    {
+                                      translations[selectedLanguage]
+                                        .candidateRating
+                                    }
+                                  </b>
+                                  <div className="d-flex gap-2">
+                                    <div
+                                      className="overall-assessment-detail"
+                                      style={{
+                                        backgroundColor:
+                                          item.paceRating === "Fast-paced" ||
+                                          item.paceRating === "高速ペース"
+                                            ? "rgba(237, 125, 49, 0.15)"
+                                            : item.paceRating === "Mid-paced" ||
+                                              item.paceRating ===
+                                                "中程度のペース"
+                                            ? "rgba(112, 173, 71, 0.15)"
+                                            : "rgba(255, 234, 102, 0.15)",
+                                        color:
+                                          item.paceRating === "Fast-paced" ||
+                                          item.paceRating === "高速ペース"
+                                            ? "#ED7D31"
+                                            : item.paceRating === "Mid-paced" ||
+                                              item.paceRating ===
+                                                "中程度のペース"
+                                            ? "#70AD47"
+                                            : "#FFEA66",
+                                      }}
+                                    >
+                                      <p className="m-0">
+                                        {item.paceRating || labels.notAvailable}
+                                      </p>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
+                            )}
 
                           {/* Add Overall Category Assessment */}
                           {item.category === "workEthicAndBehavior" && (
@@ -383,7 +401,9 @@ function ViewRequest({
                               <b>{getOverallAssessmentText(item.category)}</b>
                               <div
                                 className="overall-assessment-detail"
-                                style={getAssessmentStyle(item.assessmentRating)}
+                                style={getAssessmentStyle(
+                                  item.assessmentRating
+                                )}
                               >
                                 <p className="m-0">
                                   {item.assessmentRating || labels.notAvailable}
@@ -409,7 +429,8 @@ function ViewRequest({
 
                             <h6 className="color-gray mb-2">
                               {formatAnswerType(
-                                item.preferredAnswerType[index]
+                                item.preferredAnswerType[index],
+                                labels
                               )}
                             </h6>
 
