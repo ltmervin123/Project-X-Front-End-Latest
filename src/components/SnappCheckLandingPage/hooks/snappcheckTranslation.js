@@ -21,7 +21,7 @@ export const TRANSLATIONS = {
     aboutDescription4: "Our goal is to empower companies with tools that reduce friction in hiring, enhance decision-making with actionable data, and promote fair, efficient, and scalable talent acquisition. From verification automation to candidate assessment, we're creating the next generation of AI applications that shape the future of hiring.",
 
     // Did You Know translations
-    didYouKnow: "Did You Know",
+    didYouKnow: "Did You Know?",
     didYouKnowTitle: "Proven impact based on global hiring data",
     didYouKnowDesc: "A single hiring mistake can cost over 30% of an employee's annual salary. Yet many companies still rely on gut instinct or skip proper reference checks.",
     stats: [
@@ -136,7 +136,7 @@ export const TRANSLATIONS = {
 
     // Our Platforms translations
     ourPlatforms: "Our Platforms",
-    aiPlatformsSolutions: "Ai-Platforms Solutions",
+    aiPlatformsSolutions: "SnappCheck Solutions",
     aiReferenceCheck: "AI Reference Check",
     aiReferenceCheckDesc: "Designed to simplify and improve how companies verify candidate information. By using advanced AI technologies like natural language processing and machine learning, the platform analyzes feedback from referees to confirm a candidate's skills, experiences and to better understand their overall cultural fit within the organization.",
     languageAssessment: "Language Assessment",
@@ -271,8 +271,6 @@ export const TRANSLATIONS = {
 
     // How It Works translations
     howItWorks: "使い方",
-    howItWorksTitle: "意味のある情報を提供するレファレンスチェック。スマートな質問とAI駆動の分析を組み合わせて、",
-    howItWorksTitleHighlight: "フィードバックを実際の採用データに変換します。",
     referenceCheckFlow: "リファレンスチェックの流れ",
     visualGuide: "（ビジュアルガイド）",
     howItWorksStep1: "クライアントが応募者にリンクを送信",
@@ -311,7 +309,7 @@ export const TRANSLATIONS = {
 
     // Our Platforms translations
     ourPlatforms: "プラットフォーム",
-    aiPlatformsSolutions: "AIプラットフォームソリューション",
+    aiPlatformsSolutions: "SnappCheckソリューション",
     aiReferenceCheck: "AIレファレンスチェック",
     aiReferenceCheckDesc: "企業が候補者情報を検証する方法を簡素化し改善するために設計されています。自然言語処理や機械学習などの先進的なAI技術を使用して、プラットフォームは推薦者からのフィードバックを分析し、候補者のスキルや経験を確認し、組織内での文化的適合性をより深く理解することができます。",
     languageAssessment: "言語能力評価",

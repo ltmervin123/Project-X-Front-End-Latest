@@ -27,14 +27,12 @@ const HowItWorksSection = () => {
           <div className="d-flex justify-content-center align-items-center flex-column ">
 
             <h3 className="color-grey text-center mb-2">{t('howItWorks')}</h3>
-            <h2 className="mb-4 text-center">
-              {t('howItWorksTitle')}<span className="color-orange">{t('howItWorksTitleHighlight')}</span>
-            </h2>
+
 
           </div>
 
           {/* Cards Section */}
-          <div className="d-flex justify-content-center align-items-center flex-column w-100 mt-4">
+          <div className="d-flex justify-content-center align-items-center flex-column w-100">
             {/* Header Content */}
             <div className="text-center my-4">
               <h2 className="how-it-works-title" style={{ letterSpacing: '2px' }}>{t('referenceCheckFlow')}</h2>

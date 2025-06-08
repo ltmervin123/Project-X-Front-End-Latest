@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Header from "../../components/SnappCheckLandingPage/Header";
 import HeroSection from "../../components/SnappCheckLandingPage/HeroSection";
 import AboutUsSection from "../../components/SnappCheckLandingPage/AboutUsSection";
-import WhySnappCheckSection from "../../components/SnappCheckLandingPage/WhySnappCheckSection";
+// import WhySnappCheckSection from "../../components/SnappCheckLandingPage/WhySnappCheckSection";
 import DidYouKnowSection from "../../components/SnappCheckLandingPage/DidYouKnowSection";
 import HowItWorksSection from "../../components/SnappCheckLandingPage/HowItWorksSection";
 import OurPlatformsSection from "../../components/SnappCheckLandingPage/OurPlatformsSection";
@@ -27,7 +27,7 @@ const SnappCheckLandingPage = () => {
           <HeroSection />
         </div>
         <AboutUsSection />
-        <WhySnappCheckSection />
+        {/* <WhySnappCheckSection /> */}
 
         <DidYouKnowSection />
         <HowItWorksSection />
