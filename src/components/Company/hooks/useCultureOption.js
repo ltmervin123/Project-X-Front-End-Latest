@@ -27,7 +27,7 @@ const cultureOptions = {
   Approach: {
     innovative: {
       label: "Innovative / Creative",
-      desc: "Thrives in high-speed, rapidly changing environments where decisions are made quickly and multitasking is common.",
+      desc: "Encourages experimentation, new ideas, and thinking outside the box. Often embraces change.",
     },
     processDriven: {
       label: "Process-driven",
