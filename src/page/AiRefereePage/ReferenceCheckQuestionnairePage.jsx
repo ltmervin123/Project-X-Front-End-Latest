@@ -440,8 +440,7 @@ const ReferenceCheckQuestionnairePage = () => {
         const questionIndex = categoryItem.questions.indexOf(currentQuestion);
         if (questionIndex !== -1) {
           categoryItem.answers[questionIndex] = selectedValues;
-          categoryItem.normalizedAnswers[questionIndex] =
-            "No normalized answer available";
+          categoryItem.normalizedAnswers[questionIndex] = selectedValues;
           return {
             ...categoryItem,
             paceRating: selectedRating,
@@ -744,6 +743,7 @@ const ReferenceCheckQuestionnairePage = () => {
         <PacedRating
           onSubmit={handleRatingSubmit}
           candidateName={candidateName}
+          isSpeaking={isSpeaking}
         />
       ) : (
         <>
