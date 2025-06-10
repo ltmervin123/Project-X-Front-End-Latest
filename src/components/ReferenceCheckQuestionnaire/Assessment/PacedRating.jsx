@@ -47,7 +47,7 @@ const PACING_OPTIONS = {
   },
 };
 
-function PacedRating({ onSubmit, candidateName }) {
+function PacedRating({ onSubmit, candidateName, isSpeaking = false }) {
   const [selectedValues, setSelectedValues] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
   const [hoveredOption, setHoveredOption] = useState(null);
@@ -99,7 +99,7 @@ function PacedRating({ onSubmit, candidateName }) {
   };
 
   const isDisable = () => {
-    return selectedValues === "";
+    return selectedValues === "" || isSpeaking === true;
   };
 
   return (
