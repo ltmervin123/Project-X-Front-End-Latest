@@ -83,8 +83,10 @@
   justify-content: center;
 }
 
-.snappcheck-language-dropdown a:hover {
+.snappcheck-language-dropdown >a:hover {
   color: var(--font-black) !important;
+  text-decoration: none !important;
+
 }
 
 .snappcheck-language-dropdown .dropdown-menu {
@@ -94,6 +96,9 @@
   border-radius: 10px;
   inset: 0px auto auto 0px !important;
   transform: translate(0px, 40px) !important;
+}
+.snappcheck-language-dropdown .dropdown-menu a:hover{
+  text-decoration: none !important;
 }
 
 .snappcheck-landing-header a {
@@ -565,7 +570,9 @@
 .snappcheck-language-dropdown .dropdown-toggle {
   color: var(--font-black) !important;
 }
-
+.snappcheck-language-dropdown .dropdown-toggle:hover{
+  text-decoration: none !important;
+}
 .snappcheck-language-dropdown .dropdown-toggle:focus,
 .snappcheck-language-dropdown .dropdown-toggle:active,
 .show>.dropdown-toggle {
