@@ -26,6 +26,7 @@ export const TRANSLATIONS = {
     referredBy: "Referred By",
     selectDepartment: "Select Department",
     vacancy: "Vacancies",
+    noAgencyRecord: "No Agency record",
 
     // Departments
     departments: {
@@ -53,6 +54,9 @@ export const TRANSLATIONS = {
     standardFormat: "Standard Format",
     managementFormat: "Management Format",
     executiveFormat: "Executive Format",
+    selectAgencyDefault: "Select Agency",
+
+
 
     // Messages
     backWarning: "Are you sure you want to go back? Your progress will be lost.",
@@ -64,9 +68,12 @@ export const TRANSLATIONS = {
       jobName: "Enter job title",
       lastName: "Enter last name",
       referredBy: "Select referee",
+
       referees: "Enter number of referees",
       selectDepartment: "Select department",
+
       vacancy: "Enter number of vacancies",
+
     },
   },
   Japanese: {
@@ -91,6 +98,7 @@ export const TRANSLATIONS = {
     proceed: "続行",
     selectDepartment: "部署を選択",
     numReferees: "推薦者数",
+    noAgencyRecord: "代理店の記録がありません",
     departments: {
       sales: "営業",
       marketing: "マーケティング",
@@ -118,6 +126,8 @@ export const TRANSLATIONS = {
     standardFormat: "標準フォーマット",
     managementFormat: "管理職フォーマット",
     executiveFormat: "エグゼクティブフォーマット",
+    selectAgencyDefault: "代理店を選択",
+
     placeholders: {
       jobName: "職種名を入力",
       firstName: "名を入力",

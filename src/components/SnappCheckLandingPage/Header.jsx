@@ -1,21 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 
-const Header = ({ }) => {
-  const { t, language, changeLanguage } = useSnappcheckTranslation();
-
-
-  const handleLanguageChange = (e, newLanguage) => {
-    if (newLanguage === language) {
-      return;
-    }
-    changeLanguage(newLanguage);
-    window.location.reload();
-  };
-
-
+const Header = ({ onLanguageChange, language, t }) => {
   return (
     <div className="snappcheck-landing-header">
       <Navbar expand="lg">
@@ -59,12 +46,12 @@ const Header = ({ }) => {
             >
               {" "}
               <NavDropdown.Item
-                onClick={(e) => handleLanguageChange(e, "English")}
+                onClick={(e) => onLanguageChange(e, "English")}
               >
                 {t("languageEnglish")}
               </NavDropdown.Item>
               <NavDropdown.Item
-                onClick={(e) => handleLanguageChange(e, "Japanese")}
+                onClick={(e) => onLanguageChange(e, "Japanese")}
               >
                 {t("languageJapanese")}
               </NavDropdown.Item>
