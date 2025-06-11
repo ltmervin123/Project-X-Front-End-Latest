@@ -99,6 +99,8 @@ const labels = {
       vacancy: "Enter number of vacancies",
       referees: "Enter number of referees",
     },
+    selectAgency: "Select Agency",
+    noAgencyRecord: "No agency records found",
   },
   Japanese: {
     Dashboard: "ダッシュボード",
@@ -198,6 +200,8 @@ const labels = {
       vacancy: "募集人数を入力",
       referees: "推薦者数を入力",
     },
+    selectAgency: "代理店を選択",
+    noAgencyRecord: "代理店の記録が見つかりません",
   },
 };
 

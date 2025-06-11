@@ -32,7 +32,7 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
 
     // Approach Options
     'INNOVATIVE_LABEL': 'Innovative / Creative',
-    'INNOVATIVE_DESC': 'Thrives in high-speed, rapidly changing environments where decisions are made quickly and multitasking is common.',
+    'INNOVATIVE_DESC': 'Encourages experimentation, new ideas, and thinking outside the box. Often embraces change.',
     'PROCESS_DRIVEN_LABEL': 'Process-driven',
     'PROCESS_DRIVEN_DESC': 'Emphasizes established procedures, consistency, and predictability to maintain quality and efficiency.',
 
@@ -74,43 +74,42 @@ export const COMPANY_CULTURE_TRANSLATIONS = {
     'SECTION_ORGANIZATION': '組織',
 
     // Paced Options
-    'FAST_PACED_LABEL': '高速ペース',
-    'FAST_PACED_DESC': '迅速な意思決定とマルチタスクが求められる、高速で変化の激しい環境で力を発揮します。',
-    'MID_PACED_LABEL': '中間的なペース',
-    'MID_PACED_DESC': '状況に応じて速さと慎重さのバランスを取り、柔軟に対応します。',
-    'LOW_PACED_LABEL': '慎重なペース',
-    'LOW_PACED_DESC': '速さよりも安定性と綿密さを重視し、計画的で着実な実行を好みます。',
-
+    'FAST_PACED_LABEL': 'スピード重視',
+    'FAST_PACED_DESC': '意思決定が迅速で、多くの業務を同時に処理する変化の激しいスピード感ある環境で力を発揮します。',
+    'MID_PACED_LABEL': 'バランス型',
+    'MID_PACED_DESC': '状況に応じて緊急性と慎重さをバランス良く調整し、速い環境でもゆったりした環境でも適応可能です。',
+    'LOW_PACED_LABEL': '安定志向',
+    'LOW_PACED_DESC': '計画的で着実な実行を好み、スピードよりも安定性や丁寧さを重視します。',
 
     // Work Style Options
-    'COLLABORATIVE_LABEL': '協調的',
-    'COLLABORATIVE_DESC': 'チームワーク、オープンなコミュニケーション、共同責任を重視して目標を達成します。',
-    'INDEPENDENT_LABEL': '自主的',
-    'INDEPENDENT_DESC': '最小限の監督で、自律性と個人の責任を重視する環境で力を発揮します。',
+    'COLLABORATIVE_LABEL': '協調型',
+    'COLLABORATIVE_DESC': 'チームワークやオープンなコミュニケーション、責任の共有を大切にし、目標達成に向けて協力します。',
+    'INDEPENDENT_LABEL': '自立型',
+    'INDEPENDENT_DESC': '自主性を重視し、管理が少ない環境で個人の責任感を持って働くことを好みます。',
 
     // Approach Options
-    'INNOVATIVE_LABEL': '革新的／創造的',
-    'INNOVATIVE_DESC': '新しいアイデアと創造的なソリューションを追求し、従来の考え方に挑戦します。',
-    'PROCESS_DRIVEN_LABEL': 'プロセス重視',
-    'PROCESS_DRIVEN_DESC': '品質と効率性を維持するため、確立された手順、一貫性、予測可能性を重視します。',
+    'INNOVATIVE_LABEL': '革新・創造型',
+    'INNOVATIVE_DESC': '実験や新しいアイデアの提案を奨励し、既成概念にとらわれず変化を歓迎します。',
+    'PROCESS_DRIVEN_LABEL': 'プロセス重視型',
+    'PROCESS_DRIVEN_DESC': '確立された手順や一貫性、予測可能性を重視し、品質や効率の維持に努めます。',
 
     // Balanced Options
-    'WORK_LIFE_BALANCE_LABEL': 'ワークライフバランス重視',
-    'WORK_LIFE_BALANCE_DESC': '持続可能な労働時間と個人の時間を大切にし、仕事と生活の調和を目指します。',
-    'WORK_CENTRIC_LABEL': '仕事中心／高強度の文化',
-    'WORK_CENTRIC_DESC': '高い献身性とパフォーマンスを重視し、多くの時間と精力的な取り組みを期待します。',
+    'WORK_LIFE_BALANCE_LABEL': 'ワークライフバランス重視',   
+    'WORK_LIFE_BALANCE_DESC': '持続可能な労働時間と私生活の両立を重視し、バランスの取れた働き方を推奨します。',
+    'WORK_CENTRIC_LABEL': '仕事中心・高強度型',
+    'WORK_CENTRIC_DESC': '高いコミットメントとパフォーマンスを求め、長時間労働や高いエネルギー投入を期待します。',
 
     // Communication Options
-    'TRANSPARENT_LABEL': '透明性／オープンなコミュニケーション',
-    'TRANSPARENT_DESC': '組織のすべてのレベルで誠実で頻繁な包括的なコミュニケーションを促進します。',
-    'DISCREET_LABEL': '慎重／選択的なコミュニケーション',
-    'DISCREET_DESC': '明確さ、管理、機密性を保持するため、情報を戦略的かつ選択的に共有します。',
+    'TRANSPARENT_LABEL': 'オープン・透明なコミュニケーション',
+    'TRANSPARENT_DESC': '組織のあらゆるレベルで誠実かつ頻繁に情報を共有し、包括的な対話を促進します。',
+    'DISCREET_LABEL': '選択的・慎重なコミュニケーション',
+    'DISCREET_DESC': '情報は戦略的かつ選択的に共有し、明確さや統制、機密保持を重視します。',
 
     // Organization Options
-    'STRUCTURED_LABEL': '体系的',
-    'STRUCTURED_DESC': '明確なルール、役割、システムの中で運営され、安定性と明確さを提供します。',
-    'FLEXIBLE_LABEL': '柔軟／適応的',
-    'FLEXIBLE_DESC': '変化に迅速に対応し、曖昧さを受け入れ、必要に応じて計画を柔軟に調整します。',
+    'STRUCTURED_LABEL': '構造的',
+    'STRUCTURED_DESC': '明確なルールや役割、システムの中で安定して業務を進め、不確実性を減らします。',
+    'FLEXIBLE_LABEL': '柔軟・適応型',
+    'FLEXIBLE_DESC': '変化に迅速に対応し、不確実な状況を受け入れ、計画を柔軟に調整します。',
 
     // Buttons
     'CANCEL_BUTTON': 'キャンセル',

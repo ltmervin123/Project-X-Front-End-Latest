@@ -179,7 +179,7 @@ export const TRANSLATIONS = {
   Japanese: {
     // Header translations
     pricing: "料金",
-    explorePlatforms: "プラットフォームを探索",
+    explorePlatforms: "プラットフォーム探索",
     contactUs: "お問い合わせ",
     login: "ログイン",
     signUp: "新規登録",

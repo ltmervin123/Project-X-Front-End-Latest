@@ -267,7 +267,7 @@
 }
 
 .custom-dropdown-ref-req .dropdown-header-ref-req {
-  padding: 5px 30px;
+  padding: 5px 10px;
   border: 1px solid #ccc;
   cursor: pointer;
   border-radius: 50px !important;
@@ -292,6 +292,24 @@
   z-index: 1000;
   border-radius: 0px 0px 10px 10px;
   border-top: none;
+  max-height: 135px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Add custom scrollbar styling for the dropdown */
+.custom-dropdown-ref-req .dropdown-list-ref-req::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-dropdown-ref-req .dropdown-list-ref-req::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 6px;
+}
+
+.custom-dropdown-ref-req .dropdown-list-ref-req::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-radius: 6px;
 }
 
 .custom-dropdown-ref-req .dropdown-item-ref-req {

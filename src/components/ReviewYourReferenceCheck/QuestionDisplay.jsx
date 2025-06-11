@@ -81,7 +81,7 @@ const QuestionDisplay = ({
       newAnswers[currentQuestionIndex] = selectedValues;
       return newAnswers;
     });
-
+    handleUpdateEnhanceAnswer(selectedValues);
     //Update referenceQuestionsData from sessionStorage
     const updatedReferenceQuestionsData = referenceQuestionsData.map((item) => {
       if (item.category === "workEthicAndBehavior") {
