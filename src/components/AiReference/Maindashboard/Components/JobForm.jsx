@@ -194,9 +194,10 @@ const JobFormSection = ({
             {labels.referredBy}
             <span className="color-orange"> *</span>
           </Form.Label>
+
           <Form.Select onChange={(e) => handleSetAgency(e.target.value)}>
             <option value="" disabled selected>
-              {labels.placeholders.selectAgency || "Select Agency"}
+              {labels.placeholders?.selectAgencyDefault || labels.selectAgency}
             </option>
             {agencies.length > 0 ? (
               agencies.map((agency) => (
@@ -206,7 +207,7 @@ const JobFormSection = ({
               ))
             ) : (
               <option value="" disabled>
-                No Agency record
+                {labels.noAgencyRecord}
               </option>
             )}
           </Form.Select>

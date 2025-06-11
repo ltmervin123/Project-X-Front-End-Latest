@@ -17,12 +17,13 @@ const HeroSection = () => {
           "snappcheck-hero-container d-flex align-items-center  w-100 h-100"
         }
       >
-        <Row className="w-100 h-100 d-flex justify-content-center position-relative">
-                      <img src={HeroImg} alt="" />
+        <Row className="w-100 h-100 d-flex justify-content-center ">
+               
 
-          <div className="snappcheck-hero-content d-flex justify-content-center flex-column  gap-4">
+          <div className="snappcheck-hero-content d-flex justify-content-center flex-column position-relative gap-4">
+          <img src={HeroImg} alt="" />
 
-            <h1 className="mb-5 mt-3">
+            <h1 className="mb-5 mt-3 ">
               {t("heroTitle")
                 .split("SNAPPCHECK")
                 .map((part, index, array) => {

@@ -13,6 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import ApplicantFormSection from "./ApplicantForm";
 import JobFormSection from "./JobForm";
 
+
 const AddJobComponent = ({ onCancel, user, labels }) => {
   const [jobName, setJobName] = useState("");
   const [department, setDepartment] = useState("");
