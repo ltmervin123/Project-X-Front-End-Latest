@@ -10,25 +10,21 @@ import HowItWorkImage5 from "../../assets/snappchecklanding/howitwork5.svg";
 import HowItWorkImage6 from "../../assets/snappchecklanding/howitwork6.svg";
 
 // HowItWorksSection functional component
-const HowItWorksSection = () => {
+const HowItWorksSection = ({ isHowItWorksVisible }) => {
   const { t } = useSnappcheckTranslation();
 
   return (
     <>
-      {/* Hero Section Container */}
+      {/* How It Works Section Container */}
       <section
         id="how-it-works"
-        className={
-          "snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 "
-        }
+        className={`snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 fade-in ${
+          isHowItWorksVisible ? "visible" : ""
+        }`}
       >
-
-        <Row className="w-100  snappcheck-left-did-you-know-content">
-          <div className="d-flex justify-content-center align-items-center flex-column ">
-
+        <Row className="w-100 snappcheck-left-did-you-know-content">
+          <div className="d-flex justify-content-center align-items-center flex-column">
             <h3 className="color-grey text-center mb-2">{t('howItWorks')}</h3>
-
-
           </div>
 
           {/* Cards Section */}
@@ -48,15 +44,14 @@ const HowItWorksSection = () => {
                 { img: HowItWorkImage6, title: t('howItWorksStep6') },
               ].map((card, idx) => (
                 <div key={idx} className="how-it-works-card d-flex flex-column align-items-center p-3 m-2">
-                  <div className="how-it-works-card-number mb-2" >{idx + 1}</div>
+                  <div className="how-it-works-card-number mb-2">{idx + 1}</div>
                   <img src={card.img} alt={`how it works step ${idx + 1}`} />
-                  <div className="how-it-works-card-title text-center " >{card.title}</div>
+                  <div className="how-it-works-card-title text-center">{card.title}</div>
                 </div>
               ))}
             </div>
           </div>
         </Row>
-       
       </section>
     </>
   );
