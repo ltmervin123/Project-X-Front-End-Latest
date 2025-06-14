@@ -5,7 +5,6 @@ import Analytics from "./page/AnalyticsPage.jsx";
 import Results from "./page/ResultPage.jsx";
 import ErrorPage from "./page/ErrorPage.jsx";
 import UserProfilePage from "./page/UserProfilePage.jsx";
-import CompanyProfilePage from "./page/AiReferencePage/CompanyProfilePage.jsx";
 import CommingSoonPage from "./page/CommingSoonPage.jsx";
 import PersistLogin from "./components/session/userSession";
 import RequireAuthAdmin from "./components/session/requireAuthAdmin.jsx";
@@ -47,6 +46,8 @@ import AiReferenceQuestionPage from "./page/AiReferencePage/AiReferenceQuestionP
 import AiReferenceAgencyPartnersPage from "./page/AiReferencePage/AiReferenceAgencyPartnersPage.jsx";
 import AiReferenceReportsPage from "./page/AiReferencePage/AiReferenceReportsPage.jsx";
 import AiReferenceTrashBinPage from "./page/AiReferencePage/AiReferenceTrashBinPage.jsx";
+import CompanyProfilePage from "./page/AiReferencePage/CompanyProfilePage.jsx";
+import CompanyCulturePage from "./page/AiReferencePage/CompanyCulturePage.jsx";
 import CandidateRequestEmailPage from "./page/AiReferencePage/CandidateRequestEmailPage.jsx";
 import ReminderCandidateRequestEmailPage from "./page/AiReferencePage/ReminderCandidateRequestEmailPage.jsx";
 import ReferenceRequestResendEmailPage from "./page/AiReferencePage/ReferenceRequestResendEmailPage.jsx";
@@ -119,7 +120,9 @@ function App() {
               element={<AiReferenceMainDashboardPage />}
             />
             <Route path="/company-profile" element={<CompanyProfilePage />} />
+            <Route path="/edit-company-culture-fit" element={<CompanyCulturePage />} />
 
+            
             <Route
               path="/ai-reference-jobs"
               element={<AiReferenceJobsPage />}
