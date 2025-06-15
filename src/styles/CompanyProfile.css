@@ -60,7 +60,17 @@
 .company-profile-container .form-label{
     font-weight: 500;
 }
+.company-info-container .btn-update-company-profile{
+    width: 200px;
+    background: var(--secondary-color);
+    border-radius: 50px !important;
+    border: none;
+    color: var(--font-white);
 
+    padding: 5px 20px;
+    font-size: 14px;
+
+}
 .company-info-container .btn-update-sub-plan {
     width: 200px;
     background: var(--subscription-btn);
@@ -109,10 +119,14 @@
     height: 250px;
     border-radius: 50%;
     background: #68686858;
+    position: relative;
 }
 
 .company-default-img {
     width: 60%;
+    object-fit: cover;
+        overflow: hidden;
+
 }
 
 .btn-change-pass {
@@ -133,7 +147,9 @@ color: var(--font-white);
 }
 
 .upload-icon {
+    position: absolute !important;
     top: 5px;
+    z-index: 1000;
     right: 7px;
     height: 60px;
     width: 60px;
@@ -193,7 +209,7 @@ color: var(--font-white);
     color: #f46a05;
     border: 1px solid #f46a05;
     border-radius: 16px;
-    width: 120px;
+    width: auto;
     text-align: center;
     padding: 2px 12px;
     font-size: 13px;
@@ -383,4 +399,4 @@ color: var(--font-white);
   
   .company-profile-container .custom-dropdown-options::-webkit-scrollbar-thumb:hover {
     background: #f46905a5;
-  } 
+  }

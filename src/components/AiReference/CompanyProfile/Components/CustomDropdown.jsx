@@ -23,9 +23,8 @@ const CustomDropdown = ({ options, value, onChange, placeholder }) => {
   const selectedOption = options.find(opt => opt.value === value);
 
   return (
-    <div className="custom-dropdown" ref={dropdownRef}>
-      <div 
-        className={`custom-dropdown-header ${isOpen ? 'open' : ''}`}
+    <div className="custom-dropdown" ref={dropdownRef}>      <div 
+        className="custom-dropdown-header"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{selectedOption ? selectedOption.label : placeholder}</span>
