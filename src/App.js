@@ -119,10 +119,9 @@ function App() {
               path="/ai-reference-dashboard"
               element={<AiReferenceMainDashboardPage />}
             />
-            <Route path="/company-profile" element={<CompanyProfilePage />} />
-            <Route path="/edit-company-culture-fit" element={<CompanyCulturePage />} />
+            <Route path="/profile" element={<CompanyProfilePage />} />
+            <Route path="/update-culture" element={<CompanyCulturePage />} />
 
-            
             <Route
               path="/ai-reference-jobs"
               element={<AiReferenceJobsPage />}
@@ -263,7 +262,10 @@ function App() {
           element={<CompanyExpiredLink />}
         />
 
-        <Route path="/company-created-account" element={<CompanyCreatedAccountPage />} />
+        <Route
+          path="/company-created-account"
+          element={<CompanyCreatedAccountPage />}
+        />
 
         <Route path="/forgotpassword" element={<Forgotpassword />} />
 

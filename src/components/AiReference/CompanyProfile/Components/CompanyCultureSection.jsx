@@ -1,90 +1,98 @@
-import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import AddCreditsPopUp from '../../Maindashboard/PopUpComponents/AddCreditsPopUp';
+import React, { useState } from "react";
+import { Row, Col } from "react-bootstrap";
+import AddCreditsPopUp from "../../Maindashboard/PopUpComponents/AddCreditsPopUp";
 
-const CompanyCultureSection = ({ labels }) => {
-  const navigate = useNavigate();
+const CompanyCultureSection = ({
+  labels,
+  handleEditCulture,
+  formData,
+  avatar,
+  selectedCulture,
+  companyProfile,
+  defaultAvatar,
+}) => {
   const [showAddCredits, setShowAddCredits] = useState(false);
-
-  const handleEditCulture = () => {
-    navigate('/edit-company-culture-fit');
-  };
-
   const handleShowAddCredits = () => {
     setShowAddCredits(true);
   };
 
-  const cultureTagsGroups = [
-    [
-      'FAST_PACED_LABEL',
-      'COLLABORATIVE_LABEL',
-      'STRUCTURED_LABEL'
-    ],
-    [
-      'INNOVATIVE_LABEL',
-      'TRANSPARENT_LABEL',
-      'WORK_LIFE_BALANCE_LABEL'
-    ]
-  ];
+  const isFormChanged =
+    companyProfile.name !== formData?.companyName?.trim() ||
+    companyProfile.country !== formData?.country?.trim() ||
+    companyProfile.cities !== formData?.cities?.trim() ||
+    companyProfile.email !== formData?.email?.trim() ||
+    defaultAvatar !== avatar;
 
-  // Check if any culture tags are selected and have valid values
-  const isAnyTagSelected = cultureTagsGroups.flat().some(tag => {
-    const tagValue = labels?.companyInfo?.[tag];
-    return tagValue && tagValue.trim() !== '';
-  });
+  const isFieldEmpthy =
+    formData?.companyName?.trim() === "" ||
+    formData?.country?.trim() === "" ||
+    formData?.cities?.trim() === "" ||
+    formData?.email?.trim() === "";
 
-  console.log('Culture tags status:', {
-    isAnyTagSelected,
-    tagValues: cultureTagsGroups.flat().map(tag => ({
-      tag,
-      value: labels?.companyInfo?.[tag]
-    }))
-  });
+  const isDisabled = isFieldEmpthy || !isFormChanged;
+  const handleOnUpdate = () => {
+    alert("Profile updated!");
+  };
 
   return (
     <Row className="company-info-container mt-1">
       <Col md={7}>
         <div className="company-culture-subscription">
           <div className="company-culture">
-            <div className="culture-title">{labels.companyInfo.companyCulture}</div>
-            {cultureTagsGroups.map((group, groupIndex) => (
-              <div key={groupIndex} className="culture-tags">
-                {group.map((tag) => (
-                  labels.companyInfo[tag] && (
-                    <span key={tag} className="culture-tag">
-                      {labels.companyInfo[tag]}
-                    </span>
-                  )
-                ))}
+            <div className="culture-title">
+              {labels.companyInfo.companyCulture}
+            </div>
+
+            {selectedCulture.map((item, index) => (
+              <div key={index} className="culture-tags">
+                <span key={index} className="culture-tag">
+                  {item?.label}
+                </span>
               </div>
             ))}
           </div>
           <div className="subscription-section mt-3">
             <div className="subscription-title">
               {labels.companyInfo.subscription}
-              <span className="subscription-status active">{labels.companyInfo.active}</span>
+              <span className="subscription-status active">
+                {labels.companyInfo.active}
+              </span>
             </div>
             <div className="subscription-bar-container">
               <div className="subscription-bar">
-                <div className="subscription-bar-fill" style={{ width: "60%" }}></div>
+                <div
+                  className="subscription-bar-fill"
+                  style={{ width: "60%" }}
+                ></div>
               </div>
               <div className="subscription-plan d-flex justify-content-between align-items-center">
-                {labels.companyInfo.starterPlan} <span className="subscription-progress">3/5 {labels.companyInfo.referenceChecks}</span>
+                {labels.companyInfo.starterPlan}{" "}
+                <span className="subscription-progress">
+                  3/5 {labels.companyInfo.referenceChecks}
+                </span>
               </div>
             </div>
           </div>
         </div>
       </Col>
-      <Col md={5} className="d-flex align-items-center justify-content-center flex-column gap-3">
-        <button 
-          type="submit" 
-          className={`btn-update-company-profile ${!isAnyTagSelected ? 'disabled' : ''}`}
-          disabled={!isAnyTagSelected}
+      <Col
+        md={5}
+        className="d-flex align-items-center justify-content-center flex-column gap-3"
+      >
+        <button
+          type="submit"
+          className={`btn-update-company-profile ${
+            isDisabled ? "opacity-50" : ""
+          }`}
+          onClick={handleOnUpdate}
+          disabled={isDisabled}
         >
           {labels.companyInfo.updateProfile}
         </button>
-        <button className="btn-edit-company-culture" onClick={handleEditCulture}>
+        <button
+          className="btn-edit-company-culture"
+          onClick={handleEditCulture}
+        >
           {labels.companyInfo.editCulture}
         </button>
         <button className="btn-update-sub-plan" onClick={handleShowAddCredits}>
@@ -92,9 +100,9 @@ const CompanyCultureSection = ({ labels }) => {
         </button>
       </Col>
       {showAddCredits && (
-        <AddCreditsPopUp 
+        <AddCreditsPopUp
           onClose={() => setShowAddCredits(false)}
-          currentBalance={0} // You may want to pass the actual current balance here
+          currentBalance={0}
         />
       )}
     </Row>
