@@ -1,50 +1,54 @@
 import React, { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../../styles/CompanyStyles/CompanyRegistrationForm.css";
-import { Form, Button } from 'react-bootstrap';
-
+import { Form, Button } from "react-bootstrap";
 import { useCultureOptions } from "./hooks/useCultureOption";
 import { useCompanyCulture } from "./hooks/useCompanyCulture";
+import { formatSelectedCulture } from "./utils/helper";
+import { useUpdateCulture } from "../../../hook/useCompany";
 
-const CompanyCultureSection = ({
-  onClose,
-  initialSelectedCultures = {},
-  onSubmit,
-}) => {
+const CompanyCultureSection = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
   const { cultureOptions } = useCultureOptions();
   const { t } = useCompanyCulture();
-  const [selectedCultures, setSelectedCultures] = useState(initialSelectedCultures);
-
-  const handleCultureChange = useCallback(
-    (culture, section, options) => {
-      setSelectedCultures((prev) => ({
-        ...prev,
-        [section]: prev[section]?.label === options.label ? null : options,
-      }));
-    },
-    []
+  const [selectedCultures, setSelectedCultures] = useState({});
+  const { mutate: UpdateCulture, isPending: isUpdating } = useUpdateCulture(
+    user,
+    {
+      onSettled: () => onCancel(),
+    }
   );
 
+  const handleCultureChange = useCallback((culture, section, options) => {
+    setSelectedCultures((prev) => ({
+      ...prev,
+      [section]: prev[section]?.label === options.label ? null : options,
+    }));
+  }, []);
+
   const isAllCategoriesSelected = useMemo(() => {
-    if (!selectedCultures || typeof selectedCultures !== 'object' || !cultureOptions) return false;
+    if (
+      !selectedCultures ||
+      typeof selectedCultures !== "object" ||
+      !cultureOptions
+    )
+      return false;
     return Object.keys(cultureOptions).every(
-      (section) => selectedCultures[section] !== undefined && selectedCultures[section] !== null
+      (section) =>
+        selectedCultures[section] !== undefined &&
+        selectedCultures[section] !== null
     );
   }, [cultureOptions, selectedCultures]);
   const onCancel = useCallback(() => {
     setSelectedCultures({});
-    if (onClose) {
-      onClose();
-    }
-  }, [onClose]);
+    navigate("/profile");
+  }, [navigate]);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (onSubmit) {
-      onSubmit(selectedCultures);
-    }
-    if (onClose) {
-      onClose();
-    }
+    const selectedCulture = formatSelectedCulture(selectedCultures);
+    await UpdateCulture(selectedCulture);
   };
 
   const getSectionTranslation = (section) => {
@@ -68,7 +72,10 @@ const CompanyCultureSection = ({
 
   return (
     <div className="culture-page-container d-flex align-items-center justify-content-center">
-      <Form onSubmit={handleFormSubmit} className="company-culture-section d-flex align-items-center justify-content-center flex-column">
+      <Form
+        onSubmit={handleFormSubmit}
+        className="company-culture-section d-flex align-items-center justify-content-center flex-column"
+      >
         <div className="company-culture-header">
           <p className="company-culture-title">{t("CULTURE_TITLE")}</p>
           <p className="company-culture-subtitle mb-2">
@@ -91,64 +98,79 @@ const CompanyCultureSection = ({
                 <Form.Label className="company-culture-option-title mb-2">
                   {getSectionTranslation(section)}
                 </Form.Label>
-                {options && Object.entries(options).map(([key, { label, desc }]) => {
-                  const isChecked = selectedCultures[section]?.label === t(getOptionTranslationKey(key, section));
-                  return (
-                    <div
-                      key={key}
-                      className="form-check company-culture-card d-flex align-items-start gap-2 justify-content-center mb-3"
-                      style={{ cursor: 'pointer' }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleCultureChange(key, section, {
-                          label: t(getOptionTranslationKey(key, section)),
-                          desc: t(getDescriptionTranslationKey(key, section)),
-                        });
-                      }}
-                    >
-                      <Form.Group>
-                        <Form.Check
-                          type="checkbox"
-                          className="checkbox-container"
-                          id={key}
-                          checked={isChecked}
-                          onChange={() => {}} // Keep empty onChange to prevent React warning
-                          onClick={(e) => e.stopPropagation()} // Prevent double triggering when clicking directly on checkbox
-                        />
-                      </Form.Group>
+                {options &&
+                  Object.entries(options).map(([key, { label, desc }]) => {
+                    const isChecked =
+                      selectedCultures[section]?.label ===
+                      t(getOptionTranslationKey(key, section));
+                    return (
+                      <div
+                        key={key}
+                        className="form-check company-culture-card d-flex align-items-start gap-2 justify-content-center mb-3"
+                        style={{ cursor: "pointer" }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleCultureChange(key, section, {
+                            label: t(getOptionTranslationKey(key, section)),
+                            desc: t(getDescriptionTranslationKey(key, section)),
+                          });
+                        }}
+                      >
+                        <Form.Group>
+                          <Form.Check
+                            type="checkbox"
+                            className="checkbox-container"
+                            id={key}
+                            checked={isChecked}
+                            onChange={() => {}}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </Form.Group>
 
-                      <Form.Label htmlFor={key} className="mb-3" style={{ cursor: 'pointer' }}>
-                        <p className="company-culture-option-label">
-                          {t(getOptionTranslationKey(key, section))}
-                        </p>
-                        <p className="company-culture-option-description">
-                          {t(getDescriptionTranslationKey(key, section))}
-                        </p>
-                      </Form.Label>
-                    </div>
-                  );
-                })}
+                        <Form.Label
+                          htmlFor={key}
+                          className="mb-3"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <p className="company-culture-option-label">
+                            {t(getOptionTranslationKey(key, section))}
+                          </p>
+                          <p className="company-culture-option-description">
+                            {t(getDescriptionTranslationKey(key, section))}
+                          </p>
+                        </Form.Label>
+                      </div>
+                    );
+                  })}
               </Form.Group>
             </div>
           ))}
         </div>
 
         <div className="d-flex justify-content-center gap-3 mt-4">
-          <Button 
-            variant="secondary" 
-            type="button" 
-            className="btn-cancel" 
+          <Button
+            variant="secondary"
+            type="button"
+            className={`btn-cancel ${isUpdating ? "opacity-50" : ""}`}
             onClick={onCancel}
+            disabled={isUpdating}
           >
             {t("CANCEL_BUTTON")}
           </Button>
           <Button
             variant="primary"
             type="submit"
-            className="btn-submit"
-            disabled={!isAllCategoriesSelected}
+            className={`btn-submit ${isUpdating ? "opacity-50" : ""}`}
+            disabled={!isAllCategoriesSelected || isUpdating}
           >
-            {t("SUBMIT_BUTTON")}
+            {isUpdating ? (
+              <div
+                className="spinner-border spinner-border-sm text-light"
+                role="status"
+              />
+            ) : (
+              t("SUBMIT_BUTTON")
+            )}
           </Button>
         </div>
       </Form>

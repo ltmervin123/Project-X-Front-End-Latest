@@ -63,7 +63,7 @@ function Header() {
               className="dropdown-header d-flex align-items-center justify-content-center gap-1"
             >
               <img src={defaultAvatar} alt="User Avatar" />
-              {/* Conditional rendering of the username */}
+
               {user ? (
                 <>
                   <p className="user-name">{username}</p>
@@ -76,18 +76,12 @@ function Header() {
             <Dropdown.Menu className="dropdown-menu-end">
               <Dropdown.Item
                 as={NavLink}
-                to="/company-profile#personal-info"
+                to="/profile"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 {t.profile}
               </Dropdown.Item>
-              {/* <Dropdown.Item
-                as={NavLink}
-                to="/comingsoon"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                {t.settings}
-              </Dropdown.Item> */}
+
               <Dropdown.Item
                 as={NavLink}
                 to="/login"

@@ -2,17 +2,17 @@ import React, { useEffect, useCallback, useState } from "react";
 import { Form, Row, Col, Image } from "react-bootstrap";
 import { capitalizeWords } from "../utils/helper";
 
-import defaultAvatar from "../../../../assets/default.png";
-
-const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
-  const [countries, setCountries] = useState([]);
-  const [formData, setFormData] = useState({
-    companyName: "",
-    country: "",
-    cities: "",
-    email: "",
-  });
-
+const CompanyInfo = ({
+  labels,
+  setCountries,
+  setFormData,
+  formData,
+  setAvatar,
+  countries,
+  avatar,
+  isUpdating,
+  setCompanyProfilePicture,
+}) => {
   useEffect(() => {
     const loadCountries = async () => {
       try {
@@ -43,8 +43,36 @@ const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
     console.log("Form submitted:", formData);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const allowedTypes = ["image/png", "image/jpeg"];
+    const maxSize = 2 * 1024 * 1024;
+
+    if (!file) {
+      alert("Please select an image file.");
+      return;
+    }
+
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only PNG or JPEG images are allowed.");
+      return;
+    }
+
+    if (file.size > maxSize) {
+      alert("Image size should be less than 2MB.");
+      return;
+    }
+
+    setCompanyProfilePicture(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatar(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const selectedCountryData = countries.find(
@@ -64,10 +92,11 @@ const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleChange}
+                disabled={isUpdating}
               />
             </Form.Group>
 
-            <Row >
+            <Row>
               <Form.Group controlId="formAddress">
                 <Form.Label htmlFor="city" className="mb-1">
                   {labels.companyInfo.location || "Location"}
@@ -79,9 +108,10 @@ const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
                       value={formData.cities}
                       onChange={handleChange}
                       id="city"
+                      disabled={isUpdating}
                     >
-                      <option value="">
-                        {labels.companyInfo.selectCity }
+                      <option value="" disabled>
+                        {labels.companyInfo.selectCity}
                       </option>
                       {Array.from(
                         new Set(
@@ -100,8 +130,9 @@ const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
                       value={formData.country}
                       onChange={handleChange}
                       id="country"
+                      disabled={isUpdating}
                     >
-                      <option value="">
+                      <option value="" disabled>
                         {labels.companyInfo.selectCountry}
                       </option>
                       {countries.map((country) => (
@@ -123,6 +154,7 @@ const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={isUpdating}
               />
             </Form.Group>
           </div>
@@ -132,18 +164,20 @@ const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
           md={5}
           className="d-flex align-items-center justify-content-center"
         >
-          <div className="avatar-container d-flex justify-content-center position-relative">
-            <Image
-              src={avatar || defaultAvatar}
-              className="company-default-img"
-            />
-            <div className="upload-icon d-flex align-items-center justify-content-center">
+          <div
+            className={`avatar-container d-flex justify-content-center position-relative ${
+              isUpdating ? "opacity-50" : ""
+            }`}
+          >
+            <Image src={avatar} className="company-default-img" />
+            <div className="upload-icon d-flex align-items-center justify-content-center z-1">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
                 style={{ display: "none" }}
                 id="avatar-upload"
+                disabled={isUpdating}
               />
               <label
                 htmlFor="avatar-upload"
@@ -170,4 +204,4 @@ const CompanyInfoSection = ({ labels, avatar, handleFileChange }) => {
   );
 };
 
-export default CompanyInfoSection;
+export default CompanyInfo;

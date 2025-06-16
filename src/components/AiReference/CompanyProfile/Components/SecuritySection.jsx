@@ -1,8 +1,14 @@
-import React from 'react';
-import { Form, Row } from 'react-bootstrap';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState } from "react";
+import { Form, Row } from "react-bootstrap";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const SecuritySection = ({ labels, showPassword, password, setPassword, togglePasswordVisibility }) => {
+const SecuritySection = ({ labels }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Row className="security-container">
       <Form className="d-flex flex-column gap-3">
@@ -19,17 +25,14 @@ const SecuritySection = ({ labels, showPassword, password, setPassword, togglePa
               type="button"
               className="btn position-absolute end-0 top-50 translate-middle-y"
               onClick={togglePasswordVisibility}
-              style={{ background: 'none', border: 'none', padding: '0 10px' }}
+              style={{ background: "none", border: "none", padding: "0 10px" }}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </Form.Group>
 
-        <button 
-          className="btn-change-pass" 
-          disabled={!password.trim()}
-        >
+        <button className="btn-change-pass" disabled={!password.trim()}>
           {labels.security.changePassword}
         </button>
       </Form>
@@ -37,4 +40,4 @@ const SecuritySection = ({ labels, showPassword, password, setPassword, togglePa
   );
 };
 
-export default SecuritySection; 
+export default SecuritySection;
