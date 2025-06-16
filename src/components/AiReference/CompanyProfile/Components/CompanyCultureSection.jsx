@@ -6,10 +6,11 @@ const CompanyCultureSection = ({
   labels,
   handleEditCulture,
   formData,
-  avatar,
   selectedCulture,
   companyProfile,
-  defaultAvatar,
+  handleUpdateProfile,
+  isUpdating = false,
+  companyProfilePicture,
 }) => {
   const [showAddCredits, setShowAddCredits] = useState(false);
   const handleShowAddCredits = () => {
@@ -21,7 +22,7 @@ const CompanyCultureSection = ({
     companyProfile.country !== formData?.country?.trim() ||
     companyProfile.cities !== formData?.cities?.trim() ||
     companyProfile.email !== formData?.email?.trim() ||
-    defaultAvatar !== avatar;
+    companyProfilePicture !== null;
 
   const isFieldEmpthy =
     formData?.companyName?.trim() === "" ||
@@ -31,7 +32,7 @@ const CompanyCultureSection = ({
 
   const isDisabled = isFieldEmpthy || !isFormChanged;
   const handleOnUpdate = () => {
-    alert("Profile updated!");
+    handleUpdateProfile();
   };
 
   return (
@@ -82,20 +83,34 @@ const CompanyCultureSection = ({
         <button
           type="submit"
           className={`btn-update-company-profile ${
-            isDisabled ? "opacity-50" : ""
+            isDisabled || isUpdating ? "opacity-50" : ""
           }`}
           onClick={handleOnUpdate}
-          disabled={isDisabled}
+          disabled={isDisabled || isUpdating}
         >
-          {labels.companyInfo.updateProfile}
+          {isUpdating ? (
+            <div
+              className="spinner-border spinner-border-sm text-light"
+              role="status"
+            />
+          ) : (
+            labels.companyInfo.updateProfile
+          )}
         </button>
         <button
-          className="btn-edit-company-culture"
+          className={`btn-edit-company-culture ${
+            isUpdating ? "opacity-50" : ""
+          }`}
+          disabled={isUpdating}
           onClick={handleEditCulture}
         >
           {labels.companyInfo.editCulture}
         </button>
-        <button className="btn-update-sub-plan" onClick={handleShowAddCredits}>
+        <button
+          className={`btn-update-sub-plan ${isUpdating ? "opacity-50" : ""}`}
+          disabled={isUpdating}
+          onClick={handleShowAddCredits}
+        >
           {labels.companyInfo.updatePlan}
         </button>
       </Col>

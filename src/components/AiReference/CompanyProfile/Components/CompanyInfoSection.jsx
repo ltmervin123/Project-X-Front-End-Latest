@@ -10,6 +10,8 @@ const CompanyInfo = ({
   setAvatar,
   countries,
   avatar,
+  isUpdating,
+  setCompanyProfilePicture,
 }) => {
   useEffect(() => {
     const loadCountries = async () => {
@@ -64,6 +66,8 @@ const CompanyInfo = ({
       return;
     }
 
+    setCompanyProfilePicture(file);
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setAvatar(reader.result);
@@ -88,6 +92,7 @@ const CompanyInfo = ({
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleChange}
+                disabled={isUpdating}
               />
             </Form.Group>
 
@@ -103,6 +108,7 @@ const CompanyInfo = ({
                       value={formData.cities}
                       onChange={handleChange}
                       id="city"
+                      disabled={isUpdating}
                     >
                       <option value="" disabled>
                         {labels.companyInfo.selectCity}
@@ -124,6 +130,7 @@ const CompanyInfo = ({
                       value={formData.country}
                       onChange={handleChange}
                       id="country"
+                      disabled={isUpdating}
                     >
                       <option value="" disabled>
                         {labels.companyInfo.selectCountry}
@@ -147,6 +154,7 @@ const CompanyInfo = ({
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                disabled={isUpdating}
               />
             </Form.Group>
           </div>
@@ -156,7 +164,11 @@ const CompanyInfo = ({
           md={5}
           className="d-flex align-items-center justify-content-center"
         >
-          <div className="avatar-container d-flex justify-content-center position-relative">
+          <div
+            className={`avatar-container d-flex justify-content-center position-relative ${
+              isUpdating ? "opacity-50" : ""
+            }`}
+          >
             <Image src={avatar} className="company-default-img" />
             <div className="upload-icon d-flex align-items-center justify-content-center z-1">
               <input
@@ -165,6 +177,7 @@ const CompanyInfo = ({
                 onChange={handleFileChange}
                 style={{ display: "none" }}
                 id="avatar-upload"
+                disabled={isUpdating}
               />
               <label
                 htmlFor="avatar-upload"

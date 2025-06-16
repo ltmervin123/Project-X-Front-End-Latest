@@ -3,14 +3,21 @@ import { useNavigate } from "react-router";
 import CompanyInfo from "../Components/CompanyInfoSection";
 import CompanyCultureSection from "../Components/CompanyCultureSection";
 import defaultAvatar from "../../../../assets/default.png";
-import { useGetProfile } from "../../../../hook/useCompany";
+import { useGetProfile, useUpdateCandidate } from "../../../../hook/useCompany";
 const CompanyInfoSection = ({ labels, user }) => {
   const navigate = useNavigate();
+  const [companyProfilePicture, setCompanyProfilePicture] = useState(null);
+  const [countries, setCountries] = useState([]);
   const { data: companyProfile = {}, isPending } = useGetProfile(user);
   const [avatar, setAvatar] = useState(
     companyProfile?.profileImageURL || defaultAvatar
   );
-  const [countries, setCountries] = useState([]);
+  const { mutate: UpdateProfile, isPending: isUpdating } = useUpdateCandidate(
+    user,
+    {
+      onSettled: () => setCompanyProfilePicture(null),
+    }
+  );
 
   const [formData, setFormData] = useState({
     companyName: companyProfile?.name || "",
@@ -27,11 +34,22 @@ const CompanyInfoSection = ({ labels, user }) => {
         cities: companyProfile.cities,
         email: companyProfile.email,
       });
+      setAvatar(companyProfile?.profileImageURL || defaultAvatar);
     }
   }, [companyProfile]);
 
   const handleEditCulture = () => {
     navigate("/update-culture");
+  };
+
+  const handleUpdateProfile = async () => {
+    const updatedData = new FormData();
+    updatedData.append("name", formData.companyName);
+    updatedData.append("country", formData.country);
+    updatedData.append("cities", formData.cities);
+    updatedData.append("email", formData.email);
+    updatedData.append("companyProfilePicture", companyProfilePicture);
+    await UpdateProfile(updatedData);
   };
 
   return (
@@ -43,16 +61,19 @@ const CompanyInfoSection = ({ labels, user }) => {
         formData={formData}
         setAvatar={setAvatar}
         countries={countries}
+        isUpdating={isUpdating}
         avatar={avatar}
+        setCompanyProfilePicture={setCompanyProfilePicture}
       />
       <CompanyCultureSection
         labels={labels}
         handleEditCulture={handleEditCulture}
         formData={formData}
-        avatar={avatar}
         companyProfile={companyProfile}
         selectedCulture={companyProfile.selectedCulture || []}
-        defaultAvatar={defaultAvatar}
+        handleUpdateProfile={handleUpdateProfile}
+        isUpdating={isUpdating}
+        companyProfilePicture={companyProfilePicture}
       />
     </div>
   );
