@@ -381,7 +381,17 @@ color: var(--font-white);
     background-color: #fff3e0;
     color: var(--primary-color);
   }
-  
+  .company-profile-container .invalid-password {
+    color: red;
+
+  }
+  .company-profile-container .invalid-pass.form-control{
+    color: red;
+    border-color: red;
+  }
+  .btn-hide-unhide.invalid-pass > svg{
+    fill: red;
+  }
   /* Custom scrollbar for the options */
   .company-profile-container .custom-dropdown-options::-webkit-scrollbar {
     width: 6px;

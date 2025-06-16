@@ -41,6 +41,15 @@ const labels = {
     security: {
       password: "Password",
       changePassword: "Change Password",
+      currentPassword: "Current Password",
+      newPassword: "New Password",
+      confirmPassword: "Confirm Password",
+      enterCurrentPassword: "Enter current password",
+      enterNewPassword: "Enter new password",
+      confirmNewPassword: "Confirm new password",
+      passwordsDoNotMatch: "Passwords do not match",
+      incorrectCurrentPassword: "Current password is incorrect",
+      passwordChanged: "Password changed successfully"
     },
     preferences: {
       selectLanguage: "Select a Language",
@@ -90,6 +99,15 @@ const labels = {
     security: {
       password: "パスワード",
       changePassword: "パスワードを変更",
+      currentPassword: "現在のパスワード",
+      newPassword: "新しいパスワード",
+      confirmPassword: "パスワードの確認",
+      enterCurrentPassword: "現在のパスワードを入力",
+      enterNewPassword: "新しいパスワードを入力",
+      confirmNewPassword: "新しいパスワードを確認",
+      passwordsDoNotMatch: "パスワードが一致しません",
+      incorrectCurrentPassword: "現在のパスワードが正しくありません",
+      passwordChanged: "パスワードが正常に変更されました"
     },
     preferences: {
       selectLanguage: "言語を選択",
