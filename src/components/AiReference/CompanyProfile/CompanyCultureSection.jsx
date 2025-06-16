@@ -4,12 +4,21 @@ import "../../../styles/CompanyStyles/CompanyRegistrationForm.css";
 import { Form, Button } from "react-bootstrap";
 import { useCultureOptions } from "./hooks/useCultureOption";
 import { useCompanyCulture } from "./hooks/useCompanyCulture";
+import { formatSelectedCulture } from "./utils/helper";
+import { useUpdateCulture } from "../../../hook/useCompany";
 
 const CompanyCultureSection = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const { cultureOptions } = useCultureOptions();
   const { t } = useCompanyCulture();
   const [selectedCultures, setSelectedCultures] = useState({});
+  const { mutate: UpdateCulture, isPending: isUpdating } = useUpdateCulture(
+    user,
+    {
+      onSettled: () => onCancel(),
+    }
+  );
 
   const handleCultureChange = useCallback((culture, section, options) => {
     setSelectedCultures((prev) => ({
@@ -36,10 +45,10 @@ const CompanyCultureSection = () => {
     navigate("/profile");
   }, [navigate]);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    navigate("/profile");
+    const selectedCulture = formatSelectedCulture(selectedCultures);
+    await UpdateCulture(selectedCulture);
   };
 
   const getSectionTranslation = (section) => {
@@ -113,8 +122,8 @@ const CompanyCultureSection = () => {
                             className="checkbox-container"
                             id={key}
                             checked={isChecked}
-                            onChange={() => {}} // Keep empty onChange to prevent React warning
-                            onClick={(e) => e.stopPropagation()} // Prevent double triggering when clicking directly on checkbox
+                            onChange={() => {}}
+                            onClick={(e) => e.stopPropagation()}
                           />
                         </Form.Group>
 
@@ -142,18 +151,26 @@ const CompanyCultureSection = () => {
           <Button
             variant="secondary"
             type="button"
-            className="btn-cancel"
+            className={`btn-cancel ${isUpdating ? "opacity-50" : ""}`}
             onClick={onCancel}
+            disabled={isUpdating}
           >
             {t("CANCEL_BUTTON")}
           </Button>
           <Button
             variant="primary"
             type="submit"
-            className="btn-submit"
-            disabled={!isAllCategoriesSelected}
+            className={`btn-submit ${isUpdating ? "opacity-50" : ""}`}
+            disabled={!isAllCategoriesSelected || isUpdating}
           >
-            {t("SUBMIT_BUTTON")}
+            {isUpdating ? (
+              <div
+                className="spinner-border spinner-border-sm text-light"
+                role="status"
+              />
+            ) : (
+              t("SUBMIT_BUTTON")
+            )}
           </Button>
         </div>
       </Form>

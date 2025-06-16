@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import CompanyInfo from "../Components/CompanyInfoSection";
 import CompanyCultureSection from "../Components/CompanyCultureSection";
 import defaultAvatar from "../../../../assets/default.png";
-import { useGetProfile, useUpdateCandidate } from "../../../../hook/useCompany";
+import { useGetProfile, useUpdateCompany } from "../../../../hook/useCompany";
 const CompanyInfoSection = ({ labels, user }) => {
   const navigate = useNavigate();
   const [companyProfilePicture, setCompanyProfilePicture] = useState(null);
@@ -12,7 +12,7 @@ const CompanyInfoSection = ({ labels, user }) => {
   const [avatar, setAvatar] = useState(
     companyProfile?.profileImageURL || defaultAvatar
   );
-  const { mutate: UpdateProfile, isPending: isUpdating } = useUpdateCandidate(
+  const { mutate: UpdateProfile, isPending: isUpdating } = useUpdateCompany(
     user,
     {
       onSettled: () => setCompanyProfilePicture(null),
