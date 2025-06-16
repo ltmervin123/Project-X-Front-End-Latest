@@ -1,20 +1,16 @@
 import axios from "axios";
 const API = process.env.REACT_APP_API_URL;
 
-export const addCandidate = async (user, payload) => {
-  const token = user?.token || null;
-  const URL = `${API}/api/ai-referee/company-candidates/create-candidate`;
-  const response = await axios.post(
-    URL,
-    { payload },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return response.data;
+export const updateProfile = async (params) => {
+  const { token = null } = params?.user;
+  const { updatedData } = params;
+  console.log("Updating profile with data:", updatedData);
+  const URL = `${API}/api/ai-referee/company-profile`;
+  await axios.post(URL, updatedData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const getProfile = async (user) => {
