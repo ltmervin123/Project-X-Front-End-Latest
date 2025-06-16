@@ -1,5 +1,8 @@
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { getProfile } from "../api/ai-reference/company/company-api";
+import {
+  getProfile,
+  updateProfile,
+} from "../api/ai-reference/company/company-api";
 
 export const useGetProfile = (user) => {
   return useQuery({
@@ -11,13 +14,16 @@ export const useGetProfile = (user) => {
   });
 };
 
-export const useCreateCandidate = (user, options = {}) => {
-  const { onSuccess } = options;
-
+export const useUpdateCandidate = (user, option = {}) => {
+  const queryClient = useQueryClient();
+  const { onSettled } = option;
   return useMutation({
-    mutationFn: async (payload) => {
-      //   await addCandidate(user, payload);
+    mutationFn: async (updatedData) => {
+      await updateProfile({ user, updatedData });
     },
-    onSuccess: onSuccess,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["company"] });
+    },
+    onSettled: onSettled,
   });
 };
