@@ -3,7 +3,7 @@ import { Row, Col, Carousel } from "react-bootstrap";
 import KeyInsights from "../../assets/snappchecklanding/key-insights.svg";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 
-const KeyInsightsSection = () => {
+const KeyInsightsSection = ({ isKeyInsightsVisible }) => {
     const { t, language } = useSnappcheckTranslation();
 
     const insights = [
@@ -31,8 +31,11 @@ const KeyInsightsSection = () => {
 
     return (
         <section
-        id="key-insights"
-        className="snappcheck-key-insights-container d-flex align-items-center w-100">
+            id="key-insights"
+            className={`snappcheck-key-insights-container d-flex align-items-center w-100 fade-in ${
+                isKeyInsightsVisible ? "visible" : ""
+            }`}
+        >
             <Row className="w-100 snappcheck-left-content">
                 <Col md={6}>
                     <h3 className="color-grey mb-2">{t('keyInsights')}</h3>
@@ -54,8 +57,7 @@ const KeyInsightsSection = () => {
                         )}
                     </h2>
                 </Col>
-                <Col md={6}>
-                </Col>
+                <Col md={6} />
 
                 <Row className="align-items-center w-100 p-0 pb-5">
                     <Col md={6} className="mb-4 mb-md-0">

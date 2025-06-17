@@ -50,7 +50,7 @@
 .snappcheck-platforms-container  .row,
 .snappcheck-did-you-know-container .row,
 .snappcheck-pricing-container .row {
-  padding: 20vh 10% 0vh 10%;
+  padding: 10vh 10% 10vh 10%;
 }
 
 /* Header styles for the landing page */
@@ -83,8 +83,10 @@
   justify-content: center;
 }
 
-.snappcheck-language-dropdown a:hover {
+.snappcheck-language-dropdown >a:hover {
   color: var(--font-black) !important;
+  text-decoration: none !important;
+
 }
 
 .snappcheck-language-dropdown .dropdown-menu {
@@ -94,6 +96,9 @@
   border-radius: 10px;
   inset: 0px auto auto 0px !important;
   transform: translate(0px, 40px) !important;
+}
+.snappcheck-language-dropdown .dropdown-menu a:hover{
+  text-decoration: none !important;
 }
 
 .snappcheck-landing-header a {
@@ -108,7 +113,8 @@
 .snappcheck-language-dropdown {
   text-decoration: none !important;
   color: var(--font-white);
-  border-radius: 10px;
+  border-radius: 50px;
+  margin-left: 30px;
 }
 
 .snappcheck-language-dropdown .dropdown-menu a:active {
@@ -156,14 +162,12 @@
   width: 800px;
 }
 .snappcheck-hero-container .row img{
-  position: absolute;
-  right: -32%;
+  position: relative;
+  right: -12%;
   bottom: 0;
-  width: 380px;
 }
 .snappcheck-hero-section-bg h1 {
   font-size: 70px;
-  text-align: center;
 }
 
 .snappcheck-button-controller button {
@@ -189,6 +193,10 @@
 }
 
 /*About Us Section*/
+.snappcheck-about-us-container .row{
+  padding: 0vh 10% 0vh 10%;
+
+}
 .snappcheck-left-content h3,
 .snappcheck-left-content h2 {
   font-weight: 800;
@@ -207,78 +215,18 @@
   color: var(--font-white);
   border: none;
 }
-
-.snapcheck-about-us-image-container img {
-  width: auto;
-  min-height: 430px;
-  max-height: 450px;
-  border-radius: 10px;
-}
-
-/* Why SnappCheck Cards Styles */
-.why-snappcheck-card-container {
-  padding: 0 10%;
-  margin-top: 2rem;
-}
-
-.why-snappcheck-card {
-  width: 270px;
-  height: 270px;
-  flex: 1;
-  transition: transform 0.3s ease;
-  background: var(--primary-color);
-  color: var(--font-white);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.why-snappcheck-card:hover {
-  transform: translateY(-5px);
-}
-
-.why-snappcheck-card h4 {
-  font-weight: 600;
-  font-size: 24px;
-  padding-top: 10%;
-}
-
-.why-snappcheck-card p {
-  font-size: 20px;
-  line-height: 1.5;
-
-}
-
-/*Did You Know Section*/
-.snappcheck-left-did-you-know-content h2 {
-  width: 800px;
-  font-weight: 800;
-
-}
-
-.snappcheck-button-controller1 button {
-  border-radius: 50px;
-  color: var(--font-white);
-  padding: 5px 30px;
-  font-size: 15px;
-  width: 170px;
-  border: none;
-}
-
-.snappcheck-button-controller1 button:nth-child(1) {
-  background: var(--secondary-color);
-}
-
-.snappcheck-button-controller1 button:nth-child(2) {
-  background: var(--font-black);
-}
-
-.snappcheck-did-you-know-container .did-you-know-descitiption {
-  font-size: 20px;
-}
-
-.did-you-know-descitiption svg {
+.snappcheck-about-us-overlay-container{
   position: relative;
-  top: 5px;
+  z-index: 1;
+  top: -50px;
+  padding: 40px 50px 50px 50px;
+  width: 85%;
+  background: var(--font-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  font-size: 20px;
 }
+
 
 /* How IT Works Section */
 .snappcheck-left-did-you-know-content h3,
@@ -289,13 +237,18 @@
 .snappcheck-did-you-know-container img {
   width: 60%;
 }
-.how-it-works-title{
-  font-size: 28px;
-}
+
 
 /* Our Platforms Section Styles */
 .snappcheck-platforms-container {
   padding: 100px 0;
+}
+.snappcheck-platforms-container  .row{
+  background: #FFF7ED;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 100px 100px 0px 0px;
+  padding: 10vh 10% 10vh 10%;
+
 }
 
 .snappcheck-platforms-content {
@@ -565,7 +518,9 @@
 .snappcheck-language-dropdown .dropdown-toggle {
   color: var(--font-black) !important;
 }
-
+.snappcheck-language-dropdown .dropdown-toggle:hover{
+  text-decoration: none !important;
+}
 .snappcheck-language-dropdown .dropdown-toggle:focus,
 .snappcheck-language-dropdown .dropdown-toggle:active,
 .show>.dropdown-toggle {
@@ -578,7 +533,9 @@
 .snappcheck-did-you-know-container .row:nth-child(2) {
   padding: 0px 10%;
 }
-
+.snappcheck-did-you-know-container p{
+  font-size: 20px;
+}
 .contact-form {
   padding: 40px;
   border-radius: 10px;
@@ -662,7 +619,6 @@
 }
 
 .snappcheck-contact-section {
-  padding-top: 100px;
   /* Add padding to account for fixed header */
   scroll-margin-top: 100px;
 }

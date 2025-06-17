@@ -10,34 +10,39 @@ import HowItWorkImage5 from "../../assets/snappchecklanding/howitwork5.svg";
 import HowItWorkImage6 from "../../assets/snappchecklanding/howitwork6.svg";
 
 // HowItWorksSection functional component
-const HowItWorksSection = () => {
+const HowItWorksSection = ({ isHowItWorksVisible }) => {
   const { t } = useSnappcheckTranslation();
 
   return (
     <>
-      {/* Hero Section Container */}
+      {/* How It Works Section Container */}
       <section
         id="how-it-works"
-        className={
-          "snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 "
-        }
+        className={`snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 fade-in ${
+          isHowItWorksVisible ? "visible" : ""
+        }`}
       >
+        <Row className="w-100 snappcheck-left-did-you-know-content">
+          <Col md={6}>
+          <div className="d-flex justify-content-center align-items-start flex-column">
+            <h3 className="color-blue text-center mb-2">{t('howItWorks')}</h3>
+            <h2 className="how-it-works-title" style={{ letterSpacing: '2px' }}>
+              {t('referenceCheckFlow').includes('Flow') ? (
+                t('referenceCheckFlow').split('Flow').map((part, index, array) => (
+                  <React.Fragment key={index}>
+                    {part}
+                    {index < array.length - 1 && <span className="color-orange">Flow</span>}
+                  </React.Fragment>
+                ))
+              ) : (
+                t('referenceCheckFlow')
+              )}
+            </h2>
 
-        <Row className="w-100  snappcheck-left-did-you-know-content">
-          <div className="d-flex justify-content-center align-items-center flex-column ">
-
-            <h3 className="color-grey text-center mb-2">{t('howItWorks')}</h3>
-
-
-          </div>
-
-          {/* Cards Section */}
-          <div className="d-flex justify-content-center align-items-center flex-column mb-4 w-100">
-            {/* Header Content */}
-            <div className="text-center my-4">
-              <h2 className="how-it-works-title" style={{ letterSpacing: '2px' }}>{t('referenceCheckFlow')}</h2>
-              <h2 className="how-it-works-title color-grey" style={{ fontWeight: 500 }}>{t('visualGuide')}</h2>
-            </div>
+          </div></Col>
+          <Col md={6}>
+               {/* Cards Section */}
+               <div className="d-flex justify-content-center align-items-center flex-column mb-4 w-100">
             <div className="how-it-works-cards-container">
               {[
                 { img: HowItWorkImage1, title: t('howItWorksStep1') },
@@ -48,15 +53,18 @@ const HowItWorksSection = () => {
                 { img: HowItWorkImage6, title: t('howItWorksStep6') },
               ].map((card, idx) => (
                 <div key={idx} className="how-it-works-card d-flex flex-column align-items-center p-3 m-2">
-                  <div className="how-it-works-card-number mb-2" >{idx + 1}</div>
+                  <div className="how-it-works-card-number mb-2">{idx + 1}</div>
                   <img src={card.img} alt={`how it works step ${idx + 1}`} />
-                  <div className="how-it-works-card-title text-center " >{card.title}</div>
+                  <div className="how-it-works-card-title text-center">{card.title}</div>
                 </div>
               ))}
             </div>
-          </div>
-        </Row>
+          </div></Col>
+
        
+
+     
+        </Row>
       </section>
     </>
   );

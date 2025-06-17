@@ -4,7 +4,7 @@ import { HiOutlineMail, HiOutlineLocationMarker } from "react-icons/hi";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 
 // ContactUsSection functional component
-const ContactUsSection = forwardRef(({ id }, ref) => {
+const ContactUsSection = forwardRef(({ id, isContactVisible }, ref) => {
   const { t, language } = useSnappcheckTranslation();
 
   return (
@@ -13,24 +13,22 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
       className="snappcheck-contact-section"
       id={id}
     >
-      {/* Hero Section Container */}
+      {/* Contact Us Section Container */}
       <section
         id="contact-us"
-        className={
-          "snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 mb-5"
-        }
+        className={`snappcheck-did-you-know-container d-flex align-items-center flex-column w-100 mb-5 fade-in ${
+          isContactVisible ? "visible" : ""
+        }`}
       >
-        <Row className="w-100  snappcheck-left-did-you-know-content">
+        <Row className="w-100 snappcheck-left-did-you-know-content pb-0">
           <Col md="7">
             <h3 className="color-grey mb-2">{t('contactUs')}</h3>
             <h2 className="mb-2">
               {t('letsGrowTeam')} <span className="color-orange">{t('letsGrowTeamHighlight')}</span>
             </h2>
-            <p>
-              {t('contactUsSubtitle')}
-            </p>
+            <p>{t('contactUsSubtitle')}</p>
           </Col>
-          <Col md="5" className="position-relative"></Col>
+          <Col md="5" className="position-relative" />
         </Row>
         <Row className="w-100">
           <Col md="7">
@@ -39,7 +37,7 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>
-                      {t('firstName')} <span className="color-orange">*</span>{" "}
+                      {t('firstName')} <span className="color-orange">*</span>
                     </Form.Label>
                     <Form.Control
                       type="text"
@@ -73,7 +71,7 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>
-                  {t('company')}<span className="color-orange">*</span>
+                  {t('company')} <span className="color-orange">*</span>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -91,7 +89,7 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                   required
                 />
               </Form.Group>
-              <Form.Group className="mb-1">
+              <Form.Group className="mb-3">
                 <Form.Label>
                   {t('message')} <span className="color-orange">*</span>
                 </Form.Label>
@@ -102,19 +100,10 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                   required
                 />
               </Form.Group>
-              <Form.Group className="my-2">
 
-                <Form.Check
-                  type="checkbox"
-                  id="privacy-policy"
-                  label={t('privacyPolicy')}
-                  required
-                />
-              </Form.Group>
               <div className="btn-submit">
                 {t('submit')}
               </div>
-
             </Form>
           </Col>
           <Col md="5">
@@ -125,7 +114,7 @@ const ContactUsSection = forwardRef(({ id }, ref) => {
                   <h3>{t('emailHeader')}</h3>
                   <p>{t('emailSubtext')}</p>
                   <a href="mailto:customersupport@snappcheck.com">
-                  customersupport@snappcheck.com
+                    customersupport@snappcheck.com
                   </a>
                 </Card.Body>
               </Card>

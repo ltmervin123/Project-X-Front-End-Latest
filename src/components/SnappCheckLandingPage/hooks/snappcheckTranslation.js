@@ -15,10 +15,7 @@ export const TRANSLATIONS = {
 
     // About Us translations
     aboutUs: "About Us",
-    aboutDescription1: "SnappCheck is on a mission to transform hiring and talent acquisition through AI-driven innovation.",
-    aboutDescription2: "We build intelligent, data-powered solutions that help organizations make faster, more informed, and unbiased hiring decisions.",
-    aboutDescription3: "By combining the speed and precision of advanced technology with a deep understanding of modern recruitment challenges, SnappCheck enables HR teams and hiring managers uncover meaningful insights, and elevate candidate evaluation processes.",
-    aboutDescription4: "Our goal is to empower companies with tools that reduce friction in hiring, enhance decision-making with actionable data, and promote fair, efficient, and scalable talent acquisition. From verification automation to candidate assessment, we're creating the next generation of AI applications that shape the future of hiring.",
+    aboutDescription: "SnappCheck is on a mission to transform hiring and talent acquisition through AI-driven innovation. We build intelligent, data-powered solutions that help organizations make faster, more informed, and unbiased hiring decisions. By combining the speed and precision of advanced technology with a deep understanding of modern recruitment challenges, SnappCheck enables HR teams and hiring managers uncover meaningful insights, and elevate candidate evaluation processes. Our goal is to empower companies with tools that reduce friction in hiring, enhance decision-making with actionable data, and promote fair, efficient, and scalable talent acquisition. From verification automation to candidate assessment, we're creating the next generation of AI applications that shape the future of hiring.",
 
     // Did You Know translations
     didYouKnow: "Did You Know?",
@@ -98,7 +95,7 @@ export const TRANSLATIONS = {
     howItWorks: "How It Works",
     howItWorksTitle: "Reference checks that actually tell you something. We combine smart questions with AI-driven analysis to turn ",
     howItWorksTitleHighlight: "feedback into real, actionable hiring data.",
-    referenceCheckFlow: "REFERENCE CHECK FLOW",
+    referenceCheckFlow: "Reference Check Flow",
     visualGuide: "(VISUAL GUIDE)",
     howItWorksStep1: "Client sends link to the applicant",
     howItWorksStep2: "Applicant submits referee details",
@@ -190,10 +187,7 @@ export const TRANSLATIONS = {
 
     // About Us translations
     aboutUs: "会社概要",
-    aboutDescription1: "SnappCheckは、AIを活用した革新を通じて採用と人材獲得を変革することを使命としています。",
-    aboutDescription2: "私たちは、組織がより迅速で、より情報に基づいた、偏りのない採用決定を下すのを支援する、インテリジェントでデータ駆動型のソリューションを構築しています。",
-    aboutDescription3: "先進技術のスピードと精度と現代の採用課題への深い理解を組み合わせることで、SnappCheckはHRチームと採用マネージャーが意味のある洞察を発見し、候補者評価プロセスを向上させることを可能にします。",
-    aboutDescription4: "私たちの目標は、採用における摩擦を減らし、実用的なデータによる意思決定を強化し、公平で効率的、かつスケーラブルな人材獲得を促進するツールで企業を支援することです。検証の自動化から候補者評価まで、私たちは採用の未来を形作る次世代のAIアプリケーションを創造しています。",
+    aboutDescription: "SnappCheckは、AIを活用した革新を通じて採用と人材獲得を変革することを使命としています。私たちは、組織がより迅速で、より情報に基づいた、偏りのない採用決定を下すのを支援する、インテリジェントでデータ駆動型のソリューションを構築しています。先進技術のスピードと精度と現代の採用課題への深い理解を組み合わせることで、SnappCheckはHRチームと採用マネージャーが意味のある洞察を発見し、候補者評価プロセスを向上させることを可能にします。私たちの目標は、採用における摩擦を減らし、実用的なデータによる意思決定を強化し、公平で効率的、かつスケーラブルな人材獲得を促進するツールで企業を支援することです。検証の自動化から候補者評価まで、私たちは採用の未来を形作る次世代のAIアプリケーションを創造しています。",
 
     // Did You Know translations
     didYouKnow: "ご存知でしたか？",

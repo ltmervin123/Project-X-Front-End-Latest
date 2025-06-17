@@ -1,58 +1,45 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
-import AboutUs from "../../assets/snappchecklanding/about-us.svg";
 
 // Function to make SnappCheck bold
 const makeSnappCheckBold = (text) => {
   if (!text) return '';
   return text.split('SnappCheck').map((part, index, array) => {
     if (index === array.length - 1) return part;
-    return part + '<span className="color-orange">SnappCheck</span>';
-  }).join('');
+    return (
+      <React.Fragment key={index}>
+        {part}
+        <span className="color-orange">SnappCheck</span>
+      </React.Fragment>
+    );
+  });
 };
 
 // AboutUsSection functional component
-const AboutUsSection = () => {
-  const { t, language, changeLanguage } = useSnappcheckTranslation();
-  
-  console.log('Current language:', language); // Debug current language
+const AboutUsSection = ({ isAboutVisible }) => {
+  const { t } = useSnappcheckTranslation();
 
   return (
     <>
-      {/* Hero Section Container */}
+      {/* About Us Section Container */}
       <section
         id="about"
-        className={
-          "snappcheck-about-us-container d-flex align-items-center  w-100 "
-        }
+        className={`snappcheck-about-us-container d-flex align-items-center w-100 fade-in ${isAboutVisible ? "visible" : ""
+          }`}
       >
-        <Row className="w-100  snappcheck-left-content">
-          
-          <Col
-            md="6"
-            className="position-relative snapcheck-about-us-image-container"
-          >
-            <img src={AboutUs} alt="about us image" />
-          </Col>
-          <Col md="6">
-            <h3 className="color-grey mb-4">
+        <Row className="w-100 snappcheck-left-content position-relative d-flex justify-content-center align-items-center">
+          <div className="snappcheck-about-us-overlay-container">
+            <h3 className="color-blue text-center mb-4">
               {t('aboutUs')}
             </h3>
             <p className="snappcheck-about-us-desc1 mb-2">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription1')) }} />
+              {makeSnappCheckBold(t('aboutDescription'))}
             </p>
-            <p className="snappcheck-about-us-desc1 mb-2">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription2')) }} />
-            </p>
-            <p className="snappcheck-about-us-desc2 mb-2">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription3')) }} />
-            </p>
-            <p className="snappcheck-about-us-desc3 mb-2">
-              <span dangerouslySetInnerHTML={{ __html: makeSnappCheckBold(t('aboutDescription4')) }} />
-            </p>
-          </Col>
+
+          </div>
+
+
         </Row>
       </section>
     </>

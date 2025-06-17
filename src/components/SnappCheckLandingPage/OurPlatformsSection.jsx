@@ -2,18 +2,20 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 
-const OurPlatformsSection = () => {
+const OurPlatformsSection = ({ isPlatformsVisible }) => {
   const { t, language } = useSnappcheckTranslation();
 
   return (
     <section
       id="our-platforms"
-      className="snappcheck-platforms-container d-flex align-items-center flex-column w-100"
+      className={`snappcheck-platforms-container d-flex align-items-center flex-column w-100 fade-in ${
+        isPlatformsVisible ? "visible" : ""
+      }`}
     >
       <Row className="w-100 snappcheck-platforms-content">
-        <div className="d-flex justify-content-center align-items-center flex-column">
-          <h3 className="color-grey text-center mb-2">{t('ourPlatforms')}</h3>
-          <h2 className="mb-4 text-center">
+        <div className="d-flex justify-content-center align-items-start flex-column">
+          <h3 className="color-blue  mb-2">{t('ourPlatforms')}</h3>
+          <h2 className="mb-4 ">
             {language === 'English' ? (
               t('aiPlatformsSolutions').split('Solutions').map((part, index, array) => (
                 <React.Fragment key={index}>
@@ -36,17 +38,13 @@ const OurPlatformsSection = () => {
           <div className="platform-card">
             <div className="platform-status available">{t('availableNow')}</div>
             <h3>{t('aiReferenceCheck')}</h3>
-            <p>
-              {t('aiReferenceCheckDesc')}
-            </p>
+            <p>{t('aiReferenceCheckDesc')}</p>
           </div>
 
           <div className="platform-card">
             <div className="platform-status coming-soon">{t('comingSoon')}</div>
             <h3>{t('languageAssessment')}</h3>
-            <p>
-              {t('languageAssessmentDesc')}
-            </p>
+            <p>{t('languageAssessmentDesc')}</p>
           </div>
         </div>
       </Row>
