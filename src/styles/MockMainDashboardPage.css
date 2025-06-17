@@ -111,6 +111,8 @@ padding: 0;
 
 .dropdown-header > img {
   width: 31px;
+  height: 31px;
+  object-fit: contain;
   background: var(--avatar-bg);
   border-radius: 50%;
   padding: 2px;

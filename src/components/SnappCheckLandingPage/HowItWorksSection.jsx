@@ -23,17 +23,26 @@ const HowItWorksSection = ({ isHowItWorksVisible }) => {
         }`}
       >
         <Row className="w-100 snappcheck-left-did-you-know-content">
-          <div className="d-flex justify-content-center align-items-center flex-column">
-            <h3 className="color-grey text-center mb-2">{t('howItWorks')}</h3>
-          </div>
+          <Col md={6}>
+          <div className="d-flex justify-content-center align-items-start flex-column">
+            <h3 className="color-blue text-center mb-2">{t('howItWorks')}</h3>
+            <h2 className="how-it-works-title" style={{ letterSpacing: '2px' }}>
+              {t('referenceCheckFlow').includes('Flow') ? (
+                t('referenceCheckFlow').split('Flow').map((part, index, array) => (
+                  <React.Fragment key={index}>
+                    {part}
+                    {index < array.length - 1 && <span className="color-orange">Flow</span>}
+                  </React.Fragment>
+                ))
+              ) : (
+                t('referenceCheckFlow')
+              )}
+            </h2>
 
-          {/* Cards Section */}
-          <div className="d-flex justify-content-center align-items-center flex-column mb-4 w-100">
-            {/* Header Content */}
-            <div className="text-center my-4">
-              <h2 className="how-it-works-title" style={{ letterSpacing: '2px' }}>{t('referenceCheckFlow')}</h2>
-              <h2 className="how-it-works-title color-grey" style={{ fontWeight: 500 }}>{t('visualGuide')}</h2>
-            </div>
+          </div></Col>
+          <Col md={6}>
+               {/* Cards Section */}
+               <div className="d-flex justify-content-center align-items-center flex-column mb-4 w-100">
             <div className="how-it-works-cards-container">
               {[
                 { img: HowItWorkImage1, title: t('howItWorksStep1') },
@@ -50,7 +59,11 @@ const HowItWorksSection = ({ isHowItWorksVisible }) => {
                 </div>
               ))}
             </div>
-          </div>
+          </div></Col>
+
+       
+
+     
         </Row>
       </section>
     </>
