@@ -54,7 +54,9 @@ const CompanyProfile = () => {
         <CompanyInfoSection labels={labels} user={user} />
       )}
 
-      {activeSection === "security" && <SecuritySection labels={labels} />}
+      {activeSection === "security" && (
+        <SecuritySection labels={labels} language={language} user={user} />
+      )}
 
       {activeSection === "preferences" && (
         <PreferencesSection labels={labels} language={language} />

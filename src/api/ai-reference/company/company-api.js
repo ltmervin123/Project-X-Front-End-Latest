@@ -27,6 +27,21 @@ export const updateCulture = async (params) => {
   );
 };
 
+export const updatePassword = async (params) => {
+  const { token = null } = params?.user;
+  const { payload } = params;
+  const URL = `${API}/api/ai-referee/update-password`;
+  await axios.put(
+    URL,
+    { payload },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export const getProfile = async (user) => {
   const { token } = user;
   const URL = `${API}/api/ai-referee/company-profile`;
