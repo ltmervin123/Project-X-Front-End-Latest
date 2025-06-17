@@ -13,11 +13,9 @@ function CompanyProfilePage() {
         <Header />
         <div className="MockMaindashboard-container">
           <Row>
-            {/* Sidebar with 3/12 width */}
             <Col md={2} className="p-0">
               <Sidebar />
             </Col>
-            {/* Main dashboard with 9/12 width */}
             <Col md={10} className="p-3">
               <CompanyProfile />
             </Col>

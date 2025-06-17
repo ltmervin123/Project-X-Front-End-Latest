@@ -1,5 +1,5 @@
 // src/components/MockMainDashboard/Header.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import defaultAvatar from "../../assets/default.png";
@@ -7,11 +7,16 @@ import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 import { useLogout } from "../../hook/useLogout";
 import { useAuthContext } from "../../hook/useAuthContext";
 import * as AuthAPI from "../../api/ai-reference/auth/auth-api";
+import { useGetProfile } from "../../hook/useCompany";
 
 function Header() {
-  const { logout } = useLogout();
   const { user } = useAuthContext();
   const language = sessionStorage.getItem("preferred-language") || "English";
+  const { data: companyProfile = {}, isPending } = useGetProfile(user);
+  const [avatar, setAvatar] = useState(
+    companyProfile?.profileImageURL || defaultAvatar
+  );
+  const { logout } = useLogout();
 
   const translations = {
     English: {
@@ -43,6 +48,12 @@ function Header() {
   };
   const username = user ? user.name.split(" ")[0] : "";
 
+  useEffect(() => {
+    if (companyProfile) {
+      setAvatar(companyProfile?.profileImageURL || defaultAvatar);
+    }
+  }, [companyProfile]);
+
   return (
     <Navbar
       expand="lg"
@@ -62,8 +73,8 @@ function Header() {
               id="dropdown-basic"
               className="dropdown-header d-flex align-items-center justify-content-center gap-1"
             >
-              <img src={defaultAvatar} alt="User Avatar" />
-              {/* Conditional rendering of the username */}
+              <img src={avatar} alt="User Avatar" />
+
               {user ? (
                 <>
                   <p className="user-name">{username}</p>
@@ -76,18 +87,12 @@ function Header() {
             <Dropdown.Menu className="dropdown-menu-end">
               <Dropdown.Item
                 as={NavLink}
-                to="/company-profile#personal-info"
+                to="/profile"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 {t.profile}
               </Dropdown.Item>
-              {/* <Dropdown.Item
-                as={NavLink}
-                to="/comingsoon"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                {t.settings}
-              </Dropdown.Item> */}
+
               <Dropdown.Item
                 as={NavLink}
                 to="/login"

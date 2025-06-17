@@ -13,9 +13,9 @@ const OurPlatformsSection = ({ isPlatformsVisible }) => {
       }`}
     >
       <Row className="w-100 snappcheck-platforms-content">
-        <div className="d-flex justify-content-center align-items-center flex-column">
-          <h3 className="color-grey text-center mb-2">{t('ourPlatforms')}</h3>
-          <h2 className="mb-4 text-center">
+        <div className="d-flex justify-content-center align-items-start flex-column">
+          <h3 className="color-blue  mb-2">{t('ourPlatforms')}</h3>
+          <h2 className="mb-4 ">
             {language === 'English' ? (
               t('aiPlatformsSolutions').split('Solutions').map((part, index, array) => (
                 <React.Fragment key={index}>
