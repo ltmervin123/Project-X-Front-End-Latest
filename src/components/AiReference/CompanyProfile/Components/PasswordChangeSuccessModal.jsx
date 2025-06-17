@@ -16,11 +16,12 @@ const PasswordChangeSuccessModal = ({
       centered
       backdrop="static"
       keyboard={false}
+      className="password-success-modal"
       aria-labelledby="password-success-modal"
     >
       <Modal.Body>
         <div className="text-center py-4">
-          <CheckCircleFill size={56} className="text-success mb-3" />
+          <CheckCircleFill size={56} className="text-success svg-check mb-3" />
           <h4 id="password-success-modal" className="mb-2">
             {title}
           </h4>

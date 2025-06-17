@@ -44,6 +44,7 @@ const CompanyCultureSection = ({
               {labels.companyInfo.companyCulture}
             </div>
 
+<div className="culture-tags-container">
             {selectedCulture.map((item, index) => (
               <div key={index} className="culture-tags">
                 <span key={index} className="culture-tag">
@@ -51,6 +52,7 @@ const CompanyCultureSection = ({
                 </span>
               </div>
             ))}
+            </div>
           </div>
           <div className="subscription-section mt-3">
             <div className="subscription-title">

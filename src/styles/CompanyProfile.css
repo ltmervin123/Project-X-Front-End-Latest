@@ -196,12 +196,17 @@ color: var(--font-white);
     font-weight: bold;
     margin-bottom: 5px;
 }
+.culture-tags-container{
 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+}
 .culture-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 15px;
 }
 
 .culture-tag {
@@ -391,6 +396,15 @@ color: var(--font-white);
   }
   .btn-hide-unhide.invalid-pass > svg{
     fill: red;
+  }
+
+  .password-success-modal .svg-check{
+    fill: var(--primary-color) !important;
+  }
+  .password-success-modal .modal-content button{
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color);
+    border-radius: 50px;
   }
   /* Custom scrollbar for the options */
   .company-profile-container .custom-dropdown-options::-webkit-scrollbar {
