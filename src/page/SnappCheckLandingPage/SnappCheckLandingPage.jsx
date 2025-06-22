@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/SnappCheckLandingPage/Header";
 import HeroSection from "../../components/SnappCheckLandingPage/HeroSection";
 import AboutUsSection from "../../components/SnappCheckLandingPage/AboutUsSection";
@@ -15,24 +15,28 @@ import { useSnappcheckTranslation } from "../../components/SnappCheckLandingPage
 import "../../styles/SnappCheckLandingPageStyles/SnappCheckLandingPage.css";
 
 const SnappCheckLandingPage = () => {
-  const { t, language, changeLanguage } = useSnappcheckTranslation();
+  const { t, changeLanguage } = useSnappcheckTranslation();
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const [isHeroVisible, setIsHeroVisible] = useState(false);
   const [isAboutVisible, setIsAboutVisible] = useState(false);
   const [isPlatformsVisible, setIsPlatformsVisible] = useState(false);
   const [isHowItWorksVisible, setIsHowItWorksVisible] = useState(false);
+  const [isTheDataVisible, setIsTheDataVisible] = useState(false);
   const [isKeyInsightsVisible, setIsKeyInsightsVisible] = useState(false);
   const [isPricingVisible, setIsPricingVisible] = useState(false);
   const [isContactVisible, setIsContactVisible] = useState(false);
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setIsHeroVisible(true), 100),
-      setTimeout(() => setIsAboutVisible(true), 300),
-      setTimeout(() => setIsPlatformsVisible(true), 500),
-      setTimeout(() => setIsHowItWorksVisible(true), 700),
-      setTimeout(() => setIsKeyInsightsVisible(true), 900),
-      setTimeout(() => setIsPricingVisible(true), 1100),
-      setTimeout(() => setIsContactVisible(true), 1300),
+      setTimeout(() => setIsHeaderVisible(true), 450),
+      setTimeout(() => setIsHeroVisible(true), 650),
+      setTimeout(() => setIsAboutVisible(true), 850),
+      setTimeout(() => setIsPlatformsVisible(true), 1050),
+      setTimeout(() => setIsHowItWorksVisible(true), 1250),
+      setTimeout(() => setIsTheDataVisible(true), 1450),
+      setTimeout(() => setIsKeyInsightsVisible(true), 1650),
+      setTimeout(() => setIsPricingVisible(true), 1850),
+      setTimeout(() => setIsContactVisible(true), 2050),
     ];
 
     return () => timers.forEach((timer) => clearTimeout(timer));
@@ -48,15 +52,14 @@ const SnappCheckLandingPage = () => {
       <div className="main-container">
         <Header
           onLanguageChange={handleLanguageChange}
-          language={language}
           t={t}
+          isHeaderVisible={isHeaderVisible}
         />
-
         <HeroSection isHeroVisible={isHeroVisible} />
         <AboutUsSection isAboutVisible={isAboutVisible} />
         <OurPlatformsSection isPlatformsVisible={isPlatformsVisible} />
         <HowItWorksSection isHowItWorksVisible={isHowItWorksVisible} />
-        <TheDataSection isHowItWorksVisible={isHowItWorksVisible} />
+        <TheDataSection isTheDataVisible={isTheDataVisible} />
         <KeyInsightsSection isKeyInsightsVisible={isKeyInsightsVisible} />
         <PricingSection isPricingVisible={isPricingVisible} />
         <ContactUsSection isContactVisible={isContactVisible} />

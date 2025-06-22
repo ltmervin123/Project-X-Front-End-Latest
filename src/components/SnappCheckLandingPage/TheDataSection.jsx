@@ -1,10 +1,10 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 
 
 // TheDataSection functional component
-const TheDataSection = ({ isHowItWorksVisible }) => {
+const TheDataSection = ({ isTheDataVisible }) => {
   const { t } = useSnappcheckTranslation();
 
   return (
@@ -13,7 +13,7 @@ const TheDataSection = ({ isHowItWorksVisible }) => {
       <section
         id="the-data"
         className={`snappcheck-the-data-container d-flex align-items-center flex-column w-100 fade-in ${
-          isHowItWorksVisible ? "visible" : ""
+          isTheDataVisible ? "visible" : ""
         }`}
       >
         <Row className=" position-relative">

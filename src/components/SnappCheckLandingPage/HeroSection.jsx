@@ -24,8 +24,6 @@ const HeroSection = ({ isHeroVisible }) => {
               <p>{t('heroDescription')}</p>
               <button>{t('seeItInAction')}</button>
             </div>
-      
-
         </Row>
       </section>
     </>

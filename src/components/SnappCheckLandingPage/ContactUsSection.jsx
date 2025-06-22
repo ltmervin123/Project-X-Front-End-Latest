@@ -4,7 +4,7 @@ import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 
 // ContactUsSection functional component
 const ContactUsSection = forwardRef(({ id, isContactVisible }, ref) => {
-  const { t, language } = useSnappcheckTranslation();
+  const { t } = useSnappcheckTranslation();
 
   return (
     <div ref={ref} className="snappcheck-contact-section" id={id}>
