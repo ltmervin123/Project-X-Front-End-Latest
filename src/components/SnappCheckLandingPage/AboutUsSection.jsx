@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { useSnappcheckTranslation } from './hooks/snappcheckTranslation';
 
 // Function to make SnappCheck bold
@@ -25,26 +25,28 @@ const AboutUsSection = ({ isAboutVisible }) => {
       {/* About Us Section Container */}
       <section
         id="about"
-        className={`snappcheck-about-us-container d-flex align-items-center w-100 fade-in ${isAboutVisible ? "visible" : ""
+        className={`snappcheck-about-us-container d-flex align-items-center justify-content-center w-100 fade-in ${isAboutVisible ? "visible" : ""
           }`}
       >
-        <Row className="w-100 snappcheck-left-content position-relative d-flex justify-content-center align-items-center">
-          <div className="snappcheck-about-us-overlay-container">
-            <h3 className="color-blue text-center mb-4">
+        <Row className="position-relative d-flex justify-content-center align-items-center">
+          <div className="snappcheck-about-us-content">
+            <h4 className="mb-4">
               {t('aboutUs')}
-            </h3>
-            <p className="snappcheck-about-us-desc1 mb-2">
-              {makeSnappCheckBold(t('aboutDescription'))}
+            </h4>
+            <p >
+              {t('aboutUsParagraph1')}
             </p>
-
+            <p>
+              {t('aboutUsParagraph2')}
+            </p>
+            <p>
+              {t('aboutUsParagraph3')}
+            </p>
           </div>
-
-
         </Row>
       </section>
     </>
   );
 };
 
-// Exporting AboutUsSection component
 export default AboutUsSection;
