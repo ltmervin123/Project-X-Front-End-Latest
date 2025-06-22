@@ -44,8 +44,8 @@
     rgba(245, 199, 121, 1) 95%
   );
   color: white;
-  padding: 10px !important;
-  width: 530px;
+  padding: 30px !important;
+  width: 580px;
   max-height: 87vh; /* Added to prevent overflow */
   height: auto !important;
   border-radius: 50px;
@@ -498,15 +498,7 @@
   color: #155724;
 }
 
-@media (min-width: 1300px) {
-  .login-container {
-    width: 580px;
-    height: auto;
-  }
-  .login-avatar {
-    width: 95% !important;
-  }
-}
+
 
 /*Forgot Password*/
 .forgot-password-container {

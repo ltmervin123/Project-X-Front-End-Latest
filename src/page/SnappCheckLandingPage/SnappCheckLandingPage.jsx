@@ -4,6 +4,8 @@ import HeroSection from "../../components/SnappCheckLandingPage/HeroSection";
 import AboutUsSection from "../../components/SnappCheckLandingPage/AboutUsSection";
 import HowItWorksSection from "../../components/SnappCheckLandingPage/HowItWorksSection";
 import OurPlatformsSection from "../../components/SnappCheckLandingPage/OurPlatformsSection";
+import TheDataSection from "../../components/SnappCheckLandingPage/TheDataSection";
+
 import PricingSection from "../../components/SnappCheckLandingPage/PricingSection";
 import KeyInsightsSection from "../../components/SnappCheckLandingPage/KeyInsightsSection";
 import ContactUsSection from "../../components/SnappCheckLandingPage/ContactUsSection";
@@ -44,26 +46,20 @@ const SnappCheckLandingPage = () => {
   return (
     <>
       <div className="main-container">
-        <Header onLanguageChange={handleLanguageChange} language={language} t={t} />
+        <Header
+          onLanguageChange={handleLanguageChange}
+          language={language}
+          t={t}
+        />
 
-        <div className="snappcheck-hero-section-bg">
-          <HeroSection
-            isHeroVisible={isHeroVisible} />
-        </div>
-        <AboutUsSection
-          isAboutVisible={isAboutVisible} />
+        <HeroSection isHeroVisible={isHeroVisible} />
+        <AboutUsSection isAboutVisible={isAboutVisible} />
         <OurPlatformsSection isPlatformsVisible={isPlatformsVisible} />
-
         <HowItWorksSection isHowItWorksVisible={isHowItWorksVisible} />
-
-        <div className="snappcheck-keyinsights-section-bg">
-          <KeyInsightsSection isKeyInsightsVisible={isKeyInsightsVisible} />
-
-        </div>
+        <TheDataSection isHowItWorksVisible={isHowItWorksVisible} />
+        <KeyInsightsSection isKeyInsightsVisible={isKeyInsightsVisible} />
         <PricingSection isPricingVisible={isPricingVisible} />
-
         <ContactUsSection isContactVisible={isContactVisible} />
-
 
         <Footer />
       </div>
