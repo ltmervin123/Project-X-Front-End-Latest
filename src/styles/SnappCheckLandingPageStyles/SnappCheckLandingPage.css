@@ -110,19 +110,51 @@ body {
 
 .snappcheck-nav-header {
   gap: 60px;
-  
+  position: relative;
 }
+
+.snappcheck-nav-header li{
+  list-style: none;
+}
+/* Hover underline animation for nav links */
 
 .snappcheck-nav-header a {
   text-decoration: none;
     font-size: 15px;
   font-weight: bold;
   color: var(--font-black);
+  display: inline-block;
+  position: relative;
+
 }
 
-.snappcheck-logo {
-  font-size: 15px;
-  font-weight: 800;
+.snappcheck-nav-header div > li a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--font-black);
+  transition: transform 0.25s ease-out;
+}
+
+.snappcheck-nav-header a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom center;
+
+}
+.snappcheck-login-signup a::after{
+  content: '';
+  position: absolute;
+  width: 80%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 10%;
+  background-color: var(--primary-color);
+  transition: transform 0.25s ease-out;
 }
 
 .snappcheck-login-signup a {
@@ -168,13 +200,16 @@ body {
 .snappcheck-language-dropdown .dropdown-menu {
   width: 100%;
   min-width: 100%;
+  position: absolute;
   padding: 0;
   color: var(--font-white) !important;
   background: var(--font-black);
   border-radius: 10px;
   inset: 0px auto auto 0px !important;
-  transform: translate(0px, 35px) !important;
+  transform: translate(0px, 45px) !important;
   text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .snappcheck-language-dropdown:focus {
@@ -207,6 +242,12 @@ body {
   color: var(--font-black) !important;
 }
 
+.snappcheck-language-dropdown.show .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 /*Hero Section*/
 .snappcheck-hero-container .row {
   padding: 10vh 0vh 0vh 0vh;
@@ -235,6 +276,14 @@ body {
   background: var(--primary-color);
   border-color: var(--primary-color);
   padding: 10px;
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              box-shadow 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 8px rgba(244, 106, 5, 0.15);
+}
+
+.snappcheck-hero-content button:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(244, 106, 5, 0.25);
 }
 
 /*About Us Section*/
@@ -274,6 +323,12 @@ body {
   padding: 35px 50px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   height: auto;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.platforms-cards-container > .platform-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .platform-status {
@@ -479,7 +534,9 @@ body {
   width: 100%;
   border: none;
   background: var(--font-black);
-  transition: all 0.3s ease;
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              box-shadow 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 8px rgba(244, 106, 5, 0.15);
 }
 
 .pricing-card.popular {
@@ -513,9 +570,7 @@ body {
   transform: scale(1.01);
 }
 /* Contact Section Styles */
-.snappcheck-contact-container{
-  background: var(--font-white);
-}
+
 .snappcheck-contact-content h4 {
   font-size: 30px;
   font-weight: bold;
@@ -559,6 +614,12 @@ body {
   width: 228px;
   border: none;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.449);
+  transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.contact-form .btn-submit:hover {
+  transform: scale(1.04) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(23, 6, 172, 0.15);
 }
 
 .contact-info-cards {
@@ -591,34 +652,62 @@ body {
   color: var(--font-black);
 
 }
-
-/* Footer Section */
 .snappcheck-contact-container .row {
   padding-bottom: 100px;
+  
 }
+/* Footer Section */
+
 .snappcheck-landing-footer {
   background: var(--font-white);
   padding: 1rem 10%;
   color: var(--font-white);
-  box-shadow: 0 -4px 35px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -4px 35px rgba(220, 50, 50, 0.1);
 
 }
 
-.snappcheck-landing-footer a {
+.snappcheck-footer-nav a {
   text-decoration: none;
   font-size: 20px;
+  color: var(--font-black);
+  display: inline-block;
+  position: relative;
   height: auto;
   width: auto;
   line-height: normal;
 }
-
-.snappcheck-landing-footer .snappcheck-footer-nav a:nth-child(2),
-.snappcheck-landing-footer .snappcheck-footer-nav a:nth-child(3) {
-  border-left: 2px solid var(--font-black);
-  padding-left: 0.5rem;
+.snappcheck-footer-nav a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--font-black);
+  transition: transform 0.25s ease-out;
 }
+
+.snappcheck-footer-nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom center;
+
+}
+
 .snappcheck-footer-nav a:hover{
   text-decoration: none;
+}
+
+.snappcheck-footer-nav a:not(:first-child)::before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 2px;
+  height: 100%;
+  background: var(--font-black);
+  position: relative;
+  top: 0;
+  left: -0.75rem;
 }
 
 .snappcheck-landing-footer span {
@@ -639,4 +728,59 @@ body {
     padding: 35px 0;
     gap: 60px;
   }
+}
+
+/* Fade-in animation for sections and headers */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  filter: blur(8px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1),
+              filter 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+/*Animations*/
+.stagger-fade-in > * {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  filter: blur(8px);
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.stagger-fade-in.visible > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-fade-in.visible > *:nth-child(2) { animation-delay: 0.3s; }
+.stagger-fade-in.visible > *:nth-child(3) { animation-delay: 0.5s; }
+.stagger-fade-in.visible > *:nth-child(4) { animation-delay: 0.7s; }
+
+.floating-shape {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.15;
+  animation: float 6s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-30px) scale(1.05); }
 }

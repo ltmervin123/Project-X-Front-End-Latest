@@ -8,24 +8,24 @@ const KeyInsightsSection = ({ isKeyInsightsVisible }) => {
 
   const insights = [
     {
-      title: t('insightTitle1'),
-      content: t('insightContent1'),
+      title: t("insightTitle1"),
+      content: t("insightContent1"),
     },
     {
-      title: t('insightTitle2'),
-      content: t('insightContent2'),
+      title: t("insightTitle2"),
+      content: t("insightContent2"),
     },
     {
-      title: t('insightTitle3'),
-      content: t('insightContent3'),
+      title: t("insightTitle3"),
+      content: t("insightContent3"),
     },
     {
-      title: t('insightTitle4'),
-      content: t('insightContent4'),
+      title: t("insightTitle4"),
+      content: t("insightContent4"),
     },
     {
-      title: t('insightTitle5'),
-      content: t('insightContent5'),
+      title: t("insightTitle5"),
+      content: t("insightContent5"),
     },
   ];
 
@@ -38,11 +38,11 @@ const KeyInsightsSection = ({ isKeyInsightsVisible }) => {
     >
       <Row className=" position-relative">
         <div className="snappcheck-key-insights-content d-flex justify-content-center align-items-center flex-column">
-          <h1>{t('keyInsightsSectionTitle')}</h1>
+          <h1>{t("keyInsightsSectionTitle")}</h1>
           <h2 className="mb-5 text-center">
             <p className="key-insight-subtitle m-0">
-              <span className="">{t('keyInsightsSubtitle1')}</span>
-              <p className="color-orange">{t('keyInsightsSubtitle2')}</p>
+              <span className="">{t("keyInsightsSubtitle1")}</span>
+              <p className="color-orange">{t("keyInsightsSubtitle2")}</p>
             </p>
           </h2>
         </div>

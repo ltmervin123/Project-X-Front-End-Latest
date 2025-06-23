@@ -2,13 +2,11 @@ import React, { forwardRef } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 
-// ContactUsSection functional component
 const ContactUsSection = forwardRef(({ id, isContactVisible }, ref) => {
-  const { t, language } = useSnappcheckTranslation();
+  const { t } = useSnappcheckTranslation();
 
   return (
     <div ref={ref} className="snappcheck-contact-section" id={id}>
-      {/* Contact Us Section Container */}
       <section
         id="contact-us"
         className={`snappcheck-contact-container d-flex align-items-center flex-column w-100 fade-in ${
@@ -153,5 +151,4 @@ const ContactUsSection = forwardRef(({ id, isContactVisible }, ref) => {
   );
 });
 
-// Exporting ContactUsSection component
 export default ContactUsSection;

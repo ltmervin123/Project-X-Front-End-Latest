@@ -3,34 +3,33 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 
-// PricingSection functional component
 const PricingSection = forwardRef(({ isPricingVisible }, ref) => {
   const { t, language } = useSnappcheckTranslation();
   const navigate = useNavigate();
 
   const plans = [
     {
-      title: t('starterPlan'),
-      description: t('starterPlanDesc'),
+      title: t("starterPlan"),
+      description: t("starterPlanDesc"),
       price: "27,500 JPY",
-      subscriptionRange: t('monthlyIncludingTax'),
-      subtext: t('includes5Cases'),
+      subscriptionRange: t("monthlyIncludingTax"),
+      subtext: t("includes5Cases"),
       isPopular: false,
     },
     {
-      title: t('professionalPlan'),
-      description: t('professionalPlanDesc'),
+      title: t("professionalPlan"),
+      description: t("professionalPlanDesc"),
       price: "44,000 JPY",
-      subscriptionRange: t('monthlyIncludingTax'),
-      subtext: t('includes10Cases'),
+      subscriptionRange: t("monthlyIncludingTax"),
+      subtext: t("includes10Cases"),
       isPopular: true,
     },
     {
-      title: t('enterprisePlan'),
-      description: t('enterprisePlanDesc'),
-      price: t('custom'),
-      subscriptionRange: t('contactForQuotation'),
-      subtext: t('unlimitedReferenceChecks'),
+      title: t("enterprisePlan"),
+      description: t("enterprisePlanDesc"),
+      price: t("custom"),
+      subscriptionRange: t("contactForQuotation"),
+      subtext: t("unlimitedReferenceChecks"),
       isEnterprise: true,
     },
   ];
@@ -56,9 +55,10 @@ const PricingSection = forwardRef(({ isPricingVisible }, ref) => {
     >
       <Row className="position-relative">
         <div className="snappcheck-pricing-content d-flex justify-content-center align-items-center flex-column">
-          <h1>{t('pricingSectionTitle')}</h1>
+          <h1>{t("pricingSectionTitle")}</h1>
           <h2 className="pricing-subtitle">
-            {t('pricingSectionSubtitle')} <span className="color-orange">{t('rightPlan')}</span>{" "}
+            {t("pricingSectionSubtitle")}{" "}
+            <span className="color-orange">{t("rightPlan")}</span>{" "}
           </h2>
 
           <div className="pricing-cards-container mt-5">
@@ -71,18 +71,15 @@ const PricingSection = forwardRef(({ isPricingVisible }, ref) => {
               >
                 <div className="d-flex flex-column justify-content-between mt-3">
                   {plan.isPopular && (
-                    <span className="popular-badge">{t('mostPopular')}</span>
+                    <span className="popular-badge">{t("mostPopular")}</span>
                   )}
                   <p className="price-title">{plan.title}</p>
                   <p className="price-desc">{plan.description}</p>
                   <div className="price">{plan.price || "\u00A0"}</div>
-                  <p className="subscription-range">
-                    {plan.subscriptionRange}
-                  </p>
+                  <p className="subscription-range">{plan.subscriptionRange}</p>
 
                   {plan.subtext && (
                     <p className="pricing-subtext d-flex gap-2">
-                      
                       {plan.subtext}
                     </p>
                   )}
@@ -91,7 +88,7 @@ const PricingSection = forwardRef(({ isPricingVisible }, ref) => {
                   className="choose-plan-btn"
                   onClick={() => handleButtonClick(plan.isEnterprise)}
                 >
-                  {plan.isEnterprise ? t('contactForQuote') : t('choosePlan')}
+                  {plan.isEnterprise ? t("contactForQuote") : t("choosePlan")}
                 </button>
               </div>
             ))}
@@ -102,5 +99,5 @@ const PricingSection = forwardRef(({ isPricingVisible }, ref) => {
   );
 });
 
-/* Exporting PricingSection component */
+
 export default PricingSection;
