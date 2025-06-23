@@ -51,7 +51,6 @@ const SnappCheckLandingPage = () => {
           language={language}
           t={t}
         />
-
         <HeroSection isHeroVisible={isHeroVisible} />
         <AboutUsSection isAboutVisible={isAboutVisible} />
         <OurPlatformsSection isPlatformsVisible={isPlatformsVisible} />
@@ -60,7 +59,6 @@ const SnappCheckLandingPage = () => {
         <KeyInsightsSection isKeyInsightsVisible={isKeyInsightsVisible} />
         <PricingSection isPricingVisible={isPricingVisible} />
         <ContactUsSection isContactVisible={isContactVisible} />
-
         <Footer />
       </div>
     </>

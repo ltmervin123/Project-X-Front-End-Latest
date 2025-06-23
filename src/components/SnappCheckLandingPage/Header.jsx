@@ -11,24 +11,16 @@ const Header = ({ onLanguageChange, language, t }) => {
             <img src={logo} alt="Logo" width="80" height="80" />
 
             <span className="snappcheck-logo">
-              SNAPP<span className="color-orange">CHECK
-              </span>
+              SNAPP<span className="color-orange">CHECK</span>
             </span>
-
           </Navbar.Brand>
           <div className="snappcheck-nav-header d-flex justify-content-center align-items-center">
             <div className="d-flex gap-5">
-              <a href="#how-it-works">{t('howItWorks')}</a>
+              <a href="#how-it-works">{t("howItWorks")}</a>
 
-              <a href="#pricing" >
-                {t("userGuide")}
-              </a>
+              <a href="#pricing">{t("userGuide")}</a>
 
-              <a href="#contact-us" >
-                {t("contactUs")}
-              </a>
-
-
+              <a href="#contact-us">{t("contactUs")}</a>
             </div>
 
             <div className="snappcheck-login-signup d-flex ">
@@ -60,9 +52,7 @@ const Header = ({ onLanguageChange, language, t }) => {
               id="language-dropdown d-flex"
             >
               {" "}
-              <NavDropdown.Item
-                onClick={(e) => onLanguageChange(e, "English")}
-              >
+              <NavDropdown.Item onClick={(e) => onLanguageChange(e, "English")}>
                 {t("languageEnglish")}
               </NavDropdown.Item>
               <NavDropdown.Item
