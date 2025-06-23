@@ -2,13 +2,11 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 
-// HowItWorksSection functional component
 const HowItWorksSection = ({ isHowItWorksVisible }) => {
   const { t } = useSnappcheckTranslation();
 
   return (
     <>
-      {/* How It Works Section Container */}
       <section
         id="how-it-works"
         className={`snappcheck-how-it-works-container d-flex align-items-center flex-column w-100 fade-in ${
@@ -41,5 +39,4 @@ const HowItWorksSection = ({ isHowItWorksVisible }) => {
   );
 };
 
-// Exporting HowItWorksSection component
 export default HowItWorksSection;

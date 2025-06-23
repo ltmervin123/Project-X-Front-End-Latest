@@ -2,13 +2,11 @@ import React from "react";
 import { Row } from "react-bootstrap";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 
-// TheDataSection functional component
 const TheDataSection = ({ isTheDataVisible }) => {
   const { t } = useSnappcheckTranslation();
 
   return (
     <>
-      {/* The Data Section Container */}
       <section
         id="the-data"
         className={`snappcheck-the-data-container d-flex align-items-center flex-column w-100 fade-in ${
@@ -45,5 +43,4 @@ const TheDataSection = ({ isTheDataVisible }) => {
   );
 };
 
-// Exporting TheDataSection component
 export default TheDataSection;

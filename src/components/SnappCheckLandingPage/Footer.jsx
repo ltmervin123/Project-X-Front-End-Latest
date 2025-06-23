@@ -2,17 +2,17 @@ import React from "react";
 import { Navbar } from "react-bootstrap";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
-// Footer component for the landing page navigation
-const Footer = ({}) => {
+
+const Footer = () => {
   const { t } = useSnappcheckTranslation();
 
   return (
     <footer className="snappcheck-landing-footer py-5">
       <div className="d-flex justify-content-start align-items-center w-100 gap-5">
         <div className="snappcheck-footer-nav d-flex gap-4">
-          <a href="#how-it-works">{t('footerHowItWorks')}</a>
-          <a href="#">{t('footerUserGuide')}</a>
-          <a href="#contact-us">{t('footerContactUs')}</a>
+          <a href="#how-it-works">{t("footerHowItWorks")}</a>
+          <a href="#">{t("footerUserGuide")}</a>
+          <a href="#contact-us">{t("footerContactUs")}</a>
         </div>
       </div>
       <div>
@@ -25,7 +25,7 @@ const Footer = ({}) => {
           {t("footerCopyright")}{" "}
           <span>
             SNAPP
-            <span className="color-orange">CHECK</span>
+            <span className="color-orange">CHECK</span>{" "}
           </span>
           {t("footerAllRightsReserved")}
         </p>

@@ -3,7 +3,6 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSnappcheckTranslation } from "./hooks/snappcheckTranslation";
 
-// PricingSection functional component
 const PricingSection = forwardRef(({ isPricingVisible }, ref) => {
   const { t, language } = useSnappcheckTranslation();
   const navigate = useNavigate();
@@ -100,5 +99,5 @@ const PricingSection = forwardRef(({ isPricingVisible }, ref) => {
   );
 });
 
-/* Exporting PricingSection component */
+
 export default PricingSection;
