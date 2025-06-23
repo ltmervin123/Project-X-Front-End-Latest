@@ -1,26 +1,30 @@
 import React from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, NavDropdown } from "react-bootstrap";
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 
-const Header = ({ onLanguageChange, language, t }) => {
+const Header = ({ onLanguageChange, t, isHeaderVisible }) => {
   return (
-    <div className="snappcheck-landing-header">
+    <div
+      className={`snappcheck-landing-header fade-in${
+        isHeaderVisible ? " visible" : ""
+      }`}
+    >
       <Navbar expand="lg">
         <div className="d-flex justify-content-between align-items-center w-100 ">
           <Navbar.Brand href="/" className="d-flex align-items-center gap-1">
             <img src={logo} alt="Logo" width="80" height="80" />
-
-            <span className="snappcheck-logo">
-              SNAPP<span className="color-orange">CHECK</span>
-            </span>
           </Navbar.Brand>
           <div className="snappcheck-nav-header d-flex justify-content-center align-items-center">
             <div className="d-flex gap-5">
-              <a href="#how-it-works">{t("howItWorks")}</a>
-
-              <a href="#pricing">{t("userGuide")}</a>
-
-              <a href="#contact-us">{t("contactUs")}</a>
+              <li>
+                <a href="#how-it-works">{t("howItWorks")}</a>
+              </li>
+              <li>
+                <a href="">{t("userGuide")}</a>
+              </li>
+              <li>
+                <a href="#contact-us">{t("contactUs")}</a>
+              </li>
             </div>
 
             <div className="snappcheck-login-signup d-flex ">
