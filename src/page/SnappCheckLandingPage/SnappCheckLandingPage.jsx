@@ -63,7 +63,6 @@ const SnappCheckLandingPage = () => {
         <KeyInsightsSection isKeyInsightsVisible={isKeyInsightsVisible} />
         <PricingSection isPricingVisible={isPricingVisible} />
         <ContactUsSection isContactVisible={isContactVisible} />
-
         <Footer />
       </div>
     </>
