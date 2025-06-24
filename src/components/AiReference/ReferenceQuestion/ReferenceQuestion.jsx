@@ -125,32 +125,33 @@ const STANDARD_QUESTIONS_SETS = [
     questions: [
       {
         English:
-          "How would you describe (applicant name) attitude and professionalism?",
+          "How would you describe (applicant name)'s attitude and professionalism?",
         Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
       },
       {
-        English: "Can you describe how (applicant name) works within a team? Are they more Collaborative or Independent? If possible, please provide example(s) to support your answer.",
+        English:
+          "Can you describe how (applicant name) works within a team? Are they more collaborative or independent? If possible, please provide example(s) to support your answer.",
         Japanese:
           "（候補者名）様がチーム内でどのように働かれる方か、ご説明いただけますでしょうか。より協調的に取り組まれるタイプか、それとも自立的に業務を進められるタイプかについて、可能であれば具体的なご経験やエピソードを交えてご回答いただけますと幸いです。",
       },
       {
         English:
-          "Does (applicant name) thrive in an Innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a Process Driven setting that values established procedures, consistency, and predictability?",
+          "Does (applicant name) thrive in an innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a process-driven setting that values established procedures, consistency, and predictability?",
         Japanese: "（応募者氏名）様は、実験的な取り組みや新しいアイデアを奨励し、変化を歓迎するイノベーティブな環境で力を発揮されるタイプでしょうか？それとも、確立された手順や一貫性、予測可能性を重視するプロセス重視の環境においてより高い成果を上げられる方でしょうか？",
       },
       {
         English:
-          "How would you describe (applicant name)'s working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+          "How would you describe (applicant name)'s working style? Do they work best with clear, structured, and defined roles, or are they more comfortable in flexible, adaptive, ambiguous environments? Could you share a brief example?",
         Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
       },
       {
         English:
-          "Would you describe (applicant name) as someone who values Work-life balance and sustainable pace, or do they thrive in Work-centric / high-intensity environments with demanding expectations? Any brief example you can share?",
+          "Would you describe (applicant name) as someone who values work-life balance and a sustainable pace, or do they thrive in work-centric, high-intensity environments with demanding expectations? Any brief example you can share?",
         Japanese: "（応募者氏名）様は、ワークライフバランスや持続可能な働き方を重視される方でしょうか？それとも、高い負荷や厳しい期待値のあるワーク中心の環境においてこそ、パフォーマンスを最大限に発揮されるタイプでしょうか？差し支えなければ、簡単な事例を共有いただけますと幸いです。",
       },
       {
         English:
-          "How would you describe (applicant name) communication style, do they tend to be open and Transparent, or more Selective and strategic in how they share information? Could you provide a brief example?",
+          "How would you describe (applicant name)'s communication style? Do they tend to be open and transparent, or more selective and strategic in how they share information? Could you provide a brief example?",
         Japanese: "（応募者氏名）様のコミュニケーションスタイルについて、率直でオープンに情報を共有されるタイプとお感じでしょうか？それとも、状況に応じて戦略的に情報を選択しながら伝える、選択的かつ戦略的なスタイルに近いでしょうか？具体的なご経験があれば教えていただけますか？",
       },
     ],
@@ -255,32 +256,33 @@ const MANAGEMENT_QUESTIONS_SETS = [
     questions: [
       {
         English:
-          "How would you describe (applicant name) attitude and professionalism?",
+          "How would you describe (applicant name)'s attitude and professionalism?",
         Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
       },
       {
-        English: "Can you describe how (applicant name) works within a team? Are they more Collaborative or Independent? If possible, please provide example(s) to support your answer.",
+        English:
+          "Can you describe how (applicant name) works within a team? Are they more collaborative or independent? If possible, please provide example(s) to support your answer.",
         Japanese:
           "（候補者名）様がチーム内でどのように働かれる方か、ご説明いただけますでしょうか。より協調的に取り組まれるタイプか、それとも自立的に業務を進められるタイプかについて、可能であれば具体的なご経験やエピソードを交えてご回答いただけますと幸いです。",
       },
       {
         English:
-          "Does (applicant name) thrive in an Innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a Process Driven setting that values established procedures, consistency, and predictability?",
+          "Does (applicant name) thrive in an innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a process-driven setting that values established procedures, consistency, and predictability?",
         Japanese: "（応募者氏名）様は、実験的な取り組みや新しいアイデアを奨励し、変化を歓迎するイノベーティブな環境で力を発揮されるタイプでしょうか？それとも、確立された手順や一貫性、予測可能性を重視するプロセス重視の環境においてより高い成果を上げられる方でしょうか？",
       },
       {
         English:
-          "How would you describe (applicant name)'s working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+          "How would you describe (applicant name)'s working style? Do they work best with clear, structured, and defined roles, or are they more comfortable in flexible, adaptive, ambiguous environments? Could you share a brief example?",
         Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
       },
       {
         English:
-          "Would you describe (applicant name) as someone who values Work-life balance and sustainable pace, or do they thrive in Work-centric / high-intensity environments with demanding expectations? Any brief example you can share?",
+          "Would you describe (applicant name) as someone who values work-life balance and a sustainable pace, or do they thrive in work-centric, high-intensity environments with demanding expectations? Any brief example you can share?",
         Japanese: "（応募者氏名）様は、ワークライフバランスや持続可能な働き方を重視される方でしょうか？それとも、高い負荷や厳しい期待値のあるワーク中心の環境においてこそ、パフォーマンスを最大限に発揮されるタイプでしょうか？差し支えなければ、簡単な事例を共有いただけますと幸いです。",
       },
       {
         English:
-          "How would you describe (applicant name) communication style, do they tend to be open and Transparent, or more Selective and strategic in how they share information? Could you provide a brief example?",
+          "How would you describe (applicant name)'s communication style? Do they tend to be open and transparent, or more selective and strategic in how they share information? Could you provide a brief example?",
         Japanese: "（応募者氏名）様のコミュニケーションスタイルについて、率直でオープンに情報を共有されるタイプとお感じでしょうか？それとも、状況に応じて戦略的に情報を選択しながら伝える、選択的かつ戦略的なスタイルに近いでしょうか？具体的なご経験があれば教えていただけますか？",
       },
     ], },
@@ -421,28 +423,29 @@ const EXECUTIVE_QUESTIONS_SET = [
         Japanese: "（応募者名）様が好む業務のペースについて、どのようにお感じでしたか？",
       },
       {
-        English: "Can you describe how (applicant name) works within a team? Are they more Collaborative or Independent? If possible, please provide example(s) to support your answer.",
+        English:
+          "Can you describe how (applicant name) works within a team? Are they more collaborative or independent? If possible, please provide example(s) to support your answer.",
         Japanese:
           "（候補者名）様がチーム内でどのように働かれる方か、ご説明いただけますでしょうか。より協調的に取り組まれるタイプか、それとも自立的に業務を進められるタイプかについて、可能であれば具体的なご経験やエピソードを交えてご回答いただけますと幸いです。",
       },
       {
         English:
-          "Does (applicant name) thrive in an Innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a Process Driven setting that values established procedures, consistency, and predictability?",
+          "Does (applicant name) thrive in an innovative environment that encourages experimentation, new ideas, and embraces change, or do they perform better in a process-driven setting that values established procedures, consistency, and predictability?",
         Japanese: "（応募者氏名）様は、実験的な取り組みや新しいアイデアを奨励し、変化を歓迎するイノベーティブな環境で力を発揮されるタイプでしょうか？それとも、確立された手順や一貫性、予測可能性を重視するプロセス重視の環境においてより高い成果を上げられる方でしょうか？",
       },
       {
         English:
-          "How would you describe (applicant name) working style, do they work best with clear Structured and defined roles, or are they more comfortable in Flexible / Adaptive, ambiguous environments? Could you share a brief example?",
+          "How would you describe (applicant name)'s working style? Do they work best with clear, structured, and defined roles, or are they more comfortable in flexible, adaptive, ambiguous environments? Could you share a brief example?",
         Japanese: "（応募者氏名）様の働き方のスタイルについて、どのようにお感じですか？明確に役割や業務内容が定義された構造的な環境で最も力を発揮されるタイプでしょうか？あるいは、変化が多く曖昧さを含む柔軟かつ適応力の求められる環境の方がご自身の力を発揮しやすいと感じておられましたか？もし具体的なエピソードがありましたら、ご共有いただけますか？",
       },
       {
         English:
-          "Would you describe (applicant name) as someone who values Work-life balance and sustainable pace, or do they thrive in Work-centric / high-intensity environments with demanding expectations? Any brief example you can share?",
+          "Would you describe (applicant name) as someone who values work-life balance and a sustainable pace, or do they thrive in work-centric, high-intensity environments with demanding expectations? Any brief example you can share?",
         Japanese: "（応募者氏名）様は、ワークライフバランスや持続可能な働き方を重視される方でしょうか？それとも、高い負荷や厳しい期待値のあるワーク中心の環境においてこそ、パフォーマンスを最大限に発揮されるタイプでしょうか？差し支えなければ、簡単な事例を共有いただけますと幸いです。",
       },
       {
         English:
-          "How would you describe (applicant name) communication style, do they tend to be open and Transparent, or more Selective and strategic in how they share information? Could you provide a brief example?",
+          "How would you describe (applicant name)'s communication style? Do they tend to be open and transparent, or more selective and strategic in how they share information? Could you provide a brief example?",
         Japanese: "（応募者氏名）様のコミュニケーションスタイルについて、率直でオープンに情報を共有されるタイプとお感じでしょうか？それとも、状況に応じて戦略的に情報を選択しながら伝える、選択的かつ戦略的なスタイルに近いでしょうか？具体的なご経験があれば教えていただけますか？",
       },
     ],
@@ -609,6 +612,8 @@ const ReferenceQuestion = () => {
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
+    setSelectedSet({});
+    setFlippedState({});
   };
 
   useEffect(() => {
@@ -640,7 +645,7 @@ const ReferenceQuestion = () => {
   };
 
   const handleAutoClickHRHatchFormats = () => {
-    setActiveButton("HR-HATCH Formats");
+    setActiveButton("Snappcheck Formats");
     if (hrHatchButtonRef.current) {
       hrHatchButtonRef.current.click();
     }
@@ -671,6 +676,13 @@ const ReferenceQuestion = () => {
     setIsEditHRHatchModalOpen(true);
   };
 
+  // Add this function to reset selectedSet and flippedState
+  const handleReturnToFormats = () => {
+    setSelectedSet(null);
+    setFlippedState({});
+    setActiveButton("Snappcheck Formats");
+  };
+
   return (
     <div className="MockMainDashboard-content d-flex flex-column gap-2">
       <HeaderSection
@@ -686,7 +698,7 @@ const ReferenceQuestion = () => {
           isContainerVisible ? "visible" : ""
         }`}
       >
-        {activeButton === "HR-HATCH Formats" ? (
+        {activeButton === "Snappcheck Formats" ? (
           <HrHatchFormats
             hrHatchFormats={HR_HATCH_FORMAT}
             handleButtonClick={handleButtonClick}
@@ -714,6 +726,7 @@ const ReferenceQuestion = () => {
             handleSetClick={handleSetClick}
             flippedState={flippedState}
             handleButtonClick={handleButtonClick}
+            handleReturnToFormats={handleReturnToFormats}
           />
         ) : (
           <CustomQuestion
