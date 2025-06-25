@@ -1,426 +1,418 @@
 :root {
-    --primary-color: #f46a05;
-    --secondary-color: #1706ac;
-    --font-white: #fff;
-    --card-color: #686868;
-    --avatar-bg: #68686882;
-    --text-color: #000;
-    --subscription-btn: #319F43;
-    --activity-card-bg: #d9d9d9;
+  --primary-color: #f46a05;
+  --secondary-color: #1706ac;
+  --font-white: #fff;
+  --card-color: #686868;
+  --avatar-bg: #68686882;
+  --text-color: #000;
+  --subscription-btn: #319f43;
+  --activity-card-bg: #d9d9d9;
 }
-
 
 .company-profile-container {
-    border: 2px solid var(--font-white);
+  border: 2px solid var(--font-white);
 
-    padding: 20px 50px 20px 50px;
+  padding: 20px 50px 20px 50px;
 }
 
-.company-profile-container>p {
-    width: 350px;
-    border-bottom: 5px solid var(--primary-color) !important;
+.company-profile-container > p {
+  width: 350px;
+  border-bottom: 5px solid var(--primary-color) !important;
 }
 
 .company-profile-container .company-nav {
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--avatar-bg);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--avatar-bg);
 }
 
-.company-profile-container .company-nav>.nav-item {
-    width: 33%;
-    text-align: center;
+.company-profile-container .company-nav > .nav-item {
+  width: 33%;
+  text-align: center;
 }
 
 /* Active Nav Link Styles */
 .company-profile-container .company-nav .nav-link {
-    margin: 5px;
-    color: var(--text-color);
-    background: var(--activity-card-bg);
-    border-radius: 50px;
-    /* Ensure it has rounded corners */
-    font-size: 14px;
-
+  margin: 5px;
+  color: var(--text-color);
+  background: var(--activity-card-bg);
+  border-radius: 50px;
+  /* Ensure it has rounded corners */
+  font-size: 14px;
 }
 
 .company-nav .nav-link.active {
-    background: var(--primary-color);
-    /* Set the background color to white when active */
-    color: var(--font-white) !important;
-    /* Change text color if needed */
-    border-radius: 50px;
-    /* Ensure it has rounded corners */
+  background: var(--primary-color);
+  /* Set the background color to white when active */
+  color: var(--font-white) !important;
+  /* Change text color if needed */
+  border-radius: 50px;
+  /* Ensure it has rounded corners */
 }
 
 .company-nav .nav-link:hover {
-    background: #f46905a5;
-    /* Set the background color to white when active */
-    color: var(--font-white) !important;
-    /* Change text color if needed */
+  background: #f46905a5;
+  /* Set the background color to white when active */
+  color: var(--font-white) !important;
+  /* Change text color if needed */
 }
-.company-profile-container .form-label{
-    font-weight: 500;
+.company-profile-container .form-label {
+  font-weight: 500;
 }
-.company-info-container .btn-update-company-profile{
-    width: 200px;
-    background: var(--secondary-color);
-    border-radius: 50px !important;
-    border: none;
-    color: var(--font-white);
+.company-info-container .btn-update-company-profile {
+  width: 200px;
+  background: var(--secondary-color);
+  border-radius: 50px !important;
+  border: none;
+  color: var(--font-white);
 
-    padding: 5px 20px;
-    font-size: 14px;
-
+  padding: 5px 20px;
+  font-size: 14px;
 }
 .company-info-container .btn-update-sub-plan {
-    width: 200px;
-    background: var(--subscription-btn);
-    border-radius: 50px !important;
-    border: none;
-    color: var(--font-white);
+  width: 200px;
+  background: var(--subscription-btn);
+  border-radius: 50px !important;
+  border: none;
+  color: var(--font-white);
 
-    padding: 5px 20px;
-    font-size: 14px;
-
+  padding: 5px 20px;
+  font-size: 14px;
 }
 
 .company-info-container .btn-update-sub-plan:hover {
-    background: var(--subscription-btn);
+  background: var(--subscription-btn);
 }
 
 .company-info-container .btn-edit-company-culture {
-    width: 200px;
-    background: var(--primary-color);
-    border-radius: 50px !important;
-    padding: 5px 20px;
-    color: var(--font-white);
-    border: none;
-    font-size: 14px;
-
+  width: 200px;
+  background: var(--primary-color);
+  border-radius: 50px !important;
+  padding: 5px 20px;
+  color: var(--font-white);
+  border: none;
+  font-size: 14px;
 }
 
 .company-info-container .btn-edit-company-culture:hover {
-    background: var(--primary-color);
+  background: var(--primary-color);
 }
 
 .company-profile-container {
-    height: 90%;
+  height: 90%;
 }
 
 .company-info-container,
 .security-container,
 .preferences-container {
-    height: 80% !important;
-    font-size: 14px;
+  height: 80% !important;
+  font-size: 14px;
 }
 
 .avatar-container {
-    align-items: center;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    background: #68686858;
-    position: relative;
+  align-items: center;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: #68686858;
+  position: relative;
 }
 
 .company-default-img {
-    width: 60%;
-    object-fit: cover;
-        overflow: hidden;
-
+  width: 97%;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+left: 1px;
+  overflow: hidden;
 }
 
 .btn-change-pass {
-    width: 200px;
-    background: var(--primary-color) !important;
-    border: none !important;
-    font-size: 14px;
-    padding: 5px 20px;
-    border-radius: 50px;
-color: var(--font-white);
+  width: 200px;
+  background: var(--primary-color) !important;
+  border: none !important;
+  font-size: 14px;
+  padding: 5px 20px;
+  border-radius: 50px;
+  color: var(--font-white);
 }
-.btn-change-pass:disabled{
-    background: var(--card-color) !important;
-
+.btn-change-pass:disabled {
+  background: var(--card-color) !important;
 }
 .btn-change-pass:hover {
-    background: var(--avatar-bg);
+  background: var(--avatar-bg);
 }
 
 .upload-icon {
-    position: absolute !important;
-    top: 5px;
-    z-index: 1000;
-    right: 7px;
-    height: 60px;
-    width: 60px;
-    background: var(--activity-card-bg);
-    border-radius: 50%;
-    padding: 5px;
-    border: 1px solid var(--text-color);
-    color: var(--primary-color);
+  position: absolute !important;
+  top: 5px;
+  z-index: 1000;
+  right: 7px;
+  height: 60px;
+  width: 60px;
+  background: var(--activity-card-bg);
+  border-radius: 50%;
+  padding: 5px;
+  border: 1px solid var(--text-color);
+  color: var(--primary-color);
 }
 
 .upload-icon svg {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
-.upload-icon>label {
-    cursor: pointer !important;
-
+.upload-icon > label {
+  cursor: pointer !important;
 }
 
 /* Custom styles for the switch */
 .custom-switch .form-check-input:checked {
-    background-color: var(--primary-color);
-    /* Change this color to your desired checked color */
-    border-color: var(--text-color);
-    /* Change this color to your desired border color */
+  background-color: var(--primary-color);
+  /* Change this color to your desired checked color */
+  border-color: var(--text-color);
+  /* Change this color to your desired border color */
 }
 
 .custom-switch .form-check-input:focus {
-    box-shadow: none;
-    /* Change this color for focus shadow */
+  box-shadow: none;
+  /* Change this color for focus shadow */
 }
 
 .custom-switch .form-check-label {
-    color: #333;
-    /* Change the label color */
+  color: #333;
+  /* Change the label color */
 }
 
 .company-culture-subscription {
-    width: 70%;
+  width: 70%;
 }
 
 .company-culture .culture-title {
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
-.culture-tags-container{
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-
+.culture-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .culture-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .culture-tag {
-    background: #fff3e0;
-    color: #f46a05;
-    border: 1px solid #f46a05;
-    border-radius: 16px;
-    width: auto;
-    text-align: center;
-    padding: 2px 12px;
-    font-size: 13px;
-    font-weight: 500;
+  background: #fff3e0;
+  color: #f46a05;
+  border: 1px solid #f46a05;
+  border-radius: 16px;
+  width: auto;
+  text-align: center;
+  padding: 2px 12px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .subscription-section {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .subscription-title {
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .subscription-status.active {
-    background: var(--subscription-btn);
-    color: #fff;
-    border-radius: 12px;
-    padding: 2px 10px;
-    font-size: 12px;
-    margin-left: 10px;
+  background: var(--subscription-btn);
+  color: #fff;
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 12px;
+  margin-left: 10px;
 }
 
 .subscription-bar-container {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .subscription-bar {
-    width: 100%;
-    height: 18px;
-    background: #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 5px;
+  width: 100%;
+  height: 18px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 5px;
 }
 
 .subscription-bar-fill {
-    height: 100%;
-    background: #f46a05;
-    border-radius: 8px 0 0 8px;
+  height: 100%;
+  background: #f46a05;
+  border-radius: 8px 0 0 8px;
 }
 
 .subscription-plan {
-    color: #f46a05;
-    font-weight: bold;
-    font-size: 15px;
-    margin-top: 2px;
+  color: #f46a05;
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 2px;
 }
 
 .subscription-progress {
-    font-size: 12px;
-    color: #333;
-    margin-top: 2px;
+  font-size: 12px;
+  color: #333;
+  margin-top: 2px;
 }
 
 .footer-company-info {
-
-    padding: 10px;
+  padding: 10px;
 }
 
-.footer-company-info>div>div {
-    width: 80% !important;
+.footer-company-info > div > div {
+  width: 80% !important;
 }
 
-.footer-company-info>h5 {
-    color: var(--avatar-bg);
+.footer-company-info > h5 {
+  color: var(--avatar-bg);
 }
 
-.footer-company-info>div>button {
-    width: 20%;
-    height: 50px;
-    background: var(--subscription-btn);
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
+.footer-company-info > div > button {
+  width: 20%;
+  height: 50px;
+  background: var(--subscription-btn);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
 }
 
 /* Customizing the scrollbar */
 .company-profile-section::-webkit-scrollbar {
-    width: 5px;
-    /* Scrollbar width */
+  width: 5px;
+  /* Scrollbar width */
 }
 
 .company-profile-section::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color);
-    /* Scrollbar thumb color */
-    border-radius: 6px;
-    /* Rounded corners */
+  background-color: var(--primary-color);
+  /* Scrollbar thumb color */
+  border-radius: 6px;
+  /* Rounded corners */
 }
 
 .company-profile-section::-webkit-scrollbar-thumb:hover {
-    background-color: var(--primary-color);
-    /* Scrollbar thumb color */
+  background-color: var(--primary-color);
+  /* Scrollbar thumb color */
 }
 
 .company-profile-section::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-    /* Track color */
-    border-radius: 6px;
-    /* Rounded corners for the track */
+  background-color: #f1f1f1;
+  /* Track color */
+  border-radius: 6px;
+  /* Rounded corners for the track */
 }
 
 /* Custom Dropdown Language Styles */
 
 .company-profile-container .custom-dropdown {
-    position: relative;
-    width: 100%;
-    user-select: none;
-  }
-  
-  .company-profile-container  .custom-dropdown-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .company-profile-container  .custom-dropdown-header:hover {
-    border-color: var(--primary-color);
-  }
-  
-  .custom-dropdown-header.open {
-    border-radius: 10px 10px 0 0;
-    border-bottom: none;
-  }
-  
-  .custom-dropdown-arrow {
-    display: flex;
-    align-items: center;
-    transition: transform 0.2s ease;
-  }
-  
-  .custom-dropdown-header.open .custom-dropdown-arrow {
-    transform: rotate(180deg);
-  }
-  
-  .custom-dropdown-options {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .company-profile-container .custom-dropdown-option {
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .company-profile-container .custom-dropdown-option:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .company-profile-container .custom-dropdown-option.selected {
-    background-color: #fff3e0;
-    color: var(--primary-color);
-  }
-  .company-profile-container .invalid-password {
-    color: red;
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
 
-  }
-  .company-profile-container .invalid-pass.form-control{
-    color: red;
-    border-color: red;
-  }
-  .btn-hide-unhide.invalid-pass > svg{
-    fill: red;
-  }
+.company-profile-container .custom-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-  .password-success-modal .svg-check{
-    fill: var(--primary-color) !important;
-  }
-  .password-success-modal .modal-content button{
-    background: var(--primary-color) !important;
-    border-color: var(--primary-color);
-    border-radius: 50px;
-  }
-  /* Custom scrollbar for the options */
-  .company-profile-container .custom-dropdown-options::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .company-profile-container .custom-dropdown-options::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-  }
-  
-  .company-profile-container .custom-dropdown-options::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 3px;
-  }
-  
-  .company-profile-container .custom-dropdown-options::-webkit-scrollbar-thumb:hover {
-    background: #f46905a5;
-  }
+.company-profile-container .custom-dropdown-header:hover {
+  border-color: var(--primary-color);
+}
+
+.custom-dropdown-header.open {
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+}
+
+.custom-dropdown-arrow {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.custom-dropdown-header.open .custom-dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.custom-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.company-profile-container .custom-dropdown-option {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.company-profile-container .custom-dropdown-option:hover {
+  background-color: #f5f5f5;
+}
+
+.company-profile-container .custom-dropdown-option.selected {
+  background-color: #fff3e0;
+  color: var(--primary-color);
+}
+.company-profile-container .invalid-password {
+  color: red;
+}
+.company-profile-container .invalid-pass.form-control {
+  color: red;
+  border-color: red;
+}
+.btn-hide-unhide.invalid-pass > svg {
+  fill: red;
+}
+
+.password-success-modal .svg-check {
+  fill: var(--primary-color) !important;
+}
+.password-success-modal .modal-content button {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color);
+  border-radius: 50px;
+}
+/* Custom scrollbar for the options */
+.company-profile-container .custom-dropdown-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.company-profile-container .custom-dropdown-options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.company-profile-container .custom-dropdown-options::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+.company-profile-container
+  .custom-dropdown-options::-webkit-scrollbar-thumb:hover {
+  background: #f46905a5;
+}

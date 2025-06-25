@@ -30,14 +30,14 @@ const HeaderSection = ({
         <button
           ref={hrHatchButtonRef} // Assign the ref here
           className={`btn-hrhatch-formats ${
-            activeButton === "HR-HATCH Formats" ||
+            activeButton === "Snappcheck Formats" ||
             activeButton === TRANSLATIONS[language].standardFormat ||
             activeButton === TRANSLATIONS[language].managementFormat ||
             activeButton === TRANSLATIONS[language].executiveFormat
               ? "active"
               : ""
           }`}
-          onClick={() => handleButtonClick("HR-HATCH Formats")} // Show HR-HATCH Formats
+          onClick={() => handleButtonClick("Snappcheck Formats")} // Show Snappcheck Formats
         >
           {TRANSLATIONS[language].hrhatchFormats}
         </button>
