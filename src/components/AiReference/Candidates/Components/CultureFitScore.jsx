@@ -3,8 +3,8 @@ const CultureFitScore = ({ score }) => {
     const numValue = value.split("%")[0];
     const parsedValue = parseInt(numValue, 10);
     if (parsedValue <= 25) return "#DC3545";
-    if (parsedValue <= 50) return "#F8BD00";
-    if (parsedValue <= 75) return "#F46A05";
+    if (parsedValue <= 50) return "#F46A05";
+    if (parsedValue <= 75) return "#F8BD00";
     return "#28A745";
   };
 

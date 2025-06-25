@@ -755,7 +755,7 @@ const ReferenceCheckQuestionnairePage = () => {
           </h4>
 
           <div
-            className="referencecheckquestion-container mb-5"
+            className="referencecheckquestion-container mb-4"
             style={{ display: hideQuestionSection ? "none" : "block" }}
           >
             <div className="question-container">
@@ -808,7 +808,7 @@ const ReferenceCheckQuestionnairePage = () => {
           )}
 
           <div className="category-progress-container mt-3">
-            <div className="bullet-progress d-flex gap-3 align-items-center justify-content-center">
+            <div className="bullet-progress d-flex gap-2 align-items-center justify-content-center">
               {(() => {
                 const items = getAllProgressItems();
                 const groups = groupProgressItems(items);

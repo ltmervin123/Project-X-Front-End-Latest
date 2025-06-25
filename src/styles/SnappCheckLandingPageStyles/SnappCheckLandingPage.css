@@ -74,7 +74,7 @@ body {
   font-weight: bold;
   color: var(--title-underlay-color);
   position: absolute;
-  top: 8vh;
+  top: 8.3vh;
   z-index: 0;
 }
 
@@ -326,10 +326,7 @@ body {
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.platforms-cards-container > .platform-card:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
+
 
 .platform-status {
   width: max-content;
@@ -457,7 +454,7 @@ body {
 .key-insight-card {
   padding: 70px;
   border-radius: 12px;
-  height: 100%;
+  height: 420px;
   font-size: 20px;
   display: flex;
   align-items: start;
@@ -567,7 +564,7 @@ body {
 
 .pricing-card .choose-plan-btn:hover,
 .pricing-.enterprise .choose-plan-btn:hover {
-  transform: scale(1.01);
+  transform: scale(1.005);
 }
 /* Contact Section Styles */
 
@@ -727,6 +724,9 @@ body {
     justify-content: center;
     padding: 35px 0;
     gap: 60px;
+  }
+  .key-insight-card {
+    height: 370px;
   }
 }
 

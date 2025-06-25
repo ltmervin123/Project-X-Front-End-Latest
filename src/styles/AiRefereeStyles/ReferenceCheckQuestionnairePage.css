@@ -10,7 +10,7 @@
 }
 
 .referencecheckquestiontitle {
-  width: 80%;
+  width: 85%;
   max-width: 1200px;
     margin: 0px 12px 0px 14px;
     padding: 0;
@@ -18,7 +18,7 @@
 }
 .referencecheckquestion-container {
   position: relative;
-  width: 80%;
+  width: 85%;
   max-width: 1200px;
   height: auto;
   max-height: 400px;
@@ -28,7 +28,7 @@
   box-shadow: 0 4px 4px 0px #00000059;
 }
 .transcription-answer-container {
-  width: 80%;
+  width: 85%;
   max-width: 1200px;
   padding: 20px 40px;
   height: 230px !important;
@@ -44,7 +44,8 @@
 }
 .referencecheckquestion-container .question-container > p {
   overflow-y: auto;
-  max-height: 100px;
+  height: 50px;
+  margin: 0;
 }
 .referencecheckquestion-container button {
   width: 200px;
@@ -142,7 +143,7 @@
 }
 
 .category-progress-container {
-  width: 80%;
+  width: 90%;
     max-width: 1200px;
   padding: 0 20px;
 }
@@ -163,7 +164,7 @@
 }
 
 .category-progress-container .bullet {
-  width: 50px;
+  width: 55px;
   height: 13px;
   border-radius: 50px;
   background: var(--bg-fade-signup);
@@ -192,7 +193,7 @@
 }
 
 .category-progress-container .bullet-label {
-  font-size: 12px;
+  font-size: 11px;
   position: absolute;
   top: 20px;
   z-index: 3;
@@ -206,24 +207,16 @@
   font-weight: 600;
 }
 
-.category-progress-container .bullet-group {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 10px;
-  position: relative;
-}
-
 
 .category-progress-container .bullet-group .bullet-item:not(:first-child) .bullet-label {
   display: none;
 }
 
 .category-progress-container .bullet-group {
-  min-width: 30px;
-  position: relative;
   display: flex;
-  align-items: center;
+  
+  gap: .5rem;
+  position: relative;
 }
 /* 
 .category-progress-container .bullet-line {
