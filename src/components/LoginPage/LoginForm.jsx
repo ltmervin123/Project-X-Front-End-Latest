@@ -52,22 +52,29 @@ const LoginForm = () => {
     <div className="login-form-container">
       <div className="login-form-row row w-100 m-0">
         {/* Left Side - Login Form */}
-        <div className={`login-form-left col-md-6 d-flex flex-column justify-content-center pe-5 fade-in${isHeaderVisible ? " visible" : ""}`}>
+        <div
+          className={`login-form-left col-md-6 d-flex flex-column justify-content-center pe-5 fade-in${
+            isHeaderVisible ? " visible" : ""
+          }`}
+        >
           <div className="login-form-header position-relative">
             <h2 className="login-form-title mb-0">{t("LOG_IN")}</h2>
             <div className="login-form-welcome">{t("WELCOME_BACK")}</div>
             <a href="/">
-            <img
-              src={logo}
-              alt="SnappCheck Logo"
-              width="150"
-              height="150"
-              className="login-form-logo"
-            />
+              <img
+                src={logo}
+                alt="SnappCheck Logo"
+                width="150"
+                height="150"
+                className="login-form-logo"
+              />
             </a>
-           
           </div>
-          <div className={`login-form-details w-100 fade-in${isDetailsVisible ? " visible" : ""}`}>
+          <div
+            className={`login-form-details w-100 fade-in${
+              isDetailsVisible ? " visible" : ""
+            }`}
+          >
             <div className="login-form-account-title">
               {t("ACCOUNT_DETAILS")}
             </div>
@@ -76,13 +83,15 @@ const LoginForm = () => {
             </div>
             <form onSubmit={handleSubmit}>
               {/* Email */}
-              <div className={`login-form-input-group d-flex align-items-center mb-3 ${
-                error === t("INCORRECT_EMAIL") ||
-                error === t("ACCOUNT_NOT_ACTIVATED") ||
-                error === t("TOO_MANY_ATTEMPTS")
-                  ? "is-invalid"
-                  : ""
-              }`}>
+              <div
+                className={`login-form-input-group d-flex align-items-center mb-3 ${
+                  error === t("INCORRECT_EMAIL") ||
+                  error === t("ACCOUNT_NOT_ACTIVATED") ||
+                  error === t("TOO_MANY_ATTEMPTS")
+                    ? "is-invalid"
+                    : ""
+                }`}
+              >
                 <span className="login-form-input-icon">
                   {/* Mail SVG */}
                   <svg
@@ -157,12 +166,14 @@ const LoginForm = () => {
               </div>
 
               {/* Password */}
-              <div className={`login-form-input-group d-flex align-items-center mb-2 position-relative ${
-                error === t("INCORRECT_PASSWORD") ||
-                error === t("TOO_MANY_ATTEMPTS")
-                  ? "is-invalid"
-                  : ""
-              }`}>
+              <div
+                className={`login-form-input-group d-flex align-items-center mb-2 position-relative ${
+                  error === t("INCORRECT_PASSWORD") ||
+                  error === t("TOO_MANY_ATTEMPTS")
+                    ? "is-invalid"
+                    : ""
+                }`}
+              >
                 <span className="login-form-input-icon">
                   {/* Lock SVG */}
                   <svg
@@ -248,7 +259,7 @@ const LoginForm = () => {
                 </span>
               </div>
               {(error === t("INCORRECT_EMAIL") ||
-              error === t("ACCOUNT_NOT_ACTIVATED") ||
+                error === t("ACCOUNT_NOT_ACTIVATED") ||
                 error === t("INCORRECT_PASSWORD") ||
                 error === t("TOO_MANY_ATTEMPTS")) && (
                 <div className="invalid-feedback">{error}</div>
@@ -278,14 +289,26 @@ const LoginForm = () => {
               {/* Buttons */}
               <div className="login-form-buttons w-100 d-flex justify-content-center gap-5">
                 <div>
-                  <button type="submit" className="login-form-login-btn">
-                    {t("LOGIN_BUTTON")}
+                  <button
+                    type="submit"
+                    className="login-form-login-btn"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <div
+                        className="spinner-border spinner-border-sm text-light"
+                        role="status"
+                      />
+                    ) : (
+                      t("LOGIN_BUTTON")
+                    )}
                   </button>
                 </div>
                 <div className="d-flex flex-column align-items-center justify-content-center">
                   <button
                     type="button"
                     className="login-form-signup-btn"
+                    disabled={isLoading}
                     onClick={() => navigate("/company-registration")}
                   >
                     {t("SIGN_UP")}
@@ -298,19 +321,19 @@ const LoginForm = () => {
           </div>
         </div>
         {/* Right Side - Card */}
-        <div className={`login-form-right col-md-6 d-flex align-items-center justify-content-center position-relative fade-in${isCardVisible ? " visible" : ""}`}>
+        <div
+          className={`login-form-right col-md-6 d-flex align-items-center justify-content-center position-relative fade-in${
+            isCardVisible ? " visible" : ""
+          }`}
+        >
           <div className="login-card-parent">
             <div className="login-card">
               <div className="login-form-card-title">
                 {t("PROFESSIONAL_CORPORATE")}
               </div>
               <ul className="login-form-card-list">
-                <li>
-                  {t("CHOOSE_PLAN")}
-                </li>
-                <li>
-                  {t("SCALE_TOOLS")}
-                </li>
+                <li>{t("CHOOSE_PLAN")}</li>
+                <li>{t("SCALE_TOOLS")}</li>
               </ul>
               <div className="login-form-card-developed d-flex align-items-end">
                 <span>{t("DEVELOPED_BY")}</span>
