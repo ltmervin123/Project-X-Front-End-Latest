@@ -8,10 +8,15 @@ import { useSnappcheckTranslation } from "./hooks/loginFormTranslation";
 
 const LoginForm = () => {
   const { t } = useSnappcheckTranslation();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(
+    localStorage.getItem("rememberedEmail") || ""
+  );
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [isRememberMe, setIsRememberMe] = useState(
+    localStorage.getItem("isRememberMe") || false
+  );
   const { login, isLoading, error } = useLogin();
 
   // Section visibility states for staged appearance
@@ -36,6 +41,14 @@ const LoginForm = () => {
         isLogin?.service === "AI_REFERENCE" &&
         isLogin?.accountType === "company"
       ) {
+        if (isRememberMe) {
+          localStorage.setItem("rememberedEmail", email);
+          localStorage.setItem("isRememberMe", isRememberMe);
+        } else {
+          localStorage.removeItem("rememberedEmail");
+          localStorage.removeItem("isRememberMe");
+        }
+        // Navigate to the appropriate dashboard based on account type
         navigate("/ai-reference-dashboard");
       } else if (
         isLogin?.service === "AI_REFERENCE" &&
@@ -46,6 +59,10 @@ const LoginForm = () => {
         navigate("/maindashboard");
       }
     }
+  };
+
+  const handleRememberMeChange = (e) => {
+    setIsRememberMe(e.target.checked);
   };
 
   return (
@@ -271,6 +288,8 @@ const LoginForm = () => {
                     type="checkbox"
                     className="form-check-input m-0"
                     id="rememberMe"
+                    checked={isRememberMe}
+                    onChange={handleRememberMeChange}
                   />
                   <label
                     htmlFor="rememberMe"
