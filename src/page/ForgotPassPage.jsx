@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../styles/LoginPage.css";
+import "../styles/ForgotPass.css";
 import Header from "../components/ForgotPassword/Header";
 import ForgotForm from "../components/ForgotPassword/ForgotForm";
 

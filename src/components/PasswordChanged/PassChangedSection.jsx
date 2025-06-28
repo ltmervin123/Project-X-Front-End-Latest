@@ -1,8 +1,11 @@
 import React from "react";
+import { usePasswordChangeTranslation } from "./hooks/passwordChangeTranslation";
 
 const PassChangedSection = () => {
+  const { t } = usePasswordChangeTranslation();
+
   return (
-    <div className="row main-login justify-content-center position-relative">
+    <div className="row main-login justify-content-center position-relative mt-5">
       <div className="d-flex align-items-center justify-content-center main-login-form">
         <div className="password-changed-container d-flex align-items-center justify-content-center">
           <svg
@@ -19,15 +22,15 @@ const PassChangedSection = () => {
           </svg>
 
           <div className="passed-changed-header">
-            <h2 className="fs-4">Password Changed!</h2>
+            <h2 className="fs-4">{t('passwordChangedTitle')}</h2>
           </div>
 
-          <p>You’ve successfully completed your Reset Password.</p>
+          <p>{t('passwordChangedDescription')}</p>
           <button
             className="btn-send-email"
             onClick={() => (window.location.href = "/login")}
           >
-            Log in Now
+            {t('loginNow')}
           </button>
         </div>
       </div>
