@@ -11,7 +11,6 @@ import KeyInsightsSection from "../../components/SnappCheckLandingPage/KeyInsigh
 import ContactUsSection from "../../components/SnappCheckLandingPage/ContactUsSection";
 import Footer from "../../components/SnappCheckLandingPage/Footer";
 import { useSnappcheckTranslation } from "../../components/SnappCheckLandingPage/hooks/snappcheckTranslation";
-// Global Scroll Color
 import "../../styles/SnappCheckLandingPageStyles/SnappCheckLandingPage.css";
 
 const SnappCheckLandingPage = () => {

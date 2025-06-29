@@ -9,10 +9,10 @@ const HeroSection = ({ isHeroVisible }) => {
     <>
       <section
         id="hero"
-        className="snappcheck-hero-container d-flex align-items-center w-100 h-100"
+        className="snappcheck-hero-container d-flex align-items-center justify-content-center w-100 h-100"
       >
         <Row
-          className={`w-100 h-100 d-flex justify-content-center fade-in ${
+          className={`h-100 d-flex justify-content-center fade-in ${
             isHeroVisible ? "visible" : ""
           }`}
         >
