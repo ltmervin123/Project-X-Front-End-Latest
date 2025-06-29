@@ -1,84 +1,132 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import google from "../../assets/google-icon.png";
-import fb from "../../assets/fb-icon.png";
-import { useLogin } from "../../hook/useLogin";
+import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
+import hrLogo from "../../assets/loginbg/hr-hatch-logo.svg";
 import { useNavigate } from "react-router-dom";
-import LoadingScreen from "./LoadingScreen";
-import CustomDropdown from "./CustomDropdown";
-import { useSnappcheckTranslation } from "./Hooks/useTranslation";
-
-const SERVICE = ["AI_REFERENCE", "MOCK_AI"];
+import { useLogin } from "../../hook/useLogin";
+import { useSnappcheckTranslation } from "./hooks/loginFormTranslation";
 
 const LoginForm = () => {
-  const API = process.env.REACT_APP_API_URL;
   const { t } = useSnappcheckTranslation();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(
+    localStorage.getItem("rememberedEmail") || ""
+  );
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const { login, isLoading, error } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const [service, setService] = useState(SERVICE[0]);
+  const navigate = useNavigate();
+  const [isRememberMe, setIsRememberMe] = useState(
+    localStorage.getItem("isRememberMe") || false
+  );
+  const { login, isLoading, error } = useLogin();
+
+  // Section visibility states for staged appearance
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+  const [isCardVisible, setIsCardVisible] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setIsHeaderVisible(true), 450),
+      setTimeout(() => setIsDetailsVisible(true), 650),
+      setTimeout(() => setIsCardVisible(true), 850),
+    ];
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isLogin = await login(email, password, service);
-
+    const isLogin = await login(email, password, "AI_REFERENCE");
     if (isLogin) {
       if (
-        isLogin?.service === SERVICE[0] &&
+        isLogin?.service === "AI_REFERENCE" &&
         isLogin?.accountType === "company"
       ) {
+        if (isRememberMe) {
+          localStorage.setItem("rememberedEmail", email);
+          localStorage.setItem("isRememberMe", isRememberMe);
+        } else {
+          localStorage.removeItem("rememberedEmail");
+          localStorage.removeItem("isRememberMe");
+        }
+        // Navigate to the appropriate dashboard based on account type
         navigate("/ai-reference-dashboard");
       } else if (
-        isLogin?.service === SERVICE[0] &&
+        isLogin?.service === "AI_REFERENCE" &&
         isLogin?.accountType === "admin"
       ) {
         navigate("/analytics-dashboard");
-      } else if (isLogin?.service === SERVICE[1]) {
+      } else if (isLogin?.service === "MOCK_AI") {
         navigate("/maindashboard");
       }
     }
   };
 
-  const handleGoogleLogin = async () => {
-    window.location.href = `${API}/api/user/auth/google`;
+  const handleRememberMeChange = (e) => {
+    setIsRememberMe(e.target.checked);
   };
 
-  // const handleFacebookLogin = async () => {
-  //   window.location.href = `${API}/api/user/auth/facebook`;
-  // };
-
   return (
-    <div className="row main-login justify-content-center position-relative">
-      <div className="d-flex align-items-center justify-content-center main-login-form">
-        <div className="login-container">
-          <div className="login-header text-center">
-            <h2>{t('LOG_IN')}</h2>
-            <p className="mb-2">{t('WELCOME_BACK')}</p>
+    <div className="login-form-container">
+      <div className="login-form-row row w-100 m-0">
+        {/* Left Side - Login Form */}
+        <div
+          className={`login-form-left col-md-6 d-flex flex-column justify-content-center pe-5 fade-in${
+            isHeaderVisible ? " visible" : ""
+          }`}
+        >
+          <div className="login-form-header position-relative">
+            <h2 className="login-form-title mb-0">{t("LOG_IN")}</h2>
+            <div className="login-form-welcome">{t("WELCOME_BACK")}</div>
+            <a href="/">
+              <img
+                src={logo}
+                alt="SnappCheck Logo"
+                width="150"
+                height="150"
+                className="login-form-logo"
+              />
+            </a>
           </div>
-          <div className="account-details account-details-login">
-            <h3>{t('ACCOUNT_DETAILS')}</h3>
-            <p>{t('ACCOUNT_DETAILS_DESC')}</p>
-            <form className="login-form" onSubmit={handleSubmit}>
-              <div className="input-group mb-2">
-                <span className="input-group-text">
-                  {/* Email icon */}
+          <div
+            className={`login-form-details w-100 fade-in${
+              isDetailsVisible ? " visible" : ""
+            }`}
+          >
+            <div className="login-form-account-title">
+              {t("ACCOUNT_DETAILS")}
+            </div>
+            <div className="login-form-account-desc">
+              {t("ACCOUNT_DETAILS_DESC")}
+            </div>
+            <form onSubmit={handleSubmit}>
+              {/* Email */}
+              <div
+                className={`login-form-input-group d-flex align-items-center mb-3 ${
+                  error === t("INCORRECT_EMAIL") ||
+                  error === t("ACCOUNT_NOT_ACTIVATED") ||
+                  error === t("TOO_MANY_ATTEMPTS")
+                    ? "is-invalid"
+                    : ""
+                }`}
+              >
+                <span className="login-form-input-icon">
+                  {/* Mail SVG */}
                   <svg
-                    width="50"
-                    height="41"
+                    width="36"
+                    height="28"
                     viewBox="0 0 50 41"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g filter="url(#filter0_d_1739_1497)">
+                    <g filter="url(#filter0_d_7067_3367)">
                       <path
                         d="M41.8 0H8.2C5.89 0 4.021 1.85625 4.021 4.125L4 28.875C4 31.1437 5.89 33 8.2 33H41.8C44.11 33 46 31.1437 46 28.875V4.125C46 1.85625 44.11 0 41.8 0ZM40.96 8.76562L26.113 17.8819C25.441 18.2944 24.559 18.2944 23.887 17.8819L9.04 8.76562C8.82943 8.64953 8.64503 8.49268 8.49797 8.30456C8.3509 8.11645 8.24423 7.90098 8.18441 7.6712C8.12459 7.44143 8.11286 7.20212 8.14993 6.96776C8.187 6.7334 8.27211 6.50887 8.40009 6.30775C8.52808 6.10663 8.69628 5.9331 8.89452 5.79768C9.09277 5.66225 9.31693 5.56774 9.55344 5.51987C9.78995 5.47199 10.0339 5.47174 10.2705 5.51914C10.5071 5.56654 10.7315 5.6606 10.93 5.79562L25 14.4375L39.07 5.79562C39.2685 5.6606 39.4929 5.56654 39.7295 5.51914C39.9661 5.47174 40.21 5.47199 40.4466 5.51987C40.6831 5.56774 40.9072 5.66225 41.1055 5.79768C41.3037 5.9331 41.4719 6.10663 41.5999 6.30775C41.7279 6.50887 41.813 6.7334 41.8501 6.96776C41.8871 7.20212 41.8754 7.44143 41.8156 7.6712C41.7558 7.90098 41.6491 8.11645 41.502 8.30456C41.355 8.49268 41.1706 8.64953 40.96 8.76562Z"
-                        fill="white"
+                        fill="#686868"
                       />
                     </g>
                     <defs>
                       <filter
-                        id="filter0_d_1739_1497"
+                        id="filter0_d_7067_3367"
                         x="0"
                         y="0"
                         width="50"
@@ -106,77 +154,71 @@ const LoginForm = () => {
                         <feBlend
                           mode="normal"
                           in2="BackgroundImageFix"
-                          result="effect1_dropShadow_1739_1497"
+                          result="effect1_dropShadow_7067_3367"
                         />
                         <feBlend
                           mode="normal"
                           in="SourceGraphic"
-                          in2="effect1_dropShadow_1739_1497"
+                          in2="effect1_dropShadow_7067_3367"
                           result="shape"
                         />
                       </filter>
                     </defs>
                   </svg>
                 </span>
-                <div className="input-container">
-                  <input
-                    type="email"
-                    className={`form-control ${
-                      error === t('INCORRECT_EMAIL') ||
-                      error === t('ACCOUNT_NOT_ACTIVATED') ||
-                      error === t('TOO_MANY_ATTEMPTS')
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder=" "
-                  />
-                  <label
-                    className={`input-label ${
-                      error === t('INCORRECT_EMAIL') ||
-                      error === t('ACCOUNT_NOT_ACTIVATED')
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                  >
-                    {t('EMAIL')}
-                  </label>
-                  {error === t('INCORRECT_EMAIL') && (
-                    <div className="invalid-feedback">{error}</div>
-                  )}
-                </div>
+                <input
+                  type="email"
+                  className={`form-control login-form-input ${
+                    error === t("INCORRECT_EMAIL") ||
+                    error === t("ACCOUNT_NOT_ACTIVATED") ||
+                    error === t("TOO_MANY_ATTEMPTS")
+                      ? "is-invalid"
+                      : ""
+                  }`}
+                  placeholder={t("EMAIL") + "*"}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
-              <div className="input-group mb-2 position-relative">
-                <span className="input-group-text">
-                  {/* Password icon */}
 
+              {/* Password */}
+              <div
+                className={`login-form-input-group d-flex align-items-center mb-2 position-relative ${
+                  error === t("INCORRECT_PASSWORD") ||
+                  error === t("TOO_MANY_ATTEMPTS")
+                    ? "is-invalid"
+                    : ""
+                }`}
+              >
+                <span className="login-form-input-icon">
+                  {/* Lock SVG */}
                   <svg
-                    width="49"
-                    height="49"
-                    viewBox="0 0 59 59"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 50 52"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g filter="url(#filter0_d_1739_1494)">
+                    <g filter="url(#filter0_d_7067_3364)">
                       <path
-                        d="M41.0632 36.9146H37.7223V33.5737H41.0632V36.9146ZM31.0405 36.9146H34.3814V33.5737H31.0405V36.9146ZM47.7449 36.9146H44.404V33.5737H47.7449V36.9146Z"
-                        fill="white"
+                        d="M34.7951 31.6164H31.9955V28.7422H34.7951V31.6164ZM26.3965 31.6164H29.196V28.7422H26.3965V31.6164ZM40.3941 31.6164H37.5946V28.7422H40.3941V31.6164Z"
+                        fill="#686868"
                       />
                       <path
                         fill-rule="evenodd"
                         clip-rule="evenodd"
-                        d="M14.3361 20.2103V11.8581C14.3361 10.3225 14.6385 8.80203 15.2262 7.38336C15.8138 5.96469 16.6751 4.67566 17.7609 3.58986C18.8467 2.50406 20.1357 1.64275 21.5544 1.05512C22.9731 0.467489 24.4936 0.165039 26.0292 0.165039C27.5647 0.165039 29.0852 0.467489 30.5039 1.05512C31.9226 1.64275 33.2116 2.50406 34.2974 3.58986C35.3832 4.67566 36.2445 5.96469 36.8321 7.38336C37.4198 8.80203 37.7222 10.3225 37.7222 11.8581V20.2103H42.7335C44.0626 20.2103 45.3373 20.7383 46.2771 21.6781C47.2169 22.6179 47.7448 23.8925 47.7448 25.2216V27.0591C49.6329 27.4425 51.3304 28.4668 52.5496 29.9585C53.7689 31.4502 54.435 33.3176 54.435 35.2442C54.435 37.1708 53.7689 39.0382 52.5496 40.5299C51.3304 42.0216 49.6329 43.046 47.7448 43.4294V45.2668C47.7448 46.5959 47.2169 47.8706 46.2771 48.8104C45.3373 49.7502 44.0626 50.2781 42.7335 50.2781H9.32479C7.99571 50.2781 6.72106 49.7502 5.78126 48.8104C4.84145 47.8706 4.31348 46.5959 4.31348 45.2668V25.2216C4.31348 23.8925 4.84145 22.6179 5.78126 21.6781C6.72106 20.7383 7.99571 20.2103 9.32479 20.2103H14.3361ZM17.677 11.8581C17.677 9.64296 18.5569 7.51855 20.1233 5.95221C21.6896 4.38587 23.814 3.50591 26.0292 3.50591C28.2443 3.50591 30.3687 4.38587 31.935 5.95221C33.5014 7.51855 34.3813 9.64296 34.3813 11.8581V20.2103H17.677V11.8581ZM32.7109 30.2329C31.3818 30.2329 30.1072 30.7609 29.1674 31.7007C28.2276 32.6405 27.6996 33.9151 27.6996 35.2442C27.6996 36.5733 28.2276 37.8479 29.1674 38.7877C30.1072 39.7276 31.3818 40.2555 32.7109 40.2555H46.0744C47.4035 40.2555 48.6781 39.7276 49.6179 38.7877C50.5577 37.8479 51.0857 36.5733 51.0857 35.2442C51.0857 33.9151 50.5577 32.6405 49.6179 31.7007C48.6781 30.7609 47.4035 30.2329 46.0744 30.2329H32.7109Z"
-                        fill="white"
+                        d="M12.3986 17.2452V10.0597C12.3986 8.73866 12.652 7.43054 13.1445 6.21004C13.6369 4.98953 14.3586 3.88056 15.2685 2.94643C16.1783 2.01229 17.2585 1.2713 18.4473 0.765751C19.6361 0.260202 20.9102 0 22.197 0C23.4837 0 24.7578 0.260202 25.9466 0.765751C27.1354 1.2713 28.2156 2.01229 29.1254 2.94643C30.0353 3.88056 30.7571 4.98953 31.2495 6.21004C31.7419 7.43054 31.9953 8.73866 31.9953 10.0597V17.2452H36.1946C37.3083 17.2452 38.3765 17.6995 39.164 18.508C39.9515 19.3165 40.3939 20.4131 40.3939 21.5566V23.1374C41.9761 23.4672 43.3985 24.3485 44.4202 25.6318C45.4419 26.9152 46 28.5217 46 30.1792C46 31.8367 45.4419 33.4432 44.4202 34.7265C43.3985 36.0099 41.9761 36.8911 40.3939 37.221V38.8018C40.3939 39.9452 39.9515 41.0418 39.164 41.8504C38.3765 42.6589 37.3083 43.1131 36.1946 43.1131H8.1993C7.08558 43.1131 6.01747 42.6589 5.22995 41.8504C4.44242 41.0418 4 39.9452 4 38.8018V21.5566C4 20.4131 4.44242 19.3165 5.22995 18.508C6.01747 17.6995 7.08558 17.2452 8.1993 17.2452H12.3986ZM15.1981 10.0597C15.1981 8.15401 15.9355 6.32634 17.248 4.9788C18.5606 3.63125 20.3408 2.87421 22.197 2.87421C24.0532 2.87421 25.8333 3.63125 27.1459 4.9788C28.4584 6.32634 29.1958 8.15401 29.1958 10.0597V17.2452H15.1981V10.0597ZM27.796 25.8679C26.6823 25.8679 25.6142 26.3221 24.8267 27.1306C24.0392 27.9391 23.5967 29.0357 23.5967 30.1792C23.5967 31.3226 24.0392 32.4192 24.8267 33.2277C25.6142 34.0363 26.6823 34.4905 27.796 34.4905H38.9942C40.1079 34.4905 41.176 34.0363 41.9635 33.2277C42.751 32.4192 43.1935 31.3226 43.1935 30.1792C43.1935 29.0357 42.751 27.9391 41.9635 27.1306C41.176 26.3221 40.1079 25.8679 38.9942 25.8679H27.796Z"
+                        fill="#686868"
                       />
                     </g>
                     <defs>
                       <filter
-                        id="filter0_d_1739_1494"
-                        x="0.313477"
-                        y="0.165039"
-                        width="58.1216"
-                        height="58.1133"
+                        id="filter0_d_7067_3364"
+                        x="0"
+                        y="0"
+                        width="50"
+                        height="51.1133"
                         filterUnits="userSpaceOnUse"
                         color-interpolation-filters="sRGB"
                       >
@@ -200,120 +242,161 @@ const LoginForm = () => {
                         <feBlend
                           mode="normal"
                           in2="BackgroundImageFix"
-                          result="effect1_dropShadow_1739_1494"
+                          result="effect1_dropShadow_7067_3364"
                         />
                         <feBlend
                           mode="normal"
                           in="SourceGraphic"
-                          in2="effect1_dropShadow_1739_1494"
+                          in2="effect1_dropShadow_7067_3364"
                           result="shape"
                         />
                       </filter>
                     </defs>
                   </svg>
                 </span>
-                <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className={`form-control login-form-input ${
+                    error === t("INCORRECT_PASSWORD") ||
+                    error === t("TOO_MANY_ATTEMPTS")
+                      ? "is-invalid"
+                      : ""
+                  }`}
+                  placeholder={t("PASSWORD") + "*"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <span
+                  className="login-form-password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ cursor: "pointer", zIndex: 10 }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+              {(error === t("INCORRECT_EMAIL") ||
+                error === t("ACCOUNT_NOT_ACTIVATED") ||
+                error === t("INCORRECT_PASSWORD") ||
+                error === t("TOO_MANY_ATTEMPTS")) && (
+                <div className="invalid-feedback">{error}</div>
+              )}
+              {/* Remember Me & Forgot Password */}
+              <div className="login-form-remember-forgot d-flex align-items-center justify-content-between mb-3">
+                <div className="forkm-check d-flex align-items-center">
                   <input
-                    type={showPassword ? "text" : "password"}
-                    className={`form-control ${
-                      error === t('INCORRECT_PASSWORD') ||
-                      error === t('ACCOUNT_NOT_ACTIVATED') ||
-                      error === t('TOO_MANY_ATTEMPTS')
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder=" "
+                    type="checkbox"
+                    className="form-check-input m-0"
+                    id="rememberMe"
+                    checked={isRememberMe}
+                    onChange={handleRememberMeChange}
                   />
                   <label
-                    className={`input-label ${
-                      error === t('INCORRECT_PASSWORD') ||
-                      error === t('ACCOUNT_NOT_ACTIVATED')
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                    htmlFor="rememberMe"
+                    className="form-check-label login-form-remember-label"
                   >
-                    {t('PASSWORD')}
+                    {t("REMEMBER_ME")}
                   </label>
-                  <span
-                    className={`position-absolute end-0 top-50 translate-middle-y me-3 toggle-password ${
-                      error === t('INCORRECT_PASSWORD') ? "is-invalid" : ""
-                    }`}
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{
-                      cursor: "pointer",
-                      zIndex: 10,
-                    }}
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </span>
-
-                  {(error === t('INCORRECT_PASSWORD') ||
-                    error === t('ACCOUNT_NOT_ACTIVATED') ||
-                    error === t('TOO_MANY_ATTEMPTS')) && (
-                    <div className="invalid-feedback">{error}</div>
-                  )}
                 </div>
-              </div>
-              <div className="forgot-remember-container d-flex">
-                <div className="remember-me form-check">
-                  <div className="remember-box-check">
-                    <input type="checkbox" className="form-check-input" />
-                    <b className="form-check-label">{t('REMEMBER_ME')}</b>
-                  </div>
-                </div>
-                <div className="forgot d-flex">
-                  {t('FORGOT_PASSWORD')}
-                  <a href="/forgotpassword" className="forgot-password">
-                    {" "}
-                    {t('CLICK_TO_RESET')}
+                <div className="login-form-forgot">
+                  {t("FORGOT_PASSWORD")}{" "}
+                  <a href="/forgotpassword" className="login-form-forgot-link">
+                    {t("CLICK_TO_RESET")}
                   </a>
                 </div>
               </div>
-              <div className="mb-3 choose-services-container d-flex justify-content-center">
-                <CustomDropdown
-                  options={SERVICE}
-                  selectedOption={service}
-                  onSelect={setService}
-                />
+              {/* Buttons */}
+              <div className="login-form-buttons w-100 d-flex justify-content-center gap-5">
+                <div>
+                  <button
+                    type="submit"
+                    className="login-form-login-btn"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <div
+                        className="spinner-border spinner-border-sm text-light"
+                        role="status"
+                      />
+                    ) : (
+                      t("LOGIN_BUTTON")
+                    )}
+                  </button>
+                </div>
+                <div className="d-flex flex-column align-items-center justify-content-center">
+                  <button
+                    type="button"
+                    className="login-form-signup-btn"
+                    disabled={isLoading}
+                    onClick={() => navigate("/company-registration")}
+                  >
+                    {t("SIGN_UP")}
+                  </button>
+                  <p className="login-form-join m-0">{t("NO_ACCOUNT")}</p>
+                  <p className="login-form-join-link m-0">{t("JOIN_TODAY")}</p>
+                </div>
               </div>
-              <button
-                type="submit"
-                className="login-button"
-                disabled={!service || isLoading}
-              >
-                {isLoading ? <LoadingScreen /> : t('LOGIN_BUTTON')}
-              </button>
             </form>
           </div>
-          <div className="signup-container text-center">
-
-
-            <button className="guest-button mt-3">
-              {t('CONTINUE_AS_GUEST')}
-            </button>
-            <div className="d-flex flex-column dont-have-acc-container">
-              <p>{t('NO_ACCOUNT')}</p>
-              <i>{t('JOIN_TODAY')}</i>
+        </div>
+        {/* Right Side - Card */}
+        <div
+          className={`login-form-right col-md-6 d-flex align-items-center justify-content-center position-relative fade-in${
+            isCardVisible ? " visible" : ""
+          }`}
+        >
+          <div className="login-card-parent">
+            <div className="login-card">
+              <div className="login-form-card-title">
+                {t("PROFESSIONAL_CORPORATE")}
+              </div>
+              <ul className="login-form-card-list">
+                <li>{t("CHOOSE_PLAN")}</li>
+                <li>{t("SCALE_TOOLS")}</li>
+              </ul>
+              <div className="login-form-card-developed d-flex align-items-end">
+                <span>{t("DEVELOPED_BY")}</span>
+                <img
+                  src={hrLogo}
+                  alt="hr logo"
+                  className="login-form-hr-logo"
+                />
+              </div>
             </div>
-            <button
-              className="signup-button"
-              onClick={() => {
-                switch (service) {
-                  case SERVICE[1]:
-                    navigate("/signup");
-                    break;
-                  case SERVICE[0]:
-                    navigate("/company-registration");
-                    break;
-                  default:
-                    navigate("/login");
-                }
-              }}
-            >
-              {t('SIGN_UP')}
-            </button>
+            <div className="login-button-controller d-flex gap-2">
+              <button type="button" className="login-form-arrow-btn">
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M2.11475 19.9997L13.7227 8.38902L15.6107 10.2743L7.21875 18.6664L37.3334 18.6663L37.3334 21.333L7.21875 21.333L15.6107 29.7224L13.7227 31.6104L2.11475 19.9997Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+              <button type="button" className="login-form-arrow-btn">
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M37.8853 20.0003L26.2773 31.611L24.3893 29.7257L32.7813 21.3336L2.66659 21.3336L2.66659 18.667L32.7813 18.667L24.3893 10.2776L26.2773 8.38965L37.8853 20.0003Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>

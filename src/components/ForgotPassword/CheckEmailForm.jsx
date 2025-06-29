@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useForgotPasswordTranslation } from "./hooks/forgotPasswordTranslation";
 
 const CheckEmailForm = ({ email }) => {
   const [timeLeft, setTimeLeft] = useState(30); // Timer state
+  const { t } = useForgotPasswordTranslation();
   const API = process.env.REACT_APP_API_URL;
   const URL = `${API}/api/user/auth/forgot-password`;
   const useremail = email;
@@ -95,18 +97,17 @@ const CheckEmailForm = ({ email }) => {
         </defs>
       </svg>
       <div className="forgot-header text-center">
-        <h3>Check your email!</h3>
+        <h3>{t('checkEmailTitle')}</h3>
         <p>
-          We sent an email to <b>{useremail}.</b> Continue password recovery
-          using the link via email.
+          {t('checkEmailDescription')} <b>{useremail}.</b> {t('checkEmailInstructions')}
         </p>
       </div>
       {timeLeft > 0 ? (
         <p className="text-center">
-          Please wait for {timeLeft} seconds
+          {t('pleaseWait')} {timeLeft} {t('seconds')}
           <br />
           <p>
-            Didn't receive the email?{" "}
+            {t('didntReceiveEmail')}{" "}
             <button
               className={`resend-confirmation-link-disabled ${
                 timeLeft > 0 ? "disabled" : ""
@@ -114,7 +115,7 @@ const CheckEmailForm = ({ email }) => {
               disabled={timeLeft > 0} // Disable the button based on the timer state
               onClick={handleResendLink}
             >
-              Resend confirmation
+              {t('resendConfirmation')}
             </button>
           </p>
         </p>
@@ -122,19 +123,19 @@ const CheckEmailForm = ({ email }) => {
         <p className="text-center">
           <br />
           <p>
-            Didn't receive the email?{" "}
+            {t('didntReceiveEmail')}{" "}
             <button
               className="resend-confirmation-link"
               onClick={handleResendLink}
               disabled={timeLeft > 0} // Disable the button based on the timer state
             >
-              Resend confirmation
+              {t('resendConfirmation')}
             </button>
           </p>
         </p>
       )}
       <button className="redirect-to-login" onClick={handleRedirectToLogin}>
-        Go to Login
+        {t('goToLogin')}
       </button>
     </div>
   );

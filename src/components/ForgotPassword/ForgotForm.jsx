@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CheckEmailForm from "./CheckEmailForm";
-import LoadingScreen from "./LoadingScreen";
+import { useForgotPasswordTranslation } from "./hooks/forgotPasswordTranslation";
 
 import axios from "axios";
 
@@ -10,6 +10,7 @@ const ForgotForm = () => {
   const [error, setError] = useState(""); // State to store error messages
   const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
+  const { t } = useForgotPasswordTranslation();
   const API = process.env.REACT_APP_API_URL;
   const URL = `${API}/api/user/auth/forgot-password`;
   const [isSending, setIsSending] = useState(false);
@@ -22,7 +23,7 @@ const ForgotForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address."); // Set error if email is invalid
+      setError(t('invalidEmailError')); // Set error if email is invalid
       return;
     }
     await sendEmail();
@@ -56,7 +57,7 @@ const ForgotForm = () => {
   };
 
   return (
-    <div className="row main-login justify-content-center position-relative">
+    <div className="row main-login justify-content-center position-relative mt-5">
       <div className="d-flex align-items-center justify-content-center main-login-form">
         {emailSent ? (
           <CheckEmailForm email={email} />
@@ -75,9 +76,9 @@ const ForgotForm = () => {
               />
             </svg>
             <div className="forgot-header d-flex align-items-center justify-content-center flex-column">
-              <h3>Forgot your Password?</h3>
+              <h3>{t('forgotPasswordTitle')}</h3>
               <p className="text-center">
-                Enter your email so we can send you a password reset link
+                {t('forgotPasswordDescription')}
               </p>
             </div>
             <form
@@ -156,7 +157,7 @@ const ForgotForm = () => {
                     placeholder=" "
                   />
                   <label className={`input-label ${error ? "is-invalid" : ""}`}>
-                    Email
+                    {t('emailPlaceholder')}
                   </label>
                 </div>
                 {error && (
@@ -165,7 +166,7 @@ const ForgotForm = () => {
               </div>
 
               <button type="submit" className="btn-send-email">
-                {isSending ? "Sending Email.." : "Send Email"}
+                {isSending ? t('sendingEmail') : t('sendEmail')}
               </button>
               <a
                 className="d-flex align-items-center mt-3"
@@ -186,10 +187,10 @@ const ForgotForm = () => {
                     fill="white"
                   />
                 </svg>
-                Back to Login
+                {t('backToLogin')}
               </a>
             </form>
-            {isSending && <LoadingScreen />}
+
           </div>
         )}
       </div>

@@ -60,7 +60,7 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="row main-login justify-content-center position-relative">
+    <div className="row main-login justify-content-center position-relative mt-5">
       <div className="d-flex align-items-center justify-content-center main-login-form">
         <div className="reset-pass-container">
           {passwordChanged ? (
