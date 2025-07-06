@@ -307,7 +307,7 @@
   font-weight: 700;
   border: none;
 }
-.login-form-arrow-btn:hover {
+.login-form-arrow-btn:hover {  
   opacity: 0.9;
 } 
 
