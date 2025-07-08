@@ -43,6 +43,7 @@
   top: 0;
   left: 0;
   width: 100%; /* Ensures full width */
+  height: 85px;
   padding: 5px 3%;
   border: none;
   margin: 0 !important;
@@ -64,6 +65,11 @@
   z-index: -1;
 }
 
+.logo-container{
+  border-radius: 50px;
+  padding: 10px 20px !important;
+  background: var(--font-white);
+}
 .MockMain-LogoBrand {
 padding: 0;
   position: relative;
