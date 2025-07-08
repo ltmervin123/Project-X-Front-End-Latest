@@ -92,7 +92,7 @@ const LoginForm = () => {
     } else {
       localStorage.removeItem("rememberedEmail");
       localStorage.removeItem("isRememberMe");
-      localStorage.removeItem("service", selectedService);
+      localStorage.removeItem("service");
     }
   };
 
