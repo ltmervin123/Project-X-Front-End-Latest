@@ -839,20 +839,10 @@ const VideoRecording = ({ interviewType, category }) => {
     setShowSuccessPopup(true);
   };
 
-  // Fetch interview history from local storage
-  const interviewHistory = JSON.parse(localStorage.getItem("analytics")) || [];
-
-  // Fetch analytics if there are no interviews
-  useEffect(() => {
-    if (interviewHistory.length === 0) {
-      getAnalytics();
-    }
-  }, [interviewHistory, getAnalytics]);
-
-  // Get the latest interview item
-  const latestInterview = interviewHistory[interviewHistory.length - 1];
-
   const handleViewResults = () => {
+    const interviewHistory =
+      JSON.parse(localStorage.getItem("analytics")) || [];
+    const latestInterview = interviewHistory[interviewHistory.length - 1];
     if (latestInterview) {
       getAnalytics();
       navigate(`/result/${latestInterview._id}`);
