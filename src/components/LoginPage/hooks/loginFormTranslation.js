@@ -25,6 +25,8 @@ export const TRANSLATIONS = {
     // Dropdown translations
     'MOCK_AI_LABEL': 'Mock AI',
     'AI_REF_CHECKER_LABEL': 'AI Reference Checker',
+    "SELECT_SERVICE": "Select Service",
+
     // Login Card translations
     'PROFESSIONAL_CORPORATE': 'Professional / Corporate',
     'CHOOSE_PLAN': 'Choose the plan that fits your growing needs and unlock premium features.',
@@ -58,6 +60,8 @@ export const TRANSLATIONS = {
     // ドロップダウンの翻訳
     'MOCK_AI_LABEL': 'モック AI',
     'AI_REF_CHECKER_LABEL': 'AI リファレンスチェッカー',
+    'SELECT_SERVICE': "サービスを選択",
+       
     // ログインカードの翻訳
     'PROFESSIONAL_CORPORATE': 'プロフェッショナル / 法人',
     'CHOOSE_PLAN': '成長するニーズに合ったプランを選び、プレミアム機能をアンロックしましょう。',
