@@ -22,7 +22,7 @@ function Header() {
     >
       <Navbar.Brand
         href="/maindashboard"
-        className="d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
+        className="logo-container d-flex align-items-center justify-content-center gap-1 MockMain-LogoBrand"
       >
         <img src={logo} alt="Logo" width="125" height="18" />
       </Navbar.Brand>

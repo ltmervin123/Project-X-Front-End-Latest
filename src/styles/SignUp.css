@@ -46,7 +46,6 @@
 }
 
 
-
 .sublogoname2 {
   font-family: Roboto, sans-serif;
   color: var(--font-black);
@@ -437,3 +436,67 @@ font-weight: 500;
 }
 
 
+
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.input-group-text {
+  background: none;
+  border: none;
+  color: var(--input-bg);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+ .input-label {
+  position: absolute !important;
+  left: 25px;
+  top: 10px;
+  transition: all 0.3s ease;
+  color: var(--input-bg);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.input-group > span {
+  background: none;
+  border: none;
+  color: var(--input-bg);
+  font-size: 20px;
+}
+
+.input-group > div {
+  position: relative;
+  width: 86%;
+}
+
+
+.input-group > div > input[type="text"],
+.input-group > div > input[type="password"],
+.input-group > div > input[type="email"] {
+  appearance: none;
+  width: 100%;
+  padding: 8px 10px 8px 25px; 
+  border-radius: 50px !important;
+  border: 2px solid var(--input-bg);
+  box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  color: var(--font-black);
+}
+
+.input-group > div > input[type="text"]:focus,
+.input-group > div > input[type="password"]:focus,
+.input-group > div > input[type="email"]:focus,
+.choose-services-container > select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(244, 106, 5, 0.4);
+}

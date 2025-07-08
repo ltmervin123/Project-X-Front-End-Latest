@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../assets/snappchecklanding/snappcheck-logo.svg";
 import hrLogo from "../../assets/loginbg/hr-hatch-logo.svg";
@@ -18,6 +18,9 @@ const LoginForm = () => {
     localStorage.getItem("isRememberMe") || false
   );
   const { login, isLoading, error } = useLogin();
+  const [selectedService, setSelectedService] = useState(
+    localStorage.getItem("service") || "AI_REFERENCE"
+  );
 
   // Section visibility states for staged appearance
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -33,36 +36,76 @@ const LoginForm = () => {
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, []);
 
+  // Inside the component
+  const dropdownRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const options = [
+    { value: "AI_REFERENCE", label: t("AI_REF_CHECKER_LABEL") },
+    { value: "MOCK_AI", label: t("MOCK_AI_LABEL") },
+  ];
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const selectedOption = options.find((opt) => opt.value === selectedService);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isLogin = await login(email, password, "AI_REFERENCE");
+    const isLogin = await login(email, password, selectedService);
     if (isLogin) {
       if (
         isLogin?.service === "AI_REFERENCE" &&
         isLogin?.accountType === "company"
       ) {
-        if (isRememberMe) {
-          localStorage.setItem("rememberedEmail", email);
-          localStorage.setItem("isRememberMe", isRememberMe);
-        } else {
-          localStorage.removeItem("rememberedEmail");
-          localStorage.removeItem("isRememberMe");
-        }
+        saveUser();
         // Navigate to the appropriate dashboard based on account type
         navigate("/ai-reference-dashboard");
       } else if (
         isLogin?.service === "AI_REFERENCE" &&
         isLogin?.accountType === "admin"
       ) {
+        saveUser();
         navigate("/analytics-dashboard");
       } else if (isLogin?.service === "MOCK_AI") {
+        saveUser();
         navigate("/maindashboard");
       }
     }
   };
 
+  const saveUser = () => {
+    if (isRememberMe) {
+      localStorage.setItem("rememberedEmail", email);
+      localStorage.setItem("isRememberMe", isRememberMe);
+      localStorage.setItem("service", selectedService);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("isRememberMe");
+      localStorage.removeItem("service");
+    }
+  };
+
   const handleRememberMeChange = (e) => {
     setIsRememberMe(e.target.checked);
+  };
+
+  const handleSignUp = async () => {
+    if (selectedService === "MOCK_AI") {
+      navigate("/signup");
+    } else {
+      navigate("/company-registration");
+    }
   };
 
   return (
@@ -279,8 +322,41 @@ const LoginForm = () => {
                 error === t("ACCOUNT_NOT_ACTIVATED") ||
                 error === t("INCORRECT_PASSWORD") ||
                 error === t("TOO_MANY_ATTEMPTS")) && (
-                <div className="invalid-feedback">{error}</div>
+                <div className="invalid-feedback mb-1">{error}</div>
               )}
+              <div
+                className="custom-dropdown login-form-input-group p-0 pt-1 mb-2 position-relative w-100"
+                ref={dropdownRef}
+              >
+                <button
+                  type="button"
+                  className=" w-100 text-start border-0 bg-white px-3 py-2 d-flex justify-content-between align-items-center"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  {selectedOption ? selectedOption.label : t("SELECT_SERVICE")}
+                  <span className="ms-2">&#9662;</span>
+                </button>
+
+                {isOpen && (
+                  <ul className="dropdown-menu show w-100 mt-2 rounded-0 border-black shadow-sm">
+                    {options.map((option) => (
+                      <li key={option.value}>
+                        <button
+                          type="button"
+                          className="dropdown-item"
+                          onClick={() => {
+                            setSelectedService(option.value);
+                            setIsOpen(false);
+                          }}
+                        >
+                          {option.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
               {/* Remember Me & Forgot Password */}
               <div className="login-form-remember-forgot d-flex align-items-center justify-content-between mb-3">
                 <div className="forkm-check d-flex align-items-center">
@@ -328,7 +404,7 @@ const LoginForm = () => {
                     type="button"
                     className="login-form-signup-btn"
                     disabled={isLoading}
-                    onClick={() => navigate("/company-registration")}
+                    onClick={handleSignUp}
                   >
                     {t("SIGN_UP")}
                   </button>
