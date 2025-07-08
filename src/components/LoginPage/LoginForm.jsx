@@ -18,7 +18,9 @@ const LoginForm = () => {
     localStorage.getItem("isRememberMe") || false
   );
   const { login, isLoading, error } = useLogin();
-  const [selectedService, setSelectedService] = useState("AI_REFERENCE");
+  const [selectedService, setSelectedService] = useState(
+    localStorage.getItem("service") || "AI_REFERENCE"
+  );
 
   // Section visibility states for staged appearance
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -66,24 +68,31 @@ const LoginForm = () => {
         isLogin?.service === "AI_REFERENCE" &&
         isLogin?.accountType === "company"
       ) {
-        if (isRememberMe) {
-          localStorage.setItem("rememberedEmail", email);
-          localStorage.setItem("isRememberMe", isRememberMe);
-        } else {
-          localStorage.removeItem("rememberedEmail");
-          localStorage.removeItem("isRememberMe");
-        }
+        saveUser();
         // Navigate to the appropriate dashboard based on account type
         navigate("/ai-reference-dashboard");
       } else if (
         isLogin?.service === "AI_REFERENCE" &&
         isLogin?.accountType === "admin"
       ) {
+        saveUser();
         navigate("/analytics-dashboard");
       } else if (isLogin?.service === "MOCK_AI") {
+        saveUser();
         navigate("/maindashboard");
-        
       }
+    }
+  };
+
+  const saveUser = () => {
+    if (isRememberMe) {
+      localStorage.setItem("rememberedEmail", email);
+      localStorage.setItem("isRememberMe", isRememberMe);
+      localStorage.setItem("service", selectedService);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+      localStorage.removeItem("isRememberMe");
+      localStorage.removeItem("service", selectedService);
     }
   };
 
@@ -98,7 +107,7 @@ const LoginForm = () => {
       navigate("/company-registration");
     }
   };
-  
+
   return (
     <div className="login-form-container">
       <div className="login-form-row row w-100 m-0">
